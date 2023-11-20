@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.holoyolo.app.member.mapper.MemberMapper">
+ 
+ 	<select id="selectUser" resultType="MemberVO" parameterType="String">
+		SELECT *
+		FROM member
+		WHERE member_id = #{username}
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="joinUser" parameterType="MemberVO">
+		INSERT INTO member
+					(
+						member_id
+						, member_name
+						, password
+						, nickname
+						, addr
+						, phone
+						, join_date
+						, role
+					)
+			VALUES  (
+						#{memberId}
+						, #{memberName}
+						, #{password}
+						, #{nickName}
+						, #{addr}
+						, #{phone}
+						, sysdate
+						, #{role}
+					)
+	</insert>
+	
+ </mapper>
