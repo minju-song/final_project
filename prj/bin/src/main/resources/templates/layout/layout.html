@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title>타임리프 테스트</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/bootstrap4/bootstrap.min.css}">
+    <link href="@{/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/OwlCarousel2-2.2.1/owl.theme.default.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/OwlCarousel2-2.2.1/animate.css}">
+    <link href="@{/plugins/colorbox/colorbox.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/main_styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/responsive.css}">
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+    <link th:href="@{/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/styles/categories.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/styles/categories_responsive.css}" rel="stylesheet" type="text/css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #contents {
+            margin-top: 120px;
+            /* Adjust the value based on your header's height */
+        }
+
+        #sideMenu {
+            border: 1px solid pink;
+        }
+
+        #mainContent {
+            border: 1px solid blue;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="super_container">
+
+        <!-- Header -->
+
+        <div th:replace="fragments/header.html :: headerFragment"></div>
+
+        <!-- Menu -->
+
+        <div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+            <div class="menu_close_container">
+                <div class="menu_close">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="logo menu_mm"><a href="#">Wish</a></div>
+            <div class="search">
+                <form action="#">
+                    <input type="search" class="search_input menu_mm" required="required">
+                    <button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm"
+                            src="images/magnifying-glass.svg" alt=""></button>
+                </form>
+            </div>
+            <nav class="menu_nav">
+                <ul class="menu_mm">
+                    <li class="menu_mm"><a href="#">home</a></li>
+                    <li class="menu_mm"><a href="#">clothes</a></li>
+                    <li class="menu_mm"><a href="#">accessories</a></li>
+                    <li class="menu_mm"><a href="#">lingerie</a></li>
+                    <li class="menu_mm"><a href="#">contact</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Home -->
+
+        <div class="home">
+            <div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/categories.jpg"
+                data-speed="0.8"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="home_container">
+                            <div class="home_content">
+                                <div class="home_title">Woman</div>
+                                <div class="breadcrumbs">
+                                    <ul>
+                                        <li><a href="index.html">Home</a></li>
+                                        <li>Woman</li>
+                                        <li>Accessories</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products -->
+
+        <div class="products">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+
+                        <!-- Sidebar Left -->
+
+                        <div class="sidebar_left clearfix">
+
+                            <!-- Categories -->
+                            <div id="side" th:replace="fragments/sidemenu.html :: sidemenuFragment"></div>
+
+
+                        </div>
+
+                        <div class="current_page">Woman's Fashion</div>
+                    </div>
+                </div>
+
+                <div class="row products_container">
+                    <div class="col">
+
+                        <div id="contents" layout:fragment="layout_content"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="row page_num_container">
+                    <div class="col text-right">
+                        <ul class="page_nums">
+                            <li><a href="#">01</a></li>
+                            <li class="active"><a href="#">02</a></li>
+                            <li><a href="#">03</a></li>
+                            <li><a href="#">04</a></li>
+                            <li><a href="#">05</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar Right -->
+
+        </div>
+
+        <!-- Extra -->
+
+
+
+        <!-- Newsletter -->
+
+        <!-- Footer -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <div th:replace="fragments/footer.html :: footerFragment"></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
