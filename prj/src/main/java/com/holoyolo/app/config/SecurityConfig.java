@@ -21,7 +21,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeRequests()
 	        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-	        .antMatchers("/user/**").authenticated() // 인증만되면 들어갈 수 있는 주소
+	        .antMatchers("/member/**").authenticated() // 인증만되면 들어갈 수 있는 주소
 	        .anyRequest().permitAll()
 	        .and()
 	        .formLogin()
