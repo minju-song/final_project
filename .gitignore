@@ -15,7 +15,7 @@ target/
 
 /bin/
 .settings
-application.properties
+
 
 ### IntelliJ IDEA ###
 .idea
