@@ -15,20 +15,7 @@ class PrjApplicationTests {
 	void contextLoads() {
 	}
 	
-	@Test
-	void encryptor() {
-		String[] datas = {
-				"oracle.jdbc.OracleDriver"
-				,"jdbc:oracle:thin:@127.0.0.1:1521/xe"
-				,"hr"
-				,"hr"
-		};
-		
-		for(String data : datas) {
-			String encData = jasyptStringEncryptor.encrypt(data);
-			System.out.println(data +" >>> "+encData);
-		}
-	}
+
 
 
 }
