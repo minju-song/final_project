@@ -1,7 +1,7 @@
 # final_project
 최종프로젝트
 
-[JIRA 다들 관리해주기] (https://kongom2.atlassian.net/jira/software/c/projects/TASK/boards/6)
+### [JIRA 다들 관리해주기] (https://kongom2.atlassian.net/jira/software/c/projects/TASK/boards/6)
 
 깃허브 브랜치
 1. master 브랜치 건들지 말기 (pull, push 금지) 실수로 건들면 혼자 해결하지말기
