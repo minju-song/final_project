@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 
 </head>
+
 <body>
 	<header class="header container" th:fragment="headerFragment">
 		<div class="header_inner d-flex flex-row align-items-center justify-content-start">
@@ -17,7 +19,7 @@
 					<li><a href="categories.html">clothes</a></li>
 					<li><a href="categories.html">accessories</a></li>
 					<li><a href="categories.html">lingerie</a></li>
-					<li><a href="contact.html">contact</a></li>
+					<li><a th:href="@{mypageHome}">마이페이지</a></li>
 				</ul>
 			</nav>
 			<div class="header_content ml-auto">
@@ -68,4 +70,5 @@
 		</div>
 	</header>
 </body>
+
 </html>

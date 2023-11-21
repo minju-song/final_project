@@ -3,6 +3,7 @@ package com.holoyolo.app.member.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,17 +13,22 @@ import com.holoyolo.app.member.service.MemberVO;
 
 @Controller
 public class MemberController {
-	
+
 	@Autowired
 	MemberService memberService;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@GetMapping("/user")
 	public @ResponseBody String user() {
 		return "user";
 	}
-	
+
+	@GetMapping("/member")
+	public @ResponseBody String member() {
+		return "member";
+	}
+
 	@GetMapping("/admin")
 	public @ResponseBody String admin() {
 		return "admin";
@@ -32,24 +38,31 @@ public class MemberController {
 	public String loginForm() {
 		return "loginForm";
 	}
-	
+
 	@GetMapping("/joinForm")
 	public String joinForm() {
 		return "joinForm";
 	}
-	
+
 	@PostMapping("/join")
 	public String join(MemberVO memberVO) {
 		String rawPassword = memberVO.getPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
 		memberVO.setPassword(encPassword);
-		memberVO.setRole("HA1"); //일반회원
-		
+		memberVO.setRole("HA1"); // 일반회원
+
 		System.out.println(memberVO);
-		
+
 		memberService.joinUser(memberVO);
-		
+
 		return "redirect:/loginForm";
+	}
+
+	@GetMapping("/mypageHome")
+	public String mypageHome(Model mo) {
+		String menu = "mypage";
+		mo.addAttribute("menu", menu);
+		return "member/mypage/main";
 	}
 
 }
