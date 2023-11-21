@@ -8,10 +8,10 @@ public interface HoloPayHistoryService {
 	public List<HoloPayHistoryVO> holopayHistoryList();
 
 	// 단건조회
-	public HoloPayHistoryVO holopayInfo();
+	public HoloPayHistoryVO holopayInfo(HoloPayHistoryVO vo);
 
 	// 등록
-	public int insertHolopayHistory();
+	public int insertHolopayHistory(HoloPayHistoryVO vo);
 	
 	// 삭제?
 }
