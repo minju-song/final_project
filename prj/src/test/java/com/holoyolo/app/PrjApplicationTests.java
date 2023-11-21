@@ -11,11 +11,16 @@ class PrjApplicationTests {
 	@Autowired
 	StringEncryptor jasyptStringEncryptor;
 	
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 	
-
+	@Test
+	void test() {
+		String test = jasyptStringEncryptor.encrypt("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");
+		System.out.println(test);
+	}
+	
 
 
 }
