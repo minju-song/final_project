@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/user/css/memo.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div layout:fragment="content">
+		<p>메모리스트</p>
+			<div class="memo draggable" draggable="true" th:each="memo : ${memoList}">
+				<label class="menubars"><input type="checkbox"></label>
+				<div class="text" th:text="${memo.content}"></div>
+				<div class="text" th:text="${memo.hashTag}"></div>
+			</div>
+	</div>
+</body>
+</html>

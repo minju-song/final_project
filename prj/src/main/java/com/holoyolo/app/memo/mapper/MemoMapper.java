@@ -6,7 +6,7 @@ import com.holoyolo.app.memo.service.MemoVO;
 
 public interface MemoMapper {
 	//전체조회
-	public List<MemoVO> selectMemoList();
+	public List<MemoVO> selectMemoList(MemoVO memoVO);
 	
 	//단건조회
 	public MemoVO selectMemo(MemoVO memoVO);
