@@ -21,14 +21,29 @@
 }
 
 .text {
-	padding: 10px;
-	margin-top: 10px;
+	padding: 5px;
+	margin: 10px;
 }
 .menubars{
 	position: absolute;
 	display: none;
+	cursor: pointer;
 }
 
 .memo:hover .menubars {
 	display: block;
+}
+
+.bi-pin, .bi-pin-fill {
+	right: 10px;
+}
+
+.bi-palette {
+	bottom:	10px;
+	right: 35px;
+}
+
+.bi-image {
+	bottom:	10px;
+	right: 10px;
 }

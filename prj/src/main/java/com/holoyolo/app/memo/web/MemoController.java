@@ -19,7 +19,7 @@ public class MemoController {
 	//전체조회
 	@GetMapping("member/memoList")
 	public String memoList(MemoVO memoVO, Model model) {
-		memoVO.setMemberId("qkrtnals0818@gmail.com");
+		memoVO.setMemberId("sumin@mail.com");
 		List<MemoVO> list = memoService.getMemoList(memoVO);
 		System.out.println(list);
 		model.addAttribute("memoList", list);
