@@ -1,5 +1,6 @@
 package com.holoyolo.app.accBookHistory.web;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -58,33 +59,21 @@ public class ApiCall {
 			JSONObject jsonObject = (JSONObject) parser.parse(responseBody);
 			JSONArray recArray = (JSONArray) jsonObject.get("REC");
 			
-			int i = 1;
-            for (Object recObject : recArray) {
-                if (recObject instanceof JSONObject) {
-                    // 각 요소가 JSONObject인 경우 처리
-                    JSONObject recItem = (JSONObject) recObject;
-                    
-                    AccBookHistoryVO acc = new AccBookHistoryVO();
-                    if(((String)recItem.get("Ccyn")).equals("1")) {
-                    	acc.setInputOutput("GA1");
-                    }
-                    else {
-                    	acc.setInputOutput("GA2");
-                    }
-                    acc.setPaymentType("GA3");
-                    //회원카드회사 가져오기
-                    acc.setBankname("농협");
-                    acc.setPrice(Integer.parseInt((String) recItem.get("Usam")));
-                    acc.setPayStore((String) recItem.get("AfstNm"));
-                    //회원아이디 세션에서 가져오기
-                    acc.setMemberId("testminju@mail.com");
-                    acc.setPayDate(LocalDateTime.now());
-                    System.out.println("<<<<"+i+">>>>>");
-                    System.out.println(recItem);
-                    i++;
-                    accBookHistoryService.insertAccApi(acc);
-                }
-            }
+			String latest = accBookHistoryService.getLatestPayDate();
+			long dayDuration = duration(latest);
+
+			System.out.println("날짜 차이 : "+dayDuration);
+			
+			
+			if(dayDuration == 0) {
+				pushData(recArray, 0);
+			}
+			else {				
+				for(int z = 0; z < dayDuration; z++) {
+					pushData(recArray , z);
+				}
+			}
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,7 +81,61 @@ public class ApiCall {
         
         
     }
+    
+    
+    public long duration(String latest) {
+    	 // 문자열을 LocalDateTime으로 변환
+        LocalDateTime latestDate = LocalDateTime.parse(latest, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
+        // 현재 날짜 및 시간을 가져오기
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        // 두 날짜 사이의 차이 계산
+        Duration duration = Duration.between(latestDate, currentDate);
+
+        // 차이를 일로 변환
+        long days = duration.toDays();
+    	return days;
+    }
+    
+    public void pushData(JSONArray recArray, int z) {
+    	int j = 0;
+		for (int i = recArray.size() - 1; i >= 0; i--) {
+		    Object recObject = recArray.get(i);
+            if (recObject instanceof JSONObject) {
+                // 각 요소가 JSONObject인 경우 처리
+                JSONObject recItem = (JSONObject) recObject;
+                
+                AccBookHistoryVO acc = new AccBookHistoryVO();
+                if(((String)recItem.get("Ccyn")).equals("1")) {
+                	acc.setInputOutput("GA1");
+                }
+                else {
+                	acc.setInputOutput("GA2");
+                }
+                acc.setPaymentType("GA3");
+                //회원카드회사 가져오기
+                acc.setBankname("농협");
+                acc.setPrice(Integer.parseInt((String) recItem.get("Usam")));
+                acc.setPayStore((String) recItem.get("AfstNm"));
+                //회원아이디 세션에서 가져오기
+                acc.setMemberId("testminju@mail.com");
+                
+                LocalDateTime currentDate = LocalDateTime.now();
+                LocalDateTime adjustedDate = currentDate.minusDays(z);
+                System.out.println(adjustedDate);
+                acc.setPayDate(adjustedDate);
+
+                System.out.println("<<<<"+i+">>>>>");
+                System.out.println(recItem);
+//                i++;
+                accBookHistoryService.insertAccApi(acc);
+                j++;
+                if(j == 5) break;
+                
+            }
+        }
+    }
 
     
 }
