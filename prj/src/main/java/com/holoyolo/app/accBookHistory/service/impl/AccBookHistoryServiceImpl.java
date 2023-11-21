@@ -1,6 +1,7 @@
 package com.holoyolo.app.accBookHistory.service.impl;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,15 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		return accBookHistoryMapper.insertAccApi(vo);
 		
 	}
+
+	@Override
+	public String getLatestPayDate() {
+		AccBookHistoryVO vo = new AccBookHistoryVO();
+		
+		vo.setMemberId("testminju@mail.com");
+		return accBookHistoryMapper.getLatestPayDate(vo);
+	}
+
 	
 
 }
