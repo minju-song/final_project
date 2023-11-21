@@ -1,4 +1,4 @@
-package com.holoyolo.app.holopay.web;
+package com.holoyolo.app.holopayHistory.web;
 
 import org.springframework.stereotype.Controller;
 
