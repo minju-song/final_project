@@ -3,4 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.accBookHistory.mapper.AccBookHistoryMapper">
+  
+  <select id="test" parameterType="AccBookHistoryVO">
+  	SELECT * FROM ACC_BOOK_HISTORY WHERE AB_HISTORY_ID = #{abHistoryId}
+  </select>
+  
+  <insert id="insertAccApi" parameterType="AccBookHistoryVO">
+  	<selectKey keyProperty="abHistoryId"
+				   resultType="int"
+				   order="BEFORE">
+  		SELECT NVL(MAX(ab_history_id),0) + 1
+			FROM acc_book_history
+  	</selectKey>
+  	
+  	INSERT INTO acc_book_history
+  		VALUES
+	  		(
+	  			#{abHistoryId}
+	  			, #{payDate}
+	  			, #{inputOutput}
+	  			, #{paymentType}
+	  			, #{bankname}
+	  			, #{price}
+	  			, #{payStore}
+	  			, null
+	  			, #{memberId}
+	  		)
+	  
+  </insert>
   </mapper>
