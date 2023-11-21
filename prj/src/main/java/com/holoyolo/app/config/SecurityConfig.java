@@ -20,7 +20,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-	        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+	        .antMatchers("/adminhome/**").access("hasRole('ROLE_ADMIN')")
 	        .antMatchers("/member/**").authenticated() // 인증만되면 들어갈 수 있는 주소
 	        .anyRequest().permitAll()
 	        .and()

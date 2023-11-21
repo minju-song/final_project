@@ -23,6 +23,11 @@ public class MemberController {
 		return "user";
 	}
 	
+	@GetMapping("/member")
+	public @ResponseBody String member() {
+		return "member";
+	}
+	
 	@GetMapping("/admin")
 	public @ResponseBody String admin() {
 		return "admin";
