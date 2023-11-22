@@ -10,10 +10,7 @@ public class AdminHomeController {
 	public String adminHome() {
 		return "adminIndex";
 	}
-	@GetMapping("/adminQuestion")
-	public String adminQuestion() {
-		return "admin/questionMgt";
-	}
+	
 	@GetMapping("/adminReport")
 	public String adminReport() {
 		return "admin/reportMgt";
