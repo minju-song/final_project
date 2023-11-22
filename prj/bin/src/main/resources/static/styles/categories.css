@@ -314,13 +314,14 @@ section
 	height: 120px;
 	background: #FFFFFF;
 	z-index: 100;
-	padding-left: 60px;
-	padding-right: 64px;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	/* 231120 전유진 추가 */
+	right: 0;
+	margin: 0 auto;
 }
 .header.scrolled
 {
@@ -709,8 +710,11 @@ section
 
 .products
 {
-	padding-top: 94px;
-	padding-bottom: 98px;
+	/* 231120 전유진 수정 */
+	padding-top: 50px;
+	padding-bottom: 50px;
+	/* padding-top: 94px;
+	padding-bottom: 98px; */
 	background: #FFFFFF;
 }
 .current_page
