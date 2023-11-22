@@ -36,4 +36,12 @@
 					)
 	</insert>
 	
+	
+	<!-- 멤버 가입날짜 -->
+	<select id="selectJoinDate" resultType="MemberVO">
+		SELECT join_date 
+		FROM member 
+		WHERE member_id = #{memberId}
+	</select>
+	
  </mapper>

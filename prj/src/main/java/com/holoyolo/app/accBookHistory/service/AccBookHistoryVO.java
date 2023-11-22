@@ -1,5 +1,6 @@
 package com.holoyolo.app.accBookHistory.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -17,6 +18,6 @@ public class AccBookHistoryVO {
 	private String payStore;
 	private String accBookComment;
 	private String memberId;
-//	@DateTimeFormat(pattern = "yyyyMMddHHmmss")
-	private LocalDateTime payDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate payDate;
 }

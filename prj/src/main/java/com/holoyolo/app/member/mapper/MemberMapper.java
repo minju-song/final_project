@@ -10,4 +10,6 @@ public interface MemberMapper {
 	//회원가입
 	public int joinUser(MemberVO memberVO);
 
+	//회원가입날짜 조회
+	public MemberVO selectJoinDate(MemberVO vo);
 }

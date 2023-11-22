@@ -40,5 +40,11 @@
 			FROM dual
 	  </select>
 	  
+	  <select id="getAccHistory" resultType="AccBookHistoryVO">
+	  	SELECT * 
+	  	FROM acc_book_history 
+	  	WHERE TRUNC(pay_date) = #{payDate} 
+	  	AND member_id = #{memberId}
+	  </select>
 	  
   </mapper>

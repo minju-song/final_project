@@ -66,12 +66,13 @@ public class ApiCall {
 			
 			
 			if(dayDuration == 0) {
-				pushData(recArray, 0);
+				System.out.println("ss");
 			}
 			else {				
-				for(int z = 0; z < dayDuration; z++) {
+				for(int z = 1; z < dayDuration; z++) {
 					pushData(recArray , z);
 				}
+				
 			}
 			
 		} catch (ParseException e) {
@@ -121,17 +122,20 @@ public class ApiCall {
                 //회원아이디 세션에서 가져오기
                 acc.setMemberId("testminju@mail.com");
                 
-                LocalDateTime currentDate = LocalDateTime.now();
-                LocalDateTime adjustedDate = currentDate.minusDays(z);
+                LocalDate currentDate = LocalDate.now();
+                LocalDate adjustedDate = currentDate.minusDays(z);
                 System.out.println(adjustedDate);
                 acc.setPayDate(adjustedDate);
 
                 System.out.println("<<<<"+i+">>>>>");
                 System.out.println(recItem);
 //                i++;
+                
                 accBookHistoryService.insertAccApi(acc);
                 j++;
-                if(j == 5) break;
+                if(j == 5) {
+                	break;
+                }
                 
             }
         }

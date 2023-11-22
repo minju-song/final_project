@@ -2,6 +2,11 @@ package com.holoyolo.app.accBookHistory.service.impl;
 
 
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +40,25 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		
 		vo.setMemberId("testminju@mail.com");
 		return accBookHistoryMapper.getLatestPayDate(vo);
+	}
+
+	@Override
+	public List<AccBookHistoryVO> getAccHistory(AccBookHistoryVO vo) {
+
+		
+		//회원아이디 설정
+		vo.setMemberId("testminju@mail.com");
+		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd");             
+//        LocalDateTime date = LocalDateTime.parse(vo.getPayDate(), formatter);
+
+		vo.setPayDate(vo.getPayDate());
+		
+		List<AccBookHistoryVO> list = accBookHistoryMapper.getAccHistory(vo);
+		
+		
+
+		return list;
 	}
 
 	
