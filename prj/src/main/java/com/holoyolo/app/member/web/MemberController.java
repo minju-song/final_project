@@ -99,4 +99,6 @@ public class MemberController {
 		return "user/mypage/memberInfo";
 	}
 	
+	
+	
 }
