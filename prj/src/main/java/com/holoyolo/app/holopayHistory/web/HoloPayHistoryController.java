@@ -14,12 +14,17 @@ public class HoloPayHistoryController {
 	MemberFinanceInfoService MFIS;
 
 	@GetMapping("myHolopay")
-	public String holopaypage(Model mo, MemberFinanceInfoVO vo) {
+	public String holopaypage(Model mo) {
 
 		mo.addAttribute("menu", "mypage");
-
+		MemberFinanceInfoVO vo = new MemberFinanceInfoVO();
+		vo.setMemberId("JINU@mail.com");
 		MemberFinanceInfoVO MFIV = MFIS.selectMemberFinanceInfo(vo);
-		mo.addAttribute("amount", MFIV);
+		if (MFIV == null) {
+			mo.addAttribute("amount", 0);
+		} else {
+			mo.addAttribute("amount", MFIV.getAccount());
+		}
 		return "member/mypage/myholopay";
 	}
 }
