@@ -1,5 +1,7 @@
 package com.holoyolo.app.member.service.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,14 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO selectUser(String username) {
 		return memberMapper.selectUser(username);
+	}
+
+	@Override
+	public Date selectJoinDate() {
+		MemberVO vo = new MemberVO();
+		//회원아이디가져오기
+		vo.setMemberId("testminju@mail.com");
+		vo = memberMapper.selectJoinDate(vo);
+		return vo.getJoinDate();
 	}
 }

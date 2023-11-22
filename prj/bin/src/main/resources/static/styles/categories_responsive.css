@@ -41,12 +41,14 @@
 	}
 	.sidebar_section
 	{
-		width: calc((100% - 30px) / 2);
+		/* 231120 전유진 수정 */
+		/* width: calc((100% - 30px) / 2); */
 		float: left;
 	}
 	.sidebar_section:nth-child(odd)
 	{
-		margin-right: 30px;
+		/* 231120 전유진 수정 */
+		/* margin-right: 30px; */
 	}
 	.sidebar_right
 	{
