@@ -5,4 +5,11 @@
   
 <mapper namespace="com.holoyolo.app.memberFinanceInfo.mapper.MemberFinanceInfoMapper">
 
+
+	<select id="getCardInfo" resultType="MemberFinanceInfoVO">
+		SELECT card_no, card_company 
+		FROM member_finance_info 
+		WHERE member_id = #{memberId} 
+		AND use_yn = 'y'
+	</select>
 </mapper>
