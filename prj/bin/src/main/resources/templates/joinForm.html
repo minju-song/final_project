@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<link rel="stylesheet" th:href="@{/member/css/join.css}">
+</head>
+<body>
+	<form action="/join" method="post"  class="flex-col">
+		<label>
+			<span class="attr_name">이름</span> 
+			<input type="text" id="memberName" name="memberName" class="input">
+		</label>
+		<label>
+			<span class="attr_name">아이디</span>
+			<span class="input input_wrap">
+				<span class="flex">
+					<input type="email" id="memberId" name="memberId" placeholder="이메일 형식으로 입력하세요" class="input">
+					<button type="button" class="btn" id="idCheck">중복확인</button>
+				</span>
+			</span>
+		</label>
+		<label>
+			<span class="attr_name">닉네임</span>
+			<span class="input input_wrap">
+				<span class="flex">
+					<input type="text" id="nickName" name="nickName" class="input">
+					<button type="button" class="btn" id="nickCheck">중복확인</button>
+				</span>
+			</span>
+		</label>
+		<label>
+			<span class="attr_name">비밀번호</span>
+			<input type="password" id="password" name="password" class="input">
+		</label>
+		<label>
+			<span class="attr_name">비밀번호 확인</span>
+			<input type="password" id="pwdCheck" class="input">
+		</label>
+		<label>
+			<span class="attr_name">주소</span>
+			<span class="flex-col input input_wrap addr_wrap">
+				<span class="flex">
+					<input type="text" id="addr1" name="addr" class="input">
+					<button type="button" class="btn" id="addrSearch">주소검색</button>
+				</span>
+				<input type="text" id="addr2" class="input">
+				<!-- <input type="text" id="addr3" class="input"> -->
+			</span>
+		</label>
+		<label>
+			<span class="attr_name">휴대폰번호</span>
+			<span class="input input_wrap">
+				<span class="flex">
+					<input type="tel" id="phone" name="phone" placeholder="숫자만 입력하세요" class="input">
+					<button type="button" class="btn" id="userCheck">본인인증</button>
+				</span>
+			</span>
+		</label>
+		<div>
+			<button type="reset">취소</button>
+			<button type="submit">회원가입</button>
+		</div>
+	</form>
+</body>
+</html>

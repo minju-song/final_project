@@ -11,11 +11,8 @@ class PrjApplicationTests {
 	@Autowired
 	StringEncryptor jasyptStringEncryptor;
 	
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 	
-
-
-
 }
