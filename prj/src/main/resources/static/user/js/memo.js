@@ -4,7 +4,7 @@
  
   //각 요소와 컨테이너에 이벤트 리스너 달기
   const draggables = document.querySelectorAll(".draggable");
-  const containers = document.querySelectorAll(".container");
+  const containers = document.querySelectorAll(".memo-container");
 
   draggables.forEach(draggable => {
     draggable.addEventListener("dragstart", () => {
@@ -42,8 +42,8 @@
       }
     },
     { offset: Number.NEGATIVE_INFINITY },
-  ).element;
-}
+  	).element;
+	}
   
   containers.forEach(container => {
 	  container.addEventListener("dragover", e => {
@@ -57,3 +57,38 @@
 	    }
 	  });
 	});
+	
+	//핀 클릭시 색상 변경
+	const pins = document.querySelectorAll('.bi-pin');
+	
+	for(let i=0; i<pins.length; i++){
+		pins[i].addEventListener('click', function(e){
+			if(pins[i].src == 'http://localhost:8090/user/images/pin.svg' ){
+				pins[i].src=`/user/images/pin-fill.svg`;		
+			}else{
+				pins[i].src=`/user/images/pin.svg`;
+			}
+		});
+	}
+
+	//팔레트 클릭시 색상표 출력
+	const pal = document.querySelectorAll('.bi-palette');
+	//console.log(pal[0].nextElementSibling);
+	for(let i=0; i<pal.length; i++){
+		pal[i].addEventListener('click', function(e){
+			if(pal[i].nextElementSibling.style.display == 'none'){
+				pal[i].nextElementSibling.style.display = 'block';				
+			}else{
+				pal[i].nextElementSibling.style.display = 'none';	
+			}
+		});
+	}
+	
+	// 첨부파일
+	// .addEventListener('click', () => realUpload.click());
+	const fileBtn = document.querySelectorAll('.file_btn');
+	const realFile = document.querySelectorAll('.real_file');
+	for(let i=0; i<fileBtn.length; i++){
+		fileBtn[i].addEventListener('click', () => realFile[i].click());
+	}
+	

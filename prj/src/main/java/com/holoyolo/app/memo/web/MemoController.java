@@ -27,7 +27,7 @@ public class MemoController {
 	}
 	
 	//단건조회
-	@GetMapping("memoInfo")
+	@GetMapping("member/memoInfo")
 	public String memoInfo(MemoVO memoVO, Model model) {
 		model.addAttribute("memoInfo", memoService.getMemo(memoVO));
 		return "memoInfo";
