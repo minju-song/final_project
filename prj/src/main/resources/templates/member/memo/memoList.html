@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/user/css/memo.css}" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+<!-- 소스 다운 -->
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+<!-- 폴리필 (구버젼 브라우저 지원) -->
+<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div layout:fragment="content">
+		<p>메모리스트</p>
+		<div class="button">
+			<p>삭제</p>
+		</div>
+		<div class="row memo-container" th:each="memo : ${memoList}">
+			<div class="memo draggable" draggable="true">
+				<label class="menubars cl-checkbox">
+				  <input type="checkbox">
+				  <span></span>
+				</label>
+				<img class="menubars bi-pin" th:src="@{/user/images/pin.svg}">
+				<div class="text" th:text="${memo.content}"></div>
+				<input class="hashtag" name='tags' readonly th:value='${memo.hashTag}'>
+				
+				<img class="menubars bi-palette" th:src="@{/user/images/palette.svg}">
+				<div class="shop__sidebar__color">
+					<label class="ca1" for="#F4CCCC"> 
+						<input type="radio" id="#F4CCCC">
+					</label>
+					<label class="ca2" for="#FFF2CC"> 
+						<input type="radio" id="#FFF2CC">
+					</label>
+					<label class="ca3" for="#D9EAD3"> 
+						<input type="radio" id="#D9EAD3">
+					</label>
+					<label class="ca4" for="#D0E0E3"> 
+						<input type="radio" id="#D0E0E3">
+					</label>
+					<label class="ca5" for="#D9D2E9"> 
+						<input type="radio" id="#D9D2E9">
+					</label>
+				</div>
+				
+				<img class="file_btn menubars bi-image" th:src="@{/user/images/image.svg}">
+				<input class="real_file" type="file" />
+			</div>
+		</div>
+		<script th:src="@{/user/js/memo.js}"></script>
+	</div>
+</body>
+</html>

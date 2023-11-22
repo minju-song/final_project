@@ -76,10 +76,10 @@
 	//console.log(pal[0].nextElementSibling);
 	for(let i=0; i<pal.length; i++){
 		pal[i].addEventListener('click', function(e){
-			if(pal[i].nextElementSibling.style.display == 'none'){
-				pal[i].nextElementSibling.style.display = 'block';				
+			if(pal[i].nextElementSibling.style.display == 'block'){
+				pal[i].nextElementSibling.style.display = 'none';			
 			}else{
-				pal[i].nextElementSibling.style.display = 'none';	
+				pal[i].nextElementSibling.style.display = 'block';	
 			}
 		});
 	}
@@ -92,3 +92,20 @@
 		fileBtn[i].addEventListener('click', () => realFile[i].click());
 	}
 	
+	//hashtag 표시
+    var input = document.querySelectorAll('input[name=tags]')
+    for(let i=0; i<input.length; i++){
+	    new Tagify(input[i], {
+      maxTags: 4
+    	}) 
+    }
+    
+    //색상 클릭 시 메모 바탕색 변경
+    const colors = document.querySelectorAll('input[type=radio]');
+    for(let i=0; i<colors.length; i++){
+	    colors[i].addEventListener('click', function(e){
+	    	const memoColor = colors[i].parentElement.parentElement.parentElement;
+	    	console.log(colors[i].id);
+	    	memoColor.style.background = colors[i].id;
+	    })
+    }

@@ -21,16 +21,21 @@ public class MemoController {
 	public String memoList(MemoVO memoVO, Model model) {
 		memoVO.setMemberId("sumin@mail.com");
 		List<MemoVO> list = memoService.getMemoList(memoVO);
-		System.out.println(list);
+		/* System.out.println(list); */
 		model.addAttribute("memoList", list);
-		return "member/memoList";
+		return "member/memo/memoList";
 	}
 	
 	//단건조회
 	@GetMapping("member/memoInfo")
 	public String memoInfo(MemoVO memoVO, Model model) {
 		model.addAttribute("memoInfo", memoService.getMemo(memoVO));
-		return "memoInfo";
+		return "member/memo/memoInfo";
+	}
+	
+	@GetMapping("member/test")
+	public String daumLocation() {
+		return "member/memo/test";
 	}
 	
 	//등록
