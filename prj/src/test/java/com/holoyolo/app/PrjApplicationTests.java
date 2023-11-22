@@ -10,12 +10,17 @@ class PrjApplicationTests {
 
 	@Autowired
 	StringEncryptor jasyptStringEncryptor;
-	
+
 	@Test
 	void contextLoads() {
 	}
+
+
+
+	@Test
+	public void apiCall() {
+		
 	
-
-
-
+		
+	}
 }

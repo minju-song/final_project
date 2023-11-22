@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+
+        <div class="container">
+            <!--/* 잔액조회 */-->
+            <div class="row">
+                <div class="col-4">
+                    <h1>현재 잔액조회</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <th:block th:if="${amount != null}">
+                        <p>현재 잔액: <span th:text="${amount}"></span></p>
+                    </th:block>
+                    <th:block th:if="${amount is empty}">
+                        <div>
+                            <h3>등록된 계좌가 없습니다</h3>
+                            <div>
+                                <button type="button" id="addAmount">계좌 등록</button>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <!--/* 충전/인출 버튼 */-->
+            <div class="row">
+                <div>
+                    <button type="button" id="rechargeBtn" class="btn btn-pramary">충전</button>
+                    <button type="button" id="takeOutBtn" class="btn btn-pramary">인출</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        //충전버튼
+        let rechargeBtn = document.getElementById('rechargeBtn');
+
+        //반환버튼
+
+        let takeOutBtn = document.getElementById('takeOutBtn');
+        //버튼 누를 시 ajax로 계좌 등록 되어 있는지 체크
+        rechargeBtn.addEventListener('click', checkAmount)
+
+        function checkAmount() {
+            //세션 아이디값
+            memId = "JINU@mail.com"
+            //아작스 호출
+            $.ajax({
+                url: "checkFinance",
+                type: 'Post',
+                data: memId,
+
+                success: function onData(data) {
+                    console.log(data);
+                },
+                error: function onError(error) {
+                    console.error(error);
+                }
+
+            })
+        }
+        //안되어 있다면 계좌 등록 페이지로 이동
+
+        //등록 되어 있다면 해당 기능 api 컨트롤러 호출
+        //충전
+
+        //반환
+    </script>
+</body>
+
+</html>

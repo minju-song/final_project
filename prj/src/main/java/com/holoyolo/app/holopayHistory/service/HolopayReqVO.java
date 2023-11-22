@@ -10,11 +10,17 @@ import lombok.Data;
 public class HolopayReqVO {
 
 	private final HashMap<String, String> headers = new HashMap<String, String>();
+	
+	private final String FinAcno;	 
+	private final String Tram;	 
+	private final String DractOtlt;
 
 
 
-	public HolopayReqVO() {
-		
+	public HolopayReqVO(int val) {
+		this.FinAcno = "00820100021780000000000017544";
+		this.Tram = String.valueOf(val);
+		this.DractOtlt = "HOLOYOLO";
 		
 		LocalTime now = LocalTime.now();
 		LocalDate date = LocalDate.now();

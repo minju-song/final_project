@@ -2,8 +2,8 @@
 <html xmlns:th="https://www.thymeleaf.org/">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
 
 <body>
@@ -12,22 +12,14 @@
 
 			<!--/* 헤더 메뉴마다 내용바꾸기 */-->
 			<div class="sidebar_title">Categories</div>
-			<div class="sidebar_section_content">
-				<ul>
-					<li><a href="#">Wedding Dresses (23)</a></li>
-					<li><a href="#">Swimsuits (11)</a></li>
-					<li><a href="#">Jeans (61)</a></li>
-					<li><a href="#">Tops (34)</a></li>
-				</ul>
-			</div>
 
 			<!--/* 마이페이지 */-->
 
 			<div class="sidebar_section_content" th:if="${menu == 'mypage'}">
 				<ul>
-					<li><a href="#">홈</a></li>
+					<li><a th:href="@{mypageHome}">홈</a></li>
 					<li><a href="#">내정보</a></li>
-					<li><a th:href="${myHolopay}">홀로페이</a></li>
+					<li><a th:href="@{myHolopay}">홀로페이</a></li>
 					<li><a href="#">나의 중고거래</a></li>
 					<li><a href="#">나의 알뜰모임</a></li>
 					<li><a href="#">나의 커뮤니티</a></li>
