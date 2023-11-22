@@ -9,11 +9,12 @@
 	<div class="sidebar_section" >
 	
 		<!--/* 헤더 메뉴마다 내용바꾸기 */-->
+		
+		<!--/*  <div class="sidebar_section_content" th:if="${menu == 'mypage'}"> */-->
 		<div class="sidebar_title side_main_menu">마이페이지</div>
-		<div class="sidebar_section_content">
 			<ul>
 				<li class="side_main_menu"><a href="#" th:class="${subMenu eq 'memberInfo'}? 'submenu_active' : ''">내정보</a></li>
-				<li class="side_main_menu"><a href="#">홀로페이</a></li>
+				<li class="side_main_menu"><a th:href="@{myHolopay}">홀로페이</a></li>
 				<li class="side_main_menu"><a href="#">포인트</a></li>
 				<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
 				<!--/* 나의중고거래 서브메뉴 start */-->
@@ -24,7 +25,7 @@
 				<li class="side_main_menu"><a href="#">나의 알뜰모임</a></li>
 				<li class="side_main_menu"><a href="#">나의 커뮤니티</a></li>
 			</ul>
-		</div>
+		<!--/* <div> */--> 
 		
 		
 	</div>

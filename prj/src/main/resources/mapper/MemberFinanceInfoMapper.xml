@@ -12,4 +12,19 @@
 		WHERE member_id = #{memberId} 
 		AND use_yn = 'y'
 	</select>
+	
+	
+	<select id="selectMemberFinanceInfo" resultType="MemberFinanceInfoVO">
+		SELECT *
+		FROM MEMBER_FINANCE_INFO
+		WHERE SETTING_DATE = (SELECT MAX(SETTING_DATE)
+												FROM MEMBER_FINANCE_INFO
+												WHERE MEMBER_ID = #{memberId})
+	</select>
+	
+	<insert id="insertMemberFinance" parameterType="MemberFinanceInfoVO">
+		INSERT INTO MEMBER_FINANCE_INFO(
+			CARD_NO, ACCOUNT, BANKNAME, MEMBER_ID, CARD_COMPANY, MEMBER_FINANCE_ID, SETTING_DATE, USER_YN)
+		VALUES(#{cardNo}, #{account}, #{memberId}, #{cardCompany},#{memberFinanceId}, sysdate, 'Y' )
+	</insert>
 </mapper>

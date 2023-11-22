@@ -96,6 +96,7 @@ public class MemberController {
 		model.addAttribute("memberInfo", memberVO);
 		model.addAttribute("subMenu", "memberInfo");
 		
+		
 		return "user/mypage/memberInfo";
 	}
 	
