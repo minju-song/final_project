@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/user/css/memo.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div layout:fragment="content">
+		<p>메모리스트</p>
+		<div class="row memo-container">
+			<div class="memo draggable" draggable="true" th:each="memo : ${memoList}">
+				<label class="menubars"><input type="checkbox"></label>
+				<img class="menubars bi-pin" th:src="@{/user/images/pin.svg}">
+				<!-- <img class="menubars bi-pin-fill" th:src="@{/user/images/pin-fill.svg}"> -->
+				<div class="text" th:text="${memo.content}"></div>
+				<div class="text" th:text="${memo.hashTag}"></div>
+				
+				<img class="menubars bi-palette" th:src="@{/user/images/palette.svg}">
+				<div class="shop__sidebar__color">
+					<label class="ca1" for="sp-1"> 
+						<input type="radio" id="sp-1">
+					</label>
+					<label class="ca2" for="sp-2"> 
+						<input type="radio" id="sp-2">
+					</label>
+					<label class="ca3" for="sp-3"> 
+						<input type="radio" id="sp-3">
+					</label>
+					<label class="ca4" for="sp-4"> 
+						<input type="radio" id="sp-4">
+					</label>
+					<label class="ca5" for="sp-5"> 
+						<input type="radio" id="sp-5">
+					</label>
+				</div>
+				
+				<img class="file_btn menubars bi-image" th:src="@{/user/images/image.svg}">
+				<input class="real_file" type="file" />
+			</div>
+		</div>
+		<script th:src="@{/user/js/memo.js}"></script>
+	</div>
+</body>
+</html>

@@ -15,7 +15,7 @@
 				, update_date
 				, member_id
 		FROM memo
-		WHERE memberId = #{member_id}
+		WHERE member_id = #{memberId}
 		ORDER BY seq_no
 	</select>
 	
@@ -31,8 +31,8 @@
 				, update_date
 				, member_id
 		FROM memo
-		WHERE memoId = #{memoId}
-		AND memberId = #{member_id}
+		WHERE memo_id = #{memoId}
+		AND member_id = #{memberId}
 	</select>
 	
 	<!-- 등록 -->
@@ -76,14 +76,14 @@
 				, bookmark = #{bookmark}
 				, update_date = #{updateDate}
 				, member_id = #{memberId}
-		WHERE memoId = #{memoId}
-		AND memberId = #{member_id}
+		WHERE memo_id = #{memoId}
+		AND member_id = #{memberId}
 	</update>
 	
 	<!-- 삭제 -->
 	<delete id="deleteMemo" parameterType="MemoVO">
 		DELETE FROM memo
-		WHERE memoId = #{memoId}
-		AND memberId = #{member_id}
+		WHERE memo_id = #{memoId}
+		AND member_id = #{memberId}
 	</delete>
 </mapper>
