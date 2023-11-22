@@ -94,6 +94,9 @@
 .sidebar_section:hover .last_sub_menu {
 	border-bottom: solid 1px #937c6f !important;
 }
+.submenu_active {
+	color : #0015bf !important;
+}
 
 
 @media (max-width: 768px) {
@@ -109,6 +112,37 @@
 	.my_content {
 		padding-left: 15px !important;
 	}
+}
+
+
+/* 마이페이지 - 내정보 */
+.input_file {
+	display: none;
+}
+.thumImg_upload {
+	width: 90px; 
+	height: 90px; 
+	border: 1px solid #B3B3B3;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+.image-preview {
+	padding: 0;
+	margin: 0;
+}
+.image-preview li {
+	list-style: none;
+}
+.dp_flex {
+	display: flex;
+}
+.position_rela {
+	position: relative;
+}
+.position_absol {
+	position: absolute;
 }
 
 

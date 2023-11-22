@@ -23,16 +23,18 @@
 						, phone
 						, join_date
 						, role
+						, sns_yn
 					)
 			VALUES  (
 						#{memberId}
 						, #{memberName}
 						, #{password}
-						, #{nickName}
+						, #{nickname}
 						, #{addr}
 						, #{phone}
 						, sysdate
 						, #{role}
+						, #{snsYn}
 					)
 	</insert>
 	

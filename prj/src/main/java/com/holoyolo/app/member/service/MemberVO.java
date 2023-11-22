@@ -5,14 +5,16 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class MemberVO {
 	
 	private String memberId;
 	private String memberName;
 	private String password;
-	private String nickName;
+	private String nickname;
 	private String addr;
 	private String phone;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -27,5 +29,9 @@ public class MemberVO {
 	private Date freedomDate;
 	private int loginFailCnt;
 	private String lockYn;
+	private String snsYn;
+	
+	private String provider;
+	private String providerId;
 
 }
