@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!--/*파비콘*/-->
+<link rel="icon" type="image/x-icon"
+	href="../assets/img/favicon/favicon.ico" />
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+	href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+	rel="stylesheet" />
+<!--/*아이콘*/-->
+<link rel="stylesheet"
+	th:href="@{/admin/assets/vendor/fonts/boxicons.css}" type="text/css" />
+	
+<!--/*핵심 CSS*/-->
+<link rel="stylesheet" th:href="@{/admin/assets/vendor/css/core.css}"
+	class="template-customizer-core-css}" type="text/css" />
+<link rel="stylesheet"
+	th:href="@{/admin/assets/vendor/css/theme-default.css}"
+	class="template-customizer-theme-css}" type="text/css" />
+<link rel="stylesheet" th:href="@{/admin/assets/css/demo.css}"
+	type="text/css" />
+	
+<!--/*부가 CSS*/-->
+<link rel="stylesheet"
+	th:href="@{/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}"
+	type="text/css" />
+<link rel="stylesheet"
+	th:href="@{/admin/assets/vendor/libs/apex-charts/apex-charts.css}"
+	type="text/css" />
+</head>
+
+<body>
+	<div class="layout-wrapper layout-content-navbar">
+		<div class="layout-container">
+			<!--/* 헤더 */-->
+			<div th:replace="fragments/adminSidemenu.html :: sidemenuFragment"></div>
+			<div class="layout-page">
+				<!--/* 사이드메뉴 */-->
+				<div th:replace="fragments/adminHeader.html :: headerFragment"></div>
+				<div class="content-wrapper">
+					<div layout:fragment="content"></div>
+				
+				
+					<!--/* 푸터 */-->
+					<div th:replace="fragments/adminFooter.html :: footerFragment"></div>
+					<div class="content-backdrop fade"></div>
+				</div>
+			</div>
+		</div>
+		<div class="layout-overlay layout-menu-toggle"></div>
+	</div>
+	
+	<!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/admin/assets/vendor/libs/jquery/jquery.js" type="application/javascript"></script>
+    <script src="/admin/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/admin/assets/vendor/js/bootstrap.js"></script>
+    <script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/admin/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="/admin/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/admin/assets/js/dashboards-analytics.js"></script>
+
+    <!--/*문의관리 JS*/-->
+    <script src="/admin/assets/js/admin-question.js"></script>
+    
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>

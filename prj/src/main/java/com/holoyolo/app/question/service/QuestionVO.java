@@ -8,12 +8,13 @@ import lombok.Data;
 
 @Data
 public class QuestionVO {
-	private int question_id;
-	private String question_type;
+	private int questionId;
+	private String questionType;
 	private String title;
 	private String content;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date write_date;
+	private Date writeDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date update_date;
+	private Date updateDate;
+	private String questionYn;
 }

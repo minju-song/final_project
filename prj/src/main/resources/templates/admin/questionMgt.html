@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/adminLayout}">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.card {
+	height: 650px;
+}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container-xxl flex-grow-1 container-p-y">
+			<h4 class="fw-bold py-3 mb-4">문의관리</h4>
+			<!-- Hoverable Table rows -->
+			<div class="card">
+				<h5 class="ps-4 pt-4">
+					전체문의 <span style="color: skyblue">30개</span>
+				</h5>
+				<div class="ps-4 pb-4 demo-inline-spacing">
+					<button type="button" class="btn btn-outline-primary">전체</button>
+					<button type="button" class="btn btn-outline-primary">
+						답변대기</button>
+					<button type="button" class="btn btn-outline-primary">
+						답변완료</button>
+				</div>
+				<div class="table-responsive text-nowrap">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>문의유형</th>
+								<th>작성날짜</th>
+								<th>답변유무</th>
+							</tr>
+						</thead>
+						<tbody class="table-border-bottom-0">
+							<th:block th:each="list, stat : ${questionList}">
+								<tr>
+									<td th:text="${list.questionId}"><i
+										class="fab fa-angular fa-lg text-danger me-3"></i> <strong>1</strong></td>
+									<td th:text="${list.title}"></td>
+									<td>공성훈</td>
+									<td><span class="badge bg-label-primary me-1" th:text="${list.questionType}">가계부</span></td>
+									<td th:text="${list.writeDate}"></td>
+									<td><span class="badge bg-label-primary me-1" th:text="${list.questionYn}"></span></td>
+									<td>
+										<div class="dropdown">
+											<button type="button"
+												class="btn p-0 dropdown-toggle hide-arrow"
+												data-bs-toggle="dropdown">
+												<i class="bx bx-dots-vertical-rounded"></i>
+											</button>
+											<div class="dropdown-menu">
+												<a class="dropdown-item" href="javascript:void(0);"><i
+													class="bx bx-edit-alt me-1"></i> Edit</a> <a
+													class="dropdown-item" href="javascript:void(0);"><i
+													class="bx bx-trash me-1"></i> Delete</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!--/ Hoverable Table rows -->
+		</div>
+	</div>
+
+</body>
+</html>
