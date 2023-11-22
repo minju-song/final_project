@@ -5,19 +5,20 @@
 <meta charset="UTF-8">
 <title>타임리프 테스트</title>
 <link rel="stylesheet" type="text/css" th:href="@{/styles/bootstrap4/bootstrap.min.css}">
-<link href="@{/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+<!-- <link href="@{plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css"> -->
 <link rel="stylesheet" type="text/css" th:href="@{/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/plugins/OwlCarousel2-2.2.1/owl.theme.default.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/plugins/OwlCarousel2-2.2.1/animate.css}">
-<link href="@{/plugins/colorbox/colorbox.css}" rel="stylesheet" type="text/css">
+<!-- <link href="@{plugins/colorbox/colorbox.css}" rel="stylesheet" type="text/css"> -->
 <link rel="stylesheet" type="text/css" th:href="@{/styles/main_styles.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/styles/responsive.css}">
-<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" th:href="@{/styles/bootstrap4/bootstrap.min.css}">
 <link th:href="@{/plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/plugins/jquery-ui-1.12.1.custom/jquery-ui.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/styles/categories.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/styles/categories_responsive.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" th:href="@{/user/css/common.css}">
 <style>
     body {
         margin: 0;
@@ -37,10 +38,6 @@
     #mainContent {
         border: 1px solid blue;
     }
-    /* 231120 전유진 추가 */
-    .my_content {
-    	padding-left: 0 !important;
-    }
 </style>
 </head>
 
@@ -53,12 +50,12 @@
 	<div class="sidemenu" style="margin-top: 120px;">
 		<div class="products">
 			<div class="container">
-				<div class="row">
+				<div class="row body_wrap">
 					<!--/* 사이드메뉴 */-->
    					<div id="side" th:replace="fragments/sidemenu.html :: sidemenuFragment"></div>
    					
    					<!--/* 컨텐츠 영역 : 동적으로 변동함 */-->
-   					<div class="col-9 my_content">
+   					<div class="col-9 my_col_9 my_content">
 						<div id="contents" layout:fragment="content"></div>
 					</div>
 				</div>
@@ -67,7 +64,7 @@
 	</div>
 
 
-    <!-- 푸터 -->
+    <!--/* 푸터 */-->
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -78,7 +75,20 @@
         </div>
     </footer>
     
-   
+    
+    <!--/* 템플릿 스크립트 연결 start */-->
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+	<script th:src="@{/styles/bootstrap4/popper.js}"></script>
+	<script th:src="@{/styles/bootstrap4/bootstrap.min.js}"></script>
+	<script th:src="@{/plugins/easing/easing.js}"></script>
+	<script th:src="@{/plugins/parallax-js-master/parallax.min.js}"></script>
+	<script th:src="@{/plugins/Isotope/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.js}"></script>
+	<script th:src="@{/plugins/jquery-ui-1.12.1.custom/jquery-ui.js}"></script>
+	<script th:src="@{/js/categories_custom.js}"></script>
+	<!--/* 템플릿 스크립트 연결 end */-->
+    
 </body>
+
 
 </html>

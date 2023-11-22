@@ -2,11 +2,15 @@ package com.holoyolo.app.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.holoyolo.app.member.service.MemberVO;
+
+import lombok.Data;
 
 //시큐리티가 /login 주소 요청이 오면 인터샙트 => 로그인을 진행
 //로그인 진행이 완료가되면 시큐리티 session을 만들어준다. => Security ContextHolder에 저장
@@ -15,13 +19,21 @@ import com.holoyolo.app.member.service.MemberVO;
 
 //Security session => Authentication <= UserDetails(PrincipalDetails)
 
-public class PrincipalDetails implements UserDetails{
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User{
 	
-	private MemberVO memberVO; //콤포지션
+	private MemberVO memberVO; // 콤포지션, getMemberVO가능..
+	private Map<String, Object> attributes; // oauth 로그인 정보를 저장..
 	
-	// 생성자
+	// 일반로그인 생성자
 	public PrincipalDetails(MemberVO memberVO) {
 		this.memberVO = memberVO;
+	}
+	
+	// Oauth2로그인 생성자
+	public PrincipalDetails(MemberVO memberVO, Map<String, Object> attributes) {
+		this.memberVO = memberVO;
+		this.attributes = attributes;
 	}
 
 	@Override
@@ -75,6 +87,18 @@ public class PrincipalDetails implements UserDetails{
 		// 계정이 사용가능하면 true
 		// 회원이 1년간 로그인하지 않아 휴먼계정 처리할 경우 사용가능.
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		// oauth2
+		return attributes;
+	}
+
+	@Override
+	public String getName() {
+		// oauth2
+		return null; //attributes.get("sub")
 	}
 
 }
