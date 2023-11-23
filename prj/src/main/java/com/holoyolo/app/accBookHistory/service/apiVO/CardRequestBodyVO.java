@@ -26,8 +26,8 @@ public class CardRequestBodyVO {
     	this.Ineymd = "20191109";
     	
     	this.Header.put("ApiNm", "InquireCreditCardAuthorizationHistory");
-    	this.Header.put("Tsymd", "20231122");
-    	this.Header.put("Trtm", "003500");
+    	this.Header.put("Tsymd", "20231123");
+    	this.Header.put("Trtm", "102500");
     	this.Header.put("Iscd", "002177");
     	this.Header.put("FintechApsno", "001");
     	this.Header.put("ApiSvcCd", "CardInfo");
