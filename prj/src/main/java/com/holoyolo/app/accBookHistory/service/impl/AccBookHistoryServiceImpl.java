@@ -37,10 +37,10 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 	}
 
 	@Override
-	public String getLatestPayDate() {
+	public String getLatestPayDate(String id) {
 		AccBookHistoryVO vo = new AccBookHistoryVO();
 		
-		vo.setMemberId("testminju@mail.com");
+		vo.setMemberId(id);
 		return accBookHistoryMapper.getLatestPayDate(vo);
 	}
 

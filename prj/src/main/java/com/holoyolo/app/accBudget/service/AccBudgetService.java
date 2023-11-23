@@ -8,4 +8,7 @@ public interface AccBudgetService {
 	
 	//예산 등록
 	public int insertBudget(AccBudgetVO vo);
+	
+	//예산단위 사용여부 n으로 바꿈
+	public int updateBudget(AccBudgetVO vo);
 }

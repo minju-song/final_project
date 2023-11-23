@@ -45,15 +45,17 @@ public class AccBookHistoryController {
 	
 	@GetMapping("/member/accBook")
 	public String test(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
-		
-		String id = principalDetails.getUsername();
-		
-		apiCall.getPosts(id);
-
 		Map<String, String> map = new HashMap<>();
 		Map<String, Object> budgetMap = new HashMap<>();
 		
+		String id = principalDetails.getUsername();
+		
 		map = memberFinanceInfoService.getCardInfo(id);
+		System.out.println("카드 번호 : "+map.get("카드번호"));
+		if(!map.get("카드번호").equals("null")) {			
+			apiCall.getPosts(id);		
+		}
+		
 		Date joinDate = memberService.selectJoinDate(id);
 		budgetMap = accBudgetService.getBudgetNow(id);
 		

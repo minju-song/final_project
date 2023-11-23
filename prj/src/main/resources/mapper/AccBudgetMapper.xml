@@ -12,6 +12,7 @@
 		AND use_yn = 'Y'
   	</select>
   	
+  	<!-- 예산등록 -->
   	<insert id="insertBudget" parameterType="AccBudgetVO">
   		<selectKey keyProperty="accBudgetId"
 					   resultType="int"
@@ -20,6 +21,14 @@
 				FROM acc_budget
 	  	</selectKey>
   		INSERT INTO acc_budget 
-  		VALUES (#{accBudgetId}, #{accBudgetPrice},#{accBudgetUnit}, sysdate,  #{memberId}, 'y')
+  		VALUES (#{accBudgetId}, #{accBudgetPrice},#{accBudgetUnit}, sysdate,  #{memberId}, 'Y')
   	</insert>
+  	
+  	<!-- 예산 이전꺼 사용 안하는걸로 수정 -->
+  	<update id="updateBudget" parameterType="AccBudgetVO">
+  		UPDATE acc_budget 
+  		SET use_yn = 'N' 
+  		WHERE member_id = #{memberId} 
+  		AND use_yn = 'Y'
+  	</update>
   </mapper>

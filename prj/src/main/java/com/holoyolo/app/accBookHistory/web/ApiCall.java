@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryService;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryVO;
 import com.holoyolo.app.accBookHistory.service.apiVO.CardRequestBodyVO;
+import com.holoyolo.app.memberFinanceInfo.service.MemberFinanceInfoService;
 
 import lombok.Data;
 import com.google.gson.Gson;
@@ -34,6 +36,9 @@ public class ApiCall {
     
 	@Autowired 
 	AccBookHistoryService accBookHistoryService;
+	
+	@Autowired
+	MemberFinanceInfoService memberFinanceInfoService;
 
     public ApiCall(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -59,7 +64,7 @@ public class ApiCall {
 			JSONObject jsonObject = (JSONObject) parser.parse(responseBody);
 			JSONArray recArray = (JSONArray) jsonObject.get("REC");
 			
-			String latest = accBookHistoryService.getLatestPayDate();
+			String latest = accBookHistoryService.getLatestPayDate(id);
 			long dayDuration = duration(latest);
 
 			System.out.println("날짜 차이 : "+dayDuration);
@@ -69,7 +74,7 @@ public class ApiCall {
 				System.out.println("ss");
 			}
 			else {				
-				for(int z = 1; z < dayDuration; z++) {
+				for(int z = 0; z < dayDuration; z++) {
 					pushData(recArray , z, id);
 				}
 				
@@ -87,7 +92,7 @@ public class ApiCall {
     public long duration(String latest) {
     	 // 문자열을 LocalDateTime으로 변환
         LocalDateTime latestDate = LocalDateTime.parse(latest, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
+        System.out.println("최근날짜 또는 카드등록날짜 : "+latestDate);
         // 현재 날짜 및 시간을 가져오기
         LocalDateTime currentDate = LocalDateTime.now();
 
@@ -116,7 +121,9 @@ public class ApiCall {
                 }
                 acc.setPaymentType("GA3");
                 //회원카드회사 가져오기
-                acc.setBankname("농협");
+                Map <String, String> cardMap = new HashMap<>();
+                cardMap = memberFinanceInfoService.getCardInfo(id);
+                acc.setBankname(cardMap.get("카드회사"));
                 acc.setPrice(Integer.parseInt((String) recItem.get("Usam")));
                 acc.setPayStore((String) recItem.get("AfstNm"));
                 //회원아이디 세션에서 가져오기

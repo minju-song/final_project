@@ -37,7 +37,7 @@
 	  <select id="getLatestPayDate" resultType="String">
 			SELECT NVL(
 			    (SELECT MAX(pay_date) FROM acc_book_history WHERE member_id = #{memberId}),
-			    (SELECT join_date - INTERVAL '1' DAY FROM member WHERE member_id = #{memberId})
+			    (SELECT setting_date  - INTERVAL '1' DAY from member_finance_info WHERE member_id = #{memberId})
 			) AS latest_pay_date
 			FROM dual
 	  </select>
