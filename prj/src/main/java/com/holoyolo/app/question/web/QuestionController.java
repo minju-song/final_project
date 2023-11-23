@@ -21,7 +21,7 @@ public class QuestionController {
 	MemberService memberService;
 	
 
-	@GetMapping("/adminQuestion")
+	@GetMapping("/admin/question")
 	public String selectQuestionList(Model model) {
 		List<QuestionVO> list = questionService.selectQuestionAll();
 		// List<MemberVO> list = memberService.
