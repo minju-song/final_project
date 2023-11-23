@@ -89,6 +89,12 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	/**
+	 * 마이페이지-내정보
+	 * @param principalDetails
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/member/memberInfo")
 	public String memberInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String memberId = principalDetails.getUsername();
