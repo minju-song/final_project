@@ -66,6 +66,10 @@
 }
 .menu_mypage {
 	color: #6f42c1 !important;
+	text-transform: none !important;
+}
+.menu_mypage span {
+	color: #000 !important;
 }
 .login_area {
 	position: absolute;
