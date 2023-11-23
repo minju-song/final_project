@@ -1,121 +1,122 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/layout}">
+  layout:decorate="~{layout/layout}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <div class="container">
-            <!--/* 잔액조회 */-->
+  <div layout:fragment="content">
+    <div class="container">
+      <!--/* 잔액조회 */-->
+      <div class="row">
+        <div>
+          <th:block th:unless="${amount == 0}">
+            <p>현재 잔액: <span th:text="${amount}"></span></p>
+            <!--/* 충전/인출 버튼 */-->
             <div class="row">
-                <div>
-                    <th:block th:unless="${amount == 0}">
-                        <p>현재 잔액: <span th:text="${amount}"></span></p>
-                        <!--/* 충전/인출 버튼 */-->
-                        <div class="row">
-                            <div>
-                                <button type="button" id="rechargeBtn" class="btn btn-pramary">충전</button>
-                                <button type="button" id="takeOutBtn" class="btn btn-pramary">인출</button>
-                            </div>
-                        </div>
-                    </th:block>
-                    <th:block th:if="${amount == 0}">
-                        <div class="row">
-                            <div class="col-6">
-                                <h3>등록된 계좌가 없습니다</h3>
-                            </div>
-                            <div class="col-6">
-                                <button type="button" id="addAmount" class="btn btn-pramary">계좌 등록</button>
-                            </div>
-                        </div>
-                    </th:block>
-                </div>
+              <div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                  data-whatever="@mdo">충전</button>
+                <button type="button" id="takeOutBtn" class="btn btn-pramary">인출</button>
+              </div>
             </div>
+          </th:block>
+          <th:block th:if="${amount == 0}">
+            <div class="row">
+              <div class="col-6">
+                <h3>등록된 계좌가 없습니다</h3>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+                  data-whatever="계좌등록">
+                  계좌등록
+                </button>
+              </div>
+            </div>
+          </th:block>
         </div>
-        
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Open modal for @fat</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-        
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    </div>
+
+    <!--/* 계좌등록 모달 */-->
+    <div class="modal fade" id="amountSetting" tabindex="-1" aria-labelledby="amountSettingLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="amountSettingLabel">계좌등록</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Recipient:</label>
+                <input type="text" class="form-control" id="recipient-name">
               </div>
-              <div class="modal-body">
-                <form>
-                  <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="mb-3">
-                    <label for="message-text" class="col-form-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
-                  </div>
-                </form>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Message:</label>
+                <textarea class="form-control" id="message-text"></textarea>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
-              </div>
-            </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Send message</button>
           </div>
         </div>
-
-        <script>
-
-            //계좌 등록 버튼 
-            let addAmountBtn = document.getElementById("addAmount")
-            addAmountBtn.addEventListener('click', test);
-            function test() {
-                console.log('asdasd')
-            }
-            //충전버튼
-            let rechargeBtn = document.getElementById('rechargeBtn');
-
-            //반환버튼
-
-            let takeOutBtn = document.getElementById('takeOutBtn');
-            //버튼 누를 시 ajax로 계좌 등록 되어 있는지 체크
-            // rechargeBtn.addEventListener('click',);
-
-            // function checkAmount() {
-            //     //세션 아이디값
-            //     memId = "JINU@mail.com"
-            //     //아작스 호출
-            //     $.ajax({
-            //         url: "checkFinance",
-            //         type: 'Post',
-            //         data: memId,
-
-            //         success: function onData(data) {
-            //             console.log(data);
-            //         },
-            //         error: function onError(error) {
-            //             console.error(error);
-            //         }
-
-            //     })
-            // }
-            //안되어 있다면 계좌 등록 페이지로 이동
-
-            //등록 되어 있다면 해당 기능 api 컨트롤러 호출
-            //충전
-
-            //반환
-
-            //모달ㅗㅗ
-
-        </script>
-
+      </div>
     </div>
+
+
+    <script>
+      //계좌 등록 버튼 
+      let addAmountBtn = document.getElementById("addAmount")
+      addAmountBtn.addEventListener('click', test);
+      function test() {
+        console.log('asdasd')
+      }
+      //충전버튼
+      let rechargeBtn = document.getElementById('rechargeBtn');
+
+      //반환버튼
+
+      let takeOutBtn = document.getElementById('takeOutBtn');
+      //버튼 누를 시 ajax로 계좌 등록 되어 있는지 체크
+      // rechargeBtn.addEventListener('click',);
+
+      // function checkAmount() {
+      //     //세션 아이디값
+      //     memId = "JINU@mail.com"
+      //     //아작스 호출
+      //     $.ajax({
+      //         url: "checkFinance",
+      //         type: 'Post',
+      //         data: memId,
+
+      //         success: function onData(data) {
+      //             console.log(data);
+      //         },
+      //         error: function onError(error) {
+      //             console.error(error);
+      //         }
+
+      //     })
+      // }
+      //안되어 있다면 계좌 등록 페이지로 이동
+
+      //등록 되어 있다면 해당 기능 api 컨트롤러 호출
+      //충전
+
+      //반환
+
+    </script>
+
+  </div>
 
 
 </body>

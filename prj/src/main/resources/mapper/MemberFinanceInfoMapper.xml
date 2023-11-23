@@ -23,6 +23,9 @@
 	</select>
 	
 	<insert id="insertMemberFinance" parameterType="MemberFinanceInfoVO">
+		<selectKey resultType="int" keyProperty="memberFinanceId" order="BEFORE">
+	        SELECT MAX(MEMBER_FINANCE_ID)+1 FROM MEMBER_FINANCE_INFO
+	    </selectKey>
 		INSERT INTO MEMBER_FINANCE_INFO(
 			CARD_NO, ACCOUNT, BANKNAME, MEMBER_ID, CARD_COMPANY, MEMBER_FINANCE_ID, SETTING_DATE, USER_YN)
 		VALUES(#{cardNo}, #{account}, #{memberId}, #{cardCompany},#{memberFinanceId}, sysdate, 'Y' )
