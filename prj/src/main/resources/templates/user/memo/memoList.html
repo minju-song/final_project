@@ -18,10 +18,10 @@
 <body>
 	<div layout:fragment="content">
 		<p>메모리스트</p>
-		<div class="button">
+		<div class="button" >
 			<p>삭제</p>
 		</div>
-		<div class="row memo-container" th:each="memo : ${memoList}">
+		<div class="row memo-container" th:each="memo, stat : ${memoList}">
 			<div class="memo draggable" draggable="true">
 				<label class="menubars cl-checkbox">
 				  <input type="checkbox">
@@ -33,20 +33,20 @@
 				
 				<img class="menubars bi-palette" th:src="@{/user/images/palette.svg}">
 				<div class="shop__sidebar__color">
-					<label class="ca1" for="#F4CCCC"> 
-						<input type="radio" id="#F4CCCC">
+					<label class="ca1"> 
+						<input type="radio" name="#F4CCCC">
 					</label>
-					<label class="ca2" for="#FFF2CC"> 
-						<input type="radio" id="#FFF2CC">
+					<label class="ca2"> 
+						<input type="radio" name="#FFF2CC">
 					</label>
-					<label class="ca3" for="#D9EAD3"> 
-						<input type="radio" id="#D9EAD3">
+					<label class="ca3"> 
+						<input type="radio" name="#D9EAD3">
 					</label>
-					<label class="ca4" for="#D0E0E3"> 
-						<input type="radio" id="#D0E0E3">
+					<label class="ca4"> 
+						<input type="radio" name="#D0E0E3">
 					</label>
-					<label class="ca5" for="#D9D2E9"> 
-						<input type="radio" id="#D9D2E9">
+					<label class="ca5"> 
+						<input type="radio" name="#D9D2E9">
 					</label>
 				</div>
 				

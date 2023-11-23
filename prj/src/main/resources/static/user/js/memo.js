@@ -59,7 +59,7 @@
 	});
 	
 	//핀 클릭시 색상 변경
-	const pins = document.querySelectorAll('.bi-pin');
+	let pins = document.querySelectorAll('.bi-pin');
 	
 	for(let i=0; i<pins.length; i++){
 		pins[i].addEventListener('click', function(e){
@@ -72,7 +72,7 @@
 	}
 
 	//팔레트 클릭시 색상표 출력
-	const pal = document.querySelectorAll('.bi-palette');
+	let pal = document.querySelectorAll('.bi-palette');
 	//console.log(pal[0].nextElementSibling);
 	for(let i=0; i<pal.length; i++){
 		pal[i].addEventListener('click', function(e){
@@ -86,14 +86,14 @@
 	
 	// 첨부파일
 	// .addEventListener('click', () => realUpload.click());
-	const fileBtn = document.querySelectorAll('.file_btn');
-	const realFile = document.querySelectorAll('.real_file');
+	let fileBtn = document.querySelectorAll('.file_btn');
+	let realFile = document.querySelectorAll('.real_file');
 	for(let i=0; i<fileBtn.length; i++){
 		fileBtn[i].addEventListener('click', () => realFile[i].click());
 	}
 	
 	//hashtag 표시
-    var input = document.querySelectorAll('input[name=tags]')
+    let input = document.querySelectorAll('input[name=tags]')
     for(let i=0; i<input.length; i++){
 	    new Tagify(input[i], {
       maxTags: 4
@@ -101,11 +101,23 @@
     }
     
     //색상 클릭 시 메모 바탕색 변경
-    const colors = document.querySelectorAll('input[type=radio]');
+    let colors = document.querySelectorAll('input[type=radio]');
     for(let i=0; i<colors.length; i++){
 	    colors[i].addEventListener('click', function(e){
-	    	const memoColor = colors[i].parentElement.parentElement.parentElement;
-	    	console.log(colors[i].id);
-	    	memoColor.style.background = colors[i].id;
+	    	let memoColor = e.currentTarget.parentElement.parentElement.parentElement;
+	    	memoColor.style.background = e.currentTarget.name;
 	    })
     }
+    
+    //삭제버튼 클릭 시 해당 메모 삭제
+    let deleteBtn = document.querySelector('.button');
+    deleteBtn.addEventListener('click', function(e){
+   		let deleteMemo = document.querySelectorAll('input[type=checkbox]');
+    	for(let i=0; i<deleteMemo.length; i++){
+    		console.log(deleteMemo[i].checked);
+	    	if(deleteMemo[i].checked == true) {
+	    	console.log("eee");
+	    		
+	    	}
+    	}
+    })
