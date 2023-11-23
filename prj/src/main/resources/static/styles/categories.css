@@ -350,7 +350,8 @@ section
 
 .main_nav
 {
-	padding-left: 252px;
+	padding-left: 100px;
+	padding-right: 100px;
 	-webkit-transform: translateY(4px);
 	-moz-transform: translateY(4px);
 	-ms-transform: translateY(4px);
@@ -360,7 +361,7 @@ section
 .main_nav ul li
 {
 	display: inline-block;
-	margin-right: 50px;
+	/* margin-right: 80px; */
 }
 .main_nav ul li:last-child
 {
@@ -368,21 +369,19 @@ section
 }
 .main_nav ul li a
 {
-	font-size: 12px;
+	font-size: 15px;
 	text-transform: uppercase;
 	color: #2f2f2f;
 	font-weight: 600;
-	letter-spacing: 0.2em;
+	letter-spacing: normal;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.main_nav ul li a:hover
-{
-	color: #937c6f;
-}
+
+
 
 /*********************************
 3.3 Header - Search
@@ -711,7 +710,7 @@ section
 .products
 {
 	/* 231120 전유진 수정 */
-	padding-top: 50px;
+	padding-top: 100px;
 	padding-bottom: 50px;
 	/* padding-top: 94px;
 	padding-bottom: 98px; */
@@ -1075,7 +1074,7 @@ section
 	font-family: 'Lucida', serif;
 	font-size: 16px;
 	color: #232323;
-	padding-left: 22px;
+	padding-left: 16px;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
@@ -1117,7 +1116,8 @@ section
 .sidebar_section_content ul li a
 {
 	font-size: 14px;
-	color: #232323;
+	/* color: #232323; */
+	color: #474747;
 	line-height: 47px;
 }
 .sidebar_color_content

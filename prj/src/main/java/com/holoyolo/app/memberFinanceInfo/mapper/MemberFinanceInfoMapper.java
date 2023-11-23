@@ -1,5 +1,9 @@
 package com.holoyolo.app.memberFinanceInfo.mapper;
 
-public interface MemberFinanceInfoMapper {
+import com.holoyolo.app.memberFinanceInfo.service.MemberFinanceInfoVO;
 
+public interface MemberFinanceInfoMapper {
+	
+	//회원카드정보조회
+	public MemberFinanceInfoVO getCardInfo(MemberFinanceInfoVO vo);
 }

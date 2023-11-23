@@ -23,17 +23,26 @@
 						, phone
 						, join_date
 						, role
+						, sns_yn
 					)
 			VALUES  (
 						#{memberId}
 						, #{memberName}
 						, #{password}
-						, #{nickName}
+						, #{nickname}
 						, #{addr}
 						, #{phone}
 						, sysdate
 						, #{role}
+						, #{snsYn}
 					)
 	</insert>
 	
+	
+	<!-- 멤버 가입날짜 -->
+	<select id="selectJoinDate" resultType="MemberVO">
+		SELECT join_date 
+		FROM member 
+		WHERE member_id = #{memberId}
+	</select>
  </mapper>

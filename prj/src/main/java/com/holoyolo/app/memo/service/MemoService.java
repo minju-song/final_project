@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface MemoService {
 	//전체조회
-	public List<MemoVO> getMemoList();
+	public List<MemoVO> getMemoList(MemoVO memoVO);
 	
 	//단건조회
 	public MemoVO getMemo(MemoVO memoVO);

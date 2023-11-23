@@ -1,4 +1,4 @@
-@charset "utf-8";
+@charset "UTF-8";
 /* CSS Document */
 
 /******************************
@@ -252,7 +252,7 @@ section
 {
 	font-size: 14px;
 	font-weight: 600;
-	color: #937c6f;
+	color: #0015bf;
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
 }
@@ -268,7 +268,7 @@ section
 {
 	width: 142px;
 	height: 46px;
-	background: #937c6f;
+	background: #0015bf;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -357,7 +357,10 @@ section
 .main_nav ul li
 {
 	display: inline-block;
-	margin-right: 50px;
+	width: 120px;
+	box-sizing: border-box;
+	text-align: center;
+	/* margin-right: 50px; */
 }
 .main_nav ul li:last-child
 {
@@ -375,10 +378,12 @@ section
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	padding: 10px;
 }
 .main_nav ul li a:hover
 {
-	color: #937c6f;
+	/* color: #0015bf; */
+	color: #0015bf;
 }
 
 /*********************************
@@ -461,7 +466,7 @@ section
 	left: -5px;
 	width: 15px;
 	height: 15px;
-	background: #937c6f;
+	background: #0015bf;
 	border-radius: 50%;
 }
 .cart_num_inner,
@@ -528,7 +533,7 @@ section
 }
 .burger_container:hover div
 {
-	background: #937c6f;
+	background: #0015bf;
 }
 
 /*********************************
@@ -576,7 +581,7 @@ section
 }
 .home_slider_content_inner
 {
-	background: #937c6f;
+	background: #0015bf;
 }
 .home_slider_title
 {
@@ -616,7 +621,7 @@ section
 	right: 60px;
 	width: 45px;
 	height: 45px;
-	background: #937c6f;
+	background: #0015bf;
 	z-index: 10;
 	border-radius: 50%;
 	cursor: pointer;
@@ -751,7 +756,7 @@ section
 }
 .menu_close:hover div
 {
-	background: #937c6f;
+	background: #0015bf;
 }
 .menu .logo
 {
@@ -776,7 +781,7 @@ section
 }
 .menu_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #0015bf;
 }
 .menu .search
 {
@@ -839,7 +844,7 @@ section
 }
 .promo_link:hover a
 {
-	color: #937c6f;
+	color: #0015bf;
 }
 .promo_content
 {
@@ -969,7 +974,7 @@ section
 }
 .product_name a:hover
 {
-	color: #937c6f;
+	color: #0015bf;
 }
 .product_price
 {
@@ -992,7 +997,7 @@ section
 .product_buy
 {
 	display: inline-block;
-	background: #937c6f;
+	background: #0015bf;
 	vertical-align: middle;
 	margin-right: 4px;
 	-webkit-transition: all 200ms ease;
@@ -1080,7 +1085,7 @@ section
 	max-width: 425px;
 	height: 100%;
 	background: rgba(35, 35, 35, 0.95);
-	border: solid 2px #937c6f;
+	border: solid 2px #0015bf;
 	padding-left: 40px;
 	padding-right: 40px;
 }
@@ -1099,7 +1104,7 @@ section
 {
 	font-family: 'Lucida', serif;
 	font-size: 30px;
-	color: #937c6f;
+	color: #0015bf;
 	margin-top: 39px;
 }
 .extra_1_text
@@ -1115,7 +1120,7 @@ section
 }
 .extra_promo_2
 {
-	border: solid 2px #937c6f;
+	border: solid 2px #0015bf;
 	padding-top: 43px;
 	padding-bottom: 46px;
 }
@@ -1136,7 +1141,7 @@ section
 {
 	font-family: 'Lucida', serif;
 	font-size: 200px;
-	color: #937c6f;
+	color: #0015bf;
 	line-height: 0.75;
 	-webkit-transform: rotate(-12deg);
 	-moz-transform: rotate(-12deg);
@@ -1232,7 +1237,7 @@ section
 }
 .gallery_title ul li a:hover
 {
-	color: #937c6f;
+	color: #0015bf;
 }
 .gallery_text
 {
@@ -1299,7 +1304,7 @@ section
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
 	font-weight: 600;
-	color: #937c6f;
+	color: #0015bf;
 	margin-top: 4px;
 }
 
@@ -1390,7 +1395,7 @@ section
 	right: 0;
 	width: 142px;
 	height: 46px;
-	background: #937c6f;
+	background: #0015bf;
 	color: #FFFFFF;
 	font-size: 12px;
 	letter-spacing: 0.2em;
@@ -1459,7 +1464,7 @@ section
 }
 .footer_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #0015bf;
 }
 .footer_social
 {
@@ -1477,7 +1482,7 @@ section
 .footer_social ul li a i
 {
 	font-size: 24px;
-	color: #937c6f;
+	color: #0015bf;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;

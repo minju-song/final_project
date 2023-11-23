@@ -18,8 +18,8 @@ public class MemoServiceImpl implements MemoService {
 	MemoMapper memoMapper;
 	
 	@Override
-	public List<MemoVO> getMemoList() {
-		return memoMapper.selectMemoList();
+	public List<MemoVO> getMemoList(MemoVO memoVO) {
+		return memoMapper.selectMemoList(memoVO);
 	}
 
 	@Override
