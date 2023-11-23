@@ -8,6 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content">
+	<div sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberName"></div>
 	<h1>테스트</h1>
 	<img alt="" th:src="@{images/home_slider_1.jpg}" style="width:100%;">
 </div>

@@ -20,9 +20,10 @@ public class PrincipalDetailsServiceImpl implements UserDetailsService{
 	// 시큐리티 session <= Authentication <= UserDetails
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		MemberVO user = memberService.selectUser(username);
-		if(user != null) {
-			return new PrincipalDetails(user);
+		MemberVO member = memberService.selectUser(username);
+		
+		if(member != null) {
+			return new PrincipalDetails(member);
 		}
 		return null;
 	}

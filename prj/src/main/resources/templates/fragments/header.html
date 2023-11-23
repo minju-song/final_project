@@ -40,12 +40,14 @@
 								</div>
 							</div>
 						</li>
-						<li>
-							<a href="#" class="menu_mypage">
-								<img alt="마이페이지" th:src="@{/user/img/person-circle.svg}">
-							</a>
-							<span>홍길동님</span>
-						</li>
+						<th:block sec:authorize="isAuthenticated()">
+							<li>
+								<a href="#" class="menu_mypage">
+									<img alt="마이페이지" th:src="@{/user/img/person-circle.svg}">
+								</a>
+								<span>홍길동님</span>
+							</li>
+						</th:block>
 					</ul>
 				</nav>
 	
@@ -56,8 +58,16 @@
 				</div>
 			</div>
 			<div class="login_area">
-				<span><a href="/loginForm">로그인 </a></span>
-				<span><a href="/logout">로그아웃</a></span>
+				<th:block sec:authorize="isAnonymous()">
+					<span><a href="/loginForm">로그인 </a></span>
+					<span><a href="/joinForm">회원가입</a></span>
+				</th:block>
+				<th:block sec:authorize="isAuthenticated()">
+					<span><a href="/logout">로그아웃</a></span>
+					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+						<span><a href="/adminhome">관리자홈</a></span>
+					</th:block>
+				</th:block>
 			</div>
 		</header>
 		
