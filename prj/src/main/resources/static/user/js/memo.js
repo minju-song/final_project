@@ -151,3 +151,4 @@
          console.log(tagify.value); // 입력된 태그 정보 객체
        })
     }
+    

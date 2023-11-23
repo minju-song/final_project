@@ -23,7 +23,7 @@
 	opacity: 0.5;
 }
 
-.text {
+.memotext {
 	padding: 5px;
 	margin: 10px;
 	font-size: 17px;
@@ -33,6 +33,7 @@
   	display: -webkit-box;
   	-webkit-line-clamp: 4;
  	-webkit-box-orient: vertical;
+ 	height: 110px;
 }
 .menubars{
 	position: absolute !important;
@@ -145,6 +146,7 @@
 	/* left: 88%; */
 	position: realative;
 	top: 2px;
+	border-radius: 4px;
 }
 
 .button p
