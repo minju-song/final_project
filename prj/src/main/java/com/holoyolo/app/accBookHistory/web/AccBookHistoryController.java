@@ -47,7 +47,7 @@ public class AccBookHistoryController {
 		model.addAttribute("cardCompany", map.get("카드회사"));
 		model.addAttribute("joinDate", joinDate);
 		
-		return "member/accBook/accBook";
+		return "user/accBook/accBook";
 	}
 	
 	@GetMapping("/api")
