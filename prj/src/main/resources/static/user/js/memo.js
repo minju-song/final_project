@@ -77,9 +77,22 @@
 	for(let i=0; i<pal.length; i++){
 		pal[i].addEventListener('click', function(e){
 			if(pal[i].nextElementSibling.style.display == 'block'){
-				pal[i].nextElementSibling.style.display = 'none';			
+				pal[i].nextElementSibling.style.display = 'none';
+				let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+				console.log(selMenubars);
+				for(let e=0; e<selMenubars.length; e++){
+					console.log(selMenubars[e]);
+					//selMenubars[e].style.display = 'none';
+					selMenubars[e].classList.toggle('menubars_active');
+				}
 			}else{
-				pal[i].nextElementSibling.style.display = 'block';	
+				pal[i].nextElementSibling.style.display = 'block';
+				console.log(e.currentTarget.parentElement);
+				let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+				for(let e=0; e<selMenubars.length; e++){
+					//selMenubars[e].style.display = 'block';
+					selMenubars[e].classList.toggle('menubars_active');
+				}
 			}
 		});
 	}
@@ -96,7 +109,7 @@
     let input = document.querySelectorAll('input[name=tags]')
     for(let i=0; i<input.length; i++){
 	    new Tagify(input[i], {
-      maxTags: 4
+      	maxTags: 4
     	}) 
     }
     
@@ -109,15 +122,32 @@
 	    })
     }
     
+     //전체 삭제 버튼 클릭
+    let deleteAllBtn = document.querySelector('.deleteAll');
+    deleteAllBtn.addEventListener('click', function(e){
+    	let checks = document.querySelectorAll('input[type=checkbox]');
+    	for(let i=0; i<checks.length; i++){
+    		checks[i].checked = true;
+    	}
+    })
+    
     //삭제버튼 클릭 시 해당 메모 삭제
-    let deleteBtn = document.querySelector('.button');
+   let deleteBtn = document.querySelector('.button');
     deleteBtn.addEventListener('click', function(e){
    		let deleteMemo = document.querySelectorAll('input[type=checkbox]');
-    	for(let i=0; i<deleteMemo.length; i++){
-    		console.log(deleteMemo[i].checked);
+    	for(let i=1; i<deleteMemo.length; i++){
 	    	if(deleteMemo[i].checked == true) {
-	    	console.log("eee");
-	    		
+	    		deleteMemo[i].parentElement.parentElement.remove();
 	    	}
     	}
     })
+    
+   //hashtag
+   let inputhash = document.querySelectorAll('input[name=plustag]')
+   for(let i=0; i<inputhash.length; i++){
+       let tagify = new Tagify(inputhash[i]); // initialize Tagify
+       // 태그가 추가되면 이벤트 발생
+       tagify.on('add', function() {
+         console.log(tagify.value); // 입력된 태그 정보 객체
+       })
+    }
