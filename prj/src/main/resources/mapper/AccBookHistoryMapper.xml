@@ -8,6 +8,7 @@
 	  	SELECT * FROM ACC_BOOK_HISTORY WHERE AB_HISTORY_ID = #{abHistoryId}
 	  </select>
   
+  		<!-- api통해서 거래내역 자동 등록 -->
 	  <insert id="insertAccApi" parameterType="AccBookHistoryVO">
 	  	<selectKey keyProperty="abHistoryId"
 					   resultType="int"
@@ -32,19 +33,30 @@
 		  
 	  </insert>
   
+  	<!-- 가장 최근 거래내역 날짜 -->
 	  <select id="getLatestPayDate" resultType="String">
 			SELECT NVL(
-			    (SELECT MAX(pay_date) FROM acc_book_history WHERE member_id = 'testminju@mail.com'),
-			    (SELECT join_date - INTERVAL '1' DAY FROM member WHERE member_id = 'testminju@mail.com')
+			    (SELECT MAX(pay_date) FROM acc_book_history WHERE member_id = #{memberId}),
+			    (SELECT join_date - INTERVAL '1' DAY FROM member WHERE member_id = #{memberId})
 			) AS latest_pay_date
 			FROM dual
 	  </select>
 	  
+	  <!-- 해당 날짜 거래내역 불러오기 -->
 	  <select id="getAccHistory" resultType="AccBookHistoryVO">
 	  	SELECT * 
 	  	FROM acc_book_history 
 	  	WHERE TRUNC(pay_date) = #{payDate} 
 	  	AND member_id = #{memberId}
+	  </select>
+	  
+	  <!-- 해당 날짜 총 소비금액 -->
+	  <select id="getSumPrice" resultType="int" parameterType="AccBookHistoryVO">
+	  	SELECT NVL(SUM(price),0) 
+	  	FROM acc_book_history 
+	  	WHERE member_id = #{memberId} 
+	  	AND pay_date = #{payDate} 
+	  	AND input_output='GA2'
 	  </select>
 	  
   </mapper>

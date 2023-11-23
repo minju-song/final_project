@@ -17,4 +17,7 @@ public interface AccBookHistoryMapper {
 	//선택한 날짜와 해당 회원의 소비내역 불러옴
 	public List<AccBookHistoryVO> getAccHistory(AccBookHistoryVO vo);
 	
+	//해당 날짜 총 소비금액
+	public int getSumPrice(AccBookHistoryVO vo);
+	
 }

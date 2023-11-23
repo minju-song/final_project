@@ -8,11 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.holoyolo.app.accBookHistory.mapper.AccBookHistoryMapper;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryService;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryVO;
+import com.holoyolo.app.auth.PrincipalDetails;
 
 @Service
 public class AccBookHistoryServiceImpl implements AccBookHistoryService {
@@ -46,8 +48,7 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 	public List<AccBookHistoryVO> getAccHistory(AccBookHistoryVO vo) {
 
 		
-		//회원아이디 설정
-		vo.setMemberId("testminju@mail.com");
+
 		
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd");             
 //        LocalDateTime date = LocalDateTime.parse(vo.getPayDate(), formatter);
@@ -59,6 +60,14 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		
 
 		return list;
+	}
+
+	@Override
+	public int getSumPrice(AccBookHistoryVO vo) {
+		
+		//회원아이디 설정
+		int price = accBookHistoryMapper.getSumPrice(vo);
+		return price;
 	}
 
 	

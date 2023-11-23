@@ -10,7 +10,7 @@
 		SELECT card_no, card_company 
 		FROM member_finance_info 
 		WHERE member_id = #{memberId} 
-		AND use_yn = 'y'
+		AND use_yn = 'Y'
 	</select>
 	
 	
@@ -30,4 +30,26 @@
 			CARD_NO, ACCOUNT, BANKNAME, MEMBER_ID, CARD_COMPANY, MEMBER_FINANCE_ID, SETTING_DATE, USER_YN)
 		VALUES(#{cardNo}, #{account}, #{memberId}, #{cardCompany},#{memberFinanceId}, sysdate, 'Y' )
 	</insert>
+	
+	<select id="checkCardSelect" resultType="MemberFinanceInfoVO">
+		SELECT card_no 
+		FROM member_finance_info 
+		WHERE member_id=#{memberId}
+	</select>
+	
+	<insert id="insertCard" parameterType="MemberFinanceInfoVO">
+		<selectKey resultType="int" keyProperty="memberFinanceId" order="BEFORE">
+	        SELECT NVL(MAX(MEMBER_FINANCE_ID),0) + 1 FROM MEMBER_FINANCE_INFO
+	    </selectKey>
+	    	INSERT INTO MEMBER_FINANCE_INFO(
+				CARD_NO, MEMBER_ID, CARD_COMPANY, MEMBER_FINANCE_ID, SETTING_DATE, USE_YN)
+			VALUES(#{cardNo}, #{memberId}, #{cardCompany},#{memberFinanceId}, sysdate, 'Y' )
+	</insert>
+	
+	<update id="updateCard" parameterType="MemberFinanceInfoVO">
+		UPDATE member_finance_info 
+		SET card_company = #{cardCompany}, card_no = #{cardNo} 
+		WHERE member_id = #{memberId} 
+		AND use_yn = 'Y'
+	</update>
 </mapper>

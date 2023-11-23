@@ -39,7 +39,7 @@ public class ApiCall {
         this.restTemplate = restTemplate;
     }
 
-    public void getPosts() {
+    public void getPosts(String id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -70,7 +70,7 @@ public class ApiCall {
 			}
 			else {				
 				for(int z = 1; z < dayDuration; z++) {
-					pushData(recArray , z);
+					pushData(recArray , z, id);
 				}
 				
 			}
@@ -99,7 +99,7 @@ public class ApiCall {
     	return days;
     }
     
-    public void pushData(JSONArray recArray, int z) {
+    public void pushData(JSONArray recArray, int z, String id) {
     	int j = 0;
 		for (int i = recArray.size() - 1; i >= 0; i--) {
 		    Object recObject = recArray.get(i);
@@ -120,7 +120,7 @@ public class ApiCall {
                 acc.setPrice(Integer.parseInt((String) recItem.get("Usam")));
                 acc.setPayStore((String) recItem.get("AfstNm"));
                 //회원아이디 세션에서 가져오기
-                acc.setMemberId("testminju@mail.com");
+                acc.setMemberId(id);
                 
                 LocalDate currentDate = LocalDate.now();
                 LocalDate adjustedDate = currentDate.minusDays(z);
