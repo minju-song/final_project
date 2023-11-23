@@ -16,17 +16,25 @@ public class MemberFinanceInfoServiceImpl implements MemberFinanceInfoService {
 	@Autowired
 	MemberFinanceInfoMapper memberFinanceInfoMapper;
 
+	@SuppressWarnings("null")
 	@Override
-	public Map<String, String> getCardInfo() {
+	public Map<String, String> getCardInfo(String id) {
 		MemberFinanceInfoVO vo = new MemberFinanceInfoVO();
 		
 		//현재 로그인한 아이디
-		vo.setMemberId("testminju@mail.com");
+		vo.setMemberId(id);
 		MemberFinanceInfoVO infoVO = memberFinanceInfoMapper.getCardInfo(vo);
 		
 		Map<String,String> map = new HashMap<String, String>();
-		map.put("카드회사", infoVO.getCardCompany());
-		map.put("카드번호", infoVO.getCardNo());
+		if(infoVO != null && !infoVO.getCardNo().equals("")) {	
+			map.put("카드회사", infoVO.getCardCompany());
+			map.put("카드번호", infoVO.getCardNo());
+		}
+		else {
+			map.put("카드회사", "null");
+			map.put("카드번호", "null");
+		}
+		
 		return map;
 	}
 
@@ -36,9 +44,36 @@ public class MemberFinanceInfoServiceImpl implements MemberFinanceInfoService {
 		return memberFinanceInfoMapper.selectMemberFinanceInfo(vo);
 	}
 
-	@Override
+	@Override   
 	public int insertMemberFinance(MemberFinanceInfoVO vo) {
 		
 		return memberFinanceInfoMapper.insertMemberFinance(vo);
 	}
+
+	@Override
+	public Boolean checkCardSelect() {
+		MemberFinanceInfoVO vo = new MemberFinanceInfoVO();
+		//멤버아이디가져오기
+		vo.setMemberId("testminju@mail.com");
+		vo = memberFinanceInfoMapper.checkCardSelect(vo);
+		if(vo != null && !vo.getCardNo().equals("")) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+
+	@Override
+	public int insertCard(MemberFinanceInfoVO vo) {
+		return memberFinanceInfoMapper.insertCard(vo);
+	}
+
+	@Override
+	public int updateCard(MemberFinanceInfoVO vo) {
+		return memberFinanceInfoMapper.updateCard(vo);
+	}
+	
+	
 }

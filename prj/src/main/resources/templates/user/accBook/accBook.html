@@ -14,7 +14,11 @@
             padding: 20px;
             margin: 0 auto;
             border-radius: 5px;
-            box-shadow: 0px 40px 30px -20px rgba(0, 0, 0, 0.3);
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            border-radius: 20px;
         }
 
         .Calendar>td {
@@ -77,11 +81,6 @@
             cursor: pointer;
         }
 
-        #divbox {
-            width: 100%;
-            padding-top: 50px;
-            padding-bottom: 50px;
-        }
 
         #hisTable {
             width: 100%;
@@ -92,39 +91,18 @@
             padding: 5px;
         }
 
-        .modal {
-            position: absolute;
-            display: none;
-
-            justify-content: center;
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 100%;
-
-
-
-            background-color: rgba(0, 0, 0, 0.4);
+        .info {
+            border-radius: 20px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            margin-bottom: 30px;
+            padding: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 10px;
         }
 
-        .modal_body {
-            position: absolute;
-            top: 50%;
-
-
-            width: 400px;
-            height: 600px;
-
-            padding: 40px;
-
-            text-align: center;
-
-            background-color: rgb(255, 255, 255);
-            border-radius: 10px;
-            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-            transform: translateY(-50%);
+        .info p {
+            margin: 5px;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -220,10 +198,15 @@
                     drawHistory(result, dateFormat(new Date(newDIV.id)));
                 })
                 .catch(err => console.log(err));
-
-
-
+            //sumPrice
+            fetch('/getSumPrice?payDate=' + dateFormat(new Date(newDIV.id)))
+                .then(resolve => resolve.json())
+                .then(result => {
+                    let price = result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    document.getElementById('sumPrice').innerText = '총 소비금액 : ' + price + '원';
+                })
         }
+
 
         function drawHistory(hisArr, thisDate) {
             let newThis = new Date(thisDate);
@@ -262,7 +245,8 @@
                         tr.appendChild(td);
                     }
                     else if (key == 'price') {
-                        td.innerText = history[key] + '원';
+                        let price = history[key].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                        td.innerText = price + '원';
                         tr.appendChild(td);
                     }
                     else if (key == 'bankname' || key == 'payStore') {
@@ -432,8 +416,46 @@
 
 <body>
     <div layout:fragment="content">
-        <h1>카드 회사 : [[${cardCompany}]]</h1>
-        <h1>카드 번호 : [[${cardNo}]]</h1>
+        <div style="display: flex;">
+            <div class="info" style="flex: 1;" th:if="${cardNo.equals('null')}">
+                <p>카드를 등록해주세요
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+                        data-whatever="등록">
+                        등록
+                    </button>
+                </div>
+                </p>
+            </div>
+            <div class="info" style="flex: 1;" th:unless="${cardNo.equals('null')}">
+                <p>카드 회사 : [[${cardCompany}]]</p>
+                <p>카드 번호 : [[${cardNo}]]
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateCard"
+                        data-whatever="수정">
+                        수정
+                    </button>
+                </p>
+            </div>
+            <div class="info" style="flex: 1;" th:if="${accBudgetPrice.equals('null')}">
+                <p>예산을 등록해주세요
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+                        data-whatever="등록">
+                        등록
+                    </button>
+                </div>
+                </p>
+            </div>
+            <div class="info" style="flex: 1;" th:unless="${accBudgetPrice.equals('null')}">
+                <p>예산 단위 : [[${accBudgetUnit}]]</p>
+                <p>예산 금액 : <span th:text="|${#numbers.formatInteger(accBudgetPrice, 0, 'COMMA')}원|"></span>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateCard"
+                        data-whatever="수정">
+                        수정
+                    </button>
+                </p>
+            </div>
+        </div>
         <div id="divbox" style="display: flex;">
             <div id="cal" style="flex: 1;">
                 <table class="Calendar">
@@ -464,9 +486,6 @@
             <div id="history" style="flex: 1;">
                 <h2 style="text-align: center;">소비내역</h2>
                 <table id="hisTable">
-
-                </table>
-                <table id="inputTable">
                     <tr>
                         <td>
                             <select>
@@ -492,21 +511,178 @@
                         </td>
                     </tr>
                 </table>
+                <div>
+                    <h3 id="sumPrice"></h3>
+                </div>
+                <!-- <table id="inputTable">
+                    <tr>
+                        <td>
+                            <select>
+                                <option>수입</option>
+                                <option>지출</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select>
+                                <option>현금</option>
+                                <option>이체</option>
+                                <option>카드</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input placeholder="은행">
+                        </td>
+                        <td>
+                            <input placeholder="금액">
+                        </td>
+                        <td>
+                            <input placeholder="사용처">
+                        </td>
+                    </tr>
+                </table> -->
             </div>
         </div>
-        <div class="modal" style="display: none;">
-            <div class="modal_body">
-                <h2>모달창 제목</h2>
-                <p>모달창 내용 </p>
+        <div class="modal fade" id="amountSetting" tabindex="-1" aria-labelledby="amountSettingLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="amountSettingLabel">카드 등록</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form th:action="@{cardInsert}" method="POST" th:object="${MemberFinanceInfoVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">카드사</label>
+                                <select id="amountName" th:field="*{cardCompany}">
+                                    <div class="dropdown-menu">
+                                        <option value="농협">
+                                            <div class="dropdown-item">농협</div>
+                                        </option>
+                                        <option value="현대">
+                                            <div class="dropdown-item">현대</div>
+                                        </option>
+                                        <option value="신한">
+                                            <div class="dropdown-item">신한</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="amountNum" class="col-form-label">계좌번호</label>
+                                    <input type="text" class="form-control" id="amountNum" style="resize: none;"
+                                        th:field="*{cardNo}" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addAmountBtn">등록</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="accInsertOpenModal" value="0" style="display: none;"></div>
 
-        <script>
+        <div class="modal fade" id="updateCard" tabindex="-1" aria-labelledby="updateCardLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateCardLabel">카드 변경</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form th:action="@{cardUpdate}" method="POST" th:object="${MemberFinanceInfoVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">카드사</label>
+                                <br>
+                                <select id="cardCompany" th:field="*{cardCompany}">
+                                    <div class="dropdown-menu">
+                                        <option value="농협">
+                                            <div class="dropdown-item">농협</div>
+                                        </option>
+                                        <option value="현대">
+                                            <div class="dropdown-item">현대</div>
+                                        </option>
+                                        <option value="신한">
+                                            <div class="dropdown-item">신한</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="cardNum" class="col-form-label">카드번호</label>
+                                    <input type="text" class="form-control" id="cardNum" style="resize: none;"
+                                        th:value="${cardNo}" th:field="*{cardNo}" placeholder="'-' 제외" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addCardBtn">변경</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-        </script>
+            <script>
 
-    </div>
+            </script>
+
+        </div>
+
+        <div class="modal fade" id="insertBudget" tabindex="-1" aria-labelledby="insertBudgetLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="insertBudgetLabel">예산 등록</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form th:action="@{budgetInsert}" method="POST" th:object="${AccBudgetVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">예산 단위</label>
+                                <br>
+                                <select id="accBudgetUnit" th:field="*{accBudgetUnit}">
+                                    <div class="dropdown-menu">
+                                        <option value="YA1">
+                                            <div class="dropdown-item">일</div>
+                                        </option>
+                                        <option value="YA2">
+                                            <div class="dropdown-item">주</div>
+                                        </option>
+                                        <option value="YA3">
+                                            <div class="dropdown-item">월</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="accBudgetPrice" class="col-form-label">예산금액</label>
+                                    <input type="text" class="form-control" id="accBudgetPrice" style="resize: none;"
+                                        th:field="*{accBudgetPrice}" placeholder="(원)" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addBudgetBtn">변경</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+
+            </script>
+
+        </div>
 
 </body>
 

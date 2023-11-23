@@ -11,5 +11,5 @@ public interface MemberService {
 	public int joinUser(MemberVO memberVO);
 
 	//회원가입날짜 조회
-	public Date selectJoinDate();
+	public Date selectJoinDate(String id);
 }
