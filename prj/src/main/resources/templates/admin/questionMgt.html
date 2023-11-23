@@ -35,9 +35,9 @@
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
-								<th>작성자</th>
+								<th>작성자아이디</th>
 								<th>문의유형</th>
-								<th>작성날짜</th>
+								<th>작성일자</th>
 								<th>답변유무</th>
 							</tr>
 						</thead>
@@ -47,9 +47,9 @@
 									<td th:text="${list.questionId}"><i
 										class="fab fa-angular fa-lg text-danger me-3"></i> <strong>1</strong></td>
 									<td th:text="${list.title}"></td>
-									<td>공성훈</td>
+									<td th:text="${list.memberId}"></td>
 									<td><span class="badge bg-label-primary me-1" th:text="${list.questionType}">가계부</span></td>
-									<td th:text="${list.writeDate}"></td>
+									<td th:text="${#dates.format(list.writeDate, 'yyyy-MM-dd')}"></td>
 									<td><span class="badge bg-label-primary me-1" th:text="${list.questionYn}"></span></td>
 									<td>
 										<div class="dropdown">
@@ -60,9 +60,9 @@
 											</button>
 											<div class="dropdown-menu">
 												<a class="dropdown-item" href="javascript:void(0);"><i
-													class="bx bx-edit-alt me-1"></i> Edit</a> <a
+													class="bx bx-edit-alt me-1"></i> 수정</a> <a
 													class="dropdown-item" href="javascript:void(0);"><i
-													class="bx bx-trash me-1"></i> Delete</a>
+													class="bx bx-trash me-1"></i> 삭제</a>
 											</div>
 										</div>
 									</td>
@@ -75,6 +75,5 @@
 			<!--/ Hoverable Table rows -->
 		</div>
 	</div>
-
 </body>
 </html>

@@ -18,4 +18,5 @@ public class QuestionVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
 	private String questionYn;
+	private String memberId;
 }

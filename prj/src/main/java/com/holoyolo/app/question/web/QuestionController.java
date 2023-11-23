@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.question.service.QuestionService;
 import com.holoyolo.app.question.service.QuestionVO;
 
@@ -16,15 +15,11 @@ public class QuestionController {
 	
 	@Autowired
 	QuestionService questionService;
-	
-	@Autowired
-	MemberService memberService;
-	
 
 	@GetMapping("/admin/question")
 	public String selectQuestionList(Model model) {
 		List<QuestionVO> list = questionService.selectQuestionAll();
-		// List<MemberVO> list = memberService.
+		System.out.println(list);
 		model.addAttribute("questionList", list);
 		return "admin/questionMgt";
 	}

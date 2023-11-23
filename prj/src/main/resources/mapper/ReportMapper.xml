@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.holoyolo.app.report.mapper.ReportMapper">
+  
+   	<select id="selectReportAll" resultType="ReportVO">
+  	
+		SELECT report_id, reporter_id, report_content, report_date, 
+		    CASE 
+		        WHEN report_type = 'SA1' THEN '욕설'
+		        WHEN report_type = 'SA2' THEN '음란성'
+		        WHEN report_type = 'SA3' THEN '모욕/비방'
+		        WHEN report_type = 'SA4' THEN '사기'
+		        WHEN report_type = 'SA5' THEN '기타'
+		        END AS report_type,
+		    CASE
+		        WHEN report_process_type = 'SB1' THEN '신고처리'
+		        WHEN report_process_type = 'SB2' THEN '반려'
+		        END AS report_process_type
+		FROM report
+		ORDER BY report_id
+  	
+  	</select>
+  
+  </mapper>

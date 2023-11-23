@@ -3,4 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.club.mapper.ClubMapper">
+  
+  	<select id="selectClubAll" resultType="ClubVO">
+  		
+  		<!-- 모임성공횟수, 가입자수 추후 추가 -->
+		SELECT club_id, club_name, club_leader, club_people, club_date,
+		    CASE 
+		        WHEN open_scope = 'OA1' THEN '공개'
+		        WHEN open_scope = 'OA2' THEN '비공개'
+		        END AS open_scope
+		FROM club
+		ORDER BY club_id
+  		
+  	</select>
+  
   </mapper>
