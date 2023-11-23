@@ -37,8 +37,8 @@ public class MemberFinanceInfoServiceImpl implements MemberFinanceInfoService {
 	}
 
 	@Override
-	public int insertMemberFinance(MemberFinanceInfoVO vo) {
+	public int insertOrUpdateFinanceInfo(MemberFinanceInfoVO vo) {
 		
-		return memberFinanceInfoMapper.insertMemberFinance(vo);
+		return memberFinanceInfoMapper.insertOrUpdateFinanceInfo(vo);
 	}
 }

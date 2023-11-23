@@ -24,4 +24,6 @@ public class MemberFinanceInfoController {
 		
 		return "redirect:myHolopay";
 	}
+	
+	
 }

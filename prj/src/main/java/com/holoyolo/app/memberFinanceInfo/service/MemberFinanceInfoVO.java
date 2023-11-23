@@ -11,7 +11,7 @@ public class MemberFinanceInfoVO {
 	
 	private int memberFinanceId;
 	private String memberId;
-	private String bankName;
+	private String bankname;
 	private String account;
 	private String cardCompany;
 	private String cardNo;
