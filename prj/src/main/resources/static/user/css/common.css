@@ -6,6 +6,9 @@
 *{
 	font-family: 'Noto Sans KR', sans-serif !important;
 }
+.menu {
+	background: #eef5fa !important;
+}
 .my_content {
 	padding-left: 0 !important;
 }
@@ -27,9 +30,22 @@
     flex: 0 0 78%;
     max-width: 78%;
 }
+.logo img {
+	width: 130px;
+	display: inline-block;
+	margin-left: 10px;
+}
 .footer {
-	background: #e9eaff;
+	background: #040e1c;
 	padding: 50px 50px 80px 50px;
+}
+.footer_logo a, .footer_nav ul li a {
+	color: #fff;
+}
+.footer_logo img {
+	display: inline-block;
+	width: 200px;
+	margin-bottom: 20px;
 }
 
 .sub_nav_wrap {
