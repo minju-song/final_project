@@ -7,6 +7,8 @@
 	margin: 0px;
 	padding: 0px;
 	font-family: 'Noto Sans KR', sans-serif;
+	text-decoration: none;
+	color: #000000;
 }
 #container {
 	display: flex;
@@ -16,6 +18,7 @@
 .left_area {
 	position: relative;
 	width: 60%;
+	max-width: 1090px;
 	overflow: hidden;
 	background-image: linear-gradient(-225deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%);
 }
@@ -30,6 +33,10 @@
 	width: 40%;
 	padding: 50px;
 	font-size: 15px;
+	
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .ad_title {
 	position: absolute;
@@ -63,7 +70,7 @@
 	margin-top: 10px;
 }
 .login_form {
-	padding: 10px 80px;
+	padding: 10px 80px 100px;
 }
 .login_form p {
 	text-align: center;
