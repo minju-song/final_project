@@ -21,15 +21,15 @@
             <div class="row">
               <div class="col-6">
                 <h4>등록된 계좌 정보</h4>
-                <p>은행 : <span th:text="${financeVO.bankname}"></span></p>
+                <p>은행 : <span th:text="${financeVO.bankname}" id="myAccountName"></span></p>
 
                 <br>
-                <p>계좌번호 : <span th:text="${financeVO.account}"></span></p>
+                <p>계좌번호 : <span th:text="${financeVO.account}" id="myAccountNum"></span></p>
               </div>
               <div class="col-6">
                 <div class="col-6">
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
-                    data-whatever="계좌등록">
+                    data-whatever="계좌변경">
                     거래 계좌 변경
                   </button>
                 </div>
@@ -49,7 +49,7 @@
             </div>
           </th:block>
           <th:block th:if="${amount == 0}">
-            <div class="row">
+            <div class="row" id="myAccountInfo">
               <div class="col-6">
                 <h3>등록된 계좌가 없습니다</h3>
               </div>
@@ -126,7 +126,7 @@
 
               <div class="form-group">
                 <label for="rechargePrice" class="col-form-label">금액</label>
-                <input type="number" class="form-control" id="amountNum" style="resize: none;" />
+                <input type="number" class="form-control" id="rechargePrice" style="resize: none;" />
               </div>
 
               <div class="modal-footer">
@@ -162,6 +162,7 @@
               }).done(function (response) {
                 console.log(response);
                 console.log(response.result);
+                $("#myAccountInfo").html(response)
               }).fail(function (request, status, error) {
                 // Handle the error response from the server
                 console.log("code: " + request.status)
@@ -180,21 +181,18 @@
 
             rechargeBtn.addEventListener('click', callRechargeApi);
             function callRechargeApi() {
-              let myAccountName = `${financeVO.bankname}`
-              let myAccountNum = `${financeVO.account}`
-              console.log(myAccountName);
-              console.log(myAccountNum);
-              let memberFinanceInfo = {
-                "bankname": amountName,
-                "account": amountNum
+              let rechargePrice = document.getElementById('rechargePrice').val;
+              console.log(rechargePrice);
+              let callRechargeApiInfo = {
+                "Tram": rechargePrice
               };
 
-              console.log(memberFinanceInfo);
+              console.log(callRechargeApiInfo);
               $.ajax({
                 type: 'POST',
-                url: '/addFinanceInfo',
+                url: '/apireq',
                 contentType: 'application/json;charset=UTF-8',
-                data: JSON.stringify(memberFinanceInfo)
+                data: JSON.stringify(callRechargeApiInfo)
               }).done(function (response) {
                 console.log(response);
                 console.log(response.result);

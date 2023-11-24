@@ -39,7 +39,7 @@ public class MemberFinanceInfoController {
 		userFinanceVO.setMemberId(principalDetails.getUsername());
 		userFinanceVO.setAccount(vo.getAccount());
 		System.out.println(userFinanceVO);
-		memberFinanceInfoService.insertOrUpdateFinanceInfo(userFinanceVO);
+		vo = memberFinanceInfoService.insertOrUpdateFinanceInfo(userFinanceVO);
 		return vo;
 	}
 }

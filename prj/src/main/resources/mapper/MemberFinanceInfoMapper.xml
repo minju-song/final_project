@@ -21,13 +21,13 @@
 		AND USE_YN = 'Y'
 	</select>
 		  
-  	<update id="insertOrUpdateFinanceInfo"  statementType="CALLABLE"  parameterType="MemberFinanceinfoVO">
+  	<select id="insertOrUpdateFinanceInfo"  statementType="CALLABLE"  resultType="MemberFinanceInfoVO">
 		    {call p_userAccountController(
 			      #{memberId, mode=IN, jdbcType=INTEGER},
 			      #{bankname},
 			      #{account, mode=IN, jdbcType=VARCHAR},
-			      #{result, mode=OUT, 	jdbcType=VARCHAR}
+			      #{result, mode=OUT, jdbcType=VARCHAR}
 		    )}
-  	</update>
+  	</select>
 
 </mapper>
