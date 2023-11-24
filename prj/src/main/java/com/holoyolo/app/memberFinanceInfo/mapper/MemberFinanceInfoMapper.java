@@ -11,5 +11,5 @@ public interface MemberFinanceInfoMapper {
 	public MemberFinanceInfoVO selectMemberFinanceInfo(MemberFinanceInfoVO vo);
 
 	// 등록
-	public int insertOrUpdateFinanceInfo(MemberFinanceInfoVO vo);
+	public MemberFinanceInfoVO insertOrUpdateFinanceInfo(MemberFinanceInfoVO vo);
 }

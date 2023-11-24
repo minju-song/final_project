@@ -17,14 +17,17 @@
 	<select id="selectMemberFinanceInfo" resultType="MemberFinanceInfoVO">
 		SELECT *
 		FROM MEMBER_FINANCE_INFO
-		WHERE SETTING_DATE = (SELECT MAX(SETTING_DATE)
-												FROM MEMBER_FINANCE_INFO
-												WHERE MEMBER_ID = #{memberId})
+        WHERE MEMBER_ID = #{memberId}
 		AND USE_YN = 'Y'
 	</select>
-	
-	<update id="insertOrUpdateFinanceInfo" parameterType="MemberFinanceInfoVO" statementType="CALLABLE">
-  execute p_userAccountController(#{memberId}, #{bankname}, #{account})
-  </update>
+		  
+  	<update id="insertOrUpdateFinanceInfo"  statementType="CALLABLE"  parameterType="MemberFinanceinfoVO">
+		    {call p_userAccountController(
+			      #{memberId, mode=IN, jdbcType=INTEGER},
+			      #{bankname},
+			      #{account, mode=IN, jdbcType=VARCHAR},
+			      #{result, mode=OUT, 	jdbcType=VARCHAR}
+		    )}
+  	</update>
 
 </mapper>

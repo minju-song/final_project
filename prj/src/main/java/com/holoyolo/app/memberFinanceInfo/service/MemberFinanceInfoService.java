@@ -7,7 +7,7 @@ public interface MemberFinanceInfoService {
 	public MemberFinanceInfoVO selectMemberFinanceInfo(MemberFinanceInfoVO vo);
 
 	// 등록 + 수정
-	public int insertOrUpdateFinanceInfo(MemberFinanceInfoVO vo);
+	public MemberFinanceInfoVO insertOrUpdateFinanceInfo(MemberFinanceInfoVO vo);
 	
 	//회원카드정보조회
 	public Map<String, String> getCardInfo();

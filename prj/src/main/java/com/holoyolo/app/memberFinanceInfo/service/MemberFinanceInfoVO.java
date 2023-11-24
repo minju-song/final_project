@@ -17,6 +17,8 @@ public class MemberFinanceInfoVO {
 	private String cardNo;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date settingDate;
-	private String userYn;
+	private String useYn;
+	
+	private String result;
 
 }

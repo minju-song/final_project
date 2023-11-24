@@ -17,7 +17,7 @@ public class HoloPayController {
 
 	@Autowired
 	MemberFinanceInfoService memberFinanceInfoService;
-	
+
 	@Autowired
 	MemberService memberService;
 
@@ -25,14 +25,14 @@ public class HoloPayController {
 	public String holopaypage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model mo) {
 		String memberId = principalDetails.getUsername();
 		MemberVO memberVO = memberService.selectUser(memberId);
-		MemberFinanceInfoVO vo = new MemberFinanceInfoVO();
-		vo.setMemberId(memberId);
-
-		MemberFinanceInfoVO memberFinanceInfoVO = memberFinanceInfoService.selectMemberFinanceInfo(vo);
-		if (memberFinanceInfoVO == null) {
-			mo.addAttribute("amount", 0);
+		MemberFinanceInfoVO financeVO = new MemberFinanceInfoVO();
+		financeVO.setMemberId(memberId);
+		financeVO = memberFinanceInfoService.selectMemberFinanceInfo(financeVO);
+		System.out.println(financeVO);
+		if (financeVO.getUseYn() == null) {
+			mo.addAttribute("amount", '0');
 		} else {
-			mo.addAttribute("amount", memberFinanceInfoVO.getAccount());
+			mo.addAttribute("financeVO", financeVO);
 		}
 		mo.addAttribute("memberInfo", memberVO);
 		mo.addAttribute("subMenu", "memberInfo");
