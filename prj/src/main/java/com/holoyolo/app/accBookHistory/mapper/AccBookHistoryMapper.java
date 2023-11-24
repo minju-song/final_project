@@ -9,7 +9,7 @@ public interface AccBookHistoryMapper {
 	public AccBookHistoryVO test(AccBookHistoryVO vo);
 	
 	//api호출 후 저장
-	public int insertAccApi(AccBookHistoryVO vo);
+	public int insertAcc(AccBookHistoryVO vo);
 	
 	//db에 들어있는 데이터 중 가장 최근 날짜
 	public String getLatestPayDate(AccBookHistoryVO vo);
@@ -19,5 +19,8 @@ public interface AccBookHistoryMapper {
 	
 	//해당 날짜 총 소비금액
 	public int getSumPrice(AccBookHistoryVO vo);
+	
+	//해당 월 총 소비금액
+	public int getMonthPrice(AccBookHistoryVO vo);
 	
 }

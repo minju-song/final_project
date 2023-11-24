@@ -138,7 +138,7 @@ public class ApiCall {
                 System.out.println(recItem);
 //                i++;
                 
-                accBookHistoryService.insertAccApi(acc);
+                accBookHistoryService.insertAcc(acc);
                 j++;
                 if(j == 5) {
                 	break;

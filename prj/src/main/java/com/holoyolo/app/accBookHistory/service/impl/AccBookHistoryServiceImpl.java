@@ -31,8 +31,8 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 	}
 
 	@Override
-	public int insertAccApi(AccBookHistoryVO vo) {
-		return accBookHistoryMapper.insertAccApi(vo);
+	public int insertAcc(AccBookHistoryVO vo) {
+		return accBookHistoryMapper.insertAcc(vo);
 		
 	}
 
@@ -65,8 +65,15 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 	@Override
 	public int getSumPrice(AccBookHistoryVO vo) {
 		
-		//회원아이디 설정
 		int price = accBookHistoryMapper.getSumPrice(vo);
+
+		return price;
+	}
+
+	@Override
+	public int getMonthPrice(AccBookHistoryVO vo) {
+		int price = accBookHistoryMapper.getMonthPrice(vo);
+		
 		return price;
 	}
 

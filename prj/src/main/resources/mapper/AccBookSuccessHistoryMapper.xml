@@ -3,4 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.accBookSuccessHistory.mapper.AccBookSuccessHistoryMapper">
+  	
+  	<select id="getSuccessByDay" resultType="AccBookSuccessHistoryVO">
+        SELECT ab.success_state 
+        FROM acc_book_success_history ab 
+            JOIN acc_budget budget ON ab.acc_budget_id = budget.acc_budget_id
+        WHERE ab.start_date <![CDATA[<=]]> #{startDate}
+        AND ab.end_date <![CDATA[>=]]> #{startDate}
+        AND budget.member_id = #{memberId}
+  	</select>
   </mapper>

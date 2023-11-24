@@ -1,5 +1,6 @@
 package com.holoyolo.app.accBookHistory.web;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -101,5 +103,26 @@ public class AccBookHistoryController {
 		int price = accBookHistoryService.getSumPrice(vo);
 		
 		return price;
+	}
+	
+	@GetMapping("getMonthPrice")
+	@ResponseBody
+	public int getMonthPrice(@AuthenticationPrincipal PrincipalDetails principalDetails,AccBookHistoryVO vo) {
+		vo.setMemberId(principalDetails.getUsername());
+		int price = accBookHistoryService.getMonthPrice(vo);
+		
+		return price;
+	}
+	
+	@PostMapping("insertHistory")
+	@ResponseBody
+	public int insertAcc(@AuthenticationPrincipal PrincipalDetails principalDetails,AccBookHistoryVO vo) {
+		vo.setMemberId(principalDetails.getUsername());
+		vo.setPayDate(LocalDate.now());
+		int ck = accBookHistoryService.insertAcc(vo);
+		if(ck < 1) {
+			System.out.println("입력안됨");
+		}
+		return ck;		
 	}
 }

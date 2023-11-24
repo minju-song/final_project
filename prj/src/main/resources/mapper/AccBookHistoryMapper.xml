@@ -9,7 +9,7 @@
 	  </select>
   
   		<!-- api통해서 거래내역 자동 등록 -->
-	  <insert id="insertAccApi" parameterType="AccBookHistoryVO">
+	  <insert id="insertAcc" parameterType="AccBookHistoryVO">
 	  	<selectKey keyProperty="abHistoryId"
 					   resultType="int"
 					   order="BEFORE">
@@ -48,6 +48,7 @@
 	  	FROM acc_book_history 
 	  	WHERE TRUNC(pay_date) = #{payDate} 
 	  	AND member_id = #{memberId}
+	  	ORDER BY ab_history_id
 	  </select>
 	  
 	  <!-- 해당 날짜 총 소비금액 -->
@@ -57,6 +58,15 @@
 	  	WHERE member_id = #{memberId} 
 	  	AND pay_date = #{payDate} 
 	  	AND input_output='GA2'
+	  </select>
+	  
+	  <!-- 해당 월 총 소비금액 -->
+	  <select id="getMonthPrice" parameterType="AccBookHistoryVO" resultType="int">
+        SELECT NVL(SUM(price),0)
+        FROM acc_book_history
+        WHERE pay_date
+        BETWEEN (TO_CHAR(TRUNC(#{payDate},'MM'),'YYYYMMDD') ) AND (LAST_DAY(#{payDate}))
+        AND member_id = #{memberId}
 	  </select>
 	  
   </mapper>

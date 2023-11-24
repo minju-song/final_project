@@ -1,0 +1,144 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+*{
+	font-family: 'Noto Sans KR', sans-serif !important;
+}
+
+        #divbox {
+            background-color: white;
+            height: auto;
+            width: 400px;
+            margin: 0px;
+            padding: 20px;
+            margin: 0 auto;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            border-radius: 20px;
+        }
+
+        .Calendar>td {
+            width: 50px;
+            height: 50px;
+        }
+
+        .Calendar {
+            text-align: center;
+        }
+
+        .Calendar>thead>tr:first-child>td {
+            font-family: 'Questrial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .Calendar>thead>tr:last-child>td {
+            font-family: 'Questrial', sans-serif;
+            font-weight: 600;
+        }
+
+        .Calendar>tbody>tr>td>p {
+            font-family: 'Montserrat', sans-serif;
+            height: 45px;
+            width: 45px;
+            border-radius: 45px;
+            transition-duration: .2s;
+            line-height: 45px;
+            margin: 2.5px;
+            display: block;
+            text-align: center;
+        }
+
+        .futureDay {
+            color: lightgray;
+        }
+
+        .today {
+            background-color: #F5D042;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .pastDay {
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .pastDay:hover {
+            background: #eee;
+        }
+
+         .pastDay.choiceDay,
+        .today.choiceDay {
+            background: #0A174E;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .pastDay.choiceDay.fail {
+            background: red;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .pastDay.choiceDay.success {
+            background: green;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        #hisTable {
+            width: 100%;
+        }
+
+        #hisTable>td {
+            text-align: center;
+            padding: 5px;
+        }
+
+        .info {
+            border-radius: 20px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            margin-bottom: 30px;
+            padding: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        .info p {
+            margin: 5px;
+        }
+
+        #hisTable {
+            margin-bottom: 30px;
+        }
+
+        #hisTable input {
+            width: 100px;
+        }
+
+        #inputTr {
+            margin-top: 20px;
+        }
+
+        .success {
+            color: green;
+        }
+        .fail {
+            color: red;
+        }
+
+        td {
+            text-align: center;
+        }
