@@ -2,5 +2,31 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    <mapper namespace="com.holoyolo.app.trade.mapper.TradeMapper">
-  </mapper>
+<mapper namespace="com.holoyolo.app.trade.mapper.TradeMapper">
+
+	<select id="selectTradeList" resultType="TradeVO">
+		SELECT trade_id, trade_place, title, write_date,
+		    CASE 
+		        WHEN trade_type = 'TA1' THEN '직거래'
+		        WHEN trade_type = 'TA2' THEN '비대면'
+		    END AS trade_type,
+		    CASE 
+		        WHEN trade_category = 'TB1' THEN '생활용품'
+		        WHEN trade_category = 'TB2' THEN '의류'
+		        WHEN trade_category = 'TB3' THEN '식품'
+		        WHEN trade_category = 'TB4' THEN '반려용품'
+		        WHEN trade_category = 'TB5' THEN '도서'
+		        WHEN trade_category = 'TB6' THEN '문구'
+		        WHEN trade_category = 'TB7' THEN '가구'
+		        WHEN trade_category = 'TB8' THEN '기타  '
+		    END AS trade_category,
+		    CASE 
+		        WHEN promise_status = 'TD1' THEN '약속대기'
+		        WHEN promise_status = 'TD2' THEN '거래중'
+		        WHEN promise_status = 'TD3' THEN '거래완료'
+		    END AS promise_status
+		FROM trade
+		ORDER BY trade_id
+	</select>
+
+</mapper>

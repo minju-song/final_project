@@ -2,5 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
   <mapper namespace="com.holoyolo.app.answer.mapper.AnswerMapper">
+  
+<!--   	<select id="selectAnswerAll" resultType="AnswerVO">
+  		SELECT answer_date, answer_content FROM answer
+		ORDER BY answer_date
+  	</select> -->
+  
   </mapper>

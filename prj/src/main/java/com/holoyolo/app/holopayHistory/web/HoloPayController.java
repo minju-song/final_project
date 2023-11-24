@@ -1,5 +1,7 @@
 package com.holoyolo.app.holopayHistory.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.holoyolo.app.auth.PrincipalDetails;
+import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
+import com.holoyolo.app.holopayHistory.service.HoloPayHistoryVO;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.memberFinanceInfo.service.MemberFinanceInfoService;
@@ -20,6 +24,9 @@ public class HoloPayController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	HoloPayHistoryService holopayHistoryService;
 
 	@GetMapping("/member/myHolopay")
 	public String holopaypage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model mo) {
@@ -37,6 +44,13 @@ public class HoloPayController {
 		mo.addAttribute("memberInfo", memberVO);
 		mo.addAttribute("subMenu", "memberInfo");
 		return "user/mypage/myholopay";
+	}
+	
+	@GetMapping("/admin/holopay")
+	public String selectHolopayList(Model model) {
+		List<HoloPayHistoryVO> list = holopayHistoryService.holopayHistoryList();
+		model.addAttribute("holopayList", list);
+		return "admin/holopayMgt";
 	}
 
 }
