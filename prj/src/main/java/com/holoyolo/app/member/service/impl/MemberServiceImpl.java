@@ -33,4 +33,5 @@ public class MemberServiceImpl implements MemberService {
 		vo = memberMapper.selectJoinDate(vo);
 		return vo.getJoinDate();
 	}
+	
 }

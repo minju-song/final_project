@@ -73,6 +73,7 @@ public class MemberController {
 		return "redirect:/loginForm";
 	}
 	
+	
 	/**
 	 * 소셜 최초로그인시 마이페이지로 이동.
 	 * @param principalDetails

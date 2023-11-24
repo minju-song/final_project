@@ -79,6 +79,34 @@ label {
 	gap: 30px;
 	margin-top: 20px;
 }
+#authNumCheck, #userCheck {
+	min-width: 120px; 
+}
+#check_phone_wrap {
+	display: none;
+}
+.chkphone_input_warp {
+	position: relative;
+}
+.chkphone_input_warp input, .chkphone_input_warp span {
+	position: absolute;
+}
+.chkphone_input_warp input {
+	top: 0;
+	left: 0;
+}
+.chkphone_input_warp span {
+	right: 0;	
+}
+#joinBtn {
+	min-width: 180px;
+	background-color: #f0f0f0;
+	color: #000;
+}
+#joinBtn:hover {
+	background: #e0e3e4;
+	color: #232323;
+}
 
 /* font-size */
 .form-control, .btn {
