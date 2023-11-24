@@ -3,15 +3,14 @@ package com.holoyolo.app.memo.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.memo.service.MemoService;
 import com.holoyolo.app.memo.service.MemoVO;
 
@@ -23,20 +22,23 @@ public class MemoController {
 	
 	//전체조회
 	@GetMapping("member/memoList")
-	public String memoList(MemoVO memoVO, Model model) {
-		memoVO.setMemberId("sumin@mail.com");
+	public String memoList(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO, Model model) {
+		memoVO.setMemberId(principalDetails.getUsername());
 		List<MemoVO> list = memoService.getMemoList(memoVO);
-		/* System.out.println(list); */
-		model.addAttribute("memoList", list);
-		model.addAttribute("test", list.get(0));
-		return "user/memo/memoList";
+		if(list.size() == 0) {
+			model.addAttribute("memoList", "null");
+		}else {
+			model.addAttribute("memoList", list);		
+		}
+		return "user/memo/memoList2";
 	}
 	
 	//단건조회
 	@GetMapping("member/memoInfo")
-	public String memoInfo(MemoVO memoVO, Model model) {
-		model.addAttribute("memoInfo", memoService.getMemo(memoVO));
-		return "user/memo/memoList";
+	@ResponseBody
+	public MemoVO memoInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+		memoVO.setMemberId(principalDetails.getUsername());
+		return memoService.getMemo(memoVO);
 	}
 	
 	//등록
@@ -51,16 +53,12 @@ public class MemoController {
 	
 	
 	//삭제
-	@DeleteMapping("member/memoDelete")
-	public String deleteMemo(@RequestParam Integer memoId, @RequestParam String memberId, RedirectAttributes ratt) {
-		int result = memoService.deleteMemo(memoId, memberId);
-		String msg = null;
-		if(result > -1) {
-			msg = "메모가 삭제되었습니다.";
-		}else {
-			msg = "메모 삭제에 실패하였습니다.";
-		}
-		ratt.addFlashAttribute("result", msg);
-		return "redirect:user/memo/memoList";
+	@GetMapping("member/memoDelete")
+	@ResponseBody
+	public void deleteMemo(@AuthenticationPrincipal PrincipalDetails principalDetails, int memoId){
+		MemoVO memoVO = new MemoVO();
+		memoVO.setMemberId(principalDetails.getUsername());
+		memoVO.setMemoId(memoId);
+		memoService.deleteMemo(memoVO);
 	}
 }

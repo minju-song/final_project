@@ -20,5 +20,5 @@ public interface MemoMapper {
 	public int updateMemo(MemoVO memoVO);
 	
 	//삭제
-	public int deleteMemo(@Param("memoId") int memoId, @Param("memberId") String memberId);
+	public int deleteMemo(MemoVO memoVO);
 }

@@ -41,6 +41,10 @@
 	cursor: pointer !important;
 }
 
+.modalmenu {
+	cursor: pointer;
+}
+
 .memo:hover .menubars {
 	display: block !important;
 }
@@ -126,7 +130,7 @@
 }
 .hashtag{
     position: absolute !important;
-    bottom: 38px;	
+    /* bottom: 38px; */	
     border: none !important;
     height: 70px;
 }
@@ -234,7 +238,7 @@
 	margin-bottom: 15px;
 }
 
-.row {
+.searchwrap {
 	justify-content: space-evenly;
 }
 

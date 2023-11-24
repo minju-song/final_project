@@ -32,102 +32,66 @@
 			<div class="button" >
 				<p>삭제</p>
 			</div>
-		<div class="row memo-container">
 		</div>
-			 
-              <!-- 메모가 있을 때만 표출 -->
-              <div th:if="${memoList != 'null'}">
-              	<!-- 메모 -->
-              	<div style="display: flex; flex-wrap: wrap;">
-					<!-- 메모등록 버튼 -->
-					<div>
-						<button type="button" class="memo" data-toggle="modal" data-target="#amountSetting" data-whatever="메모등록">
+			<!-- 메모등록 버튼 -->
+			<div th:if="${memoList == 'null'}">
+				<div th:if="${memoList != 'null'}">
+				<div>
+					<button type="button" class="memo" data-toggle="modal" data-target="#amountSetting" data-whatever="메모등록">
 						<img class="plusicon" th:src="@{/user/images/plus.svg}">
-						</button>
-					</div>
-              	
-	              	<th:block th:each="memo, stat : ${memoList}">
-	              		<th:block th:if="${memo.bookmark == 'Y'}">
-							<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|">
-								<!-- 삭제 체크박스 -->
-								<label class="menubars">
-								  <input type="checkbox" th:value="${memo.memoId}">
-								</label>
-								<!-- 메모 고정 버튼 -->
-								<img class="menubars bi-pin bi-pin-fill" th:src="@{/user/images/pin-fill.svg}">
-								<div data-toggle="modal" data-target="#writedMemo" th:data-memo="${memo.memoId}">
-								<!-- 메모 내용 -->
-								<div class="memotext" th:text="${memo.content}"></div>
-								<!-- 메모 해시태그 -->
-								<input class="hashtag" name='tags' readonly th:value='${memo.hashTag}'>
-								</div>
-								<!-- 메모 색상 버튼 -->
-								<img class="menubars bi-palette" th:src="@{/user/images/palette.svg}">
-								<div class="shop__sidebar__color">
-									<label class="ca1"> 
-										<input type="radio" value="#F4CCCC" name="color">
-									</label>
-									<label class="ca2"> 
-										<input type="radio" value="#FFF2CC" name="color">
-									</label>
-									<label class="ca3"> 
-										<input type="radio" value="#D9EAD3" name="color">
-									</label>
-									<label class="ca4"> 
-										<input type="radio" value="#D0E0E3" name="color">
-									</label>
-									<label class="ca5"> 
-										<input type="radio" value="#D9D2E9" name="color">
-									</label>
-								</div>
-								<!-- 메모 이미지 등록 버튼 -->
-								<img class="file_btn menubars bi-image" th:src="@{/user/images/image.svg}">
-								<input class="real_file" type="file" />
-							</div>
-						</th:block>
-					</th:block>
+					</button>
 				</div>
-				<div style="display: flex; flex-wrap: wrap;">
-				<th:block th:each="memo, stat : ${memoList}">
-					<th:block th:if="${memo.bookmark == 'N'}">
-						<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|">
-							<!-- 삭제 체크박스 -->
-							<label class="menubars">
-							  <input type="checkbox" th:value="${memo.memoId}">
-							</label>
-							<!-- 메모 고정 버튼 -->
-							<img class="menubars bi-pin" th:src="@{/user/images/pin.svg}">
-							<div data-toggle="modal" data-target="#writedMemo" th:data-memo="${memo.memoId}">
-							<!-- 메모 내용 -->
-							<div class="memotext" th:text="${memo.content}"></div>
-							<!-- 메모 해시태그 -->
-							<input class="hashtag" name='tags' readonly th:value='${memo.hashTag}'>
-							</div>
-							<!-- 메모 색상 버튼 -->
-							<img class="menubars bi-palette" th:src="@{/user/images/palette.svg}">
-							<div class="shop__sidebar__color">
-								<label class="ca1"> 
-									<input type="radio" value="#F4CCCC" name="color">
-								</label>
-								<label class="ca2"> 
-									<input type="radio" value="#FFF2CC" name="color">
-								</label>
-								<label class="ca3"> 
-									<input type="radio" value="#D9EAD3" name="color">
-								</label>
-								<label class="ca4"> 
-									<input type="radio" value="#D0E0E3" name="color">
-								</label>
-								<label class="ca5"> 
-									<input type="radio" value="#D9D2E9" name="color">
-								</label>
-							</div>
-							<!-- 메모 이미지 등록 버튼 -->
-							<img class="file_btn menubars bi-image" th:src="@{/user/images/image.svg}">
-							<input class="real_file" type="file" />
-						</div>
-					</th:block>
-				</th:block>
+				</div>
+			</div>
+            <!-- 메모가 있을 때만 표출 -->
+              <div th:if="${memoList != 'null'}">
+				<div class="row memo-container">
+	              <div>
+					<button type="button" class="memo" data-toggle="modal" data-target="#amountSetting" data-whatever="메모등록">
+						<img class="plusicon" th:src="@{/user/images/plus.svg}">
+					</button>
+				</div>
+              	<!-- 메모 -->
+				<div class="memo draggable btn-modal" draggable="true" th:each="memo, stat : ${memoList}" th:style="|background:${memo.color}|">
+					<!-- 삭제 체크박스 -->
+					<label class="menubars">
+					  <input type="checkbox" th:value="${memo.memoId}">
+					</label>
+					<!-- 메모 고정 버튼 -->
+					<div th:if="${memo.bookmark == 'N'}">
+						<img class="menubars bi-pin" th:src="@{/user/images/pin.svg}">
+					</div>
+					<div th:if="${memo.bookmark == 'Y'}">
+						<img class="menubars bi-pin bi-pin-fill" th:src="@{/user/images/pin-fill.svg}">
+					</div>
+					<div data-toggle="modal" data-target="#writedMemo" th:data-memo="${memo.memoId}">
+					<!-- 메모 내용 -->
+					<div class="memotext" th:text="${memo.content}"></div>
+					<!-- 메모 해시태그 -->
+					<input class="hashtag" name='tags' readonly th:value='${memo.hashTag}'>
+					</div>
+					<!-- 메모 색상 버튼 -->
+					<img class="menubars bi-palette" th:src="@{/user/images/palette.svg}">
+					<div class="shop__sidebar__color">
+						<label class="ca1"> 
+							<input type="radio" value="#F4CCCC" name="color">
+						</label>
+						<label class="ca2"> 
+							<input type="radio" value="#FFF2CC" name="color">
+						</label>
+						<label class="ca3"> 
+							<input type="radio" value="#D9EAD3" name="color">
+						</label>
+						<label class="ca4"> 
+							<input type="radio" value="#D0E0E3" name="color">
+						</label>
+						<label class="ca5"> 
+							<input type="radio" value="#D9D2E9" name="color">
+						</label>
+					</div>
+					<!-- 메모 이미지 등록 버튼 -->
+					<img class="file_btn menubars bi-image" th:src="@{/user/images/image.svg}">
+					<input class="real_file" type="file" />
 				</div>
 			</div>
               

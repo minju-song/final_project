@@ -20,7 +20,7 @@
     container.addEventListener("dragover", e => {
       e.preventDefault();
       const draggable = document.querySelector(".dragging");
-      container.appendChild(draggable);
+	      container.appendChild(draggable);      
     });
   });
   
@@ -63,11 +63,12 @@
 	
 	for(let i=0; i<pins.length; i++){
 		pins[i].addEventListener('click', function(e){
-			if(pins[i].src == 'http://localhost:8090/user/images/pin.svg' ){
-				pins[i].src=`/user/images/pin-fill.svg`;		
+			if(!e.target.classList.contains('bi-pin-fill')){
+				e.target.src=`/user/images/pin-fill.svg`;
 			}else{
-				pins[i].src=`/user/images/pin.svg`;
+				e.target.src=`/user/images/pin.svg`;
 			}
+			e.target.classList.toggle('bi-pin-fill');
 		});
 	}
 
@@ -79,15 +80,12 @@
 			if(pal[i].nextElementSibling.style.display == 'block'){
 				pal[i].nextElementSibling.style.display = 'none';
 				let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
-				console.log(selMenubars);
 				for(let e=0; e<selMenubars.length; e++){
-					console.log(selMenubars[e]);
 					//selMenubars[e].style.display = 'none';
 					selMenubars[e].classList.toggle('menubars_active');
 				}
 			}else{
 				pal[i].nextElementSibling.style.display = 'block';
-				console.log(e.currentTarget.parentElement);
 				let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
 				for(let e=0; e<selMenubars.length; e++){
 					//selMenubars[e].style.display = 'block';
@@ -118,7 +116,7 @@
     for(let i=0; i<colors.length; i++){
 	    colors[i].addEventListener('click', function(e){
 	    	let memoColor = e.currentTarget.parentElement.parentElement.parentElement;
-	    	memoColor.style.background = e.currentTarget.name;
+	    	memoColor.style.backgroundColor = e.currentTarget.value;
 	    })
     }
     
@@ -137,6 +135,19 @@
    		let deleteMemo = document.querySelectorAll('input[type=checkbox]');
     	for(let i=1; i<deleteMemo.length; i++){
 	    	if(deleteMemo[i].checked == true) {
+	    		let memoId = deleteMemo[i].value;
+	    		$.ajax({
+				url : '/member/memoDelete',  //이동할 jsp 파일 주소
+				data : {memoId},
+				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+		            //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다. 
+					//console.log(JSON.stringify(data));   
+					console.log("성공");
+				},
+				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+					alert('실패');
+				}
+			})
 	    		deleteMemo[i].parentElement.parentElement.remove();
 	    	}
     	}
@@ -148,7 +159,35 @@
        let tagify = new Tagify(inputhash[i]); // initialize Tagify
        // 태그가 추가되면 이벤트 발생
        tagify.on('add', function() {
-         console.log(tagify.value); // 입력된 태그 정보 객체
+         //console.log(tagify.value); // 입력된 태그 정보 객체
        })
     }
+    
+    //메모 아이디 가져와서 모달창에 뿌리기
+    $(function(){
+        $('#writedMemo').on('show.bs.modal', function(event) {          
+            memoId = $(event.relatedTarget).data('memo');
+            //Ajax 요청
+            $.ajax({
+				url : '/member/memoInfo',  //이동할 jsp 파일 주소
+				data : {memoId},
+				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+		            //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다. 
+					//console.log(JSON.stringify(data));   
+					$('#writedMemo').find('[name="content"]')[0].value = data.content;
+					$('#writedMemo').find('[name=plustag]')[0].value = data.hashTag;
+					$('#writedMemo').find('.modal-body')[0].style.backgroundColor = data.color;
+					
+					if(data.bookmark == 'Y'){
+						$('#writedMemo').find('.bi-pin')[0].src = '/user/images/pin-fill.svg';
+					}else{
+						$('#writedMemo').find('.bi-pin')[0].src = '/user/images/pin.svg';
+					}
+				},
+				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+					alert('실패');
+				}
+			})
+		})
+    });
     

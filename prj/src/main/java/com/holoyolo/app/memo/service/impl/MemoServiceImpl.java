@@ -54,8 +54,8 @@ public class MemoServiceImpl implements MemoService {
 	}
 
 	@Override
-	public int deleteMemo(int memoId, String memberId) {
-		return memoMapper.deleteMemo(memoId, memberId);
+	public int deleteMemo(MemoVO memoVO) {
+		return memoMapper.deleteMemo(memoVO);
 	}
 
 }
