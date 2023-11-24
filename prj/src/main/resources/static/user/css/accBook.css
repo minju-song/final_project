@@ -134,9 +134,16 @@
 
         .success {
             color: green;
+            font-weight: bolder;
         }
         .fail {
             color: red;
+            font-weight: bolder;
+        }
+
+        .ing {
+            color: skyblue;
+            font-weight: bolder;
         }
 
         td {

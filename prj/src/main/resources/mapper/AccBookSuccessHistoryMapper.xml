@@ -12,4 +12,14 @@
         AND ab.end_date <![CDATA[>=]]> #{startDate}
         AND budget.member_id = #{memberId}
   	</select>
+  	
+  	<update id="insertSuccess" parameterType="java.util.HashMap">
+        {call test1(#{memberId, mode=IN, jdbcType=VARCHAR})}
+    </update>
+    
+    <delete id="deleteIng" parameterType="String">
+    	DELETE acc_book_success_history 
+    	WHERE member_id = #{memberId} 
+    	AND success_state = 'SU3'
+    </delete>
   </mapper>

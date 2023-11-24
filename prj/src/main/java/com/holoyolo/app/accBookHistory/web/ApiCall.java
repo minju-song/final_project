@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -124,7 +125,16 @@ public class ApiCall {
                 Map <String, String> cardMap = new HashMap<>();
                 cardMap = memberFinanceInfoService.getCardInfo(id);
                 acc.setBankname(cardMap.get("카드회사"));
-                acc.setPrice(Integer.parseInt((String) recItem.get("Usam")));
+                
+                int minAmount = 100;
+                int maxAmount = 20000;
+
+                // 랜덤 객체 생성
+                Random random = new Random();
+
+                // 랜덤한 금액 생성 (100원 단위로)
+                int randomAmount = minAmount + 100 * random.nextInt((maxAmount - minAmount) / 100 + 1);
+                acc.setPrice(randomAmount);
                 acc.setPayStore((String) recItem.get("AfstNm"));
                 //회원아이디 세션에서 가져오기
                 acc.setMemberId(id);

@@ -11,4 +11,7 @@ public interface AccBudgetService {
 	
 	//예산단위 사용여부 n으로 바꿈
 	public int updateBudget(AccBudgetVO vo);
+	
+	//예산 아이디
+	public AccBudgetVO selectBudid(AccBudgetVO vo);
 }

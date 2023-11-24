@@ -53,6 +53,9 @@ function buildCalendar() {
                     // newDIV.className = "fail";
                     newDIV.classList.add("fail");
                 }
+                else if (result == 'SU3') {
+                    newDIV.classList.add("ing");
+                }
             });
 
         nowColumn.appendChild(newDIV);

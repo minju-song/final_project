@@ -12,4 +12,7 @@ public interface AccBudgetMapper {
 	
 	//예산단위 사용여부 n으로 바꿈
 	public int updateBudget(AccBudgetVO vo);
+	
+	//예산단위 설정 시 success기록 넣어줌
+	public int insertSuccess(AccBudgetVO vo);
 }

@@ -47,4 +47,9 @@ public class AccBudgetServiceImpl implements AccBudgetService {
 	public int updateBudget(AccBudgetVO vo) {
 		return accBudgetMapper.updateBudget(vo);
 	}
+
+	@Override
+	public AccBudgetVO selectBudid(AccBudgetVO vo) {
+		return accBudgetMapper.getBudgetNow(vo);
+	}
 }
