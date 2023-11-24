@@ -24,6 +24,7 @@ public class AccBookSuccessHistoryController {
 		vo.setMemberId(principalDetails.getUsername());
 		System.out.println("성공여부 : "+vo);
 		String result = accBookSuccessHistoryService.getSuccessByDay(vo);
+		System.out.println(result);
 		//Collections.emptyMap().put("result", result);
 		return result;
 	}
