@@ -14,9 +14,9 @@ public class HolopayReqVO {
 	private final String Tram;
 	private final String DractOtlt;
 
-	public HolopayReqVO(HolopayReqVO val) {
+	public HolopayReqVO(String val) {
 		this.FinAcno ="00820100021780000000000017544";
-		this.Tram = String.valueOf(val);
+		this.Tram =val;
 		this.DractOtlt ="홀로페이 충전";
 		LocalTime now = LocalTime.now();
 		LocalDate date = LocalDate.now();

@@ -1,6 +1,8 @@
 package com.holoyolo.app.holopayHistory.web;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.holopayHistory.service.HolopayReqVO;
 import com.holoyolo.app.member.service.MemberService;
@@ -47,9 +48,12 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody
-	public void apireq(@RequestBody JSONObject reqVO) {
+	public void apireq(@RequestBody JSONObject tram) {
 		
-		System.out.println(reqVO);
+	
+		
+		
+		
 	
 		
 		
