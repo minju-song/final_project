@@ -2,7 +2,6 @@ package com.holoyolo.app.memo.mapper;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
 
 import com.holoyolo.app.memo.service.MemoVO;
 

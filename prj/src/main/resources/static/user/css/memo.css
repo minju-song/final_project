@@ -3,8 +3,8 @@
 
 .memo {
 	position: relative;
-	width: 233px;
-	min-height: 233px;
+	width: 220px;
+	min-height: 220px;
 	border: none;
 	border-radius: 8px;
 	margin: 12px;
@@ -17,6 +17,22 @@
 
 .modalmenu{
 	padding: 5px;
+}
+
+.dragcontainer {
+	display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 10px;
+    padding: 10px 0px;
+}
+
+.bookmarkTop {
+	margin-bottom: 40px;
+}
+
+.pTag {
+	margin: 10px 19px;
 }
 
 .draggable.dragging {
@@ -135,7 +151,6 @@
     height: 70px;
 }
 
-/* button */
 .button
 {
 	width: 90px;	/* 142 */
@@ -208,6 +223,7 @@
 
 .modal-body {
 	border-radius: 20px;
+	background-color: #FFF2CC;
 }
 
 .modal-content {
@@ -239,6 +255,7 @@
 }
 
 .searchwrap {
+	display: flex;
 	justify-content: space-evenly;
 }
 

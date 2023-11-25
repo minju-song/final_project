@@ -30,7 +30,7 @@ public class MemoController {
 		}else {
 			model.addAttribute("memoList", list);		
 		}
-		return "user/memo/memoList2";
+		return "user/memo/memoList";
 	}
 	
 	//단건조회
@@ -43,14 +43,19 @@ public class MemoController {
 	
 	//등록
 	@PostMapping("member/memoInsert")
-	public String memoInsert(MemoVO memoVO) {
+	@ResponseBody
+	public void memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+		memoVO.setMemberId(principalDetails.getUsername());
 		memoService.insertMemo(memoVO);
-		return "redirect:user/memo/memoList";
 	}
 	
-	
 	//수정
-	
+	@PostMapping("member/memoUpdate")
+	@ResponseBody
+	public void memoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+		memoVO.setMemberId(principalDetails.getUsername());
+		memoService.updateMemo(memoVO);
+	}
 	
 	//삭제
 	@GetMapping("member/memoDelete")

@@ -49,7 +49,6 @@
 				, content
 				, hash_tag
 				, bookmark
-				, write_date
 				, member_id
 			)
 		VALUES
@@ -60,7 +59,6 @@
 				, #{content}
 				, #{hashTag}
 				, #{bookmark}
-				, #{writeDate}
 				, #{memberId}
 			)
 	</insert>
@@ -75,7 +73,6 @@
 				, hash_tag = #{hashTag}
 				, bookmark = #{bookmark}
 				, update_date = #{updateDate}
-				, member_id = #{memberId}
 		WHERE memo_id = #{memoId}
 		AND member_id = #{memberId}
 	</update>
