@@ -18,6 +18,9 @@ public class QuestionController {
 	@Autowired
 	QuestionService questionService;
 	
+	@Autowired
+	AnswerService answerService;
+	
 	// 문의 전체조회
 	@GetMapping("/admin/question")
 	public String selectQuestionList(Model model) {
@@ -28,11 +31,37 @@ public class QuestionController {
 	
 	// 문의 단건조회
 	@GetMapping("/admin/question/detail")
-	public String selectQuestionInfo(QuestionVO questionVO, AnswerVO answerVO, Model model) {
+	public String selectQuestionInfo(QuestionVO questionVO, Model model) {
+		// 문의 단건정보
 		QuestionVO findQuestionVO = questionService.selectQuestionInfo(questionVO);
-//		AnswerVO findAnswerVO = answerService.selectAnswerInfo(answerVO);
-//		model.addAttribute("answerInfo", findAnswerVO);
+		// 답변 전체조회
+		List<AnswerVO> findAnswerVO = answerService.selectAnswerAll(questionVO);
+		
+		// 문의유형 분기처리
+		String getQT = findQuestionVO.getQuestionType();
+		switch (getQT) {
+		case "MA1" : findQuestionVO.setQuestionType("가계부");
+		break;
+		case "MA2" : findQuestionVO.setQuestionType("중고거래");
+		break;
+		case "MA3" : findQuestionVO.setQuestionType("알뜰모임");
+		break;
+		case "MA4" : findQuestionVO.setQuestionType("커뮤니티");
+		break;
+		case "MA5" : findQuestionVO.setQuestionType("메모");
+		break;
+		case "MA6" : findQuestionVO.setQuestionType("홀로페이");
+		break;
+		case "MA7" : findQuestionVO.setQuestionType("포인트");
+		break;
+		case "MA8" : findQuestionVO.setQuestionType("기타");
+		break;
+		default:
+			System.out.println("");
+		}
+		
 		model.addAttribute("questionInfo", findQuestionVO);
+		model.addAttribute("answerInfo", findAnswerVO);
 		return "admin/question/questionDetail";
 	}
 

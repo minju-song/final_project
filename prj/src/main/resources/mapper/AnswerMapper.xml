@@ -5,9 +5,18 @@
   
   <mapper namespace="com.holoyolo.app.answer.mapper.AnswerMapper">
   
-<!--   	<select id="selectAnswerAll" resultType="AnswerVO">
-  		SELECT answer_date, answer_content FROM answer
-		ORDER BY answer_date
-  	</select> -->
+   	<select id="selectAnswerAll" resultType="AnswerVO">
+		SELECT * FROM answer WHERE question_id = #{questionId}
+  	</select>
+  	
+<insert id="insertAnswerInfo" parameterType="AnswerVO">
+    <selectKey keyProperty="answerId" resultType="int" order="BEFORE">
+        SELECT NVL(MAX(answer_id), 0) + 1
+        FROM answer 
+    </selectKey>
+
+    INSERT INTO answer (answer_id, answer_content, answer_date, question_id)
+    VALUES (#{answerId}, #{answerContent}, sysdate, #{questionId})
+</insert>
   
   </mapper>

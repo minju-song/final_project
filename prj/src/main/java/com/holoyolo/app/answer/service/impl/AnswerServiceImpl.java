@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.holoyolo.app.answer.mapper.AnswerMapper;
 import com.holoyolo.app.answer.service.AnswerService;
 import com.holoyolo.app.answer.service.AnswerVO;
+import com.holoyolo.app.question.service.QuestionVO;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
@@ -18,8 +19,8 @@ public class AnswerServiceImpl implements AnswerService {
 	AnswerMapper answerMapper;
 
 	@Override
-	public List<AnswerVO> selectAnswerAll() {
-		return answerMapper.selectAnswerAll();
+	public List<AnswerVO> selectAnswerAll(QuestionVO questionVO) {
+		return answerMapper.selectAnswerAll(questionVO);
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class AnswerServiceImpl implements AnswerService {
 		int result = answerMapper.insertAnswerInfo(answerVO);
 		
 		if (result == 1) {
-			return answerVO.getQuestionId();
+			return answerVO.getAnswerId();
 		} else {
 			return -1;
 		}

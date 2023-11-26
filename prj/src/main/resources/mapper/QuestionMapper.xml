@@ -7,7 +7,7 @@
   	
   	<select id="selectQuestionAll" resultType="QuestionVO">
 		
-		SELECT 
+		SELECT DISTINCT
 		    q.question_id, 
 		    q.title, 
 		    q.member_id, 

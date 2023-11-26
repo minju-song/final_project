@@ -15,10 +15,10 @@
 				<div class="p-5 overflow-auto scrollBar">
 					<th:block th:each="info, stat : ${questionInfo}">
 						<!-- 문의 제목 -->
-						<h5 class="fw-bold" th:text="${info.title}">
-							테스트문의제목1<span class="text-warning ms-3"
-								th:text="${info.questionType}">답변대기</span>
-						</h5>
+						<div class="d-flex">
+						<h5 class="fw-bold" th:text="${info.title}">테스트문의제목1</h5>
+						<h5 class="text-warning ms-3 fw-bold" th:text="${info.questionType}">답변대기</h5>
+						</div>
 						<!-- /문의 제목 -->
 						<div class="row">
 							<!-- 회원 문의 -->
@@ -31,7 +31,7 @@
 									<div class="flex-grow-1 row">
 										<div class="col-12 col-sm-12 mb-sm-0 mb-2">
 											<h6 class="mb-0">1:1 문의</h6>
-											<span class="text-info" th:text="${info.memberId}">kongom2</span>
+											<span class="text-info" th:text="${info.memberId}">회원아이디</span>
 											<span class="text-secondary ms-3"
 												th:text="${#dates.format(info.writeDate, 'yyyy-MM-dd hh:mm')}">2023-11-09
 												22:12</span>
@@ -39,34 +39,17 @@
 									</div>
 								</div>
 
-								<p class="mt-4" th:text="${info.content}">Vivamus sagittis
-									lacus vel augue laoreet rutrum faucibus dolor auctor. Duis
-									mollis, est non commodo luctus. Duis mollis, est non commodo
-									luctus.Duis mollis, est non commodo luctus.Vivamus sagittis
-									lacus vel augue laoreet rutrum faucibus dolor auctor. Duis
-									mollis, est non commodo luctus. Duis mollis, est non commodo
-									luctus.Duis mollis, est non commodo luctus.Vivamus sagittis
-									lacus vel augue laoreet rutrum faucibus dolor auctor. Duis
-									mollis, est non commodo luctus. Duis mollis, est non commodo
-									luctus.Duis mollis, est non commodo luctus.Vivamus sagittis
-									lacus vel augue laoreet rutrum faucibus dolor auctor. Duis
-									mollis, est non commodo luctus. Duis mollis, est non commodo
-									luctus.Duis mollis, est non commodo luctus.Vivamus sagittis
-									lacus vel augue laoreet rutrum faucibus dolor auctor. Duis
-									mollis, est non commodo luctus. Duis mollis, est non commodo
-									luctus.Duis mollis, est non commodo luctus.Vivamus sagittis
-									lacus vel augue laoreet rutrum faucibus dolor auctor. Duis
-									mollis, est non commodo luctus. Duis mollis, est non commodo
-									luctus.Duis mollis, est non commodo luctus.</p>
+								<p class="mt-4" th:text="${info.content}">답변 내용</p>
 								<img alt="사진" src="/admin/assets/img/avatars/1.png">
 							</div>
 							<!-- /회원 문의 -->
 							<!-- 관리자 답변 -->
 							<div class="col-md p-4 position-relative">
-								<form>
-									<span class="fw-bold">답변작성</span>
+								<form action="/admin/question/detail" method="post">
+									<input type="hidden" name="questionId" th:value="${questionId}" />
+									<span class="fw-bold">답변 작성</span>
 									<div class="mt-2">
-										<textarea class="form-control" id="answer"
+										<textarea class="form-control" id="answer" name="answerContent"
 											placeholder="내용을 입력해주세요." rows="15"></textarea>
 									</div>
 									<div class="mt-2 position-absolute end-0">
@@ -78,14 +61,13 @@
 						</div>
 						<!-- 댓글 리스트 -->
 						<div>
-							<!-- <th:block th:each="info, stat : ${answerInfo}"> -->
+							<th:block th:each="info, stat : ${answerInfo}">
 							<div class="flex-grow-1 row px-4 pt-4">
 								<div class="col-8 col-sm-7 mb-sm-0 mb-2 p-0">
 									<h6 class="mb-0 fw-bold">관리자</h6>
-									<small class="text-secondary" >2023-11-09 22:12</small>
+									<small class="text-secondary" th:text="${#dates.format(info.answerDate, 'yyyy-MM-dd hh:mm')}">2023-11-09 22:12</small>
 								</div>
-								<!-- th:text="${info.answerContent} th:text="${#dates.format(info.answerDate, 'yyyy-MM-dd hh:mm')}"-->
-								<p class="p-0 py-2">Vivamus sagittis lacus vel augue laoreet
+								<p class="p-0 py-2" th:text="${info.answerContent}">Vivamus sagittis lacus vel augue laoreet
 									rutrum faucibus dolor auctor. Duis mollis, est non commodo
 									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
 									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
@@ -97,43 +79,8 @@
 									non commodo luctus.</p>
 								<hr class="m-0">
 							</div>
-							<!-- </th:block> -->
-							<div class="flex-grow-1 row px-4 pt-4">
-								<div class="col-8 col-sm-7 mb-sm-0 mb-2 p-0">
-									<h6 class="mb-0 fw-bold">관리자</h6>
-									<small class="text-secondary">2023-11-09 22:12</small>
-								</div>
-								<p class="p-0 py-2">Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.</p>
-								<hr class="m-0">
-							</div>
-							<div class="flex-grow-1 row px-4 pt-4">
-								<div class="col-8 col-sm-7 mb-sm-0 mb-2 p-0">
-									<h6 class="mb-0 fw-bold">관리자</h6>
-									<small class="text-secondary">2023-11-09 22:12</small>
-								</div>
-								<p class="p-0 py-2">Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.</p>
-								<hr class="m-0">
-							</div>
-						</div>
 						<!-- /댓글 리스트 -->
+					</th:block>	
 				</div>
 			</div>
 		</div>
