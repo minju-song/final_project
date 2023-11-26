@@ -17,17 +17,17 @@
 	<select id="selectMemberFinanceInfo" resultType="MemberFinanceInfoVO">
 		SELECT *
 		FROM MEMBER_FINANCE_INFO
-		WHERE SETTING_DATE = (SELECT MAX(SETTING_DATE)
-												FROM MEMBER_FINANCE_INFO
-												WHERE MEMBER_ID = #{memberId})
+        WHERE MEMBER_ID = #{memberId}
+		AND USE_YN = 'Y'
 	</select>
-	
-	<insert id="insertMemberFinance" parameterType="MemberFinanceInfoVO">
-		<selectKey resultType="int" keyProperty="memberFinanceId" order="BEFORE">
-	        SELECT MAX(MEMBER_FINANCE_ID)+1 FROM MEMBER_FINANCE_INFO
-	    </selectKey>
-		INSERT INTO MEMBER_FINANCE_INFO(
-			CARD_NO, ACCOUNT, BANKNAME, MEMBER_ID, CARD_COMPANY, MEMBER_FINANCE_ID, SETTING_DATE, USER_YN)
-		VALUES(#{cardNo}, #{account}, #{memberId}, #{cardCompany},#{memberFinanceId}, sysdate, 'Y' )
-	</insert>
+		  
+  	<select id="insertOrUpdateFinanceInfo"  statementType="CALLABLE"  resultType="MemberFinanceInfoVO">
+		    {call p_userAccountController(
+			      #{memberId, mode=IN, jdbcType=INTEGER},
+			      #{bankname},
+			      #{account, mode=IN, jdbcType=VARCHAR},
+			      #{result, mode=OUT, jdbcType=VARCHAR}
+		    )}
+  	</select>
+
 </mapper>

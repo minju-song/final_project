@@ -6,6 +6,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
+  <link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -15,18 +17,39 @@
       <div class="row">
         <div>
           <th:block th:unless="${amount == 0}">
-            <p>현재 잔액: <span th:text="${amount}"></span></p>
+
+            <div class="row">
+              <div class="col-6">
+                <h4>등록된 계좌 정보</h4>
+                <p>은행 : <span th:text="${financeVO.bankname}" id="myAccountName"></span></p>
+
+                <br>
+                <p>계좌번호 : <span th:text="${financeVO.account}" id="myAccountNum"></span></p>
+              </div>
+              <div class="col-6">
+                <div class="col-6">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+                    data-whatever="계좌변경">
+                    거래 계좌 변경
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+
+
             <!--/* 충전/인출 버튼 */-->
             <div class="row">
               <div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rechargeSet"
                   data-whatever="@mdo">충전</button>
                 <button type="button" id="takeOutBtn" class="btn btn-pramary">인출</button>
               </div>
             </div>
           </th:block>
           <th:block th:if="${amount == 0}">
-            <div class="row">
+            <div class="row" id="myAccountInfo">
               <div class="col-6">
                 <h3>등록된 계좌가 없습니다</h3>
               </div>
@@ -55,68 +78,139 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                <input type="text" class="form-control" id="recipient-name">
+                <label for="recipient-name" class="col-form-label">거래은행</label>
+                <select id="amountName">
+                  <div class="dropdown-menu">
+                    <option value="농협">
+                      <div class="dropdown-item">농협</div>
+                    </option>
+                    <option value="신한">
+                      <div class="dropdown-item">신한</div>
+                    </option>
+                    <option value="대구">
+                      <div class="dropdown-item">대구</div>
+                    </option>
+                  </div>
+                </select>
+                <div class="form-group">
+                  <label for="amountNum" class="col-form-label">계좌번호</label>
+                  <input type="number" class="form-control" id="amountNum" style="resize: none;" />
+                </div>
               </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">Message:</label>
-                <textarea class="form-control" id="message-text"></textarea>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addAmountBtn" data-dismiss="modal">등록</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
               </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
           </div>
         </div>
       </div>
     </div>
 
 
-    <script>
-      //계좌 등록 버튼 
-      let addAmountBtn = document.getElementById("addAmount")
-      addAmountBtn.addEventListener('click', test);
-      function test() {
-        console.log('asdasd')
-      }
-      //충전버튼
-      let rechargeBtn = document.getElementById('rechargeBtn');
 
-      //반환버튼
 
-      let takeOutBtn = document.getElementById('takeOutBtn');
-      //버튼 누를 시 ajax로 계좌 등록 되어 있는지 체크
-      // rechargeBtn.addEventListener('click',);
 
-      // function checkAmount() {
-      //     //세션 아이디값
-      //     memId = "JINU@mail.com"
-      //     //아작스 호출
-      //     $.ajax({
-      //         url: "checkFinance",
-      //         type: 'Post',
-      //         data: memId,
+    <!--/* 충전 모달 */-->
+    <div class="modal fade" id="rechargeSet" tabindex="-1" aria-labelledby="rechargeSetLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rechargeSetLabel">홀로페이 충전</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
 
-      //         success: function onData(data) {
-      //             console.log(data);
-      //         },
-      //         error: function onError(error) {
-      //             console.error(error);
-      //         }
+              <div class="form-group">
+                <label for="rechargePrice" class="col-form-label">금액</label>
+                <input type="number" class="form-control" id="rechargePrice" style="resize: none;" />
+              </div>
 
-      //     })
-      // }
-      //안되어 있다면 계좌 등록 페이지로 이동
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="callHoloPayRechargeApiBtn"
+                  data-dismiss="modal">등록</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+              </div>
+            </form>
+          </div>
+          <script>
 
-      //등록 되어 있다면 해당 기능 api 컨트롤러 호출
-      //충전
 
-      //반환
 
-    </script>
+            //계좌 등록 버튼 
+            let addAmountBtn = document.getElementById("addAmountBtn");
+            addAmountBtn.addEventListener('click', checkAmount);
+            function checkAmount() {
+              let amountName = document.getElementById('amountName').value;
+              let amountNum = document.getElementById('amountNum').value;
+              console.log(amountName);
+              console.log(amountNum);
+              let memberFinanceInfo = {
+                "bankname": amountName,
+                "account": amountNum
+              };
 
-  </div>
+              console.log(memberFinanceInfo);
+              $.ajax({
+                type: 'POST',
+                url: '/addFinanceInfo',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(memberFinanceInfo)
+              }).done(function (response) {
+                console.log(response);
+                console.log(response.result);
+                $("#myAccountInfo").html(response)
+              }).fail(function (request, status, error) {
+                // Handle the error response from the server
+                console.log("code: " + request.status)
+                console.log("message: " + request.responseText)
+                console.log("error: " + error);
+
+              })
+
+            }
+
+
+            //충전버튼
+            let rechargeBtn = document.getElementById('callHoloPayRechargeApiBtn');
+
+
+
+            rechargeBtn.addEventListener('click', callRechargeApi);
+            function callRechargeApi() {
+              let rechargePrice = document.getElementById('rechargePrice').val;
+              console.log(rechargePrice);
+              let callRechargeApiInfo = {
+                "Tram": rechargePrice
+              };
+
+              console.log(callRechargeApiInfo);
+              $.ajax({
+                type: 'POST',
+                url: '/apireq',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(callRechargeApiInfo)
+              }).done(function (response) {
+                console.log(response);
+                console.log(response.result);
+              }).fail(function (request, status, error) {
+                // Handle the error response from the server
+                console.log("code: " + request.status)
+                console.log("message: " + request.responseText)
+                console.log("error: " + error);
+
+              })
+
+            }
+            //반환버튼
+
+            let takeOutBtn = document.getElementById('takeOutBtn');
+          </script>
+
+        </div>
 
 
 </body>
