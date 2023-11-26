@@ -1,8 +1,6 @@
 package com.holoyolo.app.holopayHistory.web;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -29,6 +27,9 @@ public class HoloPayController {
 	@Autowired
 	MemberService memberService;
 
+	@Autowired
+	HolopayRechargeApi holopayRechargeApi;
+
 	@GetMapping("/member/myHolopay")
 	public String holopaypage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model mo) {
 		String memberId = principalDetails.getUsername();
@@ -48,20 +49,13 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody
-	public void apireq(@RequestBody JSONObject tram) {
-		
-	
-		
-		
-		
-	
-		
-		
-//		HolopayReqVO apiRequest = new HolopayReqVO(holoreq);
-//		
-//		System.out.println(apiRequest);
-		
-//		int reqPrice = Integer.parseInt(reqVO.getTram());
+	public void apireq(@RequestBody JSONObject req) {
+
+		String requestTram = (String) req.get("Tram");
+
+		HolopayReqVO apiRequest = new HolopayReqVO(requestTram);
+				
+		holopayRechargeApi.getPosts(apiRequest);
 //		//ajax실행 > 충전금액 요청
 //		HolopayReqVO reqInfo = new HolopayReqVO(reqPrice);
 

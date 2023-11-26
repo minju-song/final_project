@@ -16,21 +16,23 @@ public class HolopayReqVO {
 
 	public HolopayReqVO(String val) {
 		this.FinAcno ="00820100021780000000000017544";
-		this.Tram =val;
+		this.Tram = val;
 		this.DractOtlt ="홀로페이 충전";
 		LocalTime now = LocalTime.now();
 		LocalDate date = LocalDate.now();
 		String year = String.valueOf(date.getYear());
-		String mon = String.valueOf(now.getMinute());
-		String day = String.valueOf(now.getSecond());
+        String mon = String.valueOf(date.getMonthValue());
+        String day = String.valueOf(date.getDayOfMonth());
 		String hour = String.valueOf(now.getHour());
 		String min = String.valueOf(now.getMinute());
 		String sec = String.valueOf(now.getSecond());
-		String IsTuno = String.valueOf((Math.random() * 9 + 1))+hour + min + sec ;
-
+		String IsTuno = String.valueOf((int) Math.floor(Math.random() * 9 + 1) +hour + min + sec) ;
+		String Tsymd = year + mon + day;
+		String Trtm = hour + min + sec;
+		
 		this.Header.put("ApiNm", "DrawingTransfer");
-		this.Header.put("Tsymd", year + mon + day);
-		this.Header.put("Trtm", hour + min + sec);
+		this.Header.put("Tsymd", Tsymd);
+		this.Header.put("Trtm", hour + min + sec); 
 		this.Header.put("Iscd", "002178");
 		this.Header.put("FintechApsno", "001");
 		this.Header.put("ApiSvcCd", "DrawingTransferA");
