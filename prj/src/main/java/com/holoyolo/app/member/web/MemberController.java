@@ -42,7 +42,7 @@ public class MemberController {
 	 */
 	@GetMapping("/loginForm")
 	public String loginForm() {
-		return "loginForm";
+		return "/user/loginForm";
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class MemberController {
 	 */
 	@GetMapping("/joinForm")
 	public String joinForm() {
-		return "joinForm";
+		return "/user/joinForm";
 	}
 	
 	/**
@@ -73,6 +73,51 @@ public class MemberController {
 		return "redirect:/loginForm";
 	}
 	
+	/**
+	 * 아이디 중복체크
+	 * @param memberVO
+	 * @return
+	 */
+	@GetMapping("/join/idCheck")
+	@ResponseBody
+	public String idCheck(MemberVO memberVO) {
+		String result = "NOT_FOUND";
+		MemberVO vo = new MemberVO();
+		System.out.println("넘어온 아이디 ::: " + memberVO.getMemberId());
+		
+		vo = memberService.checkMemberId(memberVO);
+		System.out.println(memberVO.getMemberId() + "는 가입이 가능한 아이디 입니다.");
+		
+		if(vo != null) {
+			result = "FOUND";
+			System.out.println("결과는 ::: " + vo.getMemberId() + ", " + result);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 닉네임 중복체크
+	 * @param memberVO
+	 * @return
+	 */
+	@GetMapping("/join/nickCheck")
+	@ResponseBody
+	public String nickCheck(MemberVO memberVO) {
+		String result = "NOT_FOUND";
+		MemberVO vo = new MemberVO();
+		System.out.println("넘어온 닉네임 ::: " + memberVO.getNickname());
+		
+		vo = memberService.checkNickname(memberVO);
+		System.out.println(memberVO.getNickname() + "는 사용이 가능한 닉네임 입니다.");
+		
+		if(vo != null) {
+			result = "FOUND";
+			System.out.println("결과는 ::: " + vo.getNickname() + ", " + result);
+		}
+		
+		return result;
+	}
 	
 	/**
 	 * 소셜 최초로그인시 마이페이지로 이동.

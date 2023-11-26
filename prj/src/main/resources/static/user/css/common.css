@@ -35,6 +35,15 @@
 	display: inline-block;
 	margin-left: 10px;
 }
+.nickname_area {
+	display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 65px;
+    height: 20px;
+    text-align: left;
+}
 .footer {
 	background: #040e1c;
 	padding: 50px 50px 80px 50px;

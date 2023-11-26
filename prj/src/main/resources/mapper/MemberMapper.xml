@@ -38,11 +38,24 @@
 					)
 	</insert>
 	
-	
 	<!-- 멤버 가입날짜 -->
 	<select id="selectJoinDate" resultType="MemberVO">
 		SELECT join_date 
 		FROM member 
 		WHERE member_id = #{memberId}
+	</select>
+	
+	<!-- 회원가입 - 아이디 중복체크 -->
+	<select id="checkMemberId" resultType="MemberVO">
+		SELECT member_id
+		FROM member
+		WHERE member_id = #{memberId}
+	</select>
+	
+	<!-- 회원가입 - 닉네임 중복체크 -->
+	<select id="checkNickname" resultType="MemberVO">
+		SELECT nickname
+		FROM member
+		WHERE nickname = #{nickname}
 	</select>
  </mapper>

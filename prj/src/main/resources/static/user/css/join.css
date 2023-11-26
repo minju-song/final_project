@@ -9,11 +9,17 @@ a {
 	text-decoration: none;
 	color: #000000;
 }
-
+button {
+	cursor: pointer;
+}
+.join_form {
+	padding: 0 5vw;
+	margin: 0 auto;
+}
 label {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 10px
+	margin-bottom: 0;
 }
 #addr2 {
 	margin-bottom: 0px;
@@ -79,25 +85,18 @@ label {
 	gap: 30px;
 	margin-top: 20px;
 }
-#authNumCheck, #userCheck {
-	min-width: 120px; 
-}
 #check_phone_wrap {
 	display: none;
+	margin-bottom: 0 !important;
 }
-.chkphone_input_warp {
-	position: relative;
+#auth_timer {
+	display: none;
+	font-size: 12px;
+	color: red;
 }
-.chkphone_input_warp input, .chkphone_input_warp span {
-	position: absolute;
-}
-.chkphone_input_warp input {
-	top: 0;
-	left: 0;
-}
-.chkphone_input_warp span {
-	right: 0;	
-}
+
+
+
 #joinBtn {
 	min-width: 180px;
 	background-color: #f0f0f0;
@@ -112,3 +111,4 @@ label {
 .form-control, .btn {
 	font-size: 14px;
 }
+

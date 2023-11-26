@@ -33,5 +33,15 @@ public class MemberServiceImpl implements MemberService {
 		vo = memberMapper.selectJoinDate(vo);
 		return vo.getJoinDate();
 	}
+
+	@Override
+	public MemberVO checkMemberId(MemberVO memberVO) {
+		return memberMapper.checkMemberId(memberVO);
+	}
+
+	@Override
+	public MemberVO checkNickname(MemberVO memberVO) {
+		return memberMapper.checkNickname(memberVO);
+	}
 	
 }

@@ -10,7 +10,7 @@
 	<div id="header_wrap" class="header" th:fragment="headerFragment">
 		<header class="header container">
 			<div class="header_inner d-flex flex-row align-items-center justify-content-start">
-				<div class="logo"><a href="#"><img th:src="@{/user/img/logo3.png}"></a></div>
+				<div class="logo"><a th:href="@{/}"><img th:src="@{/user/img/logo3.png}"></a></div>
 				<nav class="main_nav">
 					<ul>
 						<li><a href="#">가계부</a></li>
@@ -44,7 +44,7 @@
 							<li>
 								<a th:href="@{/member/memberInfo}" class="menu_mypage">
 									<img alt="마이페이지" th:src="@{/user/img/person-circle.svg}">
-									<span sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.nickname"></span><span>님</span>
+									<span class="nickname_area" sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.nickname"></span><span>님</span>
 								</a>
 							</li>
 						</th:block>
