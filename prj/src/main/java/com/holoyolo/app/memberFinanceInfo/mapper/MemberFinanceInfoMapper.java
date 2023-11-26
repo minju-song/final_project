@@ -21,4 +21,7 @@ public interface MemberFinanceInfoMapper {
 	
 	//회원카드수정
 	public int updateCard(MemberFinanceInfoVO vo);
+	
+	//회원카드삭제
+	public int delcard(MemberFinanceInfoVO vo);
 }

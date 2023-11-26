@@ -15,4 +15,7 @@ public interface AccBudgetMapper {
 	
 	//예산단위 설정 시 success기록 넣어줌
 	public int insertSuccess(AccBudgetVO vo);
+	
+	//예산삭제
+	public int deleteBudget(String id);
 }

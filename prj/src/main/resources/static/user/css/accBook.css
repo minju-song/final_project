@@ -149,3 +149,14 @@
         td {
             text-align: center;
         }
+        .today.ing {
+        	background : skyblue;
+        	color : white;
+        }
+        .today.choiceDay.ing {
+            background: #0A174E;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        

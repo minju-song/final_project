@@ -52,4 +52,9 @@ public class AccBudgetServiceImpl implements AccBudgetService {
 	public AccBudgetVO selectBudid(AccBudgetVO vo) {
 		return accBudgetMapper.getBudgetNow(vo);
 	}
+
+	@Override
+	public int deleteBudget(String id) {
+		return accBudgetMapper.deleteBudget(id);
+	}
 }

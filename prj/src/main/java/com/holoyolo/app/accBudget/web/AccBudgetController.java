@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.holoyolo.app.accBookSuccessHistory.service.AccBookSuccessHistoryService;
 import com.holoyolo.app.accBudget.service.AccBudgetService;
@@ -57,14 +59,25 @@ public class AccBudgetController {
 				System.out.println("입력안됨");
 			}
 			else {
-				if(accBookSuccessHistoryService.deleteIng(id) > 0) {
-					if(accBookSuccessHistoryService.insertSuccess(vo)) {
-						System.out.println("입력됨");
-					}
-				}
+				accBookSuccessHistoryService.deleteIng(id);
+				accBookSuccessHistoryService.insertSuccess(vo);
 			}
 		}
 		
 		return "redirect:/member/accBook";
+	}
+	
+	@GetMapping("budgetDelete")
+	public Map<String, Object> budgetDelete(@AuthenticationPrincipal PrincipalDetails principalDetails){
+		System.out.println("예산삭제 실행됨");
+		Map<String, Object> map = new HashMap<>();
+
+		if(accBudgetService.deleteBudget(principalDetails.getUsername()) > 0) {			
+			map.put("result", "success");
+		}
+		else {
+			map.put("result", "fail");
+		}
+		return map;
 	}
 }

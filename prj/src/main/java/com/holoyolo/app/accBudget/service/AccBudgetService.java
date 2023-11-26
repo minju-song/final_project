@@ -14,4 +14,7 @@ public interface AccBudgetService {
 	
 	//예산 아이디
 	public AccBudgetVO selectBudid(AccBudgetVO vo);
+	
+	//예산삭제
+	public int deleteBudget(String id);
 }

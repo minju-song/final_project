@@ -26,7 +26,7 @@ public class MemberFinanceInfoServiceImpl implements MemberFinanceInfoService {
 		MemberFinanceInfoVO infoVO = memberFinanceInfoMapper.getCardInfo(vo);
 		
 		Map<String,String> map = new HashMap<String, String>();
-		if(infoVO != null && !infoVO.getCardNo().equals("")) {	
+		if(infoVO != null && !infoVO.getCardNo().equals("") && infoVO.getCardNo() != null) {	
 			map.put("카드회사", infoVO.getCardCompany());
 			map.put("카드번호", infoVO.getCardNo());
 		}
@@ -73,6 +73,11 @@ public class MemberFinanceInfoServiceImpl implements MemberFinanceInfoService {
 	@Override
 	public int updateCard(MemberFinanceInfoVO vo) {
 		return memberFinanceInfoMapper.updateCard(vo);
+	}
+
+	@Override
+	public int delcard(MemberFinanceInfoVO vo) {
+		return memberFinanceInfoMapper.delcard(vo);
 	}
 	
 	
