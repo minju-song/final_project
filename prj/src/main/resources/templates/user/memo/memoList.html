@@ -19,28 +19,38 @@
 <body>
 	<div layout:fragment="content">
 		<p>메모리스트</p>
-		<!-- 검색창 -->
 		<div>
-		<div class="search_delete searchwrap">
-			<div class="search header_search">
-				<form action="#">
-					<input type="search" class="search_input" required="required">
-					<button type="submit" id="search_button" class="search_button"><img th:src="@{/images/magnifying-glass.svg}"></button>
-				</form>
+			<!-- 검색창 -->
+			<div class="search_delete searchwrap">
+				<div class="search header_search">
+					<form action="#">
+						<input type="search" class="search_input" required="required" placeholder="검색">
+						<button type="submit" id="search_button" class="search_button"><img th:src="@{/images/magnifying-glass.svg}"></button>
+					</form>
+				</div>
+				<!-- 메모삭제 버튼 -->
+				<label class="deleteAll">
+				  <input type="checkbox">
+				</label>
+				<div class="button">
+					<p>삭제</p>
+				</div>
 			</div>
-			<!-- 메모삭제 버튼 -->
-			<label class="deleteAll">
-			  <input type="checkbox">
-			</label>
-			<div class="button">
-				<p>삭제</p>
-			</div>
-		</div>
-			 
-	        <!-- 메모가 있을 때만 표출 -->
+			
+			<!-- 메모가 없을 때만 표출 -->
+			<div th:if="${memoList == 'null'}">
+				<!-- 메모등록 버튼 -->
+				<div>
+					<button type="button" class="memo" data-toggle="modal" data-target="#insertMemo">
+						<img class="plusicon" th:src="@{/user/images/plus.svg}">
+					</button>
+				</div>
+			</div>	 
+				 
+		    <!-- 메모가 있을 때만 표출 -->
 	        <div th:if="${memoList != 'null'}">
 	        	<div class="pTag"><p>즐겨찾기</p></div>
-	           	<div class="dragcontainer bookmarkTop">
+	           	<div class="dragcontainer bookmarkTop importmemoStart">
 					<!-- 메모등록 버튼 -->
 					<div>
 						<button type="button" class="memo" data-toggle="modal" data-target="#insertMemo">
@@ -50,7 +60,7 @@
 					<!-- 즐겨찾기 메모리스트 시작 -->
 	              	<th:block th:each="memo, stat : ${memoList}">
 	              		<th:block th:if="${memo.bookmark == 'Y'}">
-							<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|">
+							<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|" th:value="${memo.memoId}">
 								<!-- 삭제 체크박스 -->
 								<label class="menubars">
 								  <input type="checkbox" th:value="${memo.memoId}">
@@ -92,10 +102,10 @@
 				</div>
 				<!-- 기타 메모리스트 시작 -->
 				<div class="pTag"><p>기타</p></div>
-				<div class="dragcontainer">
+				<div class="dragcontainer normalmemoStart">
 					<th:block th:each="memo, stat : ${memoList}">
 						<th:block th:if="${memo.bookmark == 'N'}">
-							<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|">
+							<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|" th:value="${memo.memoId}">
 								<!-- 삭제 체크박스 -->
 								<label class="menubars">
 								  <input type="checkbox" th:value="${memo.memoId}">
@@ -136,7 +146,7 @@
 				</div>
 				<!-- 기타 메모리스트 끝 -->
 			</div>
-	              
+		              
 			<!-- 등록 모달창 -->
 			<div class="modal fade" id="insertMemo" tabindex="-1" aria-labelledby="insertMemoLabel" aria-hidden="true">
 		    	<div class="modal-dialog">

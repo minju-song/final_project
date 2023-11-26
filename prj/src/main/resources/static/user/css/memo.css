@@ -9,7 +9,7 @@
 	border-radius: 8px;
 	margin: 12px;
 	cursor: move;
-	background: #eeeeeec4;
+	background-color: #eeeeeec4;
 	display: inline-block;
 	margin: 10px;
 	padding: 10px;
@@ -103,23 +103,23 @@
 }
 
 .shop__sidebar__color label.ca1 {
-	background: #F4CCCC;
+	background-color: #F4CCCC;
 }
 
 .shop__sidebar__color label.ca2 {
-	background: #FFF2CC;
+	background-color: #FFF2CC;
 }
 
 .shop__sidebar__color label.ca3 {
-	background: #D9EAD3;
+	background-color: #D9EAD3;
 }
 
 .shop__sidebar__color label.ca4 {
-	background: #D0E0E3;
+	background-color: #D0E0E3;
 }
 
 .shop__sidebar__color label.ca5 {
-	background: #D9D2E9;
+	background-color: #D9D2E9;
 }
 
 .shop__sidebar__color label:after {
@@ -155,7 +155,7 @@
 {
 	width: 90px;	/* 142 */
 	height: 40px;	/* 46 */
-	background: #09203f;
+	background-color: #09203f;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -185,7 +185,7 @@
 
 .button:hover
 {
-	background: #e0e3e4;
+	background-color: #e0e3e4;
 }
 
 .button:hover p
@@ -218,7 +218,7 @@
     padding-left: 15px;
     margin-top: 15px;
     height: 330px;
-    background: transparent;
+    background-color: transparent;
 }
 
 .modal-body {

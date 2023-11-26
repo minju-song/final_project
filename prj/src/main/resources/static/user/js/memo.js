@@ -208,22 +208,13 @@
 		})
     });
     
-    //메모 수정
-	$('#writedMemo').on('hidden.bs.modal', function (event) {
-		console.log(memoId);
-		
-		//document.querySelector('#amountSetting').querySelector('[name=plustag]').value
-		//'[{"value":"안녕"},{"value":"뭐할까"}]'
-	})
-    
 	//메모등록
-    
     $('#insertMemo').on('hidden.bs.modal', function (event) {
   		let content = document.querySelector('#insertMemo').querySelector('[name=content]').value;
    		let tag = document.querySelector('#insertMemo').querySelector('[name=plustag]').value;
    		let color = document.querySelector('#insertMemo').querySelector('.modal-body').style.backgroundColor;
    		let bookmark = document.querySelector('#insertMemo').querySelector('.bi-pin').src;
-   		if(content != ''){
+   		if(content != '' || tag != ''){
 	   		if(bookmark.indexOf('pin.svg') == -1){
 	   			bookmark = 'Y';
 	   		}else{
@@ -235,24 +226,91 @@
 	   		 	hashTag += tag[i]
 	   		 	hashTag += ', '
 	   		 }
-	   		 let seqNo = 8;
+	   		 hashTag.slice(0, -1);
 	   		//ajax 요청
 			$.ajax({
 				type:"POST",
 				url : '/member/memoInsert',  //이동할 jsp 파일 주소
-				data : {seqNo:seqNo, color:color, content:content, hashTag:hashTag, bookmark:bookmark},
+				data : {color, content, hashTag, bookmark},
 				dataType:'text',
 				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 			        //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
-					console.log('성공');
+					console.log('등록성공');
 					$('#insertMemo').find('[name="content"]')[0].value = '';
 					$('#insertMemo').find('[name=plustag]')[0].value = '';
-					$('#insertMemo').find('.modal-body')[0].style.backgroundColor = '#FFF2CC';
+					$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
 					$('#insertMemo').find('.bi-pin')[0].src = '/user/images/pin.svg';
+					//새로운 메모 만들어서 넣어주기
+					if(document.querySelectorAll('.memo')[1] == null){
+						location.reload();
+					}else{
+						addMemo(content, hashTag, color, bookmark)
+					}
 				},
 				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-					console.log('실패');
+					console.log('등록실패');
 				}
 			})	
-		}	
+		}
+		$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
+		$('#insertMemo').find('.bi-pin')[0].src = '/user/images/pin.svg';	
 	});
+	
+	//메모 이어붙이기
+	function addMemo(content, hashTag, color, bookmark){
+		let clone = $('.btn-modal:eq(0)').clone();
+		clone.find('.memotext')[0].innerText = content;
+		clone.find('[name=tags]')[0].value = hashTag;
+		console.log(clone.find('.memo')[0]);
+		if(bookmark == 'Y'){
+			console.log(clone.find('.bi-pin')[0].src)
+			$('.importmemoStart').append(clone);
+		}else{
+			console.log(clone.find('.bi-pin')[0].src)
+			$('.normalmemoStart').append(clone);
+		}
+	}
+	
+    //메모 수정
+	$('#writedMemo').on('hidden.bs.modal', function (event) {
+		let content = document.querySelector('#writedMemo').querySelector('[name=content]').value;
+   		let tag = document.querySelector('#writedMemo').querySelector('[name=plustag]').value;
+   		let color = document.querySelector('#writedMemo').querySelector('.modal-body').style.backgroundColor;
+   		let bookmark = document.querySelector('#writedMemo').querySelector('.bi-pin').src;
+   		if(bookmark.indexOf('pin.svg') == -1){
+	   			bookmark = 'Y';
+   		}else{
+   			bookmark = 'N';
+   		}
+   		let hashTag = '';
+   		 tag = tag.split('"');
+   		 for(let i=3; i<tag.length; i+=4){
+   		 	hashTag += tag[i]
+   		 	hashTag += ', '
+   		 }
+   		//ajax 요청
+		$.ajax({
+			type:"POST",
+			url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+			data : {memoId, color, content, hashTag, bookmark},
+			dataType:'text',
+			success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+		        //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
+				console.log('수정성공');
+				let editMemo = document.querySelectorAll('.memo');
+					console.log(editMemo)
+				for(let i=0; i<editMemo.length; i++){
+					console.log(editMemo[i].value)
+					if(editMemo[i].value == memoId){
+						console.log(editMemo[i])
+					}
+				}
+			},
+			error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+				console.log('수정실패');
+			}
+		})	
+	})
+	
+	
+	//document.querySelector('#insertMemo').querySelector('[type=file]').value

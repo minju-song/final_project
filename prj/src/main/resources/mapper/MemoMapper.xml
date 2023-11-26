@@ -37,17 +37,23 @@
 	
 	<!-- 등록 -->
 	<insert id="insertMemo" parameterType="MemoVO">
-		<selectKey keyProperty="memoId" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(memo_id),0) + 1
+		<selectKey keyProperty="memoId,seqNo" resultType="MemoVO" order="BEFORE">
+			SELECT NVL(MAX(memo_id),0) + 1 as memoId, NVL(MAX(seq_no),0) + 1 as seqNo
 			FROM memo
 		</selectKey>
 		INSERT INTO memo
 			(
 				memo_id
 				, seq_no
-				, color
-				, content
-				, hash_tag
+				<if test="color != ''">
+					, color
+				</if>
+				<if test="content != ''">
+					, content
+				</if>
+				<if test="hashTag != ''">
+					, hash_tag
+				</if>
 				, bookmark
 				, member_id
 			)
@@ -55,9 +61,15 @@
 			(
 				#{memoId}
 				, #{seqNo}
-				, #{color}
-				, #{content}
-				, #{hashTag}
+				<if test="color != ''">
+					, #{color}
+				</if>
+				<if test="content != ''">
+					, #{content}
+				</if>
+				<if test="hashTag != ''">
+					, #{hashTag}
+				</if>
 				, #{bookmark}
 				, #{memberId}
 			)
@@ -66,13 +78,24 @@
 	<!-- 수정 -->
 	<update id="updateMemo" parameterType="MemoVO">
 		UPDATE memo
-			SET
-				seq_no = #{seqNo}
-				, color = #{color}
-				, content = #{content}
-				, hash_tag = #{hashTag}
-				, bookmark = #{bookmark}
-				, update_date = #{updateDate}
+			<set>
+				<if test="seqNo > 0">
+					seq_no = #{seqNo},
+				</if>
+				<if test="color != null and !color.equals('')">
+					color = #{color},
+				</if>
+				<if test="content != null and !content.equals('')">
+					content = #{content},
+				</if>
+				<if test="hashTag != null and !hashTag.equals('')">
+					hash_tag = #{hashTag},
+				</if>
+				<if test="bookmark != null and !bookmark.equals('')">
+					bookmark = #{bookmark},
+				</if>
+				update_date = sysdate
+			</set>
 		WHERE memo_id = #{memoId}
 		AND member_id = #{memberId}
 	</update>
