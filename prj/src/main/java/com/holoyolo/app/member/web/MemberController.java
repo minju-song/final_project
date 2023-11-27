@@ -23,12 +23,6 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
-
-	@GetMapping("/member")
-	public @ResponseBody String member() {
-		return "member";
-	}
 	
 	@GetMapping("/session")
 	public @ResponseBody String sessionTest(@AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -144,6 +138,26 @@ public class MemberController {
 	}
 	
 	/**
+	 * 아이디 찾기
+	 * @param memberVO
+	 * @return
+	 */
+	@GetMapping("/find/id")
+	@ResponseBody
+	public String findMemberId(MemberVO memberVO) {
+		MemberVO vo = new MemberVO();
+		vo = memberService.findMemberIdPwd(memberVO);
+		System.out.println("조회된 결과:: " + vo);
+		
+		if(vo != null) {
+			return vo.getMemberId();
+		} else {
+			return "Fail";
+		}
+		
+	}
+	
+	/**
 	 * 소셜 최초로그인시 마이페이지로 이동.
 	 * @param principalDetails
 	 * @param model
@@ -175,7 +189,6 @@ public class MemberController {
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myHome");
 		
-		
 		return "user/mypage/myHome";
 	}
 	
@@ -194,7 +207,6 @@ public class MemberController {
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myInfo");
-		
 		
 		return "user/mypage/myInfo";
 	}

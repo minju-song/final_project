@@ -12,7 +12,6 @@ public interface MemberService {
 	// 회원 가입
 	public int joinUser(MemberVO memberVO);
 
-
 	// 회원 가입일자조회
 	//public Date selectJoinDate();
 	
@@ -27,17 +26,18 @@ public interface MemberService {
 	public Map<String, Object> updateMemberInfo(MemberVO memberVO);
 	
 	// 회원 정지
-	
-	// 추가 서비스인터페이스 작성 ↓↓
 
-	//회원가입날짜 조회
+	// 회원가입날짜 조회
 	public Date selectJoinDate(String id);
 
 	//public Date selectJoinDate();
 	
-	//회원가입 - 아이디 중복 체크
+	// 회원가입 - 아이디 중복 체크
 	public MemberVO checkMemberId(MemberVO memberVO);
 	
-	//회원가입 - 닉네임 중복 체크
+	// 회원가입 - 닉네임 중복 체크
 	public MemberVO checkNickname(MemberVO memberVO);
+	
+	// 아이디 찾기
+	public MemberVO findMemberIdPwd(MemberVO memberVO);
 }

@@ -448,8 +448,11 @@ function inputCheck() {
 	
 	for(let i=0; i<inputs.length; i++) {
 		if($(inputs[i]).val() == '') {
-			cnt++;
 			let targetId = $(inputs[i]).prop('id');
+			
+			if(targetId != 'detailAddr') {
+				cnt++;
+			}
 			
 			// 이름이 공백일때
 			if(targetId == 'memberName') {

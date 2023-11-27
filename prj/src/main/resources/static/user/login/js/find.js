@@ -163,7 +163,53 @@ $('#submitBtn').click(function () {
 		}
 		
 		// 입력한 아이디와 휴대폰번호로 일치하는 건 확인
-		
+		let memberVO = $("#findForm").serialize();
+		$.ajax('/find/id', {
+				type: 'get',
+				data: memberVO
+			})
+				.done(result => {
+					console.log('넘어온 값은', result);
+					if (result == 'Fail') {
+						Swal.fire({
+							title: '일치하는 정보가 없습니다',
+							text: '확인을 누르시면 회원가입 페이지로 이동합니다',
+							icon: 'error',
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: '확인',
+							cancelButtonText: '취소',
+							reverseButtons: true, // 버튼 순서 거꾸로
+	
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = '/joinForm';
+							} else if (result.isDismissed) {
+								window.location.href = '/findForm';
+							}
+						})
+					} else {
+						Swal.fire({
+							icon: "success",
+							title: "회원님의 아이디는 [" + result + "]입니다",
+							text: "확인을 누르시면 로그인 페이지로 이동합니다.",
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: '확인',
+							cancelButtonText: '취소',
+							reverseButtons: true, // 버튼 순서 거꾸로
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = '/loginForm';
+							} else if (result.isDismissed) {
+								window.location.href = '/findForm';
+							}
+						});
+					}
+				})
+				.fail(err => console.log(err))
 		
 	} else {
 		return;

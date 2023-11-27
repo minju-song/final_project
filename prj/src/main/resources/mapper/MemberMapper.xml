@@ -77,4 +77,14 @@
 		FROM member
 		WHERE nickname = #{nickname}
 	</select>
+	
+	<!-- 아이디 찾기(이름, 휴대폰) / 비밀번호 찾기(이름, 아이디) -->
+	<select id="findMemberIdPwd" resultType="MemberVO">
+		SELECT member_id
+		FROM member
+		WHERE member_name = #{memberName}
+		<if test="memberId != null">AND member_id = #{memberId}</if>
+		<if test="phone != null">AND phone = #{phone}</if>
+	</select>
+	
  </mapper>

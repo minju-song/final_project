@@ -63,5 +63,10 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO checkNickname(MemberVO memberVO) {
 		return memberMapper.checkNickname(memberVO);
 	}
+
+	@Override
+	public MemberVO findMemberIdPwd(MemberVO memberVO) {
+		return memberMapper.findMemberIdPwd(memberVO);
+	}
 	
 }
