@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.holoyolo.app.auth.provider.GoogleUserInfo;
+import com.holoyolo.app.auth.provider.KakaoUserInfo;
 import com.holoyolo.app.auth.provider.NaverUserInfo;
 import com.holoyolo.app.auth.provider.OAuth2UserInfo;
 import com.holoyolo.app.config.CustomBCryptPasswordEncoder;
@@ -30,12 +31,19 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		System.out.println("userRequest : " + userRequest);
 		
 		OAuth2User oauth2User = super.loadUser(userRequest);
+		Map<String, Object> map = (Map)oauth2User.getAttributes();
+		System.out.println("oauth2User : " + oauth2User.getAttributes().get("id"));
+		System.out.println("map : " + map);
+		System.out.println("map : " + map.get("properties"));
+		System.out.println("map : " + map.get("kakao_account"));
 		
 		OAuth2UserInfo oauth2UserInfo = null;
 		if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {
 			oauth2UserInfo = new GoogleUserInfo(oauth2User.getAttributes());
 		} else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
 			oauth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
+		} else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+		 	oauth2UserInfo = new KakaoUserInfo((Map)oauth2User.getAttributes());
 		}
 		
 		String provider = oauth2UserInfo.getProvider();

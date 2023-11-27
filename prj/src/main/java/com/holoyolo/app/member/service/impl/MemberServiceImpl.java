@@ -53,4 +53,15 @@ public class MemberServiceImpl implements MemberService {
 	public Map<String, Object> updateMemberInfo(MemberVO memberVO) {
 		return null;
 	}
+
+	@Override
+	public MemberVO checkMemberId(MemberVO memberVO) {
+		return memberMapper.checkMemberId(memberVO);
+	}
+
+	@Override
+	public MemberVO checkNickname(MemberVO memberVO) {
+		return memberMapper.checkNickname(memberVO);
+	}
+	
 }

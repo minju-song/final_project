@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
 <head>
-<meta charset="utf-8">
-<title>HoloYolo</title>
-<!--/*파비콘*/-->
-<link rel="icon" type="image/x-icon"
-	href="/admin/assets/img/favicon/favicon.ico" />
+	<meta charset="utf-8">
+	<title>HoloYolo::홈</title>
+
 </head>
+
 <body>
-<div layout:fragment="content">
-	<div sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberName"></div>
-	<h1>테스트</h1>
-	<img alt="" th:src="@{images/home_slider_1.jpg}" style="width:100%;">
-</div>
+	<div layout:fragment="content">
+		<div sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberName"></div>
+		<h1>테스트</h1>
+		<img alt="" th:src="@{/common/images/banner.jpg}" style="width:100%;">
+	</div>
 </body>
+
 </html>

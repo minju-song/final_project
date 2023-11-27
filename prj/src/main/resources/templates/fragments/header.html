@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
 	<div id="header_wrap" class="header" th:fragment="headerFragment">
 		<header class="header container">
 			<div class="header_inner d-flex flex-row align-items-center justify-content-start">
-				<div class="logo"><a href="#">HoloYolo</a></div>
+				<div class="logo"><a th:href="@{/}"><img th:src="@{/user/images/logo/logo3.png}"></a></div>
 				<nav class="main_nav">
 					<ul>
-						<li><a href="/member/accBook">가계부</a></li>
-						<li><a href="#">중고거래</a></li>
-						<li><a href="/clublist">알뜰모임</a></li>
+						<li><a th:href="@{/member/accBook}">가계부</a></li>
+						<li><a th:href="@{/}">중고거래</a></li>
+						<li><a th:href="@{/clublist}">알뜰모임</a></li>
 						<li class="main_menu">
-							<a href="#">커뮤니티</a>
+							<a th:href="@{/}">커뮤니티</a>
 							<div class="sub_nav_wrap">
 								<div class="sub_nav">
 									<ul>
-										<li><a href="#">정보공유</a></li>
-										<li><a href="#">수다방</a></li>
+										<li><a href="@{/}">정보공유</a></li>
+										<li><a href="@{/}">수다방</a></li>
 									</ul>
 								</div>
 							</div>
 						</li>
-						<li><a href="#">메모장</a></li>
+						<li><a th:href="@{/member/memoList}">메모장</a></li>
 						<li class="main_menu">
-							<a href="#">고객센터</a>
+							<a th:href="@{/}">고객센터</a>
 							<div class="sub_nav_wrap">
 								<div class="sub_nav">
 									<ul>
-										<li><a href="#">공지사항</a></li>
-										<li><a href="#">자주하는질문</a></li>
-										<li><a href="#">1:1문의</a></li>
+										<li><a th:href="@{/}">공지사항</a></li>
+										<li><a th:href="@{/}">자주하는질문</a></li>
+										<li><a th:href="@{/}">1:1문의</a></li>
 									</ul>
 								</div>
 							</div>
 						</li>
-						<th:block sec:authorize="isAuthenticated()">
-							<li>
-								<a href="#" class="menu_mypage">
-									<img alt="마이페이지" th:src="@{/user/img/person-circle.svg}">
-									<span sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberName"></span><span>님</span>
-								</a>
-							</li>
-						</th:block>
 					</ul>
 				</nav>
-	
+				<!--/* 로그인한 사람들 */-->
+				<th:block sec:authorize="isAuthenticated()">
+					<div class="menu_mypage_wrap">
+						<a th:href="@{/member/myHome}" class="menu_mypage">
+							<img alt="마이페이지" th:src="@{/user/images/logo/person-circle.svg}">
+							<span class="nickname_area" sec:authorize="isAuthenticated()"
+								sec:authentication="principal.memberVO.nickname"></span><span>님</span>
+						</a>
+					</div>
+				</th:block>
+
+				<!--/* 햄버거 메뉴 관련 */-->
 				<div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
 					<div></div>
 					<div></div>
@@ -58,39 +63,45 @@
 				</div>
 			</div>
 			<div class="login_area">
+				<!--/* 로그인 안한 사람들 */-->
 				<th:block sec:authorize="isAnonymous()">
-					<span><a href="/loginForm">로그인 </a></span>
-					<span><a href="/joinForm">회원가입</a></span>
+					<span><a th:href="@{/loginForm}">로그인 </a></span>
+					<span><a th:href="@{/joinForm}">회원가입</a></span>
 				</th:block>
+
+				<!--/* 로그인한 사람들 */-->
 				<th:block sec:authorize="isAuthenticated()">
-					<span><a href="/logout">로그아웃</a></span>
+					<span class="menu_mypage_mobile"><a th:href="@{/member/myHome}">마이페이지</a></span>
+					<span><a th:href="@{/logout}">로그아웃</a></span>
+
+					<!--/* 권한이 관리자인 사람만 */-->
 					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-						<span><a href="/adminhome">관리자홈</a></span>
+						<span><a th:href="@{/adminhome}">관리자홈</a></span>
 					</th:block>
 				</th:block>
 			</div>
 		</header>
-		
+
 		<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
-			<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
-			<div class="logo menu_mm"><a href="#">HoloYolo</a></div>
-			<div class="search">
-				<form action="#">
-					<input type="search" class="search_input menu_mm" required="required">
-					<button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm" src="/images/magnifying-glass.svg" alt=""></button>
-				</form>
+			<div class="menu_close_container">
+				<div class="menu_close">
+					<div></div>
+					<div></div>
+				</div>
 			</div>
+			<div class="logo menu_mm"><a href="@{/}"><img th:src="@{/user/images/logo/logo3.png}"></a></div>
 			<nav class="menu_nav">
 				<ul class="menu_mm">
-					<li class="menu_mm"><a href="#">가계부</a></li>
-					<li class="menu_mm"><a href="#">중고거래</a></li>
-					<li class="menu_mm"><a href="#">알뜰모임</a></li>
-					<li class="menu_mm"><a href="#">커뮤니티</a></li>
-					<li class="menu_mm"><a href="#">메모장</a></li>
-					<li class="menu_mm"><a href="#">고객센터</a></li>
+					<li class="menu_mm"><a th:href="@{/member/accBook}">가계부</a></li>
+					<li class="menu_mm"><a th:href="@{/}">중고거래</a></li>
+					<li class="menu_mm"><a th:href="@{/}">알뜰모임</a></li>
+					<li class="menu_mm"><a th:href="@{/}">커뮤니티</a></li>
+					<li class="menu_mm"><a th:href="@{/member/memoList}">메모장</a></li>
+					<li class="menu_mm"><a th:href="@{/}">고객센터</a></li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 </body>
+
 </html>

@@ -33,4 +33,11 @@ public interface MemberService {
 	//회원가입날짜 조회
 	public Date selectJoinDate(String id);
 
+	//public Date selectJoinDate();
+	
+	//회원가입 - 아이디 중복 체크
+	public MemberVO checkMemberId(MemberVO memberVO);
+	
+	//회원가입 - 닉네임 중복 체크
+	public MemberVO checkNickname(MemberVO memberVO);
 }

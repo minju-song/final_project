@@ -21,7 +21,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-	        .antMatchers("/adminhome/**").access("hasRole('ROLE_ADMIN')")
+	        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 	        .antMatchers("/member/trade/**").access("hasRole('HA1')")
 	        .antMatchers("/member/**").authenticated() // 인증만되면 들어갈 수 있는 주소
 	        .anyRequest().permitAll()
@@ -34,6 +34,7 @@ public class SecurityConfig {
 	        .and()
 	        .logout()
 	        .logoutSuccessUrl("/")
+	        .deleteCookies("JSESSIONID")
 	        .and()
 	        .oauth2Login()
 	        .loginPage("/loginForm")

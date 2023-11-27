@@ -8,25 +8,40 @@
 <div class="col-3 my_col_3" th:fragment="sidemenuFragment" >
 	<div class="sidebar_section" >
 	
-		<!--/* 헤더 메뉴마다 내용바꾸기 */-->
-		<div class="sidebar_title side_main_menu">마이페이지</div>
-		<div class="sidebar_section_content">
-			<ul>
-				<li class="side_main_menu"><a href="#" th:class="${subMenu eq 'memberInfo'}? 'submenu_active' : ''">내정보</a></li>
-				<li class="side_main_menu"><a th:href="@{/member/myHolopay}">홀로페이</a></li>
-				<li class="side_main_menu"><a href="#">포인트</a></li>
-				<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
-				<!--/* 나의중고거래 서브메뉴 start */-->
-				<li class="side_sub_menu"><a href="#">판매내역</a></li>
-				<li class="side_sub_menu"><a href="#">구매내역</a></li>
-				<li class="side_sub_menu last_sub_menu"><a href="#">관심목록</a></li>
-				<!--/* 나의중고거래 서브메뉴 start */-->
-				<li class="side_main_menu"><a href="#">나의 알뜰모임</a></li>
-				<li class="side_main_menu"><a href="#">나의 커뮤니티</a></li>
-			</ul>
-		</div>
+		<!--/* 
+		
+			1. 헤더 메뉴마다 내용바꾸기
+			
+			2. Controller에서 넘길정보
+				- 메인메뉴 명 : model.addAttribute("menu", "mypage");
+				- 서브메뉴 명 : model.addAttribute("subMenu", "myHome");
 				
+			3. 현재 메뉴 표시 CSS 
+				th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''" 
+				
+		*/-->
+		
+		<th:block th:if="${menu == 'mypage'}">
+			<div class="sidebar_title side_main_menu">마이페이지</div>
+			<div class="sidebar_section_content">
+				<ul>
+					<li class="side_main_menu"><a th:href="@{/member/myHome}" th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''">홈</a></li>
+					<li class="side_main_menu"><a th:href="@{/member/myInfo}" th:class="${subMenu eq 'myInfo'}? 'submenu_active' : ''">내정보</a></li>
+					<li class="side_main_menu"><a th:href="@{/member/myHolopay}">홀로페이</a></li>
+					<li class="side_main_menu"><a href="#">포인트</a></li>
+					<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
+					<!--/* 나의중고거래 서브메뉴 start */-->
+					<li class="side_sub_menu"><a href="#">판매내역</a></li>
+					<li class="side_sub_menu"><a href="#">구매내역</a></li>
+					<li class="side_sub_menu last_sub_menu"><a href="#">관심목록</a></li>
+					<!--/* 나의중고거래 서브메뉴 start */-->
+					<li class="side_main_menu"><a href="#">나의 알뜰모임</a></li>
+					<li class="side_main_menu"><a href="#">나의 커뮤니티</a></li>
+				</ul>
+			</div>
+		</th:block>
+		
 	</div>
-</div>		
+</div>
 </body>
 </html>

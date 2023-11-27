@@ -6,9 +6,16 @@
 *{
 	font-family: 'Noto Sans KR', sans-serif !important;
 }
+.menu_mypage_wrap {
+	margin-top: 7px;
+}
+.menu {
+	background: #eef5fa !important;
+}
 .my_content {
 	padding-left: 0 !important;
 }
+
 #header_wrap {
 	position: fixed;
 	top: 0;
@@ -27,9 +34,31 @@
     flex: 0 0 78%;
     max-width: 78%;
 }
+.logo img {
+	width: 130px;
+	display: inline-block;
+	margin-left: 10px;
+}
+.nickname_area {
+	display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 65px;
+    height: 20px;
+    text-align: left;
+}
 .footer {
-	background: #e9eaff;
+	background: #040e1c;
 	padding: 50px 50px 80px 50px;
+}
+.footer_logo a, .footer_nav ul li a {
+	color: #fff;
+}
+.footer_logo img {
+	display: inline-block;
+	width: 200px;
+	margin-bottom: 20px;
 }
 
 .sub_nav_wrap {
@@ -65,6 +94,8 @@
 	display: block;
 }
 .menu_mypage {
+	display: flex;
+	gap: 5px;
 	color: #6f42c1 !important;
 	text-transform: none !important;
 }
@@ -148,6 +179,14 @@
 .position_absol {
 	position: absolute;
 }
+.menu_mypage_mobile {
+	display: none;
+}
 
-
+@media only screen and (max-width: 991px)
+{
+	.menu_mypage_mobile {
+		display: inline-block;
+	}
+}
 

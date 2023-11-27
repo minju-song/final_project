@@ -20,6 +20,7 @@
 						, password
 						, nickname
 						, addr
+						, detail_addr
 						, phone
 						, join_date
 						, role
@@ -31,6 +32,7 @@
 						, #{password}
 						, #{nickname}
 						, #{addr}
+						, #{detailAddr}
 						, #{phone}
 						, sysdate
 						, #{role}
@@ -38,8 +40,11 @@
 					)
 	</insert>
 	
+
 	
 	<!-- 회원 가입일자 -->
+
+	<!-- 멤버 가입날짜 -->
 	<select id="selectJoinDate" resultType="MemberVO">
 		SELECT join_date 
 		FROM member 
@@ -57,5 +62,19 @@
 		    END AS role
 		FROM member
 		ORDER BY join_date desc
+	</select>
+	
+	<!-- 회원가입 - 아이디 중복체크 -->
+	<select id="checkMemberId" resultType="MemberVO">
+		SELECT member_id
+		FROM member
+		WHERE member_id = #{memberId}
+	</select>
+	
+	<!-- 회원가입 - 닉네임 중복체크 -->
+	<select id="checkNickname" resultType="MemberVO">
+		SELECT nickname
+		FROM member
+		WHERE nickname = #{nickname}
 	</select>
  </mapper>
