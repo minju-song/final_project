@@ -1,0 +1,22 @@
+        .search {
+            width: 800px;
+            position: realative;
+        }
+
+        .search_delete {
+            margin-bottom: 15px;
+        }
+
+        .searchwrap {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .deleteAll {
+            margin-top: 17px;
+        }
+
+        #pagination {
+
+            justify-content: center;
+        }
