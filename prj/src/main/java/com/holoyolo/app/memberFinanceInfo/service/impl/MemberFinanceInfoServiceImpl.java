@@ -44,6 +44,13 @@ public class MemberFinanceInfoServiceImpl implements MemberFinanceInfoService {
 		return memberFinanceInfoMapper.selectMemberFinanceInfo(vo);
 	}
 
+
+	@Override
+	public MemberFinanceInfoVO insertOrUpdateFinanceInfo(MemberFinanceInfoVO vo) {
+
+		return memberFinanceInfoMapper.insertOrUpdateFinanceInfo(vo);
+	}
+  
 	@Override   
 	public int insertMemberFinance(MemberFinanceInfoVO vo) {
 		

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.holoyolo.app.holopayHistory.mapper.HoloPayHistoryMapper">
+
+	<select id="insertHolopayHistory" statementType="CALLABLE"
+		resultType="HoloPayHistoryVO">
+		{call p_recharge_holopay(
+		#{memberId},
+		#{price},
+		#{hpDate},
+		#{hpType}
+		)}
+	</select>
+
+
+	<select id="holopayBalance" resultType="int">
+		SELECT (
+			nvl(HP1,0)+nvl(HP4, 0))-(nvl(HP2, 0)+nvl(HP3, 0))
+		FROM (		
+			SELECT hp_type, price, member_id
+			FROM holopay_history)
+		PIVOT (
+			SUM(price) FOR hp_type IN ('HP1' AS HP1, 'HP2' AS HP2, 'HP3' AS HP3, 'HP4' AS HP4))
+		WHERE member_id =#{memberId}
+
+	</select>
+
+</mapper>
