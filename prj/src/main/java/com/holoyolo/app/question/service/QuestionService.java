@@ -22,4 +22,5 @@ public interface QuestionService {
 	public boolean deleteQuestionInfo(int questionId);
 	
 	// 추가 인터페이스 작성 ↓↓
+	
 }

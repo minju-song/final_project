@@ -39,10 +39,23 @@
 	</insert>
 	
 	
-	<!-- 멤버 가입날짜 -->
+	<!-- 회원 가입일자 -->
 	<select id="selectJoinDate" resultType="MemberVO">
 		SELECT join_date 
 		FROM member 
 		WHERE member_id = #{memberId}
+	</select>
+	
+	<!-- 회원 전체조회 -->
+	<select id="selectMemberAll" resultType="MemberVO">
+		SELECT member_name, member_id, phone, addr, join_date,     
+		    CASE 
+		        WHEN role = 'HA1' THEN '일반회원'
+		        WHEN role = 'HA2' THEN '거래정지'
+		        WHEN role = 'HA3' THEN '계정정지'
+		        WHEN role = 'ROLE_ADMIN' THEN '관리자'
+		    END AS role
+		FROM member
+		ORDER BY join_date desc
 	</select>
  </mapper>

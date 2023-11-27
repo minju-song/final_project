@@ -18,4 +18,7 @@ public class ReportVO {
 	private String processComment;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date processDate;
+	private String reporterId;
+	private String reportContent;
+	
 }

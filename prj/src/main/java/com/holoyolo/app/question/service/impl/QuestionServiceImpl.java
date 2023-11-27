@@ -44,32 +44,30 @@ public class QuestionServiceImpl implements QuestionService {
 	// 문의 수정
 	@Override
 	public Map<String, Object> updateQuestionInfo(QuestionVO questionVO) {
-//		Map<String, Object> map = new HashMap<>();
-//		boolean isSuccessed = false;
-//		
-//		int result = questionMapper.updateQuestionInfo(questionVO);
-//		if (result == 1) {
-//			isSuccessed = true;
-//		}
-//		
-//		map.put("result", isSuccessed);
-//		map.put("target", questionVO);
-//		
-//		return map;
-		return null;
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		
+		int result = questionMapper.updateQuestionInfo(questionVO);
+		if (result == 1) {
+			isSuccessed = true;
+		}
+		
+		map.put("result", isSuccessed);
+		map.put("target", questionVO);
+		
+		return map;
 	}
 
 	// 문의 삭제
 	@Override
 	public boolean deleteQuestionInfo(int questionId) {
-//		int result = questionMapper.deleteQuestionInfo(questionId);
-//		
-//		if (result == 1) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-		return false;
+		int result = questionMapper.deleteQuestionInfo(questionId);
+		
+		if (result == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

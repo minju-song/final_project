@@ -17,16 +17,19 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	TradeMapper tradeMapper;
 	
+	// 거래 전체조회
 	@Override
 	public List<TradeVO> getTradeList() {
 		return tradeMapper.selectTradeList();
 	}
 
+	// 거래 단건조회
 	@Override
 	public TradeVO getTrade(TradeVO tradeVO) {
 		return tradeMapper.selectTrade(tradeVO);
 	}
 
+	// 거래 등록
 	@Override
 	public int insertTrade(TradeVO tradeVO) {
 		int result = tradeMapper.insertTrade(tradeVO);
@@ -37,6 +40,7 @@ public class TradeServiceImpl implements TradeService {
 		return -1;
 	}
 
+	// 거래 수정
 	@Override
 	public Map<String, Object> updateTrade(TradeVO tradeVO) {
 		Map<String, Object> map = new HashMap<>();
@@ -53,6 +57,7 @@ public class TradeServiceImpl implements TradeService {
 		return map;
 	}
 
+	// 거래 삭제
 	@Override
 	public int deleteTrade(int tradeId) {
 		return tradeMapper.deleteTrade(tradeId);

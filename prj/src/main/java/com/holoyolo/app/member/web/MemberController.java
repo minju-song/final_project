@@ -1,5 +1,7 @@
 package com.holoyolo.app.member.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +36,13 @@ public class MemberController {
 		System.out.println("세션정보 : " + principalDetails.getMemberVO());
 		System.out.println("회원아이디 : " + principalDetails.getUsername());
 		return "세션정보 로그로 확인 바람";
+	}
+	
+	@GetMapping("/admin/member")
+	public String selectMemberList(Model model) {
+		List<MemberVO> list = memberService.selectMemberAll();
+		model.addAttribute("memberList", list);
+		return "admin/memberMgt";
 	}
 	
 	/**

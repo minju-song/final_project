@@ -1,6 +1,8 @@
 package com.holoyolo.app.member.service.impl;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +34,23 @@ public class MemberServiceImpl implements MemberService {
 		vo.setMemberId(id);
 		vo = memberMapper.selectJoinDate(vo);
 		return vo.getJoinDate();
+	}
+	
+	// 회원 전체조회
+	@Override
+	public List<MemberVO> selectMemberAll() {
+		return memberMapper.selectMemberAll();
+	}
+
+	// 회원 상세보기
+	@Override
+	public MemberVO selectMemberInfo(MemberVO memberVO) {
+		return memberMapper.selectMemberInfo(memberVO);
+	}
+	
+	// 회원 정보수정
+	@Override
+	public Map<String, Object> updateMemberInfo(MemberVO memberVO) {
+		return null;
 	}
 }

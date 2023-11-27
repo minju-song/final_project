@@ -2,5 +2,33 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
   <mapper namespace="com.holoyolo.app.answer.mapper.AnswerMapper">
+  
+   	<select id="selectAnswerAll" resultType="AnswerVO">
+		SELECT answer_id
+			 , answer_content
+			 , TO_DATE(TO_CHAR(answer_date + (9/24)
+			 	, 'YYYY/MM/DD HH24:mi')
+			 	, 'YYYY/MM/DD HH24:MI') as answer_date
+			 , update_date
+			 , question_id FROM answer WHERE question_id = #{questionId}
+		ORDER BY answer_date desc
+  	</select>
+  	
+	<insert id="insertAnswerInfo" parameterType="AnswerVO">
+	    <selectKey keyProperty="answerId" resultType="int" order="BEFORE">
+	        SELECT NVL(MAX(answer_id), 0) + 1
+	        FROM answer 
+	    </selectKey>
+	
+	    INSERT INTO answer (answer_id, answer_content, answer_date, question_id)
+	    VALUES (#{answerId}, #{answerContent}, sysdate, #{questionId})
+	</insert>
+	
+	<delete id="deleteAnswerInfo" parameterType="int">
+		DELETE FROM answer
+		WHERE answer_id = #{answerId};
+	</delete>
+  
   </mapper>

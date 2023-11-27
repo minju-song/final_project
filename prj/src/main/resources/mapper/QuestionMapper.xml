@@ -7,7 +7,7 @@
   	
   	<select id="selectQuestionAll" resultType="QuestionVO">
 		
-		SELECT 
+		SELECT DISTINCT
 		    q.question_id, 
 		    q.title, 
 		    q.member_id, 
@@ -32,24 +32,15 @@
 		
   	</select>
   	
-  	<select id="selectQuestionWaiting" resultType="QuestionVO">
-  		SELECT question_id, title, member_id, write_date,
-            CASE WHEN question_type = 'MA1' THEN '가계부'
-                 WHEN question_type = 'MA2' THEN '중고거래'
-                 WHEN question_type = 'MA3' THEN '알뜰모임'
-                 WHEN question_type = 'MA4' THEN '커뮤니티'
-                 WHEN question_type = 'MA5' THEN '메모'
-                 WHEN question_type = 'MA6' THEN '홀로페이'
-                 WHEN question_type = 'MA7' THEN '포인트'
-                 WHEN question_type = 'MA8' THEN '기타'
-                 END AS question_type,
-                 (SELECT CASE WHEN count(*) = 0 THEN '답변대기'
-		                 	  WHEN count(*) = 1 THEN '답변완료'
-		                 	  END
-				  FROM answer
-				  WHERE question_id = #{questionId}) question_yn
+  	<select id="selectQuestionInfo" resultType="QuestionVO">
+  		SELECT question_id
+  			 , question_type
+  			 , title
+  			 , content
+  			 , write_date
+  			 , member_id 
 		FROM question
-		WHERE question_yn = '답변대기'
+		WHERE question_id = #{questionId}
   	</select>
   
   </mapper>

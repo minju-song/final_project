@@ -18,10 +18,10 @@ public interface QuestionMapper {
 	public int insertQuestionInfo(QuestionVO questionVO);
 	
 	// 문의 수정
-	public Map<String, Object> updateQuestionInfo(QuestionVO questionVO);
+	public int updateQuestionInfo(QuestionVO questionVO);
 	
 	// 문의 삭제
-	public boolean deleteQuestionInfo(int questionId);
+	public int deleteQuestionInfo(int questionId);
 	
 	// 추가 인터페이스 작성 ↓↓
 }

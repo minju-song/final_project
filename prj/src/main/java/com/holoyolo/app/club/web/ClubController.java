@@ -1,6 +1,8 @@
 package com.holoyolo.app.club.web;
 
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.club.service.ClubService;
@@ -20,6 +24,13 @@ public class ClubController {
 	@Autowired
 	ClubService clubService;
 	
+
+	@GetMapping("/admin/club")
+	public String selectClubList(Model model) {
+		List<ClubVO> list = clubService.selectClubAll();
+		model.addAttribute("clubList", list);
+		return "admin/clubMgt";
+
 	@GetMapping("/clublist")
 	public String clubListPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
 		ClubVO vo = new ClubVO();
@@ -37,5 +48,6 @@ public class ClubController {
 		list = clubService.getClubList(vo);
 		System.out.println(vo);
 		return list;
+
 	}
 }
