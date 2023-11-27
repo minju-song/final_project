@@ -30,7 +30,9 @@ public class ClubController {
 		List<ClubVO> list = clubService.selectClubAll();
 		model.addAttribute("clubList", list);
 		return "admin/clubMgt";
-	}
+				}
+
+	
 
 	@GetMapping("/clublist")
 	public String clubListPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
