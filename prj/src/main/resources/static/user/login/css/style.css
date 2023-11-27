@@ -9,11 +9,18 @@
 	color: #000000;
 }
 .section_wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
 	background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
 }
 .section_wrap .login_form_inner {
 	background: #fff;
 	border-radius: 15px;
+}
+.login_box_area {
+	min-width: 1200px;
 }
 .logo {
 	display: inline-block;
@@ -1213,7 +1220,7 @@ a {
 
 .button {
 	display: inline-block;
-	border: 1px solid #384aeb;
+	border: 1px solid #2c456f;
 	border-radius: 30px;
 	color: #222;
 	font-weight: 500;

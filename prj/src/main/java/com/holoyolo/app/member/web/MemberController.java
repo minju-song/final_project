@@ -60,7 +60,9 @@ public class MemberController {
 	 * @return
 	 */
 	@PostMapping("/join")
+	@ResponseBody
 	public String join(MemberVO memberVO) {
+		System.out.println(memberVO);
 		String rawPassword = memberVO.getPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
 		memberVO.setPassword(encPassword);
@@ -68,9 +70,13 @@ public class MemberController {
 		
 		System.out.println(memberVO);
 		
-		memberService.joinUser(memberVO);
+		int result = memberService.joinUser(memberVO);
 		
-		return "redirect:/loginForm";
+		if(result > 0) {
+			return "Success";
+		} else {
+			return "Fail";
+		}
 	}
 	
 	/**
@@ -120,6 +126,15 @@ public class MemberController {
 	}
 	
 	/**
+	 * 아이디/비밀번호 찾기 페이지
+	 * @return
+	 */
+	@GetMapping("/findForm")
+	public String findForm() {
+		return "/user/findForm";
+	}
+	
+	/**
 	 * 소셜 최초로그인시 마이페이지로 이동.
 	 * @param principalDetails
 	 * @param model
@@ -130,9 +145,29 @@ public class MemberController {
 		MemberVO memberInfo = principalDetails.getMemberVO();
 		
 		if(memberInfo.getAddr() == null) {
-			return "redirect:/member/memberInfo";
+			return "redirect:/member/myInfo";
 		}
 		return "redirect:/";
+	}
+	
+	/**
+	 * 마이페이지-홈
+	 * @param principalDetails
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/member/myHome")
+	public String myHome(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String memberId = principalDetails.getUsername();
+		MemberVO memberVO = memberService.selectUser(memberId);
+		model.addAttribute("memberInfo", memberVO);
+		
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myHome");
+		
+		
+		return "user/mypage/myHome";
 	}
 	
 	/**
@@ -141,15 +176,18 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/member/memberInfo")
-	public String memberInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+	@GetMapping("/member/myInfo")
+	public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String memberId = principalDetails.getUsername();
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
-		model.addAttribute("subMenu", "memberInfo");
+		
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myInfo");
 		
 		
-		return "user/mypage/memberInfo";
+		return "user/mypage/myInfo";
 	}
 	
 	

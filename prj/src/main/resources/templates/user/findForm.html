@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>holoyolo::아이디/비밀번호 찾기</title>
+<link rel="stylesheet" href="/user/login/vendors/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="/user/login/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/user/login/vendors/themify-icons/themify-icons.css">
+<link rel="stylesheet" href="/user/login/vendors/linericon/style.css">
+<link rel="stylesheet" href="/user/login/vendors/owl-carousel/owl.theme.default.min.css">
+<link rel="stylesheet" href="/user/login/vendors/owl-carousel/owl.carousel.min.css">
+<link rel="stylesheet" href="/user/login/vendors/nice-select/nice-select.css">
+<link rel="stylesheet" href="/user/login/vendors/nouislider/nouislider.min.css">
+<link rel="stylesheet" href="/user/login/css/style.css">
+<link rel="stylesheet" href="/user/login/css/find.css">
+<script th:src="@{/plugin/sweetalert2.min.js}"></script>
+<link rel="stylesheet" th:href="@{/plugin/sweetalert2.min.css}">
+<script th:src="@{/plugin/jquery-3.7.1.min.js}"></script>
+</head>
+<body>
+	<div class="section_wrap">
+		<section class="login_box_area section-margin">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8">
+						<div class="login_form_inner">
+							<a th:href="@{/}"><img th:src="@{/user/images/logo/logo3.png}" class="logo" title="홈으로"></a>
+							<!--/* 탭메뉴 start */-->
+							<ul class="nav nav-tabs">
+								<li class="nav-item">
+									<a class="nav-link active" href="#">아이디 찾기</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#">비밀번호 찾기</a>
+								</li>
+							</ul>
+							<!--/* 탭메뉴 end */-->
+							
+							<!--/* 아이디 찾기 start */-->
+							<form class="row login_form join_form find_id_form" action="/find" method="post" id="loginForm" >
+								<!--/* 이름 */-->
+								<div class="col-md-12 form-group">
+									<label>이름</label>
+									<div class="input-wrap">
+										<input type="text" class="form-control" id="memberName" name="memberName" required="required" placeholder="이름을 입력해 주세요" onfocus="this.placeholder = '이름을 입력해 주세요'" onblur="this.placeholder = '이름을 입력해 주세요'">
+									</div>
+								</div>
+								<!--/* 휴대폰번호 */-->
+								<div class="col-md-12 form-group">
+									<label>휴대폰</label>
+									<div class="input-wrap">
+										<input type="tel" class="form-control" id="phone" name="phone" required="required" placeholder="숫자만 입력해 주세요" onfocus="this.placeholder = '숫자만 입력해 주세요'" onblur="this.placeholder = '숫자만 입력해 주세요'">
+										<button type="button" class="btn" id="authNumCheck">본인인증</button>
+									</div>
+								</div>
+								<!--/* 인증번호 */-->
+								<div class="col-md-12 form-group" id="check_phone_wrap">
+									<label></label>
+									<div class="input-wrap">
+										<div class="auth-wrap">
+											<input type="text" class="form-control" id="checkPhone" required="required" placeholder="인증번호를 입력해 주세요" onfocus="this.placeholder = '인증번호를 입력해 주세요'" onblur="this.placeholder = '인증번호를 입력해 주세요'">
+											<!--/* 남은시간 */-->
+											<span id="auth_timer">3:00</span>
+										</div>
+										<button type="button" class="btn" id="userCheck">인증하기</button>
+									</div>
+								</div>
+								<!--/* 가입하기 */-->
+								<div class="col-md-12 form-group">
+									<button id="submitBtn" type="button" class="button button-login w-100" data-disabled="true">아이디찾기</button>
+								</div>
+							</form>
+							<!--/* 아이디 찾기 end */-->
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	
+	<script src="/user/login/js/find.js"></script>
+</body>
+</html>

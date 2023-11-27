@@ -35,7 +35,7 @@ public class SmsController {
         this.messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
     }
     
-    @GetMapping("/join/sendJoinSms")
+    @GetMapping("/sendSms")
     @ResponseBody
     public String sendJoinSms(HttpServletRequest request, String reception) {
         Message message = new Message();
@@ -60,7 +60,7 @@ public class SmsController {
         return result;
     }
     
-    @GetMapping("/join/checkAuthNum")
+    @GetMapping("/checkAuthNum")
     @ResponseBody
     public String checkAuthNum(HttpServletRequest request, String authNum) {
     	HttpSession session = request.getSession();

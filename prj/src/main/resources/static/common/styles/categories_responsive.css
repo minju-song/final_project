@@ -127,6 +127,9 @@
 	{
 		display: none;
 	}
+	.menu_mypage_wrap {
+		margin-right: 50px;
+	}
 }
 
 /************
@@ -197,6 +200,9 @@
 	.sidebar_right
 	{
 		width: 720px;
+	}
+	.menu_mypage_wrap {
+		display: none;
 	}
 }
 

@@ -20,6 +20,7 @@
 						, password
 						, nickname
 						, addr
+						, detail_addr
 						, phone
 						, join_date
 						, role
@@ -31,6 +32,7 @@
 						, #{password}
 						, #{nickname}
 						, #{addr}
+						, #{detailAddr}
 						, #{phone}
 						, sysdate
 						, #{role}

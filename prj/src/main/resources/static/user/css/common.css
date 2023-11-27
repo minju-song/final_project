@@ -6,12 +6,16 @@
 *{
 	font-family: 'Noto Sans KR', sans-serif !important;
 }
+.menu_mypage_wrap {
+	margin-top: 7px;
+}
 .menu {
 	background: #eef5fa !important;
 }
 .my_content {
 	padding-left: 0 !important;
 }
+
 #header_wrap {
 	position: fixed;
 	top: 0;
@@ -90,6 +94,8 @@
 	display: block;
 }
 .menu_mypage {
+	display: flex;
+	gap: 5px;
 	color: #6f42c1 !important;
 	text-transform: none !important;
 }
@@ -173,6 +179,14 @@
 .position_absol {
 	position: absolute;
 }
+.menu_mypage_mobile {
+	display: none;
+}
 
-
+@media only screen and (max-width: 991px)
+{
+	.menu_mypage_mobile {
+		display: inline-block;
+	}
+}
 
