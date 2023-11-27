@@ -17,5 +17,5 @@ public interface MemoService {
 	public Map<String, Object> updateMemo(MemoVO memoVO);
 	
 	//삭제
-	public int deleteMemo(int memoId, String memberId);
+	public int deleteMemo(MemoVO memoVO);
 }

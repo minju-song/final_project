@@ -2,50 +2,20 @@
  * memo.js
  */
  
-  //각 요소와 컨테이너에 이벤트 리스너 달기
-  const draggables = document.querySelectorAll(".draggable");
-  const containers = document.querySelectorAll(".memo-container");
-
-  draggables.forEach(draggable => {
-    draggable.addEventListener("dragstart", () => {
-      draggable.classList.add("dragging");
-    });
-
-    draggable.addEventListener("dragend", () => {
-      draggable.classList.remove("dragging");
-    });
-  });
-
-  containers.forEach(container => {
-    container.addEventListener("dragover", e => {
-      e.preventDefault();
-      const draggable = document.querySelector(".dragging");
-      container.appendChild(draggable);
-    });
-  });
-  
-  //다른 요소 사이에 넣기
-  function getDragAfterElement(container, x) {
-  const draggableElements = [
-    ...container.querySelectorAll(".draggable:not(.dragging)"),
-  ];
-
-  return draggableElements.reduce(
-    (closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = x - box.left - box.width / 2;
-      // console.log(offset);
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child };
-      } else {
-        return closest;
-      }
-    },
-    { offset: Number.NEGATIVE_INFINITY },
-  	).element;
-	}
-  
-  containers.forEach(container => {
+  	const draggables = document.querySelectorAll(".draggable");
+	const containers = document.querySelectorAll(".dragcontainer");
+	//드래그 시작될 때
+	draggables.forEach(draggable => {
+	  draggable.addEventListener("dragstart", () => {
+	    draggable.classList.add("dragging");
+	  });
+	  //드래그가 끝날 때
+	  draggable.addEventListener("dragend", () => {
+	    draggable.classList.remove("dragging");
+	  });
+	});
+	//이벤트가 달린 영역 위에 드래그 요소가 있을 때
+	containers.forEach(container => {
 	  container.addEventListener("dragover", e => {
 	    e.preventDefault();
 	    const afterElement = getDragAfterElement(container, e.clientX);
@@ -58,16 +28,37 @@
 	  });
 	});
 	
+	function getDragAfterElement(container, x) {
+	  const draggableElements = [
+	    ...container.querySelectorAll(".draggable:not(.dragging)"),
+	  ];
+	
+	  return draggableElements.reduce(
+	    (closest, child) => {
+	      const box = child.getBoundingClientRect();
+	      const offset = x - box.left - box.width / 2;
+	      // console.log(offset);
+	      if (offset < 0 && offset > closest.offset) {
+	        return { offset: offset, element: child };
+	      } else {
+	        return closest;
+	      }
+	    },
+	    { offset: Number.NEGATIVE_INFINITY },
+	  ).element;
+	}
+	
 	//핀 클릭시 색상 변경
 	let pins = document.querySelectorAll('.bi-pin');
 	
 	for(let i=0; i<pins.length; i++){
 		pins[i].addEventListener('click', function(e){
-			if(pins[i].src == 'http://localhost:8090/user/images/pin.svg' ){
-				pins[i].src=`/user/images/pin-fill.svg`;		
+			if(!e.target.classList.contains('bi-pin-fill')){
+				e.target.src=`/user/images/pin-fill.svg`;
 			}else{
-				pins[i].src=`/user/images/pin.svg`;
+				e.target.src=`/user/images/pin.svg`;
 			}
+			e.target.classList.toggle('bi-pin-fill');
 		});
 	}
 
@@ -77,9 +68,19 @@
 	for(let i=0; i<pal.length; i++){
 		pal[i].addEventListener('click', function(e){
 			if(pal[i].nextElementSibling.style.display == 'block'){
-				pal[i].nextElementSibling.style.display = 'none';			
+				pal[i].nextElementSibling.style.display = 'none';
+				let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+				for(let e=0; e<selMenubars.length; e++){
+					//selMenubars[e].style.display = 'none';
+					selMenubars[e].classList.toggle('menubars_active');
+				}
 			}else{
-				pal[i].nextElementSibling.style.display = 'block';	
+				pal[i].nextElementSibling.style.display = 'block';
+				let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+				for(let e=0; e<selMenubars.length; e++){
+					//selMenubars[e].style.display = 'block';
+					selMenubars[e].classList.toggle('menubars_active');
+				}
 			}
 		});
 	}
@@ -96,7 +97,7 @@
     let input = document.querySelectorAll('input[name=tags]')
     for(let i=0; i<input.length; i++){
 	    new Tagify(input[i], {
-      maxTags: 4
+      	maxTags: 4
     	}) 
     }
     
@@ -105,19 +106,256 @@
     for(let i=0; i<colors.length; i++){
 	    colors[i].addEventListener('click', function(e){
 	    	let memoColor = e.currentTarget.parentElement.parentElement.parentElement;
-	    	memoColor.style.background = e.currentTarget.name;
+	    	memoColor.style.backgroundColor = e.currentTarget.value;
 	    })
     }
     
-    //삭제버튼 클릭 시 해당 메모 삭제
-    let deleteBtn = document.querySelector('.button');
+    //전체 삭제 버튼 클릭
+    let deleteAllBtn = document.querySelector('.deleteAll');
+    deleteAllBtn.addEventListener('click', function(e){
+    	let checks = document.querySelectorAll('input[type=checkbox]');
+    	if(checks[0].checked == true){
+			for(let i=2; i<checks.length; i++){
+				checks[i].checked = true;
+			}	
+		}else{
+			for(let e=1; e<checks.length; e++){
+    			checks[e].checked = false;
+			}
+    	}
+    })
+    
+   //삭제버튼 클릭 시 해당 메모 삭제
+   let deleteBtn = document.querySelector('.button');
     deleteBtn.addEventListener('click', function(e){
    		let deleteMemo = document.querySelectorAll('input[type=checkbox]');
-    	for(let i=0; i<deleteMemo.length; i++){
-    		console.log(deleteMemo[i].checked);
+    	for(let i=1; i<deleteMemo.length; i++){
 	    	if(deleteMemo[i].checked == true) {
-	    	console.log("eee");
-	    		
+	    		let memoId = deleteMemo[i].value;
+	    		$.ajax({
+				url : '/member/memoDelete',  //이동할 jsp 파일 주소
+				data : {memoId},
+				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+		            //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다. 
+					//console.log(JSON.stringify(data));   
+					deleteMemoSuc();
+				},
+				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+					console.log("메모삭제 실패");
+				}
+			})
+	    		deleteMemo[i].parentElement.parentElement.remove();
 	    	}
     	}
     })
+    
+    //메모 삭제 알림창
+    function deleteMemoSuc(){
+	    const Toast = Swal.mixin({
+		    toast: true,
+		    position: 'center',
+		    showConfirmButton: false,
+		    timer: 2000,
+		    timerProgressBar: true,
+		    didOpen: (toast) => {
+		        toast.addEventListener('mouseenter', Swal.stopTimer)
+		        toast.addEventListener('mouseleave', Swal.resumeTimer)
+		    }
+		})
+		
+		Toast.fire({
+		    icon: 'success',
+		    title: '선택한 메모가 삭제되었습니다.'
+		})
+    }
+    
+   //hashtag
+   let inputhash = document.querySelectorAll('input[name=plustag]')
+   for(let i=0; i<inputhash.length; i++){
+       let tagify = new Tagify(inputhash[i]); // initialize Tagify
+       // 태그가 추가되면 이벤트 발생
+       tagify.on('add', function() {
+         //console.log(tagify.value); // 입력된 태그 정보 객체
+       })
+    }
+    
+    //메모 상세보기
+    let memoId = 0;
+    $(function(){
+        $('#writedMemo').on('show.bs.modal', function(event) {          
+            memoId = $(event.relatedTarget).data('memo');
+            //Ajax 요청
+            $.ajax({
+				url : '/member/memoInfo',  //이동할 jsp 파일 주소
+				data : {memoId},
+				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+		            //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다. 
+					//console.log(JSON.stringify(data));   
+					$('#writedMemo').find('[name="content"]')[0].value = data.content;
+					$('#writedMemo').find('[name=plustag]')[0].value = data.hashTag;
+					$('#writedMemo').find('.modal-body')[0].style.backgroundColor = data.color;
+					$('#writedMemo')[0].value = memoId;
+					if(data.bookmark == 'Y'){
+						$('#writedMemo').find('.bi-pin')[0].src = '/user/images/pin-fill.svg';
+					}else{
+						$('#writedMemo').find('.bi-pin')[0].src = '/user/images/pin.svg';
+					}
+				},
+				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+					console.log('실패');
+				}
+			})
+		})
+    });
+    
+	//메모등록
+    $('#insertMemo').on('hidden.bs.modal', function (event) {
+  		let content = document.querySelector('#insertMemo').querySelector('[name=content]').value;
+   		let plustag = document.querySelector('#insertMemo').querySelector('[name=plustag]').value;
+   		let tag = document.querySelectorAll('#insertMemo .tagify__tag-text');
+   		let color = document.querySelector('#insertMemo').querySelector('.modal-body').style.backgroundColor;
+   		let bookmark = document.querySelector('#insertMemo').querySelector('.bi-pin').src;
+   		if(content != '' || plustag != ''){
+	   		if(bookmark.indexOf('pin.svg') == -1){
+	   			bookmark = 'Y';
+	   		}else{
+	   			bookmark = 'N';
+	   		}
+	   		let hashTag = '';
+	   		for(let i=0; i<tag.length; i++) {
+	   			hashTag += tag[i].innerText;
+	   			if(i<tag.length-1) {
+	   				hashTag += ', '
+	   			}
+	   		}
+	   		//ajax 요청
+			$.ajax({
+				type:"POST",
+				url : '/member/memoInsert',  //이동할 jsp 파일 주소
+				data : {color, content, hashTag, bookmark},
+				dataType:'text',
+				success: function(memoId){   //데이터 주고받기 성공했을 경우 실행할 결과
+			        //function(memoId)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
+					$('#insertMemo').find('[name="content"]')[0].value = '';
+					$('#insertMemo').find('[name=plustag]')[0].value = '';
+					$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
+					$('#insertMemo').find('.bi-pin')[0].src = '/user/images/pin.svg';
+					//메모 이어붙이기
+					addMemo(content, hashTag, color, bookmark, memoId)
+				},
+				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+					console.log('등록실패');
+				}
+			})	
+		}
+		$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
+		$('#insertMemo').find('.bi-pin')[0].src = '/user/images/pin.svg';	
+	});
+	
+	//메모 이어붙이기
+	function addMemo(content, hashTag, color, bookmark, memoId){
+		let clone = $('.btn-modal:eq(0)').clone();
+		clone.css('display', 'block');
+		clone.find('.inputMemoId')[0].dataset.memo = memoId;
+		clone.find('[type=checkbox]')[0].value = memoId;
+		clone.find('.memotext')[0].innerText = content;
+		hashTag = hashTag.replace(" ", "").split(",");
+		let tagify = clone.find('.tagify__tag-text');
+		for(let i=0; i<hashTag.length; i++){
+			if(tagify[i] != undefined){
+				tagify[i].innerText = hashTag[i]
+				clone.find('[name=tags]').prop('value', hashTag[i]);
+				clone.find('[name=tags]').prop('defaultValue', hashTag[i]);
+			}else if(tagify[i] === undefined){
+				let clonetag = $('.tagify__tag:eq(0)').clone();
+				clone.find('.tagify__input').remove();
+				clonetag.find('.tagify__tag-text').text(hashTag[i]);
+				clonetag.find('[name=tags]').prop('value', hashTag[i]);
+				clonetag.find('[name=tags]').prop('defaultValue', hashTag[i]);
+				clone.find('.tagify').append(clonetag);			
+			}
+		}
+		if(color == ''){
+			clone.find('.memo').prevObject[0].style.backgroundColor = 'rgb(255, 242, 204)';
+		}else{
+			clone.find('.memo').prevObject[0].style.backgroundColor = color;
+		}
+		if(bookmark == 'Y'){
+			clone.find('.bi-pin')[0].src = '/user/images/pin-fill.svg';
+			$('.importmemoStart').append(clone);
+		}else{
+			clone.find('.bi-pin')[0].src = '/user/images/pin.svg';
+			$('.normalmemoStart').append(clone);
+		}
+	}
+	
+    //메모 수정
+	$('#writedMemo').on('hidden.bs.modal', function (event) {
+		let content = document.querySelector('#writedMemo').querySelector('[name=content]').value;
+   		let plustag = document.querySelector('#writedMemo').querySelector('[name=plustag]').value;
+   		let tag = document.querySelectorAll('#writedMemo .tagify__tag-text');
+   		let color = document.querySelector('#writedMemo').querySelector('.modal-body').style.backgroundColor;
+   		let bookmark = document.querySelector('#writedMemo').querySelector('.bi-pin').src;
+   		if(bookmark.indexOf('pin.svg') == -1){
+	   			bookmark = 'Y';
+   		}else{
+   			bookmark = 'N';
+   		}
+   		let hashTag = '';
+   		 for(let i=0; i<tag.length; i++) {
+   			hashTag += tag[i].innerText;
+   			if(i<tag.length-1) {
+   				hashTag += ', '
+   			}
+   		}
+   		//ajax 요청
+		$.ajax({
+			type:"POST",
+			url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+			data : {memoId, color, content, hashTag, bookmark},
+			dataType:'text',
+			success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+		        //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
+		        let memoList = document.querySelectorAll('.memo');
+		        hashTag = hashTag.replace(" ", "").split(",");
+		        for(let i=2; i<memoList.length; i++){
+		        	if(memoList[i].querySelector('.inputMemoId').dataset.memo == memoId){
+		        		memoList[i].querySelector('.memotext').innerText = content;
+		        		memoList[i].style.backgroundColor = color;
+		        		if(bookmark == 'Y'){
+		        			memoList[i].querySelector('.bi-pin').src = '/user/images/pin-fill.svg';
+		        		}else{
+		        			memoList[i].querySelector('.bi-pin').src = '/user/images/pin.svg';
+		        		}
+		        		for(let e=0; e<hashTag.length; e++){
+			        		memoList[i].querySelector('.tagify__tag-text').innerText = hashTag[e];
+			        		memoList[i].querySelector('[name=tags]').value = hashTag[e];
+			        		memoList[i].querySelector('[name=tags]').defaultValue = hashTag[e];
+		        		}
+		        		
+		        		
+		        		/*for(let i=0; i<hashTag.length; i++){
+						if(tagify[i] != undefined){
+							tagify[i].innerText = hashTag[i]
+							clone.find('[name=tags]').prop('value', hashTag[i]);
+							clone.find('[name=tags]').prop('defaultValue', hashTag[i]);
+						}else if(tagify[i] === undefined){
+							let clonetag = $('.tagify__tag:eq(0)').clone();
+							clone.find('.tagify__input').remove();
+							clonetag.find('.tagify__tag-text').text(hashTag[i]);
+							clonetag.find('[name=tags]').prop('value', hashTag[i]);
+							clonetag.find('[name=tags]').prop('defaultValue', hashTag[i]);
+							clone.find('.tagify').append(clonetag);			
+						}
+					}*/
+		        	}
+		        }
+			},
+			error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+				console.log('수정실패');
+			}
+		})	
+	})
+	
+	
+	//document.querySelector('#insertMemo').querySelector('[type=file]').value
