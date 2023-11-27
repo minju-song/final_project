@@ -18,14 +18,14 @@ public class AccBookSuccessHistoryController {
 	@Autowired
 	AccBookSuccessHistoryService accBookSuccessHistoryService;
 	
+	//성공여부가져오기
 	@GetMapping("getSuccess")
 	@ResponseBody
 	public String getSuccessByDay(@AuthenticationPrincipal PrincipalDetails principalDetails, AccBookSuccessHistoryVO vo) {
 		vo.setMemberId(principalDetails.getUsername());
-		System.out.println("성공여부 : "+vo);
+
 		String result = accBookSuccessHistoryService.getSuccessByDay(vo);
-		System.out.println(result);
-		//Collections.emptyMap().put("result", result);
+
 		return result;
 	}
 	

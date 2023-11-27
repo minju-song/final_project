@@ -1,5 +1,6 @@
 package com.holoyolo.app.accBudget.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public interface AccBudgetService {
@@ -16,5 +17,5 @@ public interface AccBudgetService {
 	public AccBudgetVO selectBudid(AccBudgetVO vo);
 	
 	//예산삭제
-	public int deleteBudget(String id);
+	public HashMap<Object, Object> deleteBudget(String id);
 }

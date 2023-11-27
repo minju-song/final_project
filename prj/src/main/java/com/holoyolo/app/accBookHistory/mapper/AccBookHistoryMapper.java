@@ -23,4 +23,9 @@ public interface AccBookHistoryMapper {
 	//해당 월 총 소비금액
 	public int getMonthPrice(AccBookHistoryVO vo);
 	
+	//거래내역 삭제
+	public int deleteHistory(AccBookHistoryVO vo);
+	
+	//방금 넣은 거래내역 아이디 얻기
+	public int selectCurrent(AccBookHistoryVO vo);
 }

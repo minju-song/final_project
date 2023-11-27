@@ -16,6 +16,7 @@ public class AccBudgetServiceImpl implements AccBudgetService {
 	@Autowired
 	AccBudgetMapper accBudgetMapper;
 
+	//현재 회원의 예산얻기
 	@Override
 	public Map<String, Object> getBudgetNow(String id) {
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -38,23 +39,27 @@ public class AccBudgetServiceImpl implements AccBudgetService {
 		return map;
 	}
 
+	//예산등록
 	@Override
 	public int insertBudget(AccBudgetVO vo) {
 		return accBudgetMapper.insertBudget(vo);
 	}
 
+	//예산수정
 	@Override
 	public int updateBudget(AccBudgetVO vo) {
 		return accBudgetMapper.updateBudget(vo);
 	}
 
+	//예산아이디가져오기
 	@Override
 	public AccBudgetVO selectBudid(AccBudgetVO vo) {
 		return accBudgetMapper.getBudgetNow(vo);
 	}
 
+	//예산삭제
 	@Override
-	public int deleteBudget(String id) {
+	public HashMap<Object, Object> deleteBudget(String id) {
 		return accBudgetMapper.deleteBudget(id);
 	}
 }

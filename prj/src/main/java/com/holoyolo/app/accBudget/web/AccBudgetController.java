@@ -67,17 +67,15 @@ public class AccBudgetController {
 		return "redirect:/member/accBook";
 	}
 	
+	//예산삭제
 	@GetMapping("budgetDelete")
+	@ResponseBody
 	public Map<String, Object> budgetDelete(@AuthenticationPrincipal PrincipalDetails principalDetails){
-		System.out.println("예산삭제 실행됨");
+
+		//결과맵
 		Map<String, Object> map = new HashMap<>();
 
-		if(accBudgetService.deleteBudget(principalDetails.getUsername()) > 0) {			
-			map.put("result", "success");
-		}
-		else {
-			map.put("result", "fail");
-		}
+		map.put("result","success");
 		return map;
 	}
 }

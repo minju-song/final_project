@@ -30,12 +30,19 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		return test;
 	}
 
+	//거래내역 수기등록
 	@Override
 	public int insertAcc(AccBookHistoryVO vo) {
-		return accBookHistoryMapper.insertAcc(vo);
+		//거래내역 등록
+		if(accBookHistoryMapper.insertAcc(vo)> 0) {
+			//방금 등록한 거래내역 아이디 리턴
+			return accBookHistoryMapper.selectCurrent(vo);
+		}
+		return -1;
 		
 	}
 
+	//가장 최근 거래내역 날짜
 	@Override
 	public String getLatestPayDate(String id) {
 		AccBookHistoryVO vo = new AccBookHistoryVO();
@@ -44,24 +51,16 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		return accBookHistoryMapper.getLatestPayDate(vo);
 	}
 
+	//거래내역 불러오기
 	@Override
 	public List<AccBookHistoryVO> getAccHistory(AccBookHistoryVO vo) {
-
-		
-
-		
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd");             
-//        LocalDateTime date = LocalDateTime.parse(vo.getPayDate(), formatter);
-
-		vo.setPayDate(vo.getPayDate());
 		
 		List<AccBookHistoryVO> list = accBookHistoryMapper.getAccHistory(vo);
 		
-		
-
 		return list;
 	}
 
+	//현재 총 소비금액(당일)
 	@Override
 	public int getSumPrice(AccBookHistoryVO vo) {
 		
@@ -70,11 +69,18 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		return price;
 	}
 
+	//현재 월 총 소비금액
 	@Override
 	public int getMonthPrice(AccBookHistoryVO vo) {
 		int price = accBookHistoryMapper.getMonthPrice(vo);
 		
 		return price;
+	}
+
+	//거래내역삭제
+	@Override
+	public int deleteHistory(AccBookHistoryVO vo) {
+		return accBookHistoryMapper.deleteHistory(vo);
 	}
 
 	

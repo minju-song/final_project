@@ -23,4 +23,8 @@ public interface AccBookHistoryService {
 	
 	//해당 월 총 소비금액
 	public int getMonthPrice(AccBookHistoryVO vo);
+	
+	//거래내역 삭제
+	public int deleteHistory(AccBookHistoryVO vo);
+	
 }

@@ -1,6 +1,6 @@
 
-const joinDate = /*[[${joinDate}]]*/
-    window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
+//const joinDate = /*[[${joinDate}]]*/
+window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
 
 let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
 let today = new Date();     // 페이지를 로드한 날짜를 저장
@@ -14,7 +14,7 @@ function buildCalendar() {
         .then(resolve => resolve.json())
         .then(result => {
             let price = result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            document.getElementById("sumByMonth").innerText = (nowMonth.getMonth() + 1) + '월 총 소비 금액 : ' + price + '원';
+            document.getElementById("sumByMonth").innerText = '💸 ' + (nowMonth.getMonth() + 1) + '월 총 소비 금액 : ' + price + '원 💸';
         })
 
 
@@ -143,7 +143,7 @@ function getSumPrice(payDate) {
 function drawInput() {
     console.log("수기입력");
 
-    let keys = ['inputOutput', 'paymentType', 'bankname', 'price', 'payStore'];
+    let keys = ['inputOutput', 'paymentType', 'bankname', 'price', 'payStore', 'btn'];
     let form = document.createElement('form');
     let tr = document.createElement('tr');
 
@@ -174,19 +174,31 @@ function drawInput() {
                 option2.value = 'GA2';
                 select.appendChild(option2);
 
-                let option3 = document.createElement('option')
-                option3.innerText = '카드';
-                option3.value = 'GA3';
-                select.appendChild(option3);
             }
             td.appendChild(select);
+        }
+        else if (key == 'btn') {
+            let btn = document.createElement('button');
+            // btn.onclick = function () { choiceDate(this); }
+
+            btn.innerText = '➕';
+            btn.setAttribute("class", "mybtn");
+            btn.onclick = function () { insertHistory(); }
+            td.appendChild(btn);
         }
         else {
             let input = document.createElement('input');
             if (key == 'price') {
                 input.setAttribute("placeholder", "(원)");
             }
+            else if (key == 'bankname') {
+                input.setAttribute("placeholder", "은행명");
+            }
+            else if (key == 'payStore') {
+                input.setAttribute("placeholder", "사용처");
+            }
             input.setAttribute("id", key);
+            input.setAttribute("class", "input");
             td.appendChild(input);
 
         }
@@ -194,17 +206,20 @@ function drawInput() {
         tr.appendChild(td);
     }
     tr.setAttribute("id", "inputTr");
+    document.querySelector('#hisTable').appendChild(tr);
 
     // form.appendChild(tr);
-    let btn = document.createElement('button');
+    // let btn = document.createElement('button');
     // btn.onclick = function () { choiceDate(this); }
 
-    btn.innerText = '입력';
-    btn.setAttribute("class", "btn btn-primary");
-    btn.onclick = function () { insertHistory(); }
-    document.querySelector('#hisTable').appendChild(tr);
-    document.querySelector('#hisTable').appendChild(btn);
+    // btn.innerText = '입력';
+    // btn.setAttribute("class", "btn btn-primary");
+    // btn.onclick = function () { insertHistory(); }
+    // document.querySelector('#hisTable').appendChild(tr);
+    // document.querySelector('#hisTable').appendChild(btn);
 }
+
+//오늘 거래내역 현금은 삭제 가능
 
 //거래내역 수기등록
 function insertHistory() {
@@ -220,7 +235,9 @@ function insertHistory() {
         url: '/insertHistory',
         data: data,
         success: function (result) {
-            drawTr(data);
+            console.log(result);
+            data.abHistoryId = result;
+            drawTr(data, 1, dateFormat(today));
             getSumPrice(dateFormat(today));
         },
         error: function () {
@@ -240,6 +257,7 @@ function insertHistory() {
 //거래내역 그려줌
 function drawHistory(hisArr, thisDate) {
     let newThis = new Date(thisDate);
+    // console.log(dateFormat(newThis) + ' >>> drawHistory 날짜')
     const parent = document.querySelector('#hisTable');
 
     //기존 거래내역 삭제
@@ -249,11 +267,13 @@ function drawHistory(hisArr, thisDate) {
 
     //거래내역 반복문돌리면서 그려줌
     hisArr.forEach(function (history) {
-        drawTr(history, 0);
+        drawTr(history, 0, dateFormat(newThis));
     })
 }
 
-function drawTr(history, ck) {
+function drawTr(history, ck, drawDate) {
+    // console.log(drawDate + '>>>> drawTr날짜')
+    console.log(history);
     let tr = document.createElement('tr');
     for (const key in history) {
         let td = document.createElement('td');
@@ -288,8 +308,30 @@ function drawTr(history, ck) {
             tr.appendChild(td);
         }
 
+
+        // else if (key == 'btn') {
+
+        //     let btn = document.createElement('button');
+        //     btn.innerText = '삭제';
+        //     btn.onclick = function () { delHistory };
+        //     td.appendChild(btn);
+        //     tr.appendChild(td);
+        // }
+
+    }
+
+    if (drawDate == dateFormat(today) && history.paymentType != 'GA3') {
+        let td = document.createElement('td');
+        console.log("오늘날짜임 >>> drawTr");
+        let btn = document.createElement('button');
+        btn.innerText = '❌';
+        btn.onclick = function () { delHistory(history.abHistoryId) };
+        btn.setAttribute("class", 'mybtn');
+        td.appendChild(btn);
+        tr.appendChild(td);
     }
     // $('#insertHist').before(tr);
+    tr.setAttribute("id", 'history-' + history.abHistoryId);
     if (ck == 0) {
         document.querySelector('#hisTable').appendChild(tr);
     }
@@ -299,7 +341,45 @@ function drawTr(history, ck) {
 
 }
 
+function delHistory(id) {
+    console.log(id + ' 삭제');
+    Swal.fire({
+        title: "등록된 거래내역을 삭제하시겠습니까?",
+        text: "삭제된 내역은 복구될 수 없습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/delHistory?abHistoryId=' + id)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.result == "success") {
+                        Swal.fire({
+                            title: "삭제완료",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                        document.getElementById('history-' + id).remove();
+                        getSumPrice(dateFormat(today));
+                    }
+                    else {
+                        Swal.fire({
+                            title: "삭제실패",
+                            text: "Your file has been deleted.",
+                            icon: "error"
+                        });
+                    }
 
+                    // location.reload();
+                })
+        }
+    });
+
+
+}
 
 
 

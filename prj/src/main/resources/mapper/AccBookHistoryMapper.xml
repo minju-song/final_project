@@ -69,4 +69,17 @@
         AND member_id = #{memberId}
 	  </select>
 	  
+	  <!-- 삭제 -->
+	  <delete id="deleteHistory" parameterType="AccBookHistoryVO">
+	  	DELETE acc_book_history 
+	  	WHERE ab_history_id = #{abHistoryId}
+	  </delete>
+	  
+	  <!-- 방금 넣은 거래내역 아이디 가져오기 -->
+	  <select id="selectCurrent" resultType="int">
+	  	SELECT MAX(ab_history_id) 
+	  	FROM acc_book_history 
+	  	WHERE member_id = #{memberId}
+	  </select>
+	  
   </mapper>
