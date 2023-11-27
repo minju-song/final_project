@@ -46,7 +46,7 @@
 							<!-- 관리자 답변 -->
 							<div class="col-md p-4 position-relative">
 								<form action="/admin/question/detail" method="post">
-									<input type="hidden" name="questionId" th:value="${questionId}" />
+									<input type="hidden" name="questionId" th:value="${info.questionId}" />
 									<span class="fw-bold">답변 작성</span>
 									<div class="mt-2">
 										<textarea class="form-control" id="answer" name="answerContent"
@@ -65,9 +65,9 @@
 							<div class="flex-grow-1 row px-4 pt-4">
 								<div class="col-8 col-sm-7 mb-sm-0 mb-2 p-0">
 									<h6 class="mb-0 fw-bold">관리자</h6>
-									<small class="text-secondary" th:text="${#dates.format(info.answerDate, 'yyyy-MM-dd hh:mm')}">2023-11-09 22:12</small>
+									<small class="text-secondary" th:text="${#dates.format(info.answerDate, 'yyyy-MM-dd HH:mm')}">2023-11-09 22:12</small>
 								</div>
-								<p class="p-0 py-2" th:text="${info.answerContent}">Vivamus sagittis lacus vel augue laoreet
+								<p class="m-0 p-0 py-2" th:text="${info.answerContent}">Vivamus sagittis lacus vel augue laoreet
 									rutrum faucibus dolor auctor. Duis mollis, est non commodo
 									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
 									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
@@ -77,6 +77,10 @@
 									rutrum faucibus dolor auctor. Duis mollis, est non commodo
 									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
 									non commodo luctus.</p>
+									<div class="d-flex mb-3 p-0">
+									<a href="javascript:void(0)" class="text-info card-link ">수정</a>
+									<a id="answerDeleteBtn" class="text-info card-link ms-1">삭제</a>
+									</div>
 								<hr class="m-0">
 							</div>
 						<!-- /댓글 리스트 -->

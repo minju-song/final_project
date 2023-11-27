@@ -2,8 +2,11 @@
  * 
  */
 
-console.log(12)
-	$('#detailView').on('click', function(e) {
-		console.log(e);
-		location.href='/admin/question/detail?questionId=${서버에서 자바스크립트로 불러오기}'
-	})
+console.log("question.js")
+
+$(answerDeleteBtn).on('click', function(e){
+console.log(e)
+	e.preventDefault();
+	let answerId = $(this).attr("href");
+	console.log(answerId)
+});
