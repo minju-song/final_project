@@ -44,9 +44,10 @@ public class MemoController {
 	//등록
 	@PostMapping("member/memoInsert")
 	@ResponseBody
-	public void memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+	public int memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
 		memoVO.setMemberId(principalDetails.getUsername());
-		memoService.insertMemo(memoVO);
+		int id = memoService.insertMemo(memoVO);
+		return id;
 	}
 	
 	//수정

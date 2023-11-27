@@ -35,6 +35,12 @@
 		AND member_id = #{memberId}
 	</select>
 	
+	<select id="selectMemoMax" resultType="int">
+		SELECT MAX(memo_id) as memoId
+		FROM memo
+		WHERE member_id = #{memberId}
+	</select>
+	
 	<!-- 등록 -->
 	<insert id="insertMemo" parameterType="MemoVO">
 		<selectKey keyProperty="memoId,seqNo" resultType="MemoVO" order="BEFORE">

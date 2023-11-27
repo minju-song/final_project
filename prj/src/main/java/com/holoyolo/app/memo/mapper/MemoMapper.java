@@ -12,6 +12,8 @@ public interface MemoMapper {
 	//단건조회
 	public MemoVO selectMemo(MemoVO memoVO);
 	
+	public int selectMemoMax(MemoVO memoVO);
+	
 	//등록
 	public int insertMemo(MemoVO memoVO);
 	

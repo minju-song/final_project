@@ -30,9 +30,8 @@ public class MemoServiceImpl implements MemoService {
 	@Override
 	public int insertMemo(MemoVO memoVO) {
 		int result = memoMapper.insertMemo(memoVO);
-		
 		if(result == 1) {
-			return memoVO.getMemoId();
+			return memoMapper.selectMemoMax(memoVO);
 		}
 		return -1;
 	}
