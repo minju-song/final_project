@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import com.holoyolo.app.holopayHistory.mapper.HoloPayHistoryMapper;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryVO;
+import com.holoyolo.app.member.service.MemberVO;
 
 @Service
 public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
@@ -29,13 +30,19 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 	}
 
 	@Override
-	public int insertHolopayHistory(HoloPayHistoryVO vo) {
+	public HoloPayHistoryVO insertHolopayHistory(HoloPayHistoryVO vo) {
 
 		return holopayHistoryMapper.insertHolopayHistory(vo);
 	}
 
 	@Autowired
 	RestTemplate restTemplate;
+
+	@Override
+	public int holopayBalance(MemberVO vo) {
+		
+		return holopayHistoryMapper.holopayBalance(vo);
+	}
 
 	
 }

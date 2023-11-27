@@ -1,4 +1,4 @@
-package com.holoyolo.app.holopayHistory.service;
+package com.holoyolo.app.holopayHistory.service.api;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -17,22 +17,22 @@ public class HolopayReqVO {
 	public HolopayReqVO(String val) {
 		this.FinAcno ="00820100021780000000000017544";
 		this.Tram = val;
-		this.DractOtlt ="홀로페이 충전";
+		this.DractOtlt ="HP1";
 		LocalTime now = LocalTime.now();
 		LocalDate date = LocalDate.now();
 		String year = String.valueOf(date.getYear());
         String mon = String.valueOf(date.getMonthValue());
         String day = String.valueOf(date.getDayOfMonth());
-		String hour = String.valueOf(now.getHour());
-		String min = String.valueOf(now.getMinute());
-		String sec = String.valueOf(now.getSecond());
+        String hour = String.format("%02d", now.getHour());
+        String min = String.format("%02d", now.getMinute());
+        String sec = String.format("%02d", now.getSecond());
 		String IsTuno = String.valueOf((int) Math.floor(Math.random() * 9 + 1) +hour + min + sec) ;
 		String Tsymd = year + mon + day;
 		String Trtm = hour + min + sec;
 		
 		this.Header.put("ApiNm", "DrawingTransfer");
 		this.Header.put("Tsymd", Tsymd);
-		this.Header.put("Trtm", hour + min + sec); 
+		this.Header.put("Trtm", Trtm); 
 		this.Header.put("Iscd", "002178");
 		this.Header.put("FintechApsno", "001");
 		this.Header.put("ApiSvcCd", "DrawingTransferA");

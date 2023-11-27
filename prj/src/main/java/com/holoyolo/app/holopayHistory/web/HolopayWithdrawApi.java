@@ -13,22 +13,22 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
-import com.holoyolo.app.holopayHistory.service.api.HolopayReqVO;
+import com.holoyolo.app.holopayHistory.service.api.HolopayWithdrawalApiVO;
 
 @Service
-public class HolopayRechargeApi {
-	private static final String REQUEST_URL = "https://developers.nonghyup.com/DrawingTransfer.nh";
+public class HolopayWithdrawApi {
+	private static final String REQUEST_URL = "https://developers.nonghyup.com/ReceivedTransferAccountNumber.nh";
 
 	private final RestTemplate restTemplate;
 
 	@Autowired
 	HoloPayHistoryService holoPayHistoryService;
 
-	public HolopayRechargeApi(RestTemplate restTemplate) {
+	public HolopayWithdrawApi(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
 
-	public JSONObject getPosts(HolopayReqVO apiRequest) {
+	public JSONObject getPosts(HolopayWithdrawalApiVO apiRequest) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		Gson gson = new Gson();
