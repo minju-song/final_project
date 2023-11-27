@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        .search {
+            width: 800px;
+            position: realative;
+        }
+
+        .search_delete {
+            margin-bottom: 15px;
+        }
+
+        .searchwrap {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .deleteAll {
+            margin-top: 17px;
+        }
+
+        #pagination {
+
+            justify-content: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.twbsPagination.min.js"></script>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        알뜰모임목록리스트
+
+        <div class="search_delete searchwrap">
+            <div class="search header_search">
+                <form action="#">
+                    <input type="search" class="search_input" required="required" placeholder="검색">
+                    <button type="submit" id="search_button" class="search_button"><img
+                            th:src="@{/images/magnifying-glass.svg}"></button>
+                </form>
+            </div>
+        </div>
+
+        <div id="clubList">
+
+        </div>
+
+
+
+
+        <nav aria-label="Page navigation" id="page">
+            <ul class="pagination" id="pagination" style="text-align: center;"></ul>
+        </nav>
+
+
+        <script th:inline="javascript">
+
+            let totalCount = [[${ list.size() }]];
+            console.log(totalCount);
+            let pageSize = 6;
+            let pageNumber = 1;
+
+            let _totalPages = totalCount / 6;
+
+            if (totalCount % 6 > 0) {
+                _totalPages++;
+            }
+            console.log(_totalPages);
+            $('#pagination').twbsPagination({
+                startPage: 1,
+                totalPages: _totalPages,
+                visiblePages: 5,
+
+                first: '<span sris-hidden="true">«</span>',
+
+                //" » "라는 문자열로 마지막글 방향을 표시
+                last: '<span sris-hidden="true">»</span>',
+
+                prev: "이전",
+                next: "다음",
+                onPageClick: function (event, page) {
+
+                    callList(page);
+                }
+            });
+
+            function callList(page) {
+                fetch('/clubPaging?page=' + page)
+                    .then(resolve => resolve.json())
+                    .then(result => {
+                        // console.log(result);
+                        drawClub(result);
+                    })
+            }
+
+
+            function drawClub(clubArr) {
+
+                // console.log(clubArr);
+                let clubList = document.getElementById('clubList');
+                while (clubList.firstChild) {
+                    clubList.removeChild(clubList.firstChild);
+                }
+                for (let i = 0; i < clubArr.length; i++) {
+                    let p = document.createElement('p');
+                    // console.log(clubArr[i]);
+                    p.innerText = clubArr[i].clubName;
+                    clubList.appendChild(p);
+                }
+            }
+
+
+        </script>
+
+
+
+    </div>
+
+</body>
+
+</html>

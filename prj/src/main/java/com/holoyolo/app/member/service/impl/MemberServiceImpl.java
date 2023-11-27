@@ -26,10 +26,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Date selectJoinDate() {
+	public Date selectJoinDate(String id) {
 		MemberVO vo = new MemberVO();
 		//회원아이디가져오기
-		vo.setMemberId("testminju@mail.com");
+		vo.setMemberId(id);
 		vo = memberMapper.selectJoinDate(vo);
 		return vo.getJoinDate();
 	}
