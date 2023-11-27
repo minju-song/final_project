@@ -10,7 +10,7 @@
 		SELECT card_no, card_company 
 		FROM member_finance_info 
 		WHERE member_id = #{memberId} 
-		AND use_yn = 'y'
+		AND use_yn = 'Y'
 	</select>
 	
 	
@@ -30,4 +30,30 @@
 			CARD_NO, ACCOUNT, BANKNAME, MEMBER_ID, CARD_COMPANY, MEMBER_FINANCE_ID, SETTING_DATE, USER_YN)
 		VALUES(#{cardNo}, #{account}, #{memberId}, #{cardCompany},#{memberFinanceId}, sysdate, 'Y' )
 	</insert>
+	
+	<select id="checkCardSelect" resultType="MemberFinanceInfoVO">
+		SELECT card_no 
+		FROM member_finance_info 
+		WHERE member_id=#{memberId}
+	</select>
+	
+	<insert id="insertCard" parameterType="MemberFinanceInfoVO">
+		{call insertCardInfo(#{memberId, mode=IN, jdbcType=VARCHAR}, #{cardNo, mode=IN,jdbcType=VARCHAR}, #{cardCompany, mode=IN,jdbcType=VARCHAR})}
+	</insert>
+	
+	<!-- 카드정보 수정 -->
+	<update id="updateCard" parameterType="MemberFinanceInfoVO">
+		UPDATE member_finance_info 
+		SET card_company = #{cardCompany}, card_no = #{cardNo} 
+		WHERE member_id = #{memberId} 
+		AND use_yn = 'Y'
+	</update>
+	
+	<!-- 카드정보 삭제 -->
+	<update id="delcard" parameterType="MemberFinanceInfoVO">
+		UPDATE member_finance_info 
+		SET card_company = null, card_no = null 
+		WHERE member_id = #{memberId}  
+		AND use_yn = 'Y'
+	</update>
 </mapper>
