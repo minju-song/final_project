@@ -50,14 +50,36 @@
 	
 	//핀 클릭시 색상 변경
 	let pins = document.querySelectorAll('.bi-pin');
-	
+	let bookmark = '';
 	for(let i=0; i<pins.length; i++){
 		pins[i].addEventListener('click', function(e){
+			let memoId = e.currentTarget.parentElement.querySelector('.inputMemoId').dataset.memo;
 			if(!e.target.classList.contains('bi-pin-fill')){
 				e.target.src=`/user/images/pin-fill.svg`;
+				bookmark = 'Y';
 			}else{
 				e.target.src=`/user/images/pin.svg`;
+				bookmark = 'N';
 			}
+			$.ajax({    
+				type:"POST",
+				url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+				data : {memoId, bookmark},
+				dataType:'text',
+				success : function(result) { // 결과 성공 콜백함수        
+					if(bookmark == 'Y'){
+						let clone = $(e.target.parentElement).clone();
+						$('.importmemoStart').append(clone);
+						e.target.parentElement.remove();
+					}else{
+						let clone = $(e.target.parentElement).clone();
+						$('.normalmemoStart').append(clone);
+						e.target.parentElement.remove();
+					}
+				},    
+				error : function(request, status, error) { // 결과 에러 콜백함수        
+					console.log(error)    
+				}})
 			e.target.classList.toggle('bi-pin-fill');
 		});
 	}
@@ -105,8 +127,22 @@
     let colors = document.querySelectorAll('input[type=radio]');
     for(let i=0; i<colors.length; i++){
 	    colors[i].addEventListener('click', function(e){
-	    	let memoColor = e.currentTarget.parentElement.parentElement.parentElement;
-	    	memoColor.style.backgroundColor = e.currentTarget.value;
+	    	//let memoId = e.currentTarget.parentElement.parentElement.parentElement.querySelector('.inputMemoId').dataset.memo;
+	    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement;
+	    	let color = e.currentTarget.value
+	    	console.log(memoId , color)
+	    	$.ajax({    
+            type:"POST",
+            url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+            data : {memoId, color},
+            dataType:'text',
+            success : function(result) { // 결과 성공 콜백함수        
+               console.log(result);    
+            },    
+            error : function(request, status, error) { // 결과 에러 콜백함수        
+               console.log(error)    
+            }})
+	    	backcolor.style.backgroundColor = color;
 	    })
     }
     
@@ -309,52 +345,36 @@
    			}
    		}
    		//ajax 요청
-		$.ajax({
-			type:"POST",
-			url : '/member/memoUpdate',  //이동할 jsp 파일 주소
-			data : {memoId, color, content, hashTag, bookmark},
-			dataType:'text',
-			success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
-		        //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
-		        let memoList = document.querySelectorAll('.memo');
-		        hashTag = hashTag.replace(" ", "").split(",");
-		        for(let i=2; i<memoList.length; i++){
-		        	if(memoList[i].querySelector('.inputMemoId').dataset.memo == memoId){
-		        		memoList[i].querySelector('.memotext').innerText = content;
-		        		memoList[i].style.backgroundColor = color;
-		        		if(bookmark == 'Y'){
-		        			memoList[i].querySelector('.bi-pin').src = '/user/images/pin-fill.svg';
-		        		}else{
-		        			memoList[i].querySelector('.bi-pin').src = '/user/images/pin.svg';
-		        		}
-		        		for(let e=0; e<hashTag.length; e++){
-			        		memoList[i].querySelector('.tagify__tag-text').innerText = hashTag[e];
-			        		memoList[i].querySelector('[name=tags]').value = hashTag[e];
-			        		memoList[i].querySelector('[name=tags]').defaultValue = hashTag[e];
-		        		}
-		        		
-		        		
-		        		/*for(let i=0; i<hashTag.length; i++){
-						if(tagify[i] != undefined){
-							tagify[i].innerText = hashTag[i]
-							clone.find('[name=tags]').prop('value', hashTag[i]);
-							clone.find('[name=tags]').prop('defaultValue', hashTag[i]);
-						}else if(tagify[i] === undefined){
-							let clonetag = $('.tagify__tag:eq(0)').clone();
-							clone.find('.tagify__input').remove();
-							clonetag.find('.tagify__tag-text').text(hashTag[i]);
-							clonetag.find('[name=tags]').prop('value', hashTag[i]);
-							clonetag.find('[name=tags]').prop('defaultValue', hashTag[i]);
-							clone.find('.tagify').append(clonetag);			
-						}
-					}*/
-		        	}
-		        }
-			},
-			error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-				console.log('수정실패');
-			}
-		})	
+      	$.ajax({
+         type:"POST",
+         url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+         data : {memoId, color, content, hashTag, bookmark},
+         dataType:'text',
+         success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+              //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
+              let memoList = document.querySelectorAll('.memo');
+              hashTag = hashTag.replace(" ", "").split(",");
+              
+              let inputMemoId = $('[data-memo="' + memoId + '"]');
+              let tags = $(inputMemoId).find('tags');
+              let hashtag = $(inputMemoId).find('input.hashtag');
+              
+              let tagval = '';
+              $(tags).remove('tag');
+              for(let i=0; i<hashTag.length; i++){
+                 tagval += hashTag[i];
+                 tagval += ', ';
+              }
+              
+              let result = tagval.replace(/,\s*$/, ""); // 마지막 콤마제거한 최종 태그 결과
+              console.log(result);
+              $(hashtag).val(result); // input.hashtag의 value 수정
+              
+         },
+         error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+            console.log('수정실패');
+         }
+      })   
 	})
 	
 	
