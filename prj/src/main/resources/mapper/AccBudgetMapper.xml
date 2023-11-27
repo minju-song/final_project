@@ -3,4 +3,39 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.accBudget.mapper.AccBudgetMapper">
+  	
+  	<!-- 회원별 현재 예산단위 가져옴 -->
+  	<select id="getBudgetNow" resultType="AccBudgetVO">
+  		SELECT acc_budget_price, acc_budget_unit 
+		FROM acc_budget 
+		WHERE member_id = #{memberId} 
+		AND use_yn = 'Y'
+  	</select>
+  	
+  	<!-- 예산등록 -->
+  	<insert id="insertBudget" parameterType="AccBudgetVO">
+  		<selectKey keyProperty="accBudgetId"
+					   resultType="int"
+					   order="BEFORE">
+	  		    SELECT NVL(MAX(acc_budget_id),0) + 1
+				FROM acc_budget
+	  	</selectKey>
+  		INSERT INTO acc_budget 
+  		VALUES (#{accBudgetId}, #{accBudgetPrice},#{accBudgetUnit}, sysdate,  #{memberId}, 'Y')
+  	</insert>
+  	
+  	<!-- 예산 이전꺼 사용 안하는걸로 수정 -->
+  	<update id="updateBudget" parameterType="AccBudgetVO">
+  		UPDATE acc_budget 
+  		SET use_yn = 'N' 
+  		WHERE member_id = #{memberId} 
+  		AND use_yn = 'Y'
+  	</update>
+  	
+  	<!-- 예산삭제 및 관련된 진행중인 예산기간 삭제 -->
+  	<select id="deleteBudget" parameterType="AccBudgetVO" resultType="hashmap" >
+  		    {call deletebudget(
+        #{memberId, mode=IN, jdbcType=VARCHAR}
+    )}
+  	</select>
   </mapper>

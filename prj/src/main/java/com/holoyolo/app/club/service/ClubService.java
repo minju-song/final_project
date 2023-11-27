@@ -1,6 +1,7 @@
 package com.holoyolo.app.club.service;
 
 import java.util.List;
+
 import java.util.Map;
 
 public interface ClubService {
@@ -23,4 +24,12 @@ public interface ClubService {
 	
 	// 추가 인터페이스 작성 ↓↓
 	
+
+
+	//알뜰모임 목록
+	public List<ClubVO> getAllClubList();
+	
+	//알뜰모임 목록
+	public List<ClubVO> getClubList(ClubVO vo);
+
 }

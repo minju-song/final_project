@@ -16,4 +16,10 @@ public class ClubVO {
 	private String openScope;
 	private String clubLeader;
 	private String clubCasher;
+
+	
+	//페이징
+	private int page;
+
+
 }

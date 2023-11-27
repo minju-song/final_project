@@ -12,8 +12,9 @@ public interface MemberService {
 	// 회원 가입
 	public int joinUser(MemberVO memberVO);
 
+
 	// 회원 가입일자조회
-	public Date selectJoinDate();
+	//public Date selectJoinDate();
 	
 	// 기본 CRUD : 공성훈 추가
 	// 회원 전체조회
@@ -28,4 +29,8 @@ public interface MemberService {
 	// 회원 정지
 	
 	// 추가 서비스인터페이스 작성 ↓↓
+
+	//회원가입날짜 조회
+	public Date selectJoinDate(String id);
+
 }

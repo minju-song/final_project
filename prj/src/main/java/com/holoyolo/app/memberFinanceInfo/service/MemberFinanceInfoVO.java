@@ -11,12 +11,14 @@ public class MemberFinanceInfoVO {
 	
 	private int memberFinanceId;
 	private String memberId;
-	private String bankName;
+	private String bankname;
 	private String account;
 	private String cardCompany;
 	private String cardNo;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date settingDate;
-	private String userYn;
+	private String useYn;
+	
+	private String result;
 
 }

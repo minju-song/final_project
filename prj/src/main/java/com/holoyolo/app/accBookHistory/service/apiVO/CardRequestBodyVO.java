@@ -1,8 +1,10 @@
 package com.holoyolo.app.accBookHistory.service.apiVO;
 
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 
 import lombok.Data;
@@ -26,8 +28,13 @@ public class CardRequestBodyVO {
     	this.Ineymd = "20191109";
     	
     	this.Header.put("ApiNm", "InquireCreditCardAuthorizationHistory");
-    	this.Header.put("Tsymd", "20231123");
-    	this.Header.put("Trtm", "102500");
+    	SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+    	SimpleDateFormat timeformat = new SimpleDateFormat("HHmmss");
+    	Date now = new Date();
+    	String now_dt = format.format(now);
+    	String now_time = timeformat.format(now);
+    	this.Header.put("Tsymd", now_dt);
+    	this.Header.put("Trtm", now_time);
     	this.Header.put("Iscd", "002177");
     	this.Header.put("FintechApsno", "001");
     	this.Header.put("ApiSvcCd", "CardInfo");

@@ -25,4 +25,11 @@ public interface ClubMapper {
 	
 	// 추가 인터페이스 작성 ↓↓
 	
+	
+	//알뜰모임 목록
+	public List<ClubVO> getAllClubList();
+	
+	//알뜰모임 목록 페이징
+	public List<ClubVO> getClubList(ClubVO vo);
+
 }

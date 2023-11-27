@@ -3,6 +3,7 @@ package com.holoyolo.app.club.service.impl;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class ClubServiceImpl implements ClubService {
 	
 	@Autowired
 	ClubMapper clubMapper;
+
 
 	// 모임 전체조회
 	@Override
@@ -51,4 +53,17 @@ public class ClubServiceImpl implements ClubService {
 	public boolean deleteClubInfo(int clubId) {
 		return false;
 	}
+
+	@Override
+	public List<ClubVO> getAllClubList() {
+		return clubMapper.getAllClubList();
+	}
+	
+	@Override
+	public List<ClubVO> getClubList(ClubVO vo) {
+		return clubMapper.getClubList(vo);
+	}
+
+
+
 }

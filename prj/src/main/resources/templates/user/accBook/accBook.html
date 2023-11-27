@@ -5,438 +5,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <style>
-        #divbox {
-            background-color: white;
-            height: auto;
-            width: 400px;
-            margin: 0px;
-            padding: 20px;
-            margin: 0 auto;
-            border-radius: 5px;
-            box-shadow: 0px 40px 30px -20px rgba(0, 0, 0, 0.3);
-        }
 
-        .Calendar>td {
-            width: 50px;
-            height: 50px;
-        }
-
-        .Calendar {
-            text-align: center;
-        }
-
-        .Calendar>thead>tr:first-child>td {
-            font-family: 'Questrial', sans-serif;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-
-        .Calendar>thead>tr:last-child>td {
-            font-family: 'Questrial', sans-serif;
-            font-weight: 600;
-        }
-
-        .Calendar>tbody>tr>td>p {
-            font-family: 'Montserrat', sans-serif;
-            height: 45px;
-            width: 45px;
-            border-radius: 45px;
-            transition-duration: .2s;
-            line-height: 45px;
-            margin: 2.5px;
-            display: block;
-            text-align: center;
-        }
-
-        .futureDay {
-            color: lightgray;
-        }
-
-        .today {
-            background-color: #F5D042;
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .pastDay {
-            background-color: #FFFFFF;
-            cursor: pointer;
-        }
-
-        .pastDay:hover {
-            background: #eee;
-        }
-
-        .pastDay.choiceDay,
-        .today.choiceDay {
-            background: #0A174E;
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        #divbox {
-            width: 100%;
-            padding-top: 50px;
-            padding-bottom: 50px;
-        }
-
-        #hisTable {
-            width: 100%;
-        }
-
-        #hisTable>td {
-            text-align: center;
-            padding: 5px;
-        }
-
-        .modal {
-            position: absolute;
-            display: none;
-
-            justify-content: center;
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 100%;
-
-
-
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal_body {
-            position: absolute;
-            top: 50%;
-
-
-            width: 400px;
-            height: 600px;
-
-            padding: 40px;
-
-            text-align: center;
-
-            background-color: rgb(255, 255, 255);
-            border-radius: 10px;
-            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-            transform: translateY(-50%);
-        }
-    </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="/user/css/accBook.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script th:inline="javascript">
-        const joinDate = /*[[${joinDate}]]*/;
-        window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
-
-        let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
-        let today = new Date();     // 페이지를 로드한 날짜를 저장
-        today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
-
-        // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
-        function buildCalendar() {
-
-            let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
-            let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
-
-            let tbody_Calendar = document.querySelector(".Calendar > tbody");
-            document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
-            document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
-
-            while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
-                tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
-            }
-
-            let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
-
-            for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
-                let nowColumn = nowRow.insertCell();        // 열 추가
-            }
-
-            for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
-
-                let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
-
-
-                let newDIV = document.createElement("p");
-                newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
-                nowColumn.appendChild(newDIV);
-
-                if (nowDay.getDay() == 6) {                 // 토요일인 경우
-                    nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
-                }
-
-                let newDate = dateFormat(nowDay);
-                let ck = 0;
-                // if (newDate.getMonth() == joinDate.getMonth() && newDate.getDate() >= joinDate.getDate()) {
-                //     ck = 1
-                // }
-                newDIV.id = newDate;
-                newDIV.value = newDate;
-
-                if (nowDay < today) {                       // 지난날인 경우
-                    newDIV.className = "pastDay";
-                    newDIV.onclick = function () { choiceDate(this); }
-                }
-                else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
-                    newDIV.className = "today";
-                    newDIV.onclick = function () { choiceDate(this); }
-                    // choiceDate(this);
-                }
-                else {                                      // 미래인 경우
-                    newDIV.className = "futureDay";
-
-                }
-
-                if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) {
-                    choiceDate(newDIV);
-                }
-            }
-        }
-
-
-        function dateFormat(date) {
-            let newDate = date.getFullYear() + '-' + ((date.getMonth() + 1) < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
-                '-' + ((date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()));
-            return newDate;
-        }
-
-        // 날짜 선택
-        function choiceDate(newDIV) {
-            if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
-                document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
-            }
-            newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
-
-            console.log(dateFormat(new Date(newDIV.id)));
-            fetch('/getAb?payDate=' + dateFormat(new Date(newDIV.id)))
-                .then(resolve => resolve.json())
-                .then(result => {
-                    drawHistory(result, dateFormat(new Date(newDIV.id)));
-                })
-                .catch(err => console.log(err));
-
-
-
-        }
-
-        function drawHistory(hisArr, thisDate) {
-            let newThis = new Date(thisDate);
-            // document.querySelector('#hisTable').removeChild(document.querySelector('#hisTable').childNodes);
-            const parent = document.querySelector('#hisTable');
-
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
-            }
-
-
-            hisArr.forEach(function (history) {
-                console.log(history);
-                let tr = document.createElement('tr');
-                for (const key in history) {
-                    let td = document.createElement('td');
-                    if (key == 'inputOutput') {
-                        if (history[key] == 'GA2') {
-                            td.innerText = '지출';
-                        }
-                        else {
-                            td.innerText = '소득';
-                        }
-                        tr.appendChild(td);
-                    }
-                    else if (key == 'paymentType') {
-                        if (history[key] == 'GA1') {
-                            td.innerText = '현금';
-                        }
-                        else if (history[key] == 'GA2') {
-                            td.innerText = '이체';
-                        }
-                        else {
-                            td.innerText = '카드';
-                        }
-                        tr.appendChild(td);
-                    }
-                    else if (key == 'price') {
-                        td.innerText = history[key] + '원';
-                        tr.appendChild(td);
-                    }
-                    else if (key == 'bankname' || key == 'payStore') {
-                        td.innerText = history[key];
-                        tr.appendChild(td);
-                    }
-
-                }
-
-                // $('#insertHist').before(tr);
-                document.querySelector('#hisTable').appendChild(tr);
-
-            })
-            if (isSameDate(newThis, today)) {
-                let btn = document.createElement('button');
-                btn.innerText = '입력';
-                btn.id = 'insertBtn';
-                // btn.value = 0;
-                btn.addEventListener('click', insertHistory);
-
-                document.querySelector('#hisTable').appendChild(btn);
-
-            }
-        }
-
-        function insertHistory(e) {
-
-
-            // let AccHistory = {};
-            // const { value: dayAcc } = Swal.fire({
-            //     title: "수입/지출을 선택해주세요",
-            //     input: "select",
-            //     inputOptions: {
-            //         GA1: "수입",
-            //         GA2: "지출"
-            //     },
-            //     inputPlaceholder: "수입/지출",
-            //     confirmButtonText: '다음',
-            //     showCancelButton: true,
-            //     inputValidator: (value) => {
-            //         return new Promise((resolve) => {
-            //             resolve();
-            //         });
-            //     }
-            // }).then((result) => {
-            //     if (result.value) {
-            //         const { value: type } =
-            //             Swal.fire({
-            //                 title: "결제방식을 선택해주세요",
-            //                 input: "select",
-            //                 inputOptions: {
-            //                     GA1: "현금",
-            //                     GA2: "이체",
-            //                     GA3: "카드"
-            //                 },
-            //                 inputPlaceholder: "결제방식",
-            //                 confirmButtonText: '다음',
-            //                 showCancelButton: true,
-            //                 inputValidator: (value) => {
-            //                     return new Promise((resolve) => {
-            //                         resolve();
-            //                     });
-            //                 }
-            //             })
-            //     }
-
-            // })
-
-            // console.log(dayAcc + '--' + type);
-        }
-
-
-        function changeBudget(e) {
-            console.log('클릭')
-
-
-            //1번
-            const { value: dayAcc } = Swal.fire({
-                title: "예산기간을 선택해주세요",
-                input: "select",
-                inputOptions: {
-                    day: {
-                        day: "일",
-                        week: "주",
-                        month: "월",
-                    },
-                },
-                inputPlaceholder: "기간선택",
-                confirmButtonText: '다음',
-                showCancelButton: true,
-                inputValidator: (value) => {
-                    return new Promise((resolve) => {
-                        resolve();
-                    });
-                }
-            }).then((result) => {
-                // 2번
-                if (result.value) {
-                    Swal.fire({
-                        title: `선택한 예산 : ${result.value}`,
-                        input: 'text',
-                        inputAttributes: {
-                            autocapitalize: 'off'
-                        },
-                        showCancelButton: true,
-                        confirmButtonText: 'Look up',
-                        showLoaderOnConfirm: true,
-                        // preConfirm: (login) => {
-                        //     return fetch(`//api.github.com/users/${login}`)
-                        //         .then(response => {
-                        //             if (!response.ok) {
-                        //                 throw new Error(response.statusText)
-                        //             }
-                        //             return response.json()
-                        //         })
-                        //         .catch(error => {
-                        //             Swal.showValidationMessage(
-                        //                 `Request failed: ${error}`
-                        //             )
-                        //         })
-                        // },
-                        // allowOutsideClick: () => !Swal.isLoading()
-                        // }).then((result) => {
-                        //     if (result.isConfirmed) {
-                        //         Swal.fire({
-                        //             title: `${result.value.login}'s avatar`,
-                        //             imageUrl: result.value.avatar_url
-                        //         })
-                        //     }
-                    });
-                }
-            });
-        }
-        console.log('script')
-
-
-
-        //날짜같은지
-        const isSameDate = (date1, date2) => {
-            console.log(date1.getDate() + '///' + date2.getDate());
-            return date1.getFullYear() === date2.getFullYear()
-                && date1.getMonth() === date2.getMonth()
-                && date1.getDate() === date2.getDate();
-        }
-
-        // 이전달 버튼 클릭
-        function prevCalendar() {
-            nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
-            buildCalendar();    // 달력 다시 생성
-        }
-        // 다음달 버튼 클릭
-        function nextCalendar() {
-            nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
-            buildCalendar();    // 달력 다시 생성
-        }
-
-        // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-        function leftPad(value) {
-            if (value < 10) {
-                value = "0" + value;
-                return value;
-            }
-            return value;
-        }
-    </script>
+    <script th:src="@{/user/js/accBook.js}"></script>
 </head>
 
 <body>
     <div layout:fragment="content">
-        <h1>카드 회사 : [[${cardCompany}]]</h1>
-        <h1>카드 번호 : [[${cardNo}]]</h1>
+        <div style="display: flex;">
+
+            <div class="info" style="flex: 1;" th:if="${cardNo.equals('null')}">
+                <p>💳카드💳</p>
+                <hr>
+                <p>카드를 등록해주세요
+                <div class="col-6">
+                    <button type="button" class="mybtn" data-toggle="modal" data-target="#amountSetting"
+                        data-whatever="등록">
+                        ➕
+                    </button>
+                </div>
+                </p>
+            </div>
+            <div class="info" style="flex: 1;" th:unless="${cardNo.equals('null')}">
+                <p>💳카드💳</p>
+                <hr>
+                <p>카드 회사 : [[${cardCompany}]]</p>
+                <p>카드 번호 : [[${cardNo}]]
+                    <button type="button" class="mybtn" data-toggle="modal" data-target="#updateCard" data-whatever="수정"
+                        th:data-cardno='${cardNo}' th:data-cardcompany='${cardCompany}'>
+                        ✔️
+                    </button>
+                    <button type="button" class="mybtn" th:value="${cardNo}" id="deleteCard">
+                        ❌
+                    </button>
+                </p>
+            </div>
+            <div class="info" style="flex: 1;" th:if="${accBudgetPrice.equals('null')}">
+                <p>💰목표예산💰</p>
+                <hr>
+                <p>예산을 등록해주세요
+                <div class="col-6">
+                    <button type="button" class="mybtn" data-toggle="modal" data-target="#insertBudget"
+                        data-whatever="등록">
+                        ➕
+                    </button>
+                </div>
+                </p>
+            </div>
+            <div class="info" style="flex: 1;" th:unless="${accBudgetPrice.equals('null')}">
+                <p>💰목표예산💰</p>
+                <hr>
+                <p>예산 단위 : [[${accBudgetUnit}]]</p>
+                <p>예산 금액 : <span th:text="|${#numbers.formatInteger(accBudgetPrice, 0, 'COMMA')}원|"></span>
+                    <button type="button" class="mybtn" data-toggle="modal" data-target="#updateBudget"
+                        data-whatever="수정" th:data-budgetunit="${accBudgetUnit}"
+                        th:data-budgetprice="${accBudgetPrice}">
+                        ✔️
+                    </button>
+                    <button type="button" class="mybtn" id="deleteBudget">
+                        ❌
+                    </button>
+                </p>
+            </div>
+        </div>
         <div id="divbox" style="display: flex;">
             <div id="cal" style="flex: 1;">
-                <table class="Calendar">
+                <h4 id="sumByMonth" style="text-align: center;"></h4>
+                <table class="Calendar" style=" margin: 0 auto;">
                     <thead>
                         <tr>
                             <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
@@ -462,50 +100,346 @@
                 </table>
             </div>
             <div id="history" style="flex: 1;">
-                <h2 style="text-align: center;">소비내역</h2>
+                <h4 style="text-align: center;" id="historyTitle">📰 소비내역 📰</h4>
                 <table id="hisTable">
 
                 </table>
-                <table id="inputTable">
-                    <tr>
-                        <td>
-                            <select>
-                                <option>수입</option>
-                                <option>지출</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select>
-                                <option>현금</option>
-                                <option>이체</option>
-                                <option>카드</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input placeholder="은행">
-                        </td>
-                        <td>
-                            <input placeholder="금액">
-                        </td>
-                        <td>
-                            <input placeholder="사용처">
-                        </td>
-                    </tr>
-                </table>
+                <div>
+                    <h4 id="sumPrice"></h4>
+                </div>
             </div>
         </div>
-        <div class="modal" style="display: none;">
-            <div class="modal_body">
-                <h2>모달창 제목</h2>
-                <p>모달창 내용 </p>
+
+
+
+
+
+
+        <!--모달창 모음-->
+
+
+
+        <!-- 카드 등록 -->
+        <div class="modal fade" id="amountSetting" tabindex="-1" aria-labelledby="amountSettingLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="amountSettingLabel">카드 등록</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form th:action="@{cardInsert}" method="POST" th:object="${MemberFinanceInfoVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">카드사</label>
+                                <select id="amountName" th:field="*{cardCompany}">
+                                    <div class="dropdown-menu">
+                                        <option value="농협">
+                                            <div class="dropdown-item">농협</div>
+                                        </option>
+                                        <option value="현대">
+                                            <div class="dropdown-item">현대</div>
+                                        </option>
+                                        <option value="신한">
+                                            <div class="dropdown-item">신한</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="amountNum" class="col-form-label">카드번호</label>
+                                    <input type="text" class="form-control" id="amountNum" style="resize: none;"
+                                        th:field="*{cardNo}" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addAmountBtn">등록</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="accInsertOpenModal" value="0" style="display: none;"></div>
+
+        <!-- 카드 수정 -->
+        <div class="modal fade" id="updateCard" tabindex="-1" aria-labelledby="updateCardLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateCardLabel">카드 변경</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form th:action="@{cardUpdate}" method="POST" th:object="${MemberFinanceInfoVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">카드사</label>
+                                <br>
+                                <select id="cardCompanySelect" th:field="*{cardCompany}">
+                                    <div class="dropdown-menu">
+                                        <option value="농협">
+                                            <div class="dropdown-item">농협</div>
+                                        </option>
+                                        <option value="현대">
+                                            <div class="dropdown-item">현대</div>
+                                        </option>
+                                        <option value="신한">
+                                            <div class="dropdown-item">신한</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="cardNum" class="col-form-label">카드번호</label>
+                                    <input type="text" class="form-control" id="cardNum" style="resize: none;"
+                                        th:field="*{cardNo}" placeholder="'-' 제외" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addCardBtn">변경</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 예산 등록 -->
+        <div class="modal fade" id="insertBudget" tabindex="-1" aria-labelledby="insertBudgetLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="insertBudgetLabel">예산 등록</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form th:action="@{budgetInsert}" method="POST" th:object="${AccBudgetVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">예산 단위</label>
+                                <br>
+                                <select id="accBudgetUnit" th:field="*{accBudgetUnit}">
+                                    <div class="dropdown-menu">
+                                        <option value="YA1">
+                                            <div class="dropdown-item">일</div>
+                                        </option>
+                                        <option value="YA2">
+                                            <div class="dropdown-item">주</div>
+                                        </option>
+                                        <option value="YA3">
+                                            <div class="dropdown-item">월</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="accBudgetPrice" class="col-form-label">예산금액</label>
+                                    <input type="text" class="form-control" style="resize: none;"
+                                        th:field="*{accBudgetPrice}" placeholder="(원)" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addBudgetBtn">등록</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 예산 변경 -->
+        <div class="modal fade" id="updateBudget" tabindex="-1" aria-labelledby="updateBudgetLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateBudgetLabel">예산 수정</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form th:action="@{budgetUpdate}" method="POST" th:object="${AccBudgetVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">예산 단위</label>
+                                <br>
+                                <select id="accBudgetUnitSelect" th:field="*{accBudgetUnit}">
+                                    <div class="dropdown-menu">
+                                        <option value="YA1">
+                                            <div class="dropdown-item">일</div>
+                                        </option>
+                                        <option value="YA2">
+                                            <div class="dropdown-item">주</div>
+                                        </option>
+                                        <option value="YA3">
+                                            <div class="dropdown-item">월</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="accBudgetPrice" class="col-form-label">예산금액</label>
+                                    <input type="text" class="form-control" id="accbudgetprice" style="resize: none;"
+                                        th:field="*{accBudgetPrice}" placeholder="(원)" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addBudgetBtn">수정</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <script>
+            $(function () {
+                $('#updateCard').on('show.bs.modal', function (event) {
+                    console.log("모달오픈");
+                    let cardno = $(event.relatedTarget).data('cardno');
+                    console.log($(event.relatedTarget).data('cardcompany'));
+                    document.getElementById('cardNum').value = cardno;
 
+
+                    let selectBox1 = document.getElementById('cardCompanySelect');
+                    let len1 = selectBox1.options.length;
+                    let cardCom = $(event.relatedTarget).data('cardcompany');
+
+                    for (let i = 0; i < len1; i++) {
+                        if (selectBox1.options[i].value == cardCom) {
+                            selectBox1.options[i].selected = true;
+                        }
+                    }
+                    // console.log(document.querySelector('option[value=' + $(event.relatedTarget).data('cardcompany') + ']'));
+                    // document.querySelector('option[value=' + $(event.relatedTarget).data('cardcompany') + ']').setAttribute('selected', 'selected');
+
+
+
+
+                });
+                $('#updateBudget').on('show.bs.modal', function (event) {
+
+                    let budgetprice = $(event.relatedTarget).data('budgetprice');
+                    console.log(budgetprice);
+                    document.getElementById('accbudgetprice').value = budgetprice;
+
+                    let selectBox2 = document.getElementById('accBudgetUnitSelect');
+                    let len2 = selectBox2.options.length;
+                    let budgetunit = $(event.relatedTarget).data('budgetunit');
+                    console.log(budgetunit);
+                    if (budgetunit == '일') budgetunitval = 'YA1';
+                    else if (budgetunit == '주') budgetunitval = 'YA2';
+                    else if (budgetunit == '월') budgetunitval = 'YA3';
+                    console.log(budgetunitval);
+                    for (let i = 0; i < len2; i++) {
+                        if (selectBox2.options[i].value == budgetunitval) {
+                            selectBox2.options[i].selected = true;
+                        }
+                    }
+                });
+
+            });
+
+
+            let delCardBtn = document.getElementById("deleteCard");
+
+            delCardBtn.addEventListener("click", delModal);
+
+            function delModal(e) {
+                let cardno = delBtn.value;
+                let data = { cardno };
+                console.log(cardno);
+                Swal.fire({
+                    title: "등록된 카드를 삭제하시겠습니까?",
+                    text: "삭제된 정보는 복구될 수 없습니다.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("/cardDelete", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                cardNo: cardno
+                            }),
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.result == "success") {
+                                    Swal.fire({
+                                        title: "삭제완료",
+                                        text: "Your file has been deleted.",
+                                        icon: "success"
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "삭제실패",
+                                        text: "Your file has been deleted.",
+                                        icon: "error"
+                                    });
+                                }
+
+                                location.reload();
+                            })
+                    }
+                });
+            }
+
+            let delBudgetBtn = document.getElementById("deleteBudget");
+            delBudgetBtn.addEventListener("click", delBudget);
+
+
+            function delBudget(e) {
+                Swal.fire({
+                    title: "등록된 예산을 삭제하시겠습니까?",
+                    text: "삭제된 정보는 복구될 수 없습니다.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("/budgetDelete")
+                            .then(response => response.json())
+                            .then(result => {
+                                console.log(result);
+                                if (result.result == "success") {
+                                    Swal.fire({
+                                        title: "삭제완료",
+                                        text: "Your file has been deleted.",
+                                        icon: "success"
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "삭제실패",
+                                        text: "Your file has been deleted.",
+                                        icon: "error"
+                                    });
+                                }
+
+                                location.reload();
+                            })
+                    }
+                });
+            }
         </script>
-
     </div>
 
 </body>

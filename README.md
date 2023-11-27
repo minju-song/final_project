@@ -1,6 +1,6 @@
 # final_project
 최종프로젝트
-
+꼭 본인 브랜치에 push하고 머지하면 pull받고 작업하기
 ### [JIRA 다들 관리해주기] (https://kongom2.atlassian.net/jira/software/c/projects/TASK/boards/6)
 
 깃허브 브랜치
