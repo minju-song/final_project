@@ -62,12 +62,12 @@ public class MemoServiceImpl implements MemoService {
 		Map<String, Object> map = new HashMap<>();
 		boolean isSucceed = false;
 		
-		int result = memoMapper.updateMemo(memoVO);
+		int result = memoMapper.memoIndex(memoVO);
 		if(result == 1) {
 			isSucceed = true;
 		}
 		
-		map.put("result", memoVO);
+		map.put("result", isSucceed);
 		map.put("info", memoVO);
 		return map;
 	}

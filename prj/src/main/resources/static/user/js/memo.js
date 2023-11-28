@@ -68,27 +68,32 @@
  
   	const draggables = document.querySelectorAll(".draggable");
 	const containers = document.querySelectorAll(".dragcontainer");
+	let firstNo = 0;
+	let lastNo = 0;
 	//드래그 시작될 때
 	draggables.forEach(draggable => {
 	  draggable.addEventListener("dragstart", () => {
 	    draggable.classList.add("dragging");
+	    lastNo = $(draggable).index();
+	    memoId = $(draggable).find('.inputMemoId')[0].dataset.memo;
 	  });
 	  //드래그가 끝날 때
 	  draggable.addEventListener("dragend", () => {
 	    draggable.classList.remove("dragging");
-	    console.log()
+	    firstNo = $(draggable).index();
+	    console.log(firstNo, lastNo, memoId)
 	    //index 수정
-	    /*$.ajax({    
+	    $.ajax({    
         type:"POST",
         url : '/member/updateIndex',  //이동할 jsp 파일 주소
-        data : {memberId, memoId, firstNo, lastNo},
+        data : {memoId, firstNo, lastNo},
         dataType:'text',
         success : function(result) { // 결과 성공 콜백함수        
-           console.log(result);    
+           console.log("성공");    
         },    
         error : function(request, status, error) { // 결과 에러 콜백함수        
            console.log(error)    
-        }})*/
+        }})
     	
 	  });
 	});
@@ -253,7 +258,6 @@
     
     //메모 상세보기 변경 설정(핀, 색상)
 	let writepins = $('#writedMemo').find('.modal-bi-pin')[0];
-	console.log(writepins)
 	writepins.addEventListener('click', function(e){
 		if(!e.target.classList.contains('bi-pin-fill')){
 			e.target.src=`/user/images/pin-fill.svg`;
