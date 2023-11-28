@@ -68,7 +68,7 @@ public class HoloPayController {
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		holoPayHistoryVO.setMemberId(memberId);
 		List<HoloPayHistoryVO> history = holoPayHistoryService.holopayHistoryList(holoPayHistoryVO);
-				if (history.size() != 0) {
+		if (history.size() != 0) {
 			mo.addAttribute("holopayList", history);
 		} else {
 			mo.addAttribute("holopayList", "0");
@@ -174,8 +174,7 @@ public class HoloPayController {
 				formatset = dateformat.parse(Tsymd);
 				holoPayHistoryVO.setHpDate(formatset);
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
-				
-				
+
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
 				System.out.println(checkResultType);
 				if (checkResultType == 2) {
@@ -203,17 +202,17 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/loadhistory", method = RequestMethod.POST)
 	@ResponseBody
-	public List<HoloPayHistoryVO> historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
-			Model mo) {
+	public List<HoloPayHistoryVO> historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody JSONObject req, Model mo) {
 		String term = (String) req.get("term");
-System.out.println(term);
+		System.out.println(term);
 		HoloPayHistoryVO vo = new HoloPayHistoryVO();
 		vo.setMemberId(principalDetails.getUsername());
-		List<HoloPayHistoryVO> resultHistoryList =holoPayHistoryService.searchPay(term,vo);
+		List<HoloPayHistoryVO> resultHistoryList = holoPayHistoryService.searchPay(term, vo);
 		System.out.println(resultHistoryList);
 
 		return resultHistoryList;
-		
+
 	}
 
 }

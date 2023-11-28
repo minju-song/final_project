@@ -37,6 +37,7 @@
 		FROM holopay_history
 		WHERE member_id = #{memberId}
 		AND  HP_DATE >= ADD_MONTHS(SYSDATE, #{searchMonth})
+		ORDER BY hp_date
 	</select>
 
 </mapper>
