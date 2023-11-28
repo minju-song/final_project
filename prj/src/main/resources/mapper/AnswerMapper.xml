@@ -26,9 +26,18 @@
 	    VALUES (#{answerId}, #{answerContent}, sysdate, #{questionId})
 	</insert>
 	
+	<update id="updateAnswerInfo" parameterType="AnswerVO">
+		UPDATE answer SET
+			<if test="answer_content != null and !answer_content.equals('')">
+			    answer_content = '답변수정',
+			</if>
+			    update_date = sysdate
+		WHERE answer_id = #{answerId}
+	</update>
+		
 	<delete id="deleteAnswerInfo" parameterType="int">
 		DELETE FROM answer
-		WHERE answer_id = #{answerId};
+		WHERE answer_id = #{answerId}
 	</delete>
   
   </mapper>

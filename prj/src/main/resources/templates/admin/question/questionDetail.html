@@ -16,8 +16,9 @@
 					<th:block th:each="info, stat : ${questionInfo}">
 						<!-- 문의 제목 -->
 						<div class="d-flex">
-						<h5 class="fw-bold" th:text="${info.title}">테스트문의제목1</h5>
-						<h5 class="text-warning ms-3 fw-bold" th:text="${info.questionType}">답변대기</h5>
+							<h5 class="fw-bold" th:text="${info.title}">테스트문의제목1</h5>
+							<h5 class="text-warning ms-3 fw-bold"
+								th:text="${info.questionType}">답변대기</h5>
 						</div>
 						<!-- /문의 제목 -->
 						<div class="row">
@@ -46,11 +47,12 @@
 							<!-- 관리자 답변 -->
 							<div class="col-md p-4 position-relative">
 								<form action="/admin/question/detail" method="post">
-									<input type="hidden" name="questionId" th:value="${info.questionId}" />
-									<span class="fw-bold">답변 작성</span>
+									<input type="hidden" name="questionId"
+										th:value="${info.questionId}" /> <span class="fw-bold">답변
+										작성</span>
 									<div class="mt-2">
-										<textarea class="form-control" id="answer" name="answerContent"
-											placeholder="내용을 입력해주세요." rows="15"></textarea>
+										<textarea class="form-control" id="answer"
+											name="answerContent" placeholder="내용을 입력해주세요." rows="15"></textarea>
 									</div>
 									<div class="mt-2 position-absolute end-0">
 										<button type="submit" class="btn btn-primary me-4">보내기</button>
@@ -62,32 +64,53 @@
 						<!-- 댓글 리스트 -->
 						<div>
 							<th:block th:each="info, stat : ${answerInfo}">
-							<div class="flex-grow-1 row px-4 pt-4">
-								<div class="col-8 col-sm-7 mb-sm-0 mb-2 p-0">
-									<h6 class="mb-0 fw-bold">관리자</h6>
-									<small class="text-secondary" th:text="${#dates.format(info.answerDate, 'yyyy-MM-dd HH:mm')}">2023-11-09 22:12</small>
-								</div>
-								<p class="m-0 p-0 py-2" th:text="${info.answerContent}">Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.Vivamus sagittis lacus vel augue laoreet
-									rutrum faucibus dolor auctor. Duis mollis, est non commodo
-									luctus. Duis mollis, est non commodo luctus.Duis mollis, est
-									non commodo luctus.</p>
-									<div class="d-flex mb-3 p-0">
-									<a href="javascript:void(0)" class="text-info card-link ">수정</a>
-									<a href="" id="answerDeleteBtn" class="text-info card-link ms-1">삭제</a>
+								<div class="flex-grow-1 row px-4 pt-4">
+									<div class="col-8 col-sm-7 mb-sm-0 mb-2 p-0">
+										<h6 class="mb-0 fw-bold">관리자</h6>
+										<small class="text-secondary"
+											th:text="${#dates.format(info.answerDate, 'yyyy-MM-dd HH:mm')}">2023-11-09
+											22:12</small>
 									</div>
-								<hr class="m-0">
-							</div>
-						<!-- /댓글 리스트 -->
-					</th:block>	
+									<div class="originContent  mb-3 p-0">
+										<p class="m-0 p-0 py-2" th:text="${info.answerContent}">Vivamus
+											sagittis lacus vel augue laoreet rutrum faucibus dolor
+											auctor. Duis mollis, est non commodo luctus. Duis mollis, est
+											non commodo luctus.Duis mollis, est non commodo
+											luctus.Vivamus sagittis lacus vel augue laoreet rutrum
+											faucibus dolor auctor. Duis mollis, est non commodo luctus.
+											Duis mollis, est non commodo luctus.Duis mollis, est non
+											commodo luctus.Vivamus sagittis lacus vel augue laoreet
+											rutrum faucibus dolor auctor. Duis mollis, est non commodo
+											luctus. Duis mollis, est non commodo luctus.Duis mollis, est
+											non commodo luctus.</p>
+										<div class="d-flex">
+											<a class="text-info cursor-pointer"
+												th:answerId="${info.answerId}"
+												th:questionId="${info.questionId}"
+												th:onclick="updateAnswerBtn(this.getAttribute('answerId'), this.getAttribute('questionId'))">수정</a>
+											<a class="text-info ms-1 cursor-pointer"
+												th:answerId="${info.answerId}"
+												th:questionId="${info.questionId}"
+												th:onclick="deleteAnswerBtn(this.getAttribute('answerId'), this.getAttribute('questionId'))">삭제</a>
+										</div>
+									</div>
+									<div id="updateInput" class="p-0 pb-3 d-none updateInput">
+										<textarea class="form-control" id="answerUpdate"
+											name="answerContent" placeholder="내용을 입력해주세요." rows="2"
+											th:text="${info.answerContent}"></textarea>
+										<div class="d-flex mt-2">
+											<button type="submit" class="btn btn-primary me-1">확인</button>
+											<button id="updateCancel" type="button"
+												class="btn btn-outline-secondary">취소</button>
+										</div>
+									</div>
+									<hr class="m-0">
+								</div>
+								<!-- /댓글 리스트 -->
+							</th:block>
+						</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>
