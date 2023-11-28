@@ -3,25 +3,27 @@
  */
 
 console.log("admin-question.js 작업중")
-
+//타겟 수정버튼 클릭 시
+//1. 입력창 display => updateInput
+//2. 컨텐츠 display none => originContent
+//3. 다른 타겟 입력창 display none => .updateInput
 // 수정
 const updateAnswerBtn = (answerId, questionId, e) => {
+
+console.log()
 	const reqUrl = `/admin/question/detail/update/${questionId}/${answerId}`
-	let target = event.target;
+	let target = $(event.target)
+		originContent = target.closest('.originContent')
+		updateInput = target.closest('.row').find('.updateInput')
+	console.log(updateInput)
 	
-	console.log(target)
-	console.log(this)
-	
-	let updateInput = target.parentElement.parentElement.nextElementSibling.classList;
-	let originContent = $(target).closest('.originContent');
-	console.log(originContent);
-	console.log(reqUrl)
+$(originContent).removeClass('d-none')
+$(".updateInput").addClass('d-none')
+$(updateInput).removeClass('d-none')
 
-
-
-	$('.updateInput').toggleClass('d-none');
-
-	
+//	$(originContent).addClass('d-none')
+//	$(updateInput).toggleClass('d-none')
+//	if($('.d-none'))
 
 	$.ajax({
 		type: 'PUT',
