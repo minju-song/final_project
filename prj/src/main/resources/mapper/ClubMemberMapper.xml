@@ -11,8 +11,17 @@
   		WHERE member_id = #{memberId}
   	</select>
   	
+  	<!-- 클럽 바로 가입 -->
   	<insert id="joinClub" parameterType="ClubMemberVO">
   		INSERT into club_member 
   		VALUES (sysdate, null, #{clubId}, #{memberId})
   	</insert>
+  	
+  	<!-- 클럽 가입자수 (탈퇴회원 제외) -->
+  	<select id="countMember" parameterType="ClubMemberVO" resultType="int">
+  		SELECT count(*) 
+  		FROM club_member 
+  		WHERE club_id = #{clubId} 
+  		AND stop_date is null
+  	</select>
   </mapper>

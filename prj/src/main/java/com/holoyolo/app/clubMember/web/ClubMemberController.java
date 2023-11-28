@@ -25,22 +25,25 @@ public class ClubMemberController {
 	@Autowired
 	ClubMemberService clubMemberService;
 	
-	@GetMapping("member/joinClub")
+	@GetMapping("/joinClub")
 	@ResponseBody
-	public Map<String, Object> joinClub(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubMemberVO vo) throws ParseException {
+	public String joinClub(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam(name = "clubId") String clubId) {
 		//결과맵
+		
+		if(principalDetails == null) {
+			return "redirect:/loginForm";
+		}
 		System.out.println("실행완");
-		Map<String, Object> map = new HashMap<>();
-//		ClubMemberVO vo =new ClubMemberVO();
+//		Map<String, Object> map = new HashMap<>();
+		ClubMemberVO vo =new ClubMemberVO();
 		vo.setMemberId(principalDetails.getUsername());
 
-//		vo.setClubId(Integer.valueOf((String) jsonObject.get("clubId")));
+		vo.setClubId(Integer.valueOf(clubId));
 		if(clubMemberService.joinClub(vo) > 0 ) {
-			map.put("result", "success");
+			return "success";
 		}
 		else {
-			map.put("result", "fail");
+			return "fail";
 		}
-		return map;
 	}
 }

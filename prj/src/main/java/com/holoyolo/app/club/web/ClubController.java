@@ -49,9 +49,11 @@ public class ClubController {
 			List<ClubMemberVO> clubJoinlist = clubMemberService.getClubJoin(principalDetails.getUsername());
 			
 			model.addAttribute("joinlist", clubJoinlist);
+			model.addAttribute("userId", principalDetails.getUsername());
 		}
 		else {
 			model.addAttribute("joinlist", "null");
+			model.addAttribute("userId","null");
 		}
 			
 	
@@ -69,9 +71,20 @@ public class ClubController {
 		List<ClubVO> list = new ArrayList<>();
 		list = clubService.getClubList(vo);
 		
+		for(int i=0; i<list.size(); i++) {
+			ClubVO temp = new ClubVO();
+			temp = list.get(i);
+			temp.setJoinCnt(clubMemberService.countMember(list.get(i).getClubId()));
+			list.set(i, temp);
+		}
+		
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		
 		map.put("length", list.size());
 		map.put("result", list);
-		System.out.println(vo);
+//		System.out.println(vo);
 		return map;
 
 	}
@@ -85,5 +98,12 @@ public class ClubController {
 		
 		map.put("total", cnt);
 		return map;
+	}
+	
+	@GetMapping("/member/club/clubPage")
+	public String clubPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model, ClubVO vo) {
+		
+		model.addAttribute("clubId", vo.getClubId());
+		return "user/club/clubPage";
 	}
 }

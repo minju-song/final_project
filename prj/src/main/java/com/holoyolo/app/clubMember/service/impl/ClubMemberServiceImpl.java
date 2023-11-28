@@ -35,5 +35,10 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 		return clubMemberMapper.joinClub(vo);
 	}
 
+	@Override
+	public int countMember(int id) {
+		return clubMemberMapper.countMember(id);
+	}
+
 
 }

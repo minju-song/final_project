@@ -40,7 +40,8 @@
         <nav aria-label="Page navigation" id="page">
             <ul class="pagination" id="pagination" style="text-align: center;"></ul>
         </nav>
-
+        <div id="userid" sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberId" hidden>
+        </div>
 
         <!-- <script th:inline="javascript" type="text/javascript" th:src="@{/user/js/clublist.js}" defer></script> -->
 
@@ -179,6 +180,7 @@
                     clubList.removeChild(clubList.firstChild);
                 }
                 for (let i = 0; i < clubArr.length; i++) {
+                    // console.log(clubArr[i]);
                     let divCard = document.createElement('div');
                     // divCard.setAttribute("class", "col-6");
                     divCard.classList.add("col-5", 'card_club');
@@ -196,7 +198,7 @@
                     divInfo.innerHTML = '모임명 : ' + clubArr[i].clubName + '<br>'
                         + '모임소개 : ' + clubArr[i].clubIntro + '<br>'
                         + '모임장 : ' + clubArr[i].leaderName + '<br>'
-                        + '가입자수 / ' + clubArr[i].clubPeople + '<br>'
+                        + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + ' [가입인원 / 모집인원]<br>'
                         + '절약예산 / 기간단위 <br>';
 
                     let btn = document.createElement('button');
@@ -228,7 +230,7 @@
                         }
                         else {
                             btn.innerText = '가입신청';
-                            btn.onclick = function () { submit(clubArr[i].clubId) };
+                            btn.onclick = function () { submit(clubArr[i].clubId, clubArr[i].clubLeader) };
                         }
                     }
 
@@ -252,49 +254,89 @@
             function join(clubId) {
                 console.log(clubId + '번 클럽 즉시 가입');
                 if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+                if ([[${ userId }]] == "null") location.href = "/loginForm";
+                else {
+                    Swal.fire({
+                        title: "클럽에 바로 가입하시겠습니까?",
+                        text: "즉시 가입이 가능합니다.",
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch("/joinClub?clubId=" + clubId)
+                                .then(response => response.text())
+                                .then(result => {
+                                    if (result == "success") {
+                                        Swal.fire({
+                                            title: "가입완료",
+                                            text: "가입이 완료되었습니다.",
+                                            icon: "success"
+                                        }).then((result) => {
+                                            location.reload();
 
-                Swal.fire({
-                    title: "클럽에 바로 가입하시겠습니까?",
-                    text: "즉시 가입이 가능합니다.",
-                    icon: "question",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        fetch("/member/joinClub?clubId=" + clubId)
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.result == "success") {
-                                    Swal.fire({
-                                        title: "삭제완료",
-                                        text: "Your file has been deleted.",
-                                        icon: "success"
-                                    });
-                                }
-                                else {
-                                    Swal.fire({
-                                        title: "삭제실패",
-                                        text: "Your file has been deleted.",
-                                        icon: "error"
-                                    });
-                                }
+                                        });
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            title: "가입실패",
+                                            text: "오류났음",
+                                            icon: "error"
+                                        });
+                                    }
 
-                                location.reload();
-                            })
-                    }
-                });
+                                    // location.reload();
+                                })
+                        }
+                    });
+                }
             }
 
             //클럽 가입 이벤트
-            function submit(clubId) {
+            function submit(clubId, clubLeader) {
                 console.log(clubId + '번 클럽 가입 신청');
                 if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+
+                if ([[${ userId }]] == "null") location.href = "/loginForm";
+                else {
+                    Swal.fire({
+                        title: "클럽에 가입 신청을 하시겠습니까?",
+                        text: "가입 허가를 받아합니다.",
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                input: "textarea",
+                                inputLabel: "가입 사유를 적어주세요.",
+                                inputPlaceholder: "Type your message here...",
+                                inputAttributes: {
+                                    "aria-label": "Type your message here"
+                                },
+                                showCancelButton: true
+                            });
+                            if (text) {
+                                fetch()
+                                Swal.fire({
+                                    title: "신청 완료",
+                                    text: "신청이 완료되었습니다.",
+                                    icon: "success"
+                                });
+                            }
+                        }
+                    });
+                }
             }
 
             function test(clubId) {
-                console.log(clubId + '번 클럽 클릭');
+                if ([[${ userId }]] == "null") location.href = "/loginForm";
+
+                location.href = '/member/club/clubPage?clubId=' + clubId;
             }
 
 

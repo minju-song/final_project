@@ -9,4 +9,7 @@ public interface ClubMemberService {
 	
 	//즉시 클럽가입
 	public int joinClub(ClubMemberVO vo);
+	
+	//현재 가입자수 조회
+	public int countMember(int id);
 }
