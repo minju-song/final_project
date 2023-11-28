@@ -18,60 +18,68 @@
   <div layout:fragment="content">
     <div class="container">
       <!--/*홀로페이 잔액조회 */-->
-      <div class="row">
-        <div class="col-4">
-          <th:block th:unless="${amount == 0}">
-            <div>
-              <h4>등록된 계좌 정보</h4>
-              <p>은행 : <span th:text="${financeVO.bankname}" id="myAccountName"></span></p>
-              <br>
-              <p>계좌번호 : <span th:text="${financeVO.account}" id="myAccountNum"></span> <button type="button"
-                  class="btn btn-primary" data-toggle="modal" data-target="#amountSetting" data-whatever="계좌변경">
-                  거래 계좌 변경
-                </button></p>
-              <br>
-              <p>홀로페이 잔액 : <span th:text="${payBalance}"></span>
-              <div class="btn-group">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rechargeSet"
-                  data-whatever="@mdo">충전</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdrawBtn"
-                  data-whatever="@mdo">인출</button>
-              </div>
-              </p>
-              <!--/* 충전/인출 버튼 */-->
 
-
+      <th:block th:unless="${amount == 0}">
+        <div class="row">
+          <div class="col-3">
+            <h4>등록된 계좌 정보</h4>
+            <p> 은행 : <span th:text="${financeVO.bankname}" id="myAccountName"></span></p>
+            <p>계좌번호 : <span th:text="${financeVO.account}" id="myAccountNum"></span></p>
+          </div>
+          <div class="col-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+              data-whatever="계좌변경">거래계좌변경</button>
+          </div>
+          <div class="col-3">
+            <h4>HOLOPAY</h4>
+            <p>홀로페이 잔액 : <span th:text="${payBalance}"></span></p>
+          </div>
+          <div class="col-3">
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rechargeSet">충전</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdrawBtn">인출</button>
             </div>
-
-          </th:block>
-
-
-          <th:block th:if="${amount == 0}">
-            <div class="row" id="myAccountInfo">
-              <div class="col-6">
-                <h3>등록된 계좌가 없습니다</h3>
-              </div>
-              <div class="col-6">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
-                  data-whatever="계좌등록">
-                  계좌등록
-                </button>
-              </div>
-            </div>
-          </th:block>
+          </div>
         </div>
-        <div class="col-8">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>순번</th>
-                <th>유형</th>
-                <th>금액</th>
-                <th>내용</th>
-                <th>날짜</th>
-              </tr>
-            </thead>
-            <tbody>
+      </th:block>
+
+
+      <th:block th:if="${amount == 0}">
+        <div class="row">
+          <div class="col-6">
+            <h3>등록된 계좌가 없습니다</h3>
+          </div>
+          <div class="col-6">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+              data-whatever="계좌등록">
+              계좌등록
+            </button>
+          </div>
+        </div>
+      </th:block>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <table class="table">
+
+          <select>
+            <option value="all" >전체</option>
+            <option value="1M">1개월</option>
+            <option value="3M">3개월</option>
+            <option value="6M">6개월</option>
+          </select>
+          <thead class="thead">
+            <tr>
+              <th>순번</th>
+              <th>유형</th>
+              <th>금액</th>
+              <th>내용</th>
+              <th>날짜</th>
+            </tr>
+          </thead>
+          <tbody>
+            <th:block th:unless="${holopayList} == '0'">
               <tr th:each="holopayList : ${holopayList}">
                 <td th:text="${holopayList.hpHistoryId}"></td>
                 <td th:switch="${holopayList.hpType}">
@@ -83,15 +91,27 @@
                 <td th:text="${holopayList.price}"></td>
                 <td th:text="${holopayList.holopayComment}"></td>
                 <td th:text="${#dates.format(holopayList.hpDate, 'yy/MM/dd')}"></td>
-
-
               </tr>
-            </tbody>
+            </th:block>
+            <th:block th:if="${holopayList} == '0'">
+              <tr>
+                <td></td>
+                <td></td>
+                <td align="center-block">
+                  <h3 style="text-align: center;">거래내역 없음</h3>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            </th:block>
+          </tbody>
 
-          </table>
-        </div>
+        </table>
+
+
       </div>
     </div>
+
 
     <!--/* 계좌등록 모달 */-->
     <div class="modal fade" id="amountSetting" tabindex="-1" aria-labelledby="amountSettingLabel" aria-hidden="true">
@@ -133,9 +153,8 @@
           </div>
         </div>
       </div>
+
     </div>
-
-
 
 
 

@@ -68,8 +68,13 @@ public class HoloPayController {
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		holoPayHistoryVO.setMemberId(memberId);
 		List<HoloPayHistoryVO> history = holoPayHistoryService.holopayHistoryList(holoPayHistoryVO);
-System.out.println(history);
-		mo.addAttribute("holopayList", history);
+		System.out.println(history);
+		if (history.size() != 0) {
+			mo.addAttribute("holopayList", history);
+		} else {
+			mo.addAttribute("holopayList", "0");
+		}
+
 		mo.addAttribute("memberInfo", memberVO);
 		mo.addAttribute("menu", "mypage");
 
@@ -117,10 +122,15 @@ System.out.println(history);
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
 				System.out.println(checkResultType);
 				if (checkResultType == 1) {
-
 					resultMsg = (String) req.get("Tram") + "원 충전되었습니다.";
 					returnData.addProperty("resultMsg", resultMsg);
-
+					returnData.addProperty("resultCode", checkResultType);
+				}
+				if (checkResultType == 4) {
+					resultMsg = "홀로페이는 1,000,000원 이상 충전할 수 없습니다.";
+					System.out.println(resultMsg);
+					returnData.addProperty("resultMsg", resultMsg);
+					returnData.addProperty("resultCode", checkResultType);
 				}
 
 			} catch (ParseException e) {
@@ -174,9 +184,11 @@ System.out.println(history);
 				if (checkResultType == 2) {
 					resultMsg = (String) req.get("Tram") + "원 인출되었습니다.";
 					returnData.addProperty("resultMsg", resultMsg);
+					returnData.addProperty("resultCode", checkResultType);
 				} else if (checkResultType == 3) {
 					resultMsg = "홀로페이 잔액이 부족합니다.";
 					returnData.addProperty("resultMsg", resultMsg);
+					returnData.addProperty("resultCode", checkResultType);
 				}
 
 			} catch (ParseException e) {
@@ -191,4 +203,30 @@ System.out.println(history);
 		}
 		return returnData.toString();
 	}
+
+	@RequestMapping(value = "/loadhistory", method = RequestMethod.POST)
+	@ResponseBody
+	public void historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
+			Model mo) {
+		String term = (String) req.get("term");
+		
+		HoloPayHistoryVO vo = new HoloPayHistoryVO();
+		vo.setMemberId(principalDetails.getUsername());
+		switch (term) {
+		case "all":
+			holoPayHistoryService.holopayHistoryList(vo);
+			break;
+		case "1M":
+			break;
+		case "3M":
+			break;
+		case "6M":
+			break;
+		default:
+			break;
+
+		}
+
+	}
+
 }
