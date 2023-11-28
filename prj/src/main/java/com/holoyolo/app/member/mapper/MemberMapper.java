@@ -16,6 +16,7 @@ public interface MemberMapper {
 	// 회원 가입일자 조회
 	public MemberVO selectJoinDate(MemberVO vo);
 	
+
 	// 기본 CRUD : 공성훈 추가
 	// 회원 전체조회
 	public List<MemberVO> selectMemberAll();
@@ -28,5 +29,10 @@ public interface MemberMapper {
 	
 	// 회원 정지
 	
-	// 추가 서비스인터페이스 작성 ↓↓
+	//회원가입 - 아이디 중복 체크
+	public MemberVO checkMemberId(MemberVO memberVO);
+	
+	//회원가입 - 닉네임 중복 체크
+	public MemberVO checkNickname(MemberVO memberVO);
+
 }

@@ -23,4 +23,6 @@ public interface MemberFinanceInfoService {
 	
 	//회원카드삭제
 	public int delcard(MemberFinanceInfoVO vo);
+
+	public int insertMemberFinance(MemberFinanceInfoVO vo);
 }

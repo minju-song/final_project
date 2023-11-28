@@ -38,12 +38,7 @@ public class MemberController {
 		return "세션정보 로그로 확인 바람";
 	}
 	
-	@GetMapping("/admin/member")
-	public String selectMemberList(Model model) {
-		List<MemberVO> list = memberService.selectMemberAll();
-		model.addAttribute("memberList", list);
-		return "admin/memberMgt";
-	}
+
 	
 	/**
 	 * 로그인 페이지
@@ -51,7 +46,7 @@ public class MemberController {
 	 */
 	@GetMapping("/loginForm")
 	public String loginForm() {
-		return "loginForm";
+		return "/user/loginForm";
 	}
 	
 	/**
@@ -60,7 +55,7 @@ public class MemberController {
 	 */
 	@GetMapping("/joinForm")
 	public String joinForm() {
-		return "joinForm";
+		return "/user/joinForm";
 	}
 	
 	/**
@@ -69,7 +64,9 @@ public class MemberController {
 	 * @return
 	 */
 	@PostMapping("/join")
+	@ResponseBody
 	public String join(MemberVO memberVO) {
+		System.out.println(memberVO);
 		String rawPassword = memberVO.getPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
 		memberVO.setPassword(encPassword);
@@ -77,9 +74,68 @@ public class MemberController {
 		
 		System.out.println(memberVO);
 		
-		memberService.joinUser(memberVO);
+		int result = memberService.joinUser(memberVO);
 		
-		return "redirect:/loginForm";
+		if(result > 0) {
+			return "Success";
+		} else {
+			return "Fail";
+		}
+	}
+	
+	/**
+	 * 아이디 중복체크
+	 * @param memberVO
+	 * @return
+	 */
+	@GetMapping("/join/idCheck")
+	@ResponseBody
+	public String idCheck(MemberVO memberVO) {
+		String result = "NOT_FOUND";
+		MemberVO vo = new MemberVO();
+		System.out.println("넘어온 아이디 ::: " + memberVO.getMemberId());
+		
+		vo = memberService.checkMemberId(memberVO);
+		System.out.println(memberVO.getMemberId() + "는 가입이 가능한 아이디 입니다.");
+		
+		if(vo != null) {
+			result = "FOUND";
+			System.out.println("결과는 ::: " + vo.getMemberId() + ", " + result);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 닉네임 중복체크
+	 * @param memberVO
+	 * @return
+	 */
+	@GetMapping("/join/nickCheck")
+	@ResponseBody
+	public String nickCheck(MemberVO memberVO) {
+		String result = "NOT_FOUND";
+		MemberVO vo = new MemberVO();
+		System.out.println("넘어온 닉네임 ::: " + memberVO.getNickname());
+		
+		vo = memberService.checkNickname(memberVO);
+		System.out.println(memberVO.getNickname() + "는 사용이 가능한 닉네임 입니다.");
+		
+		if(vo != null) {
+			result = "FOUND";
+			System.out.println("결과는 ::: " + vo.getNickname() + ", " + result);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 아이디/비밀번호 찾기 페이지
+	 * @return
+	 */
+	@GetMapping("/findForm")
+	public String findForm() {
+		return "/user/findForm";
 	}
 	
 	/**
@@ -93,9 +149,29 @@ public class MemberController {
 		MemberVO memberInfo = principalDetails.getMemberVO();
 		
 		if(memberInfo.getAddr() == null) {
-			return "redirect:/member/memberInfo";
+			return "redirect:/member/myInfo";
 		}
 		return "redirect:/";
+	}
+	
+	/**
+	 * 마이페이지-홈
+	 * @param principalDetails
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/member/myHome")
+	public String myHome(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		String memberId = principalDetails.getUsername();
+		MemberVO memberVO = memberService.selectUser(memberId);
+		model.addAttribute("memberInfo", memberVO);
+		
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myHome");
+		
+		
+		return "user/mypage/myHome";
 	}
 	
 	/**
@@ -104,15 +180,18 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/member/memberInfo")
-	public String memberInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+	@GetMapping("/member/myInfo")
+	public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String memberId = principalDetails.getUsername();
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
-		model.addAttribute("subMenu", "memberInfo");
+		
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myInfo");
 		
 		
-		return "user/mypage/memberInfo";
+		return "user/mypage/myInfo";
 	}
 	
 	

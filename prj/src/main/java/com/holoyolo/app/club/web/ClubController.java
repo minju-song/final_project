@@ -32,6 +32,7 @@ public class ClubController {
 		return "admin/clubMgt";
 		}
 
+
 	@GetMapping("/clublist")
 	public String clubListPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
 		ClubVO vo = new ClubVO();
