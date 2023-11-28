@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.holoyolo.app.auth.PrincipalOauth2UserService;
 
@@ -16,6 +16,11 @@ public class SecurityConfig {
 	
 	@Autowired
 	PrincipalOauth2UserService principalOauth2UserService;
+	
+	
+    AuthenticationFailureHandler customAuthFailureHandler(){
+        return new CustomAuthFailureHandler();
+    }
 	
 	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,6 +35,7 @@ public class SecurityConfig {
 	        .loginPage("/loginForm")
 	        .usernameParameter("memberId")
 	        .loginProcessingUrl("/login") // /login 호출시 시큐리티가 인터셉트해서 대신 로그인을 진행..
+	        .failureHandler(customAuthFailureHandler())
 	        .defaultSuccessUrl("/") // 성공후 이동할 url
 	        .and()
 	        .logout()

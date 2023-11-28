@@ -10,6 +10,13 @@
 		FROM member
 		WHERE member_id = #{username}
 	</select>
+	
+	<!-- 회원가입 전 인증된 휴대폰 번호가 있는지 확인 -->
+	<select id="checkUserPhone" parameterType="MemberVO">
+		SELECT *
+		FROM member
+		WHERE phone = #{phone}
+	</select>
 
 	<!-- 회원가입 -->
 	<insert id="joinUser" parameterType="MemberVO">
@@ -39,8 +46,6 @@
 						, #{snsYn}
 					)
 	</insert>
-	
-
 	
 	<!-- 회원 가입일자 -->
 
@@ -77,4 +82,22 @@
 		FROM member
 		WHERE nickname = #{nickname}
 	</select>
+	
+	<!-- 아이디 찾기(이름, 휴대폰) / 비밀번호 찾기(이름, 아이디) -->
+	<select id="findMemberIdPwd" resultType="MemberVO">
+		SELECT member_id
+		FROM member
+		WHERE member_name = #{memberName}
+		<if test="memberId != null">AND member_id = #{memberId}</if>
+		<if test="phone != null">AND phone = #{phone}</if>
+	</select>
+	
+	<!-- 회원 임시비밀번호로 업데이트 -->
+	<update id="updateMemberPwd" parameterType="String">
+		UPDATE member
+		SET password = #{authNum}
+			, login_fail_cnt = 0
+		WHERE member_id = #{memberId}
+	</update>
+	
  </mapper>

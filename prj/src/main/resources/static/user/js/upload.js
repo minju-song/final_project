@@ -3,6 +3,9 @@
  */
 console.log("test");
 
+
+/*
+
 let uploadFiles = [];
 		
 // 저장 버튼
@@ -112,3 +115,5 @@ function delFile(e){
   
   e.target.parentNode.remove();
 }
+
+*/

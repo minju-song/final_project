@@ -24,3 +24,13 @@
 .login_form .form-group {
 	justify-content: center;
 }
+a {
+	color: #495057 !important;
+}
+.active {
+	color: #0053ad;
+	font-weight: 700;
+}
+.nav-item {
+	cursor: pointer;
+}
