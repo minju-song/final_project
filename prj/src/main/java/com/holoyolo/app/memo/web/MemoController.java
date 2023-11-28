@@ -1,6 +1,8 @@
 package com.holoyolo.app.memo.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -66,5 +68,13 @@ public class MemoController {
 		memoVO.setMemberId(principalDetails.getUsername());
 		memoVO.setMemoId(memoId);
 		memoService.deleteMemo(memoVO);
+	}
+	
+	//index 수정
+	@PostMapping("member/updateIndex")
+	@ResponseBody
+	public void memoIndex(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO){
+		memoVO.setMemberId(principalDetails.getUsername());
+		memoService.memoIndex(memoVO);
 	}
 }

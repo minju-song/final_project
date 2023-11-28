@@ -112,4 +112,14 @@
 		WHERE memo_id = #{memoId}
 		AND member_id = #{memberId}
 	</delete>
+	
+	<!-- index 수정 -->
+	<update id="memoIndex" parameterType="MemoVO">
+		{call memoIndex(
+			#{memberId, mode=IN, jdbcType=VARCHAR},
+			#{memoId, mode=IN, jdbcType=INTEGER},
+			#{firstNo, mode=IN, jdbcType=INTEGER},
+			#{lastNo, mode=IN, jdbcType=INTEGER}
+		)}
+	</update>
 </mapper>

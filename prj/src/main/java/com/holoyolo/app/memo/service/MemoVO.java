@@ -20,4 +20,6 @@ public class MemoVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
 	private String memberId;
+	private int firstNo;
+	private int lastNo;
 }
