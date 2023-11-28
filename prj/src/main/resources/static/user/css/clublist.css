@@ -20,3 +20,30 @@
 
             justify-content: center;
         }
+        #clubList {
+            display: flex;
+            justify-content: center;
+        }
+
+        .card_club {
+            border-radius: 20px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            display: flex;
+            width: 400px;
+            height: 150px;
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .club_img,
+        .club_info {
+            flex: 1;
+        }
+
+        .club_info {
+            font-size: 12px;
+        }
+
+        .club_img {
+            margin: 0 auto;
+        }

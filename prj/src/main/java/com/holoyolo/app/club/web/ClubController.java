@@ -2,8 +2,9 @@ package com.holoyolo.app.club.web;
 
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,12 +18,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.club.service.ClubService;
 import com.holoyolo.app.club.service.ClubVO;
+import com.holoyolo.app.clubMember.service.ClubMemberService;
+import com.holoyolo.app.clubMember.service.ClubMemberVO;
 
 @Controller
 public class ClubController {
 	
 	@Autowired
 	ClubService clubService;
+	
+	@Autowired
+	ClubMemberService clubMemberService;
 	
 
 	@GetMapping("/admin/club")
@@ -34,9 +40,22 @@ public class ClubController {
 
 	@GetMapping("/clublist")
 	public String clubListPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
-		ClubVO vo = new ClubVO();
-		vo.setPage(1);
+
+		//모든 클럽 리스트
 		List<ClubVO> list = clubService.getAllClubList();
+//		System.out.println("값 "+principalDetails.getUsername());
+		//회원이 가입한 클럽리스트	
+		if(principalDetails!=null) {
+			List<ClubMemberVO> clubJoinlist = clubMemberService.getClubJoin(principalDetails.getUsername());
+			
+			model.addAttribute("joinlist", clubJoinlist);
+		}
+		else {
+			model.addAttribute("joinlist", "null");
+		}
+			
+	
+		
 		
 		model.addAttribute("list", list);
 		return "user/club/clublist";
@@ -44,11 +63,27 @@ public class ClubController {
 	
 	@GetMapping("clubPaging")
 	@ResponseBody
-	public List<ClubVO> clubPaging(ClubVO vo) {
+	public Map<String, Object> clubPaging(ClubVO vo) {
+		Map<String, Object> map = new HashMap<>();
+		
 		List<ClubVO> list = new ArrayList<>();
 		list = clubService.getClubList(vo);
+		
+		map.put("length", list.size());
+		map.put("result", list);
 		System.out.println(vo);
-		return list;
+		return map;
 
+	}
+	
+	@GetMapping("clubCnt")
+	@ResponseBody
+	public Map<String, Object> clubCnt(ClubVO vo) {
+		Map<String, Object> map = new HashMap<>();
+		System.out.println("검색어 : "+vo);
+		int cnt = clubService.cntData(vo);
+		
+		map.put("total", cnt);
+		return map;
 	}
 }

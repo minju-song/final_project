@@ -21,23 +21,69 @@
 
   	
   	<select id="getAllClubList" resultType="ClubVO">
-  		SELECT *
-  		FROM club
+  		SELECT c.*, m.nickname as leader_name
+  		FROM club c join member m on c.club_leader = m.member_id
   		ORDER BY club_id
   	</select>
   	
   
   	<!-- 알뜰모임 목록리스트 -->
   	<select id="getClubList" resultType="ClubVO">
-  		SELECT * 
-  		FROM (
-      		SELECT rownum rn, a.*
-      		FROM ( SELECT * FROM club
-      		ORDER BY club_id) A
-	        <![CDATA[
-	         WHERE rownum <= (#{page} * 6)) b
-        WHERE b.rn > (#{page} - 1) * 6
-	      ]]>  
+
+            SELECT * 
+    		FROM (
+       			SELECT rownum rn, a.*
+        		FROM ( 
+            		
+            		<if test="search != null or search != ''">
+                		<if test="searchTitle == 'clubname'">
+                		SELECT c.*, m.nickname as leader_name
+                    	FROM club c join member m on c.club_leader = m.member_id
+                    	WHERE club_name LIKE '%'||#{search}||'%'
+                		</if>
+	                	<if test="searchTitle == 'clubking'">
+	                    	SELECT *
+	                    	FROM (
+		                        SELECT c.*, m.nickname as leader_name
+		                        FROM club c 
+		                        JOIN member m ON c.club_leader = m.member_id
+		                        WHERE m.nickname LIKE '%'||#{search}||'%'
+	                    	)
+	                	</if>
+            		</if>
+		            <if test="search == null or search == ''">
+		            SELECT c.*, m.nickname as leader_name
+		            FROM club c join member m on c.club_leader = m.member_id
+		            </if>
+           			ORDER BY club_id
+        		) A
+        		<![CDATA[
+        		WHERE rownum <= #{page} * 6
+    		) b
+    		WHERE b.rn > (#{page} - 1) * 6
+			]]>
+  	</select>
+  	
+  	<!-- 검색 시 데이터 총 갯수 -->
+  	<select id="cntData" parameterType="ClubVO" resultType="int">
+    SELECT COUNT(*) 
+        <if test="search != null or search != ''">
+            <if test="searchTitle == 'clubname'">
+                FROM club
+                WHERE club_name LIKE '%'||#{search}||'%'
+            </if>
+            <if test="searchTitle == 'clubking'">
+                FROM
+                (SELECT c.*, m.nickname
+                 FROM club c
+                 JOIN member m ON c.club_leader = m.member_id
+                 WHERE m.nickname LIKE '%'||#{search}||'%')
+            </if>
+         </if>
+        <if test="search == null or search == ''">
+            FROM club
+        </if>
+  		
   	</select>
 
   </mapper>

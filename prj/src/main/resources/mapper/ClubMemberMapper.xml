@@ -3,4 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.clubMember.mapper.ClubMemberMapper">
+  
+  	<!-- 해당 회원이 가입한 클럽 리스트들 -->
+  	<select id="getClubJoin" resultType="ClubMemberVO">
+  		SELECT * 
+  		FROM club_member 
+  		WHERE member_id = #{memberId}
+  	</select>
+  	
+  	<insert id="joinClub" parameterType="ClubMemberVO">
+  		INSERT into club_member 
+  		VALUES (sysdate, null, #{clubId}, #{memberId})
+  	</insert>
   </mapper>

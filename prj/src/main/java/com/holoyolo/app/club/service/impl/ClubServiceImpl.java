@@ -64,6 +64,11 @@ public class ClubServiceImpl implements ClubService {
 		return clubMapper.getClubList(vo);
 	}
 
+	@Override
+	public int cntData(ClubVO vo) {
+		return clubMapper.cntData(vo);
+	}
+
 
 
 }
