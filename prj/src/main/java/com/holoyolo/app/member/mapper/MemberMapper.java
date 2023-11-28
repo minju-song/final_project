@@ -10,6 +10,9 @@ public interface MemberMapper {
 	// 로그인요청 온 회원 찾기
 	public MemberVO selectUser(String username);
 	
+	// 회원가입 전 인증된 휴대폰 번호가 있는지 확인
+	public MemberVO checkUserPhone(MemberVO memberVO);
+	
 	// 회원 가입
 	public int joinUser(MemberVO memberVO);
 

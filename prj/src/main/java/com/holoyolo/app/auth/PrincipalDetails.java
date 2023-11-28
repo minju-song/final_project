@@ -73,7 +73,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User{
 	@Override
 	public boolean isAccountNonLocked() {
 		// 겨정이 잠기지 않았으면 true
-		return true;
+		if(memberVO.getLoginFailCnt() < 5) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

@@ -21,6 +21,11 @@ public class MemberServiceImpl implements MemberService {
 	public int joinUser(MemberVO memberVO) {
 		return memberMapper.joinUser(memberVO);
 	}
+	
+	@Override
+	public MemberVO checkUserPhone(MemberVO memberVO) {
+		return memberMapper.checkUserPhone(memberVO);
+	}
 
 	@Override
 	public MemberVO selectUser(String username) {
@@ -73,5 +78,6 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMemberPwd(String memberId, String authNum) {
 		return memberMapper.updateMemberPwd(memberId, authNum);
 	}
+
 	
 }

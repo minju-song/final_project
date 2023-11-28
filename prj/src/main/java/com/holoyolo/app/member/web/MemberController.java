@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -44,7 +45,14 @@ public class MemberController {
 	 * @return
 	 */
 	@GetMapping("/loginForm")
-	public String loginForm() {
+	public String loginForm(@RequestParam(value="error", required = false) String error,
+				            @RequestParam(value="exception", required = false) String exception,
+				            Model model) {
+		System.out.println(error);
+		System.out.println(exception);
+		model.addAttribute("error", error);
+		model.addAttribute("exception", exception);
+		
 		return "/user/loginForm";
 	}
 	
@@ -66,19 +74,26 @@ public class MemberController {
 	@ResponseBody
 	public String join(MemberVO memberVO) {
 		System.out.println(memberVO);
-		String rawPassword = memberVO.getPassword();
-		String encPassword = passwordEncoder.encode(rawPassword);
-		memberVO.setPassword(encPassword);
-		memberVO.setRole("HA1"); //일반회원
 		
-		System.out.println(memberVO);
-		
-		int result = memberService.joinUser(memberVO);
-		
-		if(result > 0) {
-			return "Success";
+		MemberVO vo = memberService.checkUserPhone(memberVO);
+		if(vo != null) {
+			System.out.println(vo.getPhone() + " :: 이미 가입된 회원입니다.");
+			return "JoinUser";
 		} else {
-			return "Fail";
+			String rawPassword = memberVO.getPassword();
+			String encPassword = passwordEncoder.encode(rawPassword);
+			memberVO.setPassword(encPassword);
+			memberVO.setRole("HA1"); //일반회원
+			
+			System.out.println(memberVO);
+			
+			int result = memberService.joinUser(memberVO);
+			
+			if(result > 0) {
+				return "Success";
+			} else {
+				return "Fail";
+			}
 		}
 	}
 	

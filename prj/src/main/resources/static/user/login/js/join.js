@@ -427,7 +427,25 @@ $('#submitBtn').click(function () {
 							})
 							.fail(err => console.log(err))
 						
-					} else {
+					} else if(result == 'JoinUser') {
+						Swal.fire({
+							icon: "error",
+							title: "이미 가입된 정보가 있습니다",
+							text: "아이디 또는 비밀번호를 찾으려면 확인을 누르세요",
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: '확인',
+							cancelButtonText: '취소',
+							reverseButtons: true, // 버튼 순서 거꾸로
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = '/findForm';
+							} else if (result.isDismissed) {
+								window.location.href = '/joinForm';
+							}
+						});
+					} else if(result == 'Fail') {
 						Swal.fire({
 							icon: "error",
 							title: "죄송합니다, 오류가 발생했습니다",
