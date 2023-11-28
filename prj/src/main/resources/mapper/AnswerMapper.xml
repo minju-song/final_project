@@ -29,7 +29,7 @@
 	<update id="updateAnswerInfo" parameterType="AnswerVO">
 		UPDATE answer SET
 			<if test="answer_content != null and !answer_content.equals('')">
-			    answer_content = '답변수정',
+			    answer_content = #{answerContent},
 			</if>
 			    update_date = sysdate
 		WHERE answer_id = #{answerId}

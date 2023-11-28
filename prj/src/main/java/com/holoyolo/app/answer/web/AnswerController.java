@@ -1,5 +1,8 @@
 package com.holoyolo.app.answer.web;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,9 +50,15 @@ public class AnswerController {
 	// 수정
 	@PutMapping("/admin/question/detail/update/{questionId}/{answerId}")
 	@ResponseBody
-	public int answerUpdate(@PathVariable ("answerId") int answerId, @PathVariable("questionId") int questionId) {
-		AnswerVO answerVO = new AnswerVO();
-		return 1;//answerService.updateAnswerInfo(answerId);
+	public int answerUpdate(@PathVariable ("answerId") int answerId, @PathVariable("questionId") int questionId, String answerContent, Date updateDate, AnswerVO answerVO) {
+		answerVO.setQuestionId(questionId);
+		answerVO.setAnswerContent(answerContent);
+		answerVO.setUpdateDate(updateDate);
+		
+		Map<String, Object> result = answerService.updateAnswerInfo(answerVO);
+	
+		
+		return 1;
 	}
 
 	// 삭제

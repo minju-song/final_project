@@ -1,33 +1,35 @@
 /**
  * 
  */
-
+//th:switch="${answerId == info.answerId}"
 console.log("admin-question.js 작업중")
-
+//타겟 수정버튼 클릭 시
+//1. 입력창 display => updateInput
+//2. 컨텐츠 display none => originContent
+//3. 다른 타겟 입력창 display none => .updateInput
 // 수정
 const updateAnswerBtn = (answerId, questionId, e) => {
 	const reqUrl = `/admin/question/detail/update/${questionId}/${answerId}`
-	let target = event.target;
-	
-	console.log(target)
-	console.log(this)
-	
-	let updateInput = target.parentElement.parentElement.nextElementSibling.classList;
-	let originContent = $(target).closest('.originContent');
-	console.log(originContent);
-	console.log(reqUrl)
+	let target = event.target
+	// 답변내용 부분
+	originContent = $(target).closest('.originContent')
+	// 입력창 브븐
+	updateInput = $(target).closest('.row').find('.updateInput')
 
+	// 모든 DOM의 클래스 초기화
+	$(".updateInput").addClass('d-none');
+	$(".originContent").removeClass('d-none');
 
+	// 현재 선택한 DOM의 클래스를 조작
+	$(updateInput).removeClass('d-none');
+	$(originContent).addClass('d-none');
 
-	$('.updateInput').toggleClass('d-none');
-
-	
 
 	$.ajax({
 		type: 'PUT',
 		url: reqUrl,
-		success: function (result, target) {
-			
+		success: function(result, target) {
+
 			console.log(result)
 			console.log(target)
 		}, error() {
@@ -48,7 +50,7 @@ const deleteAnswerBtn = (answerId, questionId, e) => {
 			type: 'DELETE',
 			url: reqUrl,
 
-			success: function (result) {
+			success: function(result) {
 				if (result) {
 					alert('댓글이 삭제되었습니다.');
 					target.closest('.row').remove();
@@ -62,4 +64,3 @@ const deleteAnswerBtn = (answerId, questionId, e) => {
 	}
 
 }
-
