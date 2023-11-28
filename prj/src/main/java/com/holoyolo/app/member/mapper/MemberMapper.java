@@ -33,7 +33,10 @@ public interface MemberMapper {
 	// 회원가입 - 닉네임 중복 체크
 	public MemberVO checkNickname(MemberVO memberVO);
 	
-	// 아이디 찾기
+	// 아이디/비밀번호 찾기
 	public MemberVO findMemberIdPwd(MemberVO memberVO);
+	
+	// 임시비밀번호 업데이트
+	public int updateMemberPwd(String memberId, String authNum);
 
 }

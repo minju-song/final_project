@@ -68,5 +68,10 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO findMemberIdPwd(MemberVO memberVO) {
 		return memberMapper.findMemberIdPwd(memberVO);
 	}
+
+	@Override
+	public int updateMemberPwd(String memberId, String authNum) {
+		return memberMapper.updateMemberPwd(memberId, authNum);
+	}
 	
 }

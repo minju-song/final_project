@@ -78,21 +78,20 @@ public class SmsController {
     	return result;
     }
     
-    @GetMapping("/sendPwd")
-    public SingleMessageSentResponse sendPwdSms(String reception) {
-    	Message message = new Message();
-    	
-    	String numStr = smsService.getRamdomPassword(10);
-    	System.out.println(numStr);
-    	
-    	message.setFrom(phoneNum);		// 발신번호 입력(보내는 번호) - Sent
-    	message.setTo(reception);		// 수신번호 입력(받는 번호) - reception
-    	message.setText("[HoloYolo] 임시비밀번호 : " + numStr + " 타인 유출로 인한 피해 주의");		// 내용
-    	
-    	SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-    	System.out.println(response);
-    	
-    	return response;
-    }
+	/*
+	 * @GetMapping("/sendPwd") public SingleMessageSentResponse sendPwdSms(String
+	 * reception) { Message message = new Message();
+	 * 
+	 * String numStr = smsService.getRamdomPassword(10); System.out.println(numStr);
+	 * 
+	 * message.setFrom(phoneNum); // 발신번호 입력(보내는 번호) - Sent
+	 * message.setTo(reception); // 수신번호 입력(받는 번호) - reception
+	 * message.setText("[HoloYolo] 임시비밀번호 : " + numStr + " 타인 유출로 인한 피해 주의"); // 내용
+	 * 
+	 * SingleMessageSentResponse response = this.messageService.sendOne(new
+	 * SingleMessageSendingRequest(message)); System.out.println(response);
+	 * 
+	 * return response; }
+	 */
 
 }

@@ -385,6 +385,7 @@ $('#submitBtn').click(function () {
 		// 비밀번호 체크
 		let pwd = $('#password').val();
 		let pwdCheck = $('#passwordCheck').val();
+		let email = $('#memberId').val();
 	
 		if (pwd == pwdCheck) { // 비밀번호 일치하면 회원가입 진행
 			//$('#joinForm').submit();
@@ -414,6 +415,18 @@ $('#submitBtn').click(function () {
 								window.location.href = '/';
 							}
 						})
+						
+						// 회원가입 메일 발송
+						console.log(memberVO);
+						$.ajax('/sendmail/joinmail', {
+							type: 'post',
+							data: memberVO
+						})
+							.done(result => {
+								console.log('넘어온 값은', result);
+							})
+							.fail(err => console.log(err))
+						
 					} else {
 						Swal.fire({
 							icon: "error",

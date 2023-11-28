@@ -142,7 +142,7 @@ public class MemberController {
 	 * @param memberVO
 	 * @return
 	 */
-	@GetMapping("/find/id")
+	@GetMapping("/find")
 	@ResponseBody
 	public String findMemberId(MemberVO memberVO) {
 		MemberVO vo = new MemberVO();
@@ -154,7 +154,6 @@ public class MemberController {
 		} else {
 			return "Fail";
 		}
-		
 	}
 	
 	/**
@@ -211,6 +210,9 @@ public class MemberController {
 		return "user/mypage/myInfo";
 	}
 	
-	
+	@GetMapping("/mail/test")
+	public String mailTest() {
+		return "/user/mailbody/password";
+	}
 	
 }

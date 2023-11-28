@@ -87,4 +87,11 @@
 		<if test="phone != null">AND phone = #{phone}</if>
 	</select>
 	
+	<!-- 회원 임시비밀번호로 업데이트 -->
+	<update id="updateMemberPwd" parameterType="String">
+		UPDATE member
+		SET password = #{authNum}
+		WHERE member_id = #{memberId}
+	</update>
+	
  </mapper>
