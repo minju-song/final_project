@@ -7,8 +7,10 @@ import com.holoyolo.app.member.service.MemberVO;
 
 public interface HoloPayHistoryMapper {
 
+	public List<HoloPayHistoryVO> totalHolopayHistoryList();
+	
 		// 다수조회
-		public List<HoloPayHistoryVO> holopayHistoryList();
+		public List<HoloPayHistoryVO> holopayHistoryList(HoloPayHistoryVO vo);
 
 		// 단건조회
 		public HoloPayHistoryVO holopayInfo(HoloPayHistoryVO vo);

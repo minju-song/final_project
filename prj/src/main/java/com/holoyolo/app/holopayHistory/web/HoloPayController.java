@@ -1,15 +1,11 @@
 package com.holoyolo.app.holopayHistory.web;
 
-
-import java.util.List;
-
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.json.simple.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,13 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryVO;
-
 import com.holoyolo.app.holopayHistory.service.api.HolopayReqVO;
 import com.holoyolo.app.holopayHistory.service.api.HolopayWithdrawalApiVO;
-
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.memberFinanceInfo.service.MemberFinanceInfoService;
@@ -40,7 +35,7 @@ public class HoloPayController {
 
 	@Autowired
 	MemberService memberService;
-	
+
 	@Autowired
 	HoloPayHistoryService holopayHistoryService;
 
@@ -69,22 +64,28 @@ public class HoloPayController {
 			int holoBalance = holoPayHistoryService.holopayBalance(memberVO);
 			mo.addAttribute("payBalance", holoBalance);
 		}
-
+//홀로페이 내역
+		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
+		holoPayHistoryVO.setMemberId(memberId);
+		List<HoloPayHistoryVO> history = holoPayHistoryService.holopayHistoryList(holoPayHistoryVO);
+System.out.println(history);
+		mo.addAttribute("holopayList", history);
 		mo.addAttribute("memberInfo", memberVO);
-		mo.addAttribute("subMenu", "memberInfo");
+		mo.addAttribute("menu", "mypage");
+
 		return "user/mypage/myholopay";
 	}
-	
+
 	@GetMapping("/admin/holopay")
 	public String selectHolopayList(Model model) {
-		List<HoloPayHistoryVO> list = holopayHistoryService.holopayHistoryList();
+		List<HoloPayHistoryVO> list = holopayHistoryService.totalHolopayHistoryList();
 		model.addAttribute("holopayList", list);
 		return "admin/holopayMgt";
 	}
 
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody
-	public void apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
+	public String apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
 			Model mo) {
 
 		String requestTram = (String) req.get("Tram");
@@ -97,7 +98,7 @@ public class HoloPayController {
 		JSONObject header = (JSONObject) apiResult.get("Header");
 		String resultStatus = (String) header.get("Rpcd");
 		String resultMsg = "";
-
+		JsonObject returnData = new JsonObject();
 		if ("00133".equals(resultStatus)) {
 			resultMsg = "잔액이 부족합니다.";
 		}
@@ -113,19 +114,31 @@ public class HoloPayController {
 				formatset = dateformat.parse(RgsnYmd);
 				holoPayHistoryVO.setHpDate(formatset);
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
-				resultMsg = (String) req.get("Tram") + "원 충전되었습니다.";
-				mo.addAttribute("resultMsg", resultMsg);
+				int checkResultType = holoPayHistoryVO.getAddPayresultType();
+				System.out.println(checkResultType);
+				if (checkResultType == 1) {
+
+					resultMsg = (String) req.get("Tram") + "원 충전되었습니다.";
+					returnData.addProperty("resultMsg", resultMsg);
+
+				}
+
 			} catch (ParseException e) {
 
 				e.printStackTrace();
+				return null;
 			}
+		} else {
+			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.";
+			returnData.addProperty("resultMsg", resultMsg);
 		}
+		return returnData.toString();
 
 	}
 
 	@RequestMapping(value = "/withdrawapireq", method = RequestMethod.POST)
 	@ResponseBody
-	public void takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
+	public String takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
 			Model mo) {
 		// 요청 객체 생성
 		MemberFinanceInfoVO memberFinanceInfoVO = new MemberFinanceInfoVO();
@@ -143,8 +156,8 @@ public class HoloPayController {
 		String resultMsg = "";
 
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
+		JsonObject returnData = new JsonObject();
 		if ("00000".equals(resultStatus)) {
-
 			try {
 				Date formatset;
 				holoPayHistoryVO.setMemberId((String) principalDetails.getUsername());
@@ -155,15 +168,27 @@ public class HoloPayController {
 				formatset = dateformat.parse(Tsymd);
 				holoPayHistoryVO.setHpDate(formatset);
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
-				resultMsg = (String) req.get("Tram") + "원 인출되었습니다.";
-				mo.addAttribute("resultMsg", resultMsg);
+				int checkResultType = holoPayHistoryVO.getAddPayresultType();
+				System.out.println(checkResultType);
+
+				if (checkResultType == 2) {
+					resultMsg = (String) req.get("Tram") + "원 인출되었습니다.";
+					returnData.addProperty("resultMsg", resultMsg);
+				} else if (checkResultType == 3) {
+					resultMsg = "홀로페이 잔액이 부족합니다.";
+					returnData.addProperty("resultMsg", resultMsg);
+				}
+
 			} catch (ParseException e) {
 				e.printStackTrace();
+				return null;
 			}
 
 		} else {
 			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.";
-			mo.addAttribute("resultMsg", resultMsg);
+			returnData.addProperty("resultMsg", resultMsg);
+
 		}
+		return returnData.toString();
 	}
 }

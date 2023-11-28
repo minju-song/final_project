@@ -18,9 +18,9 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 	HoloPayHistoryMapper holopayHistoryMapper;
 
 	@Override
-	public List<HoloPayHistoryVO> holopayHistoryList() {
+	public List<HoloPayHistoryVO> holopayHistoryList(HoloPayHistoryVO vo) {
 
-		return holopayHistoryMapper.holopayHistoryList();
+		return holopayHistoryMapper.holopayHistoryList(vo);
 	}
 
 	@Override
@@ -42,6 +42,12 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 	public int holopayBalance(MemberVO vo) {
 		
 		return holopayHistoryMapper.holopayBalance(vo);
+	}
+
+	@Override
+	public List<HoloPayHistoryVO> totalHolopayHistoryList() {
+		
+		return holopayHistoryMapper.totalHolopayHistoryList();
 	}
 
 	

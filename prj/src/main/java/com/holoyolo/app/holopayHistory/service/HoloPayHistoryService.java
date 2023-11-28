@@ -5,9 +5,10 @@ import java.util.List;
 import com.holoyolo.app.member.service.MemberVO;
 
 public interface HoloPayHistoryService {
-
-	// 다수조회
-	public List<HoloPayHistoryVO> holopayHistoryList();
+	//전체조회 (관리자)
+	public List<HoloPayHistoryVO> totalHolopayHistoryList();
+	// 회원 홀로페이 조회
+	public List<HoloPayHistoryVO> holopayHistoryList(HoloPayHistoryVO vo);
 
 	// 단건조회
 	public HoloPayHistoryVO holopayInfo(HoloPayHistoryVO vo);

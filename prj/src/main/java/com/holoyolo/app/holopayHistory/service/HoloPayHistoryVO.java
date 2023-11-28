@@ -25,4 +25,6 @@ public class HoloPayHistoryVO {
  private int tradeId;
 //회원 결재정보
  private int memberFinanceId;
+ //홀로페이 (충전 인출) 리턴타입
+ private int addPayresultType;
 }

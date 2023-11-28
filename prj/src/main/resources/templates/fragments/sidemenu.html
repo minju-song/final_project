@@ -27,7 +27,7 @@
 				<ul>
 					<li class="side_main_menu"><a th:href="@{/member/myHome}" th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''">홈</a></li>
 					<li class="side_main_menu"><a th:href="@{/member/myInfo}" th:class="${subMenu eq 'myInfo'}? 'submenu_active' : ''">내정보</a></li>
-					<li class="side_main_menu"><a th:href="@{/member/myHolopay}">홀로페이</a></li>
+					<li class="side_main_menu"><a th:href="@{/member/myHolopay}" th:class="${subMenu eq 'myHolopay'}? 'submenu_active' : ''">홀로페이</a></li>
 					<li class="side_main_menu"><a href="#">포인트</a></li>
 					<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
 					<!--/* 나의중고거래 서브메뉴 start */-->
@@ -41,6 +41,16 @@
 			</div>
 		</th:block>
 		
+		<th:block th:if="${menu == 'comunity'}">
+			<div class="sidebar_title side_main_menu">커뮤니티</div>
+			<div class="sidebar_section_content">
+				<ul>
+					<li class="side_main_menu"><a th:href="@{/member/board}" th:class="${subMenu eq 'infoBoard'}? 'submenu_active' : ''">정보게시판</a></li>
+					<li class="side_main_menu"><a th:href="@{/chatBoard}" th:class="${subMenu eq 'chatBoard'}? 'submenu_active' : ''">수다방</a></li>
+
+				</ul>
+			</div>
+		</th:block>
 	</div>
 </div>
 </body>
