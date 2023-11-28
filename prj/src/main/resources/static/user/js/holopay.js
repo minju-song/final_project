@@ -146,14 +146,17 @@ let search = document.getElementById('searchHpHistory');
 search.addEventListener('change', loadData);
 
 function loadData() {
-
+  console.log('asda');
 let term = $("#searchHpHistory").val();
+
+console.log(term);
   $.ajax({
     type: 'POST',
     url: '/loadhistory',
     contentType: 'application/json;charset=UTF-8',
     data: JSON.stringify({ "term": term }),
     success: function (data) {
+      console.log(data)
       // 성공 시 데이터를 이용해 목록을 동적으로 생성하는 로직 추가
       let tbody = $("#hpHistoryTable tbody");
       tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
