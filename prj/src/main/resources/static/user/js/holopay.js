@@ -48,7 +48,7 @@ function rechargeCheck() {
       icon: "info",
       closeOnClickOutside: false
     }).then(function () {
-      location.reload();
+
     })
   }
   callRechargeApi(rechargePrice);
@@ -114,17 +114,22 @@ function callwithdrawApi() {
     data: JSON.stringify(callwithdrawApiInfo)
   }).done(function (response) {
     let data = JSON.parse(response)
-    let resultMsg = data.resultMsg;
-
+    if (data.resultCode == 2) {
+      viewIcon = "success"
+    } else if (data.resultCode == 3) {
+      viewIcon = "error"
+    } else {
+      viewIcon = "error"
+    }
     Swal.fire({
       title: "",
       text: data.resultMsg,
-      icon: "success",
+      icon: viewIcon,
       closeOnClickOutside: false
     }).then(function () {
-      location.reload()
-
-
+      if (data.resultCode == 2) {
+        location.reload()
+      }
     })
   }).fail(function (request, status, error) {
     // Handle the error response from the server
@@ -137,31 +142,51 @@ function callwithdrawApi() {
   })
 
 }
+let search = document.getElementById('searchHpHistory');
+search.addEventListener('change', loadData);
 
+function loadData() {
 
-let searchHpHistory = getElementById('searchHpHistory');
-searchHpHistory.addEventListener('change',loadData)
-
-function loadData(){
-  console.log(searchHpHistory);
-  let term = searchHpHistory.value;
-
+let term = $("#searchHpHistory").val();
   $.ajax({
     type: 'POST',
     url: '/loadhistory',
     contentType: 'application/json;charset=UTF-8',
-    data:{"term": term}
-  }).done(function (response) {
-    let data = JSON.parse(response);
-    console.log(data);
-  }).fail(function (request, status, error) {
-    // Handle the error response from the server
-    console.log("code: " + request.status)
-    console.log("message: " + request.responseText)
-    console.log("error: " + error);
-  })
+    data: JSON.stringify({ "term": term }),
+    success: function (data) {
+      // 성공 시 데이터를 이용해 목록을 동적으로 생성하는 로직 추가
+      let tbody = $("#hpHistoryTable tbody");
+      tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
+
+      if (data && data.length > 0) {
+        // 데이터가 있을 경우 테이블에 행 추가
+        data.forEach(function (item) {
+          let row = $("<tr>");
+          row.append($("<td>").text(item.hpHistoryId));
+          row.append($("<td>").text(item.price));
+          row.append($("<td>").text(item.holopayComment));
+          row.append($("<td>").text(item.hpDate)); // 날짜 형식에 따라 수정
+
+          tbody.append(row);
+        });
+      } else {
+        // 데이터가 없을 경우 테이블에 메시지 추가
+        let noDataMessage = $("<tr>").append($("<td colspan='4' class='text-center'>").text("거래내역 없음"));
+        tbody.append(noDataMessage);
+      }
+    },
+    error: function (request, status, error) {
+      // Handle the error response from the server
+      console.error("code: " + request.status)
+      console.error("message: " + request.responseText)
+      console.error("error: " + error);
+    }
+  });
 }
-   
- 
+
+
+
+
+
 
 

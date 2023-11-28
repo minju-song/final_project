@@ -68,8 +68,7 @@ public class HoloPayController {
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		holoPayHistoryVO.setMemberId(memberId);
 		List<HoloPayHistoryVO> history = holoPayHistoryService.holopayHistoryList(holoPayHistoryVO);
-		System.out.println(history);
-		if (history.size() != 0) {
+				if (history.size() != 0) {
 			mo.addAttribute("holopayList", history);
 		} else {
 			mo.addAttribute("holopayList", "0");
@@ -113,14 +112,12 @@ public class HoloPayController {
 				holoPayHistoryVO.setPrice(Integer.parseInt((String) req.get("Tram")));
 				String RgsnYmd = ((String) apiResult.get("RgsnYmd")).substring(2);
 				holoPayHistoryVO.setHpType("HP1");
-				System.out.println(RgsnYmd);
 				SimpleDateFormat dateformat = new SimpleDateFormat("yyMMdd");
 				Date formatset;
 				formatset = dateformat.parse(RgsnYmd);
 				holoPayHistoryVO.setHpDate(formatset);
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
-				System.out.println(checkResultType);
 				if (checkResultType == 1) {
 					resultMsg = (String) req.get("Tram") + "원 충전되었습니다.";
 					returnData.addProperty("resultMsg", resultMsg);
@@ -128,7 +125,6 @@ public class HoloPayController {
 				}
 				if (checkResultType == 4) {
 					resultMsg = "홀로페이는 1,000,000원 이상 충전할 수 없습니다.";
-					System.out.println(resultMsg);
 					returnData.addProperty("resultMsg", resultMsg);
 					returnData.addProperty("resultCode", checkResultType);
 				}
@@ -139,7 +135,7 @@ public class HoloPayController {
 				return null;
 			}
 		} else {
-			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.";
+			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.//";
 			returnData.addProperty("resultMsg", resultMsg);
 		}
 		return returnData.toString();
@@ -178,9 +174,10 @@ public class HoloPayController {
 				formatset = dateformat.parse(Tsymd);
 				holoPayHistoryVO.setHpDate(formatset);
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
+				
+				
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
 				System.out.println(checkResultType);
-
 				if (checkResultType == 2) {
 					resultMsg = (String) req.get("Tram") + "원 인출되었습니다.";
 					returnData.addProperty("resultMsg", resultMsg);
@@ -197,7 +194,7 @@ public class HoloPayController {
 			}
 
 		} else {
-			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.";
+			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.//";
 			returnData.addProperty("resultMsg", resultMsg);
 
 		}
@@ -206,27 +203,17 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/loadhistory", method = RequestMethod.POST)
 	@ResponseBody
-	public void historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
+	public List<HoloPayHistoryVO> historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
 			Model mo) {
 		String term = (String) req.get("term");
-		
+System.out.println(term);
 		HoloPayHistoryVO vo = new HoloPayHistoryVO();
 		vo.setMemberId(principalDetails.getUsername());
-		switch (term) {
-		case "all":
-			holoPayHistoryService.holopayHistoryList(vo);
-			break;
-		case "1M":
-			break;
-		case "3M":
-			break;
-		case "6M":
-			break;
-		default:
-			break;
+		List<HoloPayHistoryVO> resultHistoryList =holoPayHistoryService.searchPay(term,vo);
+		System.out.println(resultHistoryList);
 
-		}
-
+		return resultHistoryList;
+		
 	}
 
 }

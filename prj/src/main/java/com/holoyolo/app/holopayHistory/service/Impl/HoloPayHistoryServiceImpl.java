@@ -1,5 +1,6 @@
 package com.holoyolo.app.holopayHistory.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,39 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 
 	@Override
 	public int holopayBalance(MemberVO vo) {
-		
+
 		return holopayHistoryMapper.holopayBalance(vo);
 	}
 
 	@Override
 	public List<HoloPayHistoryVO> totalHolopayHistoryList() {
-		
+
 		return holopayHistoryMapper.totalHolopayHistoryList();
 	}
 
-	
+	@Override
+	public List<HoloPayHistoryVO> searchPay(String str, HoloPayHistoryVO vo) {
+		List<HoloPayHistoryVO> rtn = new ArrayList<HoloPayHistoryVO>();
+		switch (str) {
+		case "all":
+				rtn =holopayHistoryList(vo);
+			break;
+		case "1M":
+			vo.setSearchMonth(-1);
+			rtn = holopayHistoryMapper.searchPay(vo);
+			break;
+		case "3M":
+			vo.setSearchMonth(-3);
+			rtn = holopayHistoryMapper.searchPay(vo);
+			break;
+		case "6M":
+			vo.setSearchMonth(-6);
+			rtn = holopayHistoryMapper.searchPay(vo);
+			break;
+		default:
+			break;
+		}
+		return rtn;
+	}
+
 }

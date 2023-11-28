@@ -27,4 +27,6 @@ public class HoloPayHistoryVO {
  private int memberFinanceId;
  //홀로페이 (충전 인출) 리턴타입
  private int addPayresultType;
+ 
+ private int searchMonth;
 }

@@ -20,4 +20,7 @@ public interface HoloPayHistoryMapper {
 		
 		//잔액조회
 		public int holopayBalance(MemberVO vo);
+		
+		//기간별 조회
+		public List<HoloPayHistoryVO> searchPay(HoloPayHistoryVO vo);
 }

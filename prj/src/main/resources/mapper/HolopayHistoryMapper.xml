@@ -20,15 +20,23 @@
 
 
 	<select id="holopayBalance" resultType="int">
-	SELECT    
-         NVL(SUM(NVL(HP1, 0)), 0) + NVL(SUM(NVL(HP4, 0)), 0) -
-            (NVL(SUM(NVL(HP2, 0)), 0) + NVL(SUM(NVL(HP3, 0)), 0)) AS 잔액
-      FROM (
-         SELECT hp_type, price, member_id
-         FROM holopay_history
-         WHERE member_id = #{memberId})
-      PIVOT (
-         SUM(price) FOR hp_type IN ('HP1' AS HP1, 'HP2' AS HP2, 'HP3' AS HP3, 'HP4' AS HP4))
+		SELECT    
+	         NVL(SUM(NVL(HP1, 0)), 0) + NVL(SUM(NVL(HP4, 0)), 0) -
+	            (NVL(SUM(NVL(HP2, 0)), 0) + NVL(SUM(NVL(HP3, 0)), 0)) AS 잔액
+	      FROM (
+	         SELECT hp_type, price, member_id
+	         FROM holopay_history
+	         WHERE member_id = #{memberId})
+	      PIVOT (
+	         SUM(price) FOR hp_type IN ('HP1' AS HP1, 'HP2' AS HP2, 'HP3' AS HP3, 'HP4' AS HP4))
+	</select>
+	
+	
+	<select id="searchPay" resultType="HoloPayHistoryVO">
+		SELECT *     
+		FROM holopay_history
+		WHERE member_id = #{memberId}
+		AND  HP_DATE >= ADD_MONTHS(SYSDATE, #{searchMonth})
 	</select>
 
 </mapper>
