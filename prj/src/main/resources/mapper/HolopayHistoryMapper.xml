@@ -40,4 +40,26 @@
 		ORDER BY hp_date
 	</select>
 
+
+	<select id="searchPayPaged" resultType="HoloPayHistoryVO">
+    SELECT *
+    FROM (
+      SELECT hp_history_id, member_id, hp_date, hp_type, price, holopay_comment, trade_id,
+             member_finance_id, add_payresult_type,
+             ROW_NUMBER() OVER (ORDER BY hp_date) AS rnum
+      FROM holopay_history
+      WHERE member_id = #{memberId}
+      AND HP_DATE >= ADD_MONTHS(SYSDATE, #{searchMonth})
+    ) tmp
+    WHERE rnum BETWEEN #{start} AND #{end}
+    ORDER BY hp_date
+  </select>
+
+  
+  <select id="getTotalRecords" resultType="int">
+    SELECT COUNT(*) 
+    FROM holopay_history
+    WHERE member_id = #{memberId}
+    AND HP_DATE >= ADD_MONTHS(SYSDATE, #{searchMonth})
+  </select>
 </mapper>

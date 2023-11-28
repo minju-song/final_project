@@ -3,7 +3,9 @@ package com.holoyolo.app.holopayHistory.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,16 +204,24 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/loadhistory", method = RequestMethod.POST)
 	@ResponseBody
-	public List<HoloPayHistoryVO> historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestBody JSONObject req, Model mo) {
+	public Map<String, Object> historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req, Model mo) {
 		String term = (String) req.get("term");
-		System.out.println(term);
+		int start = (int) req.get("start");
+		int end = (int) req.get("end");
+		
+		System.out.println(req);
+
 		HoloPayHistoryVO vo = new HoloPayHistoryVO();
 		vo.setMemberId(principalDetails.getUsername());
-		List<HoloPayHistoryVO> resultHistoryList = holoPayHistoryService.searchPay(term, vo);
-		System.out.println(resultHistoryList);
+		
+		List<HoloPayHistoryVO> resultHistoryList = holoPayHistoryService.searchPayPaged(term, vo, start, end);
+		  int totalRecords = holoPayHistoryService.getTotalRecords(term, vo);
 
-		return resultHistoryList;
+		  
+		  Map<String, Object> result = new HashMap<>();
+		  result.put("historyList", resultHistoryList);
+		  result.put("totalRecords", totalRecords);
+		return result;
 
 	}
 
