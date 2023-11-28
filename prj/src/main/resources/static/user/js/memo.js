@@ -38,7 +38,7 @@
 				if(bookmark == 'Y'){
 					$('.importmemoStart').append($(e.target.parentElement));
 				}else{
-					$('.normalmemoStart').append($(e.target.parentElement));
+					$('.normalmemoStart').prepend($(e.target.parentElement));
 				}
 			},    
 			error : function(request, status, error) { // 결과 에러 콜백함수        
@@ -66,54 +66,38 @@
     	backcolor.style.backgroundColor = color;
     };
  
+ 	//
   	const draggables = document.querySelectorAll(".draggable");
 	const containers = document.querySelectorAll(".dragcontainer");
-	let firstNo = 0;
-	let lastNo = 0;
 	//드래그 시작될 때
 	draggables.forEach(draggable => {
 	  draggable.addEventListener("dragstart", () => {
 	    draggable.classList.add("dragging");
-	    lastNo = $(draggable).index();
-	    memoId = $(draggable).find('.inputMemoId')[0].dataset.memo;
 	  });
+	  
 	  //드래그가 끝날 때
 	  draggable.addEventListener("dragend", () => {
 	    draggable.classList.remove("dragging");
-	    firstNo = $(draggable).index();
-	    console.log(firstNo, lastNo, memoId)
-	    //index 수정
-	    $.ajax({    
-        type:"POST",
-        url : '/member/updateIndex',  //이동할 jsp 파일 주소
-        data : {memoId, firstNo, lastNo},
-        dataType:'text',
-        success : function(result) { // 결과 성공 콜백함수        
-           console.log("성공");    
-        },    
-        error : function(request, status, error) { // 결과 에러 콜백함수        
-           console.log(error)    
-        }})
-    	
 	  });
 	});
+	
 	//이벤트가 달린 영역 위에 드래그 요소가 있을 때
-	containers.forEach(container => {
-	  container.addEventListener("dragover", e => {
+	containers.forEach(dragcontainer => {
+	  dragcontainer.addEventListener("dragover", e => {
 	    e.preventDefault();
-	    const afterElement = getDragAfterElement(container, e.clientX);
+	    const afterElement = getDragAfterElement(dragcontainer, e.clientX);
 	    const draggable = document.querySelector(".dragging");
 	    if (afterElement === undefined) {
-	      container.appendChild(draggable);
+	      dragcontainer.appendChild(draggable);
 	    } else {
-	      container.insertBefore(draggable, afterElement);
+	      dragcontainer.insertBefore(draggable, afterElement);
 	    }
 	  });
 	});
 	
-	function getDragAfterElement(container, x) {
+	function getDragAfterElement(dragcontainer, x) {
 	  const draggableElements = [
-	    ...container.querySelectorAll(".draggable:not(.dragging)"),
+	    ...dragcontainer.querySelectorAll(".draggable:not(.dragging)"),
 	  ];
 	
 	  return draggableElements.reduce(
@@ -400,7 +384,6 @@
 		
 		//메모 바탕색 변경
 		let memoColor = clone[0].querySelectorAll('.changeColor input[type=radio]');
-		console.log(memoColor)
 		for(let i=0; i<memoColor.length; i++){
 			memoColor[i].addEventListener('click', function(e){changeMemoColor(e);	});
 		}
@@ -462,7 +445,7 @@
                 $('.importmemoStart').append(memo);
               }else if(bookmark == 'N' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
               	$(biPin).prop('src', '/user/images/pin.svg')	
-                $('.normalmemoStart').append(memo);
+                $('.normalmemoStart').prepend(memo);
               }
          },
          error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
@@ -470,3 +453,23 @@
          }
       })   
 	});
+	
+	//새로고침 시 순서 저장
+	window.onbeforeunload = function (event) {
+		let memo = document.querySelectorAll('.memo');
+		for(let i=2; i<memo.length; i++){
+			let seqNo = i;
+			let memoId = memo[i].querySelector('.inputMemoId').dataset.memo;
+			$.ajax({    
+		    type:"POST",
+		    url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+		    data : {memoId, seqNo},
+		    dataType:'text',
+		    success : function(result) { // 결과 성공 콜백함수        
+		       console.log(result);    
+		    },    
+		    error : function(request, status, error) { // 결과 에러 콜백함수        
+		       console.log(error);    
+		    }})
+		}	
+	}

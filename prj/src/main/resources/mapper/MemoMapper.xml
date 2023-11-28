@@ -43,8 +43,8 @@
 	
 	<!-- 등록 -->
 	<insert id="insertMemo" parameterType="MemoVO">
-		<selectKey keyProperty="memoId,seqNo" resultType="MemoVO" order="BEFORE">
-			SELECT NVL(MAX(memo_id),0) + 1 as memoId, NVL(MAX(seq_no),0) + 1 as seqNo
+		<selectKey keyProperty="memoId" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(memo_id),0) + 1 as memoId
 			FROM memo
 		</selectKey>
 		INSERT INTO memo
@@ -66,7 +66,7 @@
 		VALUES
 			(
 				#{memoId}
-				, #{seqNo}
+				, 0
 				<if test="color != ''">
 					, #{color}
 				</if>
