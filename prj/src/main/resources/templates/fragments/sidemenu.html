@@ -27,7 +27,7 @@
 				<ul>
 					<li class="side_main_menu"><a th:href="@{/member/myHome}" th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''">홈</a></li>
 					<li class="side_main_menu"><a th:href="@{/member/myInfo}" th:class="${subMenu eq 'myInfo'}? 'submenu_active' : ''">내정보</a></li>
-					<li class="side_main_menu"><a th:href="@{/member/myHolopay}">홀로페이</a></li>
+					<li class="side_main_menu"><a th:href="@{/member/myHolopay}" th:class="${subMenu eq 'myHolopay'}? 'submenu_active' : ''">홀로페이</a></li>
 					<li class="side_main_menu"><a href="#">포인트</a></li>
 					<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
 					<!--/* 나의중고거래 서브메뉴 start */-->
@@ -40,7 +40,6 @@
 				</ul>
 			</div>
 		</th:block>
-		
 	</div>
 </div>
 </body>

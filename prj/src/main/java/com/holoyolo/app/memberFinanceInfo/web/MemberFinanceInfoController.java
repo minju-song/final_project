@@ -32,9 +32,6 @@ import com.holoyolo.app.memberFinanceInfo.service.MemberFinanceInfoVO;
 public class MemberFinanceInfoController {
 
 	@Autowired
-	MemberFinanceInfoMapper memberFinanceInfoMapper;
-	
-	@Autowired
 	MemberFinanceInfoService memberFinanceInfoService;
 
 	@PostMapping("checkFinance")
