@@ -48,7 +48,6 @@ public class AnswerServiceImpl implements AnswerService {
 		if (result == 1) {
 			isSuccessed = true;
 		}
-		
 		map.put("result", isSuccessed);
 		map.put("target", answerVO);
 		
