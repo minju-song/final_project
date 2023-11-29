@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="container">
+      <div id="boardContent">
+        <div class="row">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="제목" id="title">
+          </div>
+          <div class="row justify-content-center">
+            <div class="mb-3 col-4 input-group">
+              <label for="boardType">글 유형</label>
+              <input type="text" class="form-control" aria-label="boardType" th:value="${boardType}" id="ckBoardType"
+                readonly>
+            </div>
+            <div class="input-group mb-4 col-3">
+              <label for="nickname">작성자</label>
+              <input type="text" class="form-control" aria-label="Username" th:value="${user.nickname}" id="nickname"
+                readonly>
+            </div>
+
+          </div>
+          <div id="content"></div>
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" id="insertPostBtn">등록</button>
+            <button type="button" class="btn btn-danger">취소</button>
+          </div>
+        </div>
+      </div>
+      <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+      <script>
+        const editor = new toastui.Editor({
+          el: document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
+          height: '500px',                        // 에디터 영역의 높이 값 (OOOpx || auto)
+          initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+          initialValue: '내용을 입력해 주세요.'    // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+        });
+
+
+
+        //등록이벤트
+        let insertPostBtn = document.getElementById('insertPostBtn');
+        insertPostBtn.addEventListener('click', getPost);
+
+        function getPost() {
+
+          let title = document.getElementById('title').value;
+          let ckBoardType = document.getElementById('ckBoardType').value;
+          let content = editor.getMarkdown();
+          let boardType = "";
+          if (ckBoardType == "정보공유게시판") {
+            boardType = "AA2";
+          } else if (ckBoardType == "수다방") {
+            boardType = "AA3";
+          }
+          //console.log();
+          let data = {
+            "menuType": boardType,
+            "title": title,
+            "content": content,
+
+          }
+          request(data)
+        }
+
+        function request(reqdata) {
+          $.ajax({
+            type: 'POST',
+            url: '/insertPostreq',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify(reqdata)
+          }).done(function (response) {
+            
+            console.log(response);
+          }).fail(function (request, status, error) {
+            // Handle the error response from the server
+            console.log("code: " + request.status)
+            console.log("message: " + request.responseText)
+            console.log("error: " + error);
+          })
+        }
+      </script>
+    </div>
+  </div>
+</body>
+
+</html>
