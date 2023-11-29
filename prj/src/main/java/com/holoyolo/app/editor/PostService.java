@@ -5,7 +5,7 @@ import java.util.List;
 public interface PostService {
 	
 	// 전체조회
-	public List<PostVO> selectAllPost();
+	public List<PostVO> selectAllPost(String menyType);
 	
 	// 단건조회
 	public PostVO selectPostInfo(int boardId);

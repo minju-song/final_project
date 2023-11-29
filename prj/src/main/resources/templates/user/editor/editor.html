@@ -4,19 +4,19 @@
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	  layout:decorate="~{layout/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>글쓰기 페이지</title>
+<meta charset="UTF-8">
+<title>글쓰기 페이지</title>
 
-    <!-- TUI 에디터 CSS CDN -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<!-- TUI 에디터 CSS CDN -->
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
-    <!-- 버튼 영역 CSS -->
-    <style>
-        #btnDiv { text-align: center; margin-top: 20px; }
-        .btns { display: inline-block; padding: 0 10px; height: 28px; line-height: 26px; text-align: center; vertical-align: middle; border-radius: 3px; border: 1px solid transparent; font-weight: 500; }
-        .btns.save { background: #139dc8; color: #fff; cursor: pointer; }
-        .btns.back { background: #fff; border: 1px solid #199bc4; color: #199bc4; }
-    </style>
+<!-- 버튼 영역 CSS -->
+<style>
+    #btnDiv { text-align: center; margin-top: 20px; }
+    .btns { display: inline-block; padding: 0 10px; height: 28px; line-height: 26px; text-align: center; vertical-align: middle; border-radius: 3px; border: 1px solid transparent; font-weight: 500; }
+    .btns.save { background: #139dc8; color: #fff; cursor: pointer; }
+    .btns.back { background: #fff; border: 1px solid #199bc4; color: #199bc4; }
+</style>
 </head>
 <body layout:fragment="content">
     <h2 style="text-align: center;">TOAST UI Editor 글쓰기 페이지</h2>
@@ -26,7 +26,7 @@
 
     </div>
 
-    <div id="btnDiv">
+    <div id="btnDiv" sec:authorize="isAuthenticated()">
         <button type="button" class="btns save" onclick="savePost();">저장하기</button>
         <a href="/post/list.html" class="btns back">뒤로 가기</a>
         <input type="hidden" id="memberId" name="memberId" th:value="${#authentication.principal.memberVO.memberId}">
@@ -91,7 +91,7 @@
                 title: '1번 게시글 제목',
                 content: editor.getHTML(),
                 memberId: memberId,
-                menu_type: 'AA2'
+                menuType: 'AA2'
             }
 
             // 3. API 호출
@@ -106,7 +106,7 @@
 
                 const postId = await response.json();
                 alert(postId + '번 게시글이 저장되었습니다.');
-                location.href = '/post/list.html';
+                location.href = '/editor/list';
 
             } catch (error) {
                 console.error('저장 실패 : ', error)

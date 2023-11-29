@@ -10,9 +10,4 @@ public class HomeController {
 	public String home() {
 		return "index";
 	}
-	
-	@GetMapping("/editor")
-	public String test() {
-		return "editor";
-	}
 }

@@ -7,7 +7,7 @@ import com.holoyolo.app.editor.PostVO;
 public interface PostMapper {
 	
 	// 전체조회
-	public List<PostVO> selectAllPost();
+	public List<PostVO> selectAllPost(String menuType);
 
 	// 단건조회
 	public PostVO selectPostInfo(int boardId);

@@ -20,4 +20,5 @@ public class PostVO {
 	private int views;
 	private String memberId;
 	private int clubId;
+	private int rownum;
 }

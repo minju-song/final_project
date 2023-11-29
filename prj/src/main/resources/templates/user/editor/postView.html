@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- TUI 에디터 CSS CDN -->
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<style>
+body {
+	height: 100%;
+}
+.editor_container {
+	font-family: arial;
+	font-size: 22px;
+	margin: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#editorContent {
+	width: 100%;
+    height: 100%;
+    max-height: 200px;
+    overflow: scroll;
+}
+
+img {
+	max-width: 350px;
+}
+</style>
+</head>
+<body layout:fragment="content">
+	<h2 style="text-align: center;">TOAST UI Editor 상세 페이지</h2>
+
+	<div class="editor_container">
+		<!--/* 에디터 콘텐츠 렌더링 영역 */-->
+		<div id="editorContent"></div>
+		
+		
+	</div>
+	<div class="editor_container">
+		<div id="viewer"></div>
+	</div>
+
+	<!-- TUI 에디터 JS CDN -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script>
+
+        window.onload = async () => {
+            findPost();
+        }
+
+
+        // 게시글 상세정보 조회
+        async function findPost() {
+
+            // 1. URL 쿼리 스트링에서 게시글 번호 조회
+            const searchParams = new URLSearchParams(location.search);
+            const postId = Number(searchParams.get('boardId'));
+
+            // 2. API 호출
+            const url = `/api/posts/${postId}`;
+            const response = await fetch(url);
+            const post = await response.json();
+
+            // 3. 에디터 콘텐츠 렌더링
+            document.querySelector('#editorContent').innerHTML = post.content;
+            
+            const viewer = new toastui.Editor({
+                el: document.querySelector('#viewer'),
+                initialValue: post.content
+            });
+            
+        }
+
+    </script>
+</body>
+</html>

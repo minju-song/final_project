@@ -19,7 +19,7 @@ public class PostApiController {
 
 	@Autowired
     private final PostService postService;
-
+	
     // 게시글 저장
     @PostMapping
     public int insertPost(@RequestBody final PostVO params) {
@@ -32,10 +32,5 @@ public class PostApiController {
         return postService.selectPostInfo(boardId);
     }
 
-    // 게시글 목록 조회
-    @GetMapping
-    public List<PostVO> findAllPost() {
-        return postService.selectAllPost();
-    }
 
 }

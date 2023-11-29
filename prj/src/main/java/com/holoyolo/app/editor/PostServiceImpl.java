@@ -14,8 +14,8 @@ public class PostServiceImpl implements PostService {
 	PostMapper postMapper;
 
 	@Override
-	public List<PostVO> selectAllPost() {
-		return postMapper.selectAllPost();
+	public List<PostVO> selectAllPost(String menuType) {
+		return postMapper.selectAllPost(menuType);
 	}
 	
 	@Override
