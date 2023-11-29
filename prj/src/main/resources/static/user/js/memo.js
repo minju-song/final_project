@@ -21,6 +21,7 @@
 	
 	//핀 색상 변경 함수
 	function pinChange(e){
+	console.log("전체리스트에서 핀클릭");
 		let memoId = e.currentTarget.parentElement.querySelector('.inputMemoId').dataset.memo;
 		if(!e.target.classList.contains('bi-pin-fill')){
 			e.target.src=`/user/images/pin-fill.svg`;
@@ -65,8 +66,11 @@
         }})
     	backcolor.style.backgroundColor = color;
     };
+    
+ 	   
+    
  
- 	//
+ 	
   	const draggables = document.querySelectorAll(".draggable");
 	const containers = document.querySelectorAll(".dragcontainer");
 	//드래그 시작될 때
@@ -78,6 +82,27 @@
 	  //드래그가 끝날 때
 	  draggable.addEventListener("dragend", () => {
 	    draggable.classList.remove("dragging");
+	    let memoId = draggable.querySelector('.inputMemoId').dataset.memo;
+	    if($(draggable).parent('.dragcontainer')[0].classList.contains('importmemoStart')){
+	    	bookmark = 'Y';
+	    	console.log($(draggable).find('.bi-pin')[0].src)
+	    	$(draggable).find('.bi-pin')[0].src=`/user/images/pin-fill.svg`;
+	    }else{
+	    	bookmark = 'N';
+	    	$(draggable).find('.bi-pin')[0].src=`/user/images/pin.svg`;
+	    }
+	    $(draggable).find('.bi-pin')[0].classList.toggle('bi-pin-fill');
+	    $.ajax({    
+			type:"POST",
+			url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+			data : {memoId, bookmark},
+			dataType:'text',
+			success : function(result) { // 결과 성공 콜백함수   
+			console.log("성공")
+			},    
+			error : function(request, status, error) { // 결과 에러 콜백함수        
+				console.log(error)    
+			}})
 	  });
 	});
 	
@@ -219,52 +244,36 @@
        })
     }
     
-    //등록창에서 메뉴 변경
-    $('#insertMemo').on('show.bs.modal', function(event) { 
-    	let pins = $('#insertMemo').find('.modal-bi-pin')[0];
-		pins.addEventListener('click', function(e){
+    //메모 상세보기 변경 설정(핀, 색상)
+    let writepins = $('.modal').find('.modal-bi-pin');
+    for(let i=0; i<writepins.length; i++){
+		writepins[i].addEventListener('click', function(e){
+			console.log("상세&등록 창에서의 핀 눌렀을 때")
 			if(!e.target.classList.contains('bi-pin-fill')){
 				e.target.src=`/user/images/pin-fill.svg`;
 			}else{
 				e.target.src=`/user/images/pin.svg`;
 			}
+			console.log("bi-pin-fill 토글한다")
 			e.target.classList.toggle('bi-pin-fill');
 		})
-		let colors = document.querySelectorAll('[type=radio]');
-    	for(let i=0; i<colors.length; i++){
-	    	colors[i].addEventListener('click', function(e){
+		let writecolors = document.querySelectorAll('.modal [type=radio]');
+		for(let i=0; i<writecolors.length; i++){
+	    	writecolors[i].addEventListener('click', function(e){
 	    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement;
 	    	let color = e.currentTarget.value
 	    	backcolor.style.backgroundColor = color;
 	    	})
-	    }
-    });
-    
-    //메모 상세보기 변경 설정(핀, 색상)
-	let writepins = $('#writedMemo').find('.modal-bi-pin')[0];
-	writepins.addEventListener('click', function(e){
-		if(!e.target.classList.contains('bi-pin-fill')){
-			e.target.src=`/user/images/pin-fill.svg`;
-		}else{
-			e.target.src=`/user/images/pin.svg`;
-		}
-		e.target.classList.toggle('bi-pin-fill');
-	})
-	let writecolors = document.querySelectorAll('#writedMemo [type=radio]');
-	for(let i=0; i<writecolors.length; i++){
-    	writecolors[i].addEventListener('click', function(e){
-    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement;
-    	let color = e.currentTarget.value
-    	backcolor.style.backgroundColor = color;
-    	})
-    } 
+	    } 
+    }
 	    
     //메모 상세보기
     let memoId = 0;
     let beforememopin = '';
     $('#writedMemo').on('show.bs.modal', function(event) { 
-        beforememopin = $('#writedMemo').find('.modal-bi-pin')[0].src;
         memoId = $(event.relatedTarget).data('memo');
+        beforememopin = event.relatedTarget.previousElementSibling.src;
+        console.log(beforememopin)
         //Ajax 요청
         $.ajax({
 			url : '/member/memoInfo',  //이동할 jsp 파일 주소
@@ -277,6 +286,7 @@
 				if(data.bookmark == 'Y'){
 					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/pin-fill.svg';
 				}else{
+					$('#writedMemo').find('.modal-bi-pin').removeClass('bi-pin-fill');
 					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/pin.svg';
 				}
 			},
@@ -374,9 +384,32 @@
 		clone[0].addEventListener("dragstart", () => {
 	    	clone[0].classList.add("dragging");
 	    });
-	    clone[0].addEventListener("dragend", () => {
-		    clone[0].classList.remove("dragging");
+		
+		clone[0].addEventListener("dragend", () => {
+	    clone[0].classList.remove("dragging");
+	    let memoId = clone[0].querySelector('.inputMemoId').dataset.memo;
+	    if($(clone[0]).parent('.dragcontainer')[0].classList.contains('importmemoStart')){
+	    	bookmark = 'Y';
+	    	console.log($(clone[0]).find('.bi-pin')[0].src)
+	    	$(clone[0]).find('.bi-pin')[0].src=`/user/images/pin-fill.svg`;
+	    }else{
+	    	bookmark = 'N';
+	    	$(clone[0]).find('.bi-pin')[0].src=`/user/images/pin.svg`;
+	    }
+	    $(clone[0]).find('.bi-pin')[0].classList.toggle('bi-pin-fill');
+	    $.ajax({    
+			type:"POST",
+			url : '/member/memoUpdate',  //이동할 jsp 파일 주소
+			data : {memoId, bookmark},
+			dataType:'text',
+			success : function(result) { // 결과 성공 콜백함수   
+			console.log("성공")
+			},    
+			error : function(request, status, error) { // 결과 에러 콜백함수        
+				console.log(error)    
+			}})
 		});
+		
 		
 		//핀 색상 변경
 		let biPin =  clone[0].querySelector('.bi-pin');
@@ -441,9 +474,11 @@
               console.log()
               let biPin = $(inputMemoId).siblings('.bi-pin');
               if(bookmark == 'Y' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
+              	console.log("상세페이지 닫을 때 올라갑니다.")
               	$(biPin).prop('src', '/user/images/pin-fill.svg')	
                 $('.importmemoStart').append(memo);
               }else if(bookmark == 'N' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
+              console.log("상세페이지 닫을 때 내려갑니다.")
               	$(biPin).prop('src', '/user/images/pin.svg')	
                 $('.normalmemoStart').prepend(memo);
               }
