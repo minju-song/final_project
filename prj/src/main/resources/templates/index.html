@@ -12,6 +12,7 @@
 
 <body>
 	<div layout:fragment="content">
+		<a href="/editor">에디터 테스트</a>
 		<div sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberName"></div>
 		<h1>테스트</h1>
 		<img alt="" th:src="@{/common/images/banner.jpg}" style="width:100%;">
