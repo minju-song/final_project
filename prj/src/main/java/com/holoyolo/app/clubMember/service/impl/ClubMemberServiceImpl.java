@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.holoyolo.app.club.service.ClubVO;
 import com.holoyolo.app.clubMember.mapper.ClubMemberMapper;
 import com.holoyolo.app.clubMember.service.ClubMemberService;
 import com.holoyolo.app.clubMember.service.ClubMemberVO;
@@ -35,9 +36,10 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 		return clubMemberMapper.joinClub(vo);
 	}
 
+
 	@Override
-	public int countMember(int id) {
-		return clubMemberMapper.countMember(id);
+	public int checkMyClub(ClubMemberVO vo) {
+		return clubMemberMapper.checkMyClub(vo);
 	}
 
 

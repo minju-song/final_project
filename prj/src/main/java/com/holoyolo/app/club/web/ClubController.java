@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.club.service.ClubService;
 import com.holoyolo.app.club.service.ClubVO;
+import com.holoyolo.app.clubBudget.service.ClubBudgetService;
+import com.holoyolo.app.clubBudget.service.ClubBudgetVO;
 import com.holoyolo.app.clubMember.service.ClubMemberService;
 import com.holoyolo.app.clubMember.service.ClubMemberVO;
+import com.holoyolo.app.clubSuccessHistory.service.ClubSuccessHistoryService;
 
 @Controller
 public class ClubController {
@@ -29,6 +34,12 @@ public class ClubController {
 	
 	@Autowired
 	ClubMemberService clubMemberService;
+	
+	@Autowired
+	ClubSuccessHistoryService clubSuccessHistoryService;
+	
+	@Autowired
+	ClubBudgetService clubBudgetService;
 	
 
 	@GetMapping("/admin/club")
@@ -41,50 +52,27 @@ public class ClubController {
 	@GetMapping("/clublist")
 	public String clubListPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
 
-		//모든 클럽 리스트
-		List<ClubVO> list = clubService.getAllClubList();
-//		System.out.println("값 "+principalDetails.getUsername());
-		//회원이 가입한 클럽리스트	
+		String memberId = "";
 		if(principalDetails!=null) {
-			List<ClubMemberVO> clubJoinlist = clubMemberService.getClubJoin(principalDetails.getUsername());
-			
-			model.addAttribute("joinlist", clubJoinlist);
-			model.addAttribute("userId", principalDetails.getUsername());
+			memberId = principalDetails.getUsername();
 		}
 		else {
-			model.addAttribute("joinlist", "null");
-			model.addAttribute("userId","null");
+			memberId = "null";
 		}
 			
+		Map<String, Object> map = clubService.clubListPage(memberId);
 	
 		
 		
-		model.addAttribute("list", list);
+		model.addAttribute("result", map);
 		return "user/club/clublist";
 	}
 	
 	@GetMapping("clubPaging")
 	@ResponseBody
 	public Map<String, Object> clubPaging(ClubVO vo) {
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = clubService.clubPaging(vo);
 		
-		List<ClubVO> list = new ArrayList<>();
-		list = clubService.getClubList(vo);
-		
-		for(int i=0; i<list.size(); i++) {
-			ClubVO temp = new ClubVO();
-			temp = list.get(i);
-			temp.setJoinCnt(clubMemberService.countMember(list.get(i).getClubId()));
-			list.set(i, temp);
-		}
-		
-		for(int i=0; i<list.size(); i++) {
-			System.out.println(list.get(i));
-		}
-		
-		map.put("length", list.size());
-		map.put("result", list);
-//		System.out.println(vo);
 		return map;
 
 	}
@@ -100,10 +88,26 @@ public class ClubController {
 		return map;
 	}
 	
+	
+	//클럽상세보기 페이지 이동
 	@GetMapping("/member/club/clubPage")
-	public String clubPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model, ClubVO vo) {
+	public String clubPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model,HttpSession session, ClubVO vo) {
+
+		//회원이 가입한 클럽인지 체크한 후 세션에 저장
+		ClubMemberVO cmvo = new ClubMemberVO();
+		cmvo.setClubId(vo.getClubId());
+		cmvo.setMemberId(principalDetails.getUsername());
+		int ck = clubMemberService.checkMyClub(cmvo);
+		if(ck == 1) {
+			session.setAttribute("check", true);
+		}
+		else {
+			session.setAttribute("check", false);
+		}
 		
-		model.addAttribute("clubId", vo.getClubId());
+		
+		Map<String, Object> map = clubService.getClubPage(vo);
+		model.addAttribute("result", map);
 		return "user/club/clubPage";
 	}
 }

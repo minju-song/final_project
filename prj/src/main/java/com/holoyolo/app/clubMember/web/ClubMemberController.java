@@ -25,10 +25,11 @@ public class ClubMemberController {
 	@Autowired
 	ClubMemberService clubMemberService;
 	
-	@GetMapping("/joinClub")
+	@GetMapping("/member/joinClub")
 	@ResponseBody
 	public String joinClub(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam(name = "clubId") String clubId) {
 		//결과맵
+		
 		
 		if(principalDetails == null) {
 			return "redirect:/loginForm";

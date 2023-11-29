@@ -34,5 +34,8 @@ public interface ClubMapper {
 	
 	//알뜰모임 데이터 갯수
 	public int cntData(ClubVO vo);
+	
+	//알뜰모임 상세보기
+	public ClubVO getClub(ClubVO vo);
 
 }

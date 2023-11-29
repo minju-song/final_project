@@ -5,11 +5,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    <link rel="stylesheet" href="/user/css/clubPage.css">
 </head>
 
 <body>
     <div layout:fragment="content">
-        <h3>[[${clubId}]]번 클럽의 상세페이지</h3>
+        <h3>[[${result.club.clubName}]]</h3>
+        <div class="row">
+            <div class="col-8">
+                <div class="info clubInfo">
+                    <h2>[[${result.club.clubName}]]</h2>
+                    <h4>&#128081; : [[${result.club.clubLeader}]]</h4>
+                    <h4>&#128681; " [[${result.club.clubIntro}]] "</h4>
+                    <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
+                    <h4>평균 성공률 : [[${result.avg}]]%</h4>
+                    <hr>
+                    <h4>가입조건 : [[${result.club.joinCondition}]]</h4>
+                    <th:block th:if="${result.budget != null}">
+                        <h4>절약예산 : [[${result.budget.clubBudgetPrice}]]원 / ([[${result.budget.clubBudgetUnit}]])</h4>
+                    </th:block>
+                    <th:block th:if="${result.budget == null}">
+                        <h4>절약예산이 등록되지 않았습니다.</h4>
+                    </th:block>
+                </div>
+                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
+                    <h1>모임장</h1>
+                </th:block>
+                <th:block th:if="${session.check eq true}">
+                    <h1>모임원맞음</h1>
+                </th:block>
+            </div>
+            <div class="col-3">
+                <div class="info memberList">
+                    <h3>팀원들의 진행상황</h3>
+                    <th:block th:if="${session.check eq true}">
+                        <div th:each="member : ${result.members}">
+                            <th:block th:if="${member.memberId == result.club.clubLeader}">
+                                <p><img class="kingImg" th:src="@{/user/images/club/king.png}">
+                                    <span class="nickname">[[${member.memberName}]]님</span> [[${member.sumPrice}]]원
+                                </p>
+                            </th:block>
+                            <th:block th:if="${member.memberId != result.club.clubLeader}">
+                                <p><img class="kingImg" th:src="@{/user/images/club/notking.png}">
+                                    <span class="nickname">[[${member.memberName}]]님</span> [[${member.sumPrice}]]원
+                                </p>
+                            </th:block>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${session.check eq false}">
+
+                        <h5>가입해야만 확인할 수 있습니다.</h5>
+                    </th:block>
+                </div>
+                <th:block th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople}">
+                    <button>가입하기</button><br>
+                </th:block>
+                <th:block th:if="${session.check eq true}">
+                    <button>모임탈퇴</button><br>
+                </th:block>
+                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
+                    <button>모임삭제</button><br>
+                </th:block>
+                <br>
+                <img class="siren" th:src="@{/user/images/club/siren.png}">
+            </div>
+        </div>
+
+
+
+
 
     </div>
 

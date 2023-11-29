@@ -44,17 +44,19 @@
         </div>
 
         <!-- <script th:inline="javascript" type="text/javascript" th:src="@{/user/js/clublist.js}" defer></script> -->
-
         <script th:inline="javascript">
-
-            let select = document.getElementById('searchTitle');
             let joinClub;
-            if ([[${ joinlist }]] != null) {
-                joinClub = [[${ joinlist }]];
+            if ([[${ result.joinlist }]] != null) {
+                joinClub = [[${ result.joinlist }]];
             }
             else {
                 joinClub = "null";
             }
+        </script>
+        <script th:inline="javascript">
+
+            let select = document.getElementById('searchTitle');
+
 
 
             console.log(joinClub);
@@ -65,7 +67,7 @@
             let val = 'clubname';
 
             //넘어오는 데이터 사이즈
-            let totalCount = [[${ list.size() }]];
+            let totalCount = [[${ result.list.size() }]];
             // console.log(totalCount);
             let pageSize = 6;
             let pageNumber = 1;
@@ -212,7 +214,11 @@
                         });
 
                         if (ck == false) {
-                            if (clubArr[i].openScope == 'OA1') {
+                            if (clubArr[i].joinCnt >= clubArr[i].clubPeople) {
+                                btn.innerText = '가입불가';
+                                btn.disabled = true;
+                            }
+                            else if (clubArr[i].openScope == 'OA1') {
                                 btn.innerText = '바로가입';
                                 btn.onclick = function () { join(clubArr[i].clubId) };
                             }
@@ -254,7 +260,9 @@
             function join(clubId) {
                 console.log(clubId + '번 클럽 즉시 가입');
                 if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
-                if ([[${ userId }]] == "null") location.href = "/loginForm";
+                if ([[${ result.userId }]] == "null") {
+                    location.href = "/loginForm";
+                }
                 else {
                     Swal.fire({
                         title: "클럽에 바로 가입하시겠습니까?",
@@ -266,7 +274,7 @@
                         confirmButtonText: "Yes"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            fetch("/joinClub?clubId=" + clubId)
+                            fetch("/member/joinClub?clubId=" + clubId)
                                 .then(response => response.text())
                                 .then(result => {
                                     if (result == "success") {
@@ -299,7 +307,7 @@
                 console.log(clubId + '번 클럽 가입 신청');
                 if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
 
-                if ([[${ userId }]] == "null") location.href = "/loginForm";
+                if ([[${ result.userId }]] == "null") location.href = "/loginForm";
                 else {
                     Swal.fire({
                         title: "클럽에 가입 신청을 하시겠습니까?",
@@ -319,22 +327,23 @@
                                     "aria-label": "Type your message here"
                                 },
                                 showCancelButton: true
+                            }).then((text) => {
+                                if (text) {
+                                    // fetch()
+                                    Swal.fire({
+                                        title: "신청 완료",
+                                        text: "신청이 완료되었습니다.",
+                                        icon: "success"
+                                    });
+                                }
                             });
-                            if (text) {
-                                fetch()
-                                Swal.fire({
-                                    title: "신청 완료",
-                                    text: "신청이 완료되었습니다.",
-                                    icon: "success"
-                                });
-                            }
                         }
                     });
                 }
             }
 
             function test(clubId) {
-                if ([[${ userId }]] == "null") location.href = "/loginForm";
+                if ([[${ result.userId }]] == "null") location.href = "/loginForm";
 
                 location.href = '/member/club/clubPage?clubId=' + clubId;
             }

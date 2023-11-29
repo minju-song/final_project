@@ -12,4 +12,5 @@ public class ClubSuccessHistoryVO {
 	private String successState;
 	private double successPct;
 	private int clubBudgetId;
+	private int clubId;
 }
