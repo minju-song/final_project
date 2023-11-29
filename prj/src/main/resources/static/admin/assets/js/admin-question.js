@@ -44,6 +44,13 @@ $(document).on("click", "button[name='updateConfirm']", function (e) {
 		.fail(err => console.log(err))
 })
 
+// 수정 - 취소
+$(document).on("click", "button[name='updateCancel']", function (e) {
+	// 모든 DOM의 클래스 초기화
+	$(".updateInput").addClass('d-none');
+	$(".originContent").removeClass('d-none');
+});
+
 // 수정된 formData
 function getUpdateInputForm() {
 	let target = event.target
@@ -56,7 +63,11 @@ function getUpdateInputForm() {
 }
 
 
-
+// questionDetail로 이동
+//$(document).on("click", "tr[name='goQuestionDetail']", function (e) {
+//	console.log(11)
+//	location.href='/admin/question/detail(questionId=${list.questionId})}'
+//})
 
 // 삭제
 const deleteAnswerBtn = (answerId, questionId, e) => {
@@ -81,10 +92,7 @@ const deleteAnswerBtn = (answerId, questionId, e) => {
 	}
 }
 
-// 색상
-//bg-label-primary
-//console.log($("#badgeColor").text());
-//const questionList = '[[${questionList}]]';
+
 
 
 
