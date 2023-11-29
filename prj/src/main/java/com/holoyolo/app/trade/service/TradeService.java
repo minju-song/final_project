@@ -7,6 +7,9 @@ public interface TradeService {
 	//전체조회
 	public List<TradeVO> getTradeList();
 	
+	//전체조회
+	public List<TradeVO> tradeList();
+	
 	//단건조회
 	public TradeVO getTrade(TradeVO tradeVO);
 	
@@ -18,4 +21,10 @@ public interface TradeService {
 	
 	//삭제
 	public int deleteTrade(int tradeId);
+	
+	//데이터 총 갯수
+	//public int cntData(TradeVO tradeVO);
+	
+	//리스트 페이징
+	//public Map<String, Object> tradePaging(TradeVO tradeVO);
 }

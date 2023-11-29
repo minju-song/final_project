@@ -166,6 +166,7 @@
 	position: realative;
 	top: 2px;
 	border-radius: 4px;
+	cursor: pointer;
 }
 
 .button p

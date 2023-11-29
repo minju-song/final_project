@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
 <!-- 소스 다운 -->
 <script src="https://unpkg.com/@yaireo/tagify"></script>
 <!-- 폴리필 (구버젼 브라우저 지원) -->
@@ -14,56 +15,6 @@
 	rel="stylesheet" type="text/css" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="/common/js/jquery.twbsPagination.min.js"></script>
-<style>
-	.search {
-		width: 800px;
-		position: realative;
-	}
-	.searchwrap {
-		display: flex;
-		justify-content: space-evenly;
-		margin-bottom: 15px;
-	}
-
-	#searchTitle{
-		position: relative;
-	    width: 173px;
-	    height: 41px;
-	    line-height: 39px;
-	    cursor: pointer;
-	    border: solid 1px #b5b5b5;
-	    padding-left: 15px;
-	    padding-right: 17px;
-	    font-size: 14px;
-	    font-weight: 400;
-	    color: #232323;
-	    margin-bottom: 10px;
-	    border-radius: 4px;
-	}
-	
-	#searchTitle option {
-  		color: #7c7c7c;
-	}
-	
-	.sellcheck{
-		position: relative;
-		border: solid 1px #b5b5b5;
-   	 	padding: 9.6px 20px;
-   	 	margin-left: 15px;
-   	 	border-radius: 4px;
-	}
-	
-	.sellcheck input {
-		position: relative;
-	    margin-left: 15px;
-	    top: 1px;
-	}
-	
-	.h-100 {
-	    height: 100%!important;
-	    width: 295px;
-    }
-</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -71,19 +22,27 @@
 			<form action="#">
 				<div>
 					<select id="searchTitle">
-						<option disabled selected>지역명</option>
-						<option value="clubname">서울</option>
-                        <option value="clubname">대구</option>
-                        <option value="clubking">부산</option>
+						<option disabled selected>카테고리</option>
+						<option value="TB1">생활용품</option>
+                        <option value="TB2">의류</option>
+                        <option value="TB3">식퓸</option>
+                        <option value="TB4">반려용품</option>
+                        <option value="TB5">도서</option>
+                        <option value="TB6">문구</option>
+                        <option value="TB7">가구</option>
+                        <option value="TB8">기타</option>
                    	</select>
                    	<label class="sellcheck">
 					  <span>판매완료 제외<input type="checkbox"></span>
 					</label>
+					<div class="insertbutton">
+						<p>게시글 등록</p>
+					</div>
 				</div>
 				<select id="searchTitle">
-					<option value="clubname">제목/상품명</option>
-                    <option value="clubname">제목</option>
-                    <option value="clubking">상품명</option>
+					<option disabled selected>제목/지역명</option>
+                    <option value="title">제목</option>
+                    <option value="tradePlace">지역명</option>
                 </select>
 				<div class="search header_search">
 					<input type="search" class="search_input" required="required"
@@ -101,7 +60,9 @@
 					<div class="card h-100">
 						<!-- Sale badge-->
 						<div class="badge bg-dark text-white position-absolute"
-							style="top: 0.5rem; right: 0.5rem">Sale</div>
+							style="top: 0.5rem; right: 2.5rem" th:text="${trade.tradeType}"></div>
+						<div class="badge bg-dark text-white position-absolute"
+							style="top: 0.5rem; right: 0.5rem" th:text="${trade.promiseStatus}"></div>
 						<!-- Product image-->
 						<img class="card-img-top"
 							src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
@@ -109,7 +70,7 @@
 						<div class="card-body p-4">
 							<div class="text-center">
 								<!-- Product name-->
-								<h5 class="fw-bolder">Special Item</h5>
+								<h5 class="fw-bolder" th:text="${trade.title}"></h5>
 								<!-- Product reviews-->
 								<div
 									class="d-flex justify-content-center small text-warning mb-2">
@@ -120,8 +81,9 @@
 									<div class="bi-star-fill"></div>
 								</div>
 								<!-- Product price-->
-								<span class="text-muted text-decoration-line-through">$20.00</span>
-								$18.00
+								<div><span class="text-muted text-decoration-line-through" th:text="${trade.price}"></span></div>
+								<div><span class="text-muted text-decoration-line-through" th:text="${trade.tradeCategory}"></span></div>
+								<div><span class="text-muted text-decoration-line-through" th:text="${#dates.format(trade.writeDate, 'yyyy-MM-dd')}"></span></div>
 							</div>
 						</div>
 					</div>
@@ -129,13 +91,12 @@
 				<!-- 중고거래 리스트 끝 -->
 			</div>
 		</div>
-		
-		
 		<nav aria-label="Page navigation" id="page">
             <ul class="pagination" id="pagination" style="text-align: center;"></ul>
         </nav>
         <div id="userid" sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberId" hidden>
         </div>
+        <script th:src="@{/user/js/trade.js}"></script>
 	</div>
 </body>
 </html>
