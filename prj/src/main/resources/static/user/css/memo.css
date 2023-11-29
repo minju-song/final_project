@@ -19,7 +19,7 @@
 	padding: 5px;
 }
 
-.dragcontainer {
+.dragcontainer, .dragcontainerpin {
 	display: flex;
     flex-wrap: wrap;
     flex-direction: row;

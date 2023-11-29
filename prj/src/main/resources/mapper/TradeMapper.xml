@@ -5,7 +5,15 @@
 <mapper namespace="com.holoyolo.app.trade.mapper.TradeMapper">
 
 	<select id="selectTradeList" resultType="TradeVO">
-		SELECT trade_id, trade_place, title, write_date,
+		SELECT  trade_id
+				, title
+				, trade_category
+				, price
+				, trade_place
+				, trade_type
+				, promise_status
+				, views
+				, write_date
 		    CASE 
 		        WHEN trade_type = 'TA1' THEN '직거래'
 		        WHEN trade_type = 'TA2' THEN '비대면'
@@ -28,5 +36,91 @@
 		FROM trade
 		ORDER BY trade_id
 	</select>
-
+	
+	<select id="selectTrade" resultType="TradeVO">
+		SELECT trade_id
+			   , title
+			   , description
+			   , trade_category
+			   , price
+			   , open_kakao
+			   , trade_place
+			   , trade_type
+			   , payment
+			   , promise_status
+			   , views
+			   , sellerId
+		FROM trade
+		WHERE trade_id = #{tradeId}
+		AND seller_id = #{sellerId}
+	</select>
+	
+	<insert id="insertTrade" parameterType="TradeVO">
+		<selectKey keyProperty="tradeId" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(trade_id,0)+1) as tradeId
+			FROM trade
+		</selectKey>
+		INSERT INTO trade
+			(
+				trade_id
+				, title
+				, description
+				, trade_category
+				, price
+				, open_kakao
+				, trade_place
+				, trade_type
+				, payment
+				, promise_status
+				, views
+				, latitude
+				, longitude
+				, seller_id
+			)
+		VALUES
+			(
+				#{tradeId}
+				, #{title}
+				, #{description}
+				, #{tradeCategory}
+				, #{price}
+				, #{openKakao}
+				, #{tradePlace}
+				, #{tradeType}
+				, #{payment}
+				, #{promiseStatus}
+				, #{views}
+				, #{latitude}
+				, #{longitude}
+				, #{sellerId}
+			)
+	</insert>
+	
+	<update id="updateTrade" parameterType="TradeVO">
+		UPDATE trade
+			<set>
+				title = #{title},
+				description = #{description},
+				trade_category = #{tradeCategory},
+				price = #{price},
+				open_kakao = #{openKakao},
+				trade_place = #{tradePlace},
+				trade_type = #{tradeType},
+				payment = #{payment},
+				promise_status = #{promiseStatus},
+				views = #{views},
+				update_date = sysdate,
+				latitude = #{latitude},
+				longitude = #{longitude},
+				buyer_id = #{buyerId}
+			</set> 
+		WHERE trade_id = #{tradeId}
+		AND seller_id = #{sellerId}
+	</update>
+	
+	<delete id="deleteTrade" parameterType="TradeVO">
+		DELETE FROM trade
+		WHERE trade_id = #{tradeId}
+		AND seller_id = #{sellerId}
+	</delete>
 </mapper>
