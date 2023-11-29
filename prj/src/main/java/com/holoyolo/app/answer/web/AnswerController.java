@@ -1,11 +1,15 @@
 package com.holoyolo.app.answer.web;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -45,11 +49,20 @@ public class AnswerController {
 	}
 	
 	// 수정
-	@PutMapping("/admin/question/detail/update/{questionId}/{answerId}")
+	@PostMapping("/admin/question/detail/update/{questionId}/{answerId}")
 	@ResponseBody
-	public int answerUpdate(@PathVariable ("answerId") int answerId, @PathVariable("questionId") int questionId) {
-		AnswerVO answerVO = new AnswerVO();
-		return 1;//answerService.updateAnswerInfo(answerId);
+	public Map<String, Object> answerUpdate(@PathVariable ("answerId") int answerId, 
+			                                @PathVariable("questionId") int questionId,
+			                                @RequestBody AnswerVO answerVO) {
+		System.out.println(answerVO);
+		answerVO.setQuestionId(questionId);
+		answerVO.setAnswerId(answerId);
+		answerVO.setAnswerContent(answerVO.getAnswerContent());
+//		Map<String, Object> result = answerService.updateAnswerInfo(answerVO);
+//		System.out.println(result);
+	
+		
+		return answerService.updateAnswerInfo(answerVO);
 	}
 
 	// 삭제

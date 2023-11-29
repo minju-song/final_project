@@ -1,67 +1,99 @@
 /**
  * 
  */
-
+//
 console.log("admin-question.js 작업중")
-//타겟 수정버튼 클릭 시
-//1. 입력창 display => updateInput
-//2. 컨텐츠 display none => originContent
-//3. 다른 타겟 입력창 display none => .updateInput
-// 수정
+
+// 수정 - 입력창 열기
 const updateAnswerBtn = (answerId, questionId, e) => {
+	// 타겟 찾기
+	let target = event.target
+	originContent = $(target).closest('.originContent') // 답변내용 부분
+	updateInput = $(target).closest('.row').find('.updateInput') // 입력창 브븐
 
-console.log()
-	const reqUrl = `/admin/question/detail/update/${questionId}/${answerId}`
-	let target = $(event.target)
-		originContent = target.closest('.originContent')
-		updateInput = target.closest('.row').find('.updateInput')
-	console.log(updateInput)
-	
-$(originContent).removeClass('d-none')
-$(".updateInput").addClass('d-none')
-$(updateInput).removeClass('d-none')
+	// 모든 DOM의 클래스 초기화
+	$(".updateInput").addClass('d-none');
+	$(".originContent").removeClass('d-none');
 
-//	$(originContent).addClass('d-none')
-//	$(updateInput).toggleClass('d-none')
-//	if($('.d-none'))
-
-	$.ajax({
-		type: 'PUT',
-		url: reqUrl,
-		success: function (result, target) {
-			
-			console.log(result)
-			console.log(target)
-		}, error() {
-			alert('통신이 원활하지 않습니다.')
-		}
-	})
-
+	// 현재 선택한 DOM의 클래스를 조작
+	$(updateInput).removeClass('d-none');
+	$(originContent).addClass('d-none');
 }
+
+// 수정
+$(document).on("click", "button[name='updateConfirm']", function (e) {
+	e.preventDefault();
+	// 수정된 formData 가져오기
+	let formData = getUpdateInputForm();
+	let questionId = formData.questionId;
+	let answerId = formData.answerId;
+
+	const requestUrl = `/admin/question/detail/update/${questionId}/${answerId}`
+	$.ajax(`/admin/question/detail/update/${questionId}/${answerId}`, {
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(formData)
+	})
+		.done(result => {
+			console.log(result);
+			let target = event.target
+			$(".updateInput").addClass('d-none');
+			$(".originContent").removeClass('d-none');
+			location.reload();
+		})
+		.fail(err => console.log(err))
+})
+
+// 수정된 formData
+function getUpdateInputForm() {
+	let target = event.target
+	let formData = $(target).closest('#updateInputForm').serializeArray(); // 폼 태그 전용 메서드
+	let objData = {};
+	$.each(formData, (idx, obj) => {
+		objData[obj.name] = obj.value;
+	});
+	return objData;
+}
+
+
+
 
 // 삭제
 const deleteAnswerBtn = (answerId, questionId, e) => {
 	const agreeCheck = confirm("답변을 삭제 하시겠습니까?");
-	const reqUrl = `/admin/question/detail/delete/${questionId}/${answerId}`
+	const requestUrl = `/admin/question/detail/delete/${questionId}/${answerId}`
 	let target = event.target;
 
 	if (agreeCheck == true) {
 		$.ajax({
 			type: 'DELETE',
-			url: reqUrl,
-
-			success: function (result) {
+			url: requestUrl
+		})
+			.done(result => {
 				if (result) {
 					alert('댓글이 삭제되었습니다.');
 					target.closest('.row').remove();
 				} else {
 					alert('삭제가 실패했습니다.');
 				}
-			}, error() {
-				alert('통신이 원활하지 않습니다.')
-			}
-		})
+			})
+			.fail(error => console.log(error))
 	}
-
 }
 
+// 색상
+//bg-label-primary
+//console.log($("#badgeColor").text());
+//const questionList = '[[${questionList}]]';
+
+
+
+// 답변 다시 보여주기 => 추후 구현
+// $.ajax('/admin/question/detail', {
+// 	type: 'get',
+// 	data: answerInfo
+// })
+// 	.done(result => {
+// 		console.log('Query String', result);
+// 	})
+// 	.fail(err => console.log(err))
