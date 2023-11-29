@@ -11,8 +11,8 @@ public class HomeController {
 			return "index";
 		}
 		
-		@GetMapping("/test")
+		@GetMapping("/editor")
 		public String test() {
-			return "test/contents";
+			return "editor";
 		}	
 }

@@ -2,6 +2,9 @@ package com.holoyolo.app.member.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -23,20 +27,6 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
-
-	@GetMapping("/member")
-	public @ResponseBody String member() {
-		return "member";
-	}
-	
-	@GetMapping("/session")
-	public @ResponseBody String sessionTest(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println("==== 세션정보 확인 ====");
-		System.out.println("세션정보 : " + principalDetails.getMemberVO());
-		System.out.println("회원아이디 : " + principalDetails.getUsername());
-		return "세션정보 로그로 확인 바람";
-	}
 	
 
 	
@@ -45,7 +35,13 @@ public class MemberController {
 	 * @return
 	 */
 	@GetMapping("/loginForm")
-	public String loginForm() {
+	public String loginForm(@RequestParam(value="error", required = false) String error,
+				            @RequestParam(value="exception", required = false) String exception,
+				            Model model) {
+		
+		model.addAttribute("error", error);
+		model.addAttribute("exception", exception);
+		
 		return "/user/loginForm";
 	}
 	
@@ -67,19 +63,26 @@ public class MemberController {
 	@ResponseBody
 	public String join(MemberVO memberVO) {
 		System.out.println(memberVO);
-		String rawPassword = memberVO.getPassword();
-		String encPassword = passwordEncoder.encode(rawPassword);
-		memberVO.setPassword(encPassword);
-		memberVO.setRole("HA1"); //일반회원
 		
-		System.out.println(memberVO);
-		
-		int result = memberService.joinUser(memberVO);
-		
-		if(result > 0) {
-			return "Success";
+		MemberVO vo = memberService.checkUserPhone(memberVO);
+		if(vo != null) {
+			System.out.println(vo.getPhone() + " :: 이미 가입된 회원입니다.");
+			return "JoinUser";
 		} else {
-			return "Fail";
+			String rawPassword = memberVO.getPassword();
+			String encPassword = passwordEncoder.encode(rawPassword);
+			memberVO.setPassword(encPassword);
+			memberVO.setRole("HA1"); //일반회원
+			
+			System.out.println(memberVO);
+			
+			int result = memberService.joinUser(memberVO);
+			
+			if(result > 0) {
+				return "Success";
+			} else {
+				return "Fail";
+			}
 		}
 	}
 	
@@ -139,6 +142,25 @@ public class MemberController {
 	}
 	
 	/**
+	 * 아이디 찾기
+	 * @param memberVO
+	 * @return
+	 */
+	@GetMapping("/find")
+	@ResponseBody
+	public String findMemberId(MemberVO memberVO) {
+		MemberVO vo = new MemberVO();
+		vo = memberService.findMemberIdPwd(memberVO);
+		System.out.println("조회된 결과:: " + vo);
+		
+		if(vo != null) {
+			return vo.getMemberId();
+		} else {
+			return "Fail";
+		}
+	}
+	
+	/**
 	 * 소셜 최초로그인시 마이페이지로 이동.
 	 * @param principalDetails
 	 * @param model
@@ -170,7 +192,6 @@ public class MemberController {
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myHome");
 		
-		
 		return "user/mypage/myHome";
 	}
 	
@@ -190,10 +211,12 @@ public class MemberController {
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myInfo");
 		
-		
 		return "user/mypage/myInfo";
 	}
 	
-	
+	@GetMapping("/mail/test")
+	public String mailTest() {
+		return "/user/mailbody/password";
+	}
 	
 }

@@ -13,7 +13,7 @@
 				<div id="imageWrap">
 					<input class="input_file real_upload" type="file" name="uploadFiles" multiple accept="image/*" />
 					<div class="dp_flex">
-						<div class="thumImg_upload" th:style="'background-image:url(' + ${memberInfo.profileImg} + ');'"></div>
+						<!-- <div class="thumImg_upload" th:style="'background-image:url(' + ${memberInfo.profileImg} + ');'"></div> -->
 						<ul class="image-preview dp_flex">
 							<!-- <li class="position_rela">
 								<button data-file="cute.jpg" class="delBtn position_absol">x</button>
@@ -46,10 +46,6 @@
 					</span>
 				</span>
 			</label>
-			<label th:if="${memberInfo.snsYn.toString().equals('N')}">
-				<span class="attr_name">비밀번호</span>
-				<input type="password" id="password" name="password" class="input" th:value="${memberInfo.password}">
-			</label>
 			<label>
 				<span class="attr_name">주소</span>
 				<span class="flex-col input input_wrap addr_wrap">
@@ -76,7 +72,7 @@
 			</div>
 		</form>	
 		
-		<script th:src="@{/user/js/upload.js}"></script>
+		<!-- <script th:src="@{/user/js/upload.js}"></script> -->
 	</div>
 
 </body>

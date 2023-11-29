@@ -25,12 +25,12 @@
 								<input type="email" class="form-control" id="memberId" name="memberId" placeholder="이메일 주소" onfocus="this.placeholder = '이메일 주소'" onblur="this.placeholder = '이메일 주소'" required="required">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" onfocus="this.placeholder = '비밀번호'" onblur="this.placeholder = '비밀번호'" required="required">
+								<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" onfocus="this.placeholder = '비밀번호'" onblur="this.placeholder = '비밀번호'" required="required" autocomplete="on">
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
 									<label for="f-option2" class="link-text">
-										<input type="checkbox" id="f-option2" name="selector">
+										<input type="checkbox" id="f-option2" name="remember-me">
 										로그인 유지
 									</label>
 								</div>
@@ -48,6 +48,9 @@
 								<a class="sns_btn google" th:href="@{/oauth2/authorization/google}"><img alt="구글로그인" th:src="@{/user/images/login/icon_google.png}"></a>
 							</div>
 						</form>
+						<div th:if="${error}">                
+						<p id="valid" class="alert alert-danger" th:text="${exception}" style="margin: 0 65px;"></p>
+						</div>
 					</div>
 				</div>
 			</div>
