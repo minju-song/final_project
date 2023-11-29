@@ -3,4 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.clubBudget.mapper.ClubBudgetMapper">
+  
+  	<!-- 해당 클럽의 현재 예산정보 -->
+  	<select id="getClubBudget" resultType="ClubBudgetVO">
+  		SELECT * 
+  		FROM club_budget 
+  		WHERE club_id = #{clubId} and use_yn = 'Y'
+  	</select>
   </mapper>

@@ -57,4 +57,19 @@ public class MemoServiceImpl implements MemoService {
 		return memoMapper.deleteMemo(memoVO);
 	}
 
+	@Override
+	public Map<String, Object> memoIndex(MemoVO memoVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSucceed = false;
+		
+		int result = memoMapper.memoIndex(memoVO);
+		if(result == 1) {
+			isSucceed = true;
+		}
+		
+		map.put("result", isSucceed);
+		map.put("info", memoVO);
+		return map;
+	}
+
 }

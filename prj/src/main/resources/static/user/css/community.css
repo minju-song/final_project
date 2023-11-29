@@ -1,0 +1,16 @@
+label {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.form-control {
+    color: gray;
+  }
+
+  .input-group {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: stretch;
+    width: 100%;
+    align-items: baseline;}

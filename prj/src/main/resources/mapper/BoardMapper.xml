@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.holoyolo.app.board.mapper.BoardMapper">
+	
+
+	<select id="BoardList" resultType="BoardVO">
+		SELECT * 
+		FROM BOARD
+		WHERE MENU_TYPE= #{menuType}
+	</select>
+
+
+	<select id="selectBoard" resultType="BoardVO">
+			SELECT * 
+			FROM BOARD
+			WHERE BOARD_ID= #{boardId}
+	</select>
+	
+	<insert id="insertBoard" parameterType="BoardVO">
+		<selectKey keyProperty="boardId"  resultType="int"  order="BEFORE">
+	  		SELECT NVL(MAX(board_id),0) + 1
+			FROM board
+	  	</selectKey>
+		INSERT INTO BOARD(BOARD_ID, MENU_TYPE, TITLE, CONTENT, WRITE_DATE, UPDATE_DATE, VIEWS, MEMBER_ID, CLUB_ID)
+		VALUES (#{boardId}, #{menuType}, #{title}, #{content}, sysdate, null, 0,#{memberId}, null)
+	</insert>
+	
+	<update id="">
+	
+	</update>
+	
+	<delete id="deleteBoard"></delete>
+
+</mapper>
+

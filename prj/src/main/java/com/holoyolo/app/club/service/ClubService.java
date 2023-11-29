@@ -26,10 +26,18 @@ public interface ClubService {
 	
 
 
-	//알뜰모임 목록
-	public List<ClubVO> getAllClubList();
 	
-	//알뜰모임 목록
-	public List<ClubVO> getClubList(ClubVO vo);
+	//알뜰모임 데이터 갯수
+	public int cntData(ClubVO vo);
+	
+	
+	//알뜰모임 클럽리스트페이지 이동
+	public Map<String, Object> clubListPage(String memberId);
+	
+	//클럽상세페이지이동
+	public Map<String, Object> getClubPage(ClubVO vo);
+	
+	//클럽 페이징
+	public Map<String, Object> clubPaging(ClubVO vo);
 
 }

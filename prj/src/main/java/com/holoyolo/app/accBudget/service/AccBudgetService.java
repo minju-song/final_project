@@ -17,5 +17,5 @@ public interface AccBudgetService {
 	public AccBudgetVO selectBudid(AccBudgetVO vo);
 	
 	//예산삭제
-	public HashMap<Object, Object> deleteBudget(String id);
+	public void deleteBudget(String id);
 }

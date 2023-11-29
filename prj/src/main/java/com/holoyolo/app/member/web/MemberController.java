@@ -28,12 +28,7 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	@GetMapping("/admin/member")
-	public String selectMemberList(Model model) {
-		List<MemberVO> list = memberService.selectMemberAll();
-		model.addAttribute("memberList", list);
-		return "admin/memberMgt";
-	}
+
 	
 	/**
 	 * 로그인 페이지

@@ -67,4 +67,12 @@ public class MemoController {
 		memoVO.setMemoId(memoId);
 		memoService.deleteMemo(memoVO);
 	}
+	
+	//index 수정
+	@PostMapping("member/updateIndex")
+	@ResponseBody
+	public void memoIndex(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO){
+		memoVO.setMemberId(principalDetails.getUsername());
+		memoService.memoIndex(memoVO);
+	}
 }

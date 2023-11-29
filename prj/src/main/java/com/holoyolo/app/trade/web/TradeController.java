@@ -21,4 +21,15 @@ public class TradeController {
 		model.addAttribute("tradeList", list);
 		return "admin/tradeMgt";
 	}
+	
+	@GetMapping("tradeList")
+	public String tradeList(TradeVO tradeVO, Model model) {
+		List<TradeVO> list = tradeService.getTradeList();
+		if(list.size() == 0) {
+			model.addAttribute("tradeList", "null");
+		}else {
+			model.addAttribute("tradeList", list);
+		}
+		return "user/trade/tradeList";
+	}
 }

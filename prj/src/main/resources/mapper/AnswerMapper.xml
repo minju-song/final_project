@@ -26,9 +26,16 @@
 	    VALUES (#{answerId}, #{answerContent}, sysdate, #{questionId})
 	</insert>
 	
+	<update id="updateAnswerInfo" parameterType="AnswerVO">
+		UPDATE answer SET
+			    answer_content = #{answerContent},
+			    update_date = sysdate
+		WHERE answer_id = #{answerId}
+	</update>
+		
 	<delete id="deleteAnswerInfo" parameterType="int">
 		DELETE FROM answer
-		WHERE answer_id = #{answerId};
+		WHERE answer_id = #{answerId}
 	</delete>
   
   </mapper>

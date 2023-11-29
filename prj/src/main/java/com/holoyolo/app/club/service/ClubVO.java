@@ -20,6 +20,13 @@ public class ClubVO {
 	
 	//페이징
 	private int page;
-
+	//검색어
+	private String search;
+	//검색주제
+	private String searchTitle;
+	//리더 이름
+	private String leaderName;
+	//클럽 가입자수
+	private int joinCnt;
 
 }

@@ -1,10 +1,15 @@
 package com.holoyolo.app.answer.web;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -21,7 +26,7 @@ public class AnswerController {
 	
 
 	
-	// 답변 등록
+	// 등록
 	@PostMapping("/admin/question/detail")
 	public String answerInsertProcess(@RequestParam("questionId") int questionId, @RequestParam("answerContent") String answerContent, AnswerVO answerVO, RedirectAttributes ratt) {
 	    if (answerService == null) {
@@ -40,24 +45,30 @@ public class AnswerController {
 		}
 		ratt.addFlashAttribute("result", msg);
 		
-		return "redirect:/admin/question/detail?questionId="+ questionId;	
-	}
-    
-	// 답변 삭제
-	@DeleteMapping("/admin/question/detail/{questionId}/answer/{answerId}")
-	public String answerDeleteInfo(@RequestParam int answerId, @RequestParam("questionId") int questionId, RedirectAttributes ratt) {
-		System.out.println(answerId);
-		System.out.println(questionId);
-		
-		boolean result = answerService.deleteAnswerInfo(answerId);
-		
-		String msg = null;
-		if (result) {
-			msg = "정상적으로 삭제되었습니다.\n삭제대상: " + answerId;
-		} else {
-			msg = "정상적으로 삭제되지 않았습니다.\n정보를 확인해주시기바랍니다.\n삭제요청: " + answerId;
-		}
-		ratt.addFlashAttribute("message", msg);
 		return "redirect:/admin/question/detail?questionId="+ questionId;
+	}
+	
+	// 수정
+	@PostMapping("/admin/question/detail/update/{questionId}/{answerId}")
+	@ResponseBody
+	public Map<String, Object> answerUpdate(@PathVariable ("answerId") int answerId, 
+			                                @PathVariable("questionId") int questionId,
+			                                @RequestBody AnswerVO answerVO) {
+		System.out.println(answerVO);
+		answerVO.setQuestionId(questionId);
+		answerVO.setAnswerId(answerId);
+		answerVO.setAnswerContent(answerVO.getAnswerContent());
+//		Map<String, Object> result = answerService.updateAnswerInfo(answerVO);
+//		System.out.println(result);
+	
+		
+		return answerService.updateAnswerInfo(answerVO);
+	}
+
+	// 삭제
+	@DeleteMapping("/admin/question/detail/delete/{questionId}/{answerId}")
+	@ResponseBody
+	public boolean answerDelete(@PathVariable ("answerId") int answerId, @PathVariable("questionId") int questionId) {
+		return answerService.deleteAnswerInfo(answerId);
 	}
 }
