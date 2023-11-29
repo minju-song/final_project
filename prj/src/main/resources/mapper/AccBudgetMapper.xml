@@ -33,7 +33,7 @@
   	</update>
   	
   	<!-- 예산삭제 및 관련된 진행중인 예산기간 삭제 -->
-  	<select id="deleteBudget" parameterType="AccBudgetVO" resultType="hashmap" >
+  	<select id="deleteBudget" parameterType="AccBudgetVO">
   		    {call deletebudget(
         #{memberId, mode=IN, jdbcType=VARCHAR}
     )}

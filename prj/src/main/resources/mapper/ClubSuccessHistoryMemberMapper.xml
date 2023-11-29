@@ -3,4 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.clubSuccessHistoryMember.mapper.ClubSuccessHistoryMemberMapper">
+  
+  	<!-- 해당 회원의 해당 클럽 지난 랭킹가져오기 -->
+  	<select id="getRankingLast" parameterType="ClubMemberVO" resultType="ClubMemberVO">
+  	        SELECT NVL(ranking,0) as ranking
+  	        FROM club_success_history_member 
+  	        WHERE goal_id = (
+                			SELECT * 
+                			FROM (
+                        			SELECT goal_id 
+                        			FROM club_success_history 
+                        			WHERE club_id = #{clubId}
+                        			AND success_state != 'SU3' 
+                        			ORDER BY end_date desc
+                        			)
+                			WHERE rownum = 1)
+           AND member_id = #{memberId}
+  	</select>
   </mapper>
