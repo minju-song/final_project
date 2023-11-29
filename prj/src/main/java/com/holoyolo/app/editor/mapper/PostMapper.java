@@ -1,9 +1,16 @@
-package com.holoyolo.app.editor;
+package com.holoyolo.app.editor.mapper;
+
+import java.util.List;
+
+import com.holoyolo.app.editor.PostVO;
 
 public interface PostMapper {
+	
+	// 전체조회
+	public List<PostVO> selectAllPost();
 
 	// 단건조회
-	public PostVO selectPostInfo(PostVO postVO);
+	public PostVO selectPostInfo(int boardId);
 	
 	// 등록
 	public int insertPost(PostVO postVO);
