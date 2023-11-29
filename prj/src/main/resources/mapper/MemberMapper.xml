@@ -100,4 +100,18 @@
 		WHERE member_id = #{memberId}
 	</update>
 	
+	<!-- 로그인 실패횟수 ++ -->
+	<update id="updateMemberFailCnt" parameterType="MemberVO">
+		UPDATE member
+		SET login_fail_cnt = login_fail_cnt + 1
+        WHERE member_id = #{memberId}
+	</update>
+	
+	<!-- 로그인 실패횟수 리셋 -->
+	<update id="updateMemberFailCntReset" parameterType="MemberVO">
+		UPDATE member
+		SET login_fail_cnt = 0
+        WHERE member_id = #{memberId}
+	</update>
+	
  </mapper>

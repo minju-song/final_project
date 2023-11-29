@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/">
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 </head>
@@ -49,8 +48,7 @@
 					<div class="menu_mypage_wrap">
 						<a th:href="@{/member/myHome}" class="menu_mypage">
 							<img alt="마이페이지" th:src="@{/user/images/logo/person-circle.svg}">
-							<span class="nickname_area" sec:authorize="isAuthenticated()"
-								sec:authentication="principal.memberVO.nickname"></span><span>님</span>
+							<span class="nickname_area" sec:authentication="principal.memberVO.nickname"></span><span>님</span>
 						</a>
 					</div>
 				</th:block>

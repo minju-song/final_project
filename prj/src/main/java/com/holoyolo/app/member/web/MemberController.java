@@ -2,6 +2,9 @@ package com.holoyolo.app.member.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,14 +28,6 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	@GetMapping("/session")
-	public @ResponseBody String sessionTest(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println("==== 세션정보 확인 ====");
-		System.out.println("세션정보 : " + principalDetails.getMemberVO());
-		System.out.println("회원아이디 : " + principalDetails.getUsername());
-		return "세션정보 로그로 확인 바람";
-	}
-	
 	@GetMapping("/admin/member")
 	public String selectMemberList(Model model) {
 		List<MemberVO> list = memberService.selectMemberAll();
@@ -48,8 +43,7 @@ public class MemberController {
 	public String loginForm(@RequestParam(value="error", required = false) String error,
 				            @RequestParam(value="exception", required = false) String exception,
 				            Model model) {
-		System.out.println(error);
-		System.out.println(exception);
+		
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		

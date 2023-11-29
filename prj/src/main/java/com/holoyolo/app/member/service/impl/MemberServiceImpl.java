@@ -79,5 +79,15 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.updateMemberPwd(memberId, authNum);
 	}
 
+	@Override
+	public int updateMemberFailCnt(MemberVO memberVO) {
+		return memberMapper.updateMemberFailCnt(memberVO);
+	}
+
+	@Override
+	public int updateMemberFailCntReset(MemberVO memberVO) {
+		return memberMapper.updateMemberFailCntReset(memberVO);
+	}
+
 	
 }

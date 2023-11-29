@@ -46,4 +46,10 @@ public interface MemberService {
 	
 	// 임시비밀번호 업데이트
 	public int updateMemberPwd(String memberId, String authNum);
+	
+	// 로그인 실패횟수 ++
+	public int updateMemberFailCnt(MemberVO memberVO);
+	
+	// 로그인 실패횟수 초기화
+	public int updateMemberFailCntReset(MemberVO memberVO);
 }
