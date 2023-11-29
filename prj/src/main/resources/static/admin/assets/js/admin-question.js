@@ -3,6 +3,71 @@
  */
 //
 console.log("admin-question.js 작업중")
+// 진입시 총 문의 리스트
+// 전체 클릭시 문의 리스트
+// 답변대기 클릭시 문의 리스트
+// 답변완료 클릭시 문의 리스트
+
+
+// 진입시 총 문의 개수
+$(document).ready(function() {
+	// Fetch question list on page load
+
+
+	$.ajax({
+		url: "/admin/question/count",
+		method: "GET",
+		success: function(data) {
+			$("#initQuestionCount").text(`${data.totalQuestionCount}개`)
+		},
+		error: function(error) {
+			console.error("Error fetching question list: ", error);
+		}
+	});
+})
+
+// 전체 클릭시 문의 개수
+$(document).on("click", "button[name='totalQuestionCount']", function (e) {
+	$.ajax({
+		url: "/admin/question/count",
+		method: "GET",
+		success: function(data) {
+			$("#initQuestionCount").text(`${data.totalQuestionCount}개`)
+		},
+		error: function(error) {
+			console.error("Error fetching question list: ", error);
+		}
+	});
+})
+
+// 답변대기 클릭시 문의 개수
+$(document).on("click", "button[name='pendingQuestionCount']", function (e) {
+	$.ajax({
+		url: "/admin/question/count",
+		method: "GET",
+		success: function(data) {
+			$("#initQuestionCount").text(`${data.pendingQuestionCount}개`)
+		},
+		error: function(error) {
+			console.error("Error fetching question list: ", error);
+		}
+	});
+})
+
+// 답변완료 클릭시 문의 개수
+$(document).on("click", "button[name='completedQuestionCount']", function (e) {
+	$.ajax({
+		url: "/admin/question/count",
+		method: "GET",
+		success: function(data) {
+			$("#initQuestionCount").text(`${data.completedQuestionCount}개`)
+		},
+		error: function(error) {
+			console.error("Error fetching question list: ", error);
+		}
+	});
+})
+
 
 // 수정 - 입력창 열기
 const updateAnswerBtn = (answerId, questionId, e) => {

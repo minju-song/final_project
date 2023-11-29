@@ -19,13 +19,13 @@
 			<!-- Hoverable Table rows -->
 			<div class="card card-admin-container">
 				<h5 class="ps-4 pt-4">
-					전체문의 <span style="color: skyblue">30개</span>
+					전체문의 <span id="initQuestionCount" style="color: skyblue"></span>
 				</h5>
 				<div class="ps-4 pb-4 demo-inline-spacing"aria-label="Basic example">
-					<button type="button" class="btn btn-outline-primary">전체</button>
-					<button type="button" class="btn btn-outline-primary">
-						답변대기</button>
-					<button type="button" class="btn btn-outline-primary">
+					<button name="totalQuestionCount" type="button" class="btn btn-outline-primary">전체</button>
+					<button id="pendingQuestionCount" name="pendingQuestionCount" type="button" class="btn btn-outline-primary">
+						답변대기</buttonid="initQuestionCount">
+					<button id="completedQuestionCount" name="completedQuestionCount" type="button" class="btn btn-outline-primary">
 						답변완료</button>
 				</div>
 				<div class="table-responsive text-nowrap">
