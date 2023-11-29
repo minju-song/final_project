@@ -11,8 +11,6 @@
 </style>
 </head>
 
-
-
 <body>
 
 	<div layout:fragment="content">
@@ -44,12 +42,12 @@
 						</thead>
 						<tbody class="table-border-bottom-0">
 							<th:block th:each="list, stat : ${questionList}">
-								<tr th:onclick="|location.href='@{/admin/question/detail(questionId=${list.questionId})}'|">
+								<tr name="goQuestionDetail" th:onclick="|location.href='@{/admin/question/detail(questionId=${list.questionId})}'|">
 									<td th:text="${list.questionId}"><i
 										class="fab fa-angular fa-lg text-danger me-3"></i> <strong>1</strong></td>
 									<td th:text="${list.title}"></td>
 									<td th:text="${list.memberId}"></td>
-									<td><span class="badge bg-label-primary me-1" th:text="${list.questionType}"></span></td>
+									<td><span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span></td>
 									<td th:text="${#dates.format(list.writeDate, 'yyyy-MM-dd')}"></td>
 									<td><span class="badge bg-label-primary me-1" th:text="${list.questionYn}"></span></td>
 									<td>
@@ -76,6 +74,7 @@
 			<!--/ Hoverable Table rows -->
 		</div>
 	</div>
+	
 
 </body>
 </html>

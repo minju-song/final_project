@@ -18,4 +18,7 @@ public interface MemoService {
 	
 	//삭제
 	public int deleteMemo(MemoVO memoVO);
+	
+	//index 수정
+	public Map<String, Object> memoIndex(MemoVO memoVO);
 }

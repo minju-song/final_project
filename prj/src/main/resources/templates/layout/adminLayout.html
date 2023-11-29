@@ -34,6 +34,8 @@
 <link rel="stylesheet"
 	th:href="@{/admin/assets/vendor/libs/apex-charts/apex-charts.css}"
 	type="text/css" />
+	<script th:src="@{/plugin/sweetalert2.min.js}"></script>
+<link rel="stylesheet" th:href="@{/plugin/sweetalert2.min.css}">
 </head>
 
 <body>
@@ -74,10 +76,10 @@
     <script src="/admin/assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="/admin/assets/js/dashboards-analytics.js"></script>
+    <!-- <script src="/admin/assets/js/dashboards-analytics.js"></script> -->
 
     <!--/*문의관리 JS*/-->
-    <script src="/admin/assets/js/admin-question.js"></script>
+    <script src="/admin/assets/js/admin-question.js" th:inline="javascript"></script>
     
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

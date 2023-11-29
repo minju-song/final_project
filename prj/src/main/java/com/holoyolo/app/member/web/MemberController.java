@@ -1,10 +1,7 @@
 package com.holoyolo.app.member.web;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,24 +19,6 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
-	@GetMapping("/session")
-	public @ResponseBody String sessionTest(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println("==== 세션정보 확인 ====");
-		System.out.println("세션정보 : " + principalDetails.getMemberVO());
-		System.out.println("회원아이디 : " + principalDetails.getUsername());
-		return "세션정보 로그로 확인 바람";
-	}
-	
-	@GetMapping("/admin/member")
-	public String selectMemberList(Model model) {
-		List<MemberVO> list = memberService.selectMemberAll();
-		model.addAttribute("memberList", list);
-		return "admin/memberMgt";
-	}
-	
 	/**
 	 * 로그인 페이지
 	 * @return
@@ -48,8 +27,7 @@ public class MemberController {
 	public String loginForm(@RequestParam(value="error", required = false) String error,
 				            @RequestParam(value="exception", required = false) String exception,
 				            Model model) {
-		System.out.println(error);
-		System.out.println(exception);
+		
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		
@@ -73,28 +51,8 @@ public class MemberController {
 	@PostMapping("/join")
 	@ResponseBody
 	public String join(MemberVO memberVO) {
-		System.out.println(memberVO);
-		
-		MemberVO vo = memberService.checkUserPhone(memberVO);
-		if(vo != null) {
-			System.out.println(vo.getPhone() + " :: 이미 가입된 회원입니다.");
-			return "JoinUser";
-		} else {
-			String rawPassword = memberVO.getPassword();
-			String encPassword = passwordEncoder.encode(rawPassword);
-			memberVO.setPassword(encPassword);
-			memberVO.setRole("HA1"); //일반회원
-			
-			System.out.println(memberVO);
-			
-			int result = memberService.joinUser(memberVO);
-			
-			if(result > 0) {
-				return "Success";
-			} else {
-				return "Fail";
-			}
-		}
+		String result = memberService.joinUser(memberVO);
+		return result;
 	}
 	
 	/**
@@ -105,18 +63,7 @@ public class MemberController {
 	@GetMapping("/join/idCheck")
 	@ResponseBody
 	public String idCheck(MemberVO memberVO) {
-		String result = "NOT_FOUND";
-		MemberVO vo = new MemberVO();
-		System.out.println("넘어온 아이디 ::: " + memberVO.getMemberId());
-		
-		vo = memberService.checkMemberId(memberVO);
-		System.out.println(memberVO.getMemberId() + "는 가입이 가능한 아이디 입니다.");
-		
-		if(vo != null) {
-			result = "FOUND";
-			System.out.println("결과는 ::: " + vo.getMemberId() + ", " + result);
-		}
-		
+		String result = memberService.checkMemberId(memberVO);
 		return result;
 	}
 	
@@ -128,18 +75,7 @@ public class MemberController {
 	@GetMapping("/join/nickCheck")
 	@ResponseBody
 	public String nickCheck(MemberVO memberVO) {
-		String result = "NOT_FOUND";
-		MemberVO vo = new MemberVO();
-		System.out.println("넘어온 닉네임 ::: " + memberVO.getNickname());
-		
-		vo = memberService.checkNickname(memberVO);
-		System.out.println(memberVO.getNickname() + "는 사용이 가능한 닉네임 입니다.");
-		
-		if(vo != null) {
-			result = "FOUND";
-			System.out.println("결과는 ::: " + vo.getNickname() + ", " + result);
-		}
-		
+		String result = memberService.checkNickname(memberVO);
 		return result;
 	}
 	
@@ -159,16 +95,9 @@ public class MemberController {
 	 */
 	@GetMapping("/find")
 	@ResponseBody
-	public String findMemberId(MemberVO memberVO) {
-		MemberVO vo = new MemberVO();
-		vo = memberService.findMemberIdPwd(memberVO);
-		System.out.println("조회된 결과:: " + vo);
-		
-		if(vo != null) {
-			return vo.getMemberId();
-		} else {
-			return "Fail";
-		}
+	public String findMemberIdPwd(MemberVO memberVO) {
+		String result = memberService.findMemberIdPwd(memberVO);
+		return result;
 	}
 	
 	/**
@@ -223,11 +152,6 @@ public class MemberController {
 		model.addAttribute("subMenu", "myInfo");
 		
 		return "user/mypage/myInfo";
-	}
-	
-	@GetMapping("/mail/test")
-	public String mailTest() {
-		return "/user/mailbody/password";
 	}
 	
 }

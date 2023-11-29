@@ -16,7 +16,7 @@ public class TradeVO {
 	private String openKakao;
 	private String tradePlace;
 	private String tradeType;
-	private String payment;
+	private String paymentType;
 	private String promiseStatus;
 	private int views;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

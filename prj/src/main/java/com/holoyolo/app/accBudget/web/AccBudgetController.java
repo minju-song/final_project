@@ -74,8 +74,11 @@ public class AccBudgetController {
 
 		//결과맵
 		Map<String, Object> map = new HashMap<>();
-
-		map.put("result","success");
+		
+		accBudgetService.deleteBudget(principalDetails.getUsername());		
+			map.put("result", "success");
+		
 		return map;
+
 	}
 }

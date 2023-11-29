@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="utf-8">
+	<title>Error</title>
+	<style>
+		body {
+		    display: flex;
+    		align-items: center;
+			height: 100%;
+			min-height: 100vh;
+			background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+		}
+		.img_wrap {
+			position: relative;
+			width: 800px;
+			margin: auto;
+			background: url("/user/images/error/error.png") no-repeat center center;
+			height: 800px;
+			background-size: contain;
+			overflow: hidden;
+		}
+		button {
+			    position: absolute;
+			    bottom: 85px;
+			    right: 73px;
+			    width: 107px;
+			    height: 55px;
+			    border-radius: 25px;
+			    background: transparent;
+			    border: none;
+			    cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="img_wrap">
+		<a th:href="@{/}"><button type="button"></button></a>
+	</div>
+</body>
+</html>
