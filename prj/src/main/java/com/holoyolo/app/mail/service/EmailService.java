@@ -96,6 +96,39 @@ public class EmailService {
         String path = "/user/mailbody/";
         return templateEngine.process(path + type, context);
     }
-	
+    
+    
+	//클럽가입요청
+    public void sendRequest(EmailVO emailVO) {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		
+		
+		
+		try {
+			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+			mimeMessageHelper.setTo(emailVO.getTo()); // 수신자
+			mimeMessageHelper.setSubject(emailVO.getSubject()); // 제목
+			mimeMessageHelper.setText(setContextReq(emailVO.getClubId(),emailVO.getClubName(),emailVO.getReqId(), emailVO.getText()), true); // 메일 본문 내용, HTML 여부
+			javaMailSender.send(mimeMessage);
+			
+			log.info("Success");
+			
+			//return authNum;
+			
+		} catch(MessagingException e) {
+			log.info("Fail");
+			throw new RuntimeException(e);
+		}
+    }
+    
+    public String setContextReq(int clubId,String clubName, String reqId, String text) {
+        Context context = new Context();
+        context.setVariable("club", clubId);
+        context.setVariable("member", reqId);
+        context.setVariable("clubName", clubName);
+        context.setVariable("text", text);
+        String path = "/user/mailbody/request";
+        return templateEngine.process(path, context);
+    }
 
 }

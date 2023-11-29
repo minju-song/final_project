@@ -1,9 +1,15 @@
 package com.holoyolo.app.mail.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.holoyolo.app.auth.PrincipalDetails;
+import com.holoyolo.app.club.service.ClubVO;
 import com.holoyolo.app.mail.service.EmailService;
 import com.holoyolo.app.mail.service.EmailVO;
 import com.holoyolo.app.member.service.MemberVO;
@@ -47,5 +53,24 @@ public class EmailController {
 		
 		emailService.sendMail(emailVO, "join");
 	}
+	
+	//클럽가입요청
+	//@RequestMapping(value = "/sendmail/requestclub", method = RequestMethod.POST)
+	@PostMapping("/sendmail/requestclub")
+	public void sendRequestMail(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody ClubVO vo) {
+		EmailVO emailVO = EmailVO.builder()
+				.to("songjaeskkk@naver.com")
+				.subject(vo.getClubName()+"모임에 대한 가입요청 메일입니다.")
+				.clubId(vo.getClubId())
+				.clubName(vo.getClubName())
+				.reqId(principalDetails.getUsername())
+				.text(vo.getText())
+				.build();
+		
+		System.out.println("이메일객체"+vo);
+		emailService.sendRequest(emailVO);
+	}
+	
+	
 	
 }

@@ -28,5 +28,7 @@ public class ClubVO {
 	private String leaderName;
 	//클럽 가입자수
 	private int joinCnt;
+	//가입요청메시지
+	private String text;
 
 }
