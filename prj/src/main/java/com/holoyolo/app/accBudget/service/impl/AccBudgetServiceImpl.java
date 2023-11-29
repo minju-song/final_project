@@ -59,7 +59,7 @@ public class AccBudgetServiceImpl implements AccBudgetService {
 
 	//예산삭제
 	@Override
-	public HashMap<Object, Object> deleteBudget(String id) {
-		return accBudgetMapper.deleteBudget(id);
+	public void deleteBudget(String id) {
+		accBudgetMapper.deleteBudget(id);
 	}
 }

@@ -3,4 +3,58 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.clubMember.mapper.ClubMemberMapper">
+  
+  	<!-- 해당 회원이 가입한 클럽 리스트들 -->
+  	<select id="getClubJoin" resultType="ClubMemberVO">
+  		SELECT * 
+  		FROM club_member 
+  		WHERE member_id = #{memberId}
+  	</select>
+  	
+  	<!-- 클럽 바로 가입 -->
+  	<insert id="joinClub" parameterType="ClubMemberVO">
+  		INSERT into club_member 
+  		VALUES (sysdate, null, #{clubId}, #{memberId})
+  	</insert>
+  	
+  	<!-- 클럽 가입자수 (탈퇴회원 제외) -->
+  	<select id="countMember" parameterType="ClubMemberVO" resultType="int">
+  		SELECT count(*) 
+  		FROM club_member 
+  		WHERE club_id = #{clubId} 
+  		AND stop_date is null
+  	</select>
+  	
+  	<!-- 해당 클럽의 회원목록 -->
+  	<select id="getMembers" resultType="ClubMemberVO" parameterType="ClubVO">
+SELECT cm.*, m.member_name as member_name, (SELECT nvl(sum(price),0) 
+                                            FROM acc_book_history
+                                            <![CDATA[
+                                            WHERE pay_date >= 
+                                                            (
+                                                            SELECT start_date
+                                                            FROM club_success_history
+                                                            WHERE club_id = #{clubId}
+                                                            AND success_state = 'SU3'
+                                                            )
+                                            AND pay_date <= 
+                                                            (
+                                                            SELECT end_date
+                                                            FROM club_success_history
+                                                            WHERE club_id = #{clubId}
+                                                            AND success_state = 'SU3'
+                                                            )
+                                               ]]>
+                                            AND member_id = m.member_id) as sum_price
+FROM club_member cm join member m on cm.member_id = m.member_id
+WHERE club_id = #{clubId}
+ORDER BY sum_price
+  	</select>
+  	
+  	<!-- 내가 가입한 클럽인지 확인 -->
+  	<select id="checkMyClub" resultType="int" parameterType="ClubMemberVO">
+  		SELECT count(*) 
+  		FROM club_member 
+  		WHERE club_id = #{clubId} and member_id = #{memberId}
+  	</select>
   </mapper>

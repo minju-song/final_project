@@ -38,12 +38,7 @@ public class MemberController {
 		return "세션정보 로그로 확인 바람";
 	}
 	
-	@GetMapping("/admin/member")
-	public String selectMemberList(Model model) {
-		List<MemberVO> list = memberService.selectMemberAll();
-		model.addAttribute("memberList", list);
-		return "admin/memberMgt";
-	}
+
 	
 	/**
 	 * 로그인 페이지

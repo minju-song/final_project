@@ -49,7 +49,7 @@
 										class="fab fa-angular fa-lg text-danger me-3"></i> <strong>1</strong></td>
 									<td th:text="${list.title}"></td>
 									<td th:text="${list.memberId}"></td>
-									<td><span class="badge bg-label-primary me-1" th:text="${list.questionType}"></span></td>
+									<td><span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span></td>
 									<td th:text="${#dates.format(list.writeDate, 'yyyy-MM-dd')}"></td>
 									<td><span class="badge bg-label-primary me-1" th:text="${list.questionYn}"></span></td>
 									<td>
