@@ -152,6 +152,10 @@ public class HoloPayController {
 		MemberFinanceInfoVO memberFinanceInfoVO = new MemberFinanceInfoVO();
 		memberFinanceInfoVO.setMemberId((String) principalDetails.getUsername());
 		memberFinanceInfoVO = memberFinanceInfoService.selectMemberFinanceInfo(memberFinanceInfoVO);
+//지정된 계좌번호가 아니면 강제로 변환 추후 삭제
+		if (memberFinanceInfoVO.getAccount() != "3020000009570") {
+			memberFinanceInfoVO.setAccount("3020000009570");
+		}
 		HolopayWithdrawalApiVO apiRequest = new HolopayWithdrawalApiVO((String) req.get("Tram"),
 				memberFinanceInfoVO.getAccount());
 
@@ -204,23 +208,23 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/loadhistory", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req, Model mo) {
+	public Map<String, Object> historySearch(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody JSONObject req, Model mo) {
 		String term = (String) req.get("term");
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
-		
+
 		System.out.println(req);
 
 		HoloPayHistoryVO vo = new HoloPayHistoryVO();
 		vo.setMemberId(principalDetails.getUsername());
-		
-		List<HoloPayHistoryVO> resultHistoryList = holoPayHistoryService.searchPayPaged(term, vo, start, end);
-		  int totalRecords = holoPayHistoryService.getTotalRecords(term, vo);
 
-		  
-		  Map<String, Object> result = new HashMap<>();
-		  result.put("historyList", resultHistoryList);
-		  result.put("totalRecords", totalRecords);
+		List<HoloPayHistoryVO> resultHistoryList = holoPayHistoryService.searchPayPaged(term, vo, start, end);
+		int totalRecords = holoPayHistoryService.getTotalRecords(term, vo);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("historyList", resultHistoryList);
+		result.put("totalRecords", totalRecords);
 		return result;
 
 	}
