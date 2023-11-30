@@ -1,6 +1,8 @@
 package com.holoyolo.app.board.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -30,12 +34,14 @@ public class BoardController {
 			username = (String) prd.getUsername();
 		}
 		// 게시물 로드
-		List<BoardVO> history = boardService.BoardList();
-		System.out.println(history);
+		List<BoardVO> history = boardService.BoardList("AA2");
+		System.out.println("history : " + history);
 		if (history.size() != 0) {
 			mo.addAttribute("boardList", history);
-		} else {
+			System.out.println("history : " + history);	
+					} else {
 			mo.addAttribute("boardList", "0");
+			System.out.println("history : 0");
 		}
 
 		mo.addAttribute("likeCount", 0);
@@ -53,20 +59,25 @@ public class BoardController {
 		return "user/community/insertBoard";
 	}
 
-	//글 등록 처리
+	// 글 등록 처리
 	@PostMapping("/insertPostreq")
 	@ResponseBody
 	public String savePost(@AuthenticationPrincipal PrincipalDetails prd, @RequestBody JSONObject req) {
-
 		String userId = (String) prd.getUsername();
 		boardService.insertBoard(req, userId);
-
 		return "/infoBoard";
 	}
 
-	@PostMapping("/boardLoad")
+	@RequestMapping(value = "/boardLoad", method = RequestMethod.POST)
 	@ResponseBody
-	public void boardLoad(@RequestBody JSONObject request) {
+	public Map<String, Object> infoBoardLoad(@RequestBody JSONObject req) {
+		List<BoardVO> resultList = boardService.searchBoardPaged(req);
+		int totalRecords = boardService.getTotalBoardRecords(req);
+		System.out.println(totalRecords);
+		Map<String, Object> result = new HashMap<>();
+		result.put("historyList", resultList);
+		result.put("totalRecords", totalRecords);
+		return result;
 
 	}
 
