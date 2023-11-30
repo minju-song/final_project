@@ -29,24 +29,18 @@ public class QuestionController {
 		model.addAttribute("questionList", list);
 		return "admin/question/questionPage";
 	}
+    // 문의 조건 조회
+    @RequestMapping("/admin/question/list")
+    @ResponseBody
+    public Map<String, Object> getQuestionListAjax() {
+    	Map<String, Object> questionList = new HashMap<>();
+    	questionList.put("totalQuestionList", questionService.selectQuestionTotalList());
+    	questionList.put("pendingQuestionList", questionService.selectQuestionPendingList());
+    	questionList.put("completedQuestionList", questionService.selectQuestionCompletedList());
+    	
+    	return questionList;
+    }
 	
-	// 문의 조건조회
-    @GetMapping("/admin/question/totalList")
-    public String getTotalList(Model model) {
-        List<QuestionVO> totalList = questionService.selectQuestionTotalList();
-        model.addAttribute("totalList", totalList);
-        return "admin/question";
-    }
-
-    @GetMapping("/admin/question/pendingList")
-    public String getPendingList(Model model) {
-        return "admin/question";
-    }
-
-    @GetMapping("/admin/question/completedList")
-    public String getCompletedList(Model model) {
-        return "admin/question";
-    }
 
 	// 문의 단건조회
 	@GetMapping("/admin/question/detail")
@@ -54,6 +48,7 @@ public class QuestionController {
 		Map<String, Object> questionInfo = questionService.selectQuestionInfo(questionVO);
 		model.addAttribute("questionInfo", questionInfo.get("questionInfo"));
 		model.addAttribute("answerInfo", questionInfo.get("answerInfo"));
+		model.addAttribute("questionTypeInfo", questionInfo.get("questionTypeInfo"));
 		return "admin/question/questionDetail";
 	}
 
@@ -69,5 +64,7 @@ public class QuestionController {
 
         return questionCounts;
     }
+    
+
 
 }

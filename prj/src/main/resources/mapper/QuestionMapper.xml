@@ -30,7 +30,7 @@
 			LEFT JOIN answer a ON q.question_id = a.question_id
 		WHERE a.answer_id IS NULL OR a.answer_id
 			= (SELECT MIN(answer_id) FROM answer WHERE question_id = q.question_id)
-		ORDER BY q.question_id
+		ORDER BY q.question_id DESC
   	</select>
   	
   	<!--단건조회-->
@@ -103,7 +103,7 @@
 		    (SELECT MIN(answer_id) 
 		     FROM answer 
 		     WHERE question_id = q.question_id)
-		ORDER BY q.question_id
+		ORDER BY q.question_id DESC
 	</select>
 	<select id="selectQuestionPendingList" resultType="QuestionVO">
 		SELECT 
@@ -132,7 +132,7 @@
 		             FROM answer 
 		             WHERE answer_id IS NOT NULL))
 		    OR a.answer_id IS NULL
-		ORDER BY q.question_id
+		ORDER BY q.question_id DESC
 	</select>
 	
 	<select id="selectQuestionCompletedList" resultType="QuestionVO">
@@ -162,7 +162,7 @@
 		        (SELECT MIN(answer_id) 
 		         FROM answer 
 		         WHERE question_id = q.question_id)
-		ORDER BY q.question_id
+		ORDER BY q.question_id DESC
 	</select>
   
   </mapper>

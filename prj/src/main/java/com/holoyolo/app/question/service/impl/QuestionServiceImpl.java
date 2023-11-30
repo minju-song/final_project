@@ -56,49 +56,66 @@ public class QuestionServiceImpl implements QuestionService {
 		QuestionVO findQuestionVO = questionMapper.selectQuestionInfo(questionVO);
 
 		// 문의유형 가공
-		findQuestionVO = questionTypeProcess(findQuestionVO);
-
+		Map<String, Object> questionTypeInfo = questionTypeProcess(findQuestionVO);
+		
 		// 답변 전체조회
 		List<AnswerVO> findAnswerVO = answerService.selectAnswerAll(questionVO);
 
-		result.put("questionInfo", findQuestionVO);
-		result.put("answerInfo", findAnswerVO);
+	    result.put("questionInfo", findQuestionVO);
+	    result.put("answerInfo", findAnswerVO);
+	    result.put("questionTypeInfo", questionTypeInfo);
 
 		return result;
 	}
 	
 	// 문의유형 분기처리
-	private QuestionVO questionTypeProcess(QuestionVO questionVO) {
+	private Map<String, Object> questionTypeProcess(QuestionVO questionVO) {
 		String getQT = questionVO.getQuestionType();
+		String questionTypeText = "";
+		String questionTypeColor = ""; 
+		
 		switch (getQT) {
 		case "MA1":
-			questionVO.setQuestionType("가계부");
+			questionTypeText = "가계부";
+			questionTypeColor = "red";
 			break;
 		case "MA2":
-			questionVO.setQuestionType("중고거래");
+			questionTypeText = "중고거래";
+			questionTypeColor = "orange";
 			break;
 		case "MA3":
-			questionVO.setQuestionType("알뜰모임");
+			questionTypeText = "알뜰모임";
+			questionTypeColor = "yellow";
 			break;
 		case "MA4":
-			questionVO.setQuestionType("커뮤니티");
+			questionTypeText = "커뮤니티";
+			questionTypeColor = "green";
 			break;
 		case "MA5":
-			questionVO.setQuestionType("메모");
+			questionTypeText = "메모";
+			questionTypeColor = "blue";
 			break;
 		case "MA6":
-			questionVO.setQuestionType("홀로페이");
+			questionTypeText = "홀로페이";
+			questionTypeColor = "navy";
 			break;
 		case "MA7":
-			questionVO.setQuestionType("포인트");
+			questionTypeText = "포인트";
+			questionTypeColor = "violet";
 			break;
 		case "MA8":
-			questionVO.setQuestionType("기타");
+			questionTypeText = "기타";
+			questionTypeColor = "gray";
 			break;
 		default:
 			System.out.println("");
 		}
-		return questionVO;
+		
+		Map<String, Object> questionTypeInfo = new HashMap<>();
+		questionTypeInfo.put("text", questionTypeText);
+		questionTypeInfo.put("color", questionTypeColor);
+		
+		return questionTypeInfo;
 	}
 
 	// 문의 개수조회

@@ -8,9 +8,7 @@
    	<select id="selectAnswerAll" resultType="AnswerVO">
 		SELECT answer_id
 			 , answer_content
-			 , TO_DATE(TO_CHAR(answer_date + (9/24)
-			 	, 'YYYY/MM/DD HH24:mi')
-			 	, 'YYYY/MM/DD HH24:MI') as answer_date
+			 , answer_date
 			 , update_date
 			 , question_id FROM answer WHERE question_id = #{questionId}
 		ORDER BY answer_date desc
