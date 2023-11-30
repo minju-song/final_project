@@ -1,4 +1,4 @@
-package com.holoyolo.app.common;
+package com.holoyolo.app.editor;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.holoyolo.app.editor.PostService;
-import com.holoyolo.app.editor.PostVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -90,7 +87,7 @@ public class EditorApiRestController {
      * @return 폴더경로
      */
     private String makeFolder() {
-		String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+		String str = "editor/" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 		// LocalDate를 문자열로 포멧
 		String folderPath = str.replace("/", File.separator); // (중요) File.separator : 실제 경로로 인식하는 / !!!
 		File uploadPathFoler = new File(uploadDir, folderPath);
