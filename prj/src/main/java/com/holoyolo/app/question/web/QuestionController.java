@@ -20,8 +20,6 @@ public class QuestionController {
 	@Autowired
 	QuestionService questionService;
 
-
-
 	// 문의 전체조회
 	@GetMapping("/admin/question")
 	public String selectQuestionList(Model model) {
@@ -29,6 +27,7 @@ public class QuestionController {
 		model.addAttribute("questionList", list);
 		return "admin/question/questionPage";
 	}
+	
     // 문의 조건 조회
     @RequestMapping("/admin/question/list")
     @ResponseBody

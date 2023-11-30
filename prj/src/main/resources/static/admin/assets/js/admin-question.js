@@ -3,9 +3,22 @@
  */
 //
 console.log("admin-question.js 작업중")
+const colorMapping = {
+    '가계부': 'bg-label-danger',
+    '중고거래': 'bg-label-warning',
+    '알뜰모임': 'bg-label-yellow',
+    '커뮤니티': 'bg-label-success',
+    '메모': 'bg-label-info',
+    '홀로페이': 'bg-label-navy',
+    '포인트': 'bg-label-primary',
+    '기타': 'bg-label-secondary',
+    '답변대기': 'bg-label-yellow',
+    '답변완료': 'bg-label-success'
+};
 
 
 // 문의 리스트 포멧
+
 function renderQuestionList(url, listName) {
     $("tbody").empty();
 
@@ -21,9 +34,9 @@ function renderQuestionList(url, listName) {
                                 <td>${list.questionId}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
                                 <td>${list.title}</td>
                                 <td>${list.memberId}</td>
-                                <td><span id="badgeColor" class="badge bg-label-primary me-1">${list.questionType}</span></td>
+                                <td><span id="badgeColor" class="badge ${colorMapping[list.questionType]} me-1">${list.questionType}</span></td>
                                 <td>${list.writeDate}</td>
-                                <td><span class="badge bg-label-primary me-1">${list.questionYn}</span></td>
+                                <td><span class="badge ${colorMapping[list.questionYn]} me-1">${list.questionYn}</span></td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -37,13 +50,43 @@ function renderQuestionList(url, listName) {
                                 </td>
                             </tr>`;
             $('tbody').append(template);
-            
-         // questionType에 따른 색상 처리
+            switch (list.questionType) {
+        case "가계부":
+            $(`#badgeColor_${index}`).addClass('bg-label-danger');
+            break;
+        case "중고거래":
+            $(`#badgeColor_${index}`).addClass('bg-label-warning');
+            break;
+        case "알뜰모임":
+            $(`#badgeColor_${index}`).addClass('bg-label-yellow');
+            break;
+        case "커뮤니티":
+            $(`#badgeColor_${index}`).addClass('bg-label-success');
+            break;
+        case "메모":
+            $(`#badgeColor_${index}`).addClass('bg-label-info');
+            break;
+        case "홀로페이":
+            $(`#badgeColor_${index}`).addClass('bg-label-navy');
+            break;
+        case "포인트":
+            $(`#badgeColor_${index}`).addClass('bg-label-primary');
+            break;
+        case "기타":
+            $(`#badgeColor_${index}`).addClass('bg-label-secondary');
+            break;
+        // 답변상태에 대한 처리 추가
+        case "답변대기":
+            $(`#badgeColor_${index}`).addClass('bg-label-yellow');
+            break;
+        case "답변완료":
+            $(`#badgeColor_${index}`).addClass('bg-label-success');
+            break;
+        default:
+            // 기본값 처리
+            $(`#badgeColor_${index}`).removeClass('bg-label-primary');
+    }
          
-         if (list.questionType == "가계부") {
-         $(".badge").removeClass('bg-label-primary').addClass('bg-label-danger');
-         }
-
         });
     })
     .fail(function (error) {
