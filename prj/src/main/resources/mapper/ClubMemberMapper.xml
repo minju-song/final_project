@@ -69,6 +69,6 @@ ORDER BY sum_price
   	<select id="checkMyClub" resultType="int" parameterType="ClubMemberVO">
   		SELECT count(*) 
   		FROM club_member 
-  		WHERE club_id = #{clubId} and member_id = #{memberId}
+  		WHERE club_id = #{clubId} and member_id = #{memberId} and join_date != null
   	</select>
   </mapper>
