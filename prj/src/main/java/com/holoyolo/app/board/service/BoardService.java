@@ -12,7 +12,7 @@ public interface BoardService {
 
 	public List<BoardVO> BoardList(String req);
 
-	public BoardVO selectBoard(BoardVO vo);
+	public BoardVO selectBoard(int boardId);
 
 	public int insertBoard(JSONObject json, String userId);
 

@@ -13,15 +13,15 @@ function setupPagination(totalPages) {
         paginationContainer.innerHTML = "";
 
         let navElement = document.createElement("nav");
-        navElement.setAttribute("aria-label", "...");
         let ulElement = document.createElement("ul");
         ulElement.className = "pagination";
-
+        navElement.setAttribute("aria-label", "...");
         // Previous Button
         let previousLi = document.createElement("li");
-        previousLi.className = "page-item disabled";
+        previousLi.className = "page-item";
         let previousLink = document.createElement("a");
         previousLink.className = "page-link";
+        previousLink.href = "#";
         previousLink.innerText = "Previous";
         previousLink.addEventListener("click", function () {
             if (currentPage > 1) {
@@ -73,11 +73,7 @@ loadData(currentPage);
 function loadData(page) {
     currentPage = page;
     let start = (currentPage - 1) * recordsPerPage;
-
     let end = start + recordsPerPage;
-    console.log(currentPage)
-    console.log(start)
-    console.log(recordsPerPage)
 
     $.ajax({
         type: 'POST',
@@ -89,10 +85,7 @@ function loadData(page) {
             updateTable(data);
             // 페이징 처리
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
-            console.log(totalPages)
             setupPagination(totalPages);
-
-
         },
         error: function (request, status, error) {
             console.error("code: " + request.status);
@@ -110,13 +103,13 @@ function updateTable(data) {
         // 데이터가 있을 경우 테이블에 행 추가
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
+            row.attr("onclick", `location.href='/member/BoardInfo?boardId=${item.boardId}'`);
             row.append($("<td>").text(index + 1));
             row.append($("<td>").text(item.title));
             row.append($("<td>").text(formatDate(item.writeDate)));
             row.append($("<td>").text(item.nickname));
             row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
-
-
+            
             tbody.append(row);
         });
     } else {

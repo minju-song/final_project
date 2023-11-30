@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
 
 //단건조회
 	@Override
-	public BoardVO selectBoard(BoardVO vo) {
+	public BoardVO selectBoard(int vo) {
 
 		return boardMapper.selectBoard(vo);
 	}

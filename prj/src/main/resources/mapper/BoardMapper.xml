@@ -29,7 +29,7 @@
 			FROM BOARD
 			WHERE BOARD_ID= #{boardId}
 	</select>
-	
+
 	<insert id="insertBoard" parameterType="BoardVO">
 		<selectKey keyProperty="boardId"  resultType="int"  order="BEFORE">
 	  		SELECT NVL(MAX(board_id),0) + 1

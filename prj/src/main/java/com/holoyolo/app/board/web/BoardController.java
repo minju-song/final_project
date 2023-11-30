@@ -35,13 +35,10 @@ public class BoardController {
 		}
 		// 게시물 로드
 		List<BoardVO> history = boardService.BoardList("AA2");
-		System.out.println("history : " + history);
 		if (history.size() != 0) {
 			mo.addAttribute("boardList", history);
-			System.out.println("history : " + history);
 		} else {
 			mo.addAttribute("boardList", "0");
-			System.out.println("history : 0");
 		}
 
 		mo.addAttribute("likeCount", 0);
@@ -74,17 +71,28 @@ public class BoardController {
 	public Map<String, Object> infoBoardLoad(@RequestBody JSONObject req) {
 		List<BoardVO> resultList = boardService.searchBoardPaged(req);
 		int totalRecords = boardService.getTotalBoardRecords(req);
-		System.out.println(totalRecords);
 		Map<String, Object> result = new HashMap<>();
 		result.put("historyList", resultList);
 		result.put("totalRecords", totalRecords);
 		return result;
+	}
+//상세보기
+	@GetMapping("/member/BoardInfo")
+	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model mo) {
+
+		String loginId = "not found";
+		if (principalDetails != null) {
+			loginId = principalDetails.getUsername();
+		}
+		BoardVO vo = boardService.selectBoard(boardId);
+		mo.addAttribute("board", vo);
+		mo.addAttribute("loginId", loginId);
+		return "/user/community/Postinfo";
 
 	}
 
 	@GetMapping("/chatBoard")
 	public String chatBoard(Model mo) {
-
 		mo.addAttribute("menu", "community");
 		return "user/community/chatList";
 	}

@@ -7,7 +7,7 @@ import com.holoyolo.app.board.service.BoardVO;
 public interface BoardMapper {
 	public List<BoardVO> BoardList(BoardVO vo);
 
-	public BoardVO selectBoard(BoardVO vo);
+	public BoardVO selectBoard(int boardId);
 
 	public int insertBoard(BoardVO vo);
 
