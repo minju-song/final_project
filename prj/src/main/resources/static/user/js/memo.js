@@ -24,10 +24,10 @@
 	console.log("전체리스트에서 핀클릭");
 		let memoId = e.currentTarget.parentElement.querySelector('.inputMemoId').dataset.memo;
 		if(!e.target.classList.contains('bi-pin-fill')){
-			e.target.src=`/user/images/pin-fill.svg`;
+			e.target.src=`/user/images/memo/pin-fill.svg`;
 			bookmark = 'Y';
 		}else{
-			e.target.src=`/user/images/pin.svg`;
+			e.target.src=`/user/images/memo/pin.svg`;
 			bookmark = 'N';
 		}
 		$.ajax({    
@@ -86,10 +86,10 @@
 	    if($(draggable).parent('.dragcontainer')[0].classList.contains('importmemoStart')){
 	    	bookmark = 'Y';
 	    	console.log($(draggable).find('.bi-pin')[0].src)
-	    	$(draggable).find('.bi-pin')[0].src=`/user/images/pin-fill.svg`;
+	    	$(draggable).find('.bi-pin')[0].src=`/user/images/memo/pin-fill.svg`;
 	    }else{
 	    	bookmark = 'N';
-	    	$(draggable).find('.bi-pin')[0].src=`/user/images/pin.svg`;
+	    	$(draggable).find('.bi-pin')[0].src=`/user/images/memo/pin.svg`;
 	    }
 	    $(draggable).find('.bi-pin')[0].classList.toggle('bi-pin-fill');
 	    $.ajax({    
@@ -250,9 +250,9 @@
 		writepins[i].addEventListener('click', function(e){
 			console.log("상세&등록 창에서의 핀 눌렀을 때")
 			if(!e.target.classList.contains('bi-pin-fill')){
-				e.target.src=`/user/images/pin-fill.svg`;
+				e.target.src=`/user/images/memo/pin-fill.svg`;
 			}else{
-				e.target.src=`/user/images/pin.svg`;
+				e.target.src=`/user/images/memo/pin.svg`;
 			}
 			console.log("bi-pin-fill 토글한다")
 			e.target.classList.toggle('bi-pin-fill');
@@ -284,10 +284,10 @@
 				$('#writedMemo').find('.modal-body')[0].style.backgroundColor = data.color;
 				$('#writedMemo')[0].value = memoId;
 				if(data.bookmark == 'Y'){
-					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/pin-fill.svg';
+					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin-fill.svg';
 				}else{
 					$('#writedMemo').find('.modal-bi-pin').removeClass('bi-pin-fill');
-					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/pin.svg';
+					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin.svg';
 				}
 			},
 			error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
@@ -327,7 +327,7 @@
 					$('#insertMemo').find('[name="content"]')[0].value = '';
 					$('#insertMemo').find('[name=plustag]')[0].value = '';
 					$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
-					$('#insertMemo').find('.modal-bi-pin')[0].src = '/user/images/pin.svg';
+					$('#insertMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin.svg';
 					//메모 이어붙이기
 					addMemo(content, hashTag, color, bookmark, memoId)
 				},
@@ -337,7 +337,7 @@
 			})	
 		}
 		$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
-		$('#insertMemo').find('.modal-bi-pin')[0].src = '/user/images/pin.svg';	
+		$('#insertMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin.svg';	
 	});
 	
 	//메모 이어붙이기
@@ -369,10 +369,10 @@
 			clone.find('.memo').prevObject[0].style.backgroundColor = color;
 		}
 		if(bookmark == 'Y'){
-			clone.find('.bi-pin')[0].src = '/user/images/pin-fill.svg';
+			clone.find('.bi-pin')[0].src = '/user/images/memo/pin-fill.svg';
 			$('.importmemoStart').append(clone);
 		}else{
-			clone.find('.bi-pin')[0].src = '/user/images/pin.svg';
+			clone.find('.bi-pin')[0].src = '/user/images/memo/pin.svg';
 			$('.normalmemoStart').append(clone);
 		}
 		//이벤트
@@ -391,10 +391,10 @@
 	    if($(clone[0]).parent('.dragcontainer')[0].classList.contains('importmemoStart')){
 	    	bookmark = 'Y';
 	    	console.log($(clone[0]).find('.bi-pin')[0].src)
-	    	$(clone[0]).find('.bi-pin')[0].src=`/user/images/pin-fill.svg`;
+	    	$(clone[0]).find('.bi-pin')[0].src=`/user/images/memo/pin-fill.svg`;
 	    }else{
 	    	bookmark = 'N';
-	    	$(clone[0]).find('.bi-pin')[0].src=`/user/images/pin.svg`;
+	    	$(clone[0]).find('.bi-pin')[0].src=`/user/images/memo/pin.svg`;
 	    }
 	    $(clone[0]).find('.bi-pin')[0].classList.toggle('bi-pin-fill');
 	    $.ajax({    
@@ -475,11 +475,11 @@
               let biPin = $(inputMemoId).siblings('.bi-pin');
               if(bookmark == 'Y' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
               	console.log("상세페이지 닫을 때 올라갑니다.")
-              	$(biPin).prop('src', '/user/images/pin-fill.svg')	
+              	$(biPin).prop('src', '/user/images/memo/pin-fill.svg')	
                 $('.importmemoStart').append(memo);
               }else if(bookmark == 'N' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
               console.log("상세페이지 닫을 때 내려갑니다.")
-              	$(biPin).prop('src', '/user/images/pin.svg')	
+              	$(biPin).prop('src', '/user/images/memo/pin.svg')	
                 $('.normalmemoStart').prepend(memo);
               }
          },

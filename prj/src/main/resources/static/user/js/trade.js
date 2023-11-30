@@ -2,8 +2,25 @@
  * trade.js
  */
  
- let select = document.getElementById('searchTitle');
+let select = document.getElementById('searchTitle');
 console.log(select);
+
+//체크박스 선택
+let sellCheck = '';
+
+let check = document.querySelector('[type=checkbox]');
+check.addEventListener('click', function(e){
+	sellCheck = e.currentTarget.checked;
+});
+
+//카테고리 선택
+let tradeCategory = 'NotSelect';
+let category = document.getElementById('searchCategory');
+category.addEventListener('change', function () {
+	let value = (category.options[category.selectedIndex].value);
+	console.log(value)
+})
+
 
 //셀렉트 검색 관련
 let search = '';
@@ -57,20 +74,19 @@ $(document).ready(function () {
         next: "다음",
         onPageClick: function (event, page) {
             console.log(_totalPages + '>> 전체 페이지');
-            callList(page, search);
+            callList(page, search, tradeCategory, sellCheck);
         }
     });
 });
 
-
 let flag = true;
 
 //페이지 별 데이터리스트 가져옴
-function callList(page, search) {
+function callList(page, search, tradeCategory, sellCheck) {
     if (flag) {
         flag = false;
         if (search != null && search != '') {
-            fetch('/tradeCnt?search=' + search + '&searchTitle=' + val)
+            fetch('/tradeCnt?search=' + search + '&searchTitle=' + val +'&tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
                 .then(resolve => resolve.json())
                 .then(result => {
                     _totalPages = Math.floor(result.total / 6);
@@ -83,7 +99,30 @@ function callList(page, search) {
                     }
                     console.log('총 데이터갯수 : ' + result.total);
                 })
-            fetch('/tradePaging?page=' + page + '&search=' + search + '&searchTitle=' + val)
+            fetch('/tradePaging?page=' + page + '&search=' + search + '&searchTitle=' + val +'&tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
+                .then(resolve => resolve.json())
+                .then(result => {
+                    console.log('총페이지' + _totalPages);
+
+                    $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
+                    drawTrade(result.result);
+                    flag = true;
+                })
+        }else if(search == null || search == ''){
+            fetch('/tradeCnt?tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
+                .then(resolve => resolve.json())
+                .then(result => {
+                    _totalPages = Math.floor(result.total / 6);
+
+                    if (result.total % 6 > 0) {
+                        _totalPages++;
+                    }
+                    if (_totalPages == 0) {
+                        _totalPages = 1
+                    }
+                    console.log('총 데이터갯수 : ' + result.total);
+                })
+            fetch('/tradePaging?page=' + page + '&tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
                 .then(resolve => resolve.json())
                 .then(result => {
                     console.log('총페이지' + _totalPages);
@@ -118,102 +157,79 @@ function callList(page, search) {
 function drawTrade(tradeArr){
 	console.log(tradeArr);
 	let tradeList = document.getElementById('tradeList');
-	/*while (tradeList.firstChild) {
+	while (tradeList.firstChild) {
         tradeList.removeChild(tradeList.firstChild);
-    }*/
+    }
 	for (let i = 0; i < tradeArr.length; i++) {
+		let divCol = document.createElement('div');
+		divCol.classList.add('col', 'mb-5');
 		let divCard = document.createElement('div');
-		divCard.classList.add('card', 'h-100');
+		divCard.classList.add('card', 'tradeSize');
+		divCol.appendChild(divCard);
+		
 		let divTradeType = document.createElement('div');
 		divTradeType.classList.add('badge', 'position-absolute');
 		divTradeType.innerText = tradeArr[i].tradeType;
 		divCard.appendChild(divTradeType);
+		
 		let promiseStatus = document.createElement('div');
 		promiseStatus.classList.add('badge', 'position-absolute');
 		promiseStatus.style.right = '0.5rem';
 		promiseStatus.innerText = tradeArr[i].promiseStatus;
 		divCard.appendChild(promiseStatus);
 		
-		tradeList.appendChild(divCard);
+		let img = document.createElement('img');
+		img.classList.add('card-img-top');
+		img.setAttribute("src", "images/" + tradeArr[i].tradeProfileImg);
+		img.style.width = '294px';
+        img.style.height = '197px';
+		divCard.appendChild(img);
+		
+		let divBody = document.createElement('div');
+		divBody.classList.add('card-body', 'p-4');
+		divCard.appendChild(divBody);
+		
+		let divText = document.createElement('div');
+		divText.classList.add('text-center');
+		divBody.appendChild(divText);
+		
+		let title = document.createElement('h5');
+		title.classList.add('fw-bolder');
+		title.innerText = tradeArr[i].title;
+		divText.appendChild(title);
+		
+		let divPrice = document.createElement('div');
+		divText.appendChild(divPrice);
+		
+		let price = document.createElement('span');
+		price.classList.add('text-muted', 'text-decoration-line-through');
+		price.innerText = tradeArr[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ '원';
+		divPrice.appendChild(price);
+		
+		let divCategory = document.createElement('div');
+		divBody.appendChild(divCategory);
+		
+		let category = document.createElement('span');
+		category.classList.add('text-muted');
+		category.innerText = tradeArr[i].tradeCategory;
+		category.style.position = 'absolute';
+		category.style.left = '-0.9rem';
+        category.style.bottom = '-2.4rem';
+		divCategory.appendChild(category);
+		
+		let divWriteDate = document.createElement('div');
+		divBody.appendChild(divWriteDate);
+		
+		let writeDate = document.createElement('span');
+		writeDate.classList.add('text-muted');
+		writeDate.innerText = '2023-11-10';//tradeArr[i].writeDate;
+		writeDate.style.position = 'absolute';
+        writeDate.style.right = '-0.9rem';
+        writeDate.style.bottom = '-2.4rem';
+		divWriteDate.appendChild(writeDate);
+		
+		tradeList.appendChild(divCol);
 	}
-	
-	/*for (let i = 0; i < clubArr.length; i++) {
-        let divCard = document.createElement('div');
-        divCard.classList.add("col-5", 'card_club');
-        let divImg = document.createElement('div');
-        let img = document.createElement('img');
-        img.setAttribute("src", "images/" + clubArr[i].clubProfileImg);
-        img.style.width = '100px';
-        img.style.height = '100px';
-        divImg.appendChild(img);
-        divImg.setAttribute("class", "club_img");
-
-        let divInfo = document.createElement('div');
-        divInfo.innerHTML = '모임명 : ' + clubArr[i].clubName + '<br>'
-            + '모임소개 : ' + clubArr[i].clubIntro + '<br>'
-            + '모임장 : ' + clubArr[i].leaderName + '<br>'
-            + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + ' [가입인원 / 모집인원]<br>'
-            + '절약예산 / 기간단위 <br>';
-
-        let btn = document.createElement('button');
-        if (joinClub != 'null') {
-            let ck = false;
-            joinClub.forEach(club => {
-                if (club.clubId == clubArr[i].clubId) {
-                    if (club.joinDate == null) {
-                        btn.innerText = '승인대기';
-                        ck = true;
-                        btn.disabled = true;
-                    }
-                    else {
-                        btn.innerText = '내 모임';
-                        ck = true;
-                        btn.disabled = true;
-                    }
-                }
-            });
-
-            if (ck == false) {
-                if (clubArr[i].joinCnt >= clubArr[i].clubPeople) {
-                    btn.innerText = '가입불가';
-                    btn.disabled = true;
-                }
-                else if (clubArr[i].openScope == 'OA1') {
-                    btn.innerText = '바로가입';
-                    btn.onclick = function () { join(clubArr[i].clubId) };
-                }
-                else {
-                    btn.innerText = '가입신청';
-                    btn.onclick = function () { submit(clubArr[i].clubName, clubArr[i].clubId, clubArr[i].clubLeader) }
-                }
-            }
-        }
-
-        else {
-            if (clubArr[i].openScope == 'OA1') {
-                btn.innerText = '바로가입';
-                btn.onclick = function () { join(clubArr[i].clubId) };
-            }
-            else {
-                btn.innerText = '가입신청';
-                btn.onclick = function () { submit(clubArr[i].clubName, clubArr[i].clubId, clubArr[i].clubLeader) };
-            }
-        }
-
-
-        // data-target="#updateCard" data-whatever="수정"
-        // th:data-cardno='${cardNo}' th:data-cardcompany='${cardCompany}'
-
-        divInfo.appendChild(btn);
-
-        divInfo.setAttribute("class", "club_info");
-        divCard.appendChild(divImg);
-        divCard.appendChild(divInfo);
-        divCard.onclick = function () { test(clubArr[i].clubId); }
-        // console.log(clubArr[i]);
-        // p.innerText = clubArr[i].clubName + ' ' + clubArr[i].clubLeader;
-        clubList.appendChild(divCard);
-    }*/
 }
 
 //셀렉트박스 값 바뀔 때마다 value바꿔줌
@@ -231,3 +247,5 @@ search_input.addEventListener('keyup', function () {
     search = search_input.value;
     callList(1, search);
 })
+
+//card 클릭 시 상세보기 창 이동

@@ -34,4 +34,6 @@ public class TradeVO {
 	private String search;
 	//검색주제
 	private String searchTitle;
+	//판매완료 제외 체크
+	private String sellCheck;
 }

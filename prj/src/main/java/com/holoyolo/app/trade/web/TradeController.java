@@ -30,7 +30,6 @@ public class TradeController {
 	public String tradeList(Model model) {
 		Map<String, Object> map = tradeService.tradeListPage();
 		model.addAttribute("tradeList", map);
-		
 		model.addAttribute("menu", "trade");
 		System.out.println(map);
 		return "user/trade/tradeList";

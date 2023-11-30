@@ -21,11 +21,11 @@
 		<div class="searchwrap">
 			<form action="#">
 				<div>
-					<select id="searchTitle">
-						<option disabled selected>카테고리</option>
+					<select id="searchCategory">
+						<option selected value="NotSelect">카테고리</option>
 						<option value="TB1">생활용품</option>
                         <option value="TB2">의류</option>
-                        <option value="TB3">식퓸</option>
+                        <option value="TB3">식품</option>
                         <option value="TB4">반려용품</option>
                         <option value="TB5">도서</option>
                         <option value="TB6">문구</option>
@@ -40,7 +40,6 @@
 					</div>
 				</div>
 				<select id="searchTitle">
-					<option disabled selected>제목/지역명</option>
                     <option value="title">제목</option>
                     <option value="tradePlace">지역명</option>
                 </select>
@@ -54,41 +53,7 @@
 			</form>
 		</div>
 		<div class="container">
-			<div class="row">
-				<!-- 중고거래 리스트 -->
-				<div class="col mb-5" id="tradeList">
-					<div class="card h-100">
-						<!-- Sale badge-->
-						<div class="badge bg-dark text-white position-absolute"
-							style="top: 0.5rem; right: 2.5rem" th:text="tradeType"></div>
-						<div class="badge bg-dark text-white position-absolute"
-							style="top: 0.5rem; right: 0.5rem" th:text="promiseStatus"></div>
-						<!-- Product image-->
-						<img class="card-img-top"
-							src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-						<!-- Product details-->
-						<div class="card-body p-4">
-							<div class="text-center">
-								<!-- Product name-->
-								<h5 class="fw-bolder" th:text="title"></h5>
-								<!-- Product reviews-->
-								<div
-									class="d-flex justify-content-center small text-warning mb-2">
-									<div class="bi-star-fill"></div>
-									<div class="bi-star-fill"></div>
-									<div class="bi-star-fill"></div>
-									<div class="bi-star-fill"></div>
-									<div class="bi-star-fill"></div>
-								</div>
-								<!-- Product price-->
-								<div><span class="text-muted text-decoration-line-through" th:text="price"></span></div>
-								<div><span class="text-muted text-decoration-line-through" th:text="tradeCategory"></span></div>
-								<div><span class="text-muted text-decoration-line-through"></span></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 중고거래 리스트 끝 -->
+			<div class="row" id="tradeList">
 			</div>
 		</div>
 		<nav aria-label="Page navigation" id="page">

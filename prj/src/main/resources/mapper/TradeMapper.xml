@@ -139,14 +139,22 @@
 						, fn_get_code_name(promise_status) as promise_status
 						, write_date
 				FROM trade
-				<if test="search != null or search != ''">
-					<if test="searchTitle == 'title'">
-						WHERE title LIKE '%'||#{search}||'%'
+				<where>
+					<if test="search != null or search != ''">
+						<if test="searchTitle == 'title'">
+							AND title LIKE '%'||#{search}||'%'
+						</if>
+						<if test="searchTitle == 'tradePlace'">
+							AND trade_place LIKE '%'||#{search}||'%'
+						</if>
 					</if>
-					<if test="searchTitle == 'tradePlace'">
-						WHERE trade_place LIKE '%'||#{search}||'%'
+					<if test="tradeCategory != 'NotSelect'">
+						AND trade_category = #{tradeCategory}
 					</if>
-				</if>
+					<if test="sellCheck == 'true'">
+						AND promise_status = 'TD3'
+					</if>
+				</where>
 				ORDER BY write_date desc
 			) A
 			WHERE rownum <![CDATA[<=]]> #{page} * 6
@@ -157,18 +165,22 @@
 	<!-- 검색 시 데이터 총 갯수 -->
 	<select id="cntData" parameterType="TradeVO" resultType="int">
 		SELECT COUNT(*)
-		<if test="search != null or search != ''">
-			<if test="searchTitle == 'title'">
-				FROM trade
-				WHERE title LIKE '%'||#{search}||'%'
+		FROM trade
+		<where>
+			<if test="search != null or search != ''">
+				<if test="searchTitle == 'title'">
+					AND title LIKE '%'||#{search}||'%'
+				</if>
+				<if test="searchTitle == 'tradePlace'">
+					AND trade_place LIKE '%'||#{search}||'%'
+				</if>
 			</if>
-			<if test="searchTitle == 'tradePlace'">
-				FROM trade
-				WHERE trade_place LIKE '%'||#{search}||'%')
+			<if test="tradeCategory != null">
+				AND trade_category = #{tradeCategory}
 			</if>
-		</if>
-		<if test="search == null or search == ''">
-			FROM trade
-		</if>
+			<if test="sellCheck != null">
+				AND promise_status = 'TD3'
+			</if>
+		</where>
 	</select>
 </mapper>
