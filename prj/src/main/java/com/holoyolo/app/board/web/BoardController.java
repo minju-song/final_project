@@ -38,8 +38,8 @@ public class BoardController {
 		System.out.println("history : " + history);
 		if (history.size() != 0) {
 			mo.addAttribute("boardList", history);
-			System.out.println("history : " + history);	
-					} else {
+			System.out.println("history : " + history);
+		} else {
 			mo.addAttribute("boardList", "0");
 			System.out.println("history : 0");
 		}
@@ -68,6 +68,7 @@ public class BoardController {
 		return "/infoBoard";
 	}
 
+//페이지 로드
 	@RequestMapping(value = "/boardLoad", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> infoBoardLoad(@RequestBody JSONObject req) {
