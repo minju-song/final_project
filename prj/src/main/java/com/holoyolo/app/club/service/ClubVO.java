@@ -2,6 +2,8 @@ package com.holoyolo.app.club.service;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -28,5 +30,10 @@ public class ClubVO {
 	private String leaderName;
 	//클럽 가입자수
 	private int joinCnt;
+	//가입요청메시지
+	private String text;
+	
+	//이미지처리
+	private MultipartFile img;
 
 }

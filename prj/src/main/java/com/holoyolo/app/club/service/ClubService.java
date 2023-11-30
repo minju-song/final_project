@@ -4,6 +4,8 @@ import java.util.List;
 
 import java.util.Map;
 
+import com.holoyolo.app.clubMember.service.ClubMemberVO;
+
 public interface ClubService {
 	
 	// 기본 CRUD
@@ -24,8 +26,6 @@ public interface ClubService {
 	
 	// 추가 인터페이스 작성 ↓↓
 	
-
-
 	
 	//알뜰모임 데이터 갯수
 	public int cntData(ClubVO vo);
@@ -39,5 +39,8 @@ public interface ClubService {
 	
 	//클럽 페이징
 	public Map<String, Object> clubPaging(ClubVO vo);
+	
+	//클럽생성
+	public int insertClub(ClubVO vo);
 
 }
