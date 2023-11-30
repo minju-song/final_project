@@ -25,14 +25,18 @@ public class TradeController {
 		return "admin/tradeMgt";
 	}
 	
+	//중고거래 페이지 이동
 	@GetMapping("/tradeList")
 	public String tradeList(Model model) {
 		Map<String, Object> map = tradeService.tradeListPage();
 		model.addAttribute("tradeList", map);
+		
+		model.addAttribute("menu", "trade");
 		System.out.println(map);
 		return "user/trade/tradeList";
 	}
 	
+	//중고거래 페이징
 	@GetMapping("tradePaging")
 	@ResponseBody
 	public Map<String, Object> tradePaging(TradeVO tradeVO){
@@ -40,6 +44,7 @@ public class TradeController {
 		return map;
 	}
 	
+	//페이징 카운트
 	@GetMapping("tradeCnt")
 	@ResponseBody
 	public Map<String, Object> tradeCnt(TradeVO tradeVO){ 

@@ -94,3 +94,12 @@
 {
 	color: #232323;
 }
+
+.badge{
+	    top: 0.5rem;
+    right: 4.5rem;
+    color: white;
+    background: #09203f;
+    font-size: 13px;
+    padding: 6px;	
+}
