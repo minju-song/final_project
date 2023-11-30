@@ -1,9 +1,15 @@
 package com.holoyolo.app.editor;
 
-public interface PostMapper {
+import java.util.List;
+import java.util.Map;
 
+public interface PostService {
+	
+	// 전체조회
+	public List<PostVO> selectAllPost(String menyType);
+	
 	// 단건조회
-	public PostVO selectPostInfo(PostVO postVO);
+	public PostVO selectPostInfo(int boardId);
 	
 	// 등록
 	public int insertPost(PostVO postVO);
@@ -13,4 +19,5 @@ public interface PostMapper {
 	
 	// 삭제
 	public int deletePost(int boardId);
+
 }

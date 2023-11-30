@@ -134,7 +134,7 @@ function callwithdrawApi() {
 }
 // 페이징
 let currentPage = 1;
-const recordsPerPage = 5; // 페이지당 표시할 레코드 수, 필요에 따라 조절
+const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
 
 // 페이지 버튼 생성
 function setupPagination(totalPages) {
@@ -206,7 +206,7 @@ search.addEventListener('change', function () {
 });
 
 // 페이지 로드 시에도 데이터를 로드하도록 호출
-loadData(currentPage);
+
 
 function loadData(page) {
   currentPage = page;
@@ -278,9 +278,10 @@ function getTransactionType(type) {
     default:
       return type;
   }
+  
 }
 
 
-
+loadData(currentPage);
 
 

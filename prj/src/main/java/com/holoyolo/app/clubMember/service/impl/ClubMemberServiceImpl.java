@@ -42,5 +42,15 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 		return clubMemberMapper.checkMyClub(vo);
 	}
 
+	@Override
+	public int reqClub(ClubMemberVO vo) {
+		return clubMemberMapper.reqClub(vo);
+	}
+
+	@Override
+	public int acceptClub(ClubMemberVO vo) {
+		return clubMemberMapper.acceptClub(vo);
+	}
+
 
 }

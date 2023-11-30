@@ -214,8 +214,6 @@ public class HoloPayController {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
 
-		System.out.println(req);
-
 		HoloPayHistoryVO vo = new HoloPayHistoryVO();
 		vo.setMemberId(principalDetails.getUsername());
 

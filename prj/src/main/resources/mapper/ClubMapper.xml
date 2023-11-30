@@ -90,5 +90,28 @@
         </if>
   		
   	</select>
+  	
+  	<insert id="insertClub" parameterType="ClubVO">
+  	  	<selectKey keyProperty="clubId"
+					   resultType="int"
+					   order="BEFORE">
+	  		    SELECT NVL(MAX(club_id),0) + 1
+				FROM club
+	  	</selectKey>
+  		INSERT into club 
+  		VALUES 
+  			(
+  				#{clubId}
+  				,#{clubName} 
+  				,#{clubIntro}
+  				,#{clubProfileImg}
+  				,#{clubPeople}
+  				,#{joinCondition}
+  				,'OA2'
+  				,null
+  				,#{clubLeader}
+  				,sysdate
+  			)
+  	</insert>
 
   </mapper>

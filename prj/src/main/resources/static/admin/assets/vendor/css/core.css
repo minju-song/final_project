@@ -5886,6 +5886,15 @@ input:-internal-autofill-selected {
   background-color: #ebeef0 !important;
   color: #8592a3 !important;
 }
+.bg-label-navy {
+  background-color: #c1c8e4 !important;
+  color: #1a237e !important;
+}
+
+.bg-label-yellow {
+  background-color: #fff9c4 !important;
+  color: #f57f17 !important;
+}
 
 .border-label-secondary {
   border: 3px solid #ced3da !important;
