@@ -19,4 +19,10 @@ public class BoardVO {
 	private int views;
 	private String memberId;
 	private int clubId;
+	
+	
+	private int likeCount;
+	private String nickname;
+	
+	
 }
