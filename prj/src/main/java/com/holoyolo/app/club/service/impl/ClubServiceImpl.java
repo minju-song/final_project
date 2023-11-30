@@ -168,8 +168,19 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public int insertClub(ClubVO vo) {
-		return clubMapper.insertClub(vo);
+	public String insertClub(ClubVO vo) {
+		if(clubMapper.insertClub(vo)>0) {
+			int clubId = vo.getClubId();
+			ClubBudgetVO budVO = new ClubBudgetVO();
+			budVO.setClubBudgetPrice(vo.getPrice());
+			budVO.setClubBudgetUnit(vo.getUnit());
+			budVO.setClubId(clubId);
+			if(clubBudgetMapper.insertClubBudget(budVO) > 0) {
+				return "success";
+			}
+			return "budgetFail";
+		}
+		return "fail";
 	}
 
 

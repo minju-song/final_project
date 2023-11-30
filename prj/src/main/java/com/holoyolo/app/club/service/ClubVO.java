@@ -35,5 +35,10 @@ public class ClubVO {
 	
 	//이미지처리
 	private MultipartFile img;
+	
+	//예산기간
+	private String unit;
+	//예산금액
+	private int price;
 
 }

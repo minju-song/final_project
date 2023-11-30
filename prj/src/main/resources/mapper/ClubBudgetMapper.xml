@@ -10,4 +10,21 @@
   		FROM club_budget 
   		WHERE club_id = #{clubId} and use_yn = 'Y'
   	</select>
+  	
+  	<!-- 클럽의 첫 예산등록 -->
+  	<insert id="insertClubBudget" parameterType="ClubBudgetVO">
+  		<selectKey keyProperty="clubBudgetId"
+					   resultType="int"
+					   order="BEFORE">
+	  		    SELECT NVL(MAX(club_budget_id),0) + 1
+				FROM club_budget
+	  	</selectKey>
+	  	INSERT into club_budget 
+	  	VALUES (
+	  			#{clubBudgetId}
+	  			,#{clubBudgetPrice}
+	  			,#{clubBudgetUnit}
+	  			,sysdate, #{clubId}
+	  			,'Y')
+  	</insert>
   </mapper>

@@ -183,7 +183,11 @@ function drawClub(clubArr) {
         }
 
         else {
-            if (clubArr[i].openScope == 'OA1') {
+            if (clubArr[i].joinCnt >= clubArr[i].clubPeople) {
+                btn.innerText = '가입불가';
+                btn.disabled = true;
+            }
+            else if (clubArr[i].openScope == 'OA1') {
                 btn.innerText = '바로가입';
                 btn.onclick = function () { join(clubArr[i].clubId) };
             }

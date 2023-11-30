@@ -129,7 +129,7 @@ public class ClubController {
 	
 	@PostMapping("/member/clubInsert")
 	@ResponseBody
-	public Map<String, Object> clubInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubVO vo) throws IllegalStateException, IOException {
+	public String clubInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubVO vo) throws IllegalStateException, IOException {
 		System.out.println("넘어온 객체 : "+vo);
 		
 		 String fileName = attachmentService.uploadImage(vo.getImg(), "clubProfile");
@@ -138,12 +138,12 @@ public class ClubController {
 		 vo.setClubLeader(principalDetails.getUsername());
 		 System.out.println("돌아온 파일이름 : " + fileName);
 		 
-		 if(clubService.insertClub(vo) > 0) {
+		 if(clubService.insertClub(vo).equals("success")) {
 			 System.out.println("성공");
 		 }
 		 else {
 			 System.out.println("실패");
 		 }
-		return null;
+		 return "redirect:/member/club/clubPage?clubId="+vo.getClubId();
 	}
 }

@@ -107,7 +107,7 @@
   				,#{clubProfileImg}
   				,#{clubPeople}
   				,#{joinCondition}
-  				,'OA2'
+  				,#{openScope}
   				,null
   				,#{clubLeader}
   				,sysdate

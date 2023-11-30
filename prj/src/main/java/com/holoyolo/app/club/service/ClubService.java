@@ -41,6 +41,6 @@ public interface ClubService {
 	public Map<String, Object> clubPaging(ClubVO vo);
 	
 	//클럽생성
-	public int insertClub(ClubVO vo);
+	public String insertClub(ClubVO vo);
 
 }

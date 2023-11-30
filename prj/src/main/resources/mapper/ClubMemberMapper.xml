@@ -46,7 +46,7 @@ SELECT cm.*, m.member_name as member_name, (SELECT nvl(sum(price),0)
                                             <![CDATA[
                                             WHERE pay_date >= 
                                                             (
-                                                            SELECT start_date
+                                                            SELECT trunc(start_date)
                                                             FROM club_success_history
                                                             WHERE club_id = #{clubId}
                                                             AND success_state = 'SU3'
