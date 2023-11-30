@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.member.service.MemberService;
@@ -136,7 +138,7 @@ public class MemberController {
 	}
 	
 	/**
-	 * 마이페이지-내정보
+	 * 마이페이지-내정보 페이지
 	 * @param principalDetails
 	 * @param model
 	 * @return
@@ -152,6 +154,14 @@ public class MemberController {
 		model.addAttribute("subMenu", "myInfo");
 		
 		return "user/mypage/myInfo";
+	}
+	
+	
+	@PostMapping("/member/myInfo/uploadImg")
+	@ResponseBody
+	public String uploadImage(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestPart MultipartFile file) {
+		String result = memberService.uploadImage(file, principalDetails.getUsername());
+		return result;
 	}
 	
 }

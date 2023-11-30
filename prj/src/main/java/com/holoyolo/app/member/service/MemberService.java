@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface MemberService {
 	
 	// 로그인요청 온 회원 찾기
@@ -22,15 +24,13 @@ public interface MemberService {
 	// 회원 단건조회
 	public MemberVO selectMemberInfo(MemberVO memberVO);
 	
-	// 회원 수정
-	public Map<String, Object> updateMemberInfo(MemberVO memberVO);
+	// 회원정보 업데이트
+	public int updateMemberInfo(MemberVO memberVO);
 	
 	// 회원 정지
 
 	// 회원가입날짜 조회
 	public Date selectJoinDate(String id);
-
-	//public Date selectJoinDate();
 	
 	// 회원가입 - 아이디 중복 체크
 	public String checkMemberId(MemberVO memberVO);
@@ -49,4 +49,8 @@ public interface MemberService {
 	
 	// 로그인 실패횟수 초기화
 	public int updateMemberFailCntReset(MemberVO memberVO);
+	
+	// 회원 프로필 사진 수정
+	public String uploadImage(MultipartFile file, String memberId);
+	
 }

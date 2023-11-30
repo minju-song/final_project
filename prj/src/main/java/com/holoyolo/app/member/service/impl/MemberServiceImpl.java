@@ -1,5 +1,6 @@
 package com.holoyolo.app.member.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.member.mapper.MemberMapper;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
@@ -18,7 +21,10 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberMapper memberMapper;
 	@Autowired
+	AttachmentService attachmentService;
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
 	
 	@Override
 	public String joinUser(MemberVO memberVO) {
@@ -73,8 +79,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	// 회원 정보수정
 	@Override
-	public Map<String, Object> updateMemberInfo(MemberVO memberVO) {
-		return null;
+	public int updateMemberInfo(MemberVO memberVO) {
+		return memberMapper.updateMemberInfo(memberVO);
 	}
 
 	@Override
@@ -137,6 +143,32 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateMemberFailCntReset(MemberVO memberVO) {
 		return memberMapper.updateMemberFailCntReset(memberVO);
+	}
+	
+	@Override
+	public String uploadImage(MultipartFile file, String memberId) {
+		String result = "Success";
+		
+		// 파일 업로드하고, DB에 저장할 파일명 리턴받기
+		String imagePath = "none";
+		try {
+			imagePath = attachmentService.uploadImage(file, "myProfile");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// DB에 반영
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberId(memberId);
+		memberVO.setProfileImg(imagePath);
+		
+		memberMapper.updateMemberInfo(memberVO);
+		
+		if(imagePath == "none") result = "Fail";
+		
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	

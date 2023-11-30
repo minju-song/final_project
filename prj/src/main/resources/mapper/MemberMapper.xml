@@ -114,4 +114,24 @@
         WHERE member_id = #{memberId}
 	</update>
 	
+	<!-- 회원정보 업데이트 -->
+	<update id="updateMemberInfo" parameterType="MemberVO">
+		UPDATE member
+		<set>
+			<if test="memberName != null">member_name = #{memberName}</if>
+			<if test="password != null">password = #{password}</if>
+			<if test="nickname != null">nickname = #{nickname}</if>
+			<if test="addr != null">addr = #{addr}</if>
+			<if test="detailAddr != null">detail_addr = #{detailAddr}</if>
+			<if test="phone != null">phone = #{phone}</if>
+			<if test='delMember == "Y"'>stop_date = sysdate</if>
+			<if test="role != null">role = #{role}</if>
+			<if test="profileImg != null">profile_img = #{profileImg}</if>
+			<if test="memberIntro != null">member_intro = #{memberIntro}</if>
+			<if test="reportCnt != -1">report_cnt = #{reportCnt}</if>
+			<if test="lockYn != null">lock_yn = #{lockYn}</if>
+		</set>
+		WHERE member_id = #{memberId}
+	</update>
+	
  </mapper>

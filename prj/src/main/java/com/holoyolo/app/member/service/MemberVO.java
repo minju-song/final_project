@@ -25,7 +25,7 @@ public class MemberVO {
 	private String role;
 	private String profileImg;
 	private String memberIntro;
-	private int reportCnt;
+	private int reportCnt = -1;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date freedomDate;
 	private int loginFailCnt;
@@ -34,5 +34,6 @@ public class MemberVO {
 	
 	private String provider;
 	private String providerId;
+	private String delMember;
 
 }
