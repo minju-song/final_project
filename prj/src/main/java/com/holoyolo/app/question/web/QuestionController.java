@@ -35,12 +35,22 @@ public class QuestionController {
     public String getTotalList(Model model) {
         List<QuestionVO> totalList = questionService.selectQuestionTotalList();
         model.addAttribute("totalList", totalList);
+        
         return "admin/question";
     }
 
     @GetMapping("/admin/question/pendingList")
     public String getPendingList(Model model) {
-        return "admin/question";
+    	try {
+    	 List<QuestionVO> pendingList = questionService.selectQuestionPendingList();
+        model.addAttribute("pendingList", pendingList);
+    	 
+    	 return "admin/question";
+    	   } catch (Exception e) {
+    	        e.printStackTrace(); // Log the exception
+    	        // You might want to return an error page or handle the error differently
+    	        return "error";
+    	    }
     }
 
     @GetMapping("/admin/question/completedList")
