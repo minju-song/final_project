@@ -5,101 +5,44 @@
 <mapper namespace="com.holoyolo.app.trade.mapper.TradeMapper">
 
 	<select id="selectTradeList" resultType="TradeVO">
-		SELECT  trade_id
+		SELECT trade_id
 				, title
 				, trade_category
-				, price
 				, trade_place
 				, trade_type
 				, promise_status
 				, write_date,
-		    CASE 
-		        WHEN trade_type = 'TA1' THEN '직거래'
-		        WHEN trade_type = 'TA2' THEN '비대면'
-		    END AS trade_type,
-		    CASE 
-		        WHEN trade_category = 'TB1' THEN '생활용품'
-		        WHEN trade_category = 'TB2' THEN '의류'
-		        WHEN trade_category = 'TB3' THEN '식품'
-		        WHEN trade_category = 'TB4' THEN '반려용품'
-		        WHEN trade_category = 'TB5' THEN '도서'
-		        WHEN trade_category = 'TB6' THEN '문구'
-		        WHEN trade_category = 'TB7' THEN '가구'
-		        WHEN trade_category = 'TB8' THEN '기타'
-		    END AS trade_category,
-		    CASE 
-		        WHEN promise_status = 'TD1' THEN '약속대기'
-		        WHEN promise_status = 'TD2' THEN '거래중'
-		        WHEN promise_status = 'TD3' THEN '거래완료'
-		    END AS promise_status
+		CASE
+			WHEN trade_type = 'TA1' THEN '직거래'
+			WHEN trade_type = 'TA2' THEN '비대면'
+		END AS trade_type,
+		CASE
+			WHEN trade_category = 'TB1' THEN '생활용품'
+			WHEN trade_category = 'TB2' THEN '의류'
+			WHEN trade_category = 'TB3' THEN '식품'
+			WHEN trade_category = 'TB4' THEN '반려용품'
+			WHEN trade_category = 'TB5' THEN '도서'
+			WHEN trade_category = 'TB6' THEN '문구'
+			WHEN trade_category = 'TB7' THEN '가구'
+			WHEN trade_category = 'TB8' THEN '기타'
+		END AS trade_category,
+		CASE
+			WHEN promise_status = 'TD1' THEN '약속대기'
+			WHEN promise_status = 'TD2' THEN '거래중'
+			WHEN promise_status = 'TD3' THEN '거래완료'
+		END AS promise_status
 		FROM trade
 		ORDER BY trade_id
 	</select>
-	
-	<select id="tradeList" resultType="TradeVO">
-		SELECT  trade_id
-				, title
-				, trade_category
-				, price
-				, trade_place
-				, trade_type
-				, promise_status
-				, write_date,
-				CASE 
-			        WHEN trade_type = 'TA1' THEN '직거래'
-			        WHEN trade_type = 'TA2' THEN '비대면'
-			    END AS trade_type,
-			    CASE 
-			        WHEN trade_category = 'TB1' THEN '생활용품'
-			        WHEN trade_category = 'TB2' THEN '의류'
-			        WHEN trade_category = 'TB3' THEN '식품'
-			        WHEN trade_category = 'TB4' THEN '반려용품'
-			        WHEN trade_category = 'TB5' THEN '도서'
-			        WHEN trade_category = 'TB6' THEN '문구'
-			        WHEN trade_category = 'TB7' THEN '가구'
-			        WHEN trade_category = 'TB8' THEN '기타'
-			    END AS trade_category,
-					CASE 
-			        WHEN promise_status = 'TD1' THEN '약속대기'
-			        WHEN promise_status = 'TD2' THEN '거래중'
-			        WHEN promise_status = 'TD3' THEN '거래완료'
-			    END AS promise_status
-		FROM trade
-		ORDER BY write_date desc
-	</select>
-	
+
 	<select id="heartCount" resultType="TradeVO">
 		SELECT count(*) as heartCount
 		FROM heart
 		WHERE trade_id = #{tradeId}
 	</select>
-	
+
 	<select id="selectTrade" resultType="TradeVO">
 		SELECT trade_id
-			   , title
-			   , description
-			   , trade_category
-			   , price
-			   , open_kakao
-			   , trade_place
-			   , trade_type
-			   , payment
-			   , promise_status
-			   , views
-			   , seller_id
-		FROM trade
-		WHERE trade_id = #{tradeId}
-		AND seller_id = #{sellerId}
-	</select>
-	
-	<insert id="insertTrade" parameterType="TradeVO">
-		<selectKey keyProperty="tradeId" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(trade_id,0)+1) as tradeId
-			FROM trade
-		</selectKey>
-		INSERT INTO trade
-			(
-				trade_id
 				, title
 				, description
 				, trade_category
@@ -110,112 +53,162 @@
 				, payment
 				, promise_status
 				, views
-				, latitude
-				, longitude
 				, seller_id
+		FROM trade
+		WHERE trade_id = #{tradeId}
+		AND seller_id =
+		#{sellerId}
+	</select>
+
+	<insert id="insertTrade" parameterType="TradeVO">
+		<selectKey keyProperty="tradeId" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(trade_id,0)+1) as tradeId
+			FROM trade
+		</selectKey>
+		INSERT INTO trade
+			(
+			trade_id
+			, title
+			, description
+			, trade_category
+			, price
+			, open_kakao
+			, trade_place
+			, trade_type
+			, payment
+			, promise_status
+			, views
+			, latitude
+			, longitude
+			, seller_id
 			)
 		VALUES
 			(
-				#{tradeId}
-				, #{title}
-				, #{description}
-				, #{tradeCategory}
-				, #{price}
-				, #{openKakao}
-				, #{tradePlace}
-				, #{tradeType}
-				, #{payment}
-				, #{promiseStatus}
-				, #{views}
-				, #{latitude}
-				, #{longitude}
-				, #{sellerId}
+			#{tradeId}
+			, #{title}
+			, #{description}
+			, #{tradeCategory}
+			, #{price}
+			, #{openKakao}
+			, #{tradePlace}
+			, #{tradeType}
+			, #{payment}
+			, #{promiseStatus}
+			, #{views}
+			, #{latitude}
+			, #{longitude}
+			, #{sellerId}
 			)
 	</insert>
-	
+
 	<update id="updateTrade" parameterType="TradeVO">
 		UPDATE trade
-			<set>
-				title = #{title},
-				description = #{description},
-				trade_category = #{tradeCategory},
-				price = #{price},
-				open_kakao = #{openKakao},
-				trade_place = #{tradePlace},
-				trade_type = #{tradeType},
-				payment = #{payment},
-				promise_status = #{promiseStatus},
-				views = #{views},
-				update_date = sysdate,
-				latitude = #{latitude},
-				longitude = #{longitude},
-				buyer_id = #{buyerId}
-			</set> 
+		<set>
+			title = #{title},
+			description = #{description},
+			trade_category = #{tradeCategory},
+			price = #{price},
+			open_kakao = #{openKakao},
+			trade_place = #{tradePlace},
+			trade_type = #{tradeType},
+			payment = #{payment},
+			promise_status = #{promiseStatus},
+			views = #{views},
+			update_date = sysdate,
+			latitude = #{latitude},
+			longitude = #{longitude},
+			buyer_id = #{buyerId}
+		</set>
 		WHERE trade_id = #{tradeId}
 		AND seller_id = #{sellerId}
 	</update>
-	
+
 	<delete id="deleteTrade" parameterType="TradeVO">
 		DELETE FROM trade
-		WHERE trade_id = #{tradeId}
+		WHERE
+		trade_id = #{tradeId}
 		AND seller_id = #{sellerId}
 	</delete>
 	
+	<select id="getAllTradeList" resultType="TradeVO">
+		SELECT trade_id
+				, title
+				, trade_category
+				, price
+				, trade_place
+				, trade_type
+				, promise_status
+				, write_date
+		FROM trade
+		ORDER BY write_date	desc
+	</select>
+
 	<!-- 중고거래 목록리스트 -->
-  	<select id="getTradeList" resultType="TradeVO">
-        SELECT * 
-   		FROM (
-      			SELECT rownum rn, a.*
-       		FROM ( 
-           		
-           		<if test="search != null or search != ''">
-               		<if test="searchTitle == 'clubname'">
-               		SELECT c.*, m.nickname as leader_name
-                   	FROM club c join member m on c.club_leader = m.member_id
-                   	WHERE club_name LIKE '%'||#{search}||'%'
-               		</if>
-                	<if test="searchTitle == 'clubking'">
-                    	SELECT *
-                    	FROM (
-	                        SELECT c.*, m.nickname as leader_name
-	                        FROM club c 
-	                        JOIN member m ON c.club_leader = m.member_id
-	                        WHERE m.nickname LIKE '%'||#{search}||'%'
-                    	)
-                	</if>
-           		</if>
-	            <if test="search == null or search == ''">
-	            SELECT c.*, m.nickname as leader_name
-	            FROM club c join member m on c.club_leader = m.member_id
-	            </if>
-          			ORDER BY club_id
-       		) A
-       		<![CDATA[
-       		WHERE rownum <= #{page} * 6
-   		) b
-   		WHERE b.rn > (#{page} - 1) * 6
-		]]>
-  	</select>
-  	
-  	<!-- 검색 시 데이터 총 갯수 -->
-  	<select id="cntData" parameterType="TradeVO" resultType="int">
-    SELECT COUNT(*) 
-        <if test="search != null or search != ''">
-            <if test="searchTitle == 'clubname'">
-                FROM club
-                WHERE club_name LIKE '%'||#{search}||'%'
-            </if>
-            <if test="searchTitle == 'clubking'">
-                FROM
-                (SELECT c.*, m.nickname
-                 FROM club c
-                 JOIN member m ON c.club_leader = m.member_id
-                 WHERE m.nickname LIKE '%'||#{search}||'%')
-            </if>
-         </if>
-        <if test="search == null or search == ''">
-            FROM club
-        </if>
-  		
-  	</select>
+	<select id="getTradeList" resultType="TradeVO">
+		SELECT *
+		FROM (
+			SELECT rownum rn, a.*
+			FROM (
+				SELECT trade_id
+						, title
+						, trade_category
+						, price
+						, trade_place
+						, trade_type
+						, promise_status
+						, write_date,
+				CASE
+					WHEN trade_type = 'TA1' THEN '직거래'
+					WHEN trade_type = 'TA2' THEN '비대면'
+				END AS trade_type,
+				CASE
+					WHEN trade_category = 'TB1' THEN '생활용품'
+					WHEN trade_category = 'TB2' THEN '의류'
+					WHEN trade_category = 'TB3' THEN '식품'
+					WHEN trade_category = 'TB4' THEN '반려용품'
+					WHEN trade_category = 'TB5' THEN '도서'
+					WHEN trade_category = 'TB6' THEN '문구'
+					WHEN trade_category = 'TB7' THEN '가구'
+					WHEN trade_category = 'TB8' THEN '기타'
+				END AS trade_category,
+				CASE
+					WHEN promise_status = 'TD1' THEN '약속대기'
+					WHEN promise_status = 'TD2' THEN '거래중'
+					WHEN promise_status = 'TD3' THEN '거래완료'
+				END AS promise_status
+				FROM trade
+				<if test="search != null or search != ''">
+					<if test="searchTitle == 'title'">
+						WHERE title LIKE '%'||#{search}||'%'
+					</if>
+					<if test="searchTitle == 'tradePlace'">
+						WHERE trade_place LIKE '%'||#{search}||'%'
+					</if>
+				</if>
+				ORDER BY write_date desc
+			) A
+			WHERE rownum <![CDATA[<=]]> #{page} * 6
+		) b
+		WHERE b.rn > (#{page} - 1) * 6
+		
+	</select>
+
+	<!-- 검색 시 데이터 총 갯수 -->
+	<select id="cntData" parameterType="TradeVO" resultType="int">
+		SELECT COUNT(*)
+		<if test="search != null or search != ''">
+			<if test="searchTitle == 'title'">
+				FROM trade
+				WHERE title LIKE '%'||#{search}||'%'
+			</if>
+			<if test="searchTitle == 'tradePlace'">
+				FROM trade
+				WHERE trade_place LIKE '%'||#{search}||'%')
+			</if>
+		</if>
+		<if test="search == null or search == ''">
+			FROM trade
+		</if>
+	</select>
 </mapper>

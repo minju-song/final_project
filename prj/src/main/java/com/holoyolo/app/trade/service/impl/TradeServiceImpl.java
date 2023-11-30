@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.holoyolo.app.club.service.ClubVO;
 import com.holoyolo.app.trade.mapper.TradeMapper;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
@@ -24,12 +23,6 @@ public class TradeServiceImpl implements TradeService {
 		return tradeMapper.selectTradeList();
 	}
 	
-	// 거래 전체조회
-	@Override
-	public List<TradeVO> tradeList() {
-		return tradeMapper.tradeList();
-	}
-
 	// 거래 단건조회
 	@Override
 	public TradeVO getTrade(TradeVO tradeVO) {
@@ -71,7 +64,7 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	//데이터 갯수
-	/*@Override
+	@Override
 	public int cntData(TradeVO tradeVO) {
 		return tradeMapper.cntData(tradeVO);
 	}
@@ -85,7 +78,6 @@ public class TradeServiceImpl implements TradeService {
 		for(int i=0; i<list.size(); i++) {
 			TradeVO temp = new TradeVO();
 			temp = list.get(i);
-			temp.setJoinCnt(clubMemberMapper.countMember(list.get(i).getClubId()));
 			list.set(i, temp);
 		}
 		
@@ -93,6 +85,17 @@ public class TradeServiceImpl implements TradeService {
 		map.put("result", list);
 		
 		return map;
-	}*/
+	}
+
+	//리스트 목록
+	@Override
+	public Map<String, Object> tradeListPage() {
+		Map<String, Object> map = new HashMap<>();
+		
+		List<TradeVO> list = tradeMapper.getAllTradeList();
+		map.put("list", list);
+		
+		return map;
+	}
 
 }

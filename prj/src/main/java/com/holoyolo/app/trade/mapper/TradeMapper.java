@@ -8,9 +8,6 @@ public interface TradeMapper {
 	//전체조회
 	public List<TradeVO> selectTradeList();
 	
-	//전체조회
-	public List<TradeVO> tradeList();
-	
 	//단건조회
 	public TradeVO selectTrade(TradeVO tradeVO);
 	
@@ -27,6 +24,8 @@ public interface TradeMapper {
 	public List<TradeVO> getTradeList(TradeVO tradeVO);
 	
 	//중고거래 갯수
-	//public int cntData(TradeVO tradeVO);
+	public int cntData(TradeVO tradeVO);
 	
+	//중고거래 목록
+	public List<TradeVO> getAllTradeList();
 }

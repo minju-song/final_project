@@ -45,7 +45,7 @@
                     <option value="tradePlace">지역명</option>
                 </select>
 				<div class="search header_search">
-					<input type="search" class="search_input" required="required"
+					<input type="search" id="search_input" class="search_input" required="required"
 						placeholder="검색">
 					<button type="submit" id="search_button" class="search_button">
 						<img th:src="@{/common/images/magnifying-glass.svg}">
@@ -56,7 +56,7 @@
 		<div class="container">
 			<div class="row">
 				<!-- 중고거래 리스트 -->
-				<div class="col mb-5" th:each="trade, stat : ${tradeList}" th:if="${tradeList != 'null'}">
+				<div class="col mb-5" th:each="trade, stat : ${tradeList[0]}" th:if="${tradeList != 'null'}">
 					<div class="card h-100">
 						<!-- Sale badge-->
 						<div class="badge bg-dark text-white position-absolute"
@@ -94,8 +94,6 @@
 		<nav aria-label="Page navigation" id="page">
             <ul class="pagination" id="pagination" style="text-align: center;"></ul>
         </nav>
-        <div id="userid" sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberId" hidden>
-        </div>
         <script th:src="@{/user/js/trade.js}"></script>
 	</div>
 </body>
