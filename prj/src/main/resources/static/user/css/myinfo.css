@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+
+
+#wrapper {
+	margin: 50px auto;
+}
+
+.input_file {
+	display: none;
+}
+
+.upload {
+	width: 90px;
+	height: 90px;
+	border: 4px dashed #B3B3B3;
+	border-radius: 10px;
+	
+}
+
+.image-preview {
+	padding: 0;
+	margin: 0;
+}
+
+.image-preview li {
+	list-style: none;
+}
+
+.dp_flex {
+	display: flex;
+}
+
+.position_rela {
+	position: relative;
+}
+
+.position_absol {
+	position: absolute;
+}

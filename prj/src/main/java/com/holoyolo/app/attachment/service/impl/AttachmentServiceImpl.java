@@ -24,50 +24,55 @@ public class AttachmentServiceImpl implements AttachmentService {
 	@Value("${file.upload.path}")
     private String uploadPath;
 
+	
+	/**
+	 * 이미지 업로드
+	 * @param file
+	 * @param type
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@Override
 	public String uploadImage(MultipartFile file, String type) throws IllegalStateException, IOException {
-		//이미지올리는 이유 타입으로 지정해서 본인이 경로 설정
+		//이미지올리는 이유 타입으로 지정해서 본인이 경로 설정 => makeFolder(type)에서 매개변수로 사용
 		
 		if(file.getContentType().startsWith("image") == false) {
 			return null;
 		}
 		
-		
-		String originalName = file.getOriginalFilename();
-		String fileName = originalName.substring(originalName.lastIndexOf("//")+1);
-
+		String originalName = file.getOriginalFilename(); 							//원본 파일명
+		String fileName = originalName.substring(originalName.lastIndexOf("//")+1); // 새로운 파일명
 		String folderPath = makeFolder(type);
-		
 		String uuid = UUID.randomUUID().toString();
-
-		
+	    String uploadFileName = folderPath +File.separator + uuid + "_" + fileName; // 폴더경로 + uuid + 새로운 파일명
+	    String saveName = uploadPath + File.separator + uploadFileName; 			// 실재 저장할 경로를 문자로 저장
 	    
-	    String uploadFileName = folderPath +File.separator + uuid + "_" + fileName;
+	    Path savePath = Paths.get(saveName);	// 문자로 저장된 경로를 처리
+	    file.transferTo(savePath);				// 파일을 업로드, 매개변수는 반드시 Path 타입이어야한다.
 	    
-	    String saveName = uploadPath + File.separator + uploadFileName;
-	    
-	    Path savePath = Paths.get(saveName);
-	    
-	    file.transferTo(savePath);
-	    
-	
 	    
 	    return setImagePath(uploadFileName);
-
 	}
 	
+	/**
+	 * 폴더를 만든다
+	 * @param type
+	 * @return
+	 */
 	private String makeFolder(String type) {
 		
 		String folderPath = "";
 		
-		//클럽프로필
 		//upload폴더 밑에 생성할 하위폴더 경로 본인들이 생성하기
-		if(type.equals("clubProfile")) {
-			folderPath = "club"+File.separator+"profile";
+		if(type.equals("clubProfile")) { // 알뜰모임
+			folderPath = "club" + File.separator + "profile";
+		} else if(type.equals("myProfile")) { // 마이페이지(나의정보)
+			folderPath = "mypage" + File.separator + "profile";
 		}
 		
+		// File newFile = new File(dir,"파일명");
 		File uploadPathFoler = new File(uploadPath, folderPath);
-		// File newFile= new File(dir,"파일명");
 		if (uploadPathFoler.exists() == false) {
 			uploadPathFoler.mkdirs();
 			// 만약 uploadPathFolder가 존재하지않는다면 makeDirectory하라는 의미입니다.
@@ -77,6 +82,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 		return folderPath;
 	}
 	
+	/**
+	 * 화면(브라우저)에서 사용하는 경로를 반환(DB에 저장)
+	 * @param uploadFileName
+	 * @return
+	 */
 	private String setImagePath(String uploadFileName) {
 		return uploadFileName.replace(File.separator, "/");
 	}
