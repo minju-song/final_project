@@ -45,7 +45,8 @@
 				 			, null
 				 			, 0
 				 			,#{memberId}
-				 			, null)
+				 			, null
+				 		)
 	</insert>
 	
 	<update id="updatePost" parameterType="PostVO">
@@ -56,7 +57,7 @@
 			<if test="views != null">views = #{views},</if>
 			update_date = sysdate
 		</set>
-	
+		WHERE board_id = #{boardId}
 	</update>
 	
 	<delete id="deletePost" parameterType="PostVO">

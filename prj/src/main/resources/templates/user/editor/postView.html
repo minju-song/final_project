@@ -34,17 +34,22 @@ img {
 </style>
 </head>
 <body layout:fragment="content">
-	<h2 style="text-align: center;">TOAST UI Editor 상세 페이지</h2>
+
+    <h2 style="text-align: center;">게시글 상세 페이지</h2>
 
 	<div class="editor_container">
 		<!--/* 에디터 콘텐츠 렌더링 영역 */-->
-		<div id="editorContent"></div>
-		
-		
-	</div>
-	<div class="editor_container">
 		<div id="viewer"></div>
 	</div>
+	<!--/* 수정/삭제 버튼 영역 */-->
+	<div id="updateDelBtnDiv">
+    	<th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
+	        <button type="button" class="btns save" th:onclick="'location.href=\'/editor/updateview?boardId='+ @{${board.boardId}} + '\''">수정</button>
+	        <button type="button" class="btns save" onclick="delBtn();">삭제</button>
+	        <input type="hidden" id="memberId" name="memberId" th:value="${#authentication.principal.memberVO.memberId}">
+        </th:block>
+	    <a href="/editor/list" class="btns back">뒤로 가기</a>
+    </div>
 
 	<!-- TUI 에디터 JS CDN -->
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -68,14 +73,14 @@ img {
             const post = await response.json();
 
             // 3. 에디터 콘텐츠 렌더링
-            document.querySelector('#editorContent').innerHTML = post.content;
-            
-            const viewer = new toastui.Editor({
-                el: document.querySelector('#viewer'),
+            const viewer = toastui.Editor.factory({
+				el: document.querySelector('#viewer'),
+                viewer: true,
                 initialValue: post.content
             });
             
-        }
+        }     
+     	
 
     </script>
 </body>

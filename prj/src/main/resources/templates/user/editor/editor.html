@@ -9,6 +9,7 @@
 
 <!-- TUI 에디터 CSS CDN -->
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
 
 <!-- 버튼 영역 CSS -->
 <style>
@@ -19,7 +20,7 @@
 </style>
 </head>
 <body layout:fragment="content">
-    <h2 style="text-align: center;">TOAST UI Editor 글쓰기 페이지</h2>
+    <h2 style="text-align: center;">게시글 등록 페이지</h2>
 
     <!-- 에디터를 적용할 요소 (컨테이너) -->
     <div id="content">
@@ -89,7 +90,7 @@
             const memberId = document.querySelector('#memberId').value;
             const params = {
                 title: '1번 게시글 제목',
-                content: editor.getHTML(),
+                content: editor.getMarkdown(),
                 memberId: memberId,
                 menuType: 'AA2'
             }

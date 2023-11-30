@@ -31,7 +31,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public int updatePost(PostVO postVO) {
-		return 0;
+		postMapper.updatePost(postVO);
+		return postVO.getBoardId();
 	}
 
 	@Override
