@@ -9,8 +9,18 @@ public interface QuestionService {
 	// 문의 전체조회
 	public List<QuestionVO> selectQuestionAll();
 	
+	// 문의 조건조회
+	public List<QuestionVO> selectQuestionTotalList();
+	public List<QuestionVO> selectQuestionPendingList();
+	public List<QuestionVO> selectQuestionCompletedList();
+	
 	// 문의 단건조회
-	public QuestionVO selectQuestionInfo(QuestionVO questionVO);
+	public Map<String, Object> selectQuestionInfo(QuestionVO questionVO);
+	
+	// 문의 개수조회
+	int selectQuestionTotalCount();
+	int selectQuestionPendingCount();
+	int selectQuestionCompletedCount();
 	
 	// 문의 등록
 	public int insertQuestionInfo(QuestionVO questionVO);
@@ -20,6 +30,8 @@ public interface QuestionService {
 	
 	// 문의 삭제
 	public boolean deleteQuestionInfo(int questionId);
+
+
 	
 	// 추가 인터페이스 작성 ↓↓
 	
