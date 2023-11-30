@@ -6,6 +6,7 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.holoyolo.app.club.mapper.ClubMapper;
@@ -21,6 +22,9 @@ import com.holoyolo.app.clubSuccessHistoryMember.mapper.ClubSuccessHistoryMember
 
 @Service
 public class ClubServiceImpl implements ClubService {
+	
+	@Value("${file.loading.path}")
+    private String loadingPath;
 	
 	@Autowired
 	ClubMapper clubMapper;
@@ -132,6 +136,7 @@ public class ClubServiceImpl implements ClubService {
 			ClubVO temp = new ClubVO();
 			temp = list.get(i);
 			temp.setJoinCnt(clubMemberMapper.countMember(list.get(i).getClubId()));
+//			temp.setClubProfileImg(loadingPath+"club/profile/"+list.get(i).getClubProfileImg());
 			list.set(i, temp);
 		}
 		
@@ -161,6 +166,12 @@ public class ClubServiceImpl implements ClubService {
 		}
 		return map;
 	}
+
+	@Override
+	public int insertClub(ClubVO vo) {
+		return clubMapper.insertClub(vo);
+	}
+
 
 
 

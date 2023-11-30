@@ -1,22 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
+
 <head>
-<meta charset="UTF-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
+
 <body style="background: #fff;">
 	<div class="body_container" align="center">
 		<div class="img_wrap">
-			<img alt="welcome" th:src="@{https://www.canva.com/design/DAF1j5uXJnA/AmciOpmVz12gx_WfIpbNKA/edit?utm_content=DAF1j5uXJnA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton}" style="width: 50vw; max-width: 800px; min-width: 500px;">
+			<img alt="welcome"
+				th:src="@{https://www.canva.com/design/DAF1j5uXJnA/AmciOpmVz12gx_WfIpbNKA/edit?utm_content=DAF1j5uXJnA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton}"
+				style="width: 50vw; max-width: 800px; min-width: 500px;">
 		</div>
-	    
-	    <div class="btn_wrap" style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
-	    	<p th:text="${clubName + '모임으로 '+member+'님이 가입 요청을 보냈습니다.'}" style="font-weight: 700; font-size: 30px;">
-            <p th:text="${text}" style="font-weight: 700; font-size: 30px;">
-	    </div>
+
+		<div class="btn_wrap"
+			style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
+			<p th:text="${clubName + '모임으로 '+member+'님이 가입 요청을 보냈습니다.'}" style="font-weight: 700; font-size: 30px;"></p>
+			<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
+			<a th:href="@{http://localhost:8090/joinClubMail(clubId=${club},memberId=${member})}">승인</a>
+		</div>
 	</div>
+
+	<script th:inline="javascript">
+		let clubId = [[${ club }]];
+		let member = [[${ member }]];
+
+		let data = { clubId: clubId, memberId: member };
+		let reqBtn = document.getElementById('acceptReq');
+
+		reqBtn.addEventListener('click', accept);
+
+		function accept(e) {
+			console.log('승인클릭');
+			fetch('http://localhost:8090/joinClubMail', {
+				method: 'POST',
+				headers: {
+					"Content-Type": `application/json`, // application/json 타입 선언
+				},
+				body: JSON.stringify(data)
+			}).then(result => console.log(result));
+		}
+
+	</script>
 </body>
 
 </html>
