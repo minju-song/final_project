@@ -10,7 +10,6 @@
 
 <body>
     <div layout:fragment="content">
-        <h3>[[${result.club.clubName}]]</h3>
         <div class="row">
             <div class="col-8">
                 <div class="info clubInfo">
@@ -22,7 +21,7 @@
                     <hr>
                     <h4>가입조건 : [[${result.club.joinCondition}]]</h4>
                     <th:block th:if="${result.budget != null}">
-                        <h4>절약예산 : [[${result.budget.clubBudgetPrice}]]원 / ([[${result.budget.clubBudgetUnit}]])</h4>
+                        <h4>절약예산 : <span th:text="|${#numbers.formatInteger(result.budget.clubBudgetPrice, 0, 'COMMA')}원|"></span> / ([[${result.budget.clubBudgetUnit}]])</h4>
                     </th:block>
                     <th:block th:if="${result.budget == null}">
                         <h4>절약예산이 등록되지 않았습니다.</h4>
@@ -38,16 +37,21 @@
             <div class="col-3">
                 <div class="info memberList">
                     <h3>팀원들의 진행상황</h3>
+                    <!-- <div th:text="${#dates.format(result.start, 'yyyy년 MM월 dd일')}"></div>
+                    <div th:text="${#dates.format(result.end, 'yyyy년 MM월 dd일')}"></div> -->
                     <th:block th:if="${session.check eq true}">
+                        <span>[[${result.start}]] - [[${result.end}]]</span>
                         <div th:each="member : ${result.members}">
                             <th:block th:if="${member.memberId == result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/king.png}">
-                                    <span class="nickname">[[${member.memberName}]]님</span> [[${member.sumPrice}]]원
+                                    <span class="nickname">[[${member.memberName}]]님</span>
+                                    <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
                                 </p>
                             </th:block>
                             <th:block th:if="${member.memberId != result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/notking.png}">
-                                    <span class="nickname">[[${member.memberName}]]님</span> [[${member.sumPrice}]]원
+                                    <span class="nickname">[[${member.memberName}]]님</span>
+                                    <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
                                 </p>
                             </th:block>
                         </div>
@@ -61,7 +65,7 @@
                     <button>가입하기</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq true}">
-                    <button>모임탈퇴</button><br>
+                    <button id="outClub">모임탈퇴</button><br>
                 </th:block>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
                     <button>모임삭제</button><br>
@@ -73,8 +77,11 @@
 
 
 
-
-
+        <script th:inline="javascript">
+            let userId = /*[[${userId}]]*/ null;
+            let leader = (userId === /*[[${result.club.clubLeader}]]*/ null) ? true : false;
+        </script>
+        <script th:src="@{/user/js/clubpage.js}"></script>
     </div>
 
 </body>

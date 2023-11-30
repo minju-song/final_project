@@ -27,4 +27,7 @@ public interface ClubMemberMapper {
 	
 	//내가 가입한 클럽인지 확인
 	public int checkMyClub(ClubMemberVO vo);
+	
+	//클럽탈퇴
+	public int outClubMember(ClubMemberVO vo);
 }

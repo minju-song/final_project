@@ -1,5 +1,6 @@
 package com.holoyolo.app.club.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.holoyolo.app.clubMember.mapper.ClubMemberMapper;
 import com.holoyolo.app.clubMember.service.ClubMemberService;
 import com.holoyolo.app.clubMember.service.ClubMemberVO;
 import com.holoyolo.app.clubSuccessHistory.mapper.ClubSuccessHistoryMapper;
+import com.holoyolo.app.clubSuccessHistory.service.ClubSuccessHistoryVO;
 import com.holoyolo.app.clubSuccessHistoryMember.mapper.ClubSuccessHistoryMemberMapper;
 
 @Service
@@ -99,20 +101,14 @@ public class ClubServiceImpl implements ClubService {
 		
 		//가입한 회원목록
 		List<ClubMemberVO> memberList = clubMemberMapper.getMembers(vo);
-//		for(int i = 0; i < memberList.size(); i++) {
-//			ClubMemberVO temp = memberList.get(i);
-//			if(clubSuccessHistoryMemberMapper.getRankingLast(temp) != null) {
-//				temp.setRanking(clubSuccessHistoryMemberMapper.getRankingLast(temp).getRanking());
-//				memberList.add(i, temp);
-//				
-//			}
-//		}
+
 		map.put("members", memberList);
 		
 		//클럽의 평균 성공률
 		Double avgSuccess = clubSuccessHistoryMapper.getSuccessPct(vo);
 		map.put("avg", avgSuccess);
 		
+		//클럽의 현재 예산정보
 		ClubBudgetVO budget = clubBudgetMapper.getClubBudget(vo.getClubId());
 		if(budget != null) {			
 			if(budget.getClubBudgetUnit().equals("YA1")) budget.setClubBudgetUnit("일");
@@ -124,6 +120,14 @@ public class ClubServiceImpl implements ClubService {
 			map.put("budget", null);
 		}
 		
+		//클럽의 현재 진행중인 기간
+		ClubSuccessHistoryVO csvo = new ClubSuccessHistoryVO();
+		csvo = clubSuccessHistoryMapper.getIng(vo.getClubId());
+		System.out.println("언제까지?"+csvo);
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		map.put("start",simpleDateFormat.format(csvo.getStartDate()));
+		map.put("end",simpleDateFormat.format(csvo.getEndDate()));
 		return map;
 	}
 
@@ -167,16 +171,28 @@ public class ClubServiceImpl implements ClubService {
 		return map;
 	}
 
+	//클럽생성
 	@Override
 	public String insertClub(ClubVO vo) {
+		//클럽생성함
 		if(clubMapper.insertClub(vo)>0) {
 			int clubId = vo.getClubId();
+			
+			//멤버-클럽 테이블에 리더 가입시킴
+			ClubMemberVO cmVO = new ClubMemberVO();
+			cmVO.setClubId(clubId);
+			cmVO.setMemberId(vo.getClubLeader());
+			clubMemberMapper.joinClub(cmVO);
+			
+			//생성 시 받은 예산 등록
 			ClubBudgetVO budVO = new ClubBudgetVO();
+			
+			//예산 금액, 기간, 클럽아이디 설정
 			budVO.setClubBudgetPrice(vo.getPrice());
 			budVO.setClubBudgetUnit(vo.getUnit());
 			budVO.setClubId(clubId);
 			if(clubBudgetMapper.insertClubBudget(budVO) > 0) {
-				return "success";
+				if(clubSuccessHistoryMapper.insertSuccessIng(budVO) > 0) return "success";
 			}
 			return "budgetFail";
 		}

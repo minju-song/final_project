@@ -6,12 +6,12 @@
   
   	<!-- 해당 클럽의 평균 성공률 -->
   	<select id="getSuccessPct" resultType="double" parameterType="ClubVO">
-SELECT DECODE(
-            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId}), 0, 0, 
-            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state = 'SU1') /
-            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId})) 
-            as result 
-FROM DUAL
+		SELECT DECODE(
+		            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId}), 0, 0, 
+		            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state = 'SU1') /
+		            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId})) 
+		            as result 
+		FROM DUAL
   	</select>
   	
   	<!-- 해당 클럽의 현재 진행중인 기간 -->
@@ -21,4 +21,31 @@ FROM DUAL
   		WHERE club_id = #{clubId}
   		AND success_state = 'SU3'
   	</select>
+  	
+  	<!-- 진행중인 성공기록 새로 넣어주기 -->
+  	<insert id="insertSuccessIng" parameterType="ClubBudgetVO">
+	    <selectKey keyProperty="goalId" resultType="int" order="BEFORE">
+	        SELECT NVL(MAX(goal_id), 0) + 1
+	        FROM club_success_history
+	    </selectKey>
+	    INSERT INTO club_success_history 
+	    VALUES (
+	        #{goalId},
+	        SYSDATE,
+	        <if test="clubBudgetUnit == 'YA1'">
+	            SYSDATE,
+	        </if>
+	        <if test="clubBudgetUnit == 'YA2'">
+	            SYSDATE + 6,
+	        </if>
+	        <if test="clubBudgetUnit == 'YA3'">
+	            SYSDATE + 29,
+	        </if>
+	        'SU3',
+	        NULL,
+	        #{clubBudgetId},
+	        #{clubId}
+	    )
+	</insert>
+
   </mapper>

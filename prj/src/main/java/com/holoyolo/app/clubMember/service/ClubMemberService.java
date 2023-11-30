@@ -21,4 +21,7 @@ public interface ClubMemberService {
 	
 	//클럽가입승인
 	public int acceptClub(ClubMemberVO vo);
+	
+	//클럽탈퇴
+	public int outClubMember(ClubMemberVO vo);
 }

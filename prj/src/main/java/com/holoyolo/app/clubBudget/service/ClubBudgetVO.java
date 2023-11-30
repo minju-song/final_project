@@ -12,4 +12,7 @@ public class ClubBudgetVO {
 	private Date settingDate;
 	private int clubId;
 	private char userYn;
+	
+	//클럽성공기록
+	private int goalId;
 }

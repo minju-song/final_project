@@ -52,5 +52,10 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 		return clubMemberMapper.acceptClub(vo);
 	}
 
+	@Override
+	public int outClubMember(ClubMemberVO vo) {
+		return clubMemberMapper.outClubMember(vo);
+	}
+
 
 }

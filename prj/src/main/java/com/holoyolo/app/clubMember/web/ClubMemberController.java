@@ -33,6 +33,7 @@ public class ClubMemberController {
 	@Autowired
 	ClubService clubService;
 	
+	//클럽 가입
 	@GetMapping("/member/joinClub")
 	@ResponseBody
 	public String joinClub(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam(name = "clubId") String clubId) {
@@ -57,6 +58,7 @@ public class ClubMemberController {
 	}
 	
 	
+	//클럽가입신청
 	@GetMapping("/joinClubMail")
 	public String joinClubMail(Model model,ClubMemberVO vo) {
 		System.out.println(vo);
@@ -74,5 +76,19 @@ public class ClubMemberController {
 		model.addAttribute("joinResult", joinMap);
 
 		return "user/club/joinClub";
+	}
+	
+	@GetMapping("/member/outClub")
+	@ResponseBody
+	public String outClub(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubMemberVO vo) {
+		System.out.println(vo);
+		vo.setMemberId(principalDetails.getUsername());
+		
+		if(clubMemberService.outClubMember(vo) > 0) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
 	}
 }

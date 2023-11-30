@@ -116,6 +116,7 @@ public class ClubController {
 		
 		Map<String, Object> map = clubService.getClubPage(vo);
 		model.addAttribute("result", map);
+		model.addAttribute("userId", principalDetails.getUsername());
 		return "user/club/clubPage";
 	}
 	
@@ -127,16 +128,16 @@ public class ClubController {
 		return "user/club/clubInsert";
 	}
 	
+	//클럽생성
 	@PostMapping("/member/clubInsert")
-	@ResponseBody
 	public String clubInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubVO vo) throws IllegalStateException, IOException {
-		System.out.println("넘어온 객체 : "+vo);
 		
+		//프로필사진 업로드 이후 파일명 받아옴
 		 String fileName = attachmentService.uploadImage(vo.getImg(), "clubProfile");
-//		String path = ""
+
+		 //파일명과 리더아이디 설정
 		 vo.setClubProfileImg(fileName);
 		 vo.setClubLeader(principalDetails.getUsername());
-		 System.out.println("돌아온 파일이름 : " + fileName);
 		 
 		 if(clubService.insertClub(vo).equals("success")) {
 			 System.out.println("성공");

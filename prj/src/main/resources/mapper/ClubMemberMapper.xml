@@ -9,6 +9,8 @@
   		SELECT * 
   		FROM club_member 
   		WHERE member_id = #{memberId}
+  		AND join_date is not null
+  		AND stop_date is null
   	</select>
   	
   	<!-- 클럽 바로 가입 -->
@@ -37,6 +39,7 @@
   		FROM club_member 
   		WHERE club_id = #{clubId} 
   		AND stop_date is null
+  		AND join_date is not null
   	</select>
   	
   	<!-- 해당 클럽의 회원목록 -->
@@ -44,14 +47,14 @@
 SELECT cm.*, m.member_name as member_name, (SELECT nvl(sum(price),0) 
                                             FROM acc_book_history
                                             <![CDATA[
-                                            WHERE pay_date >= 
+                                            WHERE trunc(pay_date) >= 
                                                             (
-                                                            SELECT trunc(start_date)
+                                                            SELECT start_date
                                                             FROM club_success_history
                                                             WHERE club_id = #{clubId}
                                                             AND success_state = 'SU3'
                                                             )
-                                            AND pay_date <= 
+                                            AND trunc(pay_date) <= 
                                                             (
                                                             SELECT end_date
                                                             FROM club_success_history
@@ -62,6 +65,8 @@ SELECT cm.*, m.member_name as member_name, (SELECT nvl(sum(price),0)
                                             AND member_id = m.member_id) as sum_price
 FROM club_member cm join member m on cm.member_id = m.member_id
 WHERE club_id = #{clubId}
+AND cm.join_date is not null
+AND cm.stop_date is null
 ORDER BY sum_price
   	</select>
   	
@@ -69,6 +74,16 @@ ORDER BY sum_price
   	<select id="checkMyClub" resultType="int" parameterType="ClubMemberVO">
   		SELECT count(*) 
   		FROM club_member 
-  		WHERE club_id = #{clubId} and member_id = #{memberId} and join_date != null
+  		WHERE club_id = #{clubId} and member_id = #{memberId} 
+  		AND join_date is not null
+  		AND stop_date is null
   	</select>
+  	
+  	<!-- 클럽탈퇴 -->
+  	<update id="outClubMember" parameterType="ClubMemberVO">
+  		UPDATE club_member 
+  		SET stop_date = sysdate 
+  		WHERE club_id = #{clubId}
+  		AND member_id = #{memberId} 
+  	</update>
   </mapper>
