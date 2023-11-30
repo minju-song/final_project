@@ -3,20 +3,17 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	  layout:decorate="~{layout/layout}">
-
 <head>
 	<meta charset="utf-8">
 	<title>HoloYolo::홈</title>
-
 </head>
-
 <body>
 	<div layout:fragment="content">
-		<a href="/editor">에디터 테스트</a>
+		<a href="/editor">에디터 작성 테스트</a>
+		<a href="/editor/list">에디터 리스트 테스트</a>
 		<div sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberName"></div>
 		<h1>테스트</h1>
 		<img alt="" th:src="@{/common/images/banner.jpg}" style="width:100%;">
 	</div>
 </body>
-
 </html>

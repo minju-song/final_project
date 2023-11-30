@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>게시판 리스트</title>
+<link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="text-center">
+				<h2>정보게시판</h2>
+			</div>
+			<div class="row justify-content-end mt-3">
+				<div class="col-2">
+					<button class="btn btn-primary btn-block" type="button"
+						th:if="${not #strings.isEmpty(username)}" id="addPostBtn">등록</button>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-12">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>순번</th>
+								<th>제목</th>
+								<th>작성일</th>
+								<th>작성자</th>
+								<th>좋아요 / 조회수</th>
+							</tr>
+						</thead>
+						<tbody id="boardTableBody">
+							<th:block th:if="${posts == '0'}">
+								<tr class="text-center">
+									<td colspan="5">작성된 게시물이 없습니다.</td>
+								</tr>
+							</th:block>
+							<th:block th:unless="${posts == '0'}">
+								<tr th:each="p : ${posts}">
+									<td th:text="${p.rownum}"></td>
+									<td th:text="${p.title}" th:onclick="'location.href=\'/editor/postview?boardId='+ @{${p.boardId}} + '\''"></td>
+									<td th:text="${p.writeDate}"></td>
+									<td th:text="${p.memberId}"></td>
+									<td><span th:text="${likeCount}"></span>/<span th:text="${p.views}"></span></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+					<div id="pagination-container">
+						<nav aria-label="...">
+							<ul class="pagination">
+								<li class="page-item disabled"><a class="page-link">Previous</a></li>
+								<li class="page-item"><a class="page-link" href="#">Next</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
