@@ -22,7 +22,7 @@ public class TradeServiceImpl implements TradeService {
 	public List<TradeVO> getTradeList() {
 		return tradeMapper.selectTradeList();
 	}
-
+	
 	// 거래 단건조회
 	@Override
 	public TradeVO getTrade(TradeVO tradeVO) {
@@ -61,6 +61,41 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	public int deleteTrade(int tradeId) {
 		return tradeMapper.deleteTrade(tradeId);
+	}
+
+	//데이터 갯수
+	@Override
+	public int cntData(TradeVO tradeVO) {
+		return tradeMapper.cntData(tradeVO);
+	}
+
+	//리스트 페이징
+	@Override
+	public Map<String, Object> tradePaging(TradeVO tradeVO) {
+		Map<String, Object> map = new HashMap<>();
+		List<TradeVO> list = tradeMapper.getTradeList(tradeVO);
+		
+		for(int i=0; i<list.size(); i++) {
+			TradeVO temp = new TradeVO();
+			temp = list.get(i);
+			list.set(i, temp);
+		}
+		
+		map.put("length", list.size());
+		map.put("result", list);
+		
+		return map;
+	}
+
+	//리스트 목록
+	@Override
+	public Map<String, Object> tradeListPage() {
+		Map<String, Object> map = new HashMap<>();
+		
+		List<TradeVO> list = tradeMapper.getAllTradeList();
+		map.put("list", list);
+		
+		return map;
 	}
 
 }
