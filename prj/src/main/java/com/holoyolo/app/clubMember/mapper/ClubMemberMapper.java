@@ -13,6 +13,12 @@ public interface ClubMemberMapper {
 	//즉시 클럽가입
 	public int joinClub(ClubMemberVO vo);
 	
+	//클럽가입신청
+	public int reqClub(ClubMemberVO vo);
+	
+	//클럽가입승인
+	public int acceptClub(ClubMemberVO vo);
+	
 	//현재 가입자수 조회
 	public int countMember(int clubId);
 	

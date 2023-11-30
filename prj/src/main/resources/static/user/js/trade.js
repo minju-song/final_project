@@ -1,24 +1,22 @@
-
-
-let select = document.getElementById('searchTitle');
-
-
-
-console.log(joinClub);
-
+/**
+ * trade.js
+ */
+ 
+ let select = document.getElementById('searchTitle');
+console.log(select);
 
 //셀렉트 검색 관련
 let search = '';
-let val = 'clubname';
+let val = 'title';
 
 //넘어오는 데이터 사이즈
-//let totalCount = [[${ result.list.size() }]];
-// console.log(totalCount);
+/*let totalCount = [[${ tradeList.list.size() }]];
+console.log(totalCount);
 let pageSize = 6;
-let pageNumber = 1;
+let pageNumber = 1;*/
 
 //필요한 총 페이지
-let _totalPages = Math.floor(totalCount / 6);
+/*let _totalPages = Math.floor(totalCount / 6);
 
 if (totalCount % 6 > 0) {
     _totalPages++;
@@ -134,7 +132,7 @@ function drawClub(clubArr) {
         // <img alt="네이버로그인" th:src="@{/user/images/login/icon_naver.png}">
         let divImg = document.createElement('div');
         let img = document.createElement('img');
-        img.setAttribute("src", "images/" + clubArr[i].clubProfileImg);
+        img.setAttribute("src", "/user/images/club/" + clubArr[i].clubProfileImg);
         img.style.width = '100px';
         img.style.height = '100px';
         divImg.appendChild(img);
@@ -153,16 +151,8 @@ function drawClub(clubArr) {
             let ck = false;
             joinClub.forEach(club => {
                 if (club.clubId == clubArr[i].clubId) {
-                    if (club.joinDate == null) {
-                        btn.innerText = '승인대기';
-                        ck = true;
-                        btn.disabled = true;
-                    }
-                    else {
-                        btn.innerText = '내 모임';
-                        ck = true;
-                        btn.disabled = true;
-                    }
+                    btn.innerText = '내 모임';
+                    ck = true;
                 }
             });
 
@@ -177,7 +167,7 @@ function drawClub(clubArr) {
                 }
                 else {
                     btn.innerText = '가입신청';
-                    btn.onclick = function () { submit(clubArr[i].clubName, clubArr[i].clubId, clubArr[i].clubLeader) }
+                    btn.onclick = function () { submit(clubArr[i].clubId) }
                 }
             }
         }
@@ -189,7 +179,7 @@ function drawClub(clubArr) {
             }
             else {
                 btn.innerText = '가입신청';
-                btn.onclick = function () { submit(clubArr[i].clubName, clubArr[i].clubId, clubArr[i].clubLeader) };
+                btn.onclick = function () { submit(clubArr[i].clubId, clubArr[i].clubLeader) };
             }
         }
 
@@ -213,7 +203,7 @@ function drawClub(clubArr) {
 function join(clubId) {
     console.log(clubId + '번 클럽 즉시 가입');
     if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
-    if (userId == "null") {
+    if ([[${ result.userId }]] == "null") {
         location.href = "/loginForm";
     }
     else {
@@ -256,15 +246,11 @@ function join(clubId) {
 }
 
 //클럽 가입 이벤트
-function submit(clubName, clubId, clubLeader) {
-    console.log(clubName + ' ' + clubId + ' ' + clubLeader);
+function submit(clubId, clubLeader) {
     console.log(clubId + '번 클럽 가입 신청');
-    event.stopPropagation();
-    if (event.stopPropagation) event.stopPropagation();
-    else event.cancelBubble = true;
+    if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
 
-    // let clubVO = { clubName, clubId, clubLeader };
-    if (userId == "null") location.href = "/loginForm";
+    if ([[${ result.userId }]] == "null") location.href = "/loginForm";
     else {
         Swal.fire({
             title: "클럽에 가입 신청을 하시겠습니까?",
@@ -286,25 +272,12 @@ function submit(clubName, clubId, clubLeader) {
                     showCancelButton: true
                 }).then((text) => {
                     if (text) {
-                        let clubVO = { clubName: clubName, clubId: clubId, clubLeader: clubLeader, text: text.value };
-                        console.log(JSON.stringify(clubVO) + '>>전송객체');
-                        fetch('/sendmail/requestclub', {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": `application/json`, // application/json 타입 선언
-                            },
-                            body: JSON.stringify(clubVO)
-                        })
-                            .then(result => console.log(result))
-                            .then(result => {
-                                Swal.fire({
-                                    title: "신청 완료",
-                                    text: "신청이 완료되었습니다.",
-                                    icon: "success"
-                                }).then((result) => {
-                                    location.reload();
-                                })
-                            }).catch(err => console.log(err));
+                        // fetch()
+                        Swal.fire({
+                            title: "신청 완료",
+                            text: "신청이 완료되었습니다.",
+                            icon: "success"
+                        });
                     }
                 });
             }
@@ -313,7 +286,7 @@ function submit(clubName, clubId, clubLeader) {
 }
 
 function test(clubId) {
-    if (userId == "null") location.href = "/loginForm";
+    if ([[${ result.userId }]] == "null") location.href = "/loginForm";
 
     location.href = '/member/club/clubPage?clubId=' + clubId;
 }
@@ -333,6 +306,4 @@ let search_input = document.getElementById('search_input');
 search_input.addEventListener('keyup', function () {
     search = search_input.value;
     callList(1, search);
-})
-
-
+})*/

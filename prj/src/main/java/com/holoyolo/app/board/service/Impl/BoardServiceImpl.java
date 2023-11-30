@@ -16,12 +16,15 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardMapper boardMapper;
 
+	// 게시판 별전체조회
 	@Override
-	public List<BoardVO> BoardList() {
-
-		return boardMapper.BoardList();
+	public List<BoardVO> BoardList(String req) {
+		BoardVO vo = new BoardVO();
+		vo.setMenuType(req);
+		return boardMapper.BoardList(vo);
 	}
 
+//단건조회
 	@Override
 	public BoardVO selectBoard(BoardVO vo) {
 
@@ -32,14 +35,14 @@ public class BoardServiceImpl implements BoardService {
 	public int insertBoard(JSONObject req, String userId) {
 		System.out.println(req);
 		System.out.println(userId);
-		
+
 		BoardVO vo = new BoardVO();
-		vo.setContent((String)req.get("content"));
-		vo.setTitle((String)req.get("title"));
+		vo.setContent((String) req.get("content"));
+		vo.setTitle((String) req.get("title"));
 		vo.setMenuType((String) req.get("menuType"));
 		vo.setMemberId(userId);
-		
-		return  boardMapper.insertBoard(vo);
+
+		return boardMapper.insertBoard(vo);
 	}
 
 	@Override
@@ -54,4 +57,24 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.deleteBoard(vo);
 	}
 
+	@Override
+	public List<BoardVO> searchBoardPaged(JSONObject req) {
+		int start = (int) req.get("start");
+		int end = (int) req.get("end");
+		String menuType = (String)req.get("type");
+		System.out.println(menuType);
+		List<BoardVO> allList = BoardList(menuType);
+		return allList.subList(start, Math.min(end, allList.size()));
+	}
+
+	@Override
+	public int getTotalBoardRecords(JSONObject req) {
+		
+		BoardVO vo = new BoardVO();
+		vo.setMenuType((String)req.get("type"));
+		System.out.println(vo);
+		
+		
+		return boardMapper.getTotalBoardRecords(vo);
+	}
 }

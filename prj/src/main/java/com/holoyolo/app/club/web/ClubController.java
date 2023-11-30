@@ -1,6 +1,7 @@
 package com.holoyolo.app.club.web;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,10 +14,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.club.service.ClubService;
 import com.holoyolo.app.club.service.ClubVO;
@@ -41,6 +42,9 @@ public class ClubController {
 	@Autowired
 	ClubBudgetService clubBudgetService;
 	
+	@Autowired
+	AttachmentService attachmentService;
+	
 
 	@GetMapping("/admin/club")
 	public String selectClubList(Model model) {
@@ -50,6 +54,7 @@ public class ClubController {
 		}
 
 
+	//클럽목록으로 이동
 	@GetMapping("/clublist")
 	public String clubListPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
 
@@ -69,6 +74,7 @@ public class ClubController {
 		return "user/club/clublist";
 	}
 	
+	//클럽리스트 페이징
 	@GetMapping("clubPaging")
 	@ResponseBody
 	public Map<String, Object> clubPaging(ClubVO vo) {
@@ -78,6 +84,7 @@ public class ClubController {
 
 	}
 	
+	//클럽페이징을 위한 카운트
 	@GetMapping("clubCnt")
 	@ResponseBody
 	public Map<String, Object> clubCnt(ClubVO vo) {
@@ -110,5 +117,33 @@ public class ClubController {
 		Map<String, Object> map = clubService.getClubPage(vo);
 		model.addAttribute("result", map);
 		return "user/club/clubPage";
+	}
+	
+	
+	@GetMapping("/member/club/clubInsert")
+	public String clubInsertForm(Model model) {
+		
+		model.addAttribute("ClubVO", new ClubVO());
+		return "user/club/clubInsert";
+	}
+	
+	@PostMapping("/member/clubInsert")
+	@ResponseBody
+	public Map<String, Object> clubInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubVO vo) throws IllegalStateException, IOException {
+		System.out.println("넘어온 객체 : "+vo);
+		
+		 String fileName = attachmentService.uploadImage(vo.getImg(), "clubProfile");
+//		String path = ""
+		 vo.setClubProfileImg(fileName);
+		 vo.setClubLeader(principalDetails.getUsername());
+		 System.out.println("돌아온 파일이름 : " + fileName);
+		 
+		 if(clubService.insertClub(vo) > 0) {
+			 System.out.println("성공");
+		 }
+		 else {
+			 System.out.println("실패");
+		 }
+		return null;
 	}
 }

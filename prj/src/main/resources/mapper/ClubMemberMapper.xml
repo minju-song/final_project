@@ -17,6 +17,20 @@
   		VALUES (sysdate, null, #{clubId}, #{memberId})
   	</insert>
   	
+  	<!-- 클럽 가입 신청 -->
+  	<insert id="reqClub" parameterType="ClubMemberVO">
+  		INSERT into club_member 
+  		VALUES (null, null, #{clubId}, #{memberId})
+  	</insert>
+  	
+  	<!-- 클럽 가입승인 -->
+  	<update id="acceptClub" parameterType="ClubMemberVO">
+  		UPDATE club_member
+  		SET join_date = sysdate
+  		WHERE club_id = #{clubId}
+  		AND member_id = #{memberId}
+  	</update>
+  	
   	<!-- 클럽 가입자수 (탈퇴회원 제외) -->
   	<select id="countMember" parameterType="ClubMemberVO" resultType="int">
   		SELECT count(*) 

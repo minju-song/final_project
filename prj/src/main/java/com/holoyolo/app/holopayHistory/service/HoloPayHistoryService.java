@@ -24,9 +24,9 @@ public interface HoloPayHistoryService {
 	//기간별 조회
 	public List<HoloPayHistoryVO> searchPay(String str, HoloPayHistoryVO vo);
 	
-	 // 추가: 페이징된 내역 조회
+	 // 페이징된 내역 조회
 	  public List<HoloPayHistoryVO> searchPayPaged(String str, HoloPayHistoryVO vo, int start, int end);
 
-	  // 추가: 전체 레코드 수 조회
+	  //전체 레코드 수 조회
 	  public int getTotalRecords(String str, HoloPayHistoryVO vo);
 }

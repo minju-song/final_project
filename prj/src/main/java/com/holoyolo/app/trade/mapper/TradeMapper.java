@@ -19,4 +19,13 @@ public interface TradeMapper {
 	
 	//삭제
 	public int deleteTrade(int tradeId);
+	
+	//중고거래 목록 페이징
+	public List<TradeVO> getTradeList(TradeVO tradeVO);
+	
+	//중고거래 갯수
+	public int cntData(TradeVO tradeVO);
+	
+	//중고거래 목록
+	public List<TradeVO> getAllTradeList();
 }

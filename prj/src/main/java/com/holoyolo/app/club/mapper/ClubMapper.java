@@ -37,5 +37,8 @@ public interface ClubMapper {
 	
 	//알뜰모임 상세보기
 	public ClubVO getClub(ClubVO vo);
+	
+	//클럽생성
+	public int insertClub(ClubVO vo);
 
 }

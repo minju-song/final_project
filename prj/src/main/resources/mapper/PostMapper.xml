@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.holoyolo.app.editor.mapper.PostMapper">
+
+	<select id="selectAllPost" resultType="PostVO">
+		SELECT ROWNUM, T.*
+		FROM (SELECT *
+		 	  FROM board
+		 	  WHERE menu_type = #{menuType}
+		 	  ORDER BY board_Id) T
+		ORDER BY 1
+	</select>
+	
+	<select id="selectPostInfo" resultType="PostVO">
+			SELECT * 
+			FROM BOARD
+			WHERE BOARD_ID= #{boardId}
+	</select>
+	
+	<insert id="insertPost" parameterType="PostVO">
+		<selectKey keyColumn="board_id" keyProperty="boardId"  resultType="int"  order="BEFORE">
+	  		SELECT NVL(MAX(board_id),0) + 1
+			FROM board
+	  	</selectKey>
+		INSERT INTO BOARD(
+							BOARD_ID
+							, MENU_TYPE
+							, TITLE
+							, CONTENT
+							, WRITE_DATE
+							, UPDATE_DATE
+							, VIEWS
+							, MEMBER_ID
+							, CLUB_ID
+						)
+				 VALUES (
+				 			#{boardId}
+				 			, #{menuType}
+				 			, #{title}
+				 			, #{content}
+				 			, sysdate
+				 			, null
+				 			, 0
+				 			,#{memberId}
+				 			, null
+				 		)
+	</insert>
+	
+	<update id="updatePost" parameterType="PostVO">
+		UPDATE board
+		<set>
+			<if test="title != null">title = #{title},</if>
+			<if test="content != null">content = #{content},</if>
+			<if test="views != null">views = #{views},</if>
+			update_date = sysdate
+		</set>
+		WHERE board_id = #{boardId}
+	</update>
+	
+	<delete id="deletePost" parameterType="PostVO">
+		DELETE FROM board
+		WHERE board_id = #{boardId}
+	</delete>
+
+</mapper>
+

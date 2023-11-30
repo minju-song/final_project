@@ -22,9 +22,9 @@
 					전체문의 <span id="initQuestionCount" style="color: skyblue"></span>
 				</h5>
 				<div class="ps-4 pb-4 demo-inline-spacing"aria-label="Basic example">
-					<button name="totalQuestionCount" type="button" class="btn btn-outline-primary">전체</button>
+					<button id="initQuestionCount" name="totalQuestionCount" type="button" class="btn btn-outline-primary">전체</button>
 					<button id="pendingQuestionCount" name="pendingQuestionCount" type="button" class="btn btn-outline-primary">
-						답변대기</buttonid="initQuestionCount">
+						답변대기</button>
 					<button id="completedQuestionCount" name="completedQuestionCount" type="button" class="btn btn-outline-primary">
 						답변완료</button>
 				</div>
@@ -47,7 +47,18 @@
 										class="fab fa-angular fa-lg text-danger me-3"></i> <strong>1</strong></td>
 									<td th:text="${list.title}"></td>
 									<td th:text="${list.memberId}"></td>
-									<td><span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span></td>
+									<td>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+										<span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span>
+									</td>
 									<td th:text="${#dates.format(list.writeDate, 'yyyy-MM-dd')}"></td>
 									<td><span class="badge bg-label-primary me-1" th:text="${list.questionYn}"></span></td>
 									<td>

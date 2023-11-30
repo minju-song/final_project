@@ -27,4 +27,11 @@ public class TradeVO {
 	private int longitude;
 	private String buyerId;
 	private String sellerId;
+	
+	//페이징
+	private int page;
+	//검색어
+	private String search;
+	//검색주제
+	private String searchTitle;
 }
