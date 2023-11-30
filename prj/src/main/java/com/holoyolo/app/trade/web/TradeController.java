@@ -29,7 +29,7 @@ public class TradeController {
 	public String tradeList(Model model) {
 		Map<String, Object> map = tradeService.tradeListPage();
 		model.addAttribute("tradeList", map);
-		System.out.println(map.get(0));
+		System.out.println(map);
 		return "user/trade/tradeList";
 	}
 	

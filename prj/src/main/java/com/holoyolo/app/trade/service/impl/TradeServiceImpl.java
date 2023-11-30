@@ -92,7 +92,7 @@ public class TradeServiceImpl implements TradeService {
 	public Map<String, Object> tradeListPage() {
 		Map<String, Object> map = new HashMap<>();
 		
-		List<TradeVO> list = tradeMapper.getAllTradeList();
+		List<TradeVO> list = tradeMapper.selectTradeList();
 		map.put("list", list);
 		
 		return map;
