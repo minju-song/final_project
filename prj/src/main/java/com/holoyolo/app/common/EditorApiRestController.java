@@ -9,29 +9,40 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.editor.PostService;
+import com.holoyolo.app.editor.PostVO;
+
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping("/tui-editor")
-public class EditorFileApiController {
+@RequiredArgsConstructor
+public class EditorApiRestController {
 	
 	// 파일을 업로드할 디렉터리 경로
 	@Value("${file.upload.path}")
     private String uploadDir;
 
-    /**
+	@Autowired
+    private final PostService postService;
+	
+	
+	/**
      * 에디터에서 이미지를 업로드했을 때 'blob'으로 넘어오는 File 객체를 이용해서 디스크에 파일을 저장합니다.
      * @param image 파일 객체
      * @return 업로드된 파일명
      */
-    @PostMapping("/image-upload")
+    @PostMapping("/tui-editor/image-upload")
     public String uploadEditorImage(@RequestParam MultipartFile image) {
     	
         if (image.isEmpty()) {
@@ -107,7 +118,7 @@ public class EditorFileApiController {
      * @param filename 디스크에 업로드된 파일명
      * @return image byte array
      */
-    @GetMapping(value = "/image-print", produces = { MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
+    @GetMapping(value = "/tui-editor/image-print", produces = { MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
     public byte[] printEditorImage(@RequestParam final String filename) {
         // 업로드된 파일의 전체 경로
         String fileFullPath = Paths.get(uploadDir, filename).toString();
@@ -128,4 +139,25 @@ public class EditorFileApiController {
             throw new RuntimeException(e);
         }
     }
+	
+    /**
+     * 에디터 게시글 저장
+     * @param params
+     * @return
+     */
+    @PostMapping("/api/posts")
+    public int insertPost(@RequestBody final PostVO params) {
+        return postService.insertPost(params);
+    }
+
+    /**
+     * 에디터 게시글 상세조회
+     * @param boardId
+     * @return
+     */
+    @GetMapping("/api/posts/{boardId}")
+    public PostVO selectPostInfo(@PathVariable final int boardId) {
+        return postService.selectPostInfo(boardId);
+    }
+
 }
