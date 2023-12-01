@@ -7,7 +7,7 @@ import com.holoyolo.app.board.service.BoardVO;
 public interface BoardMapper {
 	public List<BoardVO> BoardList(BoardVO vo);
 
-	public BoardVO selectBoard(BoardVO vo);
+	public BoardVO selectBoard(int boardId);
 
 	public int insertBoard(BoardVO vo);
 
@@ -18,4 +18,6 @@ public interface BoardMapper {
 	public int getTotalBoardRecords(BoardVO vo);
 
 	public List<BoardVO> searchBoardPaged(int start, int end);
+
+	public int addView(BoardVO vo);
 }

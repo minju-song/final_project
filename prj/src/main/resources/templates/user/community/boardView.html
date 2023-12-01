@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <!-- TUI 에디터 CSS CDN -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <style>
+        body {
+            height: 100%;
+        }
+
+        .editor_container {
+            font-family: arial;
+            font-size: 22px;
+            margin: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: solid 1px #ccc;
+        }
+
+        #editorContent {
+            width: 100%;
+            height: 100%;
+            max-height: 200px;
+            overflow: scroll;
+
+        }
+
+        img {
+            max-width: 350px;
+        }
+
+        #viewer {
+            width: 80%;
+            box-sizing: border-box;
+            min-height: 350px;
+        }
+
+        .boardData {
+            text-align: center;
+            color: rgb(110, 101, 101);
+            margin: 0;
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        #boardLikeBtn {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body layout:fragment="content">
+
+
+    <div class="container">
+
+        <h3>정보</h3>
+        <div id="updateDelBtnDiv row" class="align-right">
+            <th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
+                <button type="button" class="btns save btn btn-primary"
+                    th:onclick="'location.href=\'/member/updateview?boardId='+ @{${board.boardId}} + '\''">수정</button>
+                <button type="button" class="btns save btn btn-danger" onclick="delBtn();">삭제</button>
+                <input type="hidden" id="memberId" name="memberId"
+                    th:value="${#authentication.principal.memberVO.memberId}">
+            </th:block>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <span id="title"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-4">
+                        <p class="boardData">작성자 : </p>
+                    </div>
+                    <div class="col-8">
+                        <span class="form-control boardData " id="writer"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-4">
+                        <p class="boardData">날짜 : </p>
+                    </div>
+                    <div class="col-8">
+                        <span class="form-control boardData" id="writeDate"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="boardData ">조회수 : </p>
+                    </div>
+                    <div class="col-4">
+                        <span type="text" class="form-control boardData boardDataNum" id="views" readonly></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="boardData">좋아요 : </p>
+                    </div>
+                    <div class="col-4">
+                        <span class="form-control boardData boardDataNum" id="boardLike"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="editor_container col-12">
+            <!--/* 에디터 콘텐츠 렌더링 영역 */-->
+            <div id="viewer"></div>
+            <button class="btn btn-primary" type="button" id="boardLikeBtn">좋아요버튼 (임시)</button>
+        </div>
+        <a href="#" class="btn btn-danger">신고</a>
+        <a href="/infoBoard" class="btn btn-secondary">뒤로 가기</a>
+    </div>
+
+    <!-- TUI 에디터 JS CDN -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script th:src="@{/user/js/community.js}"></script>
+    <script>
+
+        window.onload = async () => {
+            findPost();
+        }
+
+
+        // 게시글 상세정보 조회
+        async function findPost() {
+
+            // 1. URL 쿼리 스트링에서 게시글 번호 조회
+            const searchParams = new URLSearchParams(location.search);
+            const postId = Number(searchParams.get('boardId'));
+
+            // 2. API 호출
+            const url = `/api/board/${postId}`;
+            const response = await fetch(url);
+            const post = await response.json();
+
+            console.log(post)
+            console.log(post.title)
+            // 3. 에디터 콘텐츠 렌더링
+            const viewer = toastui.Editor.factory({
+                el: document.querySelector('#viewer'),
+                viewer: true,
+                initialValue: post.content
+            });
+
+            document.getElementById('title').innerText = post.title;
+            document.getElementById('writer').innerText = post.nickname;
+            document.getElementById('boardLike').innerText = post.likeCount;
+            document.getElementById('writeDate').innerText = formatDate(post.writeDate);
+            document.getElementById('views').innerText = post.views;
+
+        }
+        let likeBtn = document.getElementById('boardLikeBtn');
+        likeBtn.addEventListener('click', addLike)
+        function addLike() {
+            let boardId = 
+            console.log("click")
+            $.ajax({
+                type: 'GET',
+                url: '/likeCheck',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify({ "boardId": boardId }),
+                success: function (data) {
+                    console.log('성공1')
+                    // document.getElementById('boardLike').innerText = "0";
+                },
+                error: function (request, status, error) {
+                    console.error("code: " + request.status);
+                    console.error("message: " + request.responseText);
+                    console.error("error: " + error);
+                }
+            });
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -64,8 +64,8 @@ function callRechargeApi(rechargePrice) {
     url: '/apireq',
     contentType: 'application/json;charset=UTF-8',
     data: JSON.stringify(callRechargeApiInfo)
-  }).done(function (response) {
-    let data = JSON.parse(response)
+  }).done(function (data) {
+    //let data = JSON.parse(response)
     if (data.resultCode == 1) {
       viewIcon = "success"
     } else if (data.resultCode == 4) {
@@ -102,8 +102,8 @@ function callwithdrawApi() {
     url: '/withdrawapireq',
     contentType: 'application/json;charset=UTF-8',
     data: JSON.stringify(callwithdrawApiInfo)
-  }).done(function (response) {
-    let data = JSON.parse(response)
+  }).done(function (data) {
+  //  let data = JSON.parse(response)
     if (data.resultCode == 2) {
       viewIcon = "success"
     } else if (data.resultCode == 3) {
