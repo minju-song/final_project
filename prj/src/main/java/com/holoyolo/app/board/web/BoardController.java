@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.board.service.BoardService;
 import com.holoyolo.app.board.service.BoardVO;
+import com.holoyolo.app.editor.PostVO;
 
 @Controller
 public class BoardController {
@@ -44,7 +46,7 @@ public class BoardController {
 		mo.addAttribute("likeCount", 0);
 		mo.addAttribute("username", username);
 		mo.addAttribute("menu", "community");
-		return "user/community/informationList";
+		return "user/community/boardList";
 	}
 
 //글 등록
@@ -59,9 +61,10 @@ public class BoardController {
 	// 글 등록 처리
 	@PostMapping("/insertPostreq")
 	@ResponseBody
-	public String savePost(@AuthenticationPrincipal PrincipalDetails prd, @RequestBody JSONObject req) {
+	public String savePost(@AuthenticationPrincipal PrincipalDetails prd, @RequestBody BoardVO vo) {
 		String userId = (String) prd.getUsername();
-		boardService.insertBoard(req, userId);
+		vo.setMemberId(userId);
+		boardService.insertBoard(vo);
 		return "/infoBoard";
 	}
 
@@ -76,6 +79,7 @@ public class BoardController {
 		result.put("totalRecords", totalRecords);
 		return result;
 	}
+
 //상세보기
 	@GetMapping("/member/BoardInfo")
 	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model mo) {
@@ -85,15 +89,26 @@ public class BoardController {
 			loginId = principalDetails.getUsername();
 		}
 		BoardVO vo = boardService.selectBoard(boardId);
+		mo.addAttribute("menu", "community");
 		mo.addAttribute("board", vo);
 		mo.addAttribute("loginId", loginId);
-		return "/user/community/Postinfo";
+		return "/user/community/boardView";
 
 	}
 
-	@GetMapping("/chatBoard")
-	public String chatBoard(Model mo) {
-		mo.addAttribute("menu", "community");
-		return "user/community/chatList";
+	// 수정
+	@GetMapping("/member/updateview")
+	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model model) {
+		String loginId = "not found";
+
+		if (principalDetails != null) {
+			loginId = principalDetails.getUsername();
+		}
+
+		BoardVO board = boardService.selectBoard(boardId);
+		model.addAttribute("board", board);
+		model.addAttribute("loginId", loginId);
+		return "/user/community/postUpdate";
 	}
+
 }

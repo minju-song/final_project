@@ -40,8 +40,9 @@ public class MemberFinanceInfoServiceImpl implements MemberFinanceInfoService {
 
 	@Override
 	public MemberFinanceInfoVO selectMemberFinanceInfo(MemberFinanceInfoVO vo) {
-		
-		return memberFinanceInfoMapper.selectMemberFinanceInfo(vo);
+		vo = memberFinanceInfoMapper.selectMemberFinanceInfo(vo);
+		System.out.println(vo);
+		return vo;
 	}
 
 
