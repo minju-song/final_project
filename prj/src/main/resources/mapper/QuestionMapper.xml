@@ -5,33 +5,30 @@
   
   <mapper namespace="com.holoyolo.app.question.mapper.QuestionMapper">
   	
-  	<!--전체조회-->
-  	<select id="selectQuestionAll" resultType="QuestionVO">
-		SELECT 
-		    q.question_id, 
-		    q.title, 
-		    q.member_id, 
-		    q.write_date,
-		    CASE 
-		        WHEN q.question_type = 'MA1' THEN '가계부'
-		        WHEN q.question_type = 'MA2' THEN '중고거래'
-		        WHEN q.question_type = 'MA3' THEN '알뜰모임'
-		        WHEN q.question_type = 'MA4' THEN '커뮤니티'
-		        WHEN q.question_type = 'MA5' THEN '메모'
-		        WHEN q.question_type = 'MA6' THEN '홀로페이'
-		        WHEN q.question_type = 'MA7' THEN '포인트'
-		        WHEN q.question_type = 'MA8' THEN '기타'
-		    END AS question_type,
-		    CASE 
-		        WHEN a.answer_id IS NULL THEN '답변대기'
-		        ELSE '답변완료'
-		    END AS question_yn
-		FROM question q
-			LEFT JOIN answer a ON q.question_id = a.question_id
-		WHERE a.answer_id IS NULL OR a.answer_id
-			= (SELECT MIN(answer_id) FROM answer WHERE question_id = q.question_id)
-		ORDER BY q.question_id DESC
-  	</select>
+	<select id="selectQuestionTotalList" resultType="QuestionVO">
+			SELECT * FROM 
+		    (SELECT A.* , ROWNUM rn FROM (
+		SELECT * FROM (        
+		     SELECT 
+				    q.question_id, 
+				    q.title, 
+				    q.member_id, 
+				    q.write_date,
+				    fn_get_code_name(question_type) AS question_type,
+				    CASE 
+				        WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id  ) = 0 THEN '답변대기'
+				        ELSE '답변완료'
+				    END AS question_yn
+				FROM question q
+		  ) question
+	  <where>
+			<if test="questionYn != null and questionYn != '' ">
+			 question_yn = #{questionYn}
+		  	</if>
+	  </where>
+	  	ORDER BY question_id DESC
+	  	) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
+	</select>
   	
   	<!--단건조회-->
   	<select id="selectQuestionInfo" resultType="QuestionVO">
@@ -47,122 +44,46 @@
   	
   	<!-- 전체 개수 조회 -->
 	<select id="selectQuestionTotalCount" resultType="int">
-	    SELECT COUNT(*) FROM question
-	</select>
 	
-	<!-- 답변대기 개수 조회 -->
-	<select id="selectQuestionPendingCount" resultType="int">
-	    SELECT COUNT(CASE WHEN a.answer_id IS NULL THEN 1 END) AS question_yn
-	    FROM question q
-	        LEFT JOIN answer a 
-	        	ON q.question_id = a.question_id
+	    SELECT COUNT(*) FROM (        
+		     SELECT 
+				    q.question_id, 
+				    q.title, 
+				    q.member_id, 
+				    q.write_date,
+				    fn_get_code_name(question_type) AS question_type,
+				    CASE 
+				        WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id  ) = 0 THEN '답변대기'
+				        ELSE '답변완료'
+				    END AS question_yn
+				FROM question q
+		  ) question
+	  <where>
+			<if test="questionYn != null and questionYn != '' ">
+			 question_yn = #{questionYn}
+		  	</if>
+	  </where>
 	</select>
-	
-	<!-- 답변완료 개수 조회 -->
-	<select id="selectQuestionCompletedCount" resultType="int">
-	    SELECT COUNT(CASE WHEN a.answer_id IS NOT NULL 
-	        AND a.answer_id = 
-	        	(SELECT MIN(answer_id) 
-	        	FROM answer 
-	        	WHERE question_id = q.question_id) 
-	        		THEN 1 ELSE NULL END) AS count
-	    FROM question q
-	    	LEFT JOIN answer a 
-	    		ON q.question_id = a.question_id
-	    WHERE a.answer_id IS NULL 
-	    	OR a.answer_id = 
-	    		(SELECT MIN(answer_id) 
-	    		FROM answer 
-	    		WHERE question_id = q.question_id)
+	<select id="selectCount" resultType="questionVO">
+		SELECT * FROM 
+		    (SELECT A.* , ROWNUM rn FROM (
+		        SELECT * FROM (  
+		            SELECT 
+		            q.question_id, 
+		            q.title, 
+		            q.member_id, 
+		            q.write_date,
+		            fn_get_code_name(question_type) AS question_type,
+		                CASE 
+		                    WHEN ( SELECT COUNT(*) 
+		                           FROM answer a 
+		                           WHERE a.question_id = q.question_id  ) = 0 
+		                    THEN '답변대기'
+		                    ELSE '답변완료'
+		                END AS question_yn
+		            FROM question q ) question
+		         ORDER BY question_id DESC
+		) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
 	</select>
-	
-	<select id="selectQuestionTotalList" resultType="QuestionVO">
-		SELECT 
-		    q.question_id, 
-		    q.title, 
-		    q.member_id, 
-		    q.write_date,
-		    CASE 
-		        WHEN q.question_type = 'MA1' THEN '가계부'
-		        WHEN q.question_type = 'MA2' THEN '중고거래'
-		        WHEN q.question_type = 'MA3' THEN '알뜰모임'
-		        WHEN q.question_type = 'MA4' THEN '커뮤니티'
-		        WHEN q.question_type = 'MA5' THEN '메모'
-		        WHEN q.question_type = 'MA6' THEN '홀로페이'
-		        WHEN q.question_type = 'MA7' THEN '포인트'
-		        WHEN q.question_type = 'MA8' THEN '기타'
-		    END AS question_type,
-		    CASE 
-		        WHEN a.answer_id IS NULL THEN '답변대기'
-		        ELSE '답변완료'
-		    END AS question_yn
-		FROM question q
-		    LEFT JOIN answer a 
-		         ON q.question_id = a.question_id
-		WHERE a.answer_id IS NULL OR a.answer_id = 
-		    (SELECT MIN(answer_id) 
-		     FROM answer 
-		     WHERE question_id = q.question_id)
-		ORDER BY q.question_id DESC
-	</select>
-	<select id="selectQuestionPendingList" resultType="QuestionVO">
-		SELECT 
-		    q.question_id, 
-		    q.title, 
-		    q.member_id, 
-		    q.write_date,
-		    CASE 
-		        WHEN q.question_type = 'MA1' THEN '가계부'
-		        WHEN q.question_type = 'MA2' THEN '중고거래'
-		        WHEN q.question_type = 'MA3' THEN '알뜰모임'
-		        WHEN q.question_type = 'MA4' THEN '커뮤니티'
-		        WHEN q.question_type = 'MA5' THEN '메모'
-		        WHEN q.question_type = 'MA6' THEN '홀로페이'
-		        WHEN q.question_type = 'MA7' THEN '포인트'
-		        WHEN q.question_type = 'MA8' THEN '기타'
-		    END AS question_type,
-		    '답변대기' AS question_yn
-		FROM question q
-		    LEFT JOIN answer a 
-		         ON q.question_id = a.question_id
-		WHERE 
-		    (a.answer_id IS NULL 
-		        AND q.question_id NOT IN 
-		            (SELECT question_id 
-		             FROM answer 
-		             WHERE answer_id IS NOT NULL))
-		    OR a.answer_id IS NULL
-		ORDER BY q.question_id DESC
-	</select>
-	
-	<select id="selectQuestionCompletedList" resultType="QuestionVO">
-		SELECT 
-		    q.question_id, 
-		    q.title, 
-		    q.member_id, 
-		    q.write_date,
-		    CASE 
-		        WHEN q.question_type = 'MA1' THEN '가계부'
-		        WHEN q.question_type = 'MA2' THEN '중고거래'
-		        WHEN q.question_type = 'MA3' THEN '알뜰모임'
-		        WHEN q.question_type = 'MA4' THEN '커뮤니티'
-		        WHEN q.question_type = 'MA5' THEN '메모'
-		        WHEN q.question_type = 'MA6' THEN '홀로페이'
-		        WHEN q.question_type = 'MA7' THEN '포인트'
-		        WHEN q.question_type = 'MA8' THEN '기타'
-		    END AS question_type,
-		    CASE 
-		        WHEN a.answer_id IS NOT NULL THEN '답변완료'
-		    END AS question_yn
-		FROM question q
-		    LEFT JOIN answer a 
-		         ON q.question_id = a.question_id
-		WHERE a.answer_id IS NOT NULL 
-		    AND a.answer_id = 
-		        (SELECT MIN(answer_id) 
-		         FROM answer 
-		         WHERE question_id = q.question_id)
-		ORDER BY q.question_id DESC
-	</select>
-  
+
   </mapper>

@@ -22,4 +22,9 @@ public class QuestionVO {
 	private Date updateDate;
 	private String questionYn;
 	private String memberId;
+	
+	// 페이징
+	private int page=1;
+	private int rn;
+	private int pageUnit=5;
 }
