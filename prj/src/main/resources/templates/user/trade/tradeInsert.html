@@ -6,31 +6,86 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+<style>
+	.card{
+		border: none;
+		box-shadow: none;
+	}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="contact">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="review_form_container">
-							<div class="review_form_title">get in touch</div>
-							<div class="review_form_content">
-								<form action="#" id="review_form" class="review_form">
-									<div class="d-flex flex-md-row flex-column align-items-start justify-content-between">
-										<input type="text" class="review_form_input" placeholder="Name" required="required">
-										<input type="email" class="review_form_input" placeholder="E-mail" required="required">
-										<input type="text" class="review_form_input" placeholder="Subject">
-									</div>
-									<textarea class="review_form_text" name="review_form_text" placeholder="Message"></textarea>
-									<button type="submit" class="review_form_button">send message</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<div class="card">
+            <div class="card-body">
+              <form class="row g-3">
+                <div class="col-md-12 writeInput">
+                  <label for="title" class="form-label">제목<span class="star">*</span></label>
+                  <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
+                </div>
+                <div class="col-md-3 writeInput">
+                  <label for="tradeCategory" class="form-label">상품카테고리<span class="star">*</span></label>
+                  <select id="tradeCategory" class="form-select">
+                    <option selected value="">선택하세요</option>
+					<option value="TB1">생활용품</option>
+                    <option value="TB2">의류</option>
+                    <option value="TB3">식품</option>
+                    <option value="TB4">반려용품</option>
+                    <option value="TB5">도서</option>
+                    <option value="TB6">문구</option>
+                    <option value="TB7">가구</option>
+                    <option value="TB8">기타</option>
+                  </select>
+                </div>
+                <div class="col-md-3 writeInput">
+                  <label for="tradeType" class="form-label">거래방식<span class="star">*</span></label>
+                  <select id="tradeType" class="form-select">
+					<option value="TA1">직거래</option>
+                    <option value="TA2">비대면</option>
+                  </select>
+                </div>
+                <div class="col-md-3 writeInput">
+                  <label for="paymentType" class="form-label">결제방식<span class="star">*</span></label>
+                  <select id="paymentType" class="form-select">
+                    <option value="TC1">만나서 결제</option>
+                    <option value="TC2">홀로페이</option>
+                  </select>
+                </div>
+                <div class="col-md-3 writeInput">
+                  <label for="price" class="form-label">금액</label>
+                  <input type="number" class="form-control" id="price"><span class="priceUnit">원</span>
+                </div>
+                <div class="col-12 writeInput">
+                   <label for="description" class="form-label">상품 설명<span class="star">*</span></label>
+                   <textarea class="form-control" id="description" style="height: 300px;"></textarea>
+                </div>
+                <div class="col-12 writeInput">
+	                <div class="input-group mb-3">
+	                  <span class="input-group-text" id="openKakao">오픈 카카오톡 주소<span class="star">*</span></span>
+	                  <input type="text" class="form-control" id="openKakao" aria-describedby="basic-addon3">
+	                </div>
+                </div>
+                <div class="col-md-12 writeInput">
+                  <label for="tradeImg" class="form-label">상품사진<span class="star">*</span></label>
+                  <div>
+	                  <img class="tradeImgPlus" id="tradeImg" th:src="@{/user/images/trade/photo.png}">
+					  <input class="real_file" type="file" />
+				  </div>
+                  
+                </div>
+                
+                <div class="col-md-3 writeInput">
+                  <div><label for="tradePlace" class="form-label">거래희망장소<span class="star">*</span></label></div>
+                  <div class="placeSelectButton" id="tradePlace">
+					<p>장소 선택 ></p>
+				  </div>
+                </div>
+                <div class="col-md-12 writeInput buttonFrom">
+                  <button type="reset" class="btn btn-secondary">취소</button>
+                  <button type="submit" class="btn btn-primary">등록</button>
+                </div>
+              </form>
+            </div>
+          </div>
 	</div>
 </body>
 </html>

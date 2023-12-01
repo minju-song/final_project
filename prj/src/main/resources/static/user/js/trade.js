@@ -94,7 +94,7 @@ function drawTrade(tradeArr){
 		
 		let img = document.createElement('img');
 		img.classList.add('card-img-top');
-		img.setAttribute("src", "user/images/" + "aespa.jpg");
+		img.setAttribute("src", "user/images/" + "person.jfif");
 		img.style.width = '294px';
         img.style.height = '197px';
 		divCard.appendChild(img);
