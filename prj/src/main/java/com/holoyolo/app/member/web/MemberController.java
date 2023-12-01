@@ -112,7 +112,7 @@ public class MemberController {
 	public String oauth2joinForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		MemberVO memberInfo = principalDetails.getMemberVO();
 		
-		if(memberInfo.getAddr() == null) {
+		if(memberInfo.getAddr() == null) { // 주소가 null이면 이동
 			return "redirect:/member/myInfo";
 		}
 		return "redirect:/";
@@ -148,6 +148,10 @@ public class MemberController {
 		String memberId = principalDetails.getUsername();
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
+		
+		// 개행처리
+		String nlString = System.getProperty("line.separator").toString();
+		model.addAttribute("nlString", nlString);
 		
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");

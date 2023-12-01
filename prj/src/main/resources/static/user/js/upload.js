@@ -12,6 +12,7 @@ upload.addEventListener('click', () => realUpload.click());
 realUpload.addEventListener('change', (e) => imgFileSelectHandler(e))
 
 function imgFileSelectHandler(e) {
+	
   	let files = e.target.files;
   	let reader = new FileReader();
 
@@ -21,6 +22,8 @@ function imgFileSelectHandler(e) {
   	}
   	reader.readAsDataURL(files[0]);
   	console.log(reader.readyState); //0(로드되지않음), 1(데이터로딩중), 2(모든 요청이 읽기 완료)
+  	
+  	uploadImg();
 }
 
 //파일 업로드

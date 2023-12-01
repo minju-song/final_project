@@ -4,36 +4,147 @@
 	margin: 50px auto;
 }
 
+.btn_wrap {
+	display: flex;
+	
+}
+.input_wrap {
+	
+}
+
+button {
+	cursor: pointer;
+}
+
+/* 프로필, 닉네임, 소개 영역 start */
 .input_file {
 	display: none;
 }
-
+.myinfo_btn {
+	border: none;
+	background: #09203f;
+	padding: 3px 10px;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 13px;
+}
 .upload {
-	width: 120px;
-	height: 120px;
+	width: 150px;
+	height: 150px;
 	border: 1px solid #B3B3B3;
 	border-radius: 50%;
 	background-size: cover;
 	background-position: center center;
 }
-
-.image-preview {
-	padding: 0;
-	margin: 0;
-}
-
-.image-preview li {
-	list-style: none;
-}
-
 .dp_flex {
 	display: flex;
+	gap: 35px;
+}
+#memberProfile {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-right: 20px;
+	gap: 5px;
+}
+#my_profile, #infoForm {
+	padding: 30px 60px;
+}
+#my_profile {
+	border-bottom: 1px solid #e6e6e6;
+	border-radius: 10px;
+}
+#memberIntro {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	justify-content: end;
+}
+#memberIntro .hl_input,
+#memberIntro .hl_textarea {
+	outline: none;
+	border: none;
+	background-color: transparent;
+	padding: 8px 15px;
+}
+#memberIntro #nickName {
+	font-size: 20px;
+	font-weight: 700;
+	width: 100px;
+}
+#memberIntro #memberId {
+	font-size: 15px;
+	font-weight: 700;
+}
+#memberIntro .hl_textarea {
+	width: 40vw;
+    max-width: 760px;
+	height: 100%;
+	resize: none;
+	font-size: 14px;
+	color: #353537;
+}
+#infoForm {
+	margin: 20px 0;
+}
+/* 프로필, 닉네임, 소개 영역 end */
+
+
+/* 개인정보 폼 start */
+#infoForm {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
-.position_rela {
-	position: relative;
+
+/* 개인정보 폼 end */
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+.hl_label {
+	display: flex;
+	margin-bottom: 10px;
+	align-items: center;
+}
+.hl_label .hl_title {
+	display: inline-block;
+	width: 100px;
+	font-size: 15px;
+	font-weight: 700;
 }
 
-.position_absol {
-	position: absolute;
+#infoForm input {
+	padding: 6px 13px;
+	font-size: 14px;
+	font-family: inherit;
+	box-shadow: 0 0 0 1px #f8bfbf;
+	border: none;
+	border-radius: 10px;
+	background-color: #fff5f5;
+	transition: all .3s;
 }
+
+#infoForm input::placeholder {
+  color: #ce9797;
+  font-size: 14px;
+}
+
+#infoForm input:focus {
+  outline: none;
+  box-shadow: 0 0 10px 1px #ee8c8c;
+  border: none;
+  transition: all .3s;
+}
+.addr_input_wrap {
+	gap: 10px;
+}
+
+
+
+
+
+
+
