@@ -7,30 +7,11 @@
 	<select id="selectTradeList" resultType="TradeVO">
 		SELECT trade_id
 				, title
-				, trade_category
+				, fn_get_code_name(trade_category) as trade_category
 				, trade_place
-				, trade_type
-				, promise_status
-				, write_date,
-		CASE
-			WHEN trade_type = 'TA1' THEN '직거래'
-			WHEN trade_type = 'TA2' THEN '비대면'
-		END AS trade_type,
-		CASE
-			WHEN trade_category = 'TB1' THEN '생활용품'
-			WHEN trade_category = 'TB2' THEN '의류'
-			WHEN trade_category = 'TB3' THEN '식품'
-			WHEN trade_category = 'TB4' THEN '반려용품'
-			WHEN trade_category = 'TB5' THEN '도서'
-			WHEN trade_category = 'TB6' THEN '문구'
-			WHEN trade_category = 'TB7' THEN '가구'
-			WHEN trade_category = 'TB8' THEN '기타'
-		END AS trade_category,
-		CASE
-			WHEN promise_status = 'TD1' THEN '약속대기'
-			WHEN promise_status = 'TD2' THEN '거래중'
-			WHEN promise_status = 'TD3' THEN '거래완료'
-		END AS promise_status
+				, fn_get_code_name(trade_type) as trade_type
+				, fn_get_code_name(promise_status) as promise_status
+				, write_date
 		FROM trade
 		ORDER BY trade_id
 	</select>
@@ -45,19 +26,18 @@
 		SELECT trade_id
 				, title
 				, description
-				, trade_category
+				, fn_get_code_name(trade_category) as trade_category
 				, price
 				, open_kakao
 				, trade_place
-				, trade_type
-				, payment
-				, promise_status
+				, fn_get_code_name(trade_type) as trade_type
+				, payment_type
+				, fn_get_code_name(promise_status) as promise_status
 				, views
 				, seller_id
 		FROM trade
 		WHERE trade_id = #{tradeId}
-		AND seller_id =
-		#{sellerId}
+		AND seller_id = #{sellerId}
 	</select>
 
 	<insert id="insertTrade" parameterType="TradeVO">
@@ -134,11 +114,11 @@
 	<select id="getAllTradeList" resultType="TradeVO">
 		SELECT trade_id
 				, title
-				, trade_category
+				, fn_get_code_name(trade_category) as trade_category
 				, price
 				, trade_place
-				, trade_type
-				, promise_status
+				, fn_get_code_name(trade_type) as trade_type
+				, fn_get_code_name(promise_status) as promise_status
 				, write_date
 		FROM trade
 		ORDER BY write_date	desc
@@ -152,63 +132,45 @@
 			FROM (
 				SELECT trade_id
 						, title
-						, trade_category
+						, fn_get_code_name(trade_category) as trade_category
 						, price
 						, trade_place
-						, trade_type
-						, promise_status
-						, write_date,
-				CASE
-					WHEN trade_type = 'TA1' THEN '직거래'
-					WHEN trade_type = 'TA2' THEN '비대면'
-				END AS trade_type,
-				CASE
-					WHEN trade_category = 'TB1' THEN '생활용품'
-					WHEN trade_category = 'TB2' THEN '의류'
-					WHEN trade_category = 'TB3' THEN '식품'
-					WHEN trade_category = 'TB4' THEN '반려용품'
-					WHEN trade_category = 'TB5' THEN '도서'
-					WHEN trade_category = 'TB6' THEN '문구'
-					WHEN trade_category = 'TB7' THEN '가구'
-					WHEN trade_category = 'TB8' THEN '기타'
-				END AS trade_category,
-				CASE
-					WHEN promise_status = 'TD1' THEN '약속대기'
-					WHEN promise_status = 'TD2' THEN '거래중'
-					WHEN promise_status = 'TD3' THEN '거래완료'
-				END AS promise_status
+						, fn_get_code_name(trade_type) as trade_type
+						, fn_get_code_name(promise_status) as promise_status
+						, write_date
+						, seller_id
 				FROM trade
-				<if test="search != null or search != ''">
-					<if test="searchTitle == 'title'">
-						WHERE title LIKE '%'||#{search}||'%'
-					</if>
-					<if test="searchTitle == 'tradePlace'">
-						WHERE trade_place LIKE '%'||#{search}||'%'
-					</if>
-				</if>
+				<include refid="criteria"></include>
 				ORDER BY write_date desc
 			) A
 			WHERE rownum <![CDATA[<=]]> #{page} * 6
-		) b
-		WHERE b.rn > (#{page} - 1) * 6
-		
+		) B
+		WHERE B.rn > (#{page} - 1) * 6
 	</select>
 
 	<!-- 검색 시 데이터 총 갯수 -->
 	<select id="cntData" parameterType="TradeVO" resultType="int">
 		SELECT COUNT(*)
-		<if test="search != null or search != ''">
-			<if test="searchTitle == 'title'">
-				FROM trade
-				WHERE title LIKE '%'||#{search}||'%'
-			</if>
-			<if test="searchTitle == 'tradePlace'">
-				FROM trade
-				WHERE trade_place LIKE '%'||#{search}||'%')
-			</if>
-		</if>
-		<if test="search == null or search == ''">
-			FROM trade
-		</if>
+		FROM trade
+		<include refid="criteria"></include>
 	</select>
+	
+	<sql id="criteria">		
+		<where>
+			<if test="search != null and search != ''">
+				<if test="searchTitle == 'title'">
+					AND title LIKE '%'||#{search}||'%'
+				</if>
+				<if test="searchTitle == 'tradePlace'">
+					AND trade_place LIKE '%'||#{search}||'%'
+				</if>
+			</if>
+			<if test="tradeCategory != null and tradeCategory != ''">
+				AND trade_category = #{tradeCategory}
+			</if>
+			<if test="sellCheck != null and sellCheck.equals('true')">
+				AND promise_status <![CDATA[<>]]> 'TD3'
+			</if>
+		</where>
+	</sql>
 </mapper>
