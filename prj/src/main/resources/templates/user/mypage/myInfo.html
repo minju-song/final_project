@@ -23,7 +23,7 @@
 					<div id="memberIntro">
 						<div class="input_wrap">
 							<span class="input input_wrap">
-								<span class="flex">
+								<span class="my_flex">
 									<input type="text" id="nickName" name="nickName" class="hl_input" th:value="${memberInfo.nickname}" readonly>
 									<button type="button" id="nickUpdate" class="myinfo_btn">닉네임 변경</button>
 								</span>
@@ -31,7 +31,7 @@
 						</div>
 						<div class="input_wrap">
 							<span class="input input_wrap">
-								<span class="flex">
+								<span class="my_flex">
 									<span class="hl_input" id="memberId" th:text="${memberInfo.memberId}"></span>
 								</span>
 							</span>
@@ -51,32 +51,62 @@
 		
 		<!--/* 개인정보 폼 start */-->
 		<form id="infoForm" action="/join" method="post"  class="flex-col">
+			<!--/* 이름 */-->
 			<div class="hl_label">
 				<span class="attr_name hl_title">이름</span> 
 				<input type="text" id="memberName" name="memberName" class="input" th:value="${memberInfo.memberName}">
 			</div>
+			<!--/* 휴대폰번호 */-->
 			<div class="hl_label">
 				<span class="attr_name hl_title">휴대폰번호</span>
 				<span class="input input_wrap">
-					<span class="flex">
-						<input type="tel" id="phone" name="phone" placeholder="숫자만 입력하세요" class="input">
-						<button type="button" class="btn" id="userCheck">본인인증</button>
+					<span class="my_flex">
+						<input type="tel" id="phone" name="phone" placeholder="숫자만 입력하세요" class="input" th:value="${memberInfo.phone}">
+						<button type="button" class="form_btn" id="phoneUpdate">변경하기</button>
+						<button type="button" class="form_btn dp_none" id="userCheck">본인인증</button>
+					</span>
+				</span>
+			</div>
+			<div class="hl_label" style="display: none">
+				<span class="attr_name hl_title">인증번호</span>
+				<span class="input input_wrap">
+					<span class="my_flex">
+						<input type="tel" id="phone" name="phone" placeholder="인증번호를 입력하세요" class="input">
+						<button type="button" class="form_btn" id="authNumCheck">인증하기</button>
+					</span>
+				</span>
+			</div>
+			<!--/* 비밀번호 */-->
+			<div class="hl_label">
+				<span class="attr_name hl_title">새비밀번호</span>
+				<div class="input-wrap">
+					<input type="password" class="form-control" id="password" name="password" required="required" autocomplete="off"
+						   placeholder="새로운 비밀번호를 입력해 주세요" onfocus="this.placeholder = '새로운 비밀번호를 입력해 주세요'" onblur="this.placeholder = '새로운 비밀번호를 입력해 주세요'">
+				</div>
+			</div>
+			<!--/* 비밀번호 확인 */-->
+			<div class="hl_label">
+				<span class="attr_name hl_title">새비밀번호 확인</span>
+				<span class="input input_wrap">
+					<span class="my_flex">
+						<input type="password" class="input form-control" id="passwordCheck" name="phone" placeholder="새로운 비밀번호를 한번 더 입력해 주세요">
+						<button type="button" class="form_btn btn_disabled" id="passwordUpdate" disabled="disabled">변경하기</button>
 					</span>
 				</span>
 			</div>
 			<div class="hl_label addr_wrap">
 				<span class="attr_name hl_title">주소</span>
 				<span class="flex-col input addr_input_wrap">
-					<span class="flex">
+					<span class="my_flex">
 						<input type="text" id="addr1" name="addr" class="input" th:value="${memberInfo.addr}">
-						<button type="button" class="btn" id="addrSearch">주소검색</button>
+						<button type="button" class="form_btn" id="addrSearch">주소검색</button>
 					</span>
 					<input type="text" id="detailAddr" name="detailAddr" class="input" th:value="${memberInfo.detailAddr}">
 				</span>
 			</div>
 			<div class="hl_label">
-				<button type="reset">취소</button>
-				<button type="submit">저장</button>
+				<button type="reset" class="form_btn">취소</button>
+				<button type="submit" class="form_btn">저장</button>
 			</div>
 		</form>
 		<!--/* 개인정보 폼 start */-->

@@ -6,7 +6,23 @@
  <mapper namespace="com.holoyolo.app.member.mapper.MemberMapper">
  
  	<select id="selectUser" resultType="MemberVO" parameterType="String">
-		SELECT *
+		SELECT member_id
+			   , member_name
+			   , password
+			   , nickname
+			   , addr
+			   , REGEXP_REPLACE(phone, '(02|.{3})(.+)(.{4})', '\1-\2-\3') phone
+			   , join_date
+			   , stop_date
+			   , role
+			   , profile_img
+			   , member_intro
+			   , report_cnt
+			   , freedom_date
+			   , login_fail_cnt
+			   , lock_yn
+			   , sns_yn
+			   , detail_addr
 		FROM member
 		WHERE member_id = #{username}
 	</select>

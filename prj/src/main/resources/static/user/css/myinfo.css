@@ -3,10 +3,20 @@
 #wrapper {
 	margin: 50px auto;
 }
-
+.my_flex {
+	display: flex;
+	gap: 10px;
+}
+.dp_none {
+	display: none;
+}
 .btn_wrap {
 	display: flex;
 	
+}
+.btn_disabled {
+	background: #e3e3e3 !important;
+	cursor: default;
 }
 .input_wrap {
 	
@@ -111,7 +121,7 @@ button {
 }
 .hl_label .hl_title {
 	display: inline-block;
-	width: 100px;
+	width: 125px;
 	font-size: 15px;
 	font-weight: 700;
 }
@@ -122,9 +132,10 @@ button {
 	font-family: inherit;
 	box-shadow: 0 0 0 1px #f8bfbf;
 	border: none;
-	border-radius: 10px;
+	border-radius: 5px;
 	background-color: #fff5f5;
 	transition: all .3s;
+	width: 22vw;
 }
 
 #infoForm input::placeholder {
@@ -140,6 +151,14 @@ button {
 }
 .addr_input_wrap {
 	gap: 10px;
+}
+.form_btn {
+	border: none;
+	background: #09203f;
+	padding: 8px 10px;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 13px;
 }
 
 
