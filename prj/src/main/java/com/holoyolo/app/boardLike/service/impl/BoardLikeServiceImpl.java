@@ -16,7 +16,12 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 
 	@Override
 	public BoardLikeVO checkLike(BoardLikeVO vo) {
-System.out.println(vo);
+		System.out.println(vo);
+		if(boardLikeMapper.checkLike(vo) == null) {
+			addLike();
+		}else if(boardLikeMapper.checkLike(vo) != null) {
+			cancelLike();
+		}
 		return null;
 	}
 	
