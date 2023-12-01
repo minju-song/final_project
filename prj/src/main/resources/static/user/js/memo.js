@@ -347,14 +347,17 @@
 		clone.find('.inputMemoId')[0].dataset.memo = memoId;
 		clone.find('[type=checkbox]')[0].value = memoId;
 		clone.find('.memotext')[0].innerText = content;
-		hashTag = hashTag.replace(" ", "").split(",");
+		clone.find('[name=tags1]')[0].value = hashTag;
+		new Tagify (clone.find('[name=tags1]')[0]);
+	/*	hashTag = hashTag.replace(" ", "").split(",");
 		let tagify = clone.find('.tagify__tag-text');
+		debugger
 		for(let i=0; i<hashTag.length; i++){
-			if(tagify[i] != undefined){
+			if(hashTag[i] != ""){
 				tagify[i].innerText = hashTag[i]
 				clone.find('[name=tags]').prop('value', hashTag[i]);
 				clone.find('[name=tags]').prop('defaultValue', hashTag[i]);
-			}else if(tagify[i] === undefined){
+			}else {
 				let clonetag = $('.tagify__tag:eq(0)').clone();
 				clone.find('.tagify__input').remove();
 				clonetag.find('.tagify__tag-text').text(hashTag[i]);
@@ -362,7 +365,7 @@
 				clonetag.find('[name=tags]').prop('defaultValue', hashTag[i]);
 				clone.find('.tagify').append(clonetag);			
 			}
-		}
+		}*/
 		if(color == ''){
 			clone.find('.memo').prevObject[0].style.backgroundColor = 'rgb(255, 242, 204)';
 		}else{
@@ -375,6 +378,8 @@
 			clone.find('.bi-pin')[0].src = '/user/images/memo/pin.svg';
 			$('.normalmemoStart').append(clone);
 		}
+		
+		
 		//이벤트
 		//색상표 출력
 		let biPalette = clone[0].querySelector('.bi-palette');

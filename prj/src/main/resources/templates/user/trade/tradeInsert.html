@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="contact">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="review_form_container">
+							<div class="review_form_title">get in touch</div>
+							<div class="review_form_content">
+								<form action="#" id="review_form" class="review_form">
+									<div class="d-flex flex-md-row flex-column align-items-start justify-content-between">
+										<input type="text" class="review_form_input" placeholder="Name" required="required">
+										<input type="email" class="review_form_input" placeholder="E-mail" required="required">
+										<input type="text" class="review_form_input" placeholder="Subject">
+									</div>
+									<textarea class="review_form_text" name="review_form_text" placeholder="Message"></textarea>
+									<button type="submit" class="review_form_button">send message</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

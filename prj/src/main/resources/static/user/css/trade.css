@@ -111,4 +111,39 @@
 
 .card {
 	cursor: pointer;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+span{
+	font-size: larger;
+}
+
+
+
+/* 중고거래 상세페이지 시작 */
+.carousel-control-prev, .carousel-control-next {
+    border: none;
+    background: transparent;
+}
+
+.carousel{
+	width: 300px;
+}
+
+.review_form_title {
+    font-family: 'Lucida', serif;
+    font-size: 30px;
+    color: #232323;
+    text-transform: uppercase;
+    line-height: 0.75;
+    text-align: center;
+}
+
+.review_form_input{
+	display: block;
+    width: calc((100% - 60px) / 3);
+    height: 53px;
+    border: solid 1px #b5b5b5;
+    outline: none;
+    padding-left: 22px;
 }

@@ -2,67 +2,15 @@
  * trade.js
  */
  
-let select = document.getElementById('searchTitle');
-console.log(select);
-
-//체크박스 선택
-let sellCheck = '';
-
-let check = document.querySelector('[type=checkbox]');
-check.addEventListener('click', function(e){
-	sellCheck = e.currentTarget.checked;
-});
-
-//카테고리 선택
-let tradeCategory = 'NotSelect';
-let category = document.getElementById('searchCategory');
-category.addEventListener('change', function () {
-	let value = (category.options[category.selectedIndex].value);
-	console.log(value)
-})
-
-
-//셀렉트 검색 관련
-let search = '';
-let val = 'title';
 
 //넘어오는 데이터 사이즈
-
-console.log(totalCount);
 let pageSize = 6;
-let pageNumber = 1;
-
-//필요한 총 페이지
-let _totalPages = Math.floor(totalCount / 6);
-
-if (totalCount % 6 > 0) {
-    _totalPages++;
-}
-console.log(_totalPages);
 
 $(document).ready(function () {
-    //페이징
-
-    function count() {
-        fetch('/tradeCnt')
-            .then(resolve => resolve.json())
-            .then(result => {
-                _totalPages = Math.floor(result.total / 6);
-
-                if (result.total % 6 > 0) {
-                    _totalPages++;
-                }
-                if (_totalPages == 0) {
-                    _totalPages = 1
-                }
-                console.log('총 데이터갯수 : ' + result.total);
-            })
-    }
-
 
     $('#pagination').twbsPagination({
         startPage: 1,
-        totalPages: _totalPages,
+        totalPages: 1,
         visiblePages: 5,
 
         first: '<span sris-hidden="true">«</span>',
@@ -73,84 +21,50 @@ $(document).ready(function () {
         prev: "이전",
         next: "다음",
         onPageClick: function (event, page) {
-            console.log(_totalPages + '>> 전체 페이지');
-            callList(page, search, tradeCategory, sellCheck);
+            callList(page);
         }
     });
+    callList(1); 
 });
 
 let flag = true;
 
 //페이지 별 데이터리스트 가져옴
-function callList(page, search, tradeCategory, sellCheck) {
+function callList(page) {
+
+    // 검색 관련
+    let searchTitle = document.getElementById('searchTitle').value;
+    let sellCheck = document.querySelector('[type=checkbox]').checked;
+    let tradeCategory =  document.getElementById('searchCategory').value;
+    let search = document.getElementById('search_input').value;
+	console.log(search, tradeCategory, sellCheck)
+
     if (flag) {
-        flag = false;
-        if (search != null && search != '') {
-            fetch('/tradeCnt?search=' + search + '&searchTitle=' + val +'&tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
-                .then(resolve => resolve.json())
-                .then(result => {
-                    _totalPages = Math.floor(result.total / 6);
+        flag = false; 
+         
+        fetch('/tradePaging?page=' + page + 
+                        '&search=' + search      + 
+                        '&searchTitle=' + searchTitle +
+                        '&tradeCategory=' + tradeCategory + 
+                        '&sellCheck=' + sellCheck)
+        .then(resolve => resolve.json())
+        .then(result => {
 
-                    if (result.total % 6 > 0) {
-                        _totalPages++;
-                    }
-                    if (_totalPages == 0) {
-                        _totalPages = 1
-                    }
-                    console.log('총 데이터갯수 : ' + result.total);
-                })
-            fetch('/tradePaging?page=' + page + '&search=' + search + '&searchTitle=' + val +'&tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
-                .then(resolve => resolve.json())
-                .then(result => {
-                    console.log('총페이지' + _totalPages);
+            _totalPages = Math.floor(result.total / pageSize);
+            if (result.total % pageSize > 0) {
+                _totalPages++;
+            }
+            if (_totalPages == 0) {
+                _totalPages = 1
+            }
+            console.log('총페이지' + _totalPages);
 
-                    $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
-                    drawTrade(result.result);
-                    flag = true;
-                })
-        }else if(search == null || search == ''){
-            fetch('/tradeCnt?tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
-                .then(resolve => resolve.json())
-                .then(result => {
-                    _totalPages = Math.floor(result.total / 6);
+            $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
+            drawTrade(result.list);
+            flag = true;
 
-                    if (result.total % 6 > 0) {
-                        _totalPages++;
-                    }
-                    if (_totalPages == 0) {
-                        _totalPages = 1
-                    }
-                    console.log('총 데이터갯수 : ' + result.total);
-                })
-            fetch('/tradePaging?page=' + page + '&tradeCategory=' + tradeCategory + '&sellCheck=' + sellCheck)
-                .then(resolve => resolve.json())
-                .then(result => {
-                    console.log('총페이지' + _totalPages);
-
-                    $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
-                    drawTrade(result.result);
-                    flag = true;
-                })
-        }
-        else {
-            fetch('/tradePaging?page=' + page)
-                .then(resolve => resolve.json())
-                .then(result => {
-                    _totalPages = Math.floor(totalCount / 6);
-
-                    if (totalCount % 6 > 0) {
-                        _totalPages++;
-                    }
-                    if (_totalPages == 0) {
-                        _totalPages = 1
-                    }
-                    console.log(_totalPages);
-                    $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
-                    drawTrade(result.result);
-                    flag = true;
-                })
-        }
-    }
+        })
+    }    
 }
 
 //들어온 데이터 화면에 그려줌
@@ -180,7 +94,7 @@ function drawTrade(tradeArr){
 		
 		let img = document.createElement('img');
 		img.classList.add('card-img-top');
-		img.setAttribute("src", "images/" + tradeArr[i].tradeProfileImg);
+		img.setAttribute("src", "user/images/" + "aespa.jpg");
 		img.style.width = '294px';
         img.style.height = '197px';
 		divCard.appendChild(img);
@@ -193,7 +107,7 @@ function drawTrade(tradeArr){
 		divText.classList.add('text-center');
 		divBody.appendChild(divText);
 		
-		let title = document.createElement('h5');
+		let title = document.createElement('h3');
 		title.classList.add('fw-bolder');
 		title.innerText = tradeArr[i].title;
 		divText.appendChild(title);
@@ -228,24 +142,40 @@ function drawTrade(tradeArr){
         writeDate.style.bottom = '-2.4rem';
 		divWriteDate.appendChild(writeDate);
 		
+		divCard.onclick = function(){ submit(tradeArr[i].tradeId, tradeArr[i].sellerId) };
+		
 		tradeList.appendChild(divCol);
 	}
 }
 
+//중고거래 상세페이지 이동
+function submit(tradeId, sellerId){
+	console.log(tradeId, sellerId);
+	location.href = '/member/tradeInfo?tradeId=' + tradeId + '&sellerId=' + sellerId;
+}
+
+//체크박스 선택
+let check = document.querySelector('[type=checkbox]');
+check.addEventListener('click', function(e){
+    callList(1);
+});
+
+//카테고리 선택
+let category = document.getElementById('searchCategory');
+category.addEventListener('change', function () {
+    callList(1);
+})
+
 //셀렉트박스 값 바뀔 때마다 value바꿔줌
-select.addEventListener('change', function () {
-    val = select.value;
-    search = search_input.value;
-    console.log('셀렉트' + val);
-    callList(1, search);
+document.getElementById('search_input').addEventListener('change', function () {
+    callList(1);
 })
 
 
 //검색어 입력할 때마다 데이터 호출 및 페이징
 let search_input = document.getElementById('search_input');
 search_input.addEventListener('keyup', function () {
-    search = search_input.value;
-    callList(1, search);
+    callList(1);
 })
 
 //card 클릭 시 상세보기 창 이동

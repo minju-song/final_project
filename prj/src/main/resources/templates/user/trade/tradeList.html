@@ -22,7 +22,7 @@
 			<form action="#">
 				<div>
 					<select id="searchCategory">
-						<option selected value="NotSelect">카테고리</option>
+						<option selected value="">카테고리</option>
 						<option value="TB1">생활용품</option>
                         <option value="TB2">의류</option>
                         <option value="TB3">식품</option>
@@ -35,7 +35,7 @@
                    	<label class="sellcheck">
 					  <span>판매완료 제외<input type="checkbox"></span>
 					</label>
-					<div class="insertbutton">
+					<div class="insertbutton" th:onclick="|location.href='@{/member/tradeInsert}'|">
 						<p>게시글 등록</p>
 					</div>
 				</div>
@@ -59,11 +59,6 @@
 		<nav aria-label="Page navigation" id="page">
             <ul class="pagination" id="pagination" style="text-align: center;"></ul>
         </nav>
-        <script th:inline="javascript">
-	        let totalCount = [[${ tradeList.list.size() }]];
-	        console.log(totalCount);
-	        
-        </script>
         <script th:src="@{/user/js/trade.js}"></script>
 	</div>
 </body>

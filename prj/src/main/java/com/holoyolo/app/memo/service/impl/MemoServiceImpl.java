@@ -31,7 +31,7 @@ public class MemoServiceImpl implements MemoService {
 	public int insertMemo(MemoVO memoVO) {
 		int result = memoMapper.insertMemo(memoVO);
 		if(result == 1) {
-			return memoMapper.selectMemoMax(memoVO);
+			return memoVO.getMemoId();
 		}
 		return -1;
 	}
