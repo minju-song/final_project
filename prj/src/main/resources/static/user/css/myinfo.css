@@ -58,12 +58,9 @@ button {
 	margin-right: 20px;
 	gap: 5px;
 }
-#my_profile, #infoForm {
-	padding: 30px 60px;
-}
+
 #my_profile {
 	border-bottom: 1px solid #e6e6e6;
-	border-radius: 10px;
 }
 #memberIntro {
 	display: flex;
