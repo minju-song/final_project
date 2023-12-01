@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/adminLayout}">
 
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
 
-</style>
+	</style>
 </head>
 
 <body>
@@ -18,17 +17,34 @@
 			<h4 class="fw-bold py-3 mb-4">문의관리</h4>
 			<!-- Hoverable Table rows -->
 			<div class="card card-admin-container">
+			<input type="date"/>
 				<h5 class="ps-4 pt-4">
 					전체문의 <span id="initQuestionCount" style="color: skyblue"></span>
 				</h5>
-				<div class="ps-4 pb-4 demo-inline-spacing"aria-label="Basic example">
-					<button id="initQuestionCount" name="totalQuestionCount" type="button" class="btn btn-outline-primary">전체</button>
-					<button id="pendingQuestionCount" name="pendingQuestionCount" type="button" class="btn btn-outline-primary">
+				<div class="ps-4 pb-4 demo-inline-spacing " aria-label="Basic example">
+
+					<button id="totalQuestionCount" name="totalQuestionCount" type="button"
+						class="btn btn-primary">전체</button>
+					<button id="pendingQuestionCount" name="pendingQuestionCount" type="button"
+						class="btn btn-outline-primary">
 						답변대기</button>
-					<button id="completedQuestionCount" name="completedQuestionCount" type="button" class="btn btn-outline-primary">
+					<button id="completedQuestionCount" name="completedQuestionCount" type="button"
+						class="btn btn-outline-primary">
 						답변완료</button>
+						<div class="btn-group position-absolute end-0 pe-4">
+					<button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						게시물 수
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="javascript:void(0);">10</a></li>
+						<li><a class="dropdown-item" href="javascript:void(0);">50</a></li>
+						<li><a class="dropdown-item" href="javascript:void(0);">100</a></li>
+					</ul>
 				</div>
-				<div class="table-responsive text-nowrap">
+				</div>
+				
+				<div class="table-responsive text-nowrap overflow-auto scrollBar">
 					<table class="table table-hover">
 						<thead>
 							<tr>
@@ -41,40 +57,25 @@
 							</tr>
 						</thead>
 						<tbody class="table-border-bottom-0">
-							<th:block th:each="list, stat : ${questionList}">
-								<tr name="goQuestionDetail" th:onclick="|location.href='@{/admin/question/detail(questionId=${list.questionId})}'|">
-									<td th:text="${list.questionId}"><i
-										class="fab fa-angular fa-lg text-danger me-3"></i> <strong>1</strong></td>
-									<td th:text="${list.title}"></td>
-									<td th:text="${list.memberId}"></td>
-									<td><span id="badgeColor" class="badge bg-label-primary me-1" th:text="${list.questionType}"></span></td>
-									<td th:text="${#dates.format(list.writeDate, 'yyyy-MM-dd')}"></td>
-									<td><span class="badge bg-label-primary me-1" th:text="${list.questionYn}"></span></td>
-									<td>
-										<div class="dropdown">
-											<button type="button"
-												class="btn p-0 dropdown-toggle hide-arrow"
-												data-bs-toggle="dropdown">
-												<i class="bx bx-dots-vertical-rounded"></i>
-											</button>
-											<div class="dropdown-menu">
-												<a class="dropdown-item" href="javascript:void(0);"><i
-													class="bx bx-edit-alt me-1"></i> 수정</a> <a
-													class="dropdown-item" href="javascript:void(0);"><i
-													class="bx bx-trash me-1"></i> 삭제</a>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</th:block>
 						</tbody>
 					</table>
+					<hr class="m-0" />
+					<nav class="p-4" aria-label="Page navigation">
+						<ul class="pagination m-0">
+							<li class="page-item prev">
+								<a id="btnsearch" class="page-link" href="javascript:void(0);"><i
+										class="tf-icon bx bx-chevrons-left"></i></a>
+							</li>
+					
+						</ul>
+					</nav>
 				</div>
 			</div>
 			<!--/ Hoverable Table rows -->
 		</div>
 	</div>
-	
+
 
 </body>
+
 </html>

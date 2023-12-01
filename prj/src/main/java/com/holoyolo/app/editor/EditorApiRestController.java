@@ -149,8 +149,8 @@ public class EditorApiRestController {
 
     /**
      * 에디터 게시글 상세조회
-     * @param boardId
-     * @return
+      @param boardId
+      @return
      */
     @GetMapping("/api/posts/{boardId}")
     public PostVO selectPostInfo(@PathVariable final int boardId) {

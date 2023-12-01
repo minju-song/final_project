@@ -1,5 +1,6 @@
 
 
+//셀렉트박스
 let select = document.getElementById('searchTitle');
 
 
@@ -8,12 +9,12 @@ console.log(joinClub);
 
 
 //셀렉트 검색 관련
+//검색하는 데이터
 let search = '';
+//셀렉트값
 let val = 'clubname';
 
 //넘어오는 데이터 사이즈
-//let totalCount = [[${ result.list.size() }]];
-// console.log(totalCount);
 let pageSize = 6;
 let pageNumber = 1;
 
@@ -23,11 +24,9 @@ let _totalPages = Math.floor(totalCount / 6);
 if (totalCount % 6 > 0) {
     _totalPages++;
 }
-console.log(_totalPages);
 
 $(document).ready(function () {
     //페이징
-
     function count() {
         fetch('/clubCnt')
             .then(resolve => resolve.json())
@@ -58,7 +57,6 @@ $(document).ready(function () {
         prev: "이전",
         next: "다음",
         onPageClick: function (event, page) {
-            console.log(_totalPages + '>> 전체 페이지');
             callList(page, search);
         }
     });
@@ -71,6 +69,8 @@ let flag = true;
 function callList(page, search) {
     if (flag) {
         flag = false;
+
+        //검색어가 있을 때
         if (search != null && search != '') {
             fetch('/clubCnt?search=' + search + '&searchTitle=' + val)
                 .then(resolve => resolve.json())
@@ -83,20 +83,18 @@ function callList(page, search) {
                     if (_totalPages == 0) {
                         _totalPages = 1
                     }
-                    console.log('총 데이터갯수 : ' + result.total);
-                })
-            fetch('/clubPaging?page=' + page + '&search=' + search + '&searchTitle=' + val)
-                .then(resolve => resolve.json())
-                .then(result => {
-                    console.log('총페이지' + _totalPages);
+                    fetch('/clubPaging?page=' + page + '&search=' + search + '&searchTitle=' + val)
+                        .then(resolve => resolve.json())
+                        .then(result => {
+                            console.log('총페이지' + _totalPages);
 
-                    $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
-                    drawClub(result.result);
-                    flag = true;
+                            $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
+                            drawClub(result.result);
+                            flag = true;
+                        })
                 })
         }
         else {
-
             fetch('/clubPaging?page=' + page)
                 .then(resolve => resolve.json())
                 .then(result => {
@@ -108,7 +106,6 @@ function callList(page, search) {
                     if (_totalPages == 0) {
                         _totalPages = 1
                     }
-                    console.log(_totalPages);
                     $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
                     drawClub(result.result);
                     flag = true;
@@ -121,26 +118,32 @@ function callList(page, search) {
 //들어온 데이터 화면에 그려줌
 function drawClub(clubArr) {
 
-    console.log(clubArr);
     let clubList = document.getElementById('clubList');
+
+    //자식데이터 다 삭제
     while (clubList.firstChild) {
         clubList.removeChild(clubList.firstChild);
     }
+
+    //들어온 데이터들 차례대로 그려줌
     for (let i = 0; i < clubArr.length; i++) {
-        // console.log(clubArr[i]);
+
+        //div만들어줌
         let divCard = document.createElement('div');
-        // divCard.setAttribute("class", "col-6");
         divCard.classList.add("col-5", 'card_club');
-        // <img alt="네이버로그인" th:src="@{/user/images/login/icon_naver.png}">
+
+        //이미지담을 div
         let divImg = document.createElement('div');
         let img = document.createElement('img');
         img.setAttribute("src", "images/" + clubArr[i].clubProfileImg);
         img.style.width = '100px';
         img.style.height = '100px';
+
+        //이미지담을 div에 이미지담음
         divImg.appendChild(img);
         divImg.setAttribute("class", "club_img");
-        // divImg.innerText = '이미지';
 
+        //정보를 담을 div
         let divInfo = document.createElement('div');
         divInfo.innerHTML = '모임명 : ' + clubArr[i].clubName + '<br>'
             + '모임소개 : ' + clubArr[i].clubIntro + '<br>'
@@ -148,16 +151,28 @@ function drawClub(clubArr) {
             + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + ' [가입인원 / 모집인원]<br>'
             + '절약예산 / 기간단위 <br>';
 
+        //버튼생성
         let btn = document.createElement('button');
+
+        //가입한 클럽이 있으면
         if (joinClub != 'null') {
             let ck = false;
+
             joinClub.forEach(club => {
+                //가입한 클럽아이디랑 그려주는 클럽아이디가 같을 때
                 if (club.clubId == clubArr[i].clubId) {
+                    //가입날짜가 null이면 승인대기로 표시
                     if (club.joinDate == null) {
                         btn.innerText = '승인대기';
                         ck = true;
                         btn.disabled = true;
                     }
+                    else if (club.stopDate != null) {
+                        btn.innerText = '재가입';
+                        ck = true;
+                        btn.disabled = true;
+                    }
+                    //null이 아니면 내 모임
                     else {
                         btn.innerText = '내 모임';
                         ck = true;
@@ -166,15 +181,19 @@ function drawClub(clubArr) {
                 }
             });
 
+            //내가 가입한 클럽이 아닐 때
             if (ck == false) {
+                //클럽가입원이 모집인원보다 많으면 가입불가
                 if (clubArr[i].joinCnt >= clubArr[i].clubPeople) {
                     btn.innerText = '가입불가';
                     btn.disabled = true;
                 }
+                //바로 가입 가능한 클럽
                 else if (clubArr[i].openScope == 'OA1') {
                     btn.innerText = '바로가입';
                     btn.onclick = function () { join(clubArr[i].clubId) };
                 }
+                //바로 가입 불가능한 클럽
                 else {
                     btn.innerText = '가입신청';
                     btn.onclick = function () { submit(clubArr[i].clubName, clubArr[i].clubId, clubArr[i].clubLeader) }
@@ -182,8 +201,13 @@ function drawClub(clubArr) {
             }
         }
 
+        //가입클럽이 없을 때
         else {
-            if (clubArr[i].openScope == 'OA1') {
+            if (clubArr[i].joinCnt >= clubArr[i].clubPeople) {
+                btn.innerText = '가입불가';
+                btn.disabled = true;
+            }
+            else if (clubArr[i].openScope == 'OA1') {
                 btn.innerText = '바로가입';
                 btn.onclick = function () { join(clubArr[i].clubId) };
             }
@@ -193,32 +217,32 @@ function drawClub(clubArr) {
             }
         }
 
-
-        // data-target="#updateCard" data-whatever="수정"
-        // th:data-cardno='${cardNo}' th:data-cardcompany='${cardCompany}'
-
+        //버튼 넣어줌
         divInfo.appendChild(btn);
 
         divInfo.setAttribute("class", "club_info");
         divCard.appendChild(divImg);
         divCard.appendChild(divInfo);
-        divCard.onclick = function () { test(clubArr[i].clubId); }
-        // console.log(clubArr[i]);
-        // p.innerText = clubArr[i].clubName + ' ' + clubArr[i].clubLeader;
+
+        //divCard클릭 시 페이지이동
+        divCard.onclick = function () { clubPage(clubArr[i].clubId); }
         clubList.appendChild(divCard);
     }
 }
 
 //즉시 클럽가입
 function join(clubId) {
-    console.log(clubId + '번 클럽 즉시 가입');
+
+    //부모요소에게 이벤트가는거 방지
     if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+
+    //로그인안했으면 로그인폼
     if (userId == "null") {
         location.href = "/loginForm";
     }
     else {
         Swal.fire({
-            title: "클럽에 바로 가입하시겠습니까?",
+            title: "모임에 바로 가입하시겠습니까?",
             text: "즉시 가입이 가능합니다.",
             icon: "question",
             showCancelButton: true,
@@ -236,7 +260,9 @@ function join(clubId) {
                                 text: "가입이 완료되었습니다.",
                                 icon: "success"
                             }).then((result) => {
-                                location.reload();
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
 
                             });
                         }
@@ -245,10 +271,14 @@ function join(clubId) {
                                 title: "가입실패",
                                 text: "오류났음",
                                 icon: "error"
+                            }); then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+
                             });
                         }
 
-                        // location.reload();
                     })
             }
         });
@@ -257,17 +287,15 @@ function join(clubId) {
 
 //클럽 가입 이벤트
 function submit(clubName, clubId, clubLeader) {
-    console.log(clubName + ' ' + clubId + ' ' + clubLeader);
-    console.log(clubId + '번 클럽 가입 신청');
     event.stopPropagation();
     if (event.stopPropagation) event.stopPropagation();
     else event.cancelBubble = true;
 
-    // let clubVO = { clubName, clubId, clubLeader };
+    //로그인안했으면 로그인으로
     if (userId == "null") location.href = "/loginForm";
     else {
         Swal.fire({
-            title: "클럽에 가입 신청을 하시겠습니까?",
+            title: "모임에 가입 신청을 하시겠습니까?",
             text: "가입 허가를 받아합니다.",
             icon: "question",
             showCancelButton: true,
@@ -286,8 +314,7 @@ function submit(clubName, clubId, clubLeader) {
                     showCancelButton: true
                 }).then((text) => {
                     if (text) {
-                        let clubVO = { clubName: clubName, clubId: clubId, clubLeader: clubLeader, text: text.value };
-                        console.log(JSON.stringify(clubVO) + '>>전송객체');
+                        let clubVO = { clubName: clubName, clubId: clubId, clubLeader: clubLeader, text: text.value, type: 'join' };
                         fetch('/sendmail/requestclub', {
                             method: 'POST',
                             headers: {
@@ -312,7 +339,8 @@ function submit(clubName, clubId, clubLeader) {
     }
 }
 
-function test(clubId) {
+//클럽 상세페이지 이동
+function clubPage(clubId) {
     if (userId == "null") location.href = "/loginForm";
 
     location.href = '/member/club/clubPage?clubId=' + clubId;

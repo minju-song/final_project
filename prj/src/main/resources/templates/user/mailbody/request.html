@@ -12,15 +12,24 @@
 	<div class="body_container" align="center">
 		<div class="img_wrap">
 			<img alt="welcome"
-				th:src="@{https://www.canva.com/design/DAF1j5uXJnA/AmciOpmVz12gx_WfIpbNKA/edit?utm_content=DAF1j5uXJnA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton}"
+				th:src="@{https://postfiles.pstatic.net/MjAyMzExMzBfMTA0/MDAxNzAxMzM1MzA0NjEy.qT2SxMkAVHwYz44TnyyVxO42xX_wmtepyKFY6JHkMo4g.QSkFWgj3NYIcSjhlHKyG_n2tO2tfE9jpvnGvazvNV0Yg.PNG.songjaeskkk/letter.png?type=w966}"
 				style="width: 50vw; max-width: 800px; min-width: 500px;">
 		</div>
 
 		<div class="btn_wrap"
 			style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
-			<p th:text="${clubName + '모임으로 '+member+'님이 가입 요청을 보냈습니다.'}" style="font-weight: 700; font-size: 30px;"></p>
-			<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
-			<a th:href="@{http://localhost:8090/joinClubMail(clubId=${club},memberId=${member})}">승인</a>
+			<th:block th:if="${type eq 'join'}">
+				<p th:text="${clubName + '모임으로 '+member+'님이 가입 요청을 보냈습니다.'}" style="font-weight: 700; font-size: 30px;">
+				</p>
+				<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
+				<a th:href="@{http://localhost:8090/joinClubMail(clubId=${club},memberId=${member})}">승인</a>
+			</th:block>
+			<th:block th:if="${type eq 'rejoin'}">
+				<p th:text="${clubName + '모임으로 '+member+'님이 재가입 요청을 보냈습니다.'}"
+					style="font-weight: 700; font-size: 30px;"></p>
+				<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
+				<a th:href="@{http://localhost:8090/rejoinMail(clubId=${club},memberId=${member})}">승인</a>
+			</th:block>
 		</div>
 	</div>
 

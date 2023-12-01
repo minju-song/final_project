@@ -19,12 +19,6 @@ public interface TradeService {
 	//삭제
 	public int deleteTrade(int tradeId);
 	
-	//중고거래 리스트페이지 이동
-	public Map<String, Object> tradeListPage();
-	
-	//데이터 총 갯수
-	public int cntData(TradeVO tradeVO);
-	
 	//리스트 페이징
 	public Map<String, Object> tradePaging(TradeVO tradeVO);
 }

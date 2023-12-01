@@ -56,17 +56,19 @@ public class HoloPayController {
 		MemberVO memberVO = memberService.selectUser(memberId);
 		// 계좌정보
 		MemberFinanceInfoVO financeVO = new MemberFinanceInfoVO();
+		System.out.println(memberId);
 		financeVO.setMemberId(memberId);
 		financeVO = memberFinanceInfoService.selectMemberFinanceInfo(financeVO);
-		if (financeVO.getUseYn() == null) {
-			mo.addAttribute("amount", '0');
+		System.out.println(financeVO);
+		if ( financeVO == null) {
+			mo.addAttribute("financeVO", null);
 		} else {
 			mo.addAttribute("financeVO", financeVO);
 			// 홀로페이
 			int holoBalance = holoPayHistoryService.holopayBalance(memberVO);
 			mo.addAttribute("payBalance", holoBalance);
 		}
-//홀로페이 내역
+		//홀로페이 내역
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		holoPayHistoryVO.setMemberId(memberId);
 		List<HoloPayHistoryVO> history = holoPayHistoryService.holopayHistoryList(holoPayHistoryVO);
@@ -91,8 +93,9 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody
-	public String apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
-			Model mo) {
+	public JsonObject  apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+			                         @RequestBody JSONObject req,			
+			                         Model mo) {
 
 		String requestTram = (String) req.get("Tram");
 
@@ -140,13 +143,12 @@ public class HoloPayController {
 			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.//";
 			returnData.addProperty("resultMsg", resultMsg);
 		}
-		return returnData.toString();
-
+		return returnData;
 	}
 
 	@RequestMapping(value = "/withdrawapireq", method = RequestMethod.POST)
 	@ResponseBody
-	public String takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
+	public JsonObject takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
 			Model mo) {
 		// 요청 객체 생성
 		MemberFinanceInfoVO memberFinanceInfoVO = new MemberFinanceInfoVO();
@@ -203,7 +205,7 @@ public class HoloPayController {
 			returnData.addProperty("resultMsg", resultMsg);
 
 		}
-		return returnData.toString();
+		return returnData;
 	}
 
 	@RequestMapping(value = "/loadhistory", method = RequestMethod.POST)

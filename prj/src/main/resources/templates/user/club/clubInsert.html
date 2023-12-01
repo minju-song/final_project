@@ -5,39 +5,119 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    <link rel="stylesheet" href="/user/login/css/style.css">
+    <style>
+        #login_form_inner label {
+            width: 180px;
+            text-align: left;
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
     <div layout:fragment="content">
-        <h1>클럽생성화면</h1>
-        <form th:action="@{/member/clubInsert}" method="POST" th:object="${ClubVO}" encType="multipart/form-data">
-            <div>
-                <label id="clubProfileImg">알뜰모임 프로필사진</label>
-                <input type="file" id="clubProfileImg" th:field="*{img}">
-            </div>
-            <div>
-                <label id="clubName">알뜰모임명</label>
-                <input type="text" id="clubName" th:field="*{clubName}">
-            </div>
-            <div>
-                <label id="clubIntro">알뜰모임 한줄소개</label>
-                <input type="text" id="clubIntro" th:field="*{clubIntro}">
-            </div>
-            <div>
-                <label id="clubPeople">알뜰모임 모집인원 (최대 20명)</label>
-                <input type="number" id="clubPeople" th:field="*{clubPeople}">
-            </div>
-            <div>
-                <label id="joinCondition">알뜰모임 가입자격</label>
-                <input type="text" id="joinCondition" th:field="*{joinCondition}">
-            </div>
-            <div>
-                <label id="openScope">알뜰모임 가입승인여부</label>
-                <input type="text" id="openScope" th:field="*{openScope}">
-            </div>
-            <button type="submit">완료</button>
-        </form>
+        <div class="section_wrap">
+            <section class="login_box_area section-margin">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="login_form_inner" id="login_form_inner">
+                                <a th:href="@{/}"><img th:src="@{/user/images/logo/logo3.png}" class="logo"
+                                        title="홈으로"></a>
+                                <form class="row login_form join_form" th:action="@{/member/clubInsert}" method="POST"
+                                    th:object="${ClubVO}" encType="multipart/form-data">
+                                    <!--/* 이름 */-->
+                                    <div class="col-md-12 form-group">
+                                        <label id="clubName">모임이름</label>
+                                        <div class="input-wrap">
+                                            <input type="text" class="form-control" id="clubName" th:field="*{clubName}"
+                                                required="required" placeholder="모임이름을 입력해 주세요"
+                                                onfocus="this.placeholder = '모임이름을 입력해 주세요'"
+                                                onblur="this.placeholder = '모임이름을 입력해 주세요'">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label id="clubProfileImg">프로필사진</label>
+                                        <div class="input-wrap">
+                                            <input type="file" class="form-control" id="clubProfileImg"
+                                                th:field="*{img}">
+                                        </div>
+                                    </div>
+                                    <!--/* 아아디 */-->
+                                    <div class="col-md-12 form-group">
+                                        <label id="clubIntro">한줄소개</label>
+                                        <div class="input-wrap">
+                                            <input type="text" id="clubIntro" th:field="*{clubIntro}"
+                                                class="form-control" required="required" placeholder="모임 한줄 소개를 입력해 주세요"
+                                                onfocus="this.placeholder = '모임 한줄 소개를 입력해 주세요'"
+                                                onblur="this.placeholder = '모임 한줄 소개를 입력해 주세요'">
+                                        </div>
+                                    </div>
+                                    <!--/* 닉네임 */-->
+                                    <div class="col-md-12 form-group">
+                                        <label id="clubPeople">모집인원 (최대 20명)</label>
+                                        <div class="input-wrap">
+                                            <input type="number" id="clubPeople" th:field="*{clubPeople}" min="2"
+                                                max="20" class="form-control" required="required"
+                                                placeholder="모집인원을 입력해 주세요" onfocus="this.placeholder = '모집인원을 입력해 주세요'"
+                                                onblur="this.placeholder = '모집인원을 입력해 주세요'">
+                                        </div>
+                                    </div>
+                                    <!--/* 비밀번호 */-->
+                                    <div class="col-md-12 form-group">
+                                        <label id="joinCondition">가입자격</label>
+                                        <div class="input-wrap">
+                                            <input type="text" class="form-control" id="joinCondition"
+                                                th:field="*{joinCondition}" required="required"
+                                                placeholder="가입자격을 서술해 주세요" onfocus="this.placeholder = '가입자격을 서술해 주세요'"
+                                                onblur="this.placeholder = '가입자격을 서술해 주세요'">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <label id="openScope">가입승인여부</label>
+                                        <select th:field="*{openScope}">
+                                            <option value="OA1">즉시가입</option>
+                                            <option value="OA2">가입허가</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <label id="joinCondition">예산금액</label>
+                                        <div class="input-wrap">
+                                            <input type="number" class="form-control" id="joinCondition"
+                                                th:field="*{price}" required="required" placeholder="예산금액을 입력해 주세요"
+                                                onfocus="this.placeholder = '예산금액을 입력해 주세요'"
+                                                onblur="this.placeholder = '예산금액을 입력해 주세요'">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <label id="unit">예산기간</label>
+                                        <select th:field="*{unit}">
+                                            <option value="YA1">일</option>
+                                            <option value="YA2">주</option>
+                                            <option value="YA3">월</option>
+                                        </select>
+                                    </div>
+                                    <!--/* 가입하기 */-->
+                                    <div class="col-md-12 form-group">
+                                        <button id="submitBtn" type="submit" class="button button-login w-100">모임
+                                            생성하기</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
+
+
 </body>
 
 

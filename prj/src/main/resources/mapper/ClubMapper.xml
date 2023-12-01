@@ -5,8 +5,8 @@
   <mapper namespace="com.holoyolo.app.club.mapper.ClubMapper">
 
 	<select id="getClub" resultType="ClubVO">
-		SELECT * 
-		FROM club 
+		SELECT c.*, m.member_name as leader_name
+		FROM club c JOIN member m ON c.club_leader = m.member_id 
 		WHERE club_id = #{clubId}
 	</select>
   
@@ -107,11 +107,17 @@
   				,#{clubProfileImg}
   				,#{clubPeople}
   				,#{joinCondition}
-  				,'OA2'
+  				,#{openScope}
   				,null
   				,#{clubLeader}
   				,sysdate
   			)
   	</insert>
+  	
+  	<update id="mandateKing" parameterType="ClubVO">
+  		UPDATE club
+  		SET club_leader = #{clubLeader}
+  		WHERE club_id = #{clubId}
+  	</update>
 
   </mapper>

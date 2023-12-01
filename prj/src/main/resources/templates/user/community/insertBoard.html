@@ -9,8 +9,36 @@
 
   <link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
   <style>
+    #btnDiv {
+      text-align: center;
+      margin-top: 20px;
+    }
 
+    .btns {
+      display: inline-block;
+      padding: 0 10px;
+      height: 28px;
+      line-height: 26px;
+      text-align: center;
+      vertical-align: middle;
+      border-radius: 3px;
+      border: 1px solid transparent;
+      font-weight: 500;
+    }
+
+    .btns.save {
+      background: #139dc8;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .btns.back {
+      background: #fff;
+      border: 1px solid #199bc4;
+      color: #199bc4;
+    }
   </style>
 </head>
 
@@ -33,67 +61,111 @@
               <input type="text" class="form-control" aria-label="Username" th:value="${user.nickname}" id="nickname"
                 readonly>
             </div>
+            <div class="input-group mb-4 col-3">
+              <label for="nickname">작성자ID</label>
+              <input type="text" class="form-control" aria-label="Username" th:value="${user.memberId}" id="userId"
+                readonly>
+            </div>
 
           </div>
           <div id="content"></div>
           <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-primary" id="insertPostBtn">등록</button>
-            <button type="button" class="btn btn-danger">취소</button>
+            <button type="button" class="btn btn-danger" id="">취소</button>
           </div>
         </div>
       </div>
       <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
       <script>
+        //등록이벤트
+        let insertPostBtn = document.getElementById('insertPostBtn');
+        insertPostBtn.addEventListener('click', savePost);
+        //게시판 체크(AA1~AA6)
+        let ckBoardType = document.getElementById('ckBoardType').value;
+        let boardType = "";
+        if (ckBoardType == "정보공유게시판") {
+          boardType = "AA2";
+        } else if (ckBoardType == "수다방") {
+          boardType = "AA3";
+        }
+
         const editor = new toastui.Editor({
-          el: document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
-          height: '500px',                        // 에디터 영역의 높이 값 (OOOpx || auto)
-          initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-          initialValue: '내용을 입력해 주세요.'    // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+          el: document.querySelector('#content'),      // 에디터를 적용할 요소 (컨테이너)
+          height: '500px',                             // 에디터 영역의 높이 값 (OOOpx || auto)
+          initialEditType: 'markdown',                 // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+          initialValue: '',                            // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+          previewStyle: 'vertical',                    // 마크다운 프리뷰 스타일 (tab || vertical)
+          placeholder: '내용을 입력해 주세요.',
+          /* start of hooks */
+          hooks: {
+            async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
+              try {
+                /*
+                 * 1. 에디터에 업로드한 이미지를 FormData 객체에 저장
+                 *    (이때, 컨트롤러 uploadEditorImage 메서드의 파라미터인 'image'와 formData에 append 하는 key('image')값은 동일해야 함)
+                 */
+                const formData = new FormData();
+                formData.append('image', blob);
+
+                // 2. FileApiController - uploadEditorImage 메서드 호출
+                const response = await fetch('/tui-editor/image-upload', {
+                  method: 'POST',
+                  body: formData,
+                });
+
+                // 3. 컨트롤러에서 전달받은 디스크에 저장된 파일명
+                const filename = await response.text();
+                console.log('서버에 저장된 파일명 : ', filename);
+
+                // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
+                const imageUrl = `/tui-editor/image-print?filename=${filename}`;
+                callback(imageUrl, 'image alt attribute');
+
+              } catch (error) {
+                console.error('업로드 실패 : ', error);
+              }
+            }
+          }
+          /* end of hooks */
         });
 
 
-
-        //등록이벤트
-        let insertPostBtn = document.getElementById('insertPostBtn');
-        insertPostBtn.addEventListener('click', getPost);
-
-        function getPost() {
-
-          let title = document.getElementById('title').value;
-          let ckBoardType = document.getElementById('ckBoardType').value;
-          let content = editor.getMarkdown();
-          let boardType = "";
-          if (ckBoardType == "정보공유게시판") {
-            boardType = "AA2";
-          } else if (ckBoardType == "수다방") {
-            boardType = "AA3";
+        // 게시글 저장
+        async function savePost() {
+          // 1. 콘텐츠 입력 유효성 검사
+          if (editor.getMarkdown().length < 1) {
+            alert('에디터 내용을 입력해 주세요.');
+            throw new Error('editor content is required!');
           }
-          //console.log();
-          let data = {
-            "menuType": boardType,
-            "title": title,
-            "content": content,
 
+          // 2. url, parameter 세팅
+          const url = '/api/posts';
+          const memberId = document.getElementById('userId').value;
+          const params = {
+            title: '1번 게시글 제목',
+            content: editor.getMarkdown(),
+            memberId: memberId,
+            menuType: boardType
           }
-          request(data)
-        }
 
-        function request(reqdata) {
-          $.ajax({
-            type: 'POST',
-            url: '/insertPostreq',
-            contentType: 'application/json;charset=UTF-8',
-            data: JSON.stringify(reqdata)
-          }).done(function (response) {
-            
-            console.log(response);
-          }).fail(function (request, status, error) {
-            // Handle the error response from the server
-            console.log("code: " + request.status)
-            console.log("message: " + request.responseText)
-            console.log("error: " + error);
-          })
+          // 3. API 호출
+          try {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(params),
+            });
+
+            const postId = await response.json();
+            alert(postId + '번 게시글이 저장되었습니다.');
+            location.href = '/member/infoBoard';
+
+          } catch (error) {
+            console.error('저장 실패 : ', error)
+          }
         }
       </script>
     </div>

@@ -20,27 +20,28 @@ public class QuestionController {
 	@Autowired
 	QuestionService questionService;
 
-
-
 	// 문의 전체조회
 	@GetMapping("/admin/question")
 	public String selectQuestionList(Model model) {
-		List<QuestionVO> list = questionService.selectQuestionAll();
-		model.addAttribute("questionList", list);
+		//List<QuestionVO> list = questionService.selectQuestionTotalList(null);
+		//model.addAttribute("questionList", list);
 		return "admin/question/questionPage";
 	}
+	
+
     // 문의 조건 조회
     @RequestMapping("/admin/question/list")
     @ResponseBody
-    public Map<String, Object> getQuestionListAjax() {
-    	Map<String, Object> questionList = new HashMap<>();
-    	questionList.put("totalQuestionList", questionService.selectQuestionTotalList());
-    	questionList.put("pendingQuestionList", questionService.selectQuestionPendingList());
-    	questionList.put("completedQuestionList", questionService.selectQuestionCompletedList());
-    	
-    	return questionList;
+    public Map<String, Object> getQuestionListAjax(QuestionVO questionVO) {
+    	Map<String, Object> questionMap = new HashMap<>();
+    	questionMap.put("questionYn", questionVO.getQuestionYn());
+    	questionMap.put("list", questionService.selectQuestionTotalList(questionVO));
+    	questionMap.put("count", questionService.selectQuestionTotalCount(questionVO));
+    	questionMap.put("paging", questionService.selectCount(questionVO));
+//    	questionMap.put("pagingCount", questionService.selectTotalPagingCount(questionVO));
+    	//페이징에 필요한 값 넘겨줌
+    	return questionMap;
     }
-	
 
 	// 문의 단건조회
 	@GetMapping("/admin/question/detail")
@@ -51,20 +52,6 @@ public class QuestionController {
 		model.addAttribute("questionTypeInfo", questionInfo.get("questionTypeInfo"));
 		return "admin/question/questionDetail";
 	}
-
-	// 문의 개수조회
-    @RequestMapping("/admin/question/count")
-    @ResponseBody
-    public Map<String, Integer> getQuestionCountsAjax() {
-        Map<String, Integer> questionCounts = new HashMap<>();
-        System.out.println(questionService.selectQuestionTotalCount());
-        questionCounts.put("totalQuestionCount", questionService.selectQuestionTotalCount());
-        questionCounts.put("pendingQuestionCount", questionService.selectQuestionPendingCount());
-        questionCounts.put("completedQuestionCount", questionService.selectQuestionCompletedCount());
-
-        return questionCounts;
-    }
-    
 
 
 }

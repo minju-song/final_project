@@ -26,28 +26,19 @@ public class BoardServiceImpl implements BoardService {
 
 //단건조회
 	@Override
-	public BoardVO selectBoard(BoardVO vo) {
+	public BoardVO selectBoard(int vo) {
 
 		return boardMapper.selectBoard(vo);
 	}
 
 	@Override
-	public int insertBoard(JSONObject req, String userId) {
-		System.out.println(req);
-		System.out.println(userId);
-
-		BoardVO vo = new BoardVO();
-		vo.setContent((String) req.get("content"));
-		vo.setTitle((String) req.get("title"));
-		vo.setMenuType((String) req.get("menuType"));
-		vo.setMemberId(userId);
-
+	public int insertBoard(BoardVO vo) {
 		return boardMapper.insertBoard(vo);
 	}
 
 	@Override
 	public int updateBoard(BoardVO vo) {
-
+		System.out.println(vo);
 		return boardMapper.updateBoard(vo);
 	}
 
@@ -61,20 +52,24 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> searchBoardPaged(JSONObject req) {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
-		String menuType = (String)req.get("type");
-		System.out.println(menuType);
+		String menuType = (String) req.get("type");
 		List<BoardVO> allList = BoardList(menuType);
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
 	@Override
 	public int getTotalBoardRecords(JSONObject req) {
-		
+
 		BoardVO vo = new BoardVO();
-		vo.setMenuType((String)req.get("type"));
-		System.out.println(vo);
-		
-		
+		vo.setMenuType((String) req.get("type"));
+
 		return boardMapper.getTotalBoardRecords(vo);
+	}
+
+	@Override
+	public int addView(int boardId) {
+		BoardVO vo = new BoardVO();
+		vo.setBoardId(boardId);
+		return boardMapper.addView(vo);
 	}
 }

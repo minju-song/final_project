@@ -4,26 +4,46 @@
 //
 console.log("admin-question.js 작업중")
 
+const colorMapping = {
+    '가계부': 'bg-label-danger',
+    '중고거래': 'bg-label-warning',
+    '알뜰모임': 'bg-label-yellow',
+    '커뮤니티': 'bg-label-success',
+    '메모': 'bg-label-info',
+    '홀로페이': 'bg-label-navy',
+    '포인트': 'bg-label-primary',
+    '기타': 'bg-label-secondary',
+    '답변대기': 'bg-label-yellow',
+    '답변완료': 'bg-label-success'
+};
+
 
 // 문의 리스트 포멧
-function renderQuestionList(url, listName) {
+
+function renderQuestionList(url, questionYn, paging) {
     $("tbody").empty();
 
     $.ajax({
         url: url,
+        data: { questionYn },
         method: "GET"
     })
-    .done(function (data) {
-        let listData = data[listName];
-        console.log(listData);
-        $.each(listData, function (index, list) {
-            let template = `<tr name="goQuestionDetail">
+        .done(function (data) {
+            // 개수출력
+            console.log(data)
+            $("#initQuestionCount").text(`${data.count}개`)
+
+            // 목록출력 
+            let listData = data['list'];
+            console.log(listData);
+            $.each(listData, function (index, list) {
+                let template = `<tr name="goQuestionDetail">
                                 <td>${list.questionId}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
                                 <td>${list.title}</td>
                                 <td>${list.memberId}</td>
-                                <td><span id="badgeColor" class="badge bg-label-primary me-1">${list.questionType}</span></td>
+                                <td><span id="badgeColor" class="badge ${colorMapping[list.questionType]} me-1">${list.questionType}</span></td>
                                 <td>${list.writeDate}</td>
-                                <td><span class="badge bg-label-primary me-1">${list.questionYn}</span></td>
+                                <td><span class="badge ${colorMapping[list.questionYn]} me-1">${list.questionYn}</span></td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -36,34 +56,87 @@ function renderQuestionList(url, listName) {
                                     </div>
                                 </td>
                             </tr>`;
-            $('tbody').append(template);
-            
-         // questionType에 따른 색상 처리
-         
-         if (list.questionType == "가계부") {
-         $(".badge").removeClass('bg-label-primary').addClass('bg-label-danger');
-         }
+                $('tbody').append(template);
 
+                //페이징
+                showPage(data.paging);
+                //게시물수
+                //검색
+
+            });
+        })
+        .fail(function (error) {
+            console.error("Error fetching question list: ", error);
         });
-    })
-    .fail(function (error) {
-        console.error("Error fetching question list: ", error);
-    });
+}
+// 페이징
+$('.pagination').on("click", "li a", function (e) {
+    e.preventDefault();
+    console.log('page 작업중..')
+
+    let targetPageNum = $(this).attr("href");
+    console.log("targetPageNum :: " + targetPageNum);
+    pageNum = targetPageNum;
+    renderQuestionList("/admin/question/list","",targetPageNum)
+})
+
+pageNum = 1;
+pageSize = 10.0; //페이지 번호 수
+pageUnit = 5;  //한페이지에 출력할 행의 수
+
+
+function showPage(replyCnt) {
+
+    var endNum = Math.ceil(pageNum / pageSize) * pageSize;
+    var startNum = endNum > pageSize ? endNum - pageSize : 1;
+
+    var prev = startNum != 1;
+    var next = false;
+
+    if (endNum * 10 >= replyCnt) {
+        endNum = Math.ceil(replyCnt / pageUnit);
+    }
+
+    if (endNum * 10 < replyCnt) {
+        next = true;
+    }
+
+    var str = "";
+
+    if (prev) {
+        str += "<li class='page-item'><a class='page-link' href='" + (startNum - 1) + "'>Previous</a></li>";
+    }
+
+    for (var i = startNum; i <= endNum; i++) {
+        var active = pageNum == i ? "active" : "";
+        str += "<li class='page-item " + active + "'> <a class='page-link' href='" + i + "'>" + i + "</a></li>";
+    }
+
+    if (next) {
+        str += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) + "'>Next</a><li>";
+    }
+
+    str += "";
+
+    console.log(str);
+
+    $('.pagination').html(str);
+    
 }
 
 // 전체 클릭시 문의 리스트
 $(document).on("click", "button[name='totalQuestionCount']", function (e) {
-    renderQuestionList("/admin/question/list", "totalQuestionList");
+    renderQuestionList("/admin/question/list", "","");
 });
 
 // 답변대기 클릭시 문의 리스트
 $(document).on("click", "button[name='pendingQuestionCount']", function (e) {
-    renderQuestionList("/admin/question/list", "pendingQuestionList");
+    renderQuestionList("/admin/question/list", "답변대기","");
 });
 
 // 답변완료 클릭시 문의 리스트
 $(document).on("click", "button[name='completedQuestionCount']", function (e) {
-    renderQuestionList("/admin/question/list", "completedQuestionList");
+    renderQuestionList("/admin/question/list", "답변완료","");
 });
 
 // 상세페이지 이동
@@ -76,58 +149,7 @@ $(document).on("click", "tr[name='goQuestionDetail']", function (e) {
 
 // 진입시 총 문의 개수
 $(document).ready(function () {
-    $.ajax({
-        url: "/admin/question/count",
-        method: "GET",
-        success: function (data) {
-            $("#initQuestionCount").text(`${data.totalQuestionCount}개`)
-        },
-        error: function (error) {
-            console.error("Error fetching question list: ", error);
-        }
-    });
-})
-
-// 전체 클릭시 문의 개수
-$(document).on("click", "button[name='totalQuestionCount']", function (e) {
-    $.ajax({
-        url: "/admin/question/count",
-        method: "GET",
-        success: function (data) {
-            $("#initQuestionCount").text(`${data.totalQuestionCount}개`)
-        },
-        error: function (error) {
-            console.error("Error fetching question list: ", error);
-        }
-    });
-})
-
-// 답변대기 클릭시 문의 개수
-$(document).on("click", "button[name='pendingQuestionCount']", function (e) {
-    $.ajax({
-        url: "/admin/question/count",
-        method: "GET",
-        success: function (data) {
-            $("#initQuestionCount").text(`${data.pendingQuestionCount}개`)
-        },
-        error: function (error) {
-            console.error("Error fetching question list: ", error);
-        }
-    });
-})
-
-// 답변완료 클릭시 문의 개수
-$(document).on("click", "button[name='completedQuestionCount']", function (e) {
-    $.ajax({
-        url: "/admin/question/count",
-        method: "GET",
-        success: function (data) {
-            $("#initQuestionCount").text(`${data.completedQuestionCount}개`)
-        },
-        error: function (error) {
-            console.error("Error fetching question list: ", error);
-        }
-    });
+    renderQuestionList("/admin/question/list", "");
 })
 
 
@@ -155,9 +177,9 @@ $(document).on("click", "button[name='updateConfirm']", function (e) {
     let questionId = formData.questionId;
     let answerId = formData.answerId;
 
-    const requestUrl = `/admin/question/detail/update/${questionId}/${answerId}`
-    $.ajax(`/admin/question/detail/update/${questionId}/${answerId}`, {
-        type: 'POST',
+    const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
+    $.ajax(requestUrl, {
+        type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(formData)
     })
@@ -191,7 +213,7 @@ function getUpdateInputForm() {
 // 삭제
 const deleteAnswerBtn = (answerId, questionId, e) => {
     const agreeCheck = confirm("답변을 삭제 하시겠습니까?");
-    const requestUrl = `/admin/question/detail/delete/${questionId}/${answerId}`
+    const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
     let target = event.target;
 
     if (agreeCheck == true) {

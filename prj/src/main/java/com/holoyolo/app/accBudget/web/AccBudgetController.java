@@ -32,16 +32,8 @@ public class AccBudgetController {
 		vo.setMemberId(id);
 		
 		//예산 데이터 입력
-		int ck = accBudgetService.insertBudget(vo);
-		if(ck < 1) {
-			System.out.println("입력안됨");
-		}
-		
-		if(accBookSuccessHistoryService.insertSuccess(vo)) {
-			System.out.println("입력됨");
-		}
-		
-		return "redirect:/member/accBook";
+		boolean ck = accBudgetService.insertBudget(vo);	
+		return "redirect:/member/accBook";		
 	}
 	
 	//예산 수정
@@ -50,19 +42,8 @@ public class AccBudgetController {
 		//회원아이디 조회
 		String id = principalDetails.getUsername();
 		vo.setMemberId(id);
+		accBudgetService.updateBudget(vo);
 		
-		//이전 예산데이터 사용여부 N으로 수정
-		if(accBudgetService.updateBudget(vo) > 0) {			
-			int ck = accBudgetService.insertBudget(vo);
-			//예산 데이터 입력
-			if(ck < 1) {
-				System.out.println("입력안됨");
-			}
-			else {
-				accBookSuccessHistoryService.deleteIng(id);
-				accBookSuccessHistoryService.insertSuccess(vo);
-			}
-		}
 		
 		return "redirect:/member/accBook";
 	}

@@ -12,9 +12,9 @@ public interface BoardService {
 
 	public List<BoardVO> BoardList(String req);
 
-	public BoardVO selectBoard(BoardVO vo);
+	public BoardVO selectBoard(int boardId);
 
-	public int insertBoard(JSONObject json, String userId);
+	public int insertBoard(BoardVO vo);
 
 	public int updateBoard(BoardVO vo);
 
@@ -25,4 +25,8 @@ public interface BoardService {
 
 	// 전체 레코드 수 조회
 	public int getTotalBoardRecords(JSONObject req);
+	//조회수 증가
+	
+	public int addView(int vo);
+	
 }

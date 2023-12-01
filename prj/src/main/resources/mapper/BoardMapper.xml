@@ -25,11 +25,22 @@
 
 
 	<select id="selectBoard" resultType="BoardVO">
-			SELECT * 
-			FROM BOARD
-			WHERE BOARD_ID= #{boardId}
+		SELECT 
+			b.BOARD_ID AS BOARD_ID,
+			b.MENU_TYPE AS MENU_TYPE, 
+			b.TITLE AS TITLE, 
+			b.CONTENT AS CONTENT,
+			b.WRITE_DATE AS WRITE_DATE,
+			b.UPDATE_DATE AS UPDATE_DATE,
+			b.VIEWS AS VIEWS,
+			b.MEMBER_ID AS MEMBER_ID,
+			b.CLUB_ID AS CLUB_ID, 
+			m.nickname AS nickname
+		FROM BOARD b
+			JOIN member m ON b.member_id = m.member_id
+		WHERE b.board_id = #{board_id}
 	</select>
-	
+
 	<insert id="insertBoard" parameterType="BoardVO">
 		<selectKey keyProperty="boardId"  resultType="int"  order="BEFORE">
 	  		SELECT NVL(MAX(board_id),0) + 1
@@ -59,6 +70,15 @@
     FROM BOARD
     WHERE MENU_TYPE = #{menuType}
     </select>
+    
+	<update id="addView" parameterType="BoardVO">
+	UPDATE BOARD 
+	SET  VIEWS = (
+		SELECT MAX(VIEWS) + 1  
+		FROM BOARD 
+		WHERE BOARD_ID = #{boardId})
+	WHERE BOARD_ID = #{boardId}
+	</update>
   
 </mapper>
 

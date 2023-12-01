@@ -13,12 +13,21 @@ public interface ClubMemberService {
 	public int joinClub(ClubMemberVO vo);
 	
 	//내가 가입한 클럽인지 확인
-	public int checkMyClub(ClubMemberVO vo);
+	public ClubMemberVO checkMyClub(ClubMemberVO vo);
 	
 
 	//클럽가입신청
 	public int reqClub(ClubMemberVO vo);
 	
 	//클럽가입승인
-	public int acceptClub(ClubMemberVO vo);
+	public String acceptClub(ClubMemberVO vo);
+	
+	//클럽탈퇴
+	public int outClubMember(ClubMemberVO vo);
+	
+	//클럽재가입
+	public int reJoin(ClubMemberVO vo);
+	
+	//클럽재가입신청
+	public int reqRejoin(ClubMemberVO vo);
 }

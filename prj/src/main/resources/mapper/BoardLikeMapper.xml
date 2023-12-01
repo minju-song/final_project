@@ -4,5 +4,30 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.holoyolo.app.boardLike.mapper.BoardLikeMapper">
+	<select id="checkLike" resultType="BoardLikeVO">
+			SELECT * 
+			FROM BOARD_LIKE
+			WHERE BOARD_ID = #{boardId}
+			AND MEMBER_ID =  #{memberId}
+	</select>
+	<select id="boardLikeCount" resultType="int">
+			SELECT count(*)
+			FROM BOARD_LIKE
+			WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	
+	<insert id="addLike" parameterType="BoardLikeVO">
+		INSERT INTO BOARD_LIKE(MEMBER_ID,BOARD_ID)
+		VALUES (#{memberId},#{boardId})
+	</insert>
+	
 
+	
+	<delete id="cancelLike">
+		DELETE FROM BOARD_LIKE
+		WHERE BOARD_ID = #{boardId}
+		AND MEMBER_ID =  #{memberId}
+	</delete>
+	
 </mapper>
