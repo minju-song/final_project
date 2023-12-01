@@ -35,7 +35,7 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		//거래내역 등록
 		if(accBookHistoryMapper.insertAcc(vo)> 0) {
 			//방금 등록한 거래내역 아이디 리턴
-			return accBookHistoryMapper.selectCurrent(vo);
+			return vo.getAbHistoryId();
 		}
 		return -1;
 		

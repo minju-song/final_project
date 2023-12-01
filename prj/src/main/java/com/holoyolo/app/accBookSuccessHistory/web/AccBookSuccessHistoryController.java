@@ -1,7 +1,5 @@
 package com.holoyolo.app.accBookSuccessHistory.web;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,7 +19,8 @@ public class AccBookSuccessHistoryController {
 	//성공여부가져오기
 	@GetMapping("getSuccess")
 	@ResponseBody
-	public String getSuccessByDay(@AuthenticationPrincipal PrincipalDetails principalDetails, AccBookSuccessHistoryVO vo) {
+	public String getSuccessByDay(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+			                      AccBookSuccessHistoryVO vo) {
 		vo.setMemberId(principalDetails.getUsername());
 
 		String result = accBookSuccessHistoryService.getSuccessByDay(vo);

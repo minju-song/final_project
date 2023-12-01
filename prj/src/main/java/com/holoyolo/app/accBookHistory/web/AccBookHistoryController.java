@@ -47,7 +47,8 @@ public class AccBookHistoryController {
 	
 	//가계부 첫 화면
 	@GetMapping("/member/accBook")
-	public String accBookPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
+	public String accBookPage(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			                  Model model) {
 		//회원의 카드번호 담을 맵
 		Map<String, String> map = new HashMap<>();
 		//회원의 현재 예산정보 담을 맵
@@ -100,7 +101,8 @@ public class AccBookHistoryController {
 	//해당 날짜 거래내역 가져옴
 	@GetMapping("getAb")
 	@ResponseBody
-	public List<AccBookHistoryVO> getAb(@AuthenticationPrincipal PrincipalDetails principalDetails, AccBookHistoryVO vo) {
+	public List<AccBookHistoryVO> getAb(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+			                            AccBookHistoryVO vo) {
 		//아이디세팅
 		vo.setMemberId(principalDetails.getUsername());
 		

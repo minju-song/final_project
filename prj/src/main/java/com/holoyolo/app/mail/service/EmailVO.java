@@ -17,5 +17,6 @@ public class EmailVO {
     private String reqId; //가입자아이디
     private String text; //가입사유
     private String clubName; //클럽이름
+    private String type; //가입타입
     
 }
