@@ -52,7 +52,10 @@
         #mainContent {
             border: 1px solid blue;
         }
-
+        .body_wrap {
+        	min-height: 650px;
+        }
+      
         * {
             cursor: url(https://cur.cursors-4u.net/nature/nat-10/nat979.ani), url(https://cur.cursors-4u.net/nature/nat-10/nat979.gif), auto !important;
         }
@@ -70,12 +73,22 @@
             <div class="container">
                 <div class="row body_wrap">
                     <!--/* 사이드메뉴 */-->
-                    <div id="side" th:replace="fragments/sidemenu.html :: sidemenuFragment"></div>
-
+                    <th:block th:if="${menu == 'mypage'} or ${menu == 'community'} or ${menu == 'cs'}">
+                    	<div id="side" th:replace="fragments/sidemenu.html :: sidemenuFragment"></div>
+					</th:block>
+					
                     <!--/* 컨텐츠 영역 : 동적으로 변동함 */-->
-                    <div class="col-9 my_col_9 my_content">
-                        <div id="contents" layout:fragment="content"></div>
-                    </div>
+                    <th:block th:if="${menu == 'mypage'} or ${menu == 'community'} or ${menu == 'cs'}">
+                    	<div class="col-9 my_col_9 my_content">
+	                        <div id="contents" layout:fragment="content"></div>
+	                    </div>
+                    </th:block>
+                    <th:block th:if="${menu != 'mypage'} and ${menu != 'community'} and ${menu != 'cs'}">
+                    	<div class="col-12 my_content">
+	                        <div id="contents" layout:fragment="content"></div>
+	                    </div>
+                    </th:block>
+                    
                 </div>
             </div>
         </div>

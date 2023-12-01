@@ -25,8 +25,8 @@ public interface MemberMapper {
 	// 회원 단건조회
 	public MemberVO selectMemberInfo(MemberVO memberVO);
 	
-	// 회원 수정
-	public Map<String, Object> updateMemberInfo(MemberVO memberVO);
+	// 회원정보 업데이트
+	public int updateMemberInfo(MemberVO memberVO);
 	
 	// 회원 정지
 	

@@ -17,9 +17,9 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import com.holoyolo.app.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class EmailService {
@@ -52,12 +52,12 @@ public class EmailService {
 			mimeMessageHelper.setText(setContext(authNum, type), true); // 메일 본문 내용, HTML 여부
 			javaMailSender.send(mimeMessage);
 			
-			log.info("Success");
+			log.info("Mail Send Success");
 			
 			//return authNum;
 			
 		} catch(MessagingException e) {
-			log.info("Fail");
+			log.info("Mail Send Fail");
 			throw new RuntimeException(e);
 		}
 	}
@@ -102,8 +102,6 @@ public class EmailService {
     public void sendRequest(EmailVO emailVO) {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		
-		
-		
 		try {
 			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 			mimeMessageHelper.setTo(emailVO.getTo()); // 수신자
@@ -111,12 +109,12 @@ public class EmailService {
 			mimeMessageHelper.setText(setContextReq(emailVO.getClubId(),emailVO.getClubName(),emailVO.getReqId(), emailVO.getText(),emailVO.getType()), true); // 메일 본문 내용, HTML 여부
 			javaMailSender.send(mimeMessage);
 			
-			log.info("Success");
+			log.info("Mail Send Success");
 			
 			//return authNum;
 			
 		} catch(MessagingException e) {
-			log.info("Fail");
+			log.info("Mail Send Fail");
 			throw new RuntimeException(e);
 		}
     }
