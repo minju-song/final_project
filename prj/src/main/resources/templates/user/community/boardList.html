@@ -18,10 +18,10 @@
       </div>
       <div class="row justify-content-end mt-3">
         <div class="col-2">
-          <th:block th:if = "${not #strings.isEmpty(username)}">
-            <button class="btn btn-primary btn-block" type="button" th:href="@{/member/addInfoBoard}">등록</button>
+          <th:block th:if="${not #strings.isEmpty(username)}">
+            <a class="btn btn-primary btn-block" type="button" th:href="@{/member/addInfoBoard}">등록</a>
           </th:block>
-          
+
         </div>
       </div>
       <br>
@@ -38,16 +38,10 @@
               </tr>
             </thead>
             <tbody id="boardTableBody">
-              <th:block th:if="${boardList} == '0'">
-                <tr class="text-center">
-                  <td colspan="5">작성된 게시물이 없습니다.</td>
-                </tr>
-              </th:block>
-              <th:block th:unless="${boardList} == '0'">
-                <tr>
-                  <td>데이터</td>
-                </tr>
-              </th:block>
+              <tr class="text-center" th:if="${boardList} == '0'"> </tr>
+              <tr th:unless="${boardList} == '0'">
+                <td>데이터</td>
+              </tr>
             </tbody>
           </table>
           <div id="pagination-container">
@@ -62,6 +56,13 @@
       </div>
     </div>
     <script th:src="@{/user/js/community.js}"></script>
+    <script>
+      loadData(currentPage);
+
+      $(document).ready(function () {
+        loadData(currentPage);
+      });
+    </script>
   </div>
 </body>
 

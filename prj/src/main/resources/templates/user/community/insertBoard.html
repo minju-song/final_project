@@ -60,7 +60,10 @@
               <label for="nickname">작성자</label>
               <input type="text" class="form-control" aria-label="Username" th:value="${user.nickname}" id="nickname"
                 readonly>
-                <input type="text" class="form-control" aria-label="Username" th:value="${user.username}" id="userId"
+            </div>
+            <div class="input-group mb-4 col-3">
+              <label for="nickname">작성자ID</label>
+              <input type="text" class="form-control" aria-label="Username" th:value="${user.memberId}" id="userId"
                 readonly>
             </div>
 
@@ -77,14 +80,15 @@
       <script>
         //등록이벤트
         let insertPostBtn = document.getElementById('insertPostBtn');
-        insertPostBtn.addEventListener('click', getPost);
-
+        insertPostBtn.addEventListener('click', savePost);
+        //게시판 체크(AA1~AA6)
+        let ckBoardType = document.getElementById('ckBoardType').value;
         let boardType = "";
-          if (ckBoardType == "정보공유게시판") {
-            boardType = "AA2";
-          } else if (ckBoardType == "수다방") {
-            boardType = "AA3";
-          }
+        if (ckBoardType == "정보공유게시판") {
+          boardType = "AA2";
+        } else if (ckBoardType == "수다방") {
+          boardType = "AA3";
+        }
 
         const editor = new toastui.Editor({
           el: document.querySelector('#content'),      // 에디터를 적용할 요소 (컨테이너)
@@ -157,51 +161,11 @@
 
             const postId = await response.json();
             alert(postId + '번 게시글이 저장되었습니다.');
-            location.href = '/editor/list';
+            location.href = '/member/infoBoard';
 
           } catch (error) {
             console.error('저장 실패 : ', error)
           }
-        }
-//==============================================================================================
-//==============================================================================================
-//==============================================================================================
-        function getPost() {
-
-          let title = document.getElementById('title').value;
-          let ckBoardType = document.getElementById('ckBoardType').value;
-          let content = editor.getMarkdown();
-          let boardType = "";
-          if (ckBoardType == "정보공유게시판") {
-            boardType = "AA2";
-          } else if (ckBoardType == "수다방") {
-            boardType = "AA3";
-          }
-          //console.log();
-          let data = {
-            "menuType": boardType,
-            "title": title,
-            "content": content,
-
-          }
-          request(data)
-        }
-
-        function request(reqdata) {
-          $.ajax({
-            type: 'POST',
-            url: '/insertPostreq',
-            contentType: 'application/json;charset=UTF-8',
-            data: JSON.stringify(reqdata)
-          }).done(function (response) {
-
-            console.log(response);
-          }).fail(function (request, status, error) {
-            // Handle the error response from the server
-            console.log("code: " + request.status)
-            console.log("message: " + request.responseText)
-            console.log("error: " + error);
-          })
         }
       </script>
     </div>

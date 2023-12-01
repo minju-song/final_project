@@ -68,8 +68,6 @@ function setupPagination(totalPages) {
     }
 }
 
-loadData(currentPage);
-
 function loadData(page) {
     currentPage = page;
     let start = (currentPage - 1) * recordsPerPage;
@@ -109,7 +107,7 @@ function updateTable(data) {
             row.append($("<td>").text(formatDate(item.writeDate)));
             row.append($("<td>").text(item.nickname));
             row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
-            
+
             tbody.append(row);
         });
     } else {
@@ -119,10 +117,6 @@ function updateTable(data) {
     }
 
 }
-
-$(document).ready(function () {
-    loadData(currentPage);
-});
 
 function formatDate(dateString) {
     let date = new Date(dateString);
