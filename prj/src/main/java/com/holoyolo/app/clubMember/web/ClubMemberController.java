@@ -58,13 +58,13 @@ public class ClubMemberController {
 	}
 	
 	
-	//클럽가입신청
+	//클럽가입신청 승낙
 	@GetMapping("/joinClubMail")
 	public String joinClubMail(Model model,ClubMemberVO vo) {
 		System.out.println(vo);
 
 		Map<String, Object> joinMap = new HashMap<>();
-		if(clubMemberService.acceptClub(vo) > 0 ) {
+		if(clubMemberService.acceptClub(vo).equals("success")) {
 			joinMap.put("joinRes", "success");
 			joinMap.put("member", vo.getMemberId());
 		}
@@ -78,6 +78,7 @@ public class ClubMemberController {
 		return "user/club/joinClub";
 	}
 	
+	//클럽탈퇴
 	@GetMapping("/member/outClub")
 	@ResponseBody
 	public String outClub(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubMemberVO vo) {
@@ -90,5 +91,23 @@ public class ClubMemberController {
 		else {
 			return "fail";
 		}
+	}
+	
+	//클럽재가입승낙
+	@GetMapping("/rejoinMail")
+	public String rejoin(Model model, ClubMemberVO vo) {
+		
+		Map<String, Object> joinMap = new HashMap<>();
+		if(clubMemberService.reJoin(vo) > 0) {
+			joinMap.put("joinRes", "success");
+			joinMap.put("member", vo.getMemberId());
+		}
+		else {
+			joinMap.put("joinRes", "fail");
+			joinMap.put("member", vo.getMemberId());
+		}
+		model.addAttribute("joinResult", joinMap);
+
+		return "user/club/joinClub";
 	}
 }

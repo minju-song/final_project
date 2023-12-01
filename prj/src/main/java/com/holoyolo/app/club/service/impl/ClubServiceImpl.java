@@ -101,7 +101,6 @@ public class ClubServiceImpl implements ClubService {
 		
 		//가입한 회원목록
 		List<ClubMemberVO> memberList = clubMemberMapper.getMembers(vo);
-
 		map.put("members", memberList);
 		
 		//클럽의 평균 성공률
@@ -110,24 +109,18 @@ public class ClubServiceImpl implements ClubService {
 		
 		//클럽의 현재 예산정보
 		ClubBudgetVO budget = clubBudgetMapper.getClubBudget(vo.getClubId());
-		if(budget != null) {			
-			if(budget.getClubBudgetUnit().equals("YA1")) budget.setClubBudgetUnit("일");
-			else if(budget.getClubBudgetUnit().equals("YA2")) budget.setClubBudgetUnit("주");
-			else budget.setClubBudgetUnit("월");
-			map.put("budget", budget);
-		}
-		else {
-			map.put("budget", null);
-		}
+		map.put("budget", budget);
+		
 		
 		//클럽의 현재 진행중인 기간
 		ClubSuccessHistoryVO csvo = new ClubSuccessHistoryVO();
 		csvo = clubSuccessHistoryMapper.getIng(vo.getClubId());
 		System.out.println("언제까지?"+csvo);
-		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		map.put("start",simpleDateFormat.format(csvo.getStartDate()));
-		map.put("end",simpleDateFormat.format(csvo.getEndDate()));
+		if(csvo != null) {			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			map.put("start",simpleDateFormat.format(csvo.getStartDate()));
+			map.put("end",simpleDateFormat.format(csvo.getEndDate()));
+		}
 		return map;
 	}
 
@@ -143,8 +136,7 @@ public class ClubServiceImpl implements ClubService {
 //			temp.setClubProfileImg(loadingPath+"club/profile/"+list.get(i).getClubProfileImg());
 			list.set(i, temp);
 		}
-		
-		map.put("length", list.size());
+
 		map.put("result", list);
 		
 		return map;
@@ -197,6 +189,17 @@ public class ClubServiceImpl implements ClubService {
 			return "budgetFail";
 		}
 		return "fail";
+	}
+
+	@Override
+	public String mandateKing(ClubVO vo) {
+		if(clubMapper.mandateKing(vo) > 0) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+
 	}
 
 

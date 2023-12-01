@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="/user/css/clubPage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -14,14 +16,16 @@
             <div class="col-8">
                 <div class="info clubInfo">
                     <h2>[[${result.club.clubName}]]</h2>
-                    <h4>&#128081; : [[${result.club.clubLeader}]]</h4>
+                    <h4>&#128081; : [[${result.club.leaderName}]]</h4>
                     <h4>&#128681; " [[${result.club.clubIntro}]] "</h4>
                     <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
                     <h4>평균 성공률 : [[${result.avg}]]%</h4>
                     <hr>
                     <h4>가입조건 : [[${result.club.joinCondition}]]</h4>
                     <th:block th:if="${result.budget != null}">
-                        <h4>절약예산 : <span th:text="|${#numbers.formatInteger(result.budget.clubBudgetPrice, 0, 'COMMA')}원|"></span> / ([[${result.budget.clubBudgetUnit}]])</h4>
+                        <h4>절약예산 : <span
+                                th:text="|${#numbers.formatInteger(result.budget.clubBudgetPrice, 0, 'COMMA')}원|"></span>
+                            / ([[${result.budget.clubBudgetUnit}]])</h4>
                     </th:block>
                     <th:block th:if="${result.budget == null}">
                         <h4>절약예산이 등록되지 않았습니다.</h4>
@@ -49,23 +53,38 @@
                                 </p>
                             </th:block>
                             <th:block th:if="${member.memberId != result.club.clubLeader}">
-                                <p><img class="kingImg" th:src="@{/user/images/club/notking.png}">
+                                <p><img class="kingImg" th:src="@{/user/images/club/notking.png}" th:onclick="
+                                    mandate(${member.memberId})">
                                     <span class="nickname">[[${member.memberName}]]님</span>
                                     <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
                                 </p>
                             </th:block>
                         </div>
                     </th:block>
-                    <th:block th:if="${session.check eq false}">
+                    <th:block th:if="${session.check != true}">
 
                         <h5>가입해야만 확인할 수 있습니다.</h5>
                     </th:block>
                 </div>
-                <th:block th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople}">
-                    <button>가입하기</button><br>
+                <th:block
+                    th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople and result.club.openScope eq 'OA1'}">
+                    <button onclick="join()">즉시가입</button><br>
+                </th:block>
+                <th:block
+                    th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople and result.club.openScope eq 'OA2'}">
+                    <button id="sendMail" onclick="sendMail()">가입신청</button><br>
+                </th:block>
+                <th:block th:if="${session.check eq '탈퇴'}">
+                    <button onclick="rejoin()">재가입</button><br>
+                </th:block>
+                <th:block th:if="${session.check eq '승인대기'}">
+                    <button disabled>승인대기</button><br>
+                </th:block>
+                <th:block th:if="${session.check eq '재가입승인대기'}">
+                    <button disabled>재가입승인대기</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq true}">
-                    <button id="outClub">모임탈퇴</button><br>
+                    <button id="outClub" onclick="outClub()">모임탈퇴</button><br>
                 </th:block>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
                     <button>모임삭제</button><br>
@@ -80,6 +99,16 @@
         <script th:inline="javascript">
             let userId = /*[[${userId}]]*/ null;
             let leader = (userId === /*[[${result.club.clubLeader}]]*/ null) ? true : false;
+            let clubLeader = /*[[${result.club.clubLeader}]]*/ null;
+            let clubName = /*[[${result.club.clubName}]]*/ null;
+
+            //클럽탈퇴버튼
+            // let outClubBtn = document.getElementById('outClub');
+            // outClubBtn.addEventListener("click", outClub);
+
+            //클럽가입신청버튼
+            // let sendMailBtn = document.getElementById('sendMail');
+            // sendMailBtn.addEventListener("click", sendMail);
         </script>
         <script th:src="@{/user/js/clubpage.js}"></script>
     </div>

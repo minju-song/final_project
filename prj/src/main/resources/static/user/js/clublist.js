@@ -87,7 +87,7 @@ function callList(page, search) {
                         .then(resolve => resolve.json())
                         .then(result => {
                             console.log('총페이지' + _totalPages);
-        
+
                             $("#pagination").twbsPagination("changeTotalPages", _totalPages, page);
                             drawClub(result.result);
                             flag = true;
@@ -167,6 +167,11 @@ function drawClub(clubArr) {
                         ck = true;
                         btn.disabled = true;
                     }
+                    else if (club.stopDate != null) {
+                        btn.innerText = '재가입';
+                        ck = true;
+                        btn.disabled = true;
+                    }
                     //null이 아니면 내 모임
                     else {
                         btn.innerText = '내 모임';
@@ -237,7 +242,7 @@ function join(clubId) {
     }
     else {
         Swal.fire({
-            title: "클럽에 바로 가입하시겠습니까?",
+            title: "모임에 바로 가입하시겠습니까?",
             text: "즉시 가입이 가능합니다.",
             icon: "question",
             showCancelButton: true,
@@ -255,7 +260,9 @@ function join(clubId) {
                                 text: "가입이 완료되었습니다.",
                                 icon: "success"
                             }).then((result) => {
-                                location.reload();
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
 
                             });
                         }
@@ -264,9 +271,14 @@ function join(clubId) {
                                 title: "가입실패",
                                 text: "오류났음",
                                 icon: "error"
+                            }); then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+
                             });
                         }
-                        location.reload();
+
                     })
             }
         });
@@ -283,7 +295,7 @@ function submit(clubName, clubId, clubLeader) {
     if (userId == "null") location.href = "/loginForm";
     else {
         Swal.fire({
-            title: "클럽에 가입 신청을 하시겠습니까?",
+            title: "모임에 가입 신청을 하시겠습니까?",
             text: "가입 허가를 받아합니다.",
             icon: "question",
             showCancelButton: true,
@@ -302,7 +314,7 @@ function submit(clubName, clubId, clubLeader) {
                     showCancelButton: true
                 }).then((text) => {
                     if (text) {
-                        let clubVO = { clubName: clubName, clubId: clubId, clubLeader: clubLeader, text: text.value };
+                        let clubVO = { clubName: clubName, clubId: clubId, clubLeader: clubLeader, text: text.value, type: 'join' };
                         fetch('/sendmail/requestclub', {
                             method: 'POST',
                             headers: {

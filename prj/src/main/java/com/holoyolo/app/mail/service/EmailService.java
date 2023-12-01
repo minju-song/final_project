@@ -108,7 +108,7 @@ public class EmailService {
 			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 			mimeMessageHelper.setTo(emailVO.getTo()); // 수신자
 			mimeMessageHelper.setSubject(emailVO.getSubject()); // 제목
-			mimeMessageHelper.setText(setContextReq(emailVO.getClubId(),emailVO.getClubName(),emailVO.getReqId(), emailVO.getText()), true); // 메일 본문 내용, HTML 여부
+			mimeMessageHelper.setText(setContextReq(emailVO.getClubId(),emailVO.getClubName(),emailVO.getReqId(), emailVO.getText(),emailVO.getType()), true); // 메일 본문 내용, HTML 여부
 			javaMailSender.send(mimeMessage);
 			
 			log.info("Success");
@@ -121,12 +121,13 @@ public class EmailService {
 		}
     }
     
-    public String setContextReq(int clubId,String clubName, String reqId, String text) {
+    public String setContextReq(int clubId,String clubName, String reqId, String text, String type) {
         Context context = new Context();
         context.setVariable("club", clubId);
         context.setVariable("member", reqId);
         context.setVariable("clubName", clubName);
         context.setVariable("text", text);
+        context.setVariable("type", type);
         String path = "/user/mailbody/request";
         return templateEngine.process(path, context);
     }

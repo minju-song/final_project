@@ -105,9 +105,22 @@ public class ClubController {
 		ClubMemberVO cmvo = new ClubMemberVO();
 		cmvo.setClubId(vo.getClubId());
 		cmvo.setMemberId(principalDetails.getUsername());
-		int ck = clubMemberService.checkMyClub(cmvo);
-		if(ck == 1) {
-			session.setAttribute("check", true);
+		cmvo = clubMemberService.checkMyClub(cmvo);
+		if(cmvo != null) {
+			if(cmvo.getStopDate() != null) {
+				if(cmvo.getJoinDate() == null) {
+					session.setAttribute("check", "재가입승인대기");
+				}
+				else {					
+					session.setAttribute("check", "탈퇴");
+				}
+			}
+			else if (cmvo.getJoinDate() == null) {
+				session.setAttribute("check", "승인대기");
+			}
+			else {				
+				session.setAttribute("check", true);
+			}
 		}
 		else {
 			session.setAttribute("check", false);
@@ -130,13 +143,19 @@ public class ClubController {
 	
 	//클럽생성
 	@PostMapping("/member/clubInsert")
-	public String clubInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubVO vo) throws IllegalStateException, IOException {
-		
+	public String clubInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, ClubVO vo) throws IllegalStateException, IOException {			
 		//프로필사진 업로드 이후 파일명 받아옴
-		 String fileName = attachmentService.uploadImage(vo.getImg(), "clubProfile");
-
-		 //파일명과 리더아이디 설정
-		 vo.setClubProfileImg(fileName);
+		String fileName = attachmentService.uploadImage(vo.getImg(), "clubProfile");
+		System.out.println(fileName);
+		//파일명과 리더아이디 설정
+		if(fileName == null) {
+			vo.setClubProfileImg("club/profile/notking.png");
+		}
+		else {			
+			vo.setClubProfileImg(fileName);
+		}
+		
+		
 		 vo.setClubLeader(principalDetails.getUsername());
 		 
 		 if(clubService.insertClub(vo).equals("success")) {
@@ -146,5 +165,11 @@ public class ClubController {
 			 System.out.println("실패");
 		 }
 		 return "redirect:/member/club/clubPage?clubId="+vo.getClubId();
+	}
+	
+	@GetMapping("member/mandate")
+	public String mandate(ClubVO vo) {
+		System.out.println("들어온 클럽 : "+vo);
+		return clubService.mandateKing(vo);
 	}
 }

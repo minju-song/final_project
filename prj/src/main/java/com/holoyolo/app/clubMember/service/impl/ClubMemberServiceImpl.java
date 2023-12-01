@@ -1,6 +1,8 @@
 package com.holoyolo.app.clubMember.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,7 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 
 
 	@Override
-	public int checkMyClub(ClubMemberVO vo) {
+	public ClubMemberVO checkMyClub(ClubMemberVO vo) {
 		return clubMemberMapper.checkMyClub(vo);
 	}
 
@@ -48,13 +50,33 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 	}
 
 	@Override
-	public int acceptClub(ClubMemberVO vo) {
-		return clubMemberMapper.acceptClub(vo);
+	public String acceptClub(ClubMemberVO vo) {
+		Map<String, Object> ck = new HashMap<>();
+		ck = clubMemberMapper.checkAccept(vo);
+		System.out.println("확인"+ck);
+		System.out.println("확인"+ck.get("COUNT"));
+		if(Integer.parseInt(String.valueOf(ck.get("COUNT"))) < Integer.parseInt(String.valueOf(ck.get("PEOPLE")))) {
+			clubMemberMapper.acceptClub(vo);
+			return "success";
+		}
+		else {
+			return "fail";
+		}
 	}
 
 	@Override
 	public int outClubMember(ClubMemberVO vo) {
 		return clubMemberMapper.outClubMember(vo);
+	}
+
+	@Override
+	public int reJoin(ClubMemberVO vo) {
+		return clubMemberMapper.reJoin(vo);
+	}
+	
+	//클럽재가입신청
+	public int reqRejoin(ClubMemberVO vo) {
+		return clubMemberMapper.reqRejoin(vo);
 	}
 
 

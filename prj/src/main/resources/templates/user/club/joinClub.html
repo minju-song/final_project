@@ -10,7 +10,13 @@
 <body>
     <div layout:fragment="content">
         <!-- if문 걸어야함 -->
-        <h1>[[${joinResult.member}]]님의 가입이 승인되었습니다.</h1>
+        <th:block th:if="${joinResult.joinRes == 'success'}">
+            <h1>[[${joinResult.member}]]님의 가입이 승인되었습니다.</h1>
+        </th:block>
+        <th:block th:if="${joinResult.joinRes == 'fail'}">
+            <h1>[[${joinResult.member}]]님의 가입이 거부되었습니다.</h1>
+            <h1>[인원초과]</h1>
+        </th:block>
     </div>
 </body>
 

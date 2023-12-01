@@ -70,6 +70,7 @@ public class EmailController {
 				.clubName(vo.getClubName())
 				.reqId(principalDetails.getUsername())
 				.text(vo.getText())
+				.type(vo.getType())
 				.build();
 		
 		System.out.println("이메일객체"+vo);
@@ -78,11 +79,21 @@ public class EmailController {
 		cmvo.setClubId(vo.getClubId());
 		cmvo.setMemberId(principalDetails.getUsername());
 		
-		if(clubMemberService.reqClub(cmvo) > 0) {
-			System.out.println("성공");
+		if(vo.getType().equals("join")) {			
+			if(clubMemberService.reqClub(cmvo) > 0) {
+				System.out.println("성공");
+			}
+			else {
+				System.out.println("실패");
+			}
 		}
 		else {
-			System.out.println("실패");
+			if(clubMemberService.reqRejoin(cmvo) > 0) {
+				System.out.println("성공");
+			}
+			else {
+				System.out.println("실패");
+			}
 		}
 		emailService.sendRequest(emailVO);
 	}

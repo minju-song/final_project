@@ -43,4 +43,6 @@ public interface ClubService {
 	//클럽생성
 	public String insertClub(ClubVO vo);
 
+	//클럽방장위임
+	public String mandateKing(ClubVO vo);
 }

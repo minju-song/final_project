@@ -41,4 +41,6 @@ public interface ClubMapper {
 	//클럽생성
 	public int insertClub(ClubVO vo);
 
+	//클럽방장위임
+	public int mandateKing(ClubVO vo);
 }

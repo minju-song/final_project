@@ -6,9 +6,15 @@
   
   	<!-- 해당 클럽의 현재 예산정보 -->
   	<select id="getClubBudget" resultType="ClubBudgetVO">
-  		SELECT * 
-  		FROM club_budget 
-  		WHERE club_id = #{clubId} and use_yn = 'Y'
+  		SELECT CLUB_BUDGET_ID
+				,CLUB_BUDGET_PRICE
+				,fn_get_code_name(CLUB_BUDGET_UNIT) CLUB_BUDGET_UNIT
+				,SETTING_DATE
+				,CLUB_ID
+				,USE_YN 
+  		 FROM club_budget 
+  		WHERE club_id = #{clubId} 
+  		  and use_yn = 'Y'
   	</select>
   	
   	<!-- 클럽의 첫 예산등록 -->

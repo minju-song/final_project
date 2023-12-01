@@ -40,5 +40,8 @@ public class ClubVO {
 	private String unit;
 	//예산금액
 	private int price;
+	
+	//가입타입 (최초가입, 재가입)
+	private String type;
 
 }
