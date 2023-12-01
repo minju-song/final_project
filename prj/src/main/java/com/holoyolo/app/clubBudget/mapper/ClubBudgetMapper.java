@@ -9,4 +9,7 @@ public interface ClubBudgetMapper {
 	
 	//클럽예산입력
 	public int insertClubBudget(ClubBudgetVO vo);
+	
+	//클럽예산 사용안함으로 바꿈
+	public int updateUseN(ClubBudgetVO vo);
 }

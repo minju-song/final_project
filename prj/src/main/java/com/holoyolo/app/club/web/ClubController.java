@@ -130,10 +130,12 @@ public class ClubController {
 		Map<String, Object> map = clubService.getClubPage(vo);
 		model.addAttribute("result", map);
 		model.addAttribute("userId", principalDetails.getUsername());
+		model.addAttribute("ClubBudgetVO", new ClubBudgetVO());
 		return "user/club/clubPage";
 	}
 	
 	
+	//클럽생성 페이지이동
 	@GetMapping("/member/club/clubInsert")
 	public String clubInsertForm(Model model) {
 		

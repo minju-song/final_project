@@ -6,6 +6,32 @@
 let urlParams = new URLSearchParams(window.location.search);
 let clubId = urlParams.get('clubId');
 
+$(function () {
+
+    $('#updateBudget').on('show.bs.modal', function (event) {
+
+        let budgetprice = $(event.relatedTarget).data('budgetprice');
+        console.log(budgetprice);
+        document.getElementById('clubBudgetPrice').value = budgetprice;
+
+        let clubIdInput = document.getElementById('clubId');
+        clubIdInput.value = clubId
+
+        let selectBox2 = document.getElementById('clubBudgetUnitSelect');
+        let len2 = selectBox2.options.length;
+        let budgetunit = $(event.relatedTarget).data('budgetunit');
+        console.log(budgetunit);
+        if (budgetunit == '일') budgetunitval = 'YA1';
+        else if (budgetunit == '주') budgetunitval = 'YA2';
+        else if (budgetunit == '월') budgetunitval = 'YA3';
+        console.log(budgetunitval);
+        for (let i = 0; i < len2; i++) {
+            if (selectBox2.options[i].value == budgetunitval) {
+                selectBox2.options[i].selected = true;
+            }
+        }
+    });
+})
 
 
 
@@ -209,3 +235,4 @@ function mandate(memberId) {
             location.reload();
         });
 }
+

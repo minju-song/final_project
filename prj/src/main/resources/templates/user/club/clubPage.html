@@ -8,28 +8,103 @@
     <link rel="stylesheet" href="/user/css/clubPage.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <style>
+        .mybtn {
+            border: 0;
+            background-color: white;
+        }
+        .info-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 100%; 
+    }
+
+    .info {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    #profile-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    #profile {
+        max-width: 30%;
+        max-height: 30%;
+        width: auto; /* 추가 */
+        height: auto; /* 추가 */
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .info .row > div {
+        flex: 1;
+        box-sizing: border-box;
+    }
+
+    hr {
+        width: 100%;
+    }
+
+
+    /* 반응형 스타일 */
+    @media (max-width: 768px) {
+        .info .row > div {
+            width: 100%;
+            margin: 1rem 0;
+        }
+    }
+    </style>
 </head>
 
 <body>
     <div layout:fragment="content">
-        <div class="row">
+        <div class="row" style="justify-content: center;">
             <div class="col-8">
                 <div class="info clubInfo">
-                    <h2>[[${result.club.clubName}]]</h2>
-                    <h4>&#128081; : [[${result.club.leaderName}]]</h4>
-                    <h4>&#128681; " [[${result.club.clubIntro}]] "</h4>
-                    <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
-                    <h4>평균 성공률 : [[${result.avg}]]%</h4>
+                    <div  style="display: flex;">
+                        <div style="flex: 1;"  id="profile-container">
+                            <img th:src="@{'/images/' + ${result.club.clubProfileImg}}" id="profile"/>
+                        </div>
+                        <div style="flex: 1;">
+                            <h2>[[${result.club.clubName}]]</h2>
+                            <h4>&#128081; : [[${result.club.leaderName}]]</h4>
+                            <h4>&#128681; " [[${result.club.clubIntro}]] "</h4>
+                            <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
+                            <h4>평균 성공률 : [[${result.avg}]]%</h4>
+                        </div>
+                    </div>
                     <hr>
-                    <h4>가입조건 : [[${result.club.joinCondition}]]</h4>
-                    <th:block th:if="${result.budget != null}">
-                        <h4>절약예산 : <span
-                                th:text="|${#numbers.formatInteger(result.budget.clubBudgetPrice, 0, 'COMMA')}원|"></span>
-                            / ([[${result.budget.clubBudgetUnit}]])</h4>
-                    </th:block>
-                    <th:block th:if="${result.budget == null}">
-                        <h4>절약예산이 등록되지 않았습니다.</h4>
-                    </th:block>
+                    <div>
+                        <h4>가입조건 : [[${result.club.joinCondition}]]</h4>
+                        <th:block th:if="${result.budget != null}">
+                            <h4>절약예산 : 
+                                <span th:text="|${#numbers.formatInteger(result.budget.clubBudgetPrice, 0, 'COMMA')}원|"></span>
+                                / ([[${result.budget.clubBudgetUnit}]])
+                                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
+                                    <button type="button" class="mybtn" data-toggle="modal" data-target="#updateBudget"
+                                    data-whatever="수정" th:data-budgetunit="${result.budget.clubBudgetUnit}"
+                                    th:data-budgetprice="${result.budget.clubBudgetPrice}">
+                                    ✔️수정✔️
+                                    </button>
+                                </th:block>
+                            </h4>
+                        </th:block>
+                        <th:block th:if="${result.budget == null}">
+                            <h4>절약예산이 등록되지 않았습니다.</h4>
+                        </th:block>
+                    </div>
                 </div>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
                     <h1>모임장</h1>
@@ -38,6 +113,8 @@
                     <h1>모임원맞음</h1>
                 </th:block>
             </div>
+
+
             <div class="col-3">
                 <div class="info memberList">
                     <h3>팀원들의 진행상황</h3>
@@ -53,8 +130,8 @@
                                 </p>
                             </th:block>
                             <th:block th:if="${member.memberId != result.club.clubLeader}">
-                                <p><img class="kingImg" th:src="@{/user/images/club/notking.png}" th:onclick="
-                                    mandate(${member.memberId})">
+                                <p><img class="kingImg" th:src="@{/user/images/club/notking.png}" th:data-member-id="${member.memberId}" 
+                                    th:onclick="mandate(this.getAttribute('data-member-id'))">
                                     <span class="nickname">[[${member.memberName}]]님</span>
                                     <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
                                 </p>
@@ -94,6 +171,53 @@
             </div>
         </div>
 
+
+
+        <div class="modal fade" id="updateBudget" tabindex="-1" aria-labelledby="updateBudgetLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateBudgetLabel">예산 수정</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- //th:action="@{cardInsert}" -->
+                        <form method="POST" th:action="@{updateBudget}" th:object="${ClubBudgetVO}">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">예산 단위</label>
+                                <br>
+                                <select id="clubBudgetUnitSelect" th:field="*{clubBudgetUnit}">
+                                    <div class="dropdown-menu">
+                                        <option value="YA1">
+                                            <div class="dropdown-item">일</div>
+                                        </option>
+                                        <option value="YA2">
+                                            <div class="dropdown-item">주</div>
+                                        </option>
+                                        <option value="YA3">
+                                            <div class="dropdown-item">월</div>
+                                        </option>
+                                    </div>
+                                </select>
+                                <div class="form-group">
+                                    <label for="clubBudgetPrice" class="col-form-label">예산금액</label>
+                                    <input type="text" class="form-control" id="clubBudgetPrice" style="resize: none;"
+                                        th:field="*{clubBudgetPrice}" placeholder="(원)" />
+                                    <input type="text" class="form-control" id="clubId" style="resize: none;"
+                                        th:field="*{clubId}" placeholder="(원)" hidden/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" id="addBudgetBtn">수정</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <script th:inline="javascript">

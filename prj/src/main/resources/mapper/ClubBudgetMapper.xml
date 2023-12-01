@@ -33,4 +33,12 @@
 	  			,sysdate, #{clubId}
 	  			,'Y')
   	</insert>
+  	
+  	<!-- 예산사용안함으로 바꿈 -->
+  	<update id="updateUseN" parameterType="ClubBudgetVO">
+  		UPDATE club_budget
+  		SET use_yn = 'N'
+  		WHERE club_id = #{clubId}
+  		AND use_yn = 'Y'
+  	</update>
   </mapper>

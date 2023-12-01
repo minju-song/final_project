@@ -15,4 +15,6 @@ public interface ClubSuccessHistoryMapper {
 	//진행중인 성공기록 넣기
 	public int insertSuccessIng(ClubBudgetVO vo);
 	
+	//현재 진행중인 성공기록 삭제
+	public int deleteIng(ClubBudgetVO vo);
 }

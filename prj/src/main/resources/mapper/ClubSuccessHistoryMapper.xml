@@ -47,5 +47,12 @@
 	        #{clubId}
 	    )
 	</insert>
+	
+	<!-- 현재 진행중인 성공기록 삭제 -->
+	<delete id="deleteIng" parameterType="ClubBudgetVO">
+		DELETE club_success_history 
+		WHERE success_state = 'SU3' 
+		AND club_id = #{clubId}
+	</delete>
 
   </mapper>
