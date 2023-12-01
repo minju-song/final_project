@@ -59,7 +59,7 @@
 							<!-- 메모 내용 -->
 							<div class="memotext" th:text="내용"></div>
 							<!-- 메모 해시태그 -->
-							<input class="hashtag" name="tags1" readonly th:value="해시태그">
+							<input class="hashtag" name="tags" readonly th:value="해시태그">
 						</div>
 						<!-- 메모 색상 버튼 -->
 						<img class="menubars bi-palette" th:src="@{/user/images/memo/palette.svg}">
@@ -86,6 +86,7 @@
 					</div>
 					<!-- 복사용 메모 끝 --> 
 					<!-- 즐겨찾기 메모리스트 시작 -->
+					
 	              	<th:block th:each="memo, stat : ${memoList}" th:if="${!#lists.isEmpty(memoList)}">
 	              		<th:block th:if="${memo.bookmark == 'Y'}">
 							<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|">

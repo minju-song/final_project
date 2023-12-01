@@ -164,7 +164,7 @@
 	}
 	
 	//hashtag 표시
-    let input = document.querySelectorAll('input[name=tags]')
+    let input = $('input[name=tags]:gt(0)')
     for(let i=0; i<input.length; i++){
 	    new Tagify(input[i], {
       	maxTags: 4
@@ -347,8 +347,8 @@
 		clone.find('.inputMemoId')[0].dataset.memo = memoId;
 		clone.find('[type=checkbox]')[0].value = memoId;
 		clone.find('.memotext')[0].innerText = content;
-		clone.find('[name=tags1]')[0].value = hashTag;
-		new Tagify (clone.find('[name=tags1]')[0]);
+		clone.find('[name=tags]')[0].value = hashTag;
+		new Tagify (clone.find('[name=tags]')[0]);
 	/*	hashTag = hashTag.replace(" ", "").split(",");
 		let tagify = clone.find('.tagify__tag-text');
 		debugger

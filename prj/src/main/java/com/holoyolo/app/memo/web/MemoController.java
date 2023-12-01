@@ -32,6 +32,13 @@ public class MemoController {
 		return "user/memo/memoList";
 	}
 	
+	//단건조회
+	@GetMapping("member/memoInfo")
+	@ResponseBody
+	public MemoVO memoInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+		memoVO.setMemberId(principalDetails.getUsername());
+		return memoService.getMemo(memoVO);
+	}
 	
 	//등록
 	@PostMapping("member/memoInsert")
