@@ -142,8 +142,9 @@
           // 2. url, parameter 세팅
           const url = '/api/posts';
           const memberId = document.getElementById('userId').value;
+          const title = document.getElementById('title').value;
           const params = {
-            title: '1번 게시글 제목',
+            title: title,
             content: editor.getMarkdown(),
             memberId: memberId,
             menuType: boardType

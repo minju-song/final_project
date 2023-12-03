@@ -165,18 +165,24 @@
             document.getElementById('views').innerText = post.views;
 
         }
+
+        //좋아요
+        
         let likeBtn = document.getElementById('boardLikeBtn');
         likeBtn.addEventListener('click', addLike)
         function addLike() {
-            let boardId = 
+
+            const searchParams = new URLSearchParams(location.search);
+            let memberId = Number(searchParams.get('boardId'));
+
             console.log("click")
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: '/likeCheck',
                 contentType: 'application/json;charset=UTF-8',
-                data: JSON.stringify({ "boardId": boardId }),
+                data: JSON.stringify({ "boardId": memberId }),
                 success: function (data) {
-                    console.log('성공1')
+                    console.log('성공1');
                     // document.getElementById('boardLike').innerText = "0";
                 },
                 error: function (request, status, error) {

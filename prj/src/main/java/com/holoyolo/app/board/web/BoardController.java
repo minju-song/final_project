@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.board.service.BoardService;
 import com.holoyolo.app.board.service.BoardVO;
-import com.holoyolo.app.editor.PostVO;
+import com.holoyolo.app.boardLike.service.BoardLikeService;
 
 @Controller
 public class BoardController {
@@ -28,6 +27,9 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
+	@Autowired
+	BoardLikeService boardLikeService;
+	
 	@GetMapping("/infoBoard")
 	public String infomationBoard(Model mo, @AuthenticationPrincipal PrincipalDetails prd) {
 		// 회원만 보이는 버튼
