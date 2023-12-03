@@ -68,7 +68,7 @@
 
     <script src="/admin/assets/vendor/js/menu.js"></script>
     <!-- endbuild -->
-
+	
     <!-- Vendors JS -->
     <script src="/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
@@ -77,10 +77,8 @@
 
     <!-- Page JS -->
     <!-- <script src="/admin/assets/js/dashboards-analytics.js"></script> -->
-
-    <!--/*문의관리 JS*/-->
-    <script src="/admin/assets/js/admin-question.js" th:inline="javascript"></script>
-    
+    <script type="module" th:src="@{/admin/assets/js/admin-common.js}" defer></script>
+    <script type="module" th:src="@{/admin/assets/js/admin-utils.js}" defer></script>
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>

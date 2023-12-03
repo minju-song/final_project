@@ -16,19 +16,19 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired // 매퍼 주입
 	ReportMapper reportMapper;
 
-	// 문의 전체조회
+	// 신고 전체조회
 	@Override
-	public List<ReportVO> selectReportAll() {
-		return reportMapper.selectReportAll();
+	public List<ReportVO> selectReportTotalList(ReportVO reportVO) {
+		return reportMapper.selectReportTotalList(reportVO);
 	}
 
-	// 문의 단건조회
+	// 신고 단건조회
 	@Override
 	public ReportVO selectReportInfo(ReportVO reportVO) {
 		return reportMapper.selectReportInfo(reportVO);
 	}
 	
-	// 문의 등록
+	// 신고 등록
 	@Override
 	public int insertReportInfo(ReportVO reportVO) {
 		int result = reportMapper.insertReportInfo(reportVO);
@@ -49,6 +49,12 @@ public class ReportServiceImpl implements ReportService {
 	public Map<String, Object> updateReportInfo(ReportVO reportVO) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	// 신고 개수
+	@Override
+	public int selectReportTotalCount(ReportVO reportVO) {
+		return reportMapper.selectReportTotalCount(reportVO);
 	}
 
 }

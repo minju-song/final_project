@@ -5,23 +5,44 @@
   
   <mapper namespace="com.holoyolo.app.report.mapper.ReportMapper">
   
-   	<select id="selectReportAll" resultType="ReportVO">
-  	
-		SELECT report_id, reporter_id, report_content, report_date, 
-		    CASE 
-		        WHEN report_type = 'SA1' THEN '욕설'
-		        WHEN report_type = 'SA2' THEN '음란성'
-		        WHEN report_type = 'SA3' THEN '모욕/비방'
-		        WHEN report_type = 'SA4' THEN '사기'
-		        WHEN report_type = 'SA5' THEN '기타'
-		        END AS report_type,
-		    CASE
-		        WHEN report_process_type = 'SB1' THEN '신고처리'
-		        WHEN report_process_type = 'SB2' THEN '반려'
-		        END AS report_process_type
-		FROM report
-		ORDER BY report_id
-  	
+   	<select id="selectReportTotalList" resultType="ReportVO">
+SELECT * 
+	FROM (
+		SELECT A.* , ROWNUM rn 
+		FROM (
+			SELECT * FROM (
+			    SELECT 
+			        report_id,
+			        reporter_id,
+			        report_content,
+			        report_date,
+			        fn_get_code_name(report_type) AS report_type,
+			        fn_get_code_name(report_process_type) AS report_process_type
+			    FROM report) report
+			<where>
+				<if test="reportProcessType != null and reportProcessType != ''">
+				 report_process_type = #{reportProcessType}
+			  	</if>
+		  	</where>
+			ORDER BY report_id DESC) A) b 
+	WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
   	</select>
+  	
+  	<select id="selectReportTotalCount" resultType="int">
+		SELECT COUNT(*) FROM (
+			SELECT 
+		        report_id,
+		        reporter_id,
+		        report_content,
+		        report_date,
+		        fn_get_code_name(report_type) AS report_type,
+		        fn_get_code_name(report_process_type) AS report_process_type
+			FROM report) report
+		<where>
+			<if test="reportProcessType != null and reportProcessType != ''">
+			 	report_process_type = #{reportProcessType}
+		  	</if>
+		</where>
+	</select>
   
   </mapper>

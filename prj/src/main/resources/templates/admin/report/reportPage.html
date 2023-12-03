@@ -9,28 +9,23 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <body>
-
 	<div layout:fragment="content">
 		<div class="container-xxl flex-grow-1 container-p-y">
-			<h4 class="fw-bold py-3 mb-4">문의관리</h4>
+			<h4 class="fw-bold py-3 mb-4">신고관리</h4>
 			<!-- Hoverable Table rows -->
 			<div class="card card-admin-container">
-				<div class="ps-4 pt-4">
-					<h5 class="">전체문의 <span id="initQuestionCount" style="color: skyblue"></span></h5>
-
-				</div>
-
-				<!--검색 조건-->
+				<h5 class="ps-4 pt-4">
+					전체문의 <span id="initReportCount" style="color: skyblue"></span>
+				</h5>
 				<div class="d-flex bd-highlight mb-3 mt-0 ps-4 pb-4" aria-label="Basic example">
 					<div class="p-2 bd-highlight">
-						<button id="totalQuestionCount" name="totalQuestionCount" type="button"
+						<button id="totalReport" name="totalReport" type="button"
 							class="btn btn-outline-primary active">전체</button>
-						<button id="pendingQuestionCount" name="pendingQuestionCount" type="button"
+						<button id="rejectedReport" name="rejectedReport" type="button" class="btn btn-outline-primary">
+							반려</button>
+						<button id="completedReport" name="completedReport" type="button"
 							class="btn btn-outline-primary">
-							답변대기</button>
-						<button id="completedQuestionCount" name="completedQuestionCount" type="button"
-							class="btn btn-outline-primary">
-							답변완료</button>
+							신고처리</button>
 					</div>
 					<div class=" card-body p-0">
 						<div class="row float-right">
@@ -51,17 +46,16 @@
 						</ul>
 					</div>
 				</div>
-
 				<div class="table-responsive text-nowrap overflow-auto scrollBar">
 					<table class="table table-hover">
 						<thead>
 							<tr>
 								<th>번호</th>
-								<th>제목</th>
-								<th>작성자아이디</th>
-								<th>문의유형</th>
-								<th>작성일자</th>
-								<th>답변유무</th>
+								<th>신고아이디</th>
+								<th>신고내용</th>
+								<th>신고유형</th>
+								<th>신고일자</th>
+								<th>신고처리상태</th>
 							</tr>
 						</thead>
 						<tbody class="table-border-bottom-0">
@@ -76,7 +70,8 @@
 			</div>
 			<!--/ Hoverable Table rows -->
 		</div>
-		<script type="module" th:src="@{/admin/assets/js/admin-question.js}" defer></script>
+		<script type="module" th:src="@{/admin/assets/js/admin-report.js}"></script>
+
 	</div>
 </body>
 

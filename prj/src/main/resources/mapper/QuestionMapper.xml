@@ -64,26 +64,5 @@
 		  	</if>
 	  </where>
 	</select>
-	<select id="selectCount" resultType="questionVO">
-		SELECT * FROM 
-		    (SELECT A.* , ROWNUM rn FROM (
-		        SELECT * FROM (  
-		            SELECT 
-		            q.question_id, 
-		            q.title, 
-		            q.member_id, 
-		            q.write_date,
-		            fn_get_code_name(question_type) AS question_type,
-		                CASE 
-		                    WHEN ( SELECT COUNT(*) 
-		                           FROM answer a 
-		                           WHERE a.question_id = q.question_id  ) = 0 
-		                    THEN '답변대기'
-		                    ELSE '답변완료'
-		                END AS question_yn
-		            FROM question q ) question
-		         ORDER BY question_id DESC
-		) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
-	</select>
 
   </mapper>

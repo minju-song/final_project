@@ -28,6 +28,5 @@ public interface QuestionMapper {
 
 	// 추가 인터페이스 작성 ↓↓
 	// 페이징
-	public List<QuestionVO> selectCount(QuestionVO questionVO);
 	public int selectTotalPagingCount(QuestionVO questionVO);
 }

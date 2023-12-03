@@ -8,7 +8,7 @@ import com.holoyolo.app.report.service.ReportVO;
 public interface ReportMapper {
 	// 기본 CRUD
 	// 문의 전체조회
-	public List<ReportVO> selectReportAll();
+	public List<ReportVO> selectReportTotalList(ReportVO reportVO);
 	
 	// 문의 단건조회
 	public ReportVO selectReportInfo(ReportVO reportVO);
@@ -21,6 +21,8 @@ public interface ReportMapper {
 	
 	// 문의 삭제
 	public boolean deleteReportInfo(int reportId);
+
+	public int selectReportTotalCount(ReportVO reportVO);
 	
 	// 추가 인터페이스 작성 ↓↓
 }

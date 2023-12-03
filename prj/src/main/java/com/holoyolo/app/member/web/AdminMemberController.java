@@ -14,7 +14,7 @@ public class AdminMemberController {
 	@Autowired
 	MemberService memberService;
 	
-	@GetMapping("/admin/member")
+	@GetMapping("/member")
 	public String selectMemberList(Model model) {
 		List<MemberVO> list = memberService.selectMemberAll();
 		model.addAttribute("memberList", list);
