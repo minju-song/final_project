@@ -30,7 +30,7 @@
 				<div id="memberIntroWrap">
 					<div class="input_wrap">
 						<span class="input input_wrap">
-							<span class="my_flex">
+							<span class="my_flex margin-top-10">
 								<button type="button" id="nickUpdate" class="myinfo_btn">닉네임 변경</button>
 								<input type="text" id="nickName" name="nickName" class="hl_input" th:value="${memberInfo.nickname}" readonly>
 							</span>
@@ -40,7 +40,7 @@
 						<span class="input input_wrap">
 							<span class="my_flex">
 								<span class="hl_input" id="memberId" th:text="${memberInfo.memberId}"></span>
-								<a id="delMember" th:href="@{/member/delete}">회원탈퇴</a>
+								<span><a id="delMember" th:href="@{/member/deleteForm}">회원탈퇴</a></span>
 							</span>
 						</span>
 					</div>

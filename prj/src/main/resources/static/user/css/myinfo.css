@@ -9,6 +9,7 @@
 .my_flex {
 	display: flex;
 	gap: 10px;
+	align-items: center;
 }
 .dp_none {
 	display: none;
@@ -24,7 +25,9 @@
 .input_wrap {
 	
 }
-
+.margin-top-10 {
+	margin-top: 5px;
+}
 button {
 	cursor: pointer;
 }
@@ -46,7 +49,7 @@ button {
 .upload {
 	width: 150px;
 	height: 150px;
-	border: 1px solid #B3B3B3;
+	border: 1px solid #e4e4e4;
 	border-radius: 50%;
 	background-size: cover;
 	background-position: center center;
@@ -55,6 +58,8 @@ button {
 	display: flex;
 	gap: 35px;
 	justify-content: center;
+	max-width: 780px;
+	margin: 0 auto;
 }
 #memberProfile {
 	display: flex;
@@ -72,7 +77,7 @@ button {
 #memberIntroWrap {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	/* gap: 10px; */
 	justify-content: end;
 }
 #memberIntroWrap .hl_input,
@@ -241,7 +246,11 @@ button:focus{
 	font-weight: 700;
 }
 /* 개인정보 폼 end */
-
+#delMember {
+	color: #c4c4c4;
+	font-size: 12px;
+	text-decoration: underline;
+}
 
 
 @media only screen and (max-width: 767px) {

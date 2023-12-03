@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -207,12 +208,26 @@ public class MemberController {
 		return memberService.phoneCheck(memberVO);
 	}
 	
-	@GetMapping("/member/delete")
-	public String deleteMember(Model model) {
+	/**
+	 * 회원탈퇴 페이지
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/member/deleteForm")
+	public String deleteMemberForm(Model model) {
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myInfo");
 		return "/user/mypage/memberDelete";
+	}
+	
+	@PostMapping("/member/delete")
+	@ResponseBody
+	public boolean deleteMember(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberVO memberVO) {
+		memberVO.setMemberId(principalDetails.getUsername());
+		boolean result = memberService.deleteMember(memberVO);
+		
+		return result;
 	}
 	
 }

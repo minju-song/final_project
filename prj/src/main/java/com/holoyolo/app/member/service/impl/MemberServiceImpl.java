@@ -207,4 +207,14 @@ public class MemberServiceImpl implements MemberService {
 		
 		return true;
 	}
+
+	@Override
+	public boolean deleteMember(MemberVO memberVO) {
+		int result = memberMapper.updateMemberInfo(memberVO);
+		if(result > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

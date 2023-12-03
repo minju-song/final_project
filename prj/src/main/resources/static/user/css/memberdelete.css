@@ -1,10 +1,13 @@
 @charset "utf-8";
 
-h2 {
+.my_col_9 {
+	padding: 0 40px;
+}
+.h2_title {
 	margin-left: 5px;
 	font-size: 25px;
 }
-h2::before {
+.h2_title::before {
 	content: '';
     background: royalblue;
     color: #ffffff;
@@ -16,6 +19,77 @@ h2::before {
 .content_wrapper {
 	border: 1px solid #e6e6e6;
 	border-radius: 10px;
-	padding: 20px;
+	padding: 30px;
 	margin-top: 30px;
+}
+#warningText .text li {
+	line-height: 2;
+}
+#warningText .text li::before {
+	content: "";
+	display: inline-block;
+	background-image: url( "/user/images/mypage/check.svg" );
+	background-size: 13px 13px;
+	width: 13px;
+	height: 13px;
+	vertical-align: middle;
+	margin-right: 5px;
+	margin-bottom: 2px;
+}
+.title {
+	color: #585858;
+	font-size: 15px;
+}
+.title::before {
+	content: "";
+	display: inline-block;
+	background-image: url( "/user/images/mypage/warn.svg" );
+	background-size: 14px 14px;
+	width: 14px;
+	height: 14px;
+	vertical-align: middle;
+	margin-right: 5px;
+	margin-bottom: 2px;
+}
+.bold_text {
+	font-weight: 700;
+}
+.blue_text {
+	color: #3d70e2;
+	font-weight: 700;
+}
+.red_text {
+	color: #e23d3d;
+	font-weight: 700;
+}
+#agreeArea {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background: #fbfbfb;
+}
+.agree_text {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+#buttonWrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+	margin-top: 30px;
+}
+#cancleBtn, #deleteBtn {
+	padding: 8px 15px;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: 700;
+}
+#cancleBtn {
+	background: #e23d3d;
+}
+#deleteBtn {
+	background: #040e1c;
 }

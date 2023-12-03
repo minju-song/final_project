@@ -56,4 +56,7 @@ public interface MemberService {
 	// 휴대폰 변경-이미 사용중인 번호인지 체크
 	public boolean phoneCheck(MemberVO memberVO);
 	
+	// 회원탈퇴
+	public boolean deleteMember(MemberVO memberVO);
+	
 }

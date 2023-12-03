@@ -1,44 +1,121 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="utf-8">
 <title>holoyolo::회원탈퇴</title>
 <link rel="stylesheet" href="/user/css/memberdelete.css">
+<script th:src="@{/plugin/sweetalert2.min.js}"></script>
+<link rel="stylesheet" th:href="@{/plugin/sweetalert2.min.css}">
 </head>
 <body>
 	<th:block layout:fragment="content">
-		<h2>회원탈퇴</h2>
+		<h2 class="h2_title">회원탈퇴</h2>
 		<div id="warningText" class="content_wrapper">
-			<p class="title"><b>회원탈퇴 시 유의사항</b></p>
+			<p class="title bold_text">회원탈퇴 시 유의사항</p>
 			<ul class="text">
-				<li>
-					사용하고 계신 아이디 <span sec:authentication="principal.memberVO.memberId"></span>는 탈퇴할 경우 재사용 및 복구가 불가능합니다.
+				<li>사용하고 계신 아이디 <span class="red_text"
+					sec:authentication="principal.memberVO.memberId"></span>는 탈퇴할 경우
+					재사용 및 복구가 불가능합니다.
 				</li>
-				<li>탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다.</li>
+				<li>탈퇴한 아이디는 <span class="bold_text">본인과 타인 모두 재사용 및 복구가
+						불가</span>하오니 신중하게 선택하시기 바랍니다.
+				</li>
 				<li>탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다.</li>
-				<li>회원정보 및 메모, 가계부, 알뜰모임 등 개인형 서비스 이용기록은 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다.</li>
+				<li><span class="bold_text">회원정보 및 메모, 가계부, 알뜰모임 등 개인형
+						서비스 이용기록은 모두 삭제</span>되며, 삭제된 데이터는 복구되지 않습니다.</li>
 				<li>탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.</li>
-				<li>커뮤니티, 알뜰모임 게시판, 문의, 리뷰, 댓글 및 좋아요는 탈퇴 시 자동 삭제되지 않고 그대로 남아 있습니다.</li>
+				<li class="bold_text">커뮤니티, 알뜰모임 게시판, 문의, 리뷰, 댓글 및 좋아요는 탈퇴 시 자동
+					삭제되지 않고 그대로 남아 있습니다.</li>
 				<li>삭제를 원하시는 항목이 있다면 반드시 탈퇴 전 삭제하시기 바랍니다.</li>
 			</ul>
 		</div>
-		
+
 		<div id="agreeArea" class="content_wrapper">
-			<div class="agree_text">
-				<input type="checkbox" id="agree1" required="required">
-				<span>회원탈퇴 안내 사항을 확인했으며 탈퇴에 동의합니다</span>
-				<span>(필수)</span>
-			</div>
-			<div class="agree_text">
-				<input type="checkbox" id="agree2" required="required">
-				<span>모든 금권 혜택 자동소멸에 동의합니다</span>
-				<span>(필수)</span>
-			</div>
+			<label class="agree_text"> <input type="checkbox" id="agree1"
+				required="required"> <span>회원탈퇴 안내 사항을 확인했으며 탈퇴에
+					동의합니다</span> <span class="blue_text">(필수)</span>
+			</label> <label class="agree_text"> <input type="checkbox"
+				id="agree2" required="required"> <span>모든 금권 혜택 자동소멸에
+					동의합니다</span> <span class="blue_text">(필수)</span>
+			</label>
 		</div>
-	
+
+		<div id="buttonWrap">
+			<button type="button" id="cancleBtn" onclick="location.href='/member/myInfo'">취소</button>
+			<button type="button" id="deleteBtn">회원탈퇴</button>
+		</div>
+
+		<script>
+		
+			const Toast = Swal.mixin({
+				toast: true,
+				position: 'center',
+				showConfirmButton: false,
+				timer: 2000,
+				timerProgressBar: true,
+				didOpen: (toast) => {
+					toast.addEventListener('mouseenter', Swal.stopTimer)
+					toast.addEventListener('mouseleave', Swal.resumeTimer)
+				}
+			})
+			
+			$('#deleteBtn').click(() => {
+				let checkBox = $('input[type="checkbox"]').length;
+				let checked = $('input[type="checkbox"]:checked').length;
+				
+				if(checkBox == checked) {
+					Swal.fire({
+						title: '정말로 탈퇴하시겠습니?',
+						text: "탈퇴를 누르시면 계정은 삭제되며, 복구할 수 없습니다.",
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '탈퇴',
+						cancelButtonText: '취소',
+						reverseButtons: true, // 버튼 순서 거꾸로
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$.ajax('/member/delete', {
+								type: 'post',
+								data: {delMember: "Y"}
+							})
+							.done((result) => {
+								if(result == true) {
+									Swal.fire({
+										icon: "success",
+										title: "회원탈퇴가 완료되었습니다",
+										html: "그동안 holoyolo를 이용해주셔서 감사합니다<br>더욱더 노력하고 발전하는 holoyolo가 되겠습니다",
+										confirmButtonText: '확인'
+									}).then((result) => {
+										if (result.isConfirmed) {
+											location.href = "/logout";
+										}
+									})
+								} else {
+									Swal.fire({
+										icon: "error",
+										title: "죄송합니다, 오류가 발생했습니다",
+										html: "요청을 처리하는 중 예기치 못한 오류가 발생하셨습니다",
+										confirmButtonText: '확인'
+									})
+								}
+							})
+							.fail(err => console.log(err))
+						}
+					})
+				} else {
+					Toast.fire({
+						icon: 'warning',
+						title: '유의사항을 읽고 동의여부를 체크해주세요!'
+					})
+				}
+				
+			})
+		</script>
 	</th:block>
 
 </body>
