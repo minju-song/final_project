@@ -182,8 +182,7 @@
                 contentType: 'application/json;charset=UTF-8',
                 data: JSON.stringify({ "boardId": memberId }),
                 success: function (data) {
-                    console.log('성공1');
-                    // document.getElementById('boardLike').innerText = "0";
+                  location.reload()
                 },
                 error: function (request, status, error) {
                     console.error("code: " + request.status);

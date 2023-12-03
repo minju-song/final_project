@@ -5,10 +5,11 @@ import com.holoyolo.app.boardLike.service.BoardLikeVO;
 
 public interface BoardLikeMapper {
 	
-	public BoardLikeVO checkLike(BoardLikeVO vo);
-	public int addLike();
+	public int checkLike(BoardLikeVO vo);
+	
+	public int addLike(BoardLikeVO vo);
 
-	public int cancelLike();
+	public int cancelLike(BoardLikeVO vo);
 	
 	public int boardLikeCount(BoardVO vo);
 }

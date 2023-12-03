@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- TUI 에디터 CSS CDN -->
+
+</head>
+
+<body layout:fragment="content">
+    <h1 id="heart">🤍</h1>
+
+    
+<script>
+    let heart = document.getElementById('heart');
+    heart.addEventListener('click',changeText)
+    
+
+    function changeText() {
+                
+        // animate__bounce 클래스를 제거하면 애니메이션이 사라집니다.
+        heart.classList.remove('animate__bounce');
+        
+        // 텍스트를 변경
+        heart.innerHTML = '❤️';
+        
+        // 새로운 애니메이션을 추가할 수 있습니다. (예: fadeIn 애니메이션)
+        heart.classList.add('animate__animated', 'animate__bounce');
+    }
+</script>
+</body>
+
+</html>

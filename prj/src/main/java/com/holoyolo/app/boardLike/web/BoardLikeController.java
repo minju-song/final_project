@@ -3,8 +3,10 @@ package com.holoyolo.app.boardLike.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,17 +18,19 @@ import com.holoyolo.app.boardLike.service.BoardLikeVO;
 
 @Controller
 public class BoardLikeController {
-	
+
+	@Autowired
 	BoardLikeService boardLikeService;
 
-	//좋아요
-		@RequestMapping(value = "/likeCheck", method = RequestMethod.POST)
-		@ResponseBody
-		public Map<String, Object> likecheck(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody BoardLikeVO vo) {
-			System.out.println(vo);
-			vo.setMemberId(principalDetails.getUsername());
-			boardLikeService.checkLike(vo);
-			Map<String, Object> result = new HashMap<>();
-			return result;
-		}
+	// 좋아요
+	@PostMapping("/likeCheck")
+	@ResponseBody
+	public Map<String, Object> likecheck(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody BoardLikeVO vo) {
+		vo.setMemberId(principalDetails.getUsername());
+		boardLikeService.checkLike(vo);
+		Map<String, Object> result = new HashMap<>();
+		result.put("like", vo);
+		return result;
+	}
 }
