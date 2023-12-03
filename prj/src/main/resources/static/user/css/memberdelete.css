@@ -93,3 +93,24 @@
 #deleteBtn {
 	background: #040e1c;
 }
+
+#deleteModal {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding: 10px;
+}
+#deleteModal p {
+	color: #e23d3d;
+	font-size: 17px;
+}
+#deleteModal label {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	justify-content: center;
+}
+#deleteModal input {
+	width: 60%;
+	padding: 5px;
+}

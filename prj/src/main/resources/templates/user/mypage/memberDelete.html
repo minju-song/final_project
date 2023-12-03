@@ -16,30 +16,28 @@
 		<div id="warningText" class="content_wrapper">
 			<p class="title bold_text">회원탈퇴 시 유의사항</p>
 			<ul class="text">
-				<li>사용하고 계신 아이디 <span class="red_text"
-					sec:authentication="principal.memberVO.memberId"></span>는 탈퇴할 경우
-					재사용 및 복구가 불가능합니다.
+				<li>
+					사용하고 계신 아이디 <span class="red_text" sec:authentication="principal.memberVO.memberId"></span>는 탈퇴할 경우 재사용 및 복구가 불가능합니다.
 				</li>
-				<li>탈퇴한 아이디는 <span class="bold_text">본인과 타인 모두 재사용 및 복구가
-						불가</span>하오니 신중하게 선택하시기 바랍니다.
-				</li>
+				<li>탈퇴한 아이디는 <span class="bold_text">본인과 타인 모두 재사용 및 복구가 불가</span>하오니 신중하게 선택하시기 바랍니다.</li>
 				<li>탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다.</li>
-				<li><span class="bold_text">회원정보 및 메모, 가계부, 알뜰모임 등 개인형
-						서비스 이용기록은 모두 삭제</span>되며, 삭제된 데이터는 복구되지 않습니다.</li>
+				<li><span class="bold_text">회원정보 및 메모, 가계부, 알뜰모임 등 개인형 서비스 이용기록은 모두 삭제</span>되며, 삭제된 데이터는 복구되지 않습니다.</li>
 				<li>탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.</li>
-				<li class="bold_text">커뮤니티, 알뜰모임 게시판, 문의, 리뷰, 댓글 및 좋아요는 탈퇴 시 자동
-					삭제되지 않고 그대로 남아 있습니다.</li>
+				<li class="bold_text">커뮤니티, 알뜰모임 게시판, 문의, 리뷰, 댓글 및 좋아요는 탈퇴 시 자동 삭제되지 않고 그대로 남아 있습니다.</li>
 				<li>삭제를 원하시는 항목이 있다면 반드시 탈퇴 전 삭제하시기 바랍니다.</li>
 			</ul>
 		</div>
 
 		<div id="agreeArea" class="content_wrapper">
-			<label class="agree_text"> <input type="checkbox" id="agree1"
-				required="required"> <span>회원탈퇴 안내 사항을 확인했으며 탈퇴에
-					동의합니다</span> <span class="blue_text">(필수)</span>
-			</label> <label class="agree_text"> <input type="checkbox"
-				id="agree2" required="required"> <span>모든 금권 혜택 자동소멸에
-					동의합니다</span> <span class="blue_text">(필수)</span>
+			<label class="agree_text">
+				<input type="checkbox" id="agree1" required="required">
+				<span>회원탈퇴 안내 사항을 확인했으며 탈퇴에 동의합니다</span>
+				<span class="blue_text">(필수)</span>
+			</label>
+			<label class="agree_text">
+				<input type="checkbox"id="agree2" required="required"> 
+				<span>모든 금권 혜택 자동소멸에 동의합니다</span>
+				<span class="blue_text">(필수)</span>
 			</label>
 		</div>
 
@@ -62,14 +60,20 @@
 				}
 			})
 			
+			let tags = `<form id='deleteModal'>
+						<p>탈퇴를 누르시면 계정은 삭제되며, 복구할 수 없습니다.</p>
+						<label>비밀번호 확인
+						<input type='password' placeholder='비밀번호를 입력해 주세요' autocomplete='false' id="password"></label>
+						</form>`;
+			
 			$('#deleteBtn').click(() => {
 				let checkBox = $('input[type="checkbox"]').length;
 				let checked = $('input[type="checkbox"]:checked').length;
 				
 				if(checkBox == checked) {
 					Swal.fire({
-						title: '정말로 탈퇴하시겠습니?',
-						text: "탈퇴를 누르시면 계정은 삭제되며, 복구할 수 없습니다.",
+						title: '회원탈퇴를 진행하시겠습니까?',
+						html: tags,
 						icon: 'warning',
 						showCancelButton: true,
 						confirmButtonColor: '#3085d6',
@@ -79,9 +83,10 @@
 						reverseButtons: true, // 버튼 순서 거꾸로
 					}).then((result) => {
 						if (result.isConfirmed) {
+							let password = $('#password').val();
 							$.ajax('/member/delete', {
 								type: 'post',
-								data: {delMember: "Y"}
+								data: {delMember: "Y", password: password}
 							})
 							.done((result) => {
 								if(result == true) {
@@ -98,8 +103,8 @@
 								} else {
 									Swal.fire({
 										icon: "error",
-										title: "죄송합니다, 오류가 발생했습니다",
-										html: "요청을 처리하는 중 예기치 못한 오류가 발생하셨습니다",
+										title: "오류가 발생했습니다",
+										html: "비밀번호를 확인해주세요",
 										confirmButtonText: '확인'
 									})
 								}

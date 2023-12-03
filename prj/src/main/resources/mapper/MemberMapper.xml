@@ -136,7 +136,7 @@
 		UPDATE member
 		<set>
 			<if test="memberName != null">member_name = #{memberName},</if>
-			<if test="password != null">password = #{password},</if>
+			<if test="password != null and delMember == null">password = #{password},</if>
 			<if test="nickname != null">nickname = #{nickname},</if>
 			<if test="addr != null">addr = #{addr},</if>
 			<if test="detailAddr != null">detail_addr = #{detailAddr},</if>
@@ -149,6 +149,9 @@
 			<if test="lockYn != null">lock_yn = #{lockYn},</if>
 		</set>
 		WHERE member_id = #{memberId}
+		<if test="password != null">
+			AND password = #{password}
+		</if>
 	</update>
 	
  </mapper>
