@@ -35,5 +35,6 @@ public class MemberVO {
 	private String provider;
 	private String providerId;
 	private String delMember;
+	private String authNum;
 
 }

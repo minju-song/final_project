@@ -25,7 +25,7 @@ public interface MemberService {
 	public MemberVO selectMemberInfo(MemberVO memberVO);
 	
 	// 회원정보 업데이트
-	public int updateMemberInfo(MemberVO memberVO);
+	public boolean updateMemberInfo(MemberVO memberVO);
 	
 	// 회원 정지
 
@@ -52,5 +52,8 @@ public interface MemberService {
 	
 	// 회원 프로필 사진 수정
 	public String uploadImage(MultipartFile file, String memberId);
+	
+	// 휴대폰 변경-이미 사용중인 번호인지 체크
+	public boolean phoneCheck(MemberVO memberVO);
 	
 }

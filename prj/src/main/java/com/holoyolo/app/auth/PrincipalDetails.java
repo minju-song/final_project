@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.holoyolo.app.member.service.MemberVO;
@@ -83,7 +84,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User{
 	public boolean isEnabled() {
 		// 계정이 사용가능하면 true
 		// 회원이 1년간 로그인하지 않아 휴먼계정 처리할 경우 사용가능.
-		return true;
+		if(memberVO.getStopDate() != null) {
+			throw new UsernameNotFoundException("탈퇴한 회원");
+		} else {
+			return true;
+		}
 	}
 
 	@Override

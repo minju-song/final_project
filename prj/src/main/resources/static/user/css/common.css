@@ -41,7 +41,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 65px;
+    max-width: 70px;
     height: 20px;
     text-align: left;
 }
@@ -126,8 +126,17 @@
 .sidebar_section:hover .last_sub_menu {
 	border-bottom: solid 1px #937c6f !important;
 }
-.submenu_active {
-	color : #0015bf !important;
+
+.submenu_active::before {
+	content: "";
+	display: inline-block;
+	background-image: url( "/user/images/mypage/heart_fill.svg" );
+	background-size: 10px 10px;
+	width: 10px;
+	height: 10px;
+	vertical-align: middle;
+	margin-right: 5px;
+	margin-bottom: 2px;
 }
 
 

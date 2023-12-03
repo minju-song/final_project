@@ -157,15 +157,62 @@ public class MemberController {
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myInfo");
 		
-		return "user/mypage/myInfo";
+		return "/user/mypage/myInfo";
 	}
 	
-	
+	/**
+	 * 마이페이지-내정보 : 프로필사진 업데이트
+	 * @param principalDetails
+	 * @param file
+	 * @return
+	 */
 	@PostMapping("/member/myInfo/uploadImg")
 	@ResponseBody
 	public String uploadImage(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestPart MultipartFile file) {
 		String result = memberService.uploadImage(file, principalDetails.getUsername());
 		return result;
+	}
+	
+	/**
+	 * 마이페이지-내정보 : 업데이트
+	 * @param memberVO
+	 * @return
+	 */
+	@PostMapping("/member/myinfo/updateInfo")
+	@ResponseBody
+	public boolean updateNickname(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberVO memberVO) {
+		boolean result = false;
+		memberVO.setMemberId(principalDetails.getUsername()); // 회원아이디 set
+		
+		// 회원정보 업데이트
+		result = memberService.updateMemberInfo(memberVO);
+		
+		// 세션 정보 업데이트
+		MemberVO vo = memberService.selectUser(memberVO.getMemberId());
+		principalDetails.setMemberVO(vo);
+		
+		return result;
+	}
+	
+	/**
+	 * 마이페이지-내정보 : 휴대폰 업데이트 중복여부 체크
+	 * @param principalDetails
+	 * @param memberVO
+	 * @return
+	 */
+	@PostMapping("/member/myinfo/phoneCheck")
+	@ResponseBody
+	public boolean phoneCheck(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberVO memberVO) {
+		memberVO.setMemberId(principalDetails.getUsername()); // 회원아이디 set
+		return memberService.phoneCheck(memberVO);
+	}
+	
+	@GetMapping("/member/delete")
+	public String deleteMember(Model model) {
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myInfo");
+		return "/user/mypage/memberDelete";
 	}
 	
 }

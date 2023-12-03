@@ -15,6 +15,9 @@ import com.holoyolo.app.member.mapper.MemberMapper;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -31,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
 		MemberVO vo =  memberMapper.checkUserPhone(memberVO); // 회원 가입 전 인증된 번호가 있는지 확인.
 		
 		if(vo != null) {
-			System.out.println(vo.getPhone() + " :: 이미 가입된 회원입니다.");
+			log.warn("이미 가입된 회원");
 			return "JoinUser";
 		} else {
 			String rawPassword = memberVO.getPassword();
@@ -79,22 +82,45 @@ public class MemberServiceImpl implements MemberService {
 	
 	// 회원 정보수정
 	@Override
-	public int updateMemberInfo(MemberVO memberVO) {
-		return memberMapper.updateMemberInfo(memberVO);
+	public boolean updateMemberInfo(MemberVO memberVO) {
+		boolean result = false;
+		
+		// 닉네임 변경인 경우 체크 후 업데이트
+		if(memberVO.getNickname() != null) {
+			String check = this.checkNickname(memberVO);
+			if(check == "NOT_FOUND") {
+				int cnt = memberMapper.updateMemberInfo(memberVO);
+				if(cnt > 0) result = true;
+			}
+		}
+		
+		// 비밀번호 변경인 경우 암호화 진행 후 업데이트
+		if(memberVO.getPassword() != null) {
+			String encodePwd = passwordEncoder.encode(memberVO.getPassword());
+			memberVO.setPassword(encodePwd);
+			int cnt = memberMapper.updateMemberInfo(memberVO);
+			if(cnt > 0) result = true;
+		}
+		
+		// 닉네임, 비밀번호가 아닌 경우 바로 업데이트
+		int cnt = memberMapper.updateMemberInfo(memberVO);
+		if(cnt > 0) result = true;
+		
+		return result;
 	}
 
 	@Override
 	public String checkMemberId(MemberVO memberVO) {
 		String result = "NOT_FOUND";
 		MemberVO vo = new MemberVO();
-		System.out.println("넘어온 아이디 ::: " + memberVO.getMemberId());
+		log.warn("memberId ::: " + memberVO.getMemberId());
 		
 		vo = memberMapper.checkMemberId(memberVO);
-		System.out.println(memberVO.getMemberId() + "는 가입이 가능한 아이디 입니다.");
+		log.warn("사용가능한 아이디 ::: " + memberVO.getMemberId());
 		
 		if(vo != null) {
 			result = "FOUND";
-			System.out.println("결과는 ::: " + vo.getMemberId() + ", " + result);
+			log.warn("조회 결과 ::: " + result + ", " + vo.getMemberId());
 		}
 		
 		return result;
@@ -103,15 +129,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String checkNickname(MemberVO memberVO) {
 		String result = "NOT_FOUND";
+		
+		// 조회된 데이터가 있으면, 사용불가
 		MemberVO vo = new MemberVO();
-		System.out.println("넘어온 닉네임 ::: " + memberVO.getNickname());
-		
 		vo = memberMapper.checkNickname(memberVO);
-		System.out.println(memberVO.getNickname() + "는 사용이 가능한 닉네임 입니다.");
-		
-		if(vo != null) {
+		if(vo != null) { 
 			result = "FOUND";
-			System.out.println("결과는 ::: " + vo.getNickname() + ", " + result);
 		}
 		
 		return result;
@@ -121,9 +144,9 @@ public class MemberServiceImpl implements MemberService {
 	public String findMemberIdPwd(MemberVO memberVO) {
 		MemberVO vo = new MemberVO();
 		vo = memberMapper.findMemberIdPwd(memberVO);
-		System.out.println("조회된 결과:: " + vo);
+		log.warn("조회 결과 ::: " + vo);
 		
-		if(vo != null) {
+		if(vo != null && vo.getStopDate() == null) {
 			return vo.getMemberId();
 		} else {
 			return "Fail";
@@ -171,5 +194,17 @@ public class MemberServiceImpl implements MemberService {
 		return "{\"result\":\"" + result + "\"}";
 	}
 
-	
+	/**
+	 * 휴대폰 변경-이미 사용중인 번호인지 체크
+	 * @param memberVO
+	 * @return
+	 */
+	@Override
+	public boolean phoneCheck(MemberVO memberVO) {
+		MemberVO vo = new MemberVO();
+		vo = memberMapper.checkUserPhone(memberVO);
+		if(vo != null) return false;
+		
+		return true;
+	}
 }

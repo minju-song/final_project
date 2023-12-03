@@ -1,7 +1,6 @@
 /**
  * 이미지 첨부
  */
-console.log("test");
 
 let realUpload = document.querySelector('.real_upload');
 let upload = document.querySelector('.upload');

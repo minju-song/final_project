@@ -42,7 +42,7 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
 			System.out.println("실패횟수 업데이트 :: " + result);
 			
 		} else if (exception instanceof InternalAuthenticationServiceException) {
-			errorMessage = "내부적으로 발생한 시스템 문제로 인해 요청을 처리할 수 없습니다. 관리자에게 문의하세요.";
+			errorMessage = "계정이 존재하지 않습니다. 회원가입 진행 후 로그인 해주세요.";
 		} else if (exception instanceof UsernameNotFoundException) {
 			errorMessage = "계정이 존재하지 않습니다. 회원가입 진행 후 로그인 해주세요.";
 		} else if (exception instanceof AuthenticationCredentialsNotFoundException) {
