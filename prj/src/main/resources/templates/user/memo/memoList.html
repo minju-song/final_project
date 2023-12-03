@@ -18,7 +18,6 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<p>메모리스트</p>
 		<div>
 			<!-- 검색창 -->
 			<div class="search_delete searchwrap">
@@ -82,7 +81,7 @@
 						</div>
 						<!-- 메모 이미지 등록 버튼 -->
 						<img class="file_btn menubars bi-image" th:src="@{/user/images/memo/image.svg}">
-						<input class="real_file" type="file" />
+						<input class="real_file" type="file" onchange="addFile(this);" multiple />
 					</div>
 					<!-- 복사용 메모 끝 --> 
 					<!-- 즐겨찾기 메모리스트 시작 -->

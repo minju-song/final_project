@@ -113,8 +113,6 @@ option > selected{
 	font-size: larger;
 }
 
-
-
 /* 중고거래 상세페이지 시작 */
 .carousel-control-prev, .carousel-control-next {
     border: none;
@@ -122,9 +120,106 @@ option > selected{
 }
 
 .carousel{
-	width: 520px;
+	width: 550px;
 }
 
+.centerwrap{
+	justify-content: center;
+}
+
+.watchwrap{
+    justify-content: space-between;
+    margin-left: 5px;
+}
+
+.tradeTitle{
+	font-size: 35px;
+    font-weight: bolder;
+}
+
+.report{
+	text-decoration-line: underline;
+}
+
+.silverColor{
+	color: #bbbbbb;
+}
+
+.tradeType{
+	margin: 7px 13px;
+	width: 80px;
+    height: 35px;
+    background-color: #09203f;
+    text-align: center;
+    top: 5px;
+    border-radius: 4px;
+}
+
+.tradeType p{
+    font-size: 13px;
+    color: #FFFFFF;
+    letter-spacing: 0.2em;
+    line-height: 35px;
+}
+
+.tradePrice p{
+    font-size: 30px;
+    color: black;
+    font-weight: bolder;
+}
+
+.bottomwrap{
+	margin-top: 130px;
+}
+
+.pay{
+    top: 5px;
+    margin: 7px;
+}
+
+.bottomdown10{
+	margin-bottom: 10px;
+}
+
+.tradeCategory{
+	color: black;
+    font-size: 20px;
+}
+
+.rounded-circle{
+	width: 70px;
+    height: 70px;
+    margin-right: 20px;
+}
+
+.margins{
+	margin: 30px;
+}
+
+.bottomdown30{
+	margin-bottom: 30px;
+}
+
+.openKakao{
+	height: 50px;
+}
+
+.nickName{
+	line-height: 3.5;
+    font-weight: bolder;
+}
+
+.holoPay{
+	width: 23px;
+    margin-bottom: 4px;
+}
+
+.heart{
+	position: absolute;
+    bottom: 90%;
+    right: 94%;
+    width: 23px;
+}
 
 /* 중고거래 등록페이지 시작 */
 .input-group-text {
@@ -232,4 +327,22 @@ input[type="number"]{
 
 .real_file{
 	/* display: none; */
+}
+
+.btn-primary:not([disabled]):not(.disabled):active{
+	background-color: #868e96;
+    border-color: #868e96;
+    box-shadow: none;
+}
+
+.btn-primary:hover{
+	background-color: #09203f;
+    border-color: #09203f;
+}
+
+.tradePlaceSelect{
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    width: 340px;
 }

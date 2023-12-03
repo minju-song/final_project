@@ -3,8 +3,8 @@
 
 .memo {
 	position: relative;
-	width: 220px;
-	min-height: 220px;
+	width: 226px;
+    min-height: 226px;
 	border: none;
 	border-radius: 8px;
 	margin: 12px;
@@ -140,7 +140,7 @@
 
 .shop__sidebar__color{
 	position: absolute;
-	bottom: -5px;
+	bottom: -40px;
 	display: none;
 	cursor: pointer;
 }

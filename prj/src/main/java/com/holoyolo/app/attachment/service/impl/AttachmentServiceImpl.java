@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentService;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
@@ -89,6 +91,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 	 */
 	private String setImagePath(String uploadFileName) {
 		return uploadFileName.replace(File.separator, "/");
+	}
+
+	@Override
+	public List<AttachmentVO> getAttachmentList(AttachmentVO attachmentVO) {
+		return attachmentMapper.selectAttachmentList(attachmentVO);
 	}
 
 }

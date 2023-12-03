@@ -1,6 +1,5 @@
 package com.holoyolo.app.trade.web;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +8,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.holoyolo.app.attachment.service.AttachmentService;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
+import com.holoyolo.app.heart.service.HeartService;
+import com.holoyolo.app.heart.service.HeartVO;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
 
@@ -19,6 +23,12 @@ import com.holoyolo.app.trade.service.TradeVO;
 public class TradeController {
 	@Autowired
 	TradeService tradeService;
+	
+	@Autowired
+	AttachmentService attachmentService;
+	
+	@Autowired
+	HeartService heartService;
 
 	@GetMapping("/admin/trade")
 	public String selectTradeList(Model model) {
@@ -42,15 +52,30 @@ public class TradeController {
 	}
 	
 	@GetMapping("member/tradeInsert")
-	public String tradeInsert(@AuthenticationPrincipal PrincipalDetails principalDetails,TradeVO tradeVO) {
+	public String tradeInsert(@AuthenticationPrincipal PrincipalDetails principalDetails,
+							  TradeVO tradeVO) {
 		tradeVO.setSellerId(principalDetails.getUsername());
 		return "user/trade/tradeInsert";
 	}
 	
+	@PostMapping("member/tradeInsert")
+	public String tradeInsertProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, TradeVO tradeVO) {
+		tradeVO.setSellerId(principalDetails.getUsername());
+		tradeService.insertTrade(tradeVO);
+		return "redirect:/tradeList";
+	}
+	
 	@GetMapping("member/tradeInfo")
-	public String tradeInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,TradeVO tradeVO, Model model) {
-		System.out.println(tradeVO);
+	public String tradeInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
+							TradeVO tradeVO, 
+							Model model,
+							AttachmentVO attachmentVO,
+							HeartVO heartVO) {
+		attachmentVO.setPostId(tradeVO.getTradeId());
+		heartVO.setTradeId(tradeVO.getTradeId());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
+		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
+		model.addAttribute("heartCount", heartService.getHeartCount(heartVO));
 		return "user/trade/tradeInfo";
 	}
 }

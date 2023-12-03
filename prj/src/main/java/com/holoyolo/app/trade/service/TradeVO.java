@@ -23,8 +23,8 @@ public class TradeVO {
 	private Date writeDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
-	private int latitude;
-	private int longitude;
+	private Double latitude;
+	private Double longitude;
 	private String buyerId;
 	private String sellerId;
 	
