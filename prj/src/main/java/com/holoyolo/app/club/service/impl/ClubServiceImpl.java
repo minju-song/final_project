@@ -202,6 +202,13 @@ public class ClubServiceImpl implements ClubService {
 
 	}
 
+	@Override
+	public ClubVO getClub(int id) {
+		ClubVO vo = new ClubVO();
+		vo.setClubId(id);
+		return clubMapper.getClub(vo);
+	}
+
 
 
 

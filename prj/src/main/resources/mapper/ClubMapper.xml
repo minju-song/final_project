@@ -91,6 +91,7 @@
   		
   	</select>
   	
+  	<!-- 클럽생성 -->
   	<insert id="insertClub" parameterType="ClubVO">
   	  	<selectKey keyProperty="clubId"
 					   resultType="int"
@@ -114,6 +115,7 @@
   			)
   	</insert>
   	
+  	<!-- 클럽장위임 -->
   	<update id="mandateKing" parameterType="ClubVO">
   		UPDATE club
   		SET club_leader = #{clubLeader}

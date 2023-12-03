@@ -131,6 +131,8 @@ public class ClubController {
 		model.addAttribute("result", map);
 		model.addAttribute("userId", principalDetails.getUsername());
 		model.addAttribute("ClubBudgetVO", new ClubBudgetVO());
+		model.addAttribute("menu", "club");
+		model.addAttribute("subMenu", "main");
 		return "user/club/clubPage";
 	}
 	
@@ -169,6 +171,24 @@ public class ClubController {
 		 return "redirect:/member/club/clubPage?clubId="+vo.getClubId();
 	}
 	
+	@PostMapping("/member/clubUpdate")
+	public String clubUpdate(ClubVO vo) {
+		
+		//수정진행예정
+		return "";
+	}
+	
+	@GetMapping("/member/club/clubUpdate")
+	public String clubUpdate(Model model, ClubVO paramVO) {
+		System.out.println("들어온 값 : "+paramVO);
+		ClubVO vo = new ClubVO();
+		vo = clubService.getClub(paramVO.getClubId());
+		
+		model.addAttribute("club", vo);
+		return "user/club/clubUpdate";
+	}
+	
+	//클럽장 위임
 	@GetMapping("member/mandate")
 	public String mandate(ClubVO vo) {
 		System.out.println("들어온 클럽 : "+vo);

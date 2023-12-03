@@ -78,11 +78,16 @@
                             <img th:src="@{'/images/' + ${result.club.clubProfileImg}}" id="profile"/>
                         </div>
                         <div style="flex: 1;">
-                            <h2>[[${result.club.clubName}]]</h2>
+                            <h2>[[${result.club.clubName}]]
+                                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
+                                    <button th:onclick="|location.href='@{/member/club/clubUpdate(clubId=${result.club.clubId})}'|">수정</button>
+                                </th:block>
+                            </h2>
                             <h4>&#128081; : [[${result.club.leaderName}]]</h4>
                             <h4>&#128681; " [[${result.club.clubIntro}]] "</h4>
                             <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
                             <h4>평균 성공률 : [[${result.avg}]]%</h4>
+                            
                         </div>
                     </div>
                     <hr>

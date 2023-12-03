@@ -45,4 +45,7 @@ public interface ClubService {
 
 	//클럽방장위임
 	public String mandateKing(ClubVO vo);
+	
+	//클럽단건조회
+	public ClubVO getClub(int id);
 }

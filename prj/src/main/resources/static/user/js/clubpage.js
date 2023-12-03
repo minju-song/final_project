@@ -235,4 +235,3 @@ function mandate(memberId) {
             location.reload();
         });
 }
-

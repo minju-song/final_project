@@ -170,7 +170,7 @@ function drawClub(clubArr) {
                     else if (club.stopDate != null) {
                         btn.innerText = '재가입';
                         ck = true;
-                        btn.disabled = true;
+                        btn.onclick = function() {rejoin(clubArr[i])};
                     }
                     //null이 아니면 내 모임
                     else {
@@ -228,6 +228,57 @@ function drawClub(clubArr) {
         divCard.onclick = function () { clubPage(clubArr[i].clubId); }
         clubList.appendChild(divCard);
     }
+}
+
+//재가입
+function rejoin(club) {
+    if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+
+    console.log("재가입");
+    console.log(club);
+
+    Swal.fire({
+        title: "모임에 재가입 신청을 하시겠습니까?",
+        text: "재가입 무조건 허가를 받아합니다.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                input: "textarea",
+                inputLabel: "재가입 사유를 적어주세요.",
+                inputPlaceholder: "Type your message here...",
+                inputAttributes: {
+                    "aria-label": "Type your message here"
+                },
+                showCancelButton: true
+            }).then((text) => {
+                if (text) {
+                    let clubVO = { clubName: club.clubName, clubId: club.clubId, clubLeader: club.clubLeader, text: text.value, type: 'rejoin' };
+                    fetch('/sendmail/requestclub', {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": `application/json`, // application/json 타입 선언
+                        },
+                        body: JSON.stringify(clubVO)
+                    })
+                        .then(result => console.log(result))
+                        .then(result => {
+                            Swal.fire({
+                                title: "신청 완료",
+                                text: "신청이 완료되었습니다.",
+                                icon: "success"
+                            }).then((result) => {
+                                location.reload();
+                            })
+                        }).catch(err => console.log(err));
+                }
+            });
+        }
+    });
 }
 
 //즉시 클럽가입

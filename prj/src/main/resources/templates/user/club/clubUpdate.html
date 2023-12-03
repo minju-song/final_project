@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/layout}">
-
+layout:decorate="~{layout/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <style>
-        #login_form_inner label {
-            width: 180px;
-            text-align: left;
-            font-size: 14px;
-            margin: 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
-
 <body>
     <div layout:fragment="content">
         <div class="section_wrap">
@@ -25,8 +15,8 @@
                             <div class="login_form_inner" id="login_form_inner">
                                 <a th:href="@{/}"><img th:src="@{/user/images/logo/logo3.png}" class="logo"
                                         title="홈으로"></a>
-                                <form class="row login_form join_form" th:action="@{/member/clubInsert}" method="POST"
-                                    th:object="${ClubVO}" encType="multipart/form-data">
+                                <form class="row login_form join_form" th:action="@{/member/clubUpdate}" method="POST"
+                                    th:object="${club}" encType="multipart/form-data">
                                     <!--/* 이름 */-->
                                     <div class="col-md-12 form-group">
                                         <label id="clubName">모임이름</label>
@@ -34,7 +24,8 @@
                                             <input type="text" class="form-control" id="clubName" th:field="*{clubName}"
                                                 required="required" placeholder="모임이름을 입력해 주세요"
                                                 onfocus="this.placeholder = '모임이름을 입력해 주세요'"
-                                                onblur="this.placeholder = '모임이름을 입력해 주세요'">
+                                                onblur="this.placeholder = '모임이름을 입력해 주세요'"
+                                                th:value="${club.clubName}">
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-group">
@@ -77,36 +68,17 @@
 
                                     <div class="col-md-12 form-group">
                                         <label id="openScope">가입승인여부</label>
-                                        <br>
                                         <select th:field="*{openScope}">
                                             <option value="OA1">즉시가입</option>
                                             <option value="OA2">가입허가</option>
                                         </select>
                                     </div>
 
-                                    <div class="col-md-12 form-group">
-                                        <label id="joinCondition">예산금액</label>
-                                        <div class="input-wrap">
-                                            <input type="number" class="form-control" id="joinCondition"
-                                                th:field="*{price}" required="required" placeholder="예산금액을 입력해 주세요"
-                                                onfocus="this.placeholder = '예산금액을 입력해 주세요'"
-                                                onblur="this.placeholder = '예산금액을 입력해 주세요'">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12 form-group">
-                                        <label id="unit">예산기간</label>
-                                        <br>
-                                        <select th:field="*{unit}">
-                                            <option value="YA1">일</option>
-                                            <option value="YA2">주</option>
-                                            <option value="YA3">월</option>
-                                        </select>
-                                    </div>
+  
                                     <!--/* 가입하기 */-->
                                     <div class="col-md-12 form-group">
                                         <button id="submitBtn" type="submit" class="button button-login w-100">모임
-                                            생성하기</button>
+                                            수정하기</button>
                                     </div>
 
                                 </form>
@@ -116,10 +88,11 @@
                 </div>
             </section>
         </div>
+
+        <script>
+            console.log([[${club}]]);
+        </script>
     </div>
 
-
 </body>
-
-
 </html>
