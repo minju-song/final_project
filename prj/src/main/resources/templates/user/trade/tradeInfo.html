@@ -30,7 +30,7 @@
 				      <img src="/user/images/aespa.jpg" class="d-block w-100" alt="...">
 				    </div>
 				  </div>
-				  <img class="heart" id="heart" th:src="@{/user/images/trade/fill-heart.png}">
+				  <img class="heart" id="heart" th:src="@{/user/images/trade/bin-heart.png}">
 				  <button class="carousel-control-prev" type="button" data-target="#carouselExampleControlsNoTouching" data-slide="prev">
 				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 				    <span class="sr-only">Previous</span>
@@ -45,7 +45,7 @@
 					<div class="product_content">
 						<div class="row watchwrap bottomdown10">
 							<div class="heartNviews silverColor" th:text="|관심 ${heartCount.heartCount} │ 조회수 ${tradeInfo.views} │ ${#dates.format(tradeInfo.writeDate, 'yyyy-MM-dd')}|"></div>
-							<div class="row">
+							<div class="row" th:if="${memberId != tradeInfo.sellerId}">
 								<div class="report silverColor">신고하기</div>
 							</div>
 						</div>

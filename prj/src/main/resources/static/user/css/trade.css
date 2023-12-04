@@ -113,6 +113,12 @@ option > selected{
 	font-size: larger;
 }
 
+.col{
+	adding-right: none;
+    padding-left: 50px;
+    margin: 10px;
+}
+
 /* 중고거래 상세페이지 시작 */
 .carousel-control-prev, .carousel-control-next {
     border: none;
