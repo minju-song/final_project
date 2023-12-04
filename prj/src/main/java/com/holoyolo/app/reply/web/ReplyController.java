@@ -23,7 +23,7 @@ public class ReplyController {
 @ResponseBody
 	public Map<String, Object> loadReply(@AuthenticationPrincipal PrincipalDetails principalDetails,
 			@RequestBody ReplyVO vo) {
-	System.out.println(vo);
+	System.out.println("vo : " + vo);
 		Map<String, Object> result = new HashMap<>();
 		
 		return result;

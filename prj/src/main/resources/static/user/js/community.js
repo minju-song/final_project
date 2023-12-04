@@ -149,8 +149,7 @@ async function findPost() {
     const response = await fetch(url);
     const post = await response.json();
 
-    console.log(post)
-    console.log(post.title)
+
     // 3. 에디터 콘텐츠 렌더링
     const viewer = toastui.Editor.factory({
         el: document.querySelector('#viewer'),
@@ -163,13 +162,12 @@ async function findPost() {
     document.getElementById('boardLike').innerText = post.likeCount;
     document.getElementById('writeDate').innerText = formatDate(post.writeDate);
     document.getElementById('views').innerText = post.views;
-    console.log(post)
-    
-   
-}
 
-function replyLoad() {
-    
+
+}
+//댓글 생성
+function replyLoad(page) {
+    console.log('댓글생성')
     currentPage = page;
     let start = (currentPage - 1) * recordsPerPage;
     let end = start + recordsPerPage;
@@ -182,23 +180,58 @@ function replyLoad() {
         type: 'POST',
         url: '/loadReply',
         contentType: 'application/json;charset=UTF-8',
-        data:{"boardId" : boardId, "start": start, "end": end},
+        data: { "boardId": boardId, "start": start, "end": end },
         success: function (data) {
-
-            updateTable(data, page);
+            console.log(data)
+            // updateReplyTable(data, page);
             // 페이징 처리
-            let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
-            setupPagination(totalPages);
+            // let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
+            // setupPagination(totalPages);
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
+        error: function (error) {
+
             console.error("error: " + error);
         }
     });
 
 }
 
+
+function updateReplyTable(data, page) {
+
+    currentPage = page;
+    let endPage = Math.ceil(data.totalRecords / recordsPerPage);
+    console.log(endPage)
+
+    let tbody = $("#boardTableBody");
+    tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
+
+    if (data && data.historyList && data.historyList.length > 0) {
+        // 데이터가 있을 경우 테이블에 행 추가
+
+        data.historyList.forEach(function (item, index) {
+            let row = $("<tr>");
+            row.attr("onclick", `location.href='/member/BoardInfo?boardId=${item.boardId}'`);
+            if (data.totalRecords > page * recordsPerPage) {
+                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
+                // row.append($("<td>").text(index + 1));
+            } else {
+                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
+            }
+            row.append($("<td>").text(item.title));
+            row.append($("<td>").text(formatDate(item.writeDate)));
+            row.append($("<td>").text(item.nickname));
+            row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
+
+            tbody.append(row);
+        });
+    } else {
+        // 데이터가 없을 경우 테이블에 메시지 추가
+        let noDataMessage = $("<tr>").append($("<td colspan='5' class='text-center'>").text("게시물이 없습니다."));
+        tbody.append(noDataMessage);
+    }
+
+}
 async function checkLike() {
     let searchParams = new URLSearchParams(location.search)
     let boardId = Number(searchParams.get('boardId'));
@@ -208,15 +241,12 @@ async function checkLike() {
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({ "boardId": boardId }),
         success: function (data) {
-            console.log(data)
             let heart = document.getElementById('boardLikeBtn');
             if (data.searchLike == "true") {
                 heart.innerHTML = '❤️';
             }
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
+        error: function (error) {
             console.error("error: " + error);
         }
     })
@@ -235,7 +265,6 @@ function addLike() {
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({ "boardId": boardId }),
         success: function (data) {
-            console.log(data)
             if (data.resultMsg == '추가') {
                 changeText(heart);
                 likeCount.innerText = parseInt(likeCount.innerText) + 1;
@@ -248,9 +277,7 @@ function addLike() {
 
 
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
+        error: function (error) {
             console.error("error: " + error);
         }
     });
@@ -276,7 +303,7 @@ function openForm() {
     let replyForm = document.createElement('textarea');
     replyForm.id = 'replyForm';
     replyForm.placeholder = ' 답글을 입력하세요.';
-    replyForm.classList.add('form-control','text');
+    replyForm.classList.add('form-control', 'text');
     document.getElementById('replyFormArea').append(replyForm);
 
 
@@ -286,30 +313,30 @@ function openForm() {
     addReplyBtn.classList.add('btn', 'btn-primary')
     document.getElementById('addreplyBtn').append(addReplyBtn);
     addReplyBtn.textContent = '댓글 등록';
-    addReplyBtn.addEventListener('click',insertReply)
+    addReplyBtn.addEventListener('click', insertReply)
 
     document.getElementById('replyFormOpen').disabled = true;
-    
-    };
 
-    function insertReply(){
-        const searchParams = new URLSearchParams(location.search);
-        let boardId = Number(searchParams.get('boardId'));
-        let content = document.getElementById('replyForm').value
-        $.ajax({
-            type: 'POST',
-            url: '/insertReply',
-            contentType: 'application/json;charset=UTF-8',
-            data: JSON.stringify({ "boardId": boardId, "content": content}),
-            success: function (data) {
-                console.log(data)
-    
-            },
-            error: function (request, status, error) {
-                console.error("code: " + request.status);
-                console.error("message: " + request.responseText);
-                console.error("error: " + error);
-            }
-        });
-    }
+};
+
+function insertReply() {
+    const searchParams = new URLSearchParams(location.search);
+    let boardId = Number(searchParams.get('boardId'));
+    let content = document.getElementById('replyForm').value
+    $.ajax({
+        type: 'POST',
+        url: '/insertReply',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "boardId": boardId, "content": content }),
+        success: function (data) {
+            console.log(data)
+
+        },
+        error: function (request, status, error) {
+            console.error("code: " + request.status);
+            console.error("message: " + request.responseText);
+            console.error("error: " + error);
+        }
+    });
+}
 

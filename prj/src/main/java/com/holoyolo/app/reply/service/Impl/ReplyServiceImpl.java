@@ -6,7 +6,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.reply.mapper.ReplyMapper;
 import com.holoyolo.app.reply.service.ReplyService;
 import com.holoyolo.app.reply.service.ReplyVO;
@@ -18,8 +17,8 @@ public class ReplyServiceImpl implements ReplyService {
 	ReplyMapper replyMapper;
 
 	@Override
-	public List<ReplyVO> ReplyListO(int boardId) {
-		return replyMapper.ReplyListO(boardId);
+	public List<ReplyVO> ReplyList(int boardId) {
+		return replyMapper.ReplyList(boardId);
 	}
 
 	@Override

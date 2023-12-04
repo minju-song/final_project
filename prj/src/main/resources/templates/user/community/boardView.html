@@ -155,7 +155,11 @@
     <script>
         window.onload = async () => {
             findPost();
-            checkLike();
+
+            await checkLike();
+
+            await replyLoad();
+
         }
         let likeBtn = document.getElementById('boardLikeBtn');
         likeBtn.addEventListener('click', addLike)
