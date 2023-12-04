@@ -6,7 +6,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.holoyolo.app.attachment.mapper.AttachmentMapper;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.trade.mapper.TradeMapper;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
@@ -16,6 +19,8 @@ public class TradeServiceImpl implements TradeService {
 
 	@Autowired
 	TradeMapper tradeMapper;
+	@Autowired
+	AttachmentMapper attachmentMapper;
 	
 	// 거래 전체조회
 	@Override
@@ -31,8 +36,16 @@ public class TradeServiceImpl implements TradeService {
 
 	// 거래 등록
 	@Override
-	public int insertTrade(TradeVO tradeVO) {
+	@Transactional
+	public int insertTrade(TradeVO tradeVO, List<AttachmentVO> imgList) {
 		int result = tradeMapper.insertTrade(tradeVO);
+		
+		for(int i=0; i<imgList.size(); i++) {
+			AttachmentVO vo = imgList.get(i);
+			vo.setMenuType("AA1");
+			vo.setPostId(tradeVO.getTradeId());
+			attachmentMapper.insertAttachment(imgList.get(i));
+		}
 		
 		if(result == 1) {
 			return tradeVO.getTradeId();
@@ -59,8 +72,8 @@ public class TradeServiceImpl implements TradeService {
 
 	// 거래 삭제
 	@Override
-	public int deleteTrade(int tradeId) {
-		return tradeMapper.deleteTrade(tradeId);
+	public int deleteTrade(TradeVO tradeVO) {
+		return tradeMapper.deleteTrade(tradeVO);
 	}
 
 	//리스트 페이징

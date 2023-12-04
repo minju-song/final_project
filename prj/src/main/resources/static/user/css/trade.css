@@ -305,7 +305,7 @@ input[type="number"]{
 .placeSelectButton{
 	width: 125px;
     height: 40px;
-    background-color: #09203f;
+    background-color: rgb(201 204 205);
     text-align: center;
     position: realative;
     top: 2px;
@@ -325,10 +325,6 @@ input[type="number"]{
     filter: opacity(0.2) drop-shadow(0 0 0 black);
 }
 
-.real_file{
-	/* display: none; */
-}
-
 .btn-primary:not([disabled]):not(.disabled):active{
 	background-color: #868e96;
     border-color: #868e96;
@@ -345,4 +341,17 @@ input[type="number"]{
     left: 50%;
     top: 47%;
     width: 340px;
+}
+
+.noneMap{
+	position: absolute;
+    top: 72%;
+    left: 2%;
+    width: 1200px;
+    height: 119px;
+}
+
+/* 첨부파일 관련 */
+.real_file {
+	display: none; 
 }

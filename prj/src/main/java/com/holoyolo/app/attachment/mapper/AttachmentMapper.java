@@ -9,4 +9,7 @@ public interface AttachmentMapper {
 
 	//중고거래 이미지 전체조회
 	public List<AttachmentVO> selectAttachmentList(AttachmentVO attachmentVO);
+	
+	//첨부파일 등록
+	public int insertAttachment(AttachmentVO attachmentVO);
 }

@@ -28,7 +28,7 @@ public class UploadController {
 	 * @param uploadFiles
 	 * @return
 	 */
-	@PostMapping("/uploadAjax")
+	@PostMapping("/uploadAjax2")
 	@ResponseBody
 	public List<String> uploadFile(@RequestPart MultipartFile[] uploadFiles, String folderName) { // @RequestPart MultipartFile[배열로
 																				// 받는다(여러파일 동시에)] 파일 업로드 어노테이션

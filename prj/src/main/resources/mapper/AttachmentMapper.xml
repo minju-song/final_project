@@ -11,4 +11,34 @@
 		WHERE menu_type = 'AA1'
 		AND post_id = #{postId}
 	</select>
+	
+	<insert id="insertAttachment" parameterType="AttachmentVO">
+		<selectKey keyProperty="attachmentId,attachmentSeq" resultType="AttachmentVO" order="BEFORE" >
+               SELECT ATTACHMENT_SEQ.NEXTVAL attachment_id,
+                      (SELECT NVL(MAX(attachment_seq), 0) +1 FROM attachment WHERE post_id = #{postId}) attachment_seq 
+               FROM dual
+		</selectKey>
+		INSERT INTO attachment
+					(
+						attachment_id
+						, menu_type
+						, post_id
+						, attachment_seq
+						, origin_file
+						, save_file
+						, reg_date
+						, file_size
+					)
+			 VALUES 
+			 		(
+			 			#{attachmentId}
+			 			, #{menuType}
+			 			, #{postId}
+			 			, #{attachmentSeq}
+			 			, #{originFile}
+			 			, #{saveFile}
+			 			, sysdate
+			 			, #{fileSize}
+			 		)
+	</insert>
 </mapper>

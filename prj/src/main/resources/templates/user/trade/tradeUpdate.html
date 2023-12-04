@@ -6,12 +6,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
-<!-- 소스 다운 -->
-<script src="https://unpkg.com/@yaireo/tagify"></script>
-<!-- 폴리필 (구버젼 브라우저 지원) -->
-<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <style>
 .card {
 	border: none;
@@ -23,15 +17,15 @@
 	<div layout:fragment="content">
 		<div class="card">
 			<div class="card-body">
-				<form class="row g-3" th:action="@{/member/tradeInsert}"
-					method="POST" th:object="${tradeVO}" enctype="multipart/form-data">
+				<form class="row g-3" th:action="@{/member/tradeUpdate}"
+					method="POST" th:object="${tradeInfo}">
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
 						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required th:field="*{title}">
 					</div>
 					<div class="col-md-3 writeInput">
 						<label for="tradeCategory" class="form-label">상품카테고리<span class="star">*</span></label> 
-						<select id="tradeCategory" class="form-select" required th:field="*{tradeCategory}">
+						<select id="tradeCategory" class="form-select" required th:field="*{tradeCateCode}">
 							<option selected value="">선택하세요</option>
 							<option value="TB1">생활용품</option>
 							<option value="TB2">의류</option>
@@ -45,7 +39,7 @@
 					</div>
 					<div class="col-md-3 writeInput">
 						<label for="tradeType" class="form-label">거래방식<span class="star">*</span></label> 
-						<select id="tradeType" class="form-select" required th:field="*{tradeType}">
+						<select id="tradeType" class="form-select" required th:field="*{tradeTypeCode}">
 							<option selected value="">선택하세요</option>
 							<option value="TA1">직거래</option>
 							<option value="TA2">비대면</option>
@@ -78,7 +72,7 @@
 						<label for="tradeImg" class="form-label">상품사진<span class="star">*</span></label>
 						<div>
 							<img class="tradeImgPlus" id="tradeImg" th:src="@{/user/images/trade/photo.png}"> 
-							<input class="real_file" name="uploadFiles" type="file" onchange="addFile(this);" required multiple />
+							<input class="real_file" type="file" onchange="addFile(this);" required multiple />
 							<div class="file-list"></div>
 						</div>
 
@@ -101,9 +95,10 @@
 				</form>
 			</div>
 		</div>
-		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bd4fbf5a577776ae5a2331a45fef01e&libraries=services"></script>
-		<script src="/user/js/tradeInsert.js"></script>
+		<script
+			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bd4fbf5a577776ae5a2331a45fef01e&libraries=services"></script>
 		<script>
 			//장소, 위도, 경도 저장
 			let tradePlace = '';
@@ -159,9 +154,9 @@
 			});
 			
 			//첨부파일 관련
-			/* let realUpload = document.querySelector('.real_file');
+			let realUpload = document.querySelector('.real_file');
 			let upload = document.querySelector('#tradeImg');
-			upload.addEventListener('click', () => realUpload.click()); */
+			upload.addEventListener('click', () => realUpload.click());
 		</script>
 	</div>
 </body>

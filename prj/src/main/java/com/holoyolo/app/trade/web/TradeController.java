@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
@@ -52,16 +54,18 @@ public class TradeController {
 	}
 	
 	@GetMapping("member/tradeInsert")
-	public String tradeInsert(@AuthenticationPrincipal PrincipalDetails principalDetails,
-							  TradeVO tradeVO) {
-		tradeVO.setSellerId(principalDetails.getUsername());
+	public String tradeInsert(TradeVO tradeVO) {
 		return "user/trade/tradeInsert";
 	}
 	
 	@PostMapping("member/tradeInsert")
-	public String tradeInsertProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, TradeVO tradeVO) {
+	public String tradeInsertProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+									TradeVO tradeVO,
+									@RequestPart MultipartFile[] uploadFiles) {
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
 		tradeVO.setSellerId(principalDetails.getUsername());
-		tradeService.insertTrade(tradeVO);
+		tradeService.insertTrade(tradeVO, imgList);
+		System.out.println(imgList);
 		return "redirect:/tradeList";
 	}
 	
@@ -73,9 +77,32 @@ public class TradeController {
 							HeartVO heartVO) {
 		attachmentVO.setPostId(tradeVO.getTradeId());
 		heartVO.setTradeId(tradeVO.getTradeId());
+		model.addAttribute("memberId", principalDetails.getUsername());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		model.addAttribute("heartCount", heartService.getHeartCount(heartVO));
 		return "user/trade/tradeInfo";
 	}
+	
+	@GetMapping("member/tradeUpdate")
+	public String tradeUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
+							  Model model,
+							  AttachmentVO attachmentVO,
+							  TradeVO tradeVO) {
+		tradeVO.setSellerId(principalDetails.getUsername());
+		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
+		System.out.println(tradeService.getTrade(tradeVO));
+		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
+		return "user/trade/tradeUpdate";
+	}
+	
+	@GetMapping("member/tradeDelete")
+	@ResponseBody
+	public void tradeDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
+						   TradeVO tradeVO){
+		tradeVO.setSellerId(principalDetails.getUsername());
+		tradeService.deleteTrade(tradeVO);
+	}
+	
+
 }
