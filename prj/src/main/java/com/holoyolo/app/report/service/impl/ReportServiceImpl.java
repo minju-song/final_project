@@ -1,5 +1,6 @@
 package com.holoyolo.app.report.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,14 @@ public class ReportServiceImpl implements ReportService {
 
 	// 신고 단건조회
 	@Override
-	public ReportVO selectReportInfo(ReportVO reportVO) {
-		return reportMapper.selectReportInfo(reportVO);
+	public Map<String, Object> selectReportInfo(ReportVO reportVO) {
+		Map<String, Object> result = new HashMap<>();
+		
+		ReportVO findReportVO = reportMapper.selectReportInfo(reportVO);
+		
+		result.put("reportInfo", findReportVO);
+		
+		return result;
 	}
 	
 	// 신고 등록
@@ -44,11 +51,21 @@ public class ReportServiceImpl implements ReportService {
 	public boolean deleteReportInfo(int reportId) {
 		return false;
 	}
-
+	
+	// 신고사유 수정
 	@Override
-	public Map<String, Object> updateReportInfo(ReportVO reportVO) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> updateReportReason(ReportVO reportVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		
+		int result = reportMapper.updateReportReason(reportVO);
+		if (result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", reportVO);
+		
+		return map;
 	}
 
 	// 신고 개수

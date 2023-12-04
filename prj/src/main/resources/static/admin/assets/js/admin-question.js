@@ -83,7 +83,7 @@ $('.pagination').on("click", "li a", function(e) {
 
 pageNum = 1;
 pageSize = 10.0; //페이지 번호 수
-pageUnit = 8;  //한페이지에 출력할 행의 수
+pageUnit = 10;  //한페이지에 출력할 행의 수
 
 // 전체 클릭시 문의 리스트
 $(document).on("click", "button[name='totalQuestionCount']", function(e) {

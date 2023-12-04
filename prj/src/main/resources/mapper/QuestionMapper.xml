@@ -33,7 +33,7 @@
   	<!--단건조회-->
   	<select id="selectQuestionInfo" resultType="QuestionVO">
   		SELECT question_id
-  			 , question_type
+  			 , fn_get_code_name(question_type) question_type
   			 , title
   			 , content
   			 , write_date

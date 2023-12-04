@@ -23,6 +23,7 @@ public class ReportVO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date processDate;
 	private String reporterId;
+	private String reportedId;
 	private String reportContent;
 	
 	// 페이징

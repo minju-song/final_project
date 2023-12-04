@@ -20,7 +20,11 @@ const colorMapping = {
 	'기타': 'bg-label-info',
 	// 신고-상태
 	'반려': 'bg-label-yellow',
-	'신고처리': 'bg-label-success'
+	'신고처리': 'bg-label-success',
+	
+	// 멤버
+	'일반회원': 'bg-label-info',
+	'관리자': 'bg-label-primary'
 };
 
 export default colorMapping;

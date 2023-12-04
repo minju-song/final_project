@@ -2,6 +2,80 @@ import colorMapping from './admin-common.js';
 //console.log(window.location.pathname) 현재 경로
 console.log("admin-report.js 작업중");
 
+function renderReportProcessForm(status, type) {
+	$("#reportArea").empty();
+	let id = window.location.search.split('=')[1];
+	let template = `
+			<form id="reportForm">
+				<input type="hidden" name="reportId" value="${id}"/> 
+				<input type="hidden" name="reportProcessType" value="${type}"/> 
+				<span class="fw-bold">${status}처리사유 작성</span>
+				<div class="mt-2">
+					<textarea class="form-control" id="processComment"
+						name="processComment" placeholder="내용을 입력해주세요." rows="15"></textarea>
+				</div>
+				<div class="mt-2 position-absolute end-0">
+					<button id="reportFormbtn" type="button" class="btn btn-primary me-4">보내기</button>
+				</div>
+			</form>
+	`
+	$("#reportArea").append(template);
+	
+	// 보내기 클릭
+	$(document).on("click", "#reportFormbtn", function(){
+	let id = window.location.search.split('=')[1];
+	let formData = getUpdateInputForm();
+	$.ajax({
+		url: `/admin/report/detail/${id}`,
+		contentType : "application/json",
+		data: JSON.stringify(formData),
+		method: "PUT"
+	})
+	.done(function(data) {
+	let reportReasonData = data.target;
+	console.log(reportReasonData)
+	let template = `
+		<div>
+			<h5 class="fw-bold badge bg-label-${type == 'SB1' ? 'info' : 'danger'}">해당 신고는 아래 사유로
+				${type == 'SB1' ? '신고' : '반려'}처리 됨</h5>
+			<p>${reportReasonData.processComment}</p>
+		</div>
+	`;
+	
+	$("#reportArea").empty().append(template)
+	})
+	.fail(function(error) {
+	console.error("Error fetching question list: ", error);
+	})
+	$("#reportArea").empty();
+	console.log(type)
+})
+}
+let status = "";
+let type = "";
+$(document).on("click", "[name='completedBtn']", function(e) {
+	status = "신고"
+	type = "SB1"
+	renderReportProcessForm(status, type);
+})
+$(document).on("click", "[name='rejectedBtn']", function(e) {
+	status = "반려"
+	type = "SB2"
+	renderReportProcessForm(status, type);
+})
+
+
+// 수정된 formData
+function getUpdateInputForm() {
+	let target = event.target
+	let formData = $(target).closest('#reportForm').serializeArray(); // 폼 태그 전용 메서드
+	let objData = {};
+	$.each(formData, (idx, obj) => {
+		objData[obj.name] = obj.value;
+	});
+	return objData;
+}
+
 
 
 let pageNum = 0;
@@ -81,8 +155,8 @@ pageUnit = 8;  //한페이지에 출력할 행의 수
 
 // 상세페이지 이동
 $(document).on("click", "td[name='goReportDetail']", function(e) {
-	let questionId = $(this).prev().text();
-	location.href = `/admin/question/detail?questionId=${questionId}`;
+	let reportId = $(this).prev().prev().text();
+	location.href = `/admin/report/detail?reportId=${reportId}`;
 });
 
 // 전체 클릭시 신고 리스트

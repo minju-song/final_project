@@ -45,4 +45,27 @@ SELECT *
 		</where>
 	</select>
   
+  	<select id="selectReportInfo" resultType="reportVO">
+  		SELECT
+		    report_id
+		  , fn_get_code_name(menu_type) AS menu_type
+		  , post_id
+		  , report_content
+		  , fn_get_code_name(report_type) AS report_type
+		  , report_date
+		  , fn_get_code_name(report_process_type) AS report_process_type
+		  , process_comment
+		  , process_date
+		  , reporter_id
+		  , reported_id
+		FROM report
+		WHERE report_id = #{reportId}
+  	</select>
+  	
+  	<update id="updateReportReason" parameterType="ReportVO">
+  		UPDATE report SET
+                report_process_type = #{reportProcessType},
+                process_comment = #{processComment}
+		WHERE report_id = #{reportId}
+  	</update>
   </mapper>

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.holoyolo.app.report.service.ReportService;
@@ -35,4 +37,23 @@ public class ReportController {
 		reportMap.put("count", reportService.selectReportTotalCount(reportVO));
 		return reportMap;
 	}
+	
+	// 신고 단건조회
+	@GetMapping("/admin/report/detail")
+	public String selectReportInfo(ReportVO reportVO, Model model) {
+		Map<String,Object> reportInfo = reportService.selectReportInfo(reportVO);
+		System.out.println(reportInfo.get("reportInfo"));
+		model.addAttribute("reportInfo", reportInfo.get("reportInfo"));
+		return "admin/report/reportDetail";
+	}
+	
+	// 신고사유 수정
+	@PutMapping("/admin/report/detail/{reportId}")
+	@ResponseBody
+	public Map<String, Object> reportReasonUpdate(@PathVariable("reportId") int reportId,
+												  @RequestBody ReportVO reportVO) {
+		reportVO.setReportId(reportId);
+		return reportService.updateReportReason(reportVO);
+	}
+	
 }
