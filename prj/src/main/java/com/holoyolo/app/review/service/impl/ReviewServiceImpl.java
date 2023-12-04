@@ -45,6 +45,10 @@ public class ReviewServiceImpl implements ReviewService{
 		if (ck > 0) map.put("myreview", true);
 		else map.put("myreview", false);
 		
+		//클럽 리뷰평점
+		double avgstar = reviewMapper.avgClubStar(cid);
+		
+		map.put("avgstar", avgstar);
 		map.put("reviews", reviewList);
 		map.put("club", vo);	
 		

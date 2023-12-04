@@ -6,10 +6,10 @@
   
   	<!-- 해당 클럽 리뷰리스트 조회 -->
   	<select id="getReviewList" resultType="ReviewVO">
-  		SELECT *
-  		FROM review
-  		WHERE club_id = #{clubId}
-  		ORDER BY write_date
+  		SELECT r.*, m.nickname
+  		FROM review r JOIN member m ON r.member_id = m.member_id
+  		WHERE r.club_id = #{clubId}
+  		ORDER BY r.write_date
   	</select>
   	
   	<!-- 내가 쓴 리뷰 있는지 체크 -->
@@ -23,7 +23,7 @@
   	<!-- 리뷰등록 -->
   	<insert id="insertReview" parameterType="ReviewVO">
   		<selectKey resultType="int" keyProperty="reviewId" order="BEFORE">
-	        SELECT MAX(REVIEW_ID)+1 FROM REVIEW
+	        SELECT NVL(MAX(REVIEW_ID)+1,0) FROM REVIEW
 	    </selectKey>
 	    INSERT INTO review (
 	    					review_id
@@ -42,4 +42,11 @@
 	    					, #{contents}
 	    					)
   	</insert>
+  	
+  	<!-- 해당 클럽 리뷰 평점 -->
+  	<select id="avgClubStar" resultType="double">
+  		 SELECT ROUND(NVL(AVG(star), 0), 1) AS avg_star
+		 FROM review
+		 WHERE club_id = #{clubId}
+  	</select>
   </mapper>

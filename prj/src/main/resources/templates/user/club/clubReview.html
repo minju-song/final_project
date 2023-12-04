@@ -62,57 +62,119 @@
             text-align: center;
             background: bisque;
         }
+
+        .divbox {
+            padding: 20px;
+            margin: 0 auto;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            border: 0;
+            background-color: white;
+        }
+        .writeDate {
+            font-size: smaller;
+        }
     </style>
 </head>
 
 <body>
     <div layout:fragment="content">
 
-        <h1>[[${result.club.clubName}]] 모임의 리뷰</h1>
+        <h3>[[${result.club.clubName}]] 모임의 리뷰</h3>
 
-        <div>
+        <div class="divbox">
             <h3>리뷰작성공간</h3>
-            <th:block th:if="${result.myreview == false and session.check eq true}">
-                <div class="star_rating">
-                    <span class="star on" value="1"> </span>
-                    <span class="star on" value="2"> </span>
-                    <span class="star on" value="3"> </span>
-                    <span class="star on" value="4"> </span>
-                    <span class="star on" value="5"> </span>
-                </div>
-                <textarea id="writeContents">
-
-                </textarea>
-                <button onclick="reviewWrite()">작성</button>
-            </th:block>
-            <th:block th:if="${result.myreview == true}">
-                리뷰를 작성하셨습니다.
-            </th:block>
-            <th:block th:if="${session.check != true}">
-                멤버만 리뷰작성이 가능합니다.
-            </th:block>
+            <div id="writeReview">
+                <th:block th:if="${result.myreview == false and session.check eq true}">
+                    <div class="star_rating">
+                        <span class="star on" value="1"> </span>
+                        <span class="star on" value="2"> </span>
+                        <span class="star on" value="3"> </span>
+                        <span class="star on" value="4"> </span>
+                        <span class="star on" value="5"> </span>
+                    </div>
+                    <input id="writeContents">
+                    <button onclick="reviewWrite()">작성</button>
+                </th:block>
+            </div>
+            <div id="completeReview">
+                <th:block th:if="${result.myreview == true}">
+                    리뷰를 작성하셨습니다.
+                </th:block>
+            </div>
+            <div id="nomemberReview">
+                <th:block th:if="${session.check != true}">
+                    멤버만 리뷰작성이 가능합니다.
+                </th:block>
+            </div>
         </div>
 
-        <div id="reviewlist">
+        <div class="avg">
+            <h4>평균평점
+                <div class="star_rating">
+                    <span th:each="i : ${#numbers.sequence(1, result.avgstar)}" class="star on"> </span>
+                </div>
+            </h4>
+            <p>등록된 리뷰 ([[${result.reviews.size()}]])</p>
+        </div>
+
+        <div id="reviewlist" class="divbox">
+            <hr>
             <th:block th:each="review, stat : ${result.reviews}">
                 <div class="rev">
-                    <h4 th:text="${review.contents}"></h4>
-                    <h4>작성자 : [[${review.memberId}]]</h4>
+                    <h4>작성자 : [[${review.nickname}]]</h4>
+                    <div class="star_rating">
+                        <span th:each="i : ${#numbers.sequence(1, review.star)}" class="star on"> </span>
+                    </div>
+                    <span class="writeDate" th:text="${#dates.format(review.writeDate, 'yyyy년 MM월 dd일 HH:mm')}"></span>
+                    
+                    <div>
+                        <h4 th:id="'reviewContent_' + ${stat.index}" th:text="${review.contents}" style="display: inline;"></h4>
+                        <div th:id="'updateInput_' + ${stat.index}" style="display: none;" >
+                            <input type="text" th:value="${review.contents}" /> <button th:onclick="'updateReview(\'' + ${review.reviewId} + '\',event)'">수정</button>
+                        </div>
+                    </div>
+                    
                     <th:block th:if="${#authentication.Principal.memberVO.memberId eq review.memberId}">
-                        수정 삭제가능
+                        <button class="btn" th:onclick="'toggleUpdateMode(\'' + ${stat.index} + '\')'">✔️</button>
+                        <button class="btn">❌</button>
                     </th:block>
                 </div>
+                <hr>
                 <br>
 
             </th:block>
         </div>
 
-        <script>
-            let clubId = [[${ result.club.clubId }]]
+        <script th:inline="javascript">
+            let clubId = /*[[${ result.club.clubId }]]*/ null;
             let userId = /*[[${userId}]]*/ null;
         </script>
 
         <script>
+            function toggleUpdateMode(index) {
+                // index를 정수로 변환
+                index = parseInt(index);
+
+                var reviewContent = document.getElementById('reviewContent_' + index);
+                var updateInput = document.getElementById('updateInput_' + index);
+
+                if (updateInput.style.display === 'none') {
+                    // 수정 모드로 전환
+                    reviewContent.style.display = 'none';
+                    updateInput.style.display = 'inline';
+                } else {
+                    // 읽기 모드로 전환
+                    reviewContent.style.display = 'inline';
+                    updateInput.style.display = 'none';
+                }
+            }
+
+
             $('.star_rating > .star').click(function () {
                 $(this).parent().children('span').removeClass('on');
                 $(this).addClass('on').prevAll('span').addClass('on');
@@ -139,6 +201,8 @@
                     data: data,
                     success: function (result) {
                         console.log(result);
+                        $('#writeReview').hide();
+                        $('#completeReview').show();
                         drawReview(data);
                     },
                     error: function () {
@@ -148,6 +212,9 @@
             }
 
             function drawReview(data) {
+                //리뷰입력 시 입력칸 바로 삭제
+       
+
                 console.log(data);
                 let reviewlist = document.getElementById('reviewlist');
 
@@ -157,13 +224,22 @@
 
                 div.appendChild(h4);
 
-                h4.innerText = '작성자 : ' + userId;
-                div.appendChild(h4);
+                let h42 = document.createElement('h4');
+                h42.innerText = '작성자 : ' + userId;
+                div.appendChild(h42);
                 let text = '수정 삭제가능';
 
                 reviewlist.appendChild(div);
 
-                // div.appendChild(text);
+                document.getElementById('writeContents').value = '';
+            }
+
+            function updateReview(id, event) {
+                console.log('리뷰 아이디 : '+id);
+
+                let content = event.currentTarget.parentElement.children[0].value;
+                
+                //리뷰 내용업데이트
             }
         </script>
     </div>

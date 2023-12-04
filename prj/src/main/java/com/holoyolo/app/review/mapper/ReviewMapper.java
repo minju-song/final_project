@@ -15,4 +15,7 @@ public interface ReviewMapper {
 	
 	//리뷰등록
 	public int insertReview(ReviewVO vo);
+	
+	//해당 클럽의 리뷰평점
+	public double avgClubStar(int cid);
 }
