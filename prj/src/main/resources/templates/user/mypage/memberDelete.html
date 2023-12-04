@@ -89,6 +89,7 @@
 								data: {delMember: "Y", password: password}
 							})
 							.done((result) => {
+								console.log(result);
 								if(result == true) {
 									Swal.fire({
 										icon: "success",

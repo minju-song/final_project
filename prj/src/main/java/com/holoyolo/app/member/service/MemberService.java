@@ -59,4 +59,7 @@ public interface MemberService {
 	// 회원탈퇴
 	public boolean deleteMember(MemberVO memberVO);
 	
+	// 비밀번호 검증
+	public boolean checkPassword(MemberVO memberVO);
+	
 }

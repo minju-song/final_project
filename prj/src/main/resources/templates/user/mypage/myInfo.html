@@ -10,138 +10,9 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-	<!--/* 프로필, 닉네임, 소개 영역 start */-->
-	<div id="my_profile">
-		<div id="imageWrap">
-			<input class="input_file real_upload" type="file" name="uploadFiles" accept="image/*" />
-			<div class="dp_flex">
-				<div id="memberProfile">
-					<th:block th:if="${memberInfo.profileImg != null}">
-						<div class="upload profile" data-toggle="tooltip" data-placement="top" title="Click! 프로필 사진 변경"
-							 th:style="'background-image:url(\'/images/'+ ${memberInfo.profileImg} +'\');'">
-						</div>
-					</th:block>
-					<th:block th:unless="${memberInfo.profileImg != null}">
-						<div class="upload profile" data-toggle="tooltip" data-placement="top" title="Click! 프로필 사진 변경"
-							 style="background-image:url('/user/images/mypage/basic_profile.png');">
-						</div>
-					</th:block>
-				</div>
-				<div id="memberIntroWrap">
-					<div class="input_wrap">
-						<span class="input input_wrap">
-							<span class="my_flex margin-top-10">
-								<button type="button" id="nickUpdate" class="myinfo_btn">닉네임 변경</button>
-								<input type="text" id="nickName" name="nickName" class="hl_input" th:value="${memberInfo.nickname}" readonly>
-							</span>
-						</span>
-					</div>
-					<div class="input_wrap">
-						<span class="input">
-							<span class="my_flex">
-								<span class="hl_input" id="memberId" th:text="${memberInfo.memberId}"></span>
-								<span><a id="delMember" th:href="@{/member/deleteForm}">회원탈퇴</a></span>
-							</span>
-						</span>
-					</div>
-					<div class="input_wrap">
-						<span class="input input_wrap">
-							<textarea class="hl_textarea form-control" id="memberIntro" name="memberIntro" rows="3" cols="100" 
-									  spellcheck="false" placeholder="자기소개를 입력하세요"
-									  th:value="${#strings.replace(memberInfo.memberIntro, nlString, '&lt;br /&gt;')}" 
-									  th:utext="${#strings.replace(memberInfo.memberIntro, nlString, '&lt;br /&gt;')}"></textarea>
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--/* 프로필, 닉네임, 소개 영역 end */-->
-	
-	<!--/* 개인정보 폼 start */-->
-	<form id="infoForm" class="flex-col" spellcheck="false">
-		<div class="form_wrap" id="info_view">
-			<div class="flex_end">
-				<button type="button" id="infoUpdate" data-toggle="tooltip" data-placement="top" title="이름/주소 변경하기">
-					<img alt="수정하기" th:src="@{/user/images/mypage/pencil-square.svg}">
-				</button>
-			</div>
-			<div class="hl_label">
-				<span class="attr_name hl_title">이름</span> 
-				<span class="hl_text">[[${memberInfo.memberName}]]</span>
-			</div>
-			<div class="hl_label addr_wrap">
-				<span class="attr_name hl_title">주소</span>
-				<span class="hl_text flex-col addr_input_wrap">[[${memberInfo.addr}]][[${memberInfo.detailAddr}]]</span>
-			</div>
-		</div>
-		<div class="form_wrap" id="info_input" style="display: none;">
-			<div class="flex_end">
-				<button type="button" id="infoCancle" data-toggle="tooltip" data-placement="top" title="취소">
-					<img alt="취소" th:src="@{/user/images/mypage/x-square.svg}">
-				</button>
-				<button type="button" id="infoSave" data-toggle="tooltip" data-placement="top" title="이름/주소 저장하기">
-					<img alt="저장하기" th:src="@{/user/images/mypage/check2-square.svg}">
-				</button>
-			</div>
-			<!--/* 이름 */-->
-			<div class="hl_label">
-				<span class="attr_name hl_title">이름</span> 
-				<input type="text" id="memberName" name="memberName" class="input col_width_1" th:value="${memberInfo.memberName}">
-			</div>
-			<!--/* 주소 */-->
-			<div class="hl_label addr_wrap">
-				<span class="attr_name hl_title">주소</span>
-				<span class="flex-col addr_input_wrap">
-					<span class="my_flex">
-						<input type="text" id="addr1" name="addr" class="input" th:value="${memberInfo.addr}" placeholder="주소">
-						<button type="button" class="form_btn" id="addrSearch" onclick="execDaumPostcode()">주소검색</button>
-					</span>
-					<input type="text" id="detailAddr" name="detailAddr" class="input" th:value="${memberInfo.detailAddr}" placeholder="상세주소">
-				</span>
-			</div>
-		</div>
-		<div class="form_wrap">
-			<!--/* 휴대폰번호 */-->
-			<div class="hl_label">
-				<span class="attr_name hl_title">휴대폰번호</span>
-				<span class="input_wrap my_flex">
-					<input type="tel" id="phone" name="phone" placeholder="숫자만 입력하세요" 
-						   class="input col_width_2" th:value="${memberInfo.phone}" readonly>
-					<button type="button" class="form_btn" id="phoneUpdate">변경하기</button>
-					<button type="button" class="form_btn dp_none" id="authNumCheck">본인인증</button>
-				</span>
-			</div>
-			<div id="check_phone_wrap" class="hl_label" style="display: none">
-				<span class="attr_name hl_title">인증번호</span>
-				<span class="input_wrap my_flex">
-					<span class="auth-wrap">
-						<input type="tel" id="checkPhone" name="checkPhone" placeholder="인증번호를 입력하세요" class="input">
-						<!--/* 남은시간 */-->
-						<span id="auth_timer">3:00</span>
-					</span>
-					<button type="button" class="form_btn" id="userCheck">인증하기</button>
-				</span>
-			</div>
-		</div>
-		<div class="form_wrap">
-			<!--/* 새비밀번호 */-->
-			<div class="hl_label">
-				<span class="attr_name hl_title">새비밀번호</span>
-				<input type="password" class="input form-control col_width_1" id="password" name="password" required="required" autocomplete="off"
-					   placeholder="새로운 비밀번호를 입력해 주세요" onfocus="this.placeholder = '새로운 비밀번호를 입력해 주세요'" onblur="this.placeholder = '새로운 비밀번호를 입력해 주세요'">
-			</div>
-			<!--/* 새비밀번호 확인 */-->
-			<div class="hl_label">
-				<span class="attr_name hl_title">새비밀번호 확인</span>
-				<span class="input_wrap my_flex">
-					<input type="password" class="input form-control col_width_2" id="passwordCheck" autocomplete="off" required="required" placeholder="새로운 비밀번호를 한번 더 입력해 주세요">
-					<button type="button" class="form_btn btn_disabled" id="passwordUpdate" disabled="disabled">변경하기</button>
-				</span>
-			</div>
-		</div>
-	</form>
-	<!--/* 개인정보 폼 end */-->
+
+	<div id="authView" data-url="/member/myInfo/authview"></div>
+	<div id="infoView" data-url="/member/myInfo/infoView"></div>
 	
 	
 	<!--/* 주소검색 모달 영역 start */-->
@@ -154,14 +25,19 @@
 	
 	
 	<!--/* JavaScript */-->
-	<script th:src="@{/user/js/upload.js}"></script>
-	<script th:src="@{/user/js/myinfo.js}"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<script>
+		
 		// 프로필사진 툴팁관련
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip()
 		})
+		
+		$(document).ready(function () {
+			let url = $('#authView').data("url");
+			$('#authView').load(url);
+		})
+		
 	</script>
 </th:block>
 </body>

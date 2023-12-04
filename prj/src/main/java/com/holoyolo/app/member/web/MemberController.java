@@ -1,5 +1,8 @@
 package com.holoyolo.app.member.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -93,7 +96,7 @@ public class MemberController {
 	}
 	
 	/**
-	 * 아이디 찾기
+	 * 아이디,비밀번호 찾기
 	 * @param memberVO
 	 * @return
 	 */
@@ -147,6 +150,48 @@ public class MemberController {
 	 */
 	@GetMapping("/member/myInfo")
 	public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myInfo");
+		
+		return "/user/mypage/myInfo";
+	}
+	
+	/**
+	 * 마이페이지-내정보 페이지(인증화면)
+	 * @return
+	 */
+	@GetMapping("/member/myInfo/authview")
+	public String infoAuthView() {
+		return "/user/mypage/memberAuthView";
+	}
+	/**
+	 * 마이페이지-내정보 페이지(인증)
+	 * @return
+	 */
+	@PostMapping("/member/myInfo/auth")
+	@ResponseBody
+	public boolean infoAuth(HttpServletRequest request, MemberVO memberVO, Model model,
+							@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		HttpSession session = request.getSession();
+		//model.removeAttribute("authYn");
+		
+		memberVO.setMemberId(principalDetails.getUsername());
+		boolean result = memberService.checkPassword(memberVO);
+		if(result == true) {
+			model.addAttribute("authYn", "auth_Success");
+		}
+		
+		return result;
+	}
+	/**
+	 * 마이페이지-내정보 페이지(정보화면)
+	 * @param principalDetails
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/member/myInfo/infoView")
+	public String infoView(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String memberId = principalDetails.getUsername();
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
@@ -155,11 +200,7 @@ public class MemberController {
 		String nlString = System.getProperty("line.separator").toString();
 		model.addAttribute("nlString", nlString);
 		
-		// 사이드메뉴 정보 넘기기
-		model.addAttribute("menu", "mypage");
-		model.addAttribute("subMenu", "myInfo");
-		
-		return "/user/mypage/myInfo";
+		return "/user/mypage/memberInfoView";
 	}
 	
 	/**
@@ -222,6 +263,12 @@ public class MemberController {
 		return "/user/mypage/memberDelete";
 	}
 	
+	/**
+	 * 회원탈퇴 처리
+	 * @param principalDetails
+	 * @param memberVO
+	 * @return
+	 */
 	@PostMapping("/member/delete")
 	@ResponseBody
 	public boolean deleteMember(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberVO memberVO) {

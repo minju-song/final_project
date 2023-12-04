@@ -141,7 +141,6 @@
 			<if test="addr != null">addr = #{addr},</if>
 			<if test="detailAddr != null">detail_addr = #{detailAddr},</if>
 			<if test="phone != null">phone = #{phone},</if>
-			<if test='delMember == "Y"'>stop_date = sysdate,</if>
 			<if test="role != null">role = #{role},</if>
 			<if test="profileImg != null">profile_img = #{profileImg},</if>
 			<if test="memberIntro != null">member_intro = #{memberIntro},</if>
@@ -149,9 +148,11 @@
 			<if test="lockYn != null">lock_yn = #{lockYn},</if>
 		</set>
 		WHERE member_id = #{memberId}
-		<if test="password != null">
-			AND password = #{password}
-		</if>
 	</update>
+	
+	<!-- 회원관련 정보 삭제(탈퇴시) -->
+	<select id="deleteMemberInfo" statementType="CALLABLE" resultType="MemberVO">
+		{call del_member_info(#{memberId}, #{vResult, mode=OUT, jdbcType=VARCHAR})}
+	</select>
 	
  </mapper>

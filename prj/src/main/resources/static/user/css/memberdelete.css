@@ -36,9 +36,13 @@
 	margin-right: 5px;
 	margin-bottom: 2px;
 }
-.title {
+.title, .title2 {
 	color: #585858;
 	font-size: 15px;
+}
+.title2 {
+	margin-left: 18px;
+	margin-top: 20px;
 }
 .title::before {
 	content: "";
@@ -113,4 +117,24 @@
 #deleteModal input {
 	width: 60%;
 	padding: 5px;
+}
+#passwordCheck {
+	padding: 8px 15px;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: 700;
+	background: #040e1c;
+	width: 100px;
+}
+
+
+#pwdCheckForm {
+	padding: 20px;
+}
+#pwdCheckForm .input_wrap {
+	width: calc(100% - 210px);
+}
+.none_gap {
+	gap: 10px;
 }

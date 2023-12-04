@@ -3,7 +3,6 @@ package com.holoyolo.app.member.service.impl;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -210,11 +209,27 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public boolean deleteMember(MemberVO memberVO) {
-		int result = memberMapper.updateMemberInfo(memberVO);
-		if(result > 0) {
-			return true;
-		} else {
-			return false;
+		boolean bool = this.checkPassword(memberVO);
+		log.warn("deleteMember()에 넘어온 checkPassword 결과 ::: " + bool);
+		if(bool == true) {
+			memberMapper.deleteMemberInfo(memberVO); //회원의 관련 정보 삭제
+			if(memberVO.getVResult().equals("Success")) {
+				return true;
+			}
 		}
+		return false;
+	}
+	
+	@Override
+	public boolean checkPassword(MemberVO memberVO) {
+		MemberVO vo = memberMapper.selectUser(memberVO.getMemberId());
+		String encodedPassword = vo.getPassword();
+		String rawPassword = memberVO.getPassword();
+		boolean bool = passwordEncoder.matches(rawPassword, encodedPassword);
+		log.warn("입력한 비밀번호 ::: " + rawPassword);
+		log.warn("조회된 비밀번호 ::: " + encodedPassword);
+		log.warn("비밀번호 검증결과 ::: " + bool);
+		
+		return bool;
 	}
 }

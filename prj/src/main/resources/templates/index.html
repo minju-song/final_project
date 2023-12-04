@@ -7,13 +7,126 @@
 	<meta charset="utf-8">
 	<title>HoloYolo::홈</title>
 </head>
-<body>
-	<div layout:fragment="content">
-		<a href="/editor">에디터 작성 테스트</a>
-		<a href="/editor/list">에디터 리스트 테스트</a>
-		<div sec:authorize="isAuthenticated()" sec:authentication="principal.memberVO.memberName"></div>
-		<h1>테스트</h1>
-		<img alt="" th:src="@{/common/images/banner.jpg}" style="width:100%;">
-	</div>
+<body layout:fragment="content">
+	
+	
+	<div class="bg-light">
+    <section class="ftco-section-featured ftco-animate">
+      <div class="container-fluid" data-scrollax-parent="true">
+        <div class="row no-gutters d-flex align-items-center" data-scrollax=" properties: { translateY: '-30%'}">
+
+          <div class="col-md-3 mb-3">
+            <a href="#" class="featured-img">
+              <div class="text-1 p-4 d-flex align-items-center">
+                <h3>The Verge<br><span class="tag">Website</span></h3>
+              </div>
+              <img src="images/image_1.jpg" class="img-fluid" alt="">
+              <div class="text p-4 d-flex align-items-center">
+                <div class="user d-flex align-items-center">
+                  <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
+                  <h3>John Bruce <br><span class="position">Designer</span></h3>
+                </div>
+              </div>
+            </a>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="row no-gutters">
+              <div class="col-md-12">
+                <div class="row no-gutters d-flex align-items-end">
+
+                  <div class="col-md-8">
+                    <a href="#" class="featured-img">
+                      <div class="text-1 p-4 d-flex align-items-center">
+                        <h3>Racks<br><span class="tag">Website</span></h3>
+                      </div>
+                      <img src="images/image_5.jpg" class="img-fluid" alt="">
+                      <div class="text p-4 d-flex align-items-center">
+                        <div class="user d-flex align-items-center">
+                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
+                          <h3>John Bruce <br><span class="position">Designer</span></h3>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                  <div class="col-md-4">
+                    <a href="#" class="featured-img">
+                      <div class="text-1 p-4 d-flex align-items-center">
+                        <h3>Zendesk<br><span class="tag">Website</span></h3>
+                      </div>
+                      <img src="images/image_4.jpg" class="img-fluid" alt="">
+                      <div class="text p-4 d-flex align-items-center">
+                        <div class="user d-flex align-items-center">
+                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
+                          <h3>John Bruce <br><span class="position">Designer</span></h3>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row no-gutters d-flex align-items-start">
+                  <div class="col-md-8">
+                    <a href="#" class="featured-img">
+                      <div class="text-1 p-4 d-flex align-items-center">
+                        <h3>Curator<br><span class="tag">Website</span></h3>
+                      </div>
+                      <img src="images/image_6.jpg" class="img-fluid" alt="">
+                      <div class="text p-4 d-flex align-items-center">
+                        <div class="user d-flex align-items-center">
+                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
+                          <h3>John Bruce <br><span class="position">Designer</span></h3>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-md-4">
+                    <a href="#" class="featured-img">
+                      <div class="text-1 p-4 d-flex align-items-center">
+                        <h3>Tasty<br><span class="tag">Website</span></h3>
+                      </div>
+                      <img src="images/image_3.jpg" class="img-fluid" alt="">
+                      <div class="text p-4 d-flex align-items-center">
+                        <div class="user d-flex align-items-center">
+                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
+                          <h3>John Bruce <br><span class="position">Designer</span></h3>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <a href="#" class="featured-img">
+              <div class="text-1 p-4 d-flex align-items-center">
+                <h3>Voyage<br><span class="tag">Website</span></h3>
+              </div>
+              <img src="images/image_2.jpg" class="img-fluid" alt="">
+              <div class="text p-4 d-flex align-items-center">
+                <div class="user d-flex align-items-center">
+                  <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
+                  <h3>John Bruce <br><span class="position">Designer</span></h3>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+        <div class="row mt-5 d-flex justify-content-center">
+          <div class="col-md-8 text-center heading-section ftco-animate">
+            <h2 class="h1">UI/UX, visual, <strong class="px-3">Web designer</strong> with more than 12 years of experience in designing websites and mobile apps.</h2>
+            <p><a href="#" class="btn btn-primary mt-3 py-3 px-5">Get in touch</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
 </body>
 </html>

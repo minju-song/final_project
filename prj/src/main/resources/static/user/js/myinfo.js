@@ -2,18 +2,9 @@
  * 마이페이지-나의정보
  */
 
-const Toast = Swal.mixin({
-	toast: true,
-	position: 'center',
-	showConfirmButton: false,
-	timer: 2000,
-	timerProgressBar: true,
-	didOpen: (toast) => {
-		toast.addEventListener('mouseenter', Swal.stopTimer)
-		toast.addEventListener('mouseleave', Swal.resumeTimer)
-	}
-})
-
+$(function(){
+debugger
+let url = $('#infoView').data("url");
 
 /* 닉네임 변경 start */
 $('#nickUpdate').click((e) => {
@@ -44,7 +35,7 @@ $('#nickUpdate').click((e) => {
 						icon: 'success',
 						title: '닉네임이 변경되었습니다!'
 					})
-					location.reload();
+					$('#infoView').load(url);
 				} else {
 					Toast.fire({
 						icon: 'error',
@@ -78,13 +69,14 @@ $('#memberIntro').on({
 							icon: 'success',
 							title: '소개글이 변경되었습니다!'
 						})
-						location.reload();
+						$('#infoView').load(url);
 					} else {
 						Toast.fire({
 							icon: 'error',
 							title: '죄송합니다, 저장 중 오류가 발생했습니다'
 						})
-						location.reload();
+						
+						$('#infoView').load(url);
 					}
 				})
 				.fail(err => console.log(err))
@@ -96,9 +88,9 @@ $('#memberIntro').on({
 
 
 /* 이름/주소 변경 start */
-let _memberName = $('#memberName').val();
-let _addr = $('#addr').val();
-let _detailAddr = $('#detailAddr').val();
+var _memberName = $('#memberName').val();
+var _addr = $('#addr').val();
+var _detailAddr = $('#detailAddr').val();
 $('#infoUpdate').click(() => {
 	// 수정 가능한 화면 보여주기.
 	$('#info_view').css('display', 'none');
@@ -126,13 +118,15 @@ $('#infoSave').click(() => {
 						icon: 'success',
 						title: '변경되었습니다!'
 					})
-					location.reload();
+					
+					$('#infoView').load(url);
 				} else {
 					Toast.fire({
 						icon: 'error',
 						title: '죄송합니다, 저장 중 오류가 발생했습니다'
 					})
-					location.reload();
+					
+					$('#infoView').load(url);
 				}
 			})
 			.fail(err => console.log(err))
@@ -141,7 +135,8 @@ $('#infoSave').click(() => {
 			icon: 'question',
 			title: '변경된 내용이 없습니다'
 		})
-		location.reload();
+		
+		$('#infoView').load(url);
 	}
 })
 $('#infoCancle').click(() => {
@@ -151,7 +146,8 @@ $('#infoCancle').click(() => {
 		confirmButtonText: "확인",
 	}).then((result) => {
 		if (result.isConfirmed) {
-			location.reload();
+			
+			$('#infoView').load(url);
 		}
 	});
 })
@@ -167,10 +163,10 @@ $('#phoneUpdate').click((e) => {
 })
 
 /* 본인인증 문자 발송 start */
-let time = 180; // 인증시간
-let remainingMin = document.querySelector('#time_min');
-let remainingSec = document.querySelector('#time_sec');
-let authPassYn = false;
+var time = 180; // 인증시간
+var remainingMin = document.querySelector('#time_min');
+var remainingSec = document.querySelector('#time_sec');
+var authPassYn = false;
 
 $('#authNumCheck').click(function () {
 	const reception = $('#phone').val();
@@ -320,7 +316,8 @@ $('#userCheck').click(function () {
 						icon: 'success',
 						title: '인증완료! 정상적으로 변경되었습니다'
 					})
-					location.reload();
+					
+					$('#infoView').load(url);
 				} else {
 					Swal.fire({
 						icon: "error",
@@ -358,13 +355,15 @@ $('#passwordUpdate').click(() => {
 						icon: 'success',
 						title: '비밀변호가 변경되었습니다!'
 					})
-					location.reload();
+					
+					$('#infoView').load(url);
 				} else {
 					Toast.fire({
 						icon: 'error',
 						title: '죄송합니다, 저장 중 오류가 발생했습니다'
 					})
-					location.reload();
+					
+					$('#infoView').load(url);
 				}
 			})
 			.fail(err => console.log(err))
@@ -376,3 +375,4 @@ $('#passwordUpdate').click(() => {
 	}
 })
 /* 비밀번호 변경 end */
+})
