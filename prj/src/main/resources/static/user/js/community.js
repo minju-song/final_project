@@ -3,7 +3,7 @@
 
 // 페이징
 let currentPage = 1;
-const recordsPerPage = 5; // 페이지당 표시할 레코드 수, 필요에 따라 조절
+const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
 
 // 페이지 버튼 생성
 function setupPagination(totalPages) {
@@ -137,4 +137,179 @@ function formatDate(dateString) {
     return year + '-' + month + '-' + day;
 }
 
+//게시물조회
+async function findPost() {
+
+    // 1. URL 쿼리 스트링에서 게시글 번호 조회
+    const searchParams = new URLSearchParams(location.search);
+    const postId = Number(searchParams.get('boardId'));
+
+    // 2. API 호출
+    const url = `/api/board/${postId}`;
+    const response = await fetch(url);
+    const post = await response.json();
+
+    console.log(post)
+    console.log(post.title)
+    // 3. 에디터 콘텐츠 렌더링
+    const viewer = toastui.Editor.factory({
+        el: document.querySelector('#viewer'),
+        viewer: true,
+        initialValue: post.content
+    });
+
+    document.getElementById('title').innerText = post.title;
+    document.getElementById('writer').innerText = post.nickname;
+    document.getElementById('boardLike').innerText = post.likeCount;
+    document.getElementById('writeDate').innerText = formatDate(post.writeDate);
+    document.getElementById('views').innerText = post.views;
+    console.log(post)
+    
+   
+}
+
+function replyLoad() {
+    
+    currentPage = page;
+    let start = (currentPage - 1) * recordsPerPage;
+    let end = start + recordsPerPage;
+
+
+    const searchParams = new URLSearchParams(location.search);
+    const boardId = Number(searchParams.get('boardId'));
+
+    $.ajax({
+        type: 'POST',
+        url: '/loadReply',
+        contentType: 'application/json;charset=UTF-8',
+        data:{"boardId" : boardId, "start": start, "end": end},
+        success: function (data) {
+
+            updateTable(data, page);
+            // 페이징 처리
+            let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
+            setupPagination(totalPages);
+        },
+        error: function (request, status, error) {
+            console.error("code: " + request.status);
+            console.error("message: " + request.responseText);
+            console.error("error: " + error);
+        }
+    });
+
+}
+
+async function checkLike() {
+    let searchParams = new URLSearchParams(location.search)
+    let boardId = Number(searchParams.get('boardId'));
+    $.ajax({
+        type: 'POST',
+        url: '/likeCheck',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "boardId": boardId }),
+        success: function (data) {
+            console.log(data)
+            let heart = document.getElementById('boardLikeBtn');
+            if (data.searchLike == "true") {
+                heart.innerHTML = '❤️';
+            }
+        },
+        error: function (request, status, error) {
+            console.error("code: " + request.status);
+            console.error("message: " + request.responseText);
+            console.error("error: " + error);
+        }
+    })
+}
+
+//좋아요
+function addLike() {
+
+    const searchParams = new URLSearchParams(location.search);
+    let boardId = Number(searchParams.get('boardId'));
+    let heart = document.getElementById('boardLikeBtn');
+    let likeCount = document.getElementById('boardLike');
+    $.ajax({
+        type: 'POST',
+        url: '/addLike',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "boardId": boardId }),
+        success: function (data) {
+            console.log(data)
+            if (data.resultMsg == '추가') {
+                changeText(heart);
+                likeCount.innerText = parseInt(likeCount.innerText) + 1;
+
+            } else if (data.resultMsg == '삭제') {
+                deleteLike(heart);
+                likeCount.innerText = parseInt(likeCount.innerText) - 1;
+
+            }
+
+
+        },
+        error: function (request, status, error) {
+            console.error("code: " + request.status);
+            console.error("message: " + request.responseText);
+            console.error("error: " + error);
+        }
+    });
+}
+
+function changeText(heart) {
+    heart.classList.remove('animate__bounce');
+    heart.innerHTML = '❤️';
+    heart.classList.add('animate__animated', 'animate__bounce');
+}
+
+function deleteLike(heart) {
+    heart.classList.remove('animate__bounceIn');
+    heart.innerHTML = '🤍';
+    heart.classList.add('animate__animated', 'animate__bounceIn');
+
+
+
+}
+
+//댓글 입력 폼 생성
+function openForm() {
+    let replyForm = document.createElement('textarea');
+    replyForm.id = 'replyForm';
+    replyForm.placeholder = ' 답글을 입력하세요.';
+    replyForm.classList.add('form-control','text');
+    document.getElementById('replyFormArea').append(replyForm);
+
+
+
+    let addReplyBtn = document.createElement('button');
+    addReplyBtn.type = 'button';
+    addReplyBtn.classList.add('btn', 'btn-primary')
+    document.getElementById('addreplyBtn').append(addReplyBtn);
+    addReplyBtn.textContent = '댓글 등록';
+    addReplyBtn.addEventListener('click',insertReply)
+
+    document.getElementById('replyFormOpen').disabled = true;
+    
+    };
+
+    function insertReply(){
+        const searchParams = new URLSearchParams(location.search);
+        let boardId = Number(searchParams.get('boardId'));
+        let content = document.getElementById('replyForm').value
+        $.ajax({
+            type: 'POST',
+            url: '/insertReply',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({ "boardId": boardId, "content": content}),
+            success: function (data) {
+                console.log(data)
+    
+            },
+            error: function (request, status, error) {
+                console.error("code: " + request.status);
+                console.error("message: " + request.responseText);
+                console.error("error: " + error);
+            }
+        });
+    }
 

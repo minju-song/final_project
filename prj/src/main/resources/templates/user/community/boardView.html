@@ -122,40 +122,34 @@
         <div class="editor_container col-12">
             <!--/* 에디터 콘텐츠 렌더링 영역 */-->
             <div id="viewer"></div>
-            
         </div>
-    <button class="btn btn-primary" type="button" id="boardLikeBtn">🤍</button>
-        <script>
-          
-        </script>
+        <button class="btn btn-primary" type="button" id="boardLikeBtn">🤍</button>
         <a href="#" class="btn btn-danger">신고</a>
         <a href="/infoBoard" class="btn btn-secondary">뒤로 가기</a>
+
+
+
+        <h1>css수정해야함</h1>
+        <div class="row">
+            <div class="col-12">
+                <button type="button" id="replyFormOpen" class="btn btn-secondary"> 댓글쓰기 </button>
+                <div id="replyFormArea"></div>
+                <div id="addreplyBtn"></div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>데이터</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
     </div>
 
     <!-- TUI 에디터 JS CDN -->
- 
-    <h1>css수정해야함</h1>
-    <div class="row">
-        <div class="col-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>댓글번호</th>
-                        <th>댓글</th>
-                        <th>작성일</th>
-                        <th>작성자</th>
-                        
-                    </tr>
-                </thead>
-                <tbody id="boardTableBody">
-                    <tr>
-                        <td>데이터</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
+
+
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script th:src="@{/user/js/community.js}"></script>
     <script>
@@ -165,7 +159,7 @@
         }
         let likeBtn = document.getElementById('boardLikeBtn');
         likeBtn.addEventListener('click', addLike)
-        
+        document.getElementById('replyFormOpen').addEventListener('click', openForm)
     </script>
 </body>
 

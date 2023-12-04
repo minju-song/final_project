@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace=" com.holoyolo.app.reply.mapper.ReplyMapper">
+
+
+<select id="ReplyListO"  resultType="ReplyVO">
+	SELECT *
+	FROM REPLY
+	WHERE BOARD_ID = #{boardId}
+</select> 
+
+<insert id="insertReply" parameterType="ReplyVO">
+	<selectKey keyProperty="boardId"  resultType="int"  order="BEFORE">
+	  		SELECT NVL(MAX(REPLY_ID),0) + 1
+			FROM REPLY
+	</selectKey>
+	INSERT INTO(REPLY_ID, UPPER_REPLY_ID, CONTENT, WRITE_DATE, UPDATE_DATE, BOARD_ID, MEMBER_ID)
+	VALUES(#{replyId}, #{upperReplyId}, #{content}, sysdate, null, #{boardId}, #{memberId})
+</insert>
+
+
+<select id="searchReplyPaged" resultType="ReplyVO" parameterType="int">
+	    SELECT title, write_date, 
+	    FROM REPLY
+	    ORDER BY write_date
+	    OFFSET #{start} ROWS FETCH NEXT #{end - start + 1} ROWS ONLY
+</select>
+
+<select id="getTotalReplyRecords" resultType="int" >
+	SELECT COUNT(*)
+    FROM REPLY
+    WHERE BOARD_ID = #{boardId}
+    </select>
+
+</mapper>
