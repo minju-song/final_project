@@ -60,7 +60,7 @@
 							<div class="tradePrice">
 								<p th:text="|${#numbers.formatInteger(tradeInfo.price, 0, 'COMMA')}원|"></p>
 							</div>
-							<div>
+							<div th:if="${memberId != tradeInfo.sellerId}">
 								<div class="pay insertbutton">
 									<p>약속잡기</p>
 								</div>

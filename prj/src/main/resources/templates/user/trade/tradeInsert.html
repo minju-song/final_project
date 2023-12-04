@@ -158,10 +158,16 @@
 				}
 			});
 			
-			//첨부파일 관련
-			/* let realUpload = document.querySelector('.real_file');
-			let upload = document.querySelector('#tradeImg');
-			upload.addEventListener('click', () => realUpload.click()); */
+			//가격 양수만 입력
+			let number = document.getElementById('price');
+
+		    number.onkeydown = function(e) {
+		        if(!((e.keyCode > 95 && e.keyCode < 106)
+		        	|| (e.keyCode > 47 && e.keyCode < 58) 
+		        	|| e.keyCode == 8)) {
+		            return false;
+		        }
+		    }
 		</script>
 	</div>
 </body>
