@@ -30,8 +30,9 @@
 	  			#{clubBudgetId}
 	  			,#{clubBudgetPrice}
 	  			,#{clubBudgetUnit}
-	  			,sysdate, #{clubId}
-	  			,'Y')
+	  			,sysdate
+	  			,'Y'
+	  			,#{clubId})
   	</insert>
   	
   	<!-- 예산사용안함으로 바꿈 -->

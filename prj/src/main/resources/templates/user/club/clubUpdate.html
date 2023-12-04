@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layout/layout}">
+    layout:decorate="~{layout/layout}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <div class="section_wrap">
@@ -24,15 +26,7 @@ layout:decorate="~{layout/layout}">
                                             <input type="text" class="form-control" id="clubName" th:field="*{clubName}"
                                                 required="required" placeholder="모임이름을 입력해 주세요"
                                                 onfocus="this.placeholder = '모임이름을 입력해 주세요'"
-                                                onblur="this.placeholder = '모임이름을 입력해 주세요'"
-                                                th:value="${club.clubName}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 form-group">
-                                        <label id="clubProfileImg">프로필사진</label>
-                                        <div class="input-wrap">
-                                            <input type="file" class="form-control" id="clubProfileImg"
-                                                th:field="*{clubProfileImg}">
+                                                onblur="this.placeholder = '모임이름을 입력해 주세요'" th:value="${club.clubName}">
                                         </div>
                                     </div>
                                     <!--/* 아아디 */-->
@@ -73,8 +67,8 @@ layout:decorate="~{layout/layout}">
                                             <option value="OA2">가입허가</option>
                                         </select>
                                     </div>
+                                    <input type="number" th:field="*{clubId}" hidden>
 
-  
                                     <!--/* 가입하기 */-->
                                     <div class="col-md-12 form-group">
                                         <button id="submitBtn" type="submit" class="button button-login w-100">모임
@@ -90,9 +84,10 @@ layout:decorate="~{layout/layout}">
         </div>
 
         <script>
-            console.log([[${club}]]);
+            console.log([[${ club }]]);
         </script>
     </div>
 
 </body>
+
 </html>

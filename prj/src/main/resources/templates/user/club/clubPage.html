@@ -8,64 +8,6 @@
     <link rel="stylesheet" href="/user/css/clubPage.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-    <style>
-        .mybtn {
-            border: 0;
-            background-color: white;
-        }
-        .info-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        height: 100%; 
-    }
-
-    .info {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    #profile-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
-
-    #profile {
-        max-width: 30%;
-        max-height: 30%;
-        width: auto; /* 추가 */
-        height: auto; /* 추가 */
-    }
-
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-
-    .info .row > div {
-        flex: 1;
-        box-sizing: border-box;
-    }
-
-    hr {
-        width: 100%;
-    }
-
-
-    /* 반응형 스타일 */
-    @media (max-width: 768px) {
-        .info .row > div {
-            width: 100%;
-            margin: 1rem 0;
-        }
-    }
-    </style>
 </head>
 
 <body>
@@ -73,35 +15,55 @@
         <div class="row" style="justify-content: center;">
             <div class="col-8">
                 <div class="info clubInfo">
-                    <div  style="display: flex;">
-                        <div style="flex: 1;"  id="profile-container">
-                            <img th:src="@{'/images/' + ${result.club.clubProfileImg}}" id="profile"/>
+                    <div style="display: flex;">
+                        <div style="flex: 1;" id="profile-container">
+                            <!-- <img th:src="@{'/images/' + ${result.club.clubProfileImg}}" id="profile" /> -->
+                            <th:block th:if="${#authentication.Principal.memberVO.memberId != result.club.clubLeader}">
+                                <div class="memberProfile">
+                                    <div class="upload profile"
+                                        th:style="'background-image:url(\'/images/'+ ${result.club.clubProfileImg} +'\');'">
+                                    </div>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
+                                <input class="input_file real_upload" type="file" name="uploadFiles" accept="image/*" />
+                                <div class="memberProfile">
+                                    <div class="upload profile" data-toggle="tooltip" data-placement="top"
+                                        title="Click! 프로필 사진 변경"
+                                        th:style="'background-image:url(\'/images/'+ ${result.club.clubProfileImg} +'\');'">
+                                    </div>
+                                </div>
+                            </th:block>
                         </div>
                         <div style="flex: 1;">
                             <h2>[[${result.club.clubName}]]
-                                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
-                                    <button th:onclick="|location.href='@{/member/club/clubUpdate(clubId=${result.club.clubId})}'|">수정</button>
+                                <th:block
+                                    th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
+                                    <button class="btn btn-primary"
+                                        th:onclick="|location.href='@{/member/club/clubUpdate(clubId=${result.club.clubId})}'|">수정</button>
                                 </th:block>
                             </h2>
                             <h4>&#128081; : [[${result.club.leaderName}]]</h4>
                             <h4>&#128681; " [[${result.club.clubIntro}]] "</h4>
                             <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
                             <h4>평균 성공률 : [[${result.avg}]]%</h4>
-                            
+
                         </div>
                     </div>
                     <hr>
                     <div>
                         <h4>가입조건 : [[${result.club.joinCondition}]]</h4>
                         <th:block th:if="${result.budget != null}">
-                            <h4>절약예산 : 
-                                <span th:text="|${#numbers.formatInteger(result.budget.clubBudgetPrice, 0, 'COMMA')}원|"></span>
+                            <h4>절약예산 :
+                                <span
+                                    th:text="|${#numbers.formatInteger(result.budget.clubBudgetPrice, 0, 'COMMA')}원|"></span>
                                 / ([[${result.budget.clubBudgetUnit}]])
-                                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
+                                <th:block
+                                    th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
                                     <button type="button" class="mybtn" data-toggle="modal" data-target="#updateBudget"
-                                    data-whatever="수정" th:data-budgetunit="${result.budget.clubBudgetUnit}"
-                                    th:data-budgetprice="${result.budget.clubBudgetPrice}">
-                                    ✔️수정✔️
+                                        data-whatever="수정" th:data-budgetunit="${result.budget.clubBudgetUnit}"
+                                        th:data-budgetprice="${result.budget.clubBudgetPrice}">
+                                        ✔️
                                     </button>
                                 </th:block>
                             </h4>
@@ -135,8 +97,9 @@
                                 </p>
                             </th:block>
                             <th:block th:if="${member.memberId != result.club.clubLeader}">
-                                <p><img class="kingImg" th:src="@{/user/images/club/notking.png}" th:data-member-id="${member.memberId}" 
-                                    th:onclick="mandate(this.getAttribute('data-member-id'))">
+                                <p><img class="kingImg" th:src="@{/user/images/club/notking.png}"
+                                        th:data-member-id="${member.memberId}"
+                                        th:onclick="mandate(this.getAttribute('data-member-id'))">
                                     <span class="nickname">[[${member.memberName}]]님</span>
                                     <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
                                 </p>
@@ -169,10 +132,9 @@
                     <button id="outClub" onclick="outClub()">모임탈퇴</button><br>
                 </th:block>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
-                    <button>모임삭제</button><br>
+                    <button onclick="clubRemove()">모임삭제</button><br>
                 </th:block>
                 <br>
-                <img class="siren" th:src="@{/user/images/club/siren.png}">
             </div>
         </div>
 
@@ -211,7 +173,7 @@
                                     <input type="text" class="form-control" id="clubBudgetPrice" style="resize: none;"
                                         th:field="*{clubBudgetPrice}" placeholder="(원)" />
                                     <input type="text" class="form-control" id="clubId" style="resize: none;"
-                                        th:field="*{clubId}" placeholder="(원)" hidden/>
+                                        th:field="*{clubId}" placeholder="(원)" hidden />
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -226,6 +188,9 @@
 
 
         <script th:inline="javascript">
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
             let userId = /*[[${userId}]]*/ null;
             let leader = (userId === /*[[${result.club.clubLeader}]]*/ null) ? true : false;
             let clubLeader = /*[[${result.club.clubLeader}]]*/ null;

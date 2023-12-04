@@ -11,4 +11,5 @@ public class ReviewVO {
 	private int Star;
 	private int clubId;
 	private String memberId;
+	private String contents;
 }

@@ -3,4 +3,43 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.review.mapper.ReviewMapper">
+  
+  	<!-- 해당 클럽 리뷰리스트 조회 -->
+  	<select id="getReviewList" resultType="ReviewVO">
+  		SELECT *
+  		FROM review
+  		WHERE club_id = #{clubId}
+  		ORDER BY write_date
+  	</select>
+  	
+  	<!-- 내가 쓴 리뷰 있는지 체크 -->
+  	<select id="checkMyReview" parameterType="ClubMemberVO" resultType="int">
+  		SELECT count(*) 
+  		FROM review 
+  		WHERE club_id = #{clubId} 
+  		AND member_id = #{memberId}
+  	</select>
+  	
+  	<!-- 리뷰등록 -->
+  	<insert id="insertReview" parameterType="ReviewVO">
+  		<selectKey resultType="int" keyProperty="reviewId" order="BEFORE">
+	        SELECT MAX(REVIEW_ID)+1 FROM REVIEW
+	    </selectKey>
+	    INSERT INTO review (
+	    					review_id
+	    					, write_date
+	    					, star
+	    					, club_id
+	    					, member_id
+	    					, contents
+	    					)
+	    			VALUES (
+	    					#{reviewId}
+	    					, sysdate
+	    					, #{star}
+	    					, #{clubId}
+	    					, #{memberId}
+	    					, #{contents}
+	    					)
+  	</insert>
   </mapper>

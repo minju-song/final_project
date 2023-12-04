@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        .star_rating {
+            width: 100%;
+            box-sizing: border-box;
+            display: inline-flex;
+            float: left;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+
+        .star_rating .star {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            display: inline-block;
+            background: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FE2bww%2FbtsviSSBz4Q%2F5UYnwSWgTlFt6CEFZ1L3Q0%2Fimg.png') no-repeat;
+            background-size: 100%;
+            box-sizing: border-box;
+        }
+
+        .star_rating .star.on {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            display: inline-block;
+            background: url('https://blog.kakaocdn.net/dn/b2d6gV/btsvbDoal87/XH5b17uLeEJcBP3RV3FyDk/img.png') no-repeat;
+            background-size: 100%;
+            box-sizing: border-box;
+        }
+
+        .star_box {
+            width: 400px;
+            box-sizing: border-box;
+            display: inline-block;
+            margin: 15px 0;
+            background: #F3F4F8;
+            border: 0;
+            border-radius: 10px;
+            height: 100px;
+            resize: none;
+            padding: 15px;
+            font-size: 13px;
+            font-family: sans-serif;
+        }
+
+        .btn02 {
+            display: block;
+            width: 400px;
+            font-weight: bold;
+            border: 0;
+            border-radius: 10px;
+            max-height: 50px;
+            padding: 15px 0;
+            font-size: 1.1em;
+            text-align: center;
+            background: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+
+        <h1>[[${result.club.clubName}]] 모임의 리뷰</h1>
+
+        <div>
+            <h3>리뷰작성공간</h3>
+            <th:block th:if="${result.myreview == false and session.check eq true}">
+                <div class="star_rating">
+                    <span class="star on" value="1"> </span>
+                    <span class="star on" value="2"> </span>
+                    <span class="star on" value="3"> </span>
+                    <span class="star on" value="4"> </span>
+                    <span class="star on" value="5"> </span>
+                </div>
+                <textarea id="writeContents">
+
+                </textarea>
+                <button onclick="reviewWrite()">작성</button>
+            </th:block>
+            <th:block th:if="${result.myreview == true}">
+                리뷰를 작성하셨습니다.
+            </th:block>
+            <th:block th:if="${session.check != true}">
+                멤버만 리뷰작성이 가능합니다.
+            </th:block>
+        </div>
+
+        <div id="reviewlist">
+            <th:block th:each="review, stat : ${result.reviews}">
+                <div class="rev">
+                    <h4 th:text="${review.contents}"></h4>
+                    <h4>작성자 : [[${review.memberId}]]</h4>
+                    <th:block th:if="${#authentication.Principal.memberVO.memberId eq review.memberId}">
+                        수정 삭제가능
+                    </th:block>
+                </div>
+                <br>
+
+            </th:block>
+        </div>
+
+        <script>
+            let clubId = [[${ result.club.clubId }]]
+            let userId = /*[[${userId}]]*/ null;
+        </script>
+
+        <script>
+            $('.star_rating > .star').click(function () {
+                $(this).parent().children('span').removeClass('on');
+                $(this).addClass('on').prevAll('span').addClass('on');
+                console.log($(this));
+            })
+
+            function reviewWrite() {
+                let writeContents = document.getElementById('writeContents').value;
+                // console.log(clubId + '에 대한 리뷰 : ' + writeContents);
+                let stars = document.querySelectorAll('.star_rating > .on');
+                let maxStar = 0;
+                stars.forEach(function (star, idx) {
+                    // console.log(star.getAttribute("value"));
+                    if (maxStar < star.getAttribute("value")) {
+                        maxStar = star.getAttribute("value");
+                    }
+                })
+
+                // console.log('평점 : ' + maxStar);
+                let data = { star: maxStar, clubId: clubId, contents: writeContents };
+                $.ajax({
+                    type: 'POST',
+                    url: '/member/reviewinsert',
+                    data: data,
+                    success: function (result) {
+                        console.log(result);
+                        drawReview(data);
+                    },
+                    error: function () {
+
+                    }
+                })
+            }
+
+            function drawReview(data) {
+                console.log(data);
+                let reviewlist = document.getElementById('reviewlist');
+
+                let div = document.createElement('div');
+                let h4 = document.createElement('h4');
+                h4.innerText = data.contents;
+
+                div.appendChild(h4);
+
+                h4.innerText = '작성자 : ' + userId;
+                div.appendChild(h4);
+                let text = '수정 삭제가능';
+
+                reviewlist.appendChild(div);
+
+                // div.appendChild(text);
+            }
+        </script>
+    </div>
+
+</body>
+
+</html>

@@ -136,7 +136,6 @@ function drawClub(clubArr) {
         let divImg = document.createElement('div');
         let img = document.createElement('img');
         img.setAttribute("src", "images/" + clubArr[i].clubProfileImg);
-        img.style.width = '100px';
         img.style.height = '100px';
 
         //이미지담을 div에 이미지담음
@@ -170,7 +169,7 @@ function drawClub(clubArr) {
                     else if (club.stopDate != null) {
                         btn.innerText = '재가입';
                         ck = true;
-                        btn.onclick = function() {rejoin(clubArr[i])};
+                        btn.onclick = function () { rejoin(clubArr[i]) };
                     }
                     //null이 아니면 내 모임
                     else {

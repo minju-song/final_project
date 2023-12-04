@@ -19,7 +19,7 @@ public interface ClubService {
 	public int insertClubInfo(ClubVO clubVO);
 	
 	// 모임 수정
-	public Map<String, Object> updateClubInfo(ClubVO clubVO);
+//	public Map<String, Object> updateClubInfo(ClubVO clubVO);
 	
 	// 모임 삭제
 	public boolean deleteClubInfo(int clubId);
@@ -48,4 +48,13 @@ public interface ClubService {
 	
 	//클럽단건조회
 	public ClubVO getClub(int id);
+	
+	//클럽기본정보수정
+	public int updateClubInfo(ClubVO vo);
+	
+	//클럽프로필 이미지 수정
+	public int updateClubProfile(ClubVO vo);
+	
+	//클럽삭제
+	public int delectClub(ClubVO vo);
 }

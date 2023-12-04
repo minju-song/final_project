@@ -15,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -171,13 +173,40 @@ public class ClubController {
 		 return "redirect:/member/club/clubPage?clubId="+vo.getClubId();
 	}
 	
+	//클럽 기본정보 수정
 	@PostMapping("/member/clubUpdate")
 	public String clubUpdate(ClubVO vo) {
+		System.out.println("수정 : " + vo);
 		
-		//수정진행예정
-		return "";
+		 if(clubService.updateClubInfo(vo) > 0) {
+			 System.out.println("성공");
+		 }
+		 else {
+			 System.out.println("실패");
+		 }
+		 return "redirect:/member/club/clubPage?clubId="+vo.getClubId();
 	}
 	
+	//클럽이미지수정
+	@PostMapping("/member/clubUpdateImg")
+	@ResponseBody
+	public Map<String, Object> clubInsert(ClubVO vo) throws IllegalStateException, IOException {		
+		System.out.println(vo);
+		
+		Map<String, Object> map = new HashMap<>();
+		String fileName = attachmentService.uploadImage(vo.getImg(), "clubProfile");
+		
+		vo.setClubProfileImg(fileName);
+		
+		if(clubService.updateClubProfile(vo) > 0) {
+			map.put("result", "success");
+		}
+		else map.put("result", "fail");
+
+		return map;
+	}
+	
+	//클럽 수정 페이지 이동
 	@GetMapping("/member/club/clubUpdate")
 	public String clubUpdate(Model model, ClubVO paramVO) {
 		System.out.println("들어온 값 : "+paramVO);
@@ -194,4 +223,20 @@ public class ClubController {
 		System.out.println("들어온 클럽 : "+vo);
 		return clubService.mandateKing(vo);
 	}
+	
+	//클럽삭제
+	@GetMapping("/member/clubDelete")
+	@ResponseBody
+	public String clubDelete(ClubVO vo) {
+		System.out.println("삭제 : " + vo);
+		
+		if(clubService.delectClub(vo) > 0) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+		
+	}
+	
 }
