@@ -80,7 +80,7 @@ function loadData(page) {
         data: JSON.stringify({ "start": start, "end": end, "type": "AA2" }),
         success: function (data) {
 
-            updateTable(data);
+            updateTable(data, page);
             // 페이징 처리
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
             setupPagination(totalPages);
@@ -93,16 +93,27 @@ function loadData(page) {
     });
 }
 //테이블 갱신
-function updateTable(data) {
+function updateTable(data, page) {
+
+    currentPage = page;
+    let endPage = Math.ceil(data.totalRecords / recordsPerPage);
+    console.log(endPage)
+
     let tbody = $("#boardTableBody");
     tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
 
     if (data && data.historyList && data.historyList.length > 0) {
         // 데이터가 있을 경우 테이블에 행 추가
+
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
             row.attr("onclick", `location.href='/member/BoardInfo?boardId=${item.boardId}'`);
-            row.append($("<td>").text(index + 1));
+            if (data.totalRecords > page * recordsPerPage) {
+                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
+                // row.append($("<td>").text(index + 1));
+            } else {
+                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
+            }
             row.append($("<td>").text(item.title));
             row.append($("<td>").text(formatDate(item.writeDate)));
             row.append($("<td>").text(item.nickname));
