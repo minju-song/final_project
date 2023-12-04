@@ -75,6 +75,8 @@
           </div>
         </div>
       </div>
+
+      <div class="row"></div>
       <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
       <script>
@@ -162,7 +164,7 @@
 
             const postId = await response.json();
             alert(postId + '번 게시글이 저장되었습니다.');
-            location.href = "@{/infoBoard}";
+            location.href = "/infoBoard";
 
           } catch (error) {
             console.error('저장 실패 : ', error)

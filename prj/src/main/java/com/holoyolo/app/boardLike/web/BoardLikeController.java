@@ -23,14 +23,26 @@ public class BoardLikeController {
 	BoardLikeService boardLikeService;
 
 	// 좋아요
+	@PostMapping("/addLike")
+	@ResponseBody
+	public Map<String, Object> addLikeCheck(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody BoardLikeVO vo) {
+		vo.setMemberId(principalDetails.getUsername());
+	String setResult = 	boardLikeService.checkLike(vo);
+		Map<String, Object> result = new HashMap<>();
+		result.put("like", vo);
+		result.put("resultMsg", setResult);
+		return result;
+	}
 	@PostMapping("/likeCheck")
 	@ResponseBody
 	public Map<String, Object> likecheck(@AuthenticationPrincipal PrincipalDetails principalDetails,
 			@RequestBody BoardLikeVO vo) {
 		vo.setMemberId(principalDetails.getUsername());
-		boardLikeService.checkLike(vo);
+		String tab = boardLikeService.viewCheck(vo);
+	
 		Map<String, Object> result = new HashMap<>();
-		result.put("like", vo);
+		result.put("searchLike", tab);
 		return result;
 	}
 }

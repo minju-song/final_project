@@ -45,7 +45,23 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 
 	@Override
 	public int boardLikeCount(int boardId) {
-	int result = boardLikeMapper.boardLikeCount(boardId);
+		int result = boardLikeMapper.boardLikeCount(boardId);
+		return result;
+	}
+
+	@Override
+	public String viewCheck(BoardLikeVO vo) {
+		int search = boardLikeMapper.checkLike(vo);
+		String result = "";
+		if (search == 1) {
+			result = "true";
+		} else if (search == 0) {
+			result = "false";
+		}else {
+			result = "err";
+		}
+
+		System.out.println(result);
 		return result;
 	}
 

@@ -112,4 +112,6 @@ public class BoardController {
 		model.addAttribute("loginId", loginId);
 		return "/user/community/postUpdate";
 	}
+//삭제
+	
 }

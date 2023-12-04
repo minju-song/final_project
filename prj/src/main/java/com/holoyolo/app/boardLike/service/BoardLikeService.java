@@ -10,4 +10,6 @@ public interface BoardLikeService {
 
 	public int cancelLike(BoardLikeVO vo);
 
+	
+	public String viewCheck(BoardLikeVO vo);
 }
