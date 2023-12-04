@@ -1,132 +1,256 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	  layout:decorate="~{layout/layout}">
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/layout}">
 <head>
-	<meta charset="utf-8">
-	<title>HoloYolo::홈</title>
+<meta charset="utf-8">
+<title>HoloYolo::홈</title>
+<link rel="stylesheet" th:href="@{/user/home/css/animate.css}">
+<link rel="stylesheet" th:href="@{/user/home/css/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{/user/home/css/jquery.fancybox.min.css}">
+<link rel="stylesheet" th:href="@{/user/home/fonts/ionicons/css/ionicons.min.css}">
+<link rel="stylesheet" th:href="@{/user/home/fonts/fontawesome/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{/user/home/fonts/flaticon/font/flaticon.css}">
+<link rel="stylesheet" th:href="@{/user/home/css/aos.css}">
+<!-- Theme Style -->
+<link rel="stylesheet" th:href="@{/user/home/css/style.css}">
+
 </head>
-<body layout:fragment="content">
+<th:block layout:fragment="content">
+
+	<div class="slider-item overlay" data-stellar-background-ratio="0.5"
+		style="background-image: url('/user/home/images/hero_2.jpg');">
+		<div class="container">
+			<div
+				class="row slider-text align-items-center justify-content-center">
+				<div class="col-lg-12 text-center col-sm-12">
+					<h1 class="mb-4" data-aos="fade-up" data-aos-delay="100">
+						With HOLOYOLO
+					</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--/* 중고거래 start */-->
+	<div class="section portfolio-section">
+		<div class="container">
+			<div class="row mb-5 justify-content-center" data-aos="fade-up">
+				<div class="col-md-8 text-center">
+					<h2 class="mb-4 section-title">중고거래</h2>
+					<p>믿을만한 이웃 간 중고거래 동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row mb-5 no-gutters">
+				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
+					data-aos-delay="100">
+					<a href="portfolio-single.html" class="work-thumb">
+						<div class="work-text">
+							<h2>Project Name Here</h2>
+							<p>Business</p>
+						</div> <img th:src="@{/user/home/images/work_1.jpg}" alt="Image" class="img-fluid">
+					</a>
+				</div>
+
+				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
+					data-aos-delay="200">
+					<a href="portfolio-single.html" class="work-thumb">
+						<div class="work-text">
+							<h2>Project Name Here</h2>
+							<p>Design</p>
+						</div> <img th:src="@{/user/home/images/work_2.jpg}" alt="Image" class="img-fluid">
+					</a>
+				</div>
+
+				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
+					data-aos-delay="300">
+					<a href="portfolio-single.html" class="work-thumb">
+						<div class="work-text">
+							<h2>Project Name Here</h2>
+							<p>Business</p>
+						</div> <img th:src="@{/user/home/images/work_3.jpg}" alt="Image" class="img-fluid">
+					</a>
+				</div>
+
+				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
+					data-aos-delay="400">
+					<a href="portfolio-single.html" class="work-thumb">
+						<div class="work-text">
+							<h2>Project Name Here</h2>
+							<p>Business</p>
+						</div> <img th:src="@{/user/home/images/work_4.jpg}" alt="Image" class="img-fluid">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/* 중고거래 end */-->
+
+
+	<!--/* 알뜰모임 start */-->
+	<div class="section bg-light block-11">
+		<div class="container">
+			<div class="row justify-content-center mb-5">
+				<div class="col-md-8 text-center">
+					<h2 class="mb-4 section-title">알뜰모임</h2>
+					<p>혼자서는 작심삼일, 알뜰모임에서 회원들과 함께 목표를 달성해나가세요!</p>
+				</div>
+			</div>
+			<div class="nonloop-block-11 owl-carousel">
+				<div class="item">
+					<div class="block-33 h-100">
+						<div class="vcard d-flex mb-3">
+							<div class="image align-self-center">
+								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
+							</div>
+							<div class="name-text align-self-center">
+								<h2 class="heading">절약짱짱모임</h2>
+								<span class="meta">귀요미</span>
+							</div>
+						</div>
+						<div class="text">
+							<blockquote>
+								<p>
+								"아끼는 만큼 은퇴는 빨라진다! 우리 모임에서는 매일 소비내역을 검사해요!<br>
+								함께 절약해나가실 분들 어서어서 오세용!!!<br>
+								40대 은퇴가 목표인 방장과 함께하실 분들 대.환.영"
+								</p>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+
+				<div class="item">
+					<div class="block-33 h-100">
+						<div class="vcard d-flex mb-3">
+							<div class="image align-self-center">
+								<img th:src="@{/user/home/images/person_2.jpg}" alt="Person here">
+							</div>
+							<div class="name-text align-self-center">
+								<h2 class="heading">사지말고사치없고</h2>
+								<span class="meta">짠돌이</span>
+							</div>
+						</div>
+						<div class="text">
+							<blockquote>
+								<p>&rdquo; 
+								월급의 50%는 무조건 저축, 20%로 재태크 시작하실 분들 가입해주세요!<br>
+								함께 저축하고 재태크 팁 공유해보아요,<br>
+								소비 공유하고, 적당한 쓴소리 주고 받으실 분들 어서오세요
+								 &ldquo;</p>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+
+				<div class="item">
+					<div class="block-33 h-100">
+						<div class="vcard d-flex mb-3">
+							<div class="image align-self-center">
+								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
+							</div>
+							<div class="name-text align-self-center">
+								<h2 class="heading">한남동유엔빌리지</h2>
+								<span class="meta">가고싶은방장</span>
+							</div>
+						</div>
+						<div class="text">
+							<blockquote>
+								<p>&rdquo; 
+								거지들 대환영 한달 용돈 10만원으로 살아가는 방장이 있어요<br>
+								같이 생필품 나눠쓰고 공동구매 하실분이면 더 좋아요!<br>
+								매달 마지막주 일요일은 플렉스 데이로 모여서 돈쓰러 가자구요
+								&ldquo;</p>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+
+				<div class="item">
+					<div class="block-33 h-100">
+						<div class="vcard d-flex mb-3">
+							<div class="image align-self-center">
+								<img th:src="@{/user/home/images/person_2.jpg}" alt="Person here">
+							</div>
+							<div class="name-text align-self-center">
+								<h2 class="heading">거지방</h2>
+								<span class="meta">거지왕</span>
+							</div>
+						</div>
+						<div class="text">
+							<blockquote>
+								<p>&rdquo; 
+								우리는 이모티콘도 그려서 쓴다. 시비, 고나리 ㄴㄴ 아끼는건 죄가 아님, 잔소리할거면 오지마세요<br>
+								제발 진심으로 거지인사람들만 오세요. 조금이라도 돈쓰는 낌새보이거나 거지에 걸맞지 않으면 수락안해줌.
+								 &ldquo;</p>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+
+				<div class="item">
+					<div class="block-33 h-100">
+						<div class="vcard d-flex mb-3">
+							<div class="image align-self-center">
+								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
+							</div>
+							<div class="name-text align-self-center">
+								<h2 class="heading">아이스월렛</h2>
+								<span class="meta">돈이뭔지</span>
+							</div>
+						</div>
+						<div class="text">
+							<blockquote>
+								<p>&rdquo;
+								매주 3만원으로 살기 시작하실분.. 어서 오시라요&ldquo;</p>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="block-33 h-100">
+						<div class="vcard d-flex mb-3">
+							<div class="image align-self-center">
+								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
+							</div>
+							<div class="name-text align-self-center">
+								<h2 class="heading">제발그만</h2>
+								<span class="meta">이러다</span>
+							</div>
+						</div>
+						<div class="text">
+							<blockquote>
+								<p>&rdquo; 다죽어 &ldquo;</p>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/* 알뜰모임 end */-->
+
+
+	<!-- loader -->
+	<div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+	<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+	<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+	  stroke="#ffc107" /></svg></div>
 	
-	
-	<div class="bg-light">
-    <section class="ftco-section-featured ftco-animate">
-      <div class="container-fluid" data-scrollax-parent="true">
-        <div class="row no-gutters d-flex align-items-center" data-scrollax=" properties: { translateY: '-30%'}">
+	<script th:src="@{/user/home/js/jquery-3.2.1.min.js}"></script>
+	<script th:src="@{/user/home/js/jquery-migrate-3.0.1.min.js}"></script>
+	<script th:src="@{/user/home/js/popper.min.js}"></script>
+	<script th:src="@{/user/home/js/bootstrap.min.js}"></script>
+	<script th:src="@{/user/home/js/owl.carousel.min.js}"></script>
+	<script th:src="@{/user/home/js/jquery.waypoints.min.js}"></script>
+	<script th:src="@{/user/home/js/jquery.fancybox.min.js}"></script>
+	<script th:src="@{/user/home/js/jquery.stellar.min.js}"></script>
+	<script th:src="@{/user/home/js/aos.js}"></script>
+	<script th:src="@{/user/home/js/main.js}"></script>
 
-          <div class="col-md-3 mb-3">
-            <a href="#" class="featured-img">
-              <div class="text-1 p-4 d-flex align-items-center">
-                <h3>The Verge<br><span class="tag">Website</span></h3>
-              </div>
-              <img src="images/image_1.jpg" class="img-fluid" alt="">
-              <div class="text p-4 d-flex align-items-center">
-                <div class="user d-flex align-items-center">
-                  <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
-                  <h3>John Bruce <br><span class="position">Designer</span></h3>
-                </div>
-              </div>
-            </a>
-          </div>
-          
-          <div class="col-md-6">
-            <div class="row no-gutters">
-              <div class="col-md-12">
-                <div class="row no-gutters d-flex align-items-end">
-
-                  <div class="col-md-8">
-                    <a href="#" class="featured-img">
-                      <div class="text-1 p-4 d-flex align-items-center">
-                        <h3>Racks<br><span class="tag">Website</span></h3>
-                      </div>
-                      <img src="images/image_5.jpg" class="img-fluid" alt="">
-                      <div class="text p-4 d-flex align-items-center">
-                        <div class="user d-flex align-items-center">
-                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
-                          <h3>John Bruce <br><span class="position">Designer</span></h3>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div class="col-md-4">
-                    <a href="#" class="featured-img">
-                      <div class="text-1 p-4 d-flex align-items-center">
-                        <h3>Zendesk<br><span class="tag">Website</span></h3>
-                      </div>
-                      <img src="images/image_4.jpg" class="img-fluid" alt="">
-                      <div class="text p-4 d-flex align-items-center">
-                        <div class="user d-flex align-items-center">
-                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
-                          <h3>John Bruce <br><span class="position">Designer</span></h3>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <div class="row no-gutters d-flex align-items-start">
-                  <div class="col-md-8">
-                    <a href="#" class="featured-img">
-                      <div class="text-1 p-4 d-flex align-items-center">
-                        <h3>Curator<br><span class="tag">Website</span></h3>
-                      </div>
-                      <img src="images/image_6.jpg" class="img-fluid" alt="">
-                      <div class="text p-4 d-flex align-items-center">
-                        <div class="user d-flex align-items-center">
-                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
-                          <h3>John Bruce <br><span class="position">Designer</span></h3>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-md-4">
-                    <a href="#" class="featured-img">
-                      <div class="text-1 p-4 d-flex align-items-center">
-                        <h3>Tasty<br><span class="tag">Website</span></h3>
-                      </div>
-                      <img src="images/image_3.jpg" class="img-fluid" alt="">
-                      <div class="text p-4 d-flex align-items-center">
-                        <div class="user d-flex align-items-center">
-                          <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
-                          <h3>John Bruce <br><span class="position">Designer</span></h3>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <a href="#" class="featured-img">
-              <div class="text-1 p-4 d-flex align-items-center">
-                <h3>Voyage<br><span class="tag">Website</span></h3>
-              </div>
-              <img src="images/image_2.jpg" class="img-fluid" alt="">
-              <div class="text p-4 d-flex align-items-center">
-                <div class="user d-flex align-items-center">
-                  <div class="user-img mr-3" style="background-image: url(images/person_1.jpg);"></div>
-                  <h3>John Bruce <br><span class="position">Designer</span></h3>
-                </div>
-              </div>
-            </a>
-          </div>
-
-        </div>
-        <div class="row mt-5 d-flex justify-content-center">
-          <div class="col-md-8 text-center heading-section ftco-animate">
-            <h2 class="h1">UI/UX, visual, <strong class="px-3">Web designer</strong> with more than 12 years of experience in designing websites and mobile apps.</h2>
-            <p><a href="#" class="btn btn-primary mt-3 py-3 px-5">Get in touch</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
-    </div>
-</body>
+</th:block>
 </html>
