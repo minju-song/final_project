@@ -29,7 +29,7 @@ public class BoardController {
 
 	@Autowired
 	BoardLikeService boardLikeService;
-	
+
 	@GetMapping("/infoBoard")
 	public String infomationBoard(Model mo, @AuthenticationPrincipal PrincipalDetails prd) {
 		// 회원만 보이는 버튼
@@ -112,8 +112,4 @@ public class BoardController {
 		model.addAttribute("loginId", loginId);
 		return "/user/community/postUpdate";
 	}
-@GetMapping("likeBtn")
-public String testpage() {
-	return "user/community/BtnTest";
-}
 }

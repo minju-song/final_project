@@ -163,6 +163,7 @@
             document.getElementById('boardLike').innerText = post.likeCount;
             document.getElementById('writeDate').innerText = formatDate(post.writeDate);
             document.getElementById('views').innerText = post.views;
+            console.log(post)
 
         }
 
@@ -182,7 +183,7 @@
                 contentType: 'application/json;charset=UTF-8',
                 data: JSON.stringify({ "boardId": memberId }),
                 success: function (data) {
-                  location.reload()
+                  location.reload();
                 },
                 error: function (request, status, error) {
                     console.error("code: " + request.status);

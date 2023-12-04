@@ -1,6 +1,5 @@
 package com.holoyolo.app.boardLike.mapper;
 
-import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.boardLike.service.BoardLikeVO;
 
 public interface BoardLikeMapper {
@@ -11,5 +10,5 @@ public interface BoardLikeMapper {
 
 	public int cancelLike(BoardLikeVO vo);
 	
-	public int boardLikeCount(BoardVO vo);
+	public int boardLikeCount(int boardId);
 }
