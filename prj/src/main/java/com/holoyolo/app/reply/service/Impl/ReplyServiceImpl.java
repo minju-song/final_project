@@ -23,39 +23,34 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public int deleteReply(ReplyVO vo) {
-
 		return replyMapper.deleteReply(vo);
-
 	}
 
 	@Override
 	public int insertReply(ReplyVO vo) {
+		System.out.println(vo);
 		return replyMapper.insertReply(vo);
-
 	}
 
 	@Override
 	public List<ReplyVO> memberReplyList() {
-
 		return replyMapper.memberReplyList();
 	}
 
 	
 	@Override
-	public List<ReplyVO> searchBoardPage(JSONObject req) {
+	public List<ReplyVO> searchReplyPage(JSONObject req) {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
-//		int boardId = (int) req.get(req);
-		List<ReplyVO> allList = ReplyList(33);
+		int memberId = (int) req.get("memberId");
+		List<ReplyVO> allList = ReplyList(memberId);
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
 	@Override
-	public int getTotalBoardRecords(JSONObject req) {
-
+	public int getTotalReplyRecords(JSONObject req) {
 		ReplyVO vo = new ReplyVO();
 		vo.setBoardId((int) req.get("boardId"));
-
 		return replyMapper.getTotalReplyRecords(req);
 	}
 }

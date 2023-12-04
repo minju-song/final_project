@@ -17,7 +17,7 @@ public interface ReplyService {
 //회원별 댓글 단 게시물 목록
 	public List<ReplyVO> memberReplyList();
 
-	List<ReplyVO> searchBoardPage(JSONObject req);
+	List<ReplyVO> searchReplyPage(JSONObject req);
 
-	int getTotalBoardRecords(JSONObject req);
+	int getTotalReplyRecords(JSONObject req);
 }

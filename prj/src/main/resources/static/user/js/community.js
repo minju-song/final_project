@@ -180,7 +180,7 @@ function replyLoad(page) {
         type: 'POST',
         url: '/loadReply',
         contentType: 'application/json;charset=UTF-8',
-        data: { "boardId": boardId, "start": start, "end": end },
+        data: JSON.stringify({ "boardId": boardId, "start": start, "end": end }),
         success: function (data) {
             console.log(data)
             // updateReplyTable(data, page);
@@ -211,17 +211,16 @@ function updateReplyTable(data, page) {
 
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
-            row.attr("onclick", `location.href='/member/BoardInfo?boardId=${item.boardId}'`);
+            // row.attr("onclick", `location.href='/member/BoardInfo?boardId=${item.boardId}'`);
             if (data.totalRecords > page * recordsPerPage) {
                 row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
-                // row.append($("<td>").text(index + 1));
             } else {
                 row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
             }
-            row.append($("<td>").text(item.title));
+            row.append($("<td>").text(item.content));
             row.append($("<td>").text(formatDate(item.writeDate)));
-            row.append($("<td>").text(item.nickname));
-            row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
+            row.append($("<td>").text(item.memberId));
+            row.append($("<td>").text("ASD"));
 
             tbody.append(row);
         });
@@ -318,7 +317,7 @@ function openForm() {
     document.getElementById('replyFormOpen').disabled = true;
 
 };
-
+//댓글 등록
 function insertReply() {
     const searchParams = new URLSearchParams(location.search);
     let boardId = Number(searchParams.get('boardId'));

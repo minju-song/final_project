@@ -14,4 +14,6 @@ public class ReplyVO {
 	private Date updateDate;
 	private int boardId;
 	private String memberId;
+	
+	private String nickname;
 }
