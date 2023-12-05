@@ -140,7 +140,7 @@ function drawTrade(tradeArr){
 		
 		let writeDate = document.createElement('span');
 		writeDate.classList.add('text-muted');
-		writeDate.innerText = '2023-11-10';//tradeArr[i].writeDate;
+		writeDate.innerText = getToday(tradeArr[i].writeDate);
 		writeDate.style.position = 'absolute';
         writeDate.style.right = '-0.9rem';
         writeDate.style.bottom = '-2.4rem';
@@ -150,6 +150,15 @@ function drawTrade(tradeArr){
 		
 		tradeList.appendChild(divCol);
 	}
+}
+
+function getToday(writeDate){
+    var date = new Date(writeDate);
+    var year = date.getFullYear();
+    var month = ("0" + (1 + date.getMonth())).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+
+    return year + "-" + month + "-" + day;
 }
 
 //중고거래 상세페이지 이동

@@ -94,5 +94,11 @@ public class TradeServiceImpl implements TradeService {
 		return tradeMapper.updateViews(tradeVO);
 	}
 
+	//구매자 수정
+	@Override
+	public int updateBuyerId(TradeVO tradeVO) {
+		return tradeMapper.updateBuyerId(tradeVO);
+	}
+
 
 }

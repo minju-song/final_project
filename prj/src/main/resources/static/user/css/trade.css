@@ -67,10 +67,20 @@ option > selected{
 	top: 2px;
 	border-radius: 4px;
 	float: right;
-	cursor: pointer;
 }
 
-.insertbutton p, .placeSelectButton p
+.redButton{
+	width: 125px;	/* 142 */
+	height: 40px;	/* 46 */
+	background-color: red;
+	text-align: center;
+	position: realative;
+	top: 2px;
+	border-radius: 4px;
+}
+
+
+.insertbutton p, .placeSelectButton p, .redButton p
 {
 	display: block;
 	font-size: 14px;
@@ -80,14 +90,9 @@ option > selected{
 	line-height: 40px; /* 46 */
 }
 
-.insertbutton:hover
+.insertbutton:hover, .placeSelectButton:hover, .redButton:hover
 {
 	background-color: #e0e3e4;
-}
-
-.insertbutton:hover p
-{
-	color: #232323;
 }
 
 .badge{
@@ -196,6 +201,7 @@ option > selected{
 	width: 70px;
     height: 70px;
     margin-right: 20px;
+    object-fit: cover;
 }
 
 .margins{

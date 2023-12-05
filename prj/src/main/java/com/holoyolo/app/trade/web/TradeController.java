@@ -53,11 +53,13 @@ public class TradeController {
 		return map;
 	}
 	
+	//등록페이지 이동
 	@GetMapping("member/tradeInsert")
 	public String tradeInsert(TradeVO tradeVO) {
 		return "user/trade/tradeInsert";
 	}
 	
+	//등록
 	@PostMapping("member/tradeInsert")
 	public String tradeInsertProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 									TradeVO tradeVO,
@@ -68,6 +70,7 @@ public class TradeController {
 		return "redirect:/tradeList";
 	}
 	
+	//상세보기
 	@GetMapping("member/tradeInfo")
 	public String tradeInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
 							TradeVO tradeVO, 
@@ -86,6 +89,7 @@ public class TradeController {
 		return "user/trade/tradeInfo";
 	}
 	
+	//수정페이지 이동
 	@GetMapping("member/tradeUpdate")
 	public String tradeUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
 							  Model model,
@@ -98,6 +102,7 @@ public class TradeController {
 		return "user/trade/tradeUpdate";
 	}
 	
+	//수정
 	@PostMapping("member/tradeUpdate")
 	public String tradeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 									TradeVO tradeVO,
@@ -105,9 +110,25 @@ public class TradeController {
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
 		tradeVO.setSellerId(principalDetails.getUsername());
 		tradeService.insertTrade(tradeVO, imgList);
+		tradeService.updateTrade(tradeVO);
 		return "redirect:/tradeList";
 	}
 	
+	//구매자, 거래상태 수정
+	@PostMapping("member/BuyerIdUpdate")
+	@ResponseBody
+	public String buyerIdUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+								TradeVO tradeVO) {
+		if(tradeVO.getPromiseStatus() == "TD1") {
+			tradeVO.setBuyerId(null);
+		}else {
+			tradeVO.setBuyerId(principalDetails.getUsername());
+		}
+		tradeService.updateBuyerId(tradeVO);
+		return "redirect:/tradeList";
+	}
+	
+	//삭제
 	@GetMapping("member/tradeDelete")
 	@ResponseBody
 	public void tradeDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,

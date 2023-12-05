@@ -107,13 +107,22 @@
 			trade_place = #{tradePlace},
 			trade_type = #{tradeType},
 			payment = #{payment},
-			promise_status = #{promiseStatus},
 			update_date = sysdate,
 			latitude = #{latitude},
 			longitude = #{longitude}
 		</set>
 		WHERE trade_id = #{tradeId}
 		AND seller_id = #{sellerId}
+	</update>
+	
+	<update id="updateBuyerId" parameterType="TradeVO">
+		UPDATE trade
+		<set>
+			promise_status = #{promiseStatus},
+			buyer_id = #{buyerId},
+			update_date = sysdate
+		</set>
+		WHERE trade_id = #{tradeId}
 	</update>
 	
 	<update id="updateViews">

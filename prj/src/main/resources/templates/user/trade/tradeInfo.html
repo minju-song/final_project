@@ -60,23 +60,31 @@
 								<p th:text="무료나눔" th:if="${tradeInfo.price == 0}" th:style="@{color:#ff6868;}"></p>
 							</div>
 							<!-- 판매자 버튼 -->
-							<div th:if="${memberId == tradeInfo.sellerId}">
-								<div class="pay insertbutton">
+							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '약속신청'}">
+								<div class="pay insertbutton" th:onclick="promiseCancel(${tradeInfo.tradeId})">
 									<p>약속취소</p>
 								</div>
-								<div class="pay insertbutton" th:if="${tradeInfo.paymentType == 'TC2'}">
+								<div class="pay redButton" th:onclick="promiseNextLevel(`[[${tradeInfo.tradeId}]]`, 'TD3')">
 									<p>약속확정</p>
-									
 								</div>
 							</div>
 							<!-- 구매자 버튼 -->
-							<div th:if="${memberId != tradeInfo.sellerId}">
-								<div class="pay insertbutton">
+							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '약속대기'}">
+								<div class="pay insertbutton" th:onclick="promiseNextLevel(`[[${tradeInfo.tradeId}]]`, 'TD2')">
 									<p>약속잡기</p>
 								</div>
-								<div class="pay insertbutton" th:if="${tradeInfo.paymentType == 'TC2'}">
+							</div>
+							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '약속신청'}">
+								<div class="pay insertbutton" th:onclick="promiseCancel(${tradeInfo.tradeId})">
+									<p>약속취소</p>
+								</div>
+							</div>
+							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '약속확정'}">
+								<div class="pay insertbutton" th:onclick="promiseNextLevel(`[[${tradeInfo.tradeId}]]`, 'TD4')">
+									<p>거래확정</p>
+								</div>
+								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}">
 									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}"> 홀로페이</p>
-									
 								</div>
 							</div>
 						</div>
@@ -219,6 +227,38 @@
 				}
 				e.target.classList.toggle('bi-heart');
 			})
+			
+			//약속상태, 구매자 수정
+			function promiseNextLevel(tradeId, promiseStatus){
+				$.ajax({
+					type: 'POST',
+					url : '/member/BuyerIdUpdate',  //이동할 jsp 파일 주소
+					data : {tradeId, promiseStatus},
+					success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+						console.log("성공");
+					},
+					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+						console.log("실패");
+					}
+				})
+			}
+			
+			////약속상태, 구매자 취소
+			function promiseCancel(tradeId){
+				let buyerId = '';
+				let promiseStatus = 'TD1';
+				$.ajax({
+					type: 'POST',
+					url : '/member/BuyerIdUpdate',  //이동할 jsp 파일 주소
+					data : {tradeId, promiseStatus},
+					success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+						console.log("성공");
+					},
+					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+						console.log("실패");
+					}
+				})
+			}
 		</script>
 	</div>
 </body>
