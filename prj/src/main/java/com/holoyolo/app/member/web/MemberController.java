@@ -1,11 +1,16 @@
 package com.holoyolo.app.member.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -91,7 +96,7 @@ public class MemberController {
 	}
 	
 	/**
-	 * 아이디 찾기
+	 * 아이디,비밀번호 찾기
 	 * @param memberVO
 	 * @return
 	 */
@@ -145,6 +150,48 @@ public class MemberController {
 	 */
 	@GetMapping("/member/myInfo")
 	public String myInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myInfo");
+		
+		return "/user/mypage/myInfo";
+	}
+	
+	/**
+	 * 마이페이지-내정보 페이지(인증화면)
+	 * @return
+	 */
+	@GetMapping("/member/myInfo/authview")
+	public String infoAuthView() {
+		return "/user/mypage/memberAuthView";
+	}
+	/**
+	 * 마이페이지-내정보 페이지(인증)
+	 * @return
+	 */
+	@PostMapping("/member/myInfo/auth")
+	@ResponseBody
+	public boolean infoAuth(HttpServletRequest request, MemberVO memberVO, Model model,
+							@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		HttpSession session = request.getSession();
+		//model.removeAttribute("authYn");
+		
+		memberVO.setMemberId(principalDetails.getUsername());
+		boolean result = memberService.checkPassword(memberVO);
+		if(result == true) {
+			model.addAttribute("authYn", "auth_Success");
+		}
+		
+		return result;
+	}
+	/**
+	 * 마이페이지-내정보 페이지(정보화면)
+	 * @param principalDetails
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/member/myInfo/infoView")
+	public String infoView(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String memberId = principalDetails.getUsername();
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
@@ -153,18 +200,81 @@ public class MemberController {
 		String nlString = System.getProperty("line.separator").toString();
 		model.addAttribute("nlString", nlString);
 		
-		// 사이드메뉴 정보 넘기기
-		model.addAttribute("menu", "mypage");
-		model.addAttribute("subMenu", "myInfo");
-		
-		return "user/mypage/myInfo";
+		return "/user/mypage/memberInfoView";
 	}
 	
-	
+	/**
+	 * 마이페이지-내정보 : 프로필사진 업데이트
+	 * @param principalDetails
+	 * @param file
+	 * @return
+	 */
 	@PostMapping("/member/myInfo/uploadImg")
 	@ResponseBody
 	public String uploadImage(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestPart MultipartFile file) {
 		String result = memberService.uploadImage(file, principalDetails.getUsername());
+		return result;
+	}
+	
+	/**
+	 * 마이페이지-내정보 : 업데이트
+	 * @param memberVO
+	 * @return
+	 */
+	@PostMapping("/member/myinfo/updateInfo")
+	@ResponseBody
+	public boolean updateNickname(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberVO memberVO) {
+		boolean result = false;
+		memberVO.setMemberId(principalDetails.getUsername()); // 회원아이디 set
+		
+		// 회원정보 업데이트
+		result = memberService.updateMemberInfo(memberVO);
+		
+		// 세션 정보 업데이트
+		MemberVO vo = memberService.selectUser(memberVO.getMemberId());
+		principalDetails.setMemberVO(vo);
+		
+		return result;
+	}
+	
+	/**
+	 * 마이페이지-내정보 : 휴대폰 업데이트 중복여부 체크
+	 * @param principalDetails
+	 * @param memberVO
+	 * @return
+	 */
+	@PostMapping("/member/myinfo/phoneCheck")
+	@ResponseBody
+	public boolean phoneCheck(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberVO memberVO) {
+		memberVO.setMemberId(principalDetails.getUsername()); // 회원아이디 set
+		return memberService.phoneCheck(memberVO);
+	}
+	
+	/**
+	 * 회원탈퇴 페이지
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/member/deleteForm")
+	public String deleteMemberForm(Model model) {
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("subMenu", "myInfo");
+		return "/user/mypage/memberDelete";
+	}
+	
+	/**
+	 * 회원탈퇴 처리
+	 * @param principalDetails
+	 * @param memberVO
+	 * @return
+	 */
+	@PostMapping("/member/delete")
+	@ResponseBody
+	public boolean deleteMember(@AuthenticationPrincipal PrincipalDetails principalDetails, MemberVO memberVO) {
+		memberVO.setMemberId(principalDetails.getUsername());
+		boolean result = memberService.deleteMember(memberVO);
+		
 		return result;
 	}
 	

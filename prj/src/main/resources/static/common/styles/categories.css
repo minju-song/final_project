@@ -1083,11 +1083,13 @@ section
 }
 .sidebar_section:hover
 {
-	border: solid 1px #937c6f;
+	/* border: solid 1px #937c6f; */
+	border: solid 1px #09203f;
 }
 .sidebar_section:hover .sidebar_title
 {
-	background: #937c6f;
+	/* background: #937c6f; */
+	background: #09203f;
 	color: #FFFFFF;
 }
 .sidebar_section:hover .sidebar_section_content ul li

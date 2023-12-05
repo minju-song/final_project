@@ -3,9 +3,13 @@
 #wrapper {
 	margin: 50px auto;
 }
+.form-control {
+	color: #000;
+}
 .my_flex {
 	display: flex;
 	gap: 10px;
+	align-items: center;
 }
 .dp_none {
 	display: none;
@@ -21,7 +25,9 @@
 .input_wrap {
 	
 }
-
+.margin-top-10 {
+	margin-top: 5px;
+}
 button {
 	cursor: pointer;
 }
@@ -37,11 +43,13 @@ button {
 	border-radius: 5px;
 	color: #fff;
 	font-size: 13px;
+	margin: 10px 0 10px 15px;
+	min-width: 90px;
 }
 .upload {
 	width: 150px;
 	height: 150px;
-	border: 1px solid #B3B3B3;
+	border: 1px solid #e4e4e4;
 	border-radius: 50%;
 	background-size: cover;
 	background-position: center center;
@@ -49,6 +57,9 @@ button {
 .dp_flex {
 	display: flex;
 	gap: 35px;
+	justify-content: center;
+	max-width: 780px;
+	margin: 0 auto;
 }
 #memberProfile {
 	display: flex;
@@ -61,32 +72,33 @@ button {
 
 #my_profile {
 	border-bottom: 1px solid #e6e6e6;
+	padding: 40px;
 }
-#memberIntro {
+#memberIntroWrap {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	/* gap: 10px; */
 	justify-content: end;
 }
-#memberIntro .hl_input,
-#memberIntro .hl_textarea {
+#memberIntroWrap .hl_input,
+#memberIntroWrap .hl_textarea {
 	outline: none;
 	border: none;
 	background-color: transparent;
 	padding: 8px 15px;
 }
-#memberIntro #nickName {
+#memberIntroWrap #nickName {
 	font-size: 20px;
 	font-weight: 700;
-	width: 100px;
+	width: 20vw;
 }
-#memberIntro #memberId {
+#memberIntroWrap #memberId {
 	font-size: 15px;
 	font-weight: 700;
 }
-#memberIntro .hl_textarea {
-	width: 40vw;
-    max-width: 760px;
+#memberIntroWrap .hl_textarea {
+	width: 30vw;
+    max-width: 500px;
 	height: 100%;
 	resize: none;
 	font-size: 14px;
@@ -103,10 +115,11 @@ button {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	padding: 0 40px 40px 40px;
+	max-width: 780px;
+	margin: 0 auto;
 }
 
-
-/* 개인정보 폼 end */
 .flex-col {
 	display: flex;
 	flex-direction: column;
@@ -115,6 +128,7 @@ button {
 	display: flex;
 	margin-bottom: 10px;
 	align-items: center;
+	gap: 20px;
 }
 .hl_label .hl_title {
 	display: inline-block;
@@ -123,31 +137,70 @@ button {
 	font-weight: 700;
 }
 
-#infoForm input {
+#infoForm .input {
 	padding: 6px 13px;
 	font-size: 14px;
 	font-family: inherit;
-	box-shadow: 0 0 0 1px #f8bfbf;
+	box-shadow: 0 0 0 1px #c9d6ef;
 	border: none;
 	border-radius: 5px;
-	background-color: #fff5f5;
+	background-color: #f7faff;
 	transition: all .3s;
-	width: 22vw;
+	/* width: 25vw; */
+	min-height: 36px;
 }
-
-#infoForm input::placeholder {
-  color: #ce9797;
+#infoForm .input::placeholder {
+  color: #9fb0d2;
   font-size: 14px;
 }
-
-#infoForm input:focus {
+#infoForm .input:focus {
   outline: none;
-  box-shadow: 0 0 10px 1px #ee8c8c;
+  box-shadow: 0 0 4px 1px #8cc0ee;
   border: none;
   transition: all .3s;
 }
+.flex_end {
+	display: flex;
+	justify-content: flex-end;
+}
+#infoUpdate, #infoSave, #infoCancle {
+	border: none;
+	background: transparent;
+	margin-bottom: 15px;
+}
+#infoUpdate img {
+	width: 20px;
+	margin-right: 10px;
+}
+#infoSave img {
+	width: 22px;
+	margin-top: 2px;
+	margin-right: 10px;
+}
+#infoCancle img {
+	width: 19px;
+	margin-right: 5px;
+}
+button:focus{ 	
+    border: none;
+    outline:none;
+}
+.hl_text {
+	padding: 7px 14px;
+}
+
 .addr_input_wrap {
+	width: calc(100% - 145px);
 	gap: 10px;
+}
+.addr_input_wrap #addr1 {
+	width: calc(100% - 80px);
+}
+.col_width_1, .input_wrap {
+	width: calc(100% - 145px);
+}
+.col_width_2 {
+	width: calc(100% - 80px);
 }
 .form_btn {
 	border: none;
@@ -156,10 +209,60 @@ button {
 	border-radius: 5px;
 	color: #fff;
 	font-size: 13px;
+	min-width: 80px;
+}
+.justy_center {
+	gap: 10px;
+	margin-top: 20px;
+}
+.justy_center button {
+	padding: 6px 12px;
+}
+
+#cancleBtn {
+	background-color: #6e6e6e;
+}
+.form_wrap {
+	border-bottom: 1px solid #e6e6e6;
+	padding: 30px;
+}
+
+#checkPhone {
+	width: 100%;
+}
+.auth-wrap {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+}
+.auth-wrap input, .auth-wrap span {
+	position: absolute;
+}
+.auth-wrap span {
+	right: 10px;
+	bottom: 9px;
+	font-size: 14px;
+	color: red;
+	font-weight: 700;
+}
+/* 개인정보 폼 end */
+#delMember {
+	color: #c4c4c4;
+	font-size: 12px;
+	text-decoration: underline;
 }
 
 
-
+@media only screen and (max-width: 767px) {
+	.dp_flex, .hl_label {flex-direction: column;}
+	#memberIntroWrap .hl_textarea {width: 62vw;}
+	.hl_label {align-items: start;}
+	/* #infoForm input {width: 50vw;} */
+	.form_wrap {padding: 30px 0;}
+	.col_width_1,
+	.input_wrap,
+	.addr_input_wrap {width: 100%;}
+}
 
 
 

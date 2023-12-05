@@ -64,12 +64,16 @@
 </head>
 
 <body>
-    <!--/* 헤더 */-->
-
+    <!--/* 헤더 start */-->
     <div th:replace="fragments/header.html :: headerFragment"></div>
+    <!--/* 헤더 end */-->
+	
+	<!--/* 메인 컨텐츠 영역 start */-->
+	<div id="contents" layout:fragment="mainContent"></div>
+	<!--/* 메인 컨텐츠 영역 end */-->
 
-
-    <div class="sidemenu" style="margin-top: 120px;">
+	<!--/* 메인제외 컨텐츠 영역 start */-->
+    <div class="sidemenu" style="margin-top: 120px;" th:if="${ #request.requestURI != '/'}">
         <div class="products">
             <div class="container">
                 <div class="row body_wrap">
@@ -97,9 +101,10 @@
             </div>
         </div>
     </div>
+    <!--/* 메인제외 컨텐츠 영역 end */-->
 
 
-    <!--/* 푸터 */-->
+    <!--/* 푸터 start */-->
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -109,6 +114,7 @@
             </div>
         </div>
     </footer>
+    <!--/* 푸터 end */-->
 </body>
 
 

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/user/css/memberdelete.css">
+</head>
+<body>
+<div id="pwdCheckWrap" class="content_wrapper">
+	<h2 class="h2_title">비밀번호 확인</h2>
+	<p class="bold_text title2">안전한 개인정보보호를 위해 비밀번호를 입력해 주세요.</p>
+	<hr>
+	<div id="pwdCheckForm">
+		<div class="input_wrap">
+			<div class="hl_label none_gap">
+				<span class="attr_name hl_title">비밀번호 확인</span>
+				<input type="password" class="input form-control col_width_1" id="password" name="password" required="required" autocomplete="off"
+					   placeholder="비밀번호를 입력해 주세요" onfocus="this.placeholder = '비밀번호를 입력해 주세요'" onblur="this.placeholder = '비밀번호를 입력해 주세요'">
+				<button type="button" id="passwordCheck">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	const Toast = Swal.mixin({
+		toast: true,
+		position: 'center',
+		showConfirmButton: false,
+		timer: 2000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.addEventListener('mouseenter', Swal.stopTimer)
+			toast.addEventListener('mouseleave', Swal.resumeTimer)
+		}
+	})
+
+	$('#passwordCheck').on({
+		click : function(e) {
+			checkPwdFnc();
+		},
+		onkeypress : function(e) {
+			if(e.keyCode == 13) {
+				checkPwdFnc();
+			}
+		}
+	})
+	
+	function checkPwdFnc(){
+		let password = $('#password').val();
+		$.ajax('/member/myInfo/auth', {
+			type: 'post',
+			data: {password}
+		})
+		.done((result) => {
+			if(result == true) {
+				authYn = true;
+				$('#authView').remove();
+				let url = $('#infoView').data("url");
+				$('#infoView').load(url);
+			} else {
+				Toast.fire({
+					icon: 'error',
+					title: '비밀번호가 일치하지 않습니다!'
+				})
+			}
+		})
+	}
+</script>
+</body>
+</html>

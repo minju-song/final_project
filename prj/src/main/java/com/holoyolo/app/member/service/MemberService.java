@@ -25,7 +25,7 @@ public interface MemberService {
 	public MemberVO selectMemberInfo(MemberVO memberVO);
 	
 	// 회원정보 업데이트
-	public int updateMemberInfo(MemberVO memberVO);
+	public boolean updateMemberInfo(MemberVO memberVO);
 	
 	// 회원 정지
 
@@ -55,5 +55,14 @@ public interface MemberService {
 
 	public Object selectMemberCount(MemberVO memberVO);
 
+	
+	// 휴대폰 변경-이미 사용중인 번호인지 체크
+	public boolean phoneCheck(MemberVO memberVO);
+	
+	// 회원탈퇴
+	public boolean deleteMember(MemberVO memberVO);
+	
+	// 비밀번호 검증
+	public boolean checkPassword(MemberVO memberVO);
 	
 }

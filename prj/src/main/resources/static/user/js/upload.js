@@ -1,10 +1,9 @@
 /**
  * 이미지 첨부
  */
-console.log("test");
 
-let realUpload = document.querySelector('.real_upload');
-let upload = document.querySelector('.upload');
+var realUpload = document.querySelector('.real_upload');
+var upload = document.querySelector('.upload');
 
 // 썸네일을 클릭하면 input[type="file"]에 클릭이벤트를 발생
 upload.addEventListener('click', () => realUpload.click());

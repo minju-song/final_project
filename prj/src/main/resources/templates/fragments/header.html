@@ -14,11 +14,11 @@
 				<div class="logo"><a th:href="@{/}"><img th:src="@{/user/images/logo/logo3.png}"></a></div>
 				<nav class="main_nav">
 					<ul>
-						<li><a th:href="@{/member/accBook}">가계부</a></li>
-						<li><a th:href="@{/tradeList}">중고거래</a></li>
-						<li><a th:href="@{/clublist}">알뜰모임</a></li>
+						<li><a th:href="@{/member/accBook}" id="accBook">가계부</a></li>
+						<li><a th:href="@{/tradeList}" id="trade">중고거래</a></li>
+						<li><a th:href="@{/clublist}" id="club">알뜰모임</a></li>
 						<li class="main_menu">
-							<a th:href="@{/infoBoard}">커뮤니티</a>
+							<a th:href="@{/infoBoard}" id="community">커뮤니티</a>
 							<div class="sub_nav_wrap">
 								<div class="sub_nav">
 									<ul>
@@ -28,9 +28,9 @@
 								</div>
 							</div>
 						</li>
-						<li><a th:href="@{/member/memoList}">메모장</a></li>
+						<li><a th:href="@{/member/memoList}" id="memo">메모장</a></li>
 						<li class="main_menu">
-							<a th:href="@{/}">고객센터</a>
+							<a th:href="@{/}" id="cs">고객센터</a>
 							<div class="sub_nav_wrap">
 								<div class="sub_nav">
 									<ul>
@@ -99,6 +99,25 @@
 				</ul>
 			</nav>
 		</div>
+		
+		<script>
+			let currentUri = "[[${ #request.requestURI }]]";
+			let color = 'red';
+			
+			if(currentUri == '/member/memoList') {
+				$('#memo').addClass('menu_active');
+			} else if(currentUri == '/infoBoard') {
+				$('#community').addClass('menu_active');
+			} else if(currentUri == '/clublist') {
+				$('#club').addClass('menu_active');
+			} else if(currentUri == '/tradeList') {
+				$('#trade').addClass('menu_active');
+			} else if(currentUri == '/member/accBook') {
+				$('#accBook').addClass('menu_active');
+			} else if(currentUri == '/') {
+				$('#cs').addClass('menu_active');
+			}
+		</script>
 	</div>
 </body>
 
