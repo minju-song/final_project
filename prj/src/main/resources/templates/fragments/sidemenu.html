@@ -63,6 +63,17 @@
 				</ul>
 			</div>
 		</th:block>
+		
+		<th:block th:if="${menu == 'club'}">
+			<div class="sidebar_title side_main_menu">[[${result.club.clubName}]]</div>
+			<div class="sidebar_section_content">
+				<ul>
+					<li class="side_main_menu"><a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}" th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a></li>
+					<li class="side_main_menu"><a th:href="@{/}">모임게시판</a></li>
+					<li class="side_main_menu"><a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}" th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a></li>
+				</ul>
+			</div>
+		</th:block>
 	</div>
 </div>
 </body>

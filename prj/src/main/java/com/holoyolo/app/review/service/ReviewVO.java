@@ -8,7 +8,11 @@ import lombok.Data;
 public class ReviewVO {
 	private int reviewId;
 	private Date writeDate;
-	private int Star;
+	private int star;
 	private int clubId;
 	private String memberId;
+	private String contents;
+	
+	//리뷰작성자닉네임
+	private String nickname;
 }

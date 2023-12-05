@@ -3,4 +3,64 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.review.mapper.ReviewMapper">
+  
+  	<!-- 해당 클럽 리뷰리스트 조회 -->
+  	<select id="getReviewList" resultType="ReviewVO">
+  		SELECT r.*, m.nickname
+  		FROM review r JOIN member m ON r.member_id = m.member_id
+  		WHERE r.club_id = #{clubId}
+  		ORDER BY r.write_date
+  	</select>
+  	
+  	<!-- 내가 쓴 리뷰 있는지 체크 -->
+  	<select id="checkMyReview" parameterType="ClubMemberVO" resultType="int">
+  		SELECT count(*) 
+  		FROM review 
+  		WHERE club_id = #{clubId} 
+  		AND member_id = #{memberId}
+  	</select>
+  	
+  	<!-- 리뷰등록 -->
+  	<insert id="insertReview" parameterType="ReviewVO">
+  		<selectKey resultType="int" keyProperty="reviewId" order="BEFORE">
+	        SELECT NVL(MAX(REVIEW_ID)+1,0) FROM REVIEW
+	    </selectKey>
+	    INSERT INTO review (
+	    					review_id
+	    					, write_date
+	    					, star
+	    					, club_id
+	    					, member_id
+	    					, contents
+	    					)
+	    			VALUES (
+	    					#{reviewId}
+	    					, sysdate
+	    					, #{star}
+	    					, #{clubId}
+	    					, #{memberId}
+	    					, #{contents}
+	    					)
+  	</insert>
+  	
+  	<!-- 해당 클럽 리뷰 평점 -->
+  	<select id="avgClubStar" resultType="double">
+  		 SELECT ROUND(NVL(AVG(star), 0), 1) AS avg_star
+		 FROM review
+		 WHERE club_id = #{clubId}
+  	</select>
+  	
+  	<update id="updateReview" parameterType="reviewVO">
+  		UPDATE review
+  		<set>
+  			star = #{star}
+  			, contents = #{contents}
+  		</set>
+  		WHERE review_id = #{reviewId}
+  	</update>
+  	
+  	<delete id="deleteReview" parameterType="ReviewVO">
+  		DELETE review
+  		WHERE review_id = #{reviewId}
+  	</delete>
   </mapper>

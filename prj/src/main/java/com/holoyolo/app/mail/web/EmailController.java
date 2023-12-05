@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -96,6 +97,27 @@ public class EmailController {
 			}
 		}
 		emailService.sendRequest(emailVO);
+	}
+	
+	@PostMapping("/sendmail/mandate")
+	@ResponseBody
+	public String mandate(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody ClubVO vo) {
+		System.out.println("들어온 값 : "+vo);
+		EmailVO emailVO = EmailVO.builder()
+				.to("songjaeskkk@naver.com")
+				.subject(vo.getClubName()+"모임에 대한 모임장 위임요청 메일입니다.")
+				.clubId(vo.getClubId())
+				.clubName(vo.getClubName())
+				.reqId(principalDetails.getUsername())
+				.text(vo.getText())
+				.type(vo.getType())
+				.leader(vo.getClubLeader())
+				.build();
+		
+		if(emailService.mandate(emailVO).equals("success")) {
+			return "success";
+		}
+		else return "fail";
 	}
 	
 	
