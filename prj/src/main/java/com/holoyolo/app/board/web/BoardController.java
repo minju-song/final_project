@@ -28,7 +28,7 @@ public class BoardController {
 	@Autowired
 	BoardLikeService boardLikeService;
 
-	@GetMapping("/infoBoard")
+	@GetMapping("/board/info")
 	public String infomationBoard(Model mo, @AuthenticationPrincipal PrincipalDetails prd) {
 		// 회원만 보이는 버튼
 		String username = "";
@@ -50,21 +50,23 @@ public class BoardController {
 	}
 
 //글 등록
-	@GetMapping("/member/addInfoBoard")
+	@GetMapping("/member/board/insert")
 	public String addBoard(@AuthenticationPrincipal PrincipalDetails prd, Model mo) {
 		mo.addAttribute("user", prd.getMemberVO());
 		mo.addAttribute("menu", "community");
 		mo.addAttribute("boardType", "정보공유게시판");
+		//addInfoBoard
 		return "user/community/insertBoard";
 	}
 
 	// 글 등록 처리
-	@PostMapping("/insertPostreq")
+	@PostMapping("/member/board/insert/Post")
 	@ResponseBody
 	public String savePost(@AuthenticationPrincipal PrincipalDetails prd, @RequestBody BoardVO vo) {
 		String userId = (String) prd.getUsername();
 		vo.setMemberId(userId);
 		boardService.insertBoard(vo);
+//		insertPostreq
 		return "/infoBoard";
 	}
 
@@ -81,7 +83,7 @@ public class BoardController {
 	}
 
 //상세보기
-	@GetMapping("/member/BoardInfo")
+	@GetMapping("/member/board/info")
 	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model mo) {
 
 		String loginId = "not found";

@@ -107,13 +107,8 @@ function updateTable(data, page) {
 
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
-            row.attr("onclick", `location.href='/member/BoardInfo?boardId=${item.boardId}'`);
-            if (data.totalRecords > page * recordsPerPage) {
-                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
-                // row.append($("<td>").text(index + 1));
-            } else {
-                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
-            }
+            row.attr("onclick", `location.href='/member/board/info?boardId=${item.boardId}'`);
+            row.append($("<td>").text(item.boardId));
             row.append($("<td>").text(item.title));
             row.append($("<td>").text(formatDate(item.writeDate)));
             row.append($("<td>").text(item.nickname));
@@ -181,7 +176,7 @@ function replyLoad(page) {
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({ "boardId": boardId, "start": start, "end": end }),
         success: function (data) {
-            console.log(data)
+
             updateReplyTable(data, page);
 
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
@@ -206,7 +201,7 @@ function updateReplyTable(data, page) {
         // 데이터가 있을 경우 테이블에 행 추가
 
         data.historyList.forEach(function (item, index) {
-            console.log(item)
+
             let row = $("<tr>");
             if (data.totalRecords > page * recordsPerPage) {
                 row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
@@ -219,13 +214,14 @@ function updateReplyTable(data, page) {
 
             let rowReplyAddBtn = $("<button>").text("댓글").addClass('btn', 'btn-secondary').attr('id', 'rowReplyFormOpen').attr('value', item.replyId);
             rowReplyAddBtn.on('click', function () {
-                rowReplyInsertForm();
+                rowReplyInsertForm(item.replyId);
             });
-            row.append(rowReplyAddBtn);
-
+            let row2 = $("<tr>");
+            row2.append(rowReplyAddBtn);
             let rowReplyFormArea = $("<div>").attr('id', 'rowReplyFormArea');
-            row.append(rowReplyFormArea);
-            tbody.append(row);
+            row2.append(rowReplyFormArea);
+            tbody.append(row, row2);
+
         });
     } else {
         // 데이터가 없을 경우 테이블에 메시지 추가
@@ -434,64 +430,66 @@ function setupReplyPagination(totalPages) {
 //대댓글 입력 폼
 function rowReplyInsertForm() {
     let rowReplyFormArea = $("#rowReplyFormArea");
+    rowReplyFormArea.empty();
+
     let replyForm = $("<textarea>").attr('id', 'rowReplyForm').attr('placeholder', ' 답글을 입력하세요.').addClass('form-control');
     rowReplyFormArea.append(replyForm);
 
+    rowReplyFormArea.append("<br>");
 
-    let addReplyBtn = document.createElement('button');
-    addReplyBtn.type = 'button';
-    addReplyBtn.id = 'addRowReplyBtn';
-    addReplyBtn.classList.add('btn', 'btn-primary');
-    addReplyBtn.textContent = '댓글등록'
-    addReplyBtn.addEventListener('click', insertReply);
+    let addReplyBtn = $("<button>").text('댓글등록').addClass('btn btn-primary').attr('id', 'addRowReplyBtn');
+    let cancelBtn = $("<button>").text('취소').addClass('btn btn-danger').attr('id', 'cancelRowReplyBtn');
 
-
-    let cancelBtn = document.createElement('button');
-    cancelBtn.type = 'button';
-    cancelBtn.id = 'cancelRowReplyBtn';
-    cancelBtn.classList.add('btn', 'btn-danger');
-    cancelBtn.textContent = '취소'
-    cancelBtn.addEventListener('click', function () {
-       
-        let rowReplyForm = document.getElementById('rowReplyForm');
-        rowReplyForm.remove();
-        document.getElementById('rowReplyFormOpen').disabled = false;
-
-        let addReplyBtn = document.getElementById('addRowReplyBtn');
-        addReplyBtn.remove();
-
-        let cancelReplyBtn = document.getElementById('cancelRowReplyBtn');
-        cancelReplyBtn.remove();
+    cancelBtn.on('click', function () {
+        // 취소 버튼 클릭 시 폼 비우기
+        rowReplyFormArea.empty();
     });
 
-    let testBtn = document.createElement('button');
-    testBtn.type = 'button';
-    testBtn.id = 'testBtn';
-    testBtn.classList.add('btn', 'btn-secondary');
-    testBtn.textContent = 'TEST'
-    testBtn.addEventListener('click', function(){
-       
+    rowReplyFormArea.append(addReplyBtn, cancelBtn);
 
-        let searchReplyId1 = this.parentNode.parentNode;
+    // 'addReplyBtn'에 대한 이벤트 핸들러를 등록할 때 jQuery의 'on' 메서드를 사용
+    addReplyBtn.on('click', function () {
+        console.log('execute');
+    });
+}
 
-        // 부모 노드의 부모 노드의 첫 번째 자식의 5번째자식
-        let searchReplyId2 = searchReplyId1.childNodes[0];
-        let searchReplyId = searchReplyId2.childNodes[5]
-        console.log(searchReplyId1)
-        console.log(searchReplyId2)
-        console.log(searchReplyId)
-    })
-    
-
-    rowReplyFormArea.append(addReplyBtn, cancelBtn, testBtn);
-    rowReplyFormArea.insertAfter(replyForm.closest("tr"));
-    $("#rowReplyFormOpen").prop('disabled', true);
-    document.getElementById('rowReplyFormOpen').disabled = true;
+function test() {
+    // console.log(this.parentNode.parentNode.parentNode)
 }
 //대댓글 등록
 
-function rowReply() {
-    let content = document.getElementById('rowReplyForm')
-    console.log(content);
+function insertRowReply() {
+    let upperReplyId = this.parentNode.parentNode.childNodes[4].value;
+
+
+    const searchParams = new URLSearchParams(location.search);
+    let boardId = Number(searchParams.get('boardId'));
+    let content = document.getElementById('replyForm').value
+    $.ajax({
+        type: 'POST',
+        url: '/insertReply',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "boardId": boardId, "content": content, "upperReplyId": upperReplyId }),
+        success: function (data) {
+            console.log(data)
+            replyLoad(currentPage);
+
+            let rowReplyForm = document.getElementById('rowReplyForm');
+            rowReplyForm.remove();
+            document.getElementById('rowReplyFormOpen').disabled = false;
+
+            let addReplyBtn = document.getElementById('addRowReplyBtn');
+            addReplyBtn.remove();
+
+            let cancelReplyBtn = document.getElementById('cancelRowReplyBtn');
+            cancelReplyBtn.remove();
+        },
+        error: function (request, status, error) {
+            console.error("code: " + request.status);
+            console.error("message: " + request.responseText);
+            console.error("error: " + error);
+        }
+    })
+
 }
 
