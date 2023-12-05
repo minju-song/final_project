@@ -5,23 +5,67 @@
   
   <mapper namespace="com.holoyolo.app.report.mapper.ReportMapper">
   
-   	<select id="selectReportAll" resultType="ReportVO">
-  	
-		SELECT report_id, reporter_id, report_content, report_date, 
-		    CASE 
-		        WHEN report_type = 'SA1' THEN '욕설'
-		        WHEN report_type = 'SA2' THEN '음란성'
-		        WHEN report_type = 'SA3' THEN '모욕/비방'
-		        WHEN report_type = 'SA4' THEN '사기'
-		        WHEN report_type = 'SA5' THEN '기타'
-		        END AS report_type,
-		    CASE
-		        WHEN report_process_type = 'SB1' THEN '신고처리'
-		        WHEN report_process_type = 'SB2' THEN '반려'
-		        END AS report_process_type
-		FROM report
-		ORDER BY report_id
-  	
+   	<select id="selectReportTotalList" resultType="ReportVO">
+SELECT * 
+	FROM (
+		SELECT A.* , ROWNUM rn 
+		FROM (
+			SELECT * FROM (
+			    SELECT 
+			        report_id,
+			        reporter_id,
+			        report_content,
+			        report_date,
+			        fn_get_code_name(report_type) AS report_type,
+			        NVL(TO_CHAR(fn_get_code_name(report_process_type)),'신고대기') AS report_process_type
+			    FROM report) report
+			<where>
+				<if test="reportProcessType != null and reportProcessType != ''">
+				 report_process_type = #{reportProcessType}
+			  	</if>
+		  	</where>
+			ORDER BY report_id DESC) A) b 
+	WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
   	</select>
+  	
+  	<select id="selectReportTotalCount" resultType="int">
+		SELECT COUNT(*) FROM (
+			SELECT 
+		        report_id,
+		        reporter_id,
+		        report_content,
+		        report_date,
+		        fn_get_code_name(report_type) AS report_type,
+		        fn_get_code_name(report_process_type) AS report_process_type
+			FROM report) report
+		<where>
+			<if test="reportProcessType != null and reportProcessType != ''">
+			 	report_process_type = #{reportProcessType}
+		  	</if>
+		</where>
+	</select>
   
+  	<select id="selectReportInfo" resultType="reportVO">
+  		SELECT
+		    report_id
+		  , fn_get_code_name(menu_type) AS menu_type
+		  , post_id
+		  , report_content
+		  , fn_get_code_name(report_type) AS report_type
+		  , report_date
+		  , NVL(TO_CHAR(fn_get_code_name(report_process_type)),'신고대기') AS report_process_type
+		  , process_comment
+		  , process_date
+		  , reporter_id
+		  , reported_id
+		FROM report
+		WHERE report_id = #{reportId}
+  	</select>
+  	
+  	<update id="updateReportReason" parameterType="ReportVO">
+  		UPDATE report SET
+                report_process_type = #{reportProcessType},
+                process_comment = #{processComment}
+		WHERE report_id = #{reportId}
+  	</update>
   </mapper>

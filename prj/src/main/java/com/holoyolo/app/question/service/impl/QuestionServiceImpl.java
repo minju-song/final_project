@@ -38,7 +38,6 @@ public class QuestionServiceImpl implements QuestionService {
 		
 		// 문의 단건정보
 		QuestionVO findQuestionVO = questionMapper.selectQuestionInfo(questionVO);
-
 		
 		// 답변 전체조회
 		List<AnswerVO> findAnswerVO = answerService.selectAnswerAll(questionVO);
@@ -53,7 +52,6 @@ public class QuestionServiceImpl implements QuestionService {
 	// 문의 개수조회
     @Override
     public int selectQuestionTotalCount(QuestionVO questionVO) {
-    	System.out.println(questionMapper.selectQuestionTotalCount(questionVO));
         return questionMapper.selectQuestionTotalCount(questionVO);
     }
 	
@@ -99,10 +97,6 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	// 페이징
-	@Override
-	public List<QuestionVO> selectCount(QuestionVO questionVO) {
-		return questionMapper.selectCount(questionVO);
-	}
 
 	@Override
 	public int selectTotalPagingCount(QuestionVO questionVO) {

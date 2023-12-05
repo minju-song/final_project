@@ -65,11 +65,6 @@ public class MemberServiceImpl implements MemberService {
 		return vo.getJoinDate();
 	}
 	
-	// 회원 전체조회
-	@Override
-	public List<MemberVO> selectMemberAll() {
-		return memberMapper.selectMemberAll();
-	}
 
 	// 회원 상세보기
 	@Override
@@ -169,6 +164,18 @@ public class MemberServiceImpl implements MemberService {
 		if(imagePath == "none") result = "Fail";
 		
 		return "{\"result\":\"" + result + "\"}";
+	}
+
+	// 회원 전체조회
+	@Override
+	public List<MemberVO> selectMemberAll(MemberVO memberVO) {
+		return memberMapper.selectMemberAll(memberVO);
+	}
+	
+	// 회원 전체 수
+	@Override
+	public Object selectMemberCount(MemberVO memberVO) {
+		return memberMapper.selectMemberCount(memberVO);
 	}
 
 	
