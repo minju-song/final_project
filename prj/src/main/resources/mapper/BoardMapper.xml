@@ -4,24 +4,23 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.holoyolo.app.board.mapper.BoardMapper">
-	
 
-<select id="BoardList" resultType="BoardVO">
-    <![CDATA[
-    SELECT
-        b.board_id, b.title, m.nickname, b.views, COUNT(blk.board_id) AS like_count, b.write_date
-    FROM
-        BOARD b
-        JOIN member m ON b.member_id = m.member_id
-        LEFT JOIN board_like blk ON b.board_id = blk.board_id
-    WHERE
-        b.menu_type = #{menuType}
-    GROUP BY
-        b.title, m.nickname, b.views, b.write_date, b.board_id
-    ORDER BY
-        b.write_date DESC
-    ]]>
-</select>
+	<select id="BoardList" resultType="BoardVO">
+	    <![CDATA[
+	    SELECT
+	        b.board_id, b.title, m.nickname, b.views, COUNT(blk.board_id) AS like_count, b.write_date
+	    FROM
+	        BOARD b
+	        JOIN member m ON b.member_id = m.member_id
+	        LEFT JOIN board_like blk ON b.board_id = blk.board_id
+	    WHERE
+	        b.menu_type = #{menuType}
+	    GROUP BY
+	        b.title, m.nickname, b.views, b.write_date, b.board_id
+	    ORDER BY
+	        b.write_date DESC
+	    ]]>
+	</select>
 
 
 	<select id="selectBoard" resultType="BoardVO">
@@ -54,31 +53,41 @@
 	
 	</update>
 	
-	<delete id="deleteBoard"></delete>
+	<delete id="deleteBoard">
+	
+	</delete>
 
-
-
-  <select id="searchBoardPaged" resultType="BoardVO" parameterType="int">
+	<select id="searchBoardPaged" resultType="BoardVO" parameterType="int">
 	    SELECT title, write_date, 
 	    FROM BOARD
 	    ORDER BY write_date
 	    OFFSET #{start} ROWS FETCH NEXT #{end - start + 1} ROWS ONLY
-</select>
+	</select>
 
-<select id="getTotalBoardRecords" resultType="int" >
-	SELECT COUNT(*)
-    FROM BOARD
-    WHERE MENU_TYPE = #{menuType}
+	<select id="getTotalBoardRecords" resultType="int" >
+		SELECT COUNT(*)
+	    FROM BOARD
+	    WHERE MENU_TYPE = #{menuType}
     </select>
     
 	<update id="addView" parameterType="BoardVO">
-	UPDATE BOARD 
-	SET  VIEWS = (
-		SELECT MAX(VIEWS) + 1  
-		FROM BOARD 
-		WHERE BOARD_ID = #{boardId})
-	WHERE BOARD_ID = #{boardId}
+		UPDATE BOARD 
+		SET  VIEWS = (
+			SELECT MAX(VIEWS) + 1  
+			FROM BOARD 
+			WHERE BOARD_ID = #{boardId})
+		WHERE BOARD_ID = #{boardId}
 	</update>
+	
+	<select id="recentBoradList" resultType="BoardVO">
+        SELECT ROWNUM rnum, T.*
+        FROM ( SELECT M.nickname, B.*
+               FROM board B JOIN member M
+               				  ON B.member_id = M.member_id
+               WHERE menu_type = #{menuType}
+               ORDER BY write_date DESC) T
+        WHERE ROWNUM <![CDATA[<=]]> #{page}
+	</select>
   
 </mapper>
 

@@ -22,12 +22,6 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	AttachmentMapper attachmentMapper;
 	
-	// 거래 전체조회
-	@Override
-	public List<TradeVO> getTradeList() {
-		return tradeMapper.selectTradeList();
-	}
-	
 	// 거래 단건조회
 	@Override
 	public TradeVO getTrade(TradeVO tradeVO) {
@@ -78,7 +72,7 @@ public class TradeServiceImpl implements TradeService {
 
 	//리스트 페이징
 	@Override
-	public Map<String, Object> tradePaging(TradeVO tradeVO) {
+	public Map<String, Object> getTradeList(TradeVO tradeVO) {
 		Map<String, Object> map = new HashMap<>();
 		List<TradeVO> list = tradeMapper.getTradeList(tradeVO);
 		

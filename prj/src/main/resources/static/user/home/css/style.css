@@ -75,6 +75,7 @@
  	margin-top: 20px;
  }
  .text {
+ 	min-width: 335px !important;
  	justify-content: space-between;
  }
  .btn_wrapper {
@@ -105,6 +106,46 @@
  .table-hover tbody tr:hover {
     background-color: rgb(110 157 197 / 8%) !important;
  }
+ .td_title, .td_nickname {
+ 	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+ }
+ .td_title {
+ 	max-width: 200px;
+ }
+ .td_nickname {
+ 	max-width: 80px;
+ }
+ 
+ 
+ 
+ @media only screen and (max-width: 1280px) {
+ 	.block-33, .text {
+ 		flex-direction: column;
+ 		gap: 10px;
+ 	}
+ }
+ @media only screen and (max-width: 992px) {
+ 	.community_wrap {
+ 		flex-direction: column;
+ 		gap: 10px;
+ 	}
+ 	.table_wrapper {
+ 		max-width: 100% !important;
+ 	}
+ }
+ @media only screen and (max-width: 577px) {
+ 	.vcard {
+ 		flex-direction: column;
+ 		gap: 10px;
+ 	}
+ }
+ 
+ 
+ 
+ 
+ 
  
  
  

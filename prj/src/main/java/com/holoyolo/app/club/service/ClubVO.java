@@ -43,5 +43,10 @@ public class ClubVO {
 	
 	//가입타입 (최초가입, 재가입)
 	private String type;
+	
+	//모임성공률
+	private int successRate;
+	//순번
+	private String rnum;
 
 }

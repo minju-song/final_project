@@ -28,7 +28,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.BoardList(vo);
 	}
 
-//단건조회
+	//단건조회
 	@Override
 	public BoardVO selectBoard(int boardId) {
 		BoardVO vo = new BoardVO();
@@ -77,5 +77,10 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO vo = new BoardVO();
 		vo.setBoardId(boardId);
 		return boardMapper.addView(vo);
+	}
+
+	@Override
+	public List<BoardVO> recentBoradList(BoardVO vo) {
+		return boardMapper.recentBoradList(vo);
 	}
 }

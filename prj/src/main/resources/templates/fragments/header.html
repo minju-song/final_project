@@ -104,15 +104,15 @@
 			let currentUri = "[[${ #request.requestURI }]]";
 			let color = 'red';
 			
-			if(currentUri == '/member/memoList') {
+			if(currentUri.indexOf('memo') != -1) {
 				$('#memo').addClass('menu_active');
 			} else if(currentUri == '/infoBoard') {
 				$('#community').addClass('menu_active');
-			} else if(currentUri == '/clublist') {
+			} else if(currentUri.indexOf('club') != -1) {
 				$('#club').addClass('menu_active');
-			} else if(currentUri == '/tradeList') {
+			} else if(currentUri.indexOf('trade') != -1) {
 				$('#trade').addClass('menu_active');
-			} else if(currentUri == '/member/accBook') {
+			} else if(currentUri.indexOf('accBook') != -1) {
 				$('#accBook').addClass('menu_active');
 			} else if(currentUri == '/') {
 				$('#cs').addClass('menu_active');

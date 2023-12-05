@@ -24,5 +24,8 @@ public class BoardVO {
 	private int likeCount;
 	private String nickname;
 	
+	private int page;
+	private int rnum;
+	
 	
 }
