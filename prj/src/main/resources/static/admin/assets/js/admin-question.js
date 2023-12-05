@@ -10,27 +10,31 @@ let pageNum = 0;
 let pageSize = 0; //페이지 번호 수
 let pageUnit = 0;  //한페이지에 출력할 행의 수
 
-// 진입시 총 문의 개수
-$(document).ready(function() {
-	renderQuestionList();
-})
+let questionYn = "";
 
-// 문의 리스트 포멧
-function renderQuestionList(questionYn, page) {
-	$("tbody").empty();
-	$.ajax({
-		url: "/admin/question/list",
-		data: { questionYn, page, pageUnit },
-		method: "GET"
-	})
-		.done(function(data) {
-			// 개수출력
-			$("#initQuestionCount").text(`${data.count}개`)
-			console.log(data)
-			// 목록출력 
-			let listData = data.list;
-			$.each(listData, function(index, list) {
-				let template = `<tr>
+// 진입시 총 문의 개수
+$(document).ready(function () {
+
+	let search = '';
+
+
+
+	// 문의 리스트 포멧
+	function renderQuestionList(questionYn, page, search) {
+		$("tbody").empty();
+		$.ajax({
+			url: "/admin/question/list",
+			data: { questionYn, page, search, pageUnit },
+			method: "GET"
+		})
+			.done(function (data) {
+				// 개수출력
+				$("#initQuestionCount").text(`${data.count}개`)
+				console.log(data)
+				// 목록출력 
+				let listData = data.list;
+				$.each(listData, function (index, list) {
+					let template = `<tr>
                                 <td>${list.questionId}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
                                 <td name="goQuestionDetail" class="cursor-pointer">${list.title}</td>
                                 <td>${list.memberId}</td>
@@ -49,188 +53,214 @@ function renderQuestionList(questionYn, page) {
                                     </div>
                                 </td>
                             </tr>`;
-				$('tbody').append(template);
+					$('tbody').append(template);
 
-				//페이징
-				showPage(data.count);
-				//게시물수
-				//검색
+					//페이징
+					showPage(data.count);
+					//게시물수
 
+
+				});
+			})
+			.fail(function (error) {
+				console.error("Error fetching question list: ", error);
 			});
-		})
-		.fail(function(error) {
-			console.error("Error fetching question list: ", error);
-		});
-}
-// 페이징
-$('.pagination').on("click", "li a", function(e) {
-	e.preventDefault();
-	console.log('page 작업중..')
 
-	let targetPageNum = $(this).attr("href");
-	console.log("targetPageNum :: " + targetPageNum);
-	pageNum = targetPageNum;
-
-	// 현재 선택된 상태에 따라 다른 상태값을 전달
-	let questionYn = ""; // 기본값은 전체
-	if ($("button[name='pendingQuestionCount']").hasClass("active")) {
-		questionYn = "답변대기";
-	} else if ($("button[name='completedQuestionCount']").hasClass("active")) {
-		questionYn = "답변완료";
-	}
-	renderQuestionList(questionYn, targetPageNum);
-})
-
-pageNum = 1;
-pageSize = 10.0; //페이지 번호 수
-pageUnit = 10;  //한페이지에 출력할 행의 수
-
-// 전체 클릭시 문의 리스트
-$(document).on("click", "button[name='totalQuestionCount']", function(e) {
-	pageNum = 1;
-	$("#pendingQuestionCount").removeClass('active');
-	$("#completedQuestionCount").removeClass('active');
-	$("#totalQuestionCount").addClass('active');
-	renderQuestionList("", pageNum);
-});
-
-// 답변대기 클릭시 문의 리스트
-$(document).on("click", "button[name='pendingQuestionCount']", function(e) {
-	pageNum = 1;
-	$("#totalQuestionCount").removeClass('active');
-	$("#completedQuestionCount").removeClass('active');
-	$("#pendingQuestionCount").addClass('active');
-	renderQuestionList("답변대기", pageNum);
-});
-
-// 답변완료 클릭시 문의 리스트
-$(document).on("click", "button[name='completedQuestionCount']", function(e) {
-	pageNum = 1;
-	$("#totalQuestionCount").removeClass('active');
-	$("#pendingQuestionCount").removeClass('active');
-	$("#completedQuestionCount").addClass('active');
-	renderQuestionList("답변완료", pageNum);
-});
-
-// 상세페이지 이동
-$(document).on("click", "td[name='goQuestionDetail']", function(e) {
-	let questionId = $(this).prev().text();
-	location.href = `/admin/question/detail?questionId=${questionId}`;
-});
-
-function showPage(replyCnt) {
-
-	var endNum = Math.ceil(pageNum / pageSize) * pageSize;
-	var startNum = endNum > pageSize ? endNum - pageSize : 1;
-
-	var prev = startNum != 1;
-	var next = false;
-
-	if (endNum * 10 >= replyCnt) {
-		endNum = Math.ceil(replyCnt / pageUnit);
 	}
 
-	if (endNum * 10 < replyCnt) {
-		next = true;
-	}
+	// 페이징
+	$('.pagination').on("click", "li a", function (e) {
+		e.preventDefault();
+		console.log('page 작업중..')
 
-	var str = "";
-
-	if (prev) {
-		str += "<li class='page-item'><a class='page-link' href='" + (startNum - 1) + "'>Previous</a></li>";
-	}
-
-	for (var i = startNum; i <= endNum; i++) {
-		var active = pageNum == i ? "active" : "";
-		str += "<li class='page-item " + active + "'> <a class='page-link' href='" + i + "'>" + i + "</a></li>";
-	}
-
-	if (next) {
-		str += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) + "'>Next</a><li>";
-	}
-
-	str += "";
+		let targetPageNum = $(this).attr("href");
+		console.log("targetPageNum :: " + targetPageNum);
+		pageNum = targetPageNum;
+		search = "";
 
 
-	$('.pagination').html(str);
-}
+		// 현재 선택된 상태에 따라 다른 상태값을 전달
+		let questionYn = ""; // 기본값은 전체
+		if ($("button[name='pendingQuestionCount']").hasClass("active")) {
+			questionYn = "답변대기";
+		} else if ($("button[name='completedQuestionCount']").hasClass("active")) {
+			questionYn = "답변완료";
+		}
 
-// 수정 - 입력창 열기
-const updateAnswerBtn = (answerId, questionId, e) => {
-	// 타겟 찾기
-	let target = event.target
-	originContent = $(target).closest('.originContent') // 답변내용 부분
-	updateInput = $(target).closest('.row').find('.updateInput') // 입력창 브븐
-
-	// 모든 DOM의 클래스 초기화
-	$(".updateInput").addClass('d-none');
-	$(".originContent").removeClass('d-none');
-
-	// 현재 선택한 DOM의 클래스를 조작
-	$(updateInput).removeClass('d-none');
-	$(originContent).addClass('d-none');
-}
-
-// 수정
-$(document).on("click", "button[name='updateConfirm']", function(e) {
-	e.preventDefault();
-	// 수정된 formData 가져오기
-	let formData = getUpdateInputForm();
-	let questionId = formData.questionId;
-	let answerId = formData.answerId;
-
-	const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
-	$.ajax(requestUrl, {
-		type: 'PUT',
-		contentType: 'application/json',
-		data: JSON.stringify(formData)
+		renderQuestionList(questionYn, targetPageNum, search);
 	})
-		.done(result => {
-			let target = event.target
-			$(".updateInput").addClass('d-none');
-			$(".originContent").removeClass('d-none');
-			location.reload();
-		})
-		.fail(err => console.log(err))
-})
 
-// 수정 - 취소
-$(document).on("click", "button[name='updateCancel']", function(e) {
-	// 모든 DOM의 클래스 초기화
-	$(".updateInput").addClass('d-none');
-	$(".originContent").removeClass('d-none');
-});
+	pageNum = 1;
+	pageSize = 10.0; //페이지 번호 수
+	pageUnit = 10;  //한페이지에 출력할 행의 수
 
-// 수정된 formData
-function getUpdateInputForm() {
-	let target = event.target
-	let formData = $(target).closest('#updateInputForm').serializeArray(); // 폼 태그 전용 메서드
-	let objData = {};
-	$.each(formData, (idx, obj) => {
-		objData[obj.name] = obj.value;
+
+	// 전체 클릭시 문의 리스트
+	$(document).on("click", "button[name='totalQuestionCount']", function (e) {
+		pageNum = 1;
+		questionYn = "";
+		search = "";
+		//search = $("#searchInput").val();
+		$("#pendingQuestionCount").removeClass('active');
+		$("#completedQuestionCount").removeClass('active');
+		$("#totalQuestionCount").addClass('active');
+		renderQuestionList(questionYn, pageNum, search);
 	});
-	return objData;
-}
 
-// 삭제
-const deleteAnswerBtn = (answerId, questionId, e) => {
-	const agreeCheck = confirm("답변을 삭제 하시겠습니까?");
-	const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
-	let target = event.target;
+	// 답변대기 클릭시 문의 리스트
+	$(document).on("click", "button[name='pendingQuestionCount']", function (e) {
+		pageNum = 1;
+		questionYn = "답변대기"
+		search = "";
+		//search = $("#searchInput").val();
+		$("#totalQuestionCount").removeClass('active');
+		$("#completedQuestionCount").removeClass('active');
+		$("#pendingQuestionCount").addClass('active');
+		renderQuestionList(questionYn, pageNum, search);
+	});
 
-	if (agreeCheck == true) {
-		$.ajax({
-			type: 'DELETE',
-			url: requestUrl
+	// 답변완료 클릭시 문의 리스트
+	$(document).on("click", "button[name='completedQuestionCount']", function (e) {
+		pageNum = 1;
+		questionYn = "답변완료"
+		search = "";
+		//search = $("#searchInput").val();
+		$("#totalQuestionCount").removeClass('active');
+		$("#pendingQuestionCount").removeClass('active');
+		$("#completedQuestionCount").addClass('active');
+		renderQuestionList(questionYn, pageNum, search);
+	});
+	// 검색
+	$(document).on("keyup", '#searchInput', function () {
+		pageNum = 1;
+		questionYn = "";
+		search = "";
+		search = $("#searchInput").val();
+
+		renderQuestionList(questionYn, pageNum, search)
+	})
+
+	// 상세페이지 이동
+	$(document).on("click", "td[name='goQuestionDetail']", function (e) {
+		let questionId = $(this).prev().text();
+		location.href = `/admin/question/detail?questionId=${questionId}`;
+	});
+
+	function showPage(replyCnt) {
+
+		var endNum = Math.ceil(pageNum / pageSize) * pageSize;
+		var startNum = endNum > pageSize ? endNum - pageSize : 1;
+
+		var prev = startNum != 1;
+		var next = false;
+
+		if (endNum * 10 >= replyCnt) {
+			endNum = Math.ceil(replyCnt / pageUnit);
+		}
+
+		if (endNum * 10 < replyCnt) {
+			next = true;
+		}
+
+		var str = "";
+
+		if (prev) {
+			str += "<li class='page-item'><a class='page-link' href='" + (startNum - 1) + "'>Previous</a></li>";
+		}
+
+		for (var i = startNum; i <= endNum; i++) {
+			var active = pageNum == i ? "active" : "";
+			str += "<li class='page-item " + active + "'> <a class='page-link' href='" + i + "'>" + i + "</a></li>";
+		}
+
+		if (next) {
+			str += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) + "'>Next</a><li>";
+		}
+
+		str += "";
+
+
+		$('.pagination').html(str);
+	}
+
+	// 수정 - 입력창 열기
+	const updateAnswerBtn = (answerId, questionId, e) => {
+		// 타겟 찾기
+		let target = event.target
+		originContent = $(target).closest('.originContent') // 답변내용 부분
+		updateInput = $(target).closest('.row').find('.updateInput') // 입력창 브븐
+
+		// 모든 DOM의 클래스 초기화
+		$(".updateInput").addClass('d-none');
+		$(".originContent").removeClass('d-none');
+
+		// 현재 선택한 DOM의 클래스를 조작
+		$(updateInput).removeClass('d-none');
+		$(originContent).addClass('d-none');
+	}
+
+	// 수정
+	$(document).on("click", "button[name='updateConfirm']", function (e) {
+		e.preventDefault();
+		// 수정된 formData 가져오기
+		let formData = getUpdateInputForm();
+		let questionId = formData.questionId;
+		let answerId = formData.answerId;
+
+		const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
+		$.ajax(requestUrl, {
+			type: 'PUT',
+			contentType: 'application/json',
+			data: JSON.stringify(formData)
 		})
 			.done(result => {
-				if (result) {
-					alert('댓글이 삭제되었습니다.');
-					target.closest('.row').remove();
-				} else {
-					alert('삭제가 실패했습니다.');
-				}
+				let target = event.target
+				$(".updateInput").addClass('d-none');
+				$(".originContent").removeClass('d-none');
+				location.reload();
 			})
-			.fail(error => console.log(error))
+			.fail(err => console.log(err))
+	})
+
+	// 수정 - 취소
+	$(document).on("click", "button[name='updateCancel']", function (e) {
+		// 모든 DOM의 클래스 초기화
+		$(".updateInput").addClass('d-none');
+		$(".originContent").removeClass('d-none');
+	});
+
+	// 수정된 formData
+	function getUpdateInputForm() {
+		let target = event.target
+		let formData = $(target).closest('#updateInputForm').serializeArray(); // 폼 태그 전용 메서드
+		let objData = {};
+		$.each(formData, (idx, obj) => {
+			objData[obj.name] = obj.value;
+		});
+		return objData;
 	}
-}
+
+	// 삭제
+	const deleteAnswerBtn = (answerId, questionId, e) => {
+		const agreeCheck = confirm("답변을 삭제 하시겠습니까?");
+		const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
+		let target = event.target;
+
+		if (agreeCheck == true) {
+			$.ajax({
+				type: 'DELETE',
+				url: requestUrl
+			})
+				.done(result => {
+					if (result) {
+						alert('댓글이 삭제되었습니다.');
+						target.closest('.row').remove();
+					} else {
+						alert('삭제가 실패했습니다.');
+					}
+				})
+				.fail(error => console.log(error))
+		}
+	}
+	renderQuestionList("", 1, search);
+})

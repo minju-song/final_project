@@ -8,26 +8,32 @@
 	<select id="selectQuestionTotalList" resultType="QuestionVO">
 			SELECT * FROM 
 		    (SELECT A.* , ROWNUM rn FROM (
-		SELECT * FROM (        
-		     SELECT 
-				    q.question_id, 
-				    q.title, 
-				    q.member_id, 
-				    q.write_date,
-				    fn_get_code_name(question_type) AS question_type,
-				    CASE 
-				        WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id  ) = 0 THEN '답변대기'
-				        ELSE '답변완료'
-				    END AS question_yn
-				FROM question q
+				SELECT * FROM (        
+				     SELECT 
+					    q.question_id, 
+					    q.title, 
+					    q.member_id, 
+					    q.write_date,
+					    fn_get_code_name(question_type) AS question_type,
+					    CASE 
+					        WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id  ) = 0 THEN '답변대기'
+					        ELSE '답변완료'
+					    END AS question_yn
+					FROM question q
 		  ) question
-	  <where>
-			<if test="questionYn != null and questionYn != '' ">
-			 question_yn = #{questionYn}
-		  	</if>
-	  </where>
+		  WHERE 1=1
+		<choose>
+			 <when test="questionYn != null and questionYn != ''">
+			 	AND question_yn = #{questionYn}
+			 </when>
+			 <when test="search != null and search != ''">
+		  		AND title LIKE '%'||#{search}||'%' OR question_id LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%'
+			 </when>
+		</choose>
 	  	ORDER BY question_id DESC
-	  	) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
+	  	<if test="page != null and page != ''">
+		  	) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
+	  	</if>
 	</select>
   	
   	<!--단건조회-->
@@ -62,6 +68,9 @@
 			<if test="questionYn != null and questionYn != '' ">
 			 question_yn = #{questionYn}
 		  	</if>
+		  	<if test="search != null and search != ''">
+		  		title LIKE '%'||#{search}||'%' OR question_id LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%'
+			</if>
 	  </where>
 	</select>
 
