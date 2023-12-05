@@ -220,11 +220,11 @@ option > selected{
     margin-bottom: 4px;
 }
 
-.heart{
+._heart{
 	position: absolute;
     bottom: 90%;
     right: 94%;
-    width: 23px;
+    width: 25px;
 }
 
 .fw-bolder{
@@ -386,6 +386,11 @@ li{
     margin-left: 68px;
     background-color: white;
     }
+
+.d-block{
+    height: 326px;
+    object-fit: cover;
+}
 
 /* 첨부파일 관련 */
 .real_file {

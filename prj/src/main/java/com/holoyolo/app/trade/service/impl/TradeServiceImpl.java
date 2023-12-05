@@ -91,7 +91,7 @@ public class TradeServiceImpl implements TradeService {
 	//조회수 증가
 	@Override
 	public int updateViews(TradeVO tradeVO) {
-		return 0;
+		return tradeMapper.updateViews(tradeVO);
 	}
 
 

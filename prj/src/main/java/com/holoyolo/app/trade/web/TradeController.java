@@ -65,7 +65,6 @@ public class TradeController {
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
 		tradeVO.setSellerId(principalDetails.getUsername());
 		tradeService.insertTrade(tradeVO, imgList);
-		System.out.println(imgList);
 		return "redirect:/tradeList";
 	}
 	
@@ -77,7 +76,10 @@ public class TradeController {
 							HeartVO heartVO) {
 		attachmentVO.setPostId(tradeVO.getTradeId());
 		heartVO.setTradeId(tradeVO.getTradeId());
+		tradeService.updateViews(tradeVO);
 		model.addAttribute("memberId", principalDetails.getUsername());
+		heartVO.setMemberId(principalDetails.getUsername());
+		model.addAttribute("heartInfo", heartService.getHeart(heartVO));
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		model.addAttribute("heartCount", heartService.getHeartCount(heartVO));
@@ -94,6 +96,16 @@ public class TradeController {
 		System.out.println(tradeService.getTrade(tradeVO));
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		return "user/trade/tradeUpdate";
+	}
+	
+	@PostMapping("member/tradeUpdate")
+	public String tradeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+									TradeVO tradeVO,
+									@RequestPart MultipartFile[] uploadFiles) {
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
+		tradeVO.setSellerId(principalDetails.getUsername());
+		tradeService.insertTrade(tradeVO, imgList);
+		return "redirect:/tradeList";
 	}
 	
 	@GetMapping("member/tradeDelete")

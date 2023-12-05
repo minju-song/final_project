@@ -110,8 +110,7 @@
 			promise_status = #{promiseStatus},
 			update_date = sysdate,
 			latitude = #{latitude},
-			longitude = #{longitude},
-			buyer_id = #{buyerId}
+			longitude = #{longitude}
 		</set>
 		WHERE trade_id = #{tradeId}
 		AND seller_id = #{sellerId}
