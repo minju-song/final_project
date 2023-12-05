@@ -5,6 +5,7 @@
 
 *{
 	font-family: 'Noto Sans KR', sans-serif !important;
+
 }
 
         #divbox {
@@ -14,8 +15,9 @@
             margin: 0px;
             padding: 20px;
             margin: 0 auto;
-            border-radius: 5px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border: 2px solid salmon;
+            /* border-radius: 5px; */
+            /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
             width: 100%;
             padding-top: 30px;
             padding-bottom: 30px;
@@ -55,7 +57,7 @@
         }
 
         .futureDay {
-            color: lightgray;
+            /* color: black; */
         }
 
         .today {
@@ -66,8 +68,9 @@
         }
 
         .pastDay {
-            background-color: #FFFFFF;
+            /* background-color: #FFFFFF; */
             cursor: pointer;
+            color: black;
         }
 
         .pastDay:hover {
@@ -111,18 +114,16 @@
         }
 
         .info {
+        	/* background-color: pink; */
             border-radius: 20px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
             margin-bottom: 30px;
-            padding: 5px;
+            padding: 10px;
             margin-left: 5px;
             margin-right: 5px;
             margin-bottom: 10px;
         }
 
-        .info p {
-            margin: 5px;
-        }
 
         #hisTable {
             margin-bottom: 30px;
@@ -172,47 +173,73 @@
 
         .mybtn {
             border: none;
-            background-color: white;
+            background-color: #0000;
         }
         
-        /* From uiverse.io by @alexruix */
-.input {
-    line-height: 28px;
-    border: 2px solid transparent;
-    border-bottom-color: #777;
-    padding: .2rem 0;
-    outline: none;
-    background-color: transparent;
-    color: #0d0c22;
-    transition: .3s cubic-bezier(0.645, 0.045, 0.355, 1);
-   }
-   
-   .input:focus, input:hover {
-    outline: none;
-    padding: .2rem 1rem;
-    border-radius: 1rem;
-    border-color: #7a9cc6;
-   }
-   
-   .input::placeholder {
-    color: #777;
-   }
-   
-   .input:focus::placeholder {
-    opacity: 0;
-    transition: opacity .3s;
-   }
+                /* From uiverse.io by @alexruix */
+        .input {
+            line-height: 28px;
+            border: 2px solid transparent;
+            border-bottom-color: #777;
+            padding: .2rem 0;
+            outline: none;
+            background-color: transparent;
+            color: #0d0c22;
+            transition: .3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        
+        .input:focus, input:hover {
+            outline: none;
+            padding: .2rem 1rem;
+            border-radius: 1rem;
+            border-color: #7a9cc6;
+        }
+        
+        .input::placeholder {
+            color: #777;
+        }
+        
+        .input:focus::placeholder {
+            opacity: 0;
+            transition: opacity .3s;
+        }
 
-   #inputTr {
-    border: 2px solid #777;
-    padding: 3px;
-    margin-top: 10px;
-    border-radius: 20px;
-    /* display: inline-block; */
-   }
-   
-   
-   
+        #inputTr {
+            /* border: 2px solid #777; */
+            padding: 3px;
+            margin-top: 50px;
+            /* border-radius: 20px; */
+            /* display: inline-block; */
+        }
+
+        #historyTitle, #sumByMonth {
+            margin-bottom: 30px;
+        }
+        
+        .sumDiv {
+            position: absolute;
+            top: 90%;
+            left: 68%;
+        }
+
+        #hisTable {
+            border-collapse: separate;
+        border-spacing: 10px 10px;
+        }
+
+        #cal {
+            /* background-color: white; */
+        }
+
+        .red {
+            color: rgb(211, 5, 5);
+        }
+
+        .blue {
+            color: rgb(12, 12, 190);
+        }
+        
+        
    
    
    

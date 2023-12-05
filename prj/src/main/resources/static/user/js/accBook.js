@@ -130,12 +130,14 @@ function getSumPrice(payDate) {
     fetch('/getSumPrice?payDate=' + payDate)
         .then(resolve => resolve.json())
         .then(result => {
-            if (result == 0) {
+            if (result.price == 0 && result.input == 0) {
                 document.getElementById('sumPrice').innerText = '거래내역이 없습니다.';
             }
             else {
-                let price = result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                document.getElementById('sumPrice').innerText = '총 소비금액 : ' + price + '원';
+                let price = result.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                let input = result.input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                document.getElementById('sumPrice').innerHTML = '<span class="red">총 소비금액 : ' + price + '원</span><br>'
+                    + '<span class="blue">총 소득금액 : ' + input + '원</span>';
             }
         })
 }

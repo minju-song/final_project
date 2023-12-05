@@ -1,10 +1,9 @@
 package com.holoyolo.app.accBookHistory.service;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-import com.holoyolo.app.auth.PrincipalDetails;
 
 public interface AccBookHistoryService {
 	public AccBookHistoryVO test(AccBookHistoryVO vo);
@@ -21,10 +20,14 @@ public interface AccBookHistoryService {
 	//해당 날짜 총 소비금액
 	public int getSumPrice(AccBookHistoryVO vo);
 	
+	//해당 날짜 총 소득금액
+	public int getSumInputPrice(AccBookHistoryVO vo);
+	
 	//해당 월 총 소비금액
 	public int getMonthPrice(AccBookHistoryVO vo);
 	
 	//거래내역 삭제
 	public int deleteHistory(AccBookHistoryVO vo);
 	
+
 }

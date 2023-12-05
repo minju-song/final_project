@@ -45,7 +45,7 @@
                             </h2>
                             <h4>&#128081; : [[${result.club.leaderName}]]</h4>
                             <h4>&#128681; " [[${result.club.clubIntro}]] "</h4>
-                            <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
+                            <h4>멤버수 : [[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
                             <h4>평균 성공률 : [[${result.avg * 100}]]%</h4>
 
                         </div>
@@ -84,7 +84,7 @@
 
             <div class="col-3">
                 <div class="info memberList">
-                    <h3>팀원들의 진행상황</h3>
+                    <h3>현재 순위</h3>
                     <!-- <div th:text="${#dates.format(result.start, 'yyyy년 MM월 dd일')}"></div>
                     <div th:text="${#dates.format(result.end, 'yyyy년 MM월 dd일')}"></div> -->
                     <th:block th:if="${session.check eq true}">
@@ -92,23 +92,25 @@
                         <div th:each="member : ${result.members}">
                             <th:block th:if="${member.memberId == result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/king.png}">
-                                    <span class="nickname">[[${member.memberName}]]님</span>
-                                    <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
+                                    <span class="nickname"
+                                        th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
+                                        data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
                             </th:block>
                             <th:block th:if="${member.memberId != result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/notking.png}"
                                         th:data-member-id="${member.memberId}"
                                         th:onclick="mandate(this.getAttribute('data-member-id'))">
-                                    <span class="nickname">[[${member.memberName}]]님</span>
-                                    <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
+                                    <span class="nickname"
+                                        th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
+                                        data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
                             </th:block>
                         </div>
                     </th:block>
                     <th:block th:if="${session.check != true}">
 
-                        <h5>가입해야만 확인할 수 있습니다.</h5>
+                        <h5>멤버만 확인할 수 있습니다.</h5>
                     </th:block>
                 </div>
                 <th:block

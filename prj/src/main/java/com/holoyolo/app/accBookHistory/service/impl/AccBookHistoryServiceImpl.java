@@ -5,6 +5,7 @@ package com.holoyolo.app.accBookHistory.service.impl;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -80,6 +81,12 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 	@Override
 	public int deleteHistory(AccBookHistoryVO vo) {
 		return accBookHistoryMapper.deleteHistory(vo);
+	}
+
+	@Override
+	public int getSumInputPrice(AccBookHistoryVO vo) {
+
+		return accBookHistoryMapper.getSumInputPrice(vo);
 	}
 
 	

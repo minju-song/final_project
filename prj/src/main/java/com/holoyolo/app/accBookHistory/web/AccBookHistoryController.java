@@ -115,11 +115,18 @@ public class AccBookHistoryController {
 	//해당 일 총 소비금액
 	@GetMapping("getSumPrice")
 	@ResponseBody
-	public int getSumPrice(@AuthenticationPrincipal PrincipalDetails principalDetails,AccBookHistoryVO vo) {
+	public Map<String, Integer> getSumPrice(@AuthenticationPrincipal PrincipalDetails principalDetails,AccBookHistoryVO vo) {
 		vo.setMemberId(principalDetails.getUsername());
+		
 		int price = accBookHistoryService.getSumPrice(vo);
 		
-		return price;
+		Map<String, Integer> map = new HashMap<>();
+		map.put("price", price);
+		
+		int price2 = accBookHistoryService.getSumInputPrice(vo);
+		map.put("input", price2);
+		
+		return map;
 	}
 	
 	//해당 월 총 소비금액
