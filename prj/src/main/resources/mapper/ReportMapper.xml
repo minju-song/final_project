@@ -17,7 +17,7 @@ SELECT *
 			        report_content,
 			        report_date,
 			        fn_get_code_name(report_type) AS report_type,
-			        fn_get_code_name(report_process_type) AS report_process_type
+			        NVL(TO_CHAR(fn_get_code_name(report_process_type)),'신고대기') AS report_process_type
 			    FROM report) report
 			<where>
 				<if test="reportProcessType != null and reportProcessType != ''">
@@ -53,7 +53,7 @@ SELECT *
 		  , report_content
 		  , fn_get_code_name(report_type) AS report_type
 		  , report_date
-		  , fn_get_code_name(report_process_type) AS report_process_type
+		  , NVL(TO_CHAR(fn_get_code_name(report_process_type)),'신고대기') AS report_process_type
 		  , process_comment
 		  , process_date
 		  , reporter_id

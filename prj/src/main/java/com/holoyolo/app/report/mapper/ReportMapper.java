@@ -12,6 +12,7 @@ public interface ReportMapper {
 	
 	// 신고 단건조회
 	public ReportVO selectReportInfo(ReportVO reportVO);
+	public Map<String, Object> selectReportProcess(int reportId);
 	
 	// 신고 등록
 	public int insertReportInfo(ReportVO reportVO);

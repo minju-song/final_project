@@ -21,6 +21,7 @@ const colorMapping = {
 	// 신고-상태
 	'반려': 'bg-label-yellow',
 	'신고처리': 'bg-label-success',
+	'신고대기': 'bg-label-primary',
 	
 	// 멤버
 	'일반회원': 'bg-label-info',

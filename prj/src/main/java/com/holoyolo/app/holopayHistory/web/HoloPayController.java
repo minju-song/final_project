@@ -86,8 +86,8 @@ public class HoloPayController {
 
 	@GetMapping("/admin/holopay")
 	public String selectHolopayList(Model model) {
-		List<HoloPayHistoryVO> list = holopayHistoryService.totalHolopayHistoryList();
-		model.addAttribute("holopayList", list);
+//		List<HoloPayHistoryVO> list = holopayHistoryService.totalHolopayHistoryList();
+//		model.addAttribute("holopayList", list);
 		return "admin/holopayMgt";
 	}
 

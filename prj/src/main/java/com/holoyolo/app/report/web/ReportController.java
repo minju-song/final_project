@@ -38,13 +38,20 @@ public class ReportController {
 		return reportMap;
 	}
 	
-	// 신고 단건조회
+	// 신고 단건조회 - 이동
 	@GetMapping("/admin/report/detail")
 	public String selectReportInfo(ReportVO reportVO, Model model) {
 		Map<String,Object> reportInfo = reportService.selectReportInfo(reportVO);
-		System.out.println(reportInfo.get("reportInfo"));
 		model.addAttribute("reportInfo", reportInfo.get("reportInfo"));
 		return "admin/report/reportDetail";
+	}
+	
+	// 신고 단건조회 - 처리
+	@GetMapping("/admin/report/detail/{reportId}")
+	@ResponseBody
+	public Map<String, Object> getReportDetailMapAjax(ReportVO reportVO) {
+		Map<String,Object> reportInfo = reportService.selectReportInfo(reportVO);
+		return reportInfo;
 	}
 	
 	// 신고사유 수정
