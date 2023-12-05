@@ -75,7 +75,8 @@
 					<ul>
 						<li class="side_main_menu"><a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}"
 								th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a></li>
-						<li class="side_main_menu"><a th:href="@{/}">모임채팅방</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/club/clubChat(clubId=${result.club.clubId})}" 
+							th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a></li>
 						<li class="side_main_menu"><a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}"
 								th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a></li>
 					</ul>

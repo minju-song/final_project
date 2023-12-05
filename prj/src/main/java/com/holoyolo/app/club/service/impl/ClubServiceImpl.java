@@ -124,6 +124,7 @@ public class ClubServiceImpl implements ClubService {
 		return map;
 	}
 
+	//클럽페이징
 	@Override
 	public Map<String, Object> clubPaging(ClubVO vo) {
 		Map<String, Object> map = new HashMap<>();
@@ -143,7 +144,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	
-	
+	//클럽목록리스트
 	@Override
 	public Map<String, Object> clubListPage(String memberId) {
 		Map<String, Object> map = new HashMap<>();
@@ -191,6 +192,7 @@ public class ClubServiceImpl implements ClubService {
 		return "fail";
 	}
 
+	//모임장위임
 	@Override
 	public String mandateKing(ClubVO vo) {
 		if(clubMapper.mandateKing(vo) > 0) {
@@ -202,6 +204,7 @@ public class ClubServiceImpl implements ClubService {
 
 	}
 
+	//클럽단건조회
 	@Override
 	public ClubVO getClub(int id) {
 		ClubVO vo = new ClubVO();
@@ -209,16 +212,19 @@ public class ClubServiceImpl implements ClubService {
 		return clubMapper.getClub(vo);
 	}
 
+	//클럽기본정보업데이트
 	@Override
 	public int updateClubInfo(ClubVO vo) {
 		return clubMapper.updateClubInfo(vo);
 	}
 
+	//클럽프로필업데이트
 	@Override
 	public int updateClubProfile(ClubVO vo) {
 		return clubMapper.updateClubProfile(vo);
 	}
 
+	//클럽삭제
 	@Override
 	public int delectClub(ClubVO vo) {
 		return clubMapper.delectClub(vo);

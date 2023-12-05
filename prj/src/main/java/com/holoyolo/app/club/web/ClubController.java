@@ -242,6 +242,6 @@ public class ClubController {
 		
 	}
 	
-//	@GetMapping("/member/club/chat")
+
 	
 }

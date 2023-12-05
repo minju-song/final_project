@@ -6,8 +6,108 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div layout:fragment="content">
-<p>채팅방</p>
-</div>
+    <div layout:fragment="content">
+        <p>[[${result.club.clubId}]]모임의 채팅방</p>
+        <textarea id="sendArea"></textarea><button id="sendChat">전송</button>
+        <div id="chattingDiv">
+
+        </div>
+        <script th:inline="javascript">
+            let userId = /*[[${userId}]]*/ null;
+            let clubId = /*[[${result.club.clubId}]]*/ null;
+        </script>
+        <script>
+            
+            let data = {};
+
+            let ws;
+            let sendBtn = document.getElementById('sendChat');
+            let msg = document.getElementById('sendArea');
+            let chatBox = document.getElementById('chattingDiv');
+
+            function enterRoom(socket){
+                var enterMsg={"type" : "ENTER","clubId":clubId,"sender":userId,"msg":""}; //sender는  글쓸때 수정하자.
+                socket.send(JSON.stringify(enterMsg));
+            }
+            let socket = new WebSocket("ws://"+location.host+"/chat");
+
+            socket.onopen = function (e) {
+                console.log('open server!')
+                enterRoom(socket);
+            };
+            socket.onclose=function(e){
+                console.log('disconnet');
+            }
+
+            socket.onerror = function (e){
+                console.log(e);
+            }
+
+            //메세지 수신했을 때 이벤트.
+            socket.onmessage = function (e) {
+                console.log(e.data);
+                let newMsg = document.createElement('div');
+                newMsg.innerText=e.data;
+                chatBox.append(newMsg);
+            }
+
+
+            //메세지 보내기 버튼 눌렀을 떄..
+            function sendMsg() {
+                let content = msg.value;
+                var talkMsg={"type" : "TALK","clubId":clubId,"sender":userId,"msg":content};
+                socket.send(JSON.stringify(talkMsg));
+            }
+
+            function quit(){
+                var quitMsg={"type" : "QUIT","clubId":clubId,"sender":userId,"msg":""};
+                socket.send(JSON.stringify(quitMsg));
+                    socket.close();
+                    location.href="/clublist";
+                }
+
+
+            // $(document).ready(function () {
+            //     console.log(userId);
+            //     ws = new WebSocket("ws://"+location.host+"/chat?clubId="+clubId);
+
+            //     ws.onmessage = function(msg) {
+            //         let data = JSON.parse(msg.data);
+            //         console.log(data);
+
+            //         if(data.memberId == userId) {
+            //             console.log("내꺼");
+            //         }
+            //         else {
+            //             console.log("남꺼");
+            //         }
+            //     }
+            // });
+
+            // msg.onkeyup = function(e) {
+            //     if(e.keyCode == 13) {
+            //         send();
+            //     }
+            // }
+
+            // sendBtn.onclick = function(){
+            //     send();
+            // }
+
+            // function send() {
+            //     if(msg.value.trim() != '') {
+            //         data.memberId = userId;
+            //         data.msg = msg.value;
+            //         data.date = new Date().toLocaleString();
+            //         data.clubId = clubId;
+            //         let temp = JSON.stringify(data);
+            //         ws.send(temp);
+            //     }
+
+            //     msg.value = '';
+            // }
+
+        </script>
+    </div>
 </body>
 </html>
