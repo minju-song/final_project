@@ -35,7 +35,8 @@ public class MemoController {
 	//단건조회
 	@GetMapping("member/memoInfo")
 	@ResponseBody
-	public MemoVO memoInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+	public MemoVO memoInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+						   MemoVO memoVO) {
 		memoVO.setMemberId(principalDetails.getUsername());
 		return memoService.getMemo(memoVO);
 	}
@@ -43,7 +44,8 @@ public class MemoController {
 	//등록
 	@PostMapping("member/memoInsert")
 	@ResponseBody
-	public int memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+	public int memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+						  MemoVO memoVO) {
 		memoVO.setMemberId(principalDetails.getUsername());
 		int id = memoService.insertMemo(memoVO);
 		return id;
@@ -52,7 +54,8 @@ public class MemoController {
 	//수정
 	@PostMapping("member/memoUpdate")
 	@ResponseBody
-	public void memoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO) {
+	public void memoUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+						   MemoVO memoVO) {
 		memoVO.setMemberId(principalDetails.getUsername());
 		memoService.updateMemo(memoVO);
 	}
@@ -60,7 +63,8 @@ public class MemoController {
 	//삭제
 	@GetMapping("member/memoDelete")
 	@ResponseBody
-	public void deleteMemo(@AuthenticationPrincipal PrincipalDetails principalDetails,MemoVO memoVO){
+	public void deleteMemo(@AuthenticationPrincipal PrincipalDetails principalDetails,
+						   MemoVO memoVO){
 		memoVO.setMemberId(principalDetails.getUsername());
 		memoService.deleteMemo(memoVO);
 	}
@@ -68,7 +72,8 @@ public class MemoController {
 	//index 수정
 	@PostMapping("member/updateIndex")
 	@ResponseBody
-	public void memoIndex(@AuthenticationPrincipal PrincipalDetails principalDetails, MemoVO memoVO){
+	public void memoIndex(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+						  MemoVO memoVO){
 		memoVO.setMemberId(principalDetails.getUsername());
 		memoService.memoIndex(memoVO);
 	}
