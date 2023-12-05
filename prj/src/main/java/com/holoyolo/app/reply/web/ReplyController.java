@@ -23,10 +23,8 @@ public class ReplyController {
 
 	@PostMapping("/loadReply")
 	@ResponseBody
-	public Map<String, Object> loadReply(@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestBody JSONObject reqJson) {
+	public Map<String, Object> loadReply(@RequestBody JSONObject reqJson) {
 
-		reqJson.put("memberId", (String) principalDetails.getUsername());
 		System.out.println(reqJson);
 		List<ReplyVO> resultList = replyService.searchReplyPage(reqJson);
 		int totalRecords = replyService.getTotalReplyRecords(reqJson);
@@ -38,14 +36,11 @@ public class ReplyController {
 
 	@PostMapping("/insertReply")
 	@ResponseBody
-	public String insertReply(@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@RequestBody ReplyVO vo) {
-		
+	public void insertReply(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody ReplyVO vo) {
+		//	upperReplyId = 0 이면 일반 아니면 대댓글
 		vo.setMemberId(principalDetails.getUsername());
-		System.out.println("===========================");
-		System.out.println("vo : " + vo);
-		replyService.insertReply(vo);
+			replyService.insertReply(vo);
 		
-		return "/loadReply";
+
 	}
 }

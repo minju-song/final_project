@@ -20,4 +20,6 @@ public interface ReplyService {
 	List<ReplyVO> searchReplyPage(JSONObject req);
 
 	int getTotalReplyRecords(JSONObject req);
+
+	
 }

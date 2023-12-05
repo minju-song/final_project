@@ -23,5 +23,6 @@ public interface ReplyMapper {
 		public List<ReplyVO> searchReplyPaged(JSONObject req);
 
 		// 전체 레코드 수 조회
-		public int getTotalReplyRecords(JSONObject req);
+		public int getTotalReplyRecords(ReplyVO vo);
+		
 }

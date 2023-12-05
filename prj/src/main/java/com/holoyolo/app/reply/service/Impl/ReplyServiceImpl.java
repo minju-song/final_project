@@ -42,8 +42,8 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyVO> searchReplyPage(JSONObject req) {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
-		int memberId = (int) req.get("memberId");
-		List<ReplyVO> allList = ReplyList(memberId);
+		int boardId = (int) req.get("boardId");
+		List<ReplyVO> allList = ReplyList(boardId);
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
@@ -51,6 +51,8 @@ public class ReplyServiceImpl implements ReplyService {
 	public int getTotalReplyRecords(JSONObject req) {
 		ReplyVO vo = new ReplyVO();
 		vo.setBoardId((int) req.get("boardId"));
-		return replyMapper.getTotalReplyRecords(req);
+		return replyMapper.getTotalReplyRecords(vo);
 	}
+	
+	 
 }

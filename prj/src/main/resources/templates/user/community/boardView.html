@@ -136,13 +136,18 @@
                 <div id="replyFormArea"></div>
                 <div id="addreplyBtn"></div>
                 <table class="table">
-                    <tbody>
+                    <tbody id="ReplyTableBody">
                         <tr>
                             <td>데이터</td>
                         </tr>
                     </tbody>
                 </table>
-
+                <div id="pagination-container">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -158,7 +163,7 @@
 
             await checkLike();
 
-            await replyLoad();
+            await replyLoad(currentPage);
 
         }
         let likeBtn = document.getElementById('boardLikeBtn');
