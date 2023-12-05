@@ -9,12 +9,12 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class ChatRoom {
+public class ChatRoomVO {
     private String clubId;
     private Set<WebSocketSession> sessions = new HashSet<>();
     
     @Builder
-    public ChatRoom(String clubId) {
+    public ChatRoomVO(String clubId) {
         this.clubId = clubId;
         
     }

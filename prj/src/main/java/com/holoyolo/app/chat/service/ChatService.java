@@ -18,14 +18,14 @@ import lombok.RequiredArgsConstructor;
 public class ChatService {
 
 	private final ObjectMapper objectMapper;
-    private Map<String, ChatRoom> chatRooms;
+    private Map<String, ChatRoomVO> chatRooms;
 
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
     }
     
-    public ChatRoom findRoomById(String clubId) {
+    public ChatRoomVO findClubById(String clubId) {
         return chatRooms.get(clubId);
     }
 
