@@ -17,7 +17,7 @@
 <link rel="stylesheet" th:href="@{/user/home/css/style.css}">
 
 </head>
-<th:block layout:fragment="content">
+<th:block layout:fragment="mainContent">
 
 	<div class="slider-item overlay" data-stellar-background-ratio="0.5"
 		style="background-image: url('/user/home/images/hero_2.jpg');">
@@ -26,7 +26,7 @@
 				class="row slider-text align-items-center justify-content-center">
 				<div class="col-lg-12 text-center col-sm-12">
 					<h1 class="mb-4" data-aos="fade-up" data-aos-delay="100">
-						With HOLOYOLO
+						
 					</h1>
 				</div>
 			</div>
@@ -38,20 +38,24 @@
 		<div class="container">
 			<div class="row mb-5 justify-content-center" data-aos="fade-up">
 				<div class="col-md-8 text-center">
-					<h2 class="mb-4 section-title">중고거래</h2>
+					<h2 class="mb-4 section-title">방금 올라온 중고물품</h2>
 					<p>믿을만한 이웃 간 중고거래 동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
 				</div>
 			</div>
 		</div>
 		<div class="container">
 			<div class="row mb-5 no-gutters">
-				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
-					data-aos-delay="100">
+				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade" data-aos-delay="100">
 					<a href="portfolio-single.html" class="work-thumb">
 						<div class="work-text">
-							<h2>Project Name Here</h2>
-							<p>Business</p>
-						</div> <img th:src="@{/user/home/images/work_1.jpg}" alt="Image" class="img-fluid">
+							<h2>생활용품</h2>
+							<p>
+								2024년 가계부 싸게 팔아용<br>
+								사용감 전혀없고 깨끗합니당~<br>
+								편하게 연락주세욤
+							</p>
+						</div>
+						<img th:src="@{/user/home/images/work_1.jpg}" alt="Image" class="img-fluid">
 					</a>
 				</div>
 
@@ -95,144 +99,276 @@
 		<div class="container">
 			<div class="row justify-content-center mb-5">
 				<div class="col-md-8 text-center">
-					<h2 class="mb-4 section-title">알뜰모임</h2>
+					<h2 class="mb-4 section-title">베스트 알뜰모임</h2>
 					<p>혼자서는 작심삼일, 알뜰모임에서 회원들과 함께 목표를 달성해나가세요!</p>
 				</div>
 			</div>
 			<div class="nonloop-block-11 owl-carousel">
-				<div class="item">
-					<div class="block-33 h-100">
-						<div class="vcard d-flex mb-3">
+			
+				<!--/* 모임카드 start */-->
+				<div class="item d-flex">
+					<div class="block-33 h-100 d-flex">
+						<div class="vcard d-flex mb-3 flex-sm-column">
 							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
+								<img th:src="@{/user/home/images/clubprofile2.PNG}" alt="Person here">
 							</div>
-							<div class="name-text align-self-center">
-								<h2 class="heading">절약짱짱모임</h2>
-								<span class="meta">귀요미</span>
+							<div class="name-text align-self-center d-flex flex-sm-column">
+								<h2 class="heading">나혼자산다</h2>
+								<span class="meta d-flex">
+									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
+									<span>코쿤캅사와디캅</span>
+								</span>
 							</div>
 						</div>
-						<div class="text">
-							<blockquote>
-								<p>
-								"아끼는 만큼 은퇴는 빨라진다! 우리 모임에서는 매일 소비내역을 검사해요!<br>
-								함께 절약해나가실 분들 어서어서 오세용!!!<br>
-								40대 은퇴가 목표인 방장과 함께하실 분들 대.환.영"
-								</p>
-							</blockquote>
+						<div class="text d-flex flex-xl-column">
+							<div>
+								<h1 class="ranking">01</h1>
+								<blockquote>
+									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
+								</blockquote>
+							</div>
+							<div class="d-flex bottom-area">
+								<div>
+									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
+									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
+								</div>
+								<div class="btn_wrapper d-flex">
+									<button type="button" id="moveClubDetail">모임상세보기</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="item">
-					<div class="block-33 h-100">
-						<div class="vcard d-flex mb-3">
+				<!--/* 모임카드 end */-->
+			
+				<!--/* 모임카드 start */-->
+				<div class="item d-flex">
+					<div class="block-33 h-100 d-flex">
+						<div class="vcard d-flex mb-3 flex-sm-column">
 							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/person_2.jpg}" alt="Person here">
+								<img th:src="@{/user/home/images/clubprofile1.PNG}" alt="Person here">
 							</div>
-							<div class="name-text align-self-center">
-								<h2 class="heading">사지말고사치없고</h2>
-								<span class="meta">짠돌이</span>
+							<div class="name-text align-self-center d-flex flex-sm-column">
+								<h2 class="heading">나혼자산다</h2>
+								<span class="meta d-flex">
+									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
+									<span>코쿤캅사와디캅</span>
+								</span>
 							</div>
 						</div>
-						<div class="text">
-							<blockquote>
-								<p>&rdquo; 
-								월급의 50%는 무조건 저축, 20%로 재태크 시작하실 분들 가입해주세요!<br>
-								함께 저축하고 재태크 팁 공유해보아요,<br>
-								소비 공유하고, 적당한 쓴소리 주고 받으실 분들 어서오세요
-								 &ldquo;</p>
-							</blockquote>
+						<div class="text d-flex flex-xl-column">
+							<div>
+								<h1 class="ranking">01</h1>
+								<blockquote>
+									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
+								</blockquote>
+							</div>
+							<div class="d-flex bottom-area">
+								<div>
+									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
+									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
+								</div>
+								<div class="btn_wrapper d-flex">
+									<button type="button" id="moveClubDetail">모임상세보기</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="item">
-					<div class="block-33 h-100">
-						<div class="vcard d-flex mb-3">
+				<!--/* 모임카드 end */-->
+			
+				<!--/* 모임카드 start */-->
+				<div class="item d-flex">
+					<div class="block-33 h-100 d-flex">
+						<div class="vcard d-flex mb-3 flex-sm-column">
 							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
+								<img th:src="@{/user/home/images/clubprofile2.PNG}" alt="Person here">
 							</div>
-							<div class="name-text align-self-center">
-								<h2 class="heading">한남동유엔빌리지</h2>
-								<span class="meta">가고싶은방장</span>
+							<div class="name-text align-self-center d-flex flex-sm-column">
+								<h2 class="heading">나혼자산다</h2>
+								<span class="meta d-flex">
+									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
+									<span>코쿤캅사와디캅</span>
+								</span>
 							</div>
 						</div>
-						<div class="text">
-							<blockquote>
-								<p>&rdquo; 
-								거지들 대환영 한달 용돈 10만원으로 살아가는 방장이 있어요<br>
-								같이 생필품 나눠쓰고 공동구매 하실분이면 더 좋아요!<br>
-								매달 마지막주 일요일은 플렉스 데이로 모여서 돈쓰러 가자구요
-								&ldquo;</p>
-							</blockquote>
+						<div class="text d-flex flex-xl-column">
+							<div>
+								<h1 class="ranking">01</h1>
+								<blockquote>
+									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
+								</blockquote>
+							</div>
+							<div class="d-flex bottom-area">
+								<div>
+									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
+									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
+								</div>
+								<div class="btn_wrapper d-flex">
+									<button type="button" id="moveClubDetail">모임상세보기</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="item">
-					<div class="block-33 h-100">
-						<div class="vcard d-flex mb-3">
+				<!--/* 모임카드 end */-->
+			
+				<!--/* 모임카드 start */-->
+				<div class="item d-flex">
+					<div class="block-33 h-100 d-flex">
+						<div class="vcard d-flex mb-3 flex-sm-column">
 							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/person_2.jpg}" alt="Person here">
+								<img th:src="@{/user/home/images/clubprofile4.jpg}" alt="Person here">
 							</div>
-							<div class="name-text align-self-center">
-								<h2 class="heading">거지방</h2>
-								<span class="meta">거지왕</span>
+							<div class="name-text align-self-center d-flex flex-sm-column">
+								<h2 class="heading">나혼자산다</h2>
+								<span class="meta d-flex">
+									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
+									<span>코쿤캅사와디캅</span>
+								</span>
 							</div>
 						</div>
-						<div class="text">
-							<blockquote>
-								<p>&rdquo; 
-								우리는 이모티콘도 그려서 쓴다. 시비, 고나리 ㄴㄴ 아끼는건 죄가 아님, 잔소리할거면 오지마세요<br>
-								제발 진심으로 거지인사람들만 오세요. 조금이라도 돈쓰는 낌새보이거나 거지에 걸맞지 않으면 수락안해줌.
-								 &ldquo;</p>
-							</blockquote>
+						<div class="text d-flex flex-xl-column">
+							<div>
+								<h1 class="ranking">01</h1>
+								<blockquote>
+									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
+								</blockquote>
+							</div>
+							<div class="d-flex bottom-area">
+								<div>
+									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
+									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
+								</div>
+								<div class="btn_wrapper d-flex">
+									<button type="button" id="moveClubDetail">모임상세보기</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="item">
-					<div class="block-33 h-100">
-						<div class="vcard d-flex mb-3">
-							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
-							</div>
-							<div class="name-text align-self-center">
-								<h2 class="heading">아이스월렛</h2>
-								<span class="meta">돈이뭔지</span>
-							</div>
-						</div>
-						<div class="text">
-							<blockquote>
-								<p>&rdquo;
-								매주 3만원으로 살기 시작하실분.. 어서 오시라요&ldquo;</p>
-							</blockquote>
-						</div>
-					</div>
-				</div>
+				<!--/* 모임카드 end */-->
 				
-				<div class="item">
-					<div class="block-33 h-100">
-						<div class="vcard d-flex mb-3">
-							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/person_1.jpg}" alt="Person here">
-							</div>
-							<div class="name-text align-self-center">
-								<h2 class="heading">제발그만</h2>
-								<span class="meta">이러다</span>
-							</div>
-						</div>
-						<div class="text">
-							<blockquote>
-								<p>&rdquo; 다죽어 &ldquo;</p>
-							</blockquote>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
 	<!--/* 알뜰모임 end */-->
+	
+	
+	
+	<!--/* 커뮤티니 start */-->
+	<div class="section portfolio-section">
+		<div class="container">
+			<div class="row mb-5 justify-content-center" data-aos="fade-up">
+				<div class="col-md-8 text-center">
+					<h2 class="mb-4 section-title">커뮤니티</h2>
+					<p>회원들과 자유롭게 정보를 공유하고, 이야기를 나누세요!</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row mb-5 no-gutters d-flex community_wrap">
+				<!--/* 정보공유 start */-->
+				<div class="col-sm-6 col-md-6 col-lg-6 table_wrapper" data-aos="fade" data-aos-delay="100">
+					<div class="table_header d-flex">
+						<p class="comunity_title">정보공유</p>
+						<a href="/infoBoard"><img alt="더보기" src="/user/home/images/arrow-right-circle.svg" class="more_btn"></a>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">no</th>
+								<th scope="col">제목</th>
+								<th scope="col">작성자</th>
+								<th scope="col">작성일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td scope="row">1</td>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+							</tr>
+							<tr>
+								<td scope="row">2</td>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								<td>@fat</td>
+							</tr>
+							<tr>
+								<td scope="row">3</td>
+								<td colspan="2">Larry the Bird</td>
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<td scope="row">4</td>
+								<td colspan="2">Larry the Bird</td>
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<td scope="row">5</td>
+								<td colspan="2">Larry the Bird</td>
+								<td>@twitter</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!--/* 정보공유 end */-->
+				
+				<!--/* 수다방 start */-->
+				<div class="col-sm-6 col-md-6 col-lg-6 table_wrapper" data-aos="fade" data-aos-delay="100">
+					<div class="table_header d-flex">
+						<p class="comunity_title">수다방</p>
+						<a href="/infoBoard"><img alt="더보기" src="/user/home/images/arrow-right-circle.svg" class="more_btn"></a>
+					</div>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">no</th>
+								<th scope="col">제목</th>
+								<th scope="col">작성자</th>
+								<th scope="col">작성일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td scope="row">1</td>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+							</tr>
+							<tr>
+								<td scope="row">2</td>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								<td>@fat</td>
+							</tr>
+							<tr>
+								<td scope="row">3</td>
+								<td colspan="2">Larry the Bird</td>
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<td scope="row">4</td>
+								<td colspan="2">Larry the Bird</td>
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<td scope="row">5</td>
+								<td colspan="2">Larry the Bird</td>
+								<td>@twitter</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!--/* 수다방 end */-->
+			</div>
+		</div>
+	</div>
+	
+	<!--/* 커뮤티니 end */-->
+	
 
 
 	<!-- loader -->

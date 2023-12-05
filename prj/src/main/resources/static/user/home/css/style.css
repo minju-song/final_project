@@ -4,8 +4,9 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap');
  
- .sidemenu .container {
+ .sidemenu .slider-item {
  	width: 100vw !important;
  	max-width: none !important;
  }
@@ -15,6 +16,96 @@
  .sidemenu .products {
  	padding-top: 0 !important;
  }
+ .vcard {
+ 	gap: 10px;
+ }
+ .image {
+ 	width: 200px;
+ 	height: 200px !important;
+ 	margin: 0 !important;
+ }
+ .image img {
+ 	width: 200px;
+ 	height: 200px !important;
+ 	object-fit: cover;
+ }
+ .heading {
+ 	font-weight: 600 !important;
+ }
+ .leader {
+ 	width: 15px !important;
+ }
+ .name-text {
+ 	align-items: center;
+ }
+ .meta {
+ 	gap: 5px;
+ }
+ .ranking {
+ 	font-size: 50px;
+ 	color: #adadad;
+ 	font-family: 'Roboto', sans-serif !important;
+ }
+ .block-33 {
+ 	gap: 45px;
+ 	margin: 0 !important;
+ }
+ .owl-stage {
+ 	display: flex;
+ }
+ .item {
+ 	justify-content: center !important;
+ }
+ blockquote {
+ 	margin-bottom: 15px !important;
+ }
+ blockquote p {
+ 	font-size: 16px;
+ 	line-height: 1.5 !important;
+ }
+ .club-info {
+ 	margin: 0;
+ }
+ #moveClubDetail {
+ 	padding: 8px 12px;
+ 	border: none;
+ 	border-radius: 5px;
+ 	background: #696969;
+ 	color: #e6e6e6;
+ 	margin-top: 20px;
+ }
+ .text {
+ 	justify-content: space-between;
+ }
+ .btn_wrapper {
+ 	justify-content: flex-end;
+ }
+ .bottom-area {
+ 	justify-content: space-between;
+ 	margin-bottom: 1rem !important;
+ }
+ .block-33 .vcard .image {
+ 	margin-top: 1rem !important;
+ }
+ .comunity_title {
+ 	font-size: 20px;
+ 	font-weight: 600;
+ 	margin-left: 10px;
+ }
+ .table_header {
+ 	align-items: center;
+ 	justify-content: space-between;
+ }
+ .more_btn {
+ 	width: 25px;
+ }
+ .table_wrapper {
+ 	padding: 0 20px !important;
+ }
+ .table-hover tbody tr:hover {
+    background-color: rgb(110 157 197 / 8%) !important;
+ }
+ 
  
  
 :root { -
@@ -10374,7 +10465,7 @@ header .search-form .form-control:-moz-placeholder {
 }
 
 .block-33 {
-	max-width: 600px;
+	max-width: 700px;
 	margin-left: auto;
 	margin-right: auto
 }
@@ -10396,12 +10487,13 @@ header .search-form .form-control:-moz-placeholder {
 	margin: 0;
 	padding: 0;
 	font-size: 18px;
-	font-weight: 300
+	font-weight: 300;
+	align-items: center;
 }
 
 .block-33 .vcard .name-text .meta {
 	color: #a6a6a6;
-	display: block
+	display: block;
 }
 
 .block-33 .text blockquote {
@@ -10971,13 +11063,13 @@ to {
 
 .work-thumb .work-text h2 {
 	color: #fff;
-	font-weight: 300;
+	font-weight: 400;
 	margin-bottom: 0;
 	font-size: 1.5rem
 }
 
 .work-thumb .work-text p {
-	color: rgba(255, 255, 255, 0.5)
+	color: rgba(255, 255, 255, 0.8)
 }
 
 .work-thumb:before {
