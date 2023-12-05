@@ -47,7 +47,12 @@ public interface MemberMapper {
 
 	// 로그인 실패횟수 초기화
 	public int updateMemberFailCntReset(MemberVO memberVO);
-	
-	//
+
 	public void deleteMemberInfo(MemberVO memberVO);
+
+
+	public List<MemberVO> selectMemberAll(MemberVO memberVO);
+
+	public Object selectMemberCount(MemberVO memberVO);
+
 }

@@ -67,11 +67,6 @@ public class MemberServiceImpl implements MemberService {
 		return vo.getJoinDate();
 	}
 	
-	// 회원 전체조회
-	@Override
-	public List<MemberVO> selectMemberAll() {
-		return memberMapper.selectMemberAll();
-	}
 
 	// 회원 상세보기
 	@Override
@@ -193,6 +188,7 @@ public class MemberServiceImpl implements MemberService {
 		return "{\"result\":\"" + result + "\"}";
 	}
 
+
 	/**
 	 * 휴대폰 변경-이미 사용중인 번호인지 체크
 	 * @param memberVO
@@ -219,6 +215,19 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return false;
 	}
+
+	// 회원 전체조회
+	@Override
+	public List<MemberVO> selectMemberAll(MemberVO memberVO) {
+		return memberMapper.selectMemberAll(memberVO);
+	}
+	
+	// 회원 전체 수
+	@Override
+	public Object selectMemberCount(MemberVO memberVO) {
+		return memberMapper.selectMemberCount(memberVO);
+	}
+
 	
 	@Override
 	public boolean checkPassword(MemberVO memberVO) {

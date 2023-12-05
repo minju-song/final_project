@@ -86,14 +86,14 @@ public class HoloPayController {
 
 	@GetMapping("/admin/holopay")
 	public String selectHolopayList(Model model) {
-		List<HoloPayHistoryVO> list = holopayHistoryService.totalHolopayHistoryList();
-		model.addAttribute("holopayList", list);
+//		List<HoloPayHistoryVO> list = holopayHistoryService.totalHolopayHistoryList();
+//		model.addAttribute("holopayList", list);
 		return "admin/holopayMgt";
 	}
 
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonObject  apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+	public Map<String, Object>  apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 			                         @RequestBody JSONObject req,			
 			                         Model mo) {
 
@@ -107,7 +107,8 @@ public class HoloPayController {
 		JSONObject header = (JSONObject) apiResult.get("Header");
 		String resultStatus = (String) header.get("Rpcd");
 		String resultMsg = "";
-		JsonObject returnData = new JsonObject();
+		
+		Map<String, Object> returnData = new HashMap<>();
 		if ("00133".equals(resultStatus)) {
 			resultMsg = "잔액이 부족합니다.";
 		}
@@ -125,13 +126,13 @@ public class HoloPayController {
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
 				if (checkResultType == 1) {
 					resultMsg = (String) req.get("Tram") + "원 충전되었습니다.";
-					returnData.addProperty("resultMsg", resultMsg);
-					returnData.addProperty("resultCode", checkResultType);
+					returnData.put("resultMsg", resultMsg);
+					returnData.put("resultCode", checkResultType);
 				}
 				if (checkResultType == 4) {
 					resultMsg = "홀로페이는 1,000,000원 이상 충전할 수 없습니다.";
-					returnData.addProperty("resultMsg", resultMsg);
-					returnData.addProperty("resultCode", checkResultType);
+					returnData.put("resultMsg", resultMsg);
+					returnData.put("resultCode", checkResultType);
 				}
 
 			} catch (ParseException e) {
@@ -141,8 +142,10 @@ public class HoloPayController {
 			}
 		} else {
 			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.//";
-			returnData.addProperty("resultMsg", resultMsg);
+			returnData.put("resultMsg", resultMsg);
 		}
+		
+	
 		return returnData;
 	}
 

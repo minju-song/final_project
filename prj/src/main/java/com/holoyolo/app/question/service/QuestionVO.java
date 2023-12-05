@@ -19,6 +19,7 @@ public class QuestionVO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date writeDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mi")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date updateDate;
 	private String questionYn;
 	private String memberId;
@@ -26,5 +27,5 @@ public class QuestionVO {
 	// 페이징
 	private int page=1;
 	private int rn;
-	private int pageUnit=5;
+	private int pageUnit;
 }

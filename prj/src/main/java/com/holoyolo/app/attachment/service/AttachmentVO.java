@@ -17,6 +17,6 @@ public class AttachmentVO {
 	private String saveFile;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regDate;
-	private int fileSize;
+	private Long fileSize;
 
 }

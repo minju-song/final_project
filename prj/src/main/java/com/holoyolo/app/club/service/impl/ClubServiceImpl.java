@@ -73,10 +73,10 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	// 모임 수정
-	@Override
-	public Map<String, Object> updateClubInfo(ClubVO clubVO) {
-		return null;
-	}
+//	@Override
+//	public Map<String, Object> updateClubInfo(ClubVO clubVO) {
+//		return null;
+//	}
 	
 	// 모임 삭제
 	@Override
@@ -200,6 +200,28 @@ public class ClubServiceImpl implements ClubService {
 			return "fail";
 		}
 
+	}
+
+	@Override
+	public ClubVO getClub(int id) {
+		ClubVO vo = new ClubVO();
+		vo.setClubId(id);
+		return clubMapper.getClub(vo);
+	}
+
+	@Override
+	public int updateClubInfo(ClubVO vo) {
+		return clubMapper.updateClubInfo(vo);
+	}
+
+	@Override
+	public int updateClubProfile(ClubVO vo) {
+		return clubMapper.updateClubProfile(vo);
+	}
+
+	@Override
+	public int delectClub(ClubVO vo) {
+		return clubMapper.delectClub(vo);
 	}
 
 

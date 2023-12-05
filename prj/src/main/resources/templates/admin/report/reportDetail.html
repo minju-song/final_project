@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/adminLayout}">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container-xxl flex-grow-1 container-p-y">
+			<h4 class="fw-bold py-3 mb-4">신고관리 상세페이지</h4>
+			<div class="card card-admin-container">
+				<div class="p-5 overflow-auto scrollBar">
+					<th:block th:each="item, stat : ${reportInfo}">
+						<!-- 문의제목 -->
+						<div class="d-flex">
+							<!-- 신고내용 -->
+							<h5 th:text="${item.reportContent}" class="fw-bold"></h5>
+							<!-- 신고유형 -->
+							<h5 th:text="${item.reportType}"
+								class="text-warning ms-3 fw-bold"></h5>
+						</div>
+						<!-- /문의 제목 -->
+						<div class="row">
+							<!-- 신고정보 -->
+							<div class="col-md p-4">
+								<div class="d-flex mb-3">
+									<div class="flex-shrink-0">
+										<img src="/admin/assets/img/avatars/1.png" alt="facebook"
+											class="me-3 rounded" height="36" />
+									</div>
+									<div class="flex-grow-1 row">
+										<div class="col-12 col-sm-12 mb-sm-0 mb-2">
+											<!-- 메뉴유형 -->
+											<h6 th:text="${item.menuType}" class="mb-0"></h6>
+											<!-- 신고자아이디 -->
+											<span th:text="${item.reporterId}" class="text-info"></span>
+											<!-- 신고일 -->
+											<span
+												th:text="${#dates.format(item.reportDate, 'yyyy-MM-dd hh:mm')}"
+												class="text-secondary ms-3">2023-11-09 22:12</span>
+										</div>
+									</div>
+
+								</div>
+								<!-- 신고원글 -->
+								<!-- 신고된아이디 -->
+
+								<p class="mt-4 fw-bold">
+									신고된 아이디 ➡ <span th:text="${item.reportedId}"
+										class="text-danger"></span>
+								</p>
+								<p>원글URL ex.
+									http://localhost:8090/member/BoardInfo?boardId=24</p>
+								<div>
+									<button name="completedBtn" type="button"
+										class="btn btn-info me-4">신고처리</button>
+									<button name="rejectedBtn" type="button"
+										class="btn btn-danger me-4">반려</button>
+								</div>
+							</div>
+							<div id="reportArea" class="col-md p-4 position-relative">
+								<div class="reportContent" th:if="${item.processComment == null}"></div>
+								<div class="reportContent" th:if="${item.reportProcessType == '신고처리'}">
+									<h5 class="fw-bold badge bg-label-info">해당 신고는 아래 사유로 신고처리
+										됨</h5>
+									<p th:text="${item.processComment}"></p>
+								</div>
+								<div class="reportContent" th:if="${item.reportProcessType == '반려'}">
+									<h5 class="fw-bold badge bg-label-danger">해당 신고는 아래 사유로
+										반려처리 됨</h5>
+									<p th:text="${item.processComment}"></p>
+								</div>
+							</div>
+							<!-- /회원 문의 -->
+						</div>
+				</div>
+				</th:block>
+			</div>
+		</div>
+		<script type="module" th:src="@{/admin/assets/js/admin-report.js}"
+			defer></script>
+	</div>
+</body>
+
+</html>

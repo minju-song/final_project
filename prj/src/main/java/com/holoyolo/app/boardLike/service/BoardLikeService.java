@@ -1,16 +1,15 @@
 package com.holoyolo.app.boardLike.service;
 
-import com.holoyolo.app.board.service.BoardVO;
-
 public interface BoardLikeService {
-	
-	public BoardLikeVO checkLike(BoardLikeVO vo);
-	
-	public int addLike();
-	
-	public int cancelLike();
-	
-	public BoardVO boardLikeCount(BoardVO vo);
-	
 
+	public String checkLike(BoardLikeVO vo);
+
+	public int boardLikeCount(int board_id);
+
+	public int addLike(BoardLikeVO vo);
+
+	public int cancelLike(BoardLikeVO vo);
+
+	
+	public String viewCheck(BoardLikeVO vo);
 }

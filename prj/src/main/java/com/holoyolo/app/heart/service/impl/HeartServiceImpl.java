@@ -5,12 +5,16 @@ import org.springframework.stereotype.Service;
 
 import com.holoyolo.app.heart.mapper.HeartMapper;
 import com.holoyolo.app.heart.service.HeartService;
+import com.holoyolo.app.heart.service.HeartVO;
 
 @Service
 public class HeartServiceImpl implements HeartService {
 	
 	@Autowired
 	HeartMapper heartMapper;
-	
-	
+
+	@Override
+	public HeartVO getHeartCount(HeartVO heartVO) {
+		return heartMapper.selectHeartCount(heartVO);
+	}
 }

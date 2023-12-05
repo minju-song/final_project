@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <link rel="stylesheet" href="/user/login/css/style.css">
     <style>
         #login_form_inner label {
             width: 180px;
@@ -21,7 +20,7 @@
         <div class="section_wrap">
             <section class="login_box_area section-margin">
                 <div class="container">
-                    <div class="row">
+                    <div class="row" style="justify-content: center;">
                         <div class="col-lg-8">
                             <div class="login_form_inner" id="login_form_inner">
                                 <a th:href="@{/}"><img th:src="@{/user/images/logo/logo3.png}" class="logo"
@@ -78,6 +77,7 @@
 
                                     <div class="col-md-12 form-group">
                                         <label id="openScope">가입승인여부</label>
+                                        <br>
                                         <select th:field="*{openScope}">
                                             <option value="OA1">즉시가입</option>
                                             <option value="OA2">가입허가</option>
@@ -96,6 +96,7 @@
 
                                     <div class="col-md-12 form-group">
                                         <label id="unit">예산기간</label>
+                                        <br>
                                         <select th:field="*{unit}">
                                             <option value="YA1">일</option>
                                             <option value="YA2">주</option>

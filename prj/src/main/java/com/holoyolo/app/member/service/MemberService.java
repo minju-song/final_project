@@ -19,7 +19,7 @@ public interface MemberService {
 	
 	// 기본 CRUD : 공성훈 추가
 	// 회원 전체조회
-	public List<MemberVO> selectMemberAll();
+	public List<MemberVO> selectMemberAll(MemberVO memberVO);
 	
 	// 회원 단건조회
 	public MemberVO selectMemberInfo(MemberVO memberVO);
@@ -52,6 +52,9 @@ public interface MemberService {
 	
 	// 회원 프로필 사진 수정
 	public String uploadImage(MultipartFile file, String memberId);
+
+	public Object selectMemberCount(MemberVO memberVO);
+
 	
 	// 휴대폰 변경-이미 사용중인 번호인지 체크
 	public boolean phoneCheck(MemberVO memberVO);

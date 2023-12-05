@@ -18,5 +18,6 @@ public class EmailVO {
     private String text; //가입사유
     private String clubName; //클럽이름
     private String type; //가입타입
+    private String leader; //위임받을 회원아이디
     
 }

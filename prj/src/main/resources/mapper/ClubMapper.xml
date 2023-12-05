@@ -5,7 +5,7 @@
   <mapper namespace="com.holoyolo.app.club.mapper.ClubMapper">
 
 	<select id="getClub" resultType="ClubVO">
-		SELECT c.*, m.member_name as leader_name
+		SELECT c.*, m.nickname as leader_name
 		FROM club c JOIN member m ON c.club_leader = m.member_id 
 		WHERE club_id = #{clubId}
 	</select>
@@ -91,6 +91,7 @@
   		
   	</select>
   	
+  	<!-- 클럽생성 -->
   	<insert id="insertClub" parameterType="ClubVO">
   	  	<selectKey keyProperty="clubId"
 					   resultType="int"
@@ -114,10 +115,36 @@
   			)
   	</insert>
   	
+  	<!-- 클럽장위임 -->
   	<update id="mandateKing" parameterType="ClubVO">
   		UPDATE club
   		SET club_leader = #{clubLeader}
   		WHERE club_id = #{clubId}
   	</update>
+  	
+  	<!-- 클럽 기본 정보 수정 -->
+  	<update id="updateClubInfo" parameterType="ClubVO">
+  		UPDATE club
+  		SET 
+  			club_name = #{clubName}
+  			, club_intro = #{clubIntro}
+  			, club_people = #{clubPeople}
+  			, join_condition = #{joinCondition}
+  			, open_scope = #{openScope}
+  		WHERE club_id = #{clubId}
+  	</update>
+  	
+  	<!-- 클럽 프로필이미지 수정 -->
+  	<update id="updateClubProfile" parameterType="ClubVO">
+  		UPDATE club
+  		SET
+  			club_profile_img = #{clubProfileImg}
+  		WHERE club_id = #{clubId}
+  	</update>
 
+	<!-- 클럽삭제 -->
+	<delete id="delectClub" parameterType="ClubVO">
+		DELETE club
+		WHERE club_id = #{clubId}
+	</delete>
   </mapper>

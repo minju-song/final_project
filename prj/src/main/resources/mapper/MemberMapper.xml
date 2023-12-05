@@ -74,15 +74,38 @@
 	
 	<!-- 회원 전체조회 -->
 	<select id="selectMemberAll" resultType="MemberVO">
-		SELECT member_name, member_id, phone, addr, join_date,     
-		    CASE 
-		        WHEN role = 'HA1' THEN '일반회원'
-		        WHEN role = 'HA2' THEN '거래정지'
-		        WHEN role = 'HA3' THEN '계정정지'
-		        WHEN role = 'ROLE_ADMIN' THEN '관리자'
-		    END AS role
-		FROM member
-		ORDER BY join_date desc
+<!-- 		SELECT * FROM 
+		        (SELECT A.* , ROWNUM rn FROM ( -->
+			SELECT * FROM (
+				SELECT
+				    member_name
+				  , member_id
+				  , phone
+				  , addr
+				  , join_date
+				  , fn_get_code_name(role) AS role
+				FROM member
+			) member
+			ORDER BY join_date desc
+		<!-- ) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit} -->
+	</select>
+	
+	<select id="selectMemberCount" resultType="int">
+		SELECT COUNT(*) FROM (  
+			SELECT
+			    member_name
+			  , member_id
+			  , phone
+			  , addr
+			  , join_date
+			  , fn_get_code_name(role) AS role
+			FROM member
+			  ) member
+  	  <where>
+		<if test="role != null and role != '' ">
+		 role = #{role}
+	  	</if>
+	  </where>
 	</select>
 	
 	<!-- 회원가입 - 아이디 중복체크 -->

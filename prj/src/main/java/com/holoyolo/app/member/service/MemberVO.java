@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +21,7 @@ public class MemberVO {
 	private String detailAddr;
 	private String phone;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date joinDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date stopDate;

@@ -15,34 +15,54 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 	BoardLikeMapper boardLikeMapper;
 
 	@Override
-	public BoardLikeVO checkLike(BoardLikeVO vo) {
-		System.out.println(vo);
-		if(boardLikeMapper.checkLike(vo) == null) {
-			addLike();
-		}else if(boardLikeMapper.checkLike(vo) != null) {
-			cancelLike();
+	public String checkLike(BoardLikeVO vo) {
+		String result = "";
+		int check = boardLikeMapper.checkLike(vo);
+		System.out.println("check : " + check);
+		if (check == 0) {
+			addLike(vo);
+			result = "추가";
+		} else if (check == 1) {
+			cancelLike(vo);
+			result = "삭제";
 		}
-		return null;
-	}
-	
-	@Override
-	public int addLike() {
-	
-		return 0;
+
+		System.out.println("result : " + result);
+		return result;
 	}
 
 	@Override
-	public int cancelLike() {
+	public int addLike(BoardLikeVO vo) {
 
-		return 0;
+		return boardLikeMapper.addLike(vo);
 	}
 
 	@Override
-	public BoardVO boardLikeCount(BoardVO vo) {
-		vo.setLikeCount(boardLikeMapper.boardLikeCount(vo));
-		return vo;
+	public int cancelLike(BoardLikeVO vo) {
+
+		return boardLikeMapper.cancelLike(vo);
 	}
 
-	
+	@Override
+	public int boardLikeCount(int boardId) {
+		int result = boardLikeMapper.boardLikeCount(boardId);
+		return result;
+	}
+
+	@Override
+	public String viewCheck(BoardLikeVO vo) {
+		int search = boardLikeMapper.checkLike(vo);
+		String result = "";
+		if (search == 1) {
+			result = "true";
+		} else if (search == 0) {
+			result = "false";
+		}else {
+			result = "err";
+		}
+
+		System.out.println(result);
+		return result;
+	}
 
 }

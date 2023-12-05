@@ -6,4 +6,5 @@ import lombok.Data;
 public class HeartVO {
 	private String memberId;
 	private int tradeId;
+	private int heartCount;
 }

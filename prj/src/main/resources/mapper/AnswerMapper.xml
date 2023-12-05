@@ -10,7 +10,9 @@
 			 , answer_content
 			 , answer_date
 			 , update_date
-			 , question_id FROM answer WHERE question_id = #{questionId}
+			 , question_id 
+		FROM answer 
+		WHERE question_id = #{questionId}
 		ORDER BY answer_date desc
   	</select>
   	
