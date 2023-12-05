@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
-<div class="col-3 my_col_3" th:fragment="sidemenuFragment" >
-	<div class="sidebar_section" >
-	
-		<!--/* 
+	<div class="col-3 my_col_3" th:fragment="sidemenuFragment">
+		<div class="sidebar_section">
+
+			<!--/* 
 		
 			1. 헤더 메뉴마다 내용바꾸기
 			
@@ -20,61 +22,67 @@
 				th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''" 
 				
 		*/-->
-		
-		<th:block th:if="${menu == 'mypage'}">
-			<div class="sidebar_title side_main_menu">마이페이지</div>
-			<div class="sidebar_section_content">
-				<ul>
-					<li class="side_main_menu"><a th:href="@{/member/myHome}" th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''">홈</a></li>
-					<li class="side_main_menu"><a th:href="@{/member/myInfo}" th:class="${subMenu eq 'myInfo'}? 'submenu_active' : ''">내정보</a></li>
 
-					<li class="side_main_menu"><a th:href="@{/member/myHolopay}" th:class="${subMenu eq 'myHolopay'}? 'submenu_active' : ''">홀로페이</a></li>
-					<li class="side_main_menu"><a href="#">포인트</a></li>
-					<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
+			<th:block th:if="${menu == 'mypage'}">
+				<div class="sidebar_title side_main_menu">마이페이지</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu"><a th:href="@{/member/myHome}"
+								th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''">홈</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myInfo}"
+								th:class="${subMenu eq 'myInfo'}? 'submenu_active' : ''">내정보</a></li>
 
-					<!--/* 나의중고거래 서브메뉴 start */-->
-					<li class="side_sub_menu"><a th:href="@{/}">판매내역</a></li>
-					<li class="side_sub_menu"><a th:href="@{/}">구매내역</a></li>
-					<li class="side_sub_menu last_sub_menu"><a th:href="@{/}">관심목록</a></li>
-					<!--/* 나의중고거래 서브메뉴 start */-->
-					<li class="side_main_menu"><a th:href="@{/}">나의 알뜰모임</a></li>
-					<li class="side_main_menu"><a th:href="@{/}">나의 커뮤니티</a></li>
-				</ul>
-			</div>
-		</th:block>
+						<li class="side_main_menu"><a th:href="@{/member/myHolopay}"
+								th:class="${subMenu eq 'myHolopay'}? 'submenu_active' : ''">홀로페이</a></li>
+						<li class="side_main_menu"><a href="#">포인트</a></li>
+						<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
 
-		<th:block th:if="${menu == 'community'}">
-			<div class="sidebar_title side_main_menu">커뮤니티</div>
-			<div class="sidebar_section_content">
-				<ul>
-					<li class="side_main_menu"><a th:href="@{/infoBoard}">정보게시판</a></li>
-					<li class="side_main_menu"><a th:href="@{/chatBoard}">수다방</a></li>
-				</ul>
-			</div>
-		</th:block>
-		
-		<th:block th:if="${menu == 'cs'}">
-			<div class="sidebar_title side_main_menu">고객센터</div>
-			<div class="sidebar_section_content">
-				<ul>
-					<li class="side_main_menu"><a th:href="@{/}">공지사항</a></li>
-					<li class="side_main_menu"><a th:href="@{/}">자주하는질문</a></li>
-					<li class="side_main_menu"><a th:href="@{/}">1:1문의</a></li>
-				</ul>
-			</div>
-		</th:block>
-		
-		<th:block th:if="${menu == 'club'}">
-			<div class="sidebar_title side_main_menu">[[${result.club.clubName}]]</div>
-			<div class="sidebar_section_content">
-				<ul>
-					<li class="side_main_menu"><a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}" th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a></li>
-					<li class="side_main_menu"><a th:href="@{/}">모임게시판</a></li>
-					<li class="side_main_menu"><a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}" th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a></li>
-				</ul>
-			</div>
-		</th:block>
+						<!--/* 나의중고거래 서브메뉴 start */-->
+						<li class="side_sub_menu"><a th:href="@{/}">판매내역</a></li>
+						<li class="side_sub_menu"><a th:href="@{/}">구매내역</a></li>
+						<li class="side_sub_menu last_sub_menu"><a th:href="@{/}">관심목록</a></li>
+						<!--/* 나의중고거래 서브메뉴 start */-->
+						<li class="side_main_menu"><a th:href="@{/}">나의 알뜰모임</a></li>
+						<li class="side_main_menu"><a th:href="@{/}">나의 커뮤니티</a></li>
+					</ul>
+				</div>
+			</th:block>
+
+			<th:block th:if="${menu == 'community'}">
+				<div class="sidebar_title side_main_menu">커뮤니티</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu"><a th:href="@{/infoBoard}">정보게시판</a></li>
+						<li class="side_main_menu"><a th:href="@{/chatBoard}">수다방</a></li>
+					</ul>
+				</div>
+			</th:block>
+
+			<th:block th:if="${menu == 'cs'}">
+				<div class="sidebar_title side_main_menu">고객센터</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu"><a th:href="@{/}">공지사항</a></li>
+						<li class="side_main_menu"><a th:href="@{/}">자주하는질문</a></li>
+						<li class="side_main_menu"><a th:href="@{/}">1:1문의</a></li>
+					</ul>
+				</div>
+			</th:block>
+
+			<th:block th:if="${menu == 'club'}">
+				<div class="sidebar_title side_main_menu">[[${result.club.clubName}]]</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu"><a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}"
+								th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a></li>
+						<li class="side_main_menu"><a th:href="@{/}">모임채팅방</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}"
+								th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a></li>
+					</ul>
+				</div>
+			</th:block>
+		</div>
 	</div>
-</div>
 </body>
+
 </html>
