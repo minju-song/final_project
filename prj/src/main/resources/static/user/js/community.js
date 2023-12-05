@@ -201,14 +201,14 @@ function updateReplyTable(data, page) {
     // 트리 구조로 변환
     const rootComments = convertToTreeStructure(data);
 
-    // 재귀적으로 댓글 출력
+    // 댓글 출력
     function renderComments(comments, depth = 0) {
         comments.forEach((comment) => {
-            
+            console.log(comment);
             let row = $("<tr>");
             if (comment.upperReplyId != 0) {
                 row.append($("<td>").text("↳").css("text-align", "right"));
-            }else{
+            } else {
                 row.append($("<td>").text("  "));
             }
             row.append($("<td>").text(comment.content));
@@ -216,20 +216,25 @@ function updateReplyTable(data, page) {
             row.append($("<td>").text(comment.nickname));
             let row2 = $("<tr>");
             // 대댓글 버튼 추가
+
             let rowReplyAddBtn = $("<button>")
                 .text("댓글")
                 .attr('id', 'rowReplyFormOpen_' + comment.replyId)
                 .attr('value', comment.replyId);
-
+            let rowReplyupdateBtn = $("<button>")
+                .text("수정")
+                .attr('id', 'replyUpdateBtn' + comment.replyId)
+                .attr('value', comment.replyId);
             rowReplyAddBtn.on('click', function () {
+                rowReplyAddBtn.prop('disabled', true);
                 rowReplyInsertForm(comment.replyId, row2);
             });
 
             row.append(rowReplyAddBtn);
+            row.append(rowReplyupdateBtn);
             row2.append($("<div>"));
             tbody.append(row, row2);
 
-            // 대댓글 재귀 호출
             if (comment.replies.length > 0) {
                 renderComments(comment.replies, depth + 1);
             }
@@ -305,42 +310,6 @@ function deleteLike(heart) {
     heart.classList.add('animate__animated', 'animate__bounceIn');
 }
 
-//댓글 입력 폼 생성
-function openForm() {
-    let replyForm = document.createElement('textarea');
-    replyForm.id = 'replyForm';
-    replyForm.placeholder = ' 답글을 입력하세요.';
-    replyForm.classList.add('form-control', 'text');
-    document.getElementById('replyFormArea').append(replyForm);
-
-    let addReplyBtn = document.createElement('button');
-    addReplyBtn.type = 'button';
-    addReplyBtn.id = "addReplyBtn";
-    addReplyBtn.classList.add('btn', 'btn-primary')
-    addReplyBtn.textContent = '댓글 등록';
-
-    let cancelBtn = document.createElement('button');
-    cancelBtn.type = 'button';
-    cancelBtn.id = "cancelReplyBtn";
-    cancelBtn.classList.add('btn', 'btn-danger');
-    cancelBtn.textContent = '닫기';
-
-    addReplyBtn.addEventListener('click', insertReply)
-    cancelBtn.addEventListener('click', function () {
-        let replyForm = document.getElementById('replyForm');
-        replyForm.remove();
-        document.getElementById('replyFormOpen').disabled = false;
-
-        let addReplyBtn = document.getElementById('addReplyBtn');
-        addReplyBtn.remove();
-
-        let cancelReplyBtn = document.getElementById('cancelReplyBtn')
-        cancelReplyBtn.remove()
-    });
-    document.getElementById('addreplyBtn').append(addReplyBtn, cancelBtn);
-    document.getElementById('replyFormOpen').disabled = true;
-
-};
 
 //댓글 등록
 function insertReply() {
@@ -366,9 +335,7 @@ function insertReply() {
             let cancelReplyBtn = document.getElementById('cancelReplyBtn')
             cancelReplyBtn.remove()
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
+        error: function (error) {
             console.error("error: " + error);
         }
     });
@@ -463,8 +430,9 @@ function rowReplyInsertForm(replyId, thisRow) {
     cancelBtn.classList.add('btn', 'btn-danger');
     cancelBtn.textContent = '닫기';
     cancelBtn.addEventListener('click', function () {
+        document.getElementById('rowReplyFormOpen_' + replyId).removeAttribute('disabled');
+        console.log('rowReplyFormOpen_' + replyId)
         rowReplyFormArea.remove();
-        thisRow.find('#rowReplyFormOpen_' + replyId).prop('disabled', false);
     });
     rowReplyFormArea.append(replyForm, addReplyBtn, cancelBtn);
     thisRow.append(rowReplyFormArea);

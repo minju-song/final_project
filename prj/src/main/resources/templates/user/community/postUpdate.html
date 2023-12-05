@@ -147,8 +147,9 @@
 			const url = '/editor/update';
 			const memberId = document.querySelector('#memberId').value;
 			const content = document.querySelector('.toastui-editor-pseudo-clipboard').value;
+			const title = document.getElementById('title').value;
 			const params = {
-				title: '게시글 제목',
+				title: title,
 				content: editor.getMarkdown(),
 				boardId: boardId
 			}

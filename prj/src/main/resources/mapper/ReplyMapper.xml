@@ -14,7 +14,8 @@ SELECT
     r.WRITE_DATE AS WRITE_DATE, 
     r.UPDATE_DATE AS UPDATE_DATE, 
     r.BOARD_ID AS BOARD_ID, 
-    m.NICKNAME AS NICKNAME
+    m.NICKNAME AS NICKNAME,
+    r.member_id AS MEMBER_ID
 FROM 
     REPLY r
 JOIN 
@@ -28,7 +29,8 @@ GROUP BY
     r.WRITE_DATE, 
     r.UPDATE_DATE, 
     r.BOARD_ID, 
-    m.NICKNAME
+    m.NICKNAME,
+    r.member_id
 ORDER BY 
     WRITE_DATE DESC
 </select> 

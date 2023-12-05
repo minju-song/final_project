@@ -132,7 +132,10 @@
         <h1>css수정해야함</h1>
         <div class="row">
             <div class="col-12">
-                <button type="button" id="replyFormOpen" class="btn btn-secondary"> 댓글쓰기 </button>
+
+                <textarea class="form-control" id="replyForm" cols="30" rows="2" placeholder="댓글을 입력하세요"></textarea>
+                <button type="button" id="addReplyBtn" class="btn btn-primary">댓글 등록 </button>
+                <button type="button" id="cancelReplyBtn" class="btn btn-secondary">취소</button>
                 <div id="replyFormArea"></div>
                 <div id="addreplyBtn"></div>
                 <table class="table">
@@ -166,9 +169,23 @@
             await replyLoad(currentPage);
 
         }
+        //좋아요버튼
         let likeBtn = document.getElementById('boardLikeBtn');
         likeBtn.addEventListener('click', addLike)
-        document.getElementById('replyFormOpen').addEventListener('click', openForm)
+        let addBtn = document.getElementById('addReplyBtn');
+        addBtn.addEventListener('click', insertReply);
+        let resetBtn = document.getElementById('cancelReplyBtn');
+        let replyForm = document.getElementById('replyForm');
+        resetBtn.addEventListener('click', function () {
+            replyForm.value = "";
+        });
+
+        
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let loginId = /*[[${loginId}]]*/ null;
+        /*]]>*/
     </script>
 </body>
 
