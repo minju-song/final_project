@@ -7,6 +7,7 @@
     <title>Insert title here</title>
     <!-- TUI 에디터 CSS CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
         body {
             height: 100%;
@@ -121,73 +122,53 @@
         <div class="editor_container col-12">
             <!--/* 에디터 콘텐츠 렌더링 영역 */-->
             <div id="viewer"></div>
-            <button class="btn btn-primary" type="button" id="boardLikeBtn">좋아요버튼 (임시)</button>
         </div>
+        <button class="btn btn-primary" type="button" id="boardLikeBtn">🤍</button>
         <a href="#" class="btn btn-danger">신고</a>
         <a href="/infoBoard" class="btn btn-secondary">뒤로 가기</a>
+
+
+
+        <h1>css수정해야함</h1>
+        <div class="row">
+            <div class="col-12">
+                <button type="button" id="replyFormOpen" class="btn btn-secondary"> 댓글쓰기 </button>
+                <div id="replyFormArea"></div>
+                <div id="addreplyBtn"></div>
+                <table class="table">
+                    <tbody id="ReplyTableBody">
+                        <tr>
+                            <td>데이터</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="pagination-container">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- TUI 에디터 JS CDN -->
+
+
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script th:src="@{/user/js/community.js}"></script>
     <script>
-
         window.onload = async () => {
             findPost();
-        }
 
+            await checkLike();
 
-        // 게시글 상세정보 조회
-        async function findPost() {
-
-            // 1. URL 쿼리 스트링에서 게시글 번호 조회
-            const searchParams = new URLSearchParams(location.search);
-            const postId = Number(searchParams.get('boardId'));
-
-            // 2. API 호출
-            const url = `/api/board/${postId}`;
-            const response = await fetch(url);
-            const post = await response.json();
-
-            console.log(post)
-            console.log(post.title)
-            // 3. 에디터 콘텐츠 렌더링
-            const viewer = toastui.Editor.factory({
-                el: document.querySelector('#viewer'),
-                viewer: true,
-                initialValue: post.content
-            });
-
-            document.getElementById('title').innerText = post.title;
-            document.getElementById('writer').innerText = post.nickname;
-            document.getElementById('boardLike').innerText = post.likeCount;
-            document.getElementById('writeDate').innerText = formatDate(post.writeDate);
-            document.getElementById('views').innerText = post.views;
+            await replyLoad(currentPage);
 
         }
         let likeBtn = document.getElementById('boardLikeBtn');
         likeBtn.addEventListener('click', addLike)
-        function addLike() {
-            let boardId = 
-            console.log("click")
-            $.ajax({
-                type: 'GET',
-                url: '/likeCheck',
-                contentType: 'application/json;charset=UTF-8',
-                data: JSON.stringify({ "boardId": boardId }),
-                success: function (data) {
-                    console.log('성공1')
-                    // document.getElementById('boardLike').innerText = "0";
-                },
-                error: function (request, status, error) {
-                    console.error("code: " + request.status);
-                    console.error("message: " + request.responseText);
-                    console.error("error: " + error);
-                }
-            });
-        }
-
-
+        document.getElementById('replyFormOpen').addEventListener('click', openForm)
     </script>
 </body>
 

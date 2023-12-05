@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.holoyolo.app.board.mapper.BoardMapper;
 import com.holoyolo.app.board.service.BoardService;
 import com.holoyolo.app.board.service.BoardVO;
+import com.holoyolo.app.boardLike.service.BoardLikeService;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	BoardMapper boardMapper;
+
+	@Autowired
+	BoardLikeService boardLikeService;
 
 	// 게시판 별전체조회
 	@Override
@@ -26,9 +30,11 @@ public class BoardServiceImpl implements BoardService {
 
 //단건조회
 	@Override
-	public BoardVO selectBoard(int vo) {
-
-		return boardMapper.selectBoard(vo);
+	public BoardVO selectBoard(int boardId) {
+		BoardVO vo = new BoardVO();
+		vo = boardMapper.selectBoard(boardId);
+		vo.setLikeCount(boardLikeService.boardLikeCount(boardId));
+		return vo;
 	}
 
 	@Override

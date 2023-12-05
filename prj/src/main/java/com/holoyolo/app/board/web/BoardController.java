@@ -10,23 +10,23 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.board.service.BoardService;
 import com.holoyolo.app.board.service.BoardVO;
-import com.holoyolo.app.editor.PostVO;
+import com.holoyolo.app.boardLike.service.BoardLikeService;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	BoardService boardService;
+
+	@Autowired
+	BoardLikeService boardLikeService;
 
 	@GetMapping("/infoBoard")
 	public String infomationBoard(Model mo, @AuthenticationPrincipal PrincipalDetails prd) {
@@ -69,7 +69,7 @@ public class BoardController {
 	}
 
 //페이지 로드
-	@RequestMapping(value = "/boardLoad", method = RequestMethod.POST)
+	@PostMapping("/boardLoad")
 	@ResponseBody
 	public Map<String, Object> infoBoardLoad(@RequestBody JSONObject req) {
 		List<BoardVO> resultList = boardService.searchBoardPaged(req);
@@ -110,5 +110,6 @@ public class BoardController {
 		model.addAttribute("loginId", loginId);
 		return "/user/community/postUpdate";
 	}
-
+//삭제
+	
 }
