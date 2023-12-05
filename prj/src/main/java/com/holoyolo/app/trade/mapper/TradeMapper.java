@@ -28,4 +28,7 @@ public interface TradeMapper {
 	
 	//중고거래 목록
 	public List<TradeVO> getAllTradeList();
+	
+	//조회수 증가
+	public int updateViews(TradeVO tradeVO);
 }

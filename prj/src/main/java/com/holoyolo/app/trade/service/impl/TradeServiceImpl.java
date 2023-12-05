@@ -88,5 +88,11 @@ public class TradeServiceImpl implements TradeService {
 		return map;
 	}
 
+	//조회수 증가
+	@Override
+	public int updateViews(TradeVO tradeVO) {
+		return 0;
+	}
+
 
 }

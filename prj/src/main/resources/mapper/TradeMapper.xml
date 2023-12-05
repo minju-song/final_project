@@ -108,12 +108,18 @@
 			trade_type = #{tradeType},
 			payment = #{payment},
 			promise_status = #{promiseStatus},
-			views = #{views},
 			update_date = sysdate,
 			latitude = #{latitude},
 			longitude = #{longitude},
 			buyer_id = #{buyerId}
 		</set>
+		WHERE trade_id = #{tradeId}
+		AND seller_id = #{sellerId}
+	</update>
+	
+	<update id="updateViews">
+		UPDATE trade 
+		SET views = views + 1
 		WHERE trade_id = #{tradeId}
 		AND seller_id = #{sellerId}
 	</update>

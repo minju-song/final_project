@@ -2,7 +2,6 @@
  * trade.js
  */
  
-
 //넘어오는 데이터 사이즈
 let pageSize = 6;
 
@@ -94,7 +93,8 @@ function drawTrade(tradeArr){
 		
 		let img = document.createElement('img');
 		img.classList.add('card-img-top');
-		img.setAttribute("src", "user/images/" + "person.jfif");
+		img.setAttribute("src", "images/" + tradeArr[i].saveFile);
+		console.log(tradeArr[i].saveFile);
 		img.style.width = '294px';
         img.style.height = '197px';
 		divCard.appendChild(img);
@@ -117,7 +117,11 @@ function drawTrade(tradeArr){
 		
 		let price = document.createElement('span');
 		price.classList.add('text-muted', 'text-decoration-line-through');
-		price.innerText = tradeArr[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ '원';
+		if(tradeArr[i].price == 0){
+			price.innerText = '무료나눔';
+		}else{
+			price.innerText = tradeArr[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+ '원';
+		}
 		divPrice.appendChild(price);
 		
 		let divCategory = document.createElement('div');
@@ -151,6 +155,17 @@ function drawTrade(tradeArr){
 //중고거래 상세페이지 이동
 function submit(tradeId, sellerId){
 	console.log(tradeId, sellerId);
+	$.ajax({    
+	    type:"POST",
+	    url : '/member/tradeUpdate',  //이동할 jsp 파일 주소
+	    data : {tradeId, sellerId},
+	    dataType:'text',
+	    success : function(result) { // 결과 성공 콜백함수        
+	       console.log(result);    
+	    },    
+	    error : function(request, status, error) { // 결과 에러 콜백함수        
+	       console.log(error);    
+	}})
 	location.href = '/member/tradeInfo?tradeId=' + tradeId + '&sellerId=' + sellerId;
 }
 
@@ -177,5 +192,3 @@ let search_input = document.getElementById('search_input');
 search_input.addEventListener('keyup', function () {
     callList(1);
 })
-
-//card 클릭 시 상세보기 창 이동

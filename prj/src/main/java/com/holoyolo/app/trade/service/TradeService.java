@@ -23,4 +23,7 @@ public interface TradeService {
 	
 	//리스트 페이징
 	public Map<String, Object> tradePaging(TradeVO tradeVO);
+	
+	//조회수 증가
+	public int updateViews(TradeVO tradeVO);
 }

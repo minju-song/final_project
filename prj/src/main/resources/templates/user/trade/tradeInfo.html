@@ -20,14 +20,8 @@
 				<!-- 사진 슬라이더 -->
 				<div id="carouselExampleControlsNoTouching" class="carousel slide" data-touch="false" data-interval="false">
 				  <div class="carousel-inner">
-				    <div class="carousel-item active">
-				      <img src="/user/images/aespa.jpg" class="d-block w-100" alt="...">
-				    </div>
-				    <div class="carousel-item">
-				      <img src="/user/images/aespa.jpg" class="d-block w-100" alt="...">
-				    </div>
-				    <div class="carousel-item">
-				      <img src="/user/images/aespa.jpg" class="d-block w-100" alt="...">
+				    <div class="carousel-item" th:classappend="${trade.attachmentSeq == 1} ? 'active' : ''" th:each="trade, stat : ${tradeImg}">
+				      <img th:src="@{/images/}+ ${trade.saveFile}" class="d-block w-100" alt="...">
 				    </div>
 				  </div>
 				  <img class="heart" id="heart" th:src="@{/user/images/trade/bin-heart.png}">
@@ -58,7 +52,8 @@
 						</div>
 						<div class="row bottomwrap watchwrap">
 							<div class="tradePrice">
-								<p th:text="|${#numbers.formatInteger(tradeInfo.price, 0, 'COMMA')}원|"></p>
+								<p th:text="|${#numbers.formatInteger(tradeInfo.price, 0, 'COMMA')}원|" th:if="${tradeInfo.price != 0}"></p>
+								<p th:text="무료나눔" th:if="${tradeInfo.price == 0}" th:style="@{color:#ff6868;}"></p>
 							</div>
 							<div th:if="${memberId != tradeInfo.sellerId}">
 								<div class="pay insertbutton">
@@ -100,7 +95,7 @@
               <button type="button" class="btn btn-primary tradeDelete">삭제</button>
             </div>
         </div>
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bd4fbf5a577776ae5a2331a45fef01e"></script>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7"></script>
 		<script>
 			if(`[[${tradeInfo.latitude}]]` != ''){
 				let mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -159,6 +154,8 @@
 					}
 				})
 			})
+			
+			document.querySelectorAll('.carousel-item')[0].className = 'carousel-item active';
 		</script>
 	</div>
 </body>

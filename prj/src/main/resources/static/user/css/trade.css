@@ -227,6 +227,12 @@ option > selected{
     width: 23px;
 }
 
+.fw-bolder{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 /* 중고거래 등록페이지 시작 */
 .input-group-text {
     display: flex;
@@ -356,6 +362,30 @@ input[type="number"]{
     width: 1200px;
     height: 119px;
 }
+
+.imgFlex, .file-list{
+	display: flex;
+    gap: 10px;	
+}
+
+.imgSize{
+	width: 90px;
+    object-fit: cover;
+    height: 90px;
+    border-radius: 7px;
+}
+
+li{
+	list-style: none;	
+}
+
+.delBtn{
+	width: 19px;
+    margin: 3px;
+    border-radius: 50%;
+    margin-left: 68px;
+    background-color: white;
+    }
 
 /* 첨부파일 관련 */
 .real_file {

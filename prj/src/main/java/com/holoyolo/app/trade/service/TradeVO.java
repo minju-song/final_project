@@ -42,4 +42,6 @@ public class TradeVO {
 	private String profileImg;
 	private String tradeCateCode;
 	private String tradeTypeCode;
+	
+	private String saveFile;
 }
