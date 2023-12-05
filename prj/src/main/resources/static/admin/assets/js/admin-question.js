@@ -21,6 +21,7 @@ $(document).ready(function () {
 
 	// 문의 리스트 포멧
 	function renderQuestionList(questionYn, page, search) {
+		console.log(questionYn)
 		$("tbody").empty();
 		$.ajax({
 			url: "/admin/question/list",
@@ -100,7 +101,7 @@ $(document).ready(function () {
 		pageNum = 1;
 		questionYn = "";
 		search = "";
-		//search = $("#searchInput").val();
+		$("#searchInput").val("");
 		$("#pendingQuestionCount").removeClass('active');
 		$("#completedQuestionCount").removeClass('active');
 		$("#totalQuestionCount").addClass('active');
@@ -112,7 +113,7 @@ $(document).ready(function () {
 		pageNum = 1;
 		questionYn = "답변대기"
 		search = "";
-		//search = $("#searchInput").val();
+		$("#searchInput").val("");
 		$("#totalQuestionCount").removeClass('active');
 		$("#completedQuestionCount").removeClass('active');
 		$("#pendingQuestionCount").addClass('active');
@@ -124,20 +125,30 @@ $(document).ready(function () {
 		pageNum = 1;
 		questionYn = "답변완료"
 		search = "";
-		//search = $("#searchInput").val();
+		$("#searchInput").val("");
 		$("#totalQuestionCount").removeClass('active');
 		$("#pendingQuestionCount").removeClass('active');
 		$("#completedQuestionCount").addClass('active');
 		renderQuestionList(questionYn, pageNum, search);
 	});
+	let searchTimer;
 	// 검색
 	$(document).on("keyup", '#searchInput', function () {
-		pageNum = 1;
-		questionYn = "";
-		search = "";
-		search = $("#searchInput").val();
+		clearTimeout(searchTimer);
 
+    searchTimer = setTimeout(function () {
+		pageNum = 1;
+		search = $("#searchInput").val();
+		
+		if ($("button[name='pendingQuestionCount']").hasClass("active")) {
+			questionYn = "답변대기";
+		} else if ($("button[name='completedQuestionCount']").hasClass("active")) {
+			questionYn = "답변완료";
+		} else {
+			questionYn = "";
+		}
 		renderQuestionList(questionYn, pageNum, search)
+		 }, 300); // 300 밀리초 (0.3초) 후에 검색 실행
 	})
 
 	// 상세페이지 이동
@@ -184,7 +195,7 @@ $(document).ready(function () {
 	}
 
 	// 수정 - 입력창 열기
-	const updateAnswerBtn = (answerId, questionId, e) => {
+	const updateAnswerBtn = (answerId, questionId, event) => {
 		// 타겟 찾기
 		let target = event.target
 		originContent = $(target).closest('.originContent') // 답변내용 부분
@@ -241,10 +252,11 @@ $(document).ready(function () {
 	}
 
 	// 삭제
-	const deleteAnswerBtn = (answerId, questionId, e) => {
+	const deleteAnswerBtn = (answerId, questionId, event) => {
 		const agreeCheck = confirm("답변을 삭제 하시겠습니까?");
 		const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
 		let target = event.target;
+		console.log(target)
 
 		if (agreeCheck == true) {
 			$.ajax({
@@ -254,7 +266,7 @@ $(document).ready(function () {
 				.done(result => {
 					if (result) {
 						alert('댓글이 삭제되었습니다.');
-						target.closest('.row').remove();
+						$(target).closest('.row').remove();
 					} else {
 						alert('삭제가 실패했습니다.');
 					}
