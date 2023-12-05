@@ -1,6 +1,3 @@
-
-
-
 // 페이징
 let currentPage = 1;
 const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
@@ -108,7 +105,12 @@ function updateTable(data, page) {
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
             row.attr("onclick", `location.href='/member/board/info?boardId=${item.boardId}'`);
-            row.append($("<td>").text(item.boardId));
+            if (data.totalRecords > page * recordsPerPage) {
+                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
+                // row.append($("<td>").text(index + 1));
+            } else {
+                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
+            }
             row.append($("<td>").text(item.title));
             row.append($("<td>").text(formatDate(item.writeDate)));
             row.append($("<td>").text(item.nickname));
@@ -192,44 +194,52 @@ function replyLoad(page) {
 
 //댓글 테이블 생성
 function updateReplyTable(data, page) {
-
     currentPage = page;
     let tbody = $("#ReplyTableBody");
-    tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
+    tbody.empty();
 
-    if (data && data.historyList && data.historyList.length > 0) {
-        // 데이터가 있을 경우 테이블에 행 추가
+    // 트리 구조로 변환
+    const rootComments = convertToTreeStructure(data);
 
-        data.historyList.forEach(function (item, index) {
-
+    // 재귀적으로 댓글 출력
+    function renderComments(comments, depth = 0) {
+        comments.forEach((comment) => {
+            
             let row = $("<tr>");
-            if (data.totalRecords > page * recordsPerPage) {
-                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
-            } else {
-                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
+            if (comment.upperReplyId != 0) {
+                row.append($("<td>").text("↳").css("text-align", "right"));
+            }else{
+                row.append($("<td>").text("  "));
             }
-            row.append($("<td>").text(item.content));
-            row.append($("<td>").text(formatDate(item.writeDate)));
-            row.append($("<td>").text(item.nickname));
-
-            let rowReplyAddBtn = $("<button>").text("댓글").addClass('btn', 'btn-secondary').attr('id', 'rowReplyFormOpen').attr('value', item.replyId);
-            rowReplyAddBtn.on('click', function () {
-                rowReplyInsertForm(item.replyId);
-            });
+            row.append($("<td>").text(comment.content));
+            row.append($("<td>").text(formatDate(comment.writeDate)));
+            row.append($("<td>").text(comment.nickname));
             let row2 = $("<tr>");
-            row2.append(rowReplyAddBtn);
-            let rowReplyFormArea = $("<div>").attr('id', 'rowReplyFormArea');
-            row2.append(rowReplyFormArea);
+            // 대댓글 버튼 추가
+            let rowReplyAddBtn = $("<button>")
+                .text("댓글")
+                .attr('id', 'rowReplyFormOpen_' + comment.replyId)
+                .attr('value', comment.replyId);
+
+            rowReplyAddBtn.on('click', function () {
+                rowReplyInsertForm(comment.replyId, row2);
+            });
+
+            row.append(rowReplyAddBtn);
+            row2.append($("<div>"));
             tbody.append(row, row2);
 
+            // 대댓글 재귀 호출
+            if (comment.replies.length > 0) {
+                renderComments(comment.replies, depth + 1);
+            }
         });
-    } else {
-        // 데이터가 없을 경우 테이블에 메시지 추가
-        let noDataMessage = $("<tr>").append($("<td colspan='5' class='text-center'>").text("댓글이 없습니다."));
-        tbody.append(noDataMessage);
     }
 
+    // 댓글 출력 시작
+    renderComments(rootComments);
 }
+
 
 //페이지 로딩 시 좋아요 표시
 async function checkLike() {
@@ -428,43 +438,46 @@ function setupReplyPagination(totalPages) {
 }
 
 //대댓글 입력 폼
-function rowReplyInsertForm() {
-    let rowReplyFormArea = $("#rowReplyFormArea");
-    rowReplyFormArea.empty();
+function rowReplyInsertForm(replyId, thisRow) {
 
-    let replyForm = $("<textarea>").attr('id', 'rowReplyForm').attr('placeholder', ' 답글을 입력하세요.').addClass('form-control');
-    rowReplyFormArea.append(replyForm);
+    let rowReplyFormArea = document.createElement('div');
+    rowReplyFormArea.id = "rowReplyFormArea_" + replyId;
 
-    rowReplyFormArea.append("<br>");
+    let replyForm = document.createElement('textarea');
+    replyForm.id = "replyForm_" + replyId;
+    replyForm.placeholder = '답글을 입력하세요.';
+    replyForm.classList.add('form-control', 'text');
 
-    let addReplyBtn = $("<button>").text('댓글등록').addClass('btn btn-primary').attr('id', 'addRowReplyBtn');
-    let cancelBtn = $("<button>").text('취소').addClass('btn btn-danger').attr('id', 'cancelRowReplyBtn');
-
-    cancelBtn.on('click', function () {
-        // 취소 버튼 클릭 시 폼 비우기
-        rowReplyFormArea.empty();
+    let addReplyBtn = document.createElement('button');
+    addReplyBtn.type = 'button';
+    addReplyBtn.classList.add('btn', 'btn-primary');
+    addReplyBtn.id = 'addReplyBtn_' + replyId;
+    addReplyBtn.textContent = '댓글 등록';
+    addReplyBtn.addEventListener('click', function () {
+        insertRowReply(replyId);
     });
 
-    rowReplyFormArea.append(addReplyBtn, cancelBtn);
-
-    // 'addReplyBtn'에 대한 이벤트 핸들러를 등록할 때 jQuery의 'on' 메서드를 사용
-    addReplyBtn.on('click', function () {
-        console.log('execute');
+    let cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.id = 'cancelReplyBtn_' + replyId;
+    cancelBtn.classList.add('btn', 'btn-danger');
+    cancelBtn.textContent = '닫기';
+    cancelBtn.addEventListener('click', function () {
+        rowReplyFormArea.remove();
+        thisRow.find('#rowReplyFormOpen_' + replyId).prop('disabled', false);
     });
+    rowReplyFormArea.append(replyForm, addReplyBtn, cancelBtn);
+    thisRow.append(rowReplyFormArea);
+    thisRow.find('#rowReplyFormOpen_' + replyId).prop('disabled', true);
 }
 
-function test() {
-    // console.log(this.parentNode.parentNode.parentNode)
-}
 //대댓글 등록
-
-function insertRowReply() {
-    let upperReplyId = this.parentNode.parentNode.childNodes[4].value;
-
-
+function insertRowReply(upperReplyId) {
+    console.log(upperReplyId)
     const searchParams = new URLSearchParams(location.search);
     let boardId = Number(searchParams.get('boardId'));
-    let content = document.getElementById('replyForm').value
+    let content = document.getElementById('replyForm_' + upperReplyId).value
+    console.log(content);
     $.ajax({
         type: 'POST',
         url: '/insertReply',
@@ -475,7 +488,9 @@ function insertRowReply() {
             replyLoad(currentPage);
 
             let rowReplyForm = document.getElementById('rowReplyForm');
-            rowReplyForm.remove();
+            if (rowReplyForm) {
+                rowReplyForm.remove();
+            }
             document.getElementById('rowReplyFormOpen').disabled = false;
 
             let addReplyBtn = document.getElementById('addRowReplyBtn');
@@ -493,3 +508,26 @@ function insertRowReply() {
 
 }
 
+
+function convertToTreeStructure(data) {
+    const commentMap = new Map(); // 댓글 ID를 키로 갖는 Map
+    const rootComments = []; // 최상위 댓글을 저장하는 배열
+
+    // 댓글을 Map에 추가
+    data.historyList.forEach((comment) => {
+        comment.replies = []; // 대댓글을 저장할 배열 추가
+        commentMap.set(comment.replyId, comment);
+    });
+
+    // 부모 댓글에 대댓글 추가
+    data.historyList.forEach((comment) => {
+        if (comment.upperReplyId && commentMap.has(comment.upperReplyId)) {
+            const parentComment = commentMap.get(comment.upperReplyId);
+            parentComment.replies.push(comment);
+        } else {
+            rootComments.push(comment); // 최상위 댓글인 경우 rootComments 배열에 추가
+        }
+    });
+
+    return rootComments;
+}
