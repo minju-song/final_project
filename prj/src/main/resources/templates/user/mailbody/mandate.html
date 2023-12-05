@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body style="background: #fff;">
+	<div class="body_container" align="center">
+		<div class="img_wrap">
+			<img alt="welcome"
+				th:src="@{https://postfiles.pstatic.net/MjAyMzExMzBfMTA0/MDAxNzAxMzM1MzA0NjEy.qT2SxMkAVHwYz44TnyyVxO42xX_wmtepyKFY6JHkMo4g.QSkFWgj3NYIcSjhlHKyG_n2tO2tfE9jpvnGvazvNV0Yg.PNG.songjaeskkk/letter.png?type=w966}"
+				style="width: 50vw; max-width: 800px; min-width: 500px;">
+		</div>
+
+		<div class="btn_wrap"
+			style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
+				<p th:text="${member+'님이 ' + clubName + '모임의 모임장으로 위임 요청을 보냈습니다.'}"
+					style="font-weight: 700; font-size: 30px;"></p>
+				<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
+				<a th:href="@{http://localhost:8090/mandate(clubId=${club},clubLeader=${leader}, clubName=${clubName})}">승인</a>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

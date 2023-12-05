@@ -265,9 +265,10 @@ function mandate(memberId) {
         console.log("방장아님");
         return;
     }
+
     Swal.fire({
         title: "모임장을 위임하시겠습니까?",
-        text: "즉시 위임이 가능합니다.",
+        text: "회원의 동의를 받아합니다.",
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -275,23 +276,79 @@ function mandate(memberId) {
         confirmButtonText: "Yes"
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch('/member/mandate?clubId=' + clubId + "&clubLeader=" + memberId)
-                .then(resolve => resolve.text())
-                .then(result => {
-                    console.log(result);
-                    Swal.fire({
-                        title: "위임완료",
-                        text: "위임이 완료되었습니다.",
-                        icon: "success"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
-                        }
-
-                    });
-                });
+            Swal.fire({
+                input: "textarea",
+                inputLabel: "위임 사유를 적어주세요.",
+                inputPlaceholder: "Type your message here...",
+                inputAttributes: {
+                    "aria-label": "Type your message here"
+                },
+                showCancelButton: true
+            }).then((text) => {
+                if (text) {
+                    let clubVO = { clubName: clubName, clubId: clubId, clubLeader: memberId, text: text.value, type: 'mandate' };
+                    fetch('/sendmail/mandate', {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": `application/json`, // application/json 타입 선언
+                        },
+                        body: JSON.stringify(clubVO)
+                    })
+                        .then(resolve => resolve.text())
+                        .then(result => {
+                            if (result == 'success') {
+                                Swal.fire({
+                                    title: "위임 신청 완료",
+                                    text: "위임 신청이 완료되었습니다.",
+                                    icon: "success"
+                                }).then((result) => {
+                                    // location.reload();
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    title: "위임 신청 실패",
+                                    text: "위임 신청을 실패습니다.",
+                                    icon: "error"
+                                }).then((result) => {
+                                    // location.reload(); 
+                                })
+                            }
+                        }).catch(err => console.log(err));
+                }
+            });
         }
-    })
+    });
+
+
+
+    // Swal.fire({
+    //     title: "모임장을 위임하시겠습니까?",
+    //     text: "즉시 위임이 가능합니다.",
+    //     icon: "question",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "Yes"
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         fetch('/member/mandate?clubId=' + clubId + "&clubLeader=" + memberId)
+    //             .then(resolve => resolve.text())
+    //             .then(result => {
+    //                 console.log(result);
+    //                 Swal.fire({
+    //                     title: "위임완료",
+    //                     text: "위임이 완료되었습니다.",
+    //                     icon: "success"
+    //                 }).then((result) => {
+    //                     if (result.isConfirmed) {
+    //                         location.reload();
+    //                     }
+
+    //                 });
+    //             });
+    //     }
+    // })
 }
 
 /**

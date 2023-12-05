@@ -218,10 +218,13 @@ public class ClubController {
 	}
 	
 	//클럽장 위임
-	@GetMapping("member/mandate")
-	public String mandate(ClubVO vo) {
+	@GetMapping("/mandate")
+	public String mandate(Model model,ClubVO vo) {
 		System.out.println("들어온 클럽 : "+vo);
-		return clubService.mandateKing(vo);
+		clubService.mandateKing(vo);
+		
+		model.addAttribute("clubname",vo.getClubName());
+		return "user/club/mandateComplete";
 	}
 	
 	//클럽삭제

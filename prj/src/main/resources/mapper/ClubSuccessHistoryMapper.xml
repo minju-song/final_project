@@ -6,11 +6,13 @@
   
   	<!-- 해당 클럽의 평균 성공률 -->
   	<select id="getSuccessPct" resultType="double" parameterType="ClubVO">
-		SELECT DECODE(
-		            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId}), 0, 0, 
-		            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state = 'SU1') /
-		            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId})) 
-		            as result 
+        SELECT 
+    		CASE 
+        		WHEN (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state != 'SU3') = 0 THEN 0
+        	ELSE
+	            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state = 'SU1') /
+	            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state != 'SU3')
+    		END as result 
 		FROM DUAL
   	</select>
   	

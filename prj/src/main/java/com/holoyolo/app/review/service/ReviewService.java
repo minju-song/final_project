@@ -9,4 +9,10 @@ public interface ReviewService {
 	
 	//리뷰등록
 	public int insertReview(ReviewVO vo);
+	
+	//리뷰수정
+	public int updateReview(ReviewVO vo);
+	
+	//리뷰삭제
+	public int deleteReview(ReviewVO vo);
 }

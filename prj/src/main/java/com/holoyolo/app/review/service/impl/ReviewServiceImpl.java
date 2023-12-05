@@ -59,4 +59,14 @@ public class ReviewServiceImpl implements ReviewService{
 	public int insertReview(ReviewVO vo) {
 		return reviewMapper.insertReview(vo);
 	}
+
+	@Override
+	public int updateReview(ReviewVO vo) {
+		return reviewMapper.updateReview(vo);
+	}
+
+	@Override
+	public int deleteReview(ReviewVO vo) {
+		return reviewMapper.deleteReview(vo);
+	}
 }

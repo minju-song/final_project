@@ -119,6 +119,39 @@ public class EmailService {
 		}
     }
     
+    public String mandate(EmailVO emailVO) {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		
+		try {
+			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+			mimeMessageHelper.setTo(emailVO.getTo()); // 수신자
+			mimeMessageHelper.setSubject(emailVO.getSubject()); // 제목
+			mimeMessageHelper.setText(setContextMandate(emailVO.getClubId(),emailVO.getClubName(),emailVO.getReqId(), emailVO.getText(),emailVO.getType(),emailVO.getLeader()), true); // 메일 본문 내용, HTML 여부
+			javaMailSender.send(mimeMessage);
+			
+			log.info("Mail Send Success");
+			return "success";
+			//return authNum;
+			
+		} catch(MessagingException e) {
+			log.info("Mail Send Fail");
+			throw new RuntimeException(e);
+
+		}
+    }
+    
+    public String setContextMandate(int clubId,String clubName, String reqId, String text, String type, String leader) {
+        Context context = new Context();
+        context.setVariable("club", clubId); //클럽아이디
+        context.setVariable("member", reqId); //요청하는 전클럽리더
+        context.setVariable("clubName", clubName); //클럽이름
+        context.setVariable("text", text); // 위임사유
+        context.setVariable("type", type);
+        context.setVariable("leader", leader);
+        String path = "/user/mailbody/mandate";
+        return templateEngine.process(path, context);
+    }
+    
     public String setContextReq(int clubId,String clubName, String reqId, String text, String type) {
         Context context = new Context();
         context.setVariable("club", clubId);

@@ -18,4 +18,10 @@ public interface ReviewMapper {
 	
 	//해당 클럽의 리뷰평점
 	public double avgClubStar(int cid);
+	
+	//리뷰수정
+	public int updateReview(ReviewVO vo);
+	
+	//리뷰삭제
+	public int deleteReview(ReviewVO vo);
 }

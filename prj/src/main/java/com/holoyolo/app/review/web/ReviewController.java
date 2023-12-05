@@ -18,6 +18,8 @@ import com.holoyolo.app.club.service.ClubService;
 import com.holoyolo.app.club.service.ClubVO;
 import com.holoyolo.app.clubMember.service.ClubMemberService;
 import com.holoyolo.app.clubMember.service.ClubMemberVO;
+import com.holoyolo.app.member.service.MemberService;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.review.service.ReviewService;
 import com.holoyolo.app.review.service.ReviewVO;
 
@@ -32,6 +34,9 @@ public class ReviewController {
 	
 	@Autowired
 	ClubMemberService clubMemberService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	@GetMapping("/member/club/clubReview")
 	public String clubPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model,HttpSession session, ClubVO vo) {
@@ -61,14 +66,20 @@ public class ReviewController {
 			session.setAttribute("check", false);
 		}
 		
+		MemberVO memberVO = memberService.selectUser(principalDetails.getUsername());
+		
 		Map<String, Object> map = new HashMap<>();
 		
 		map = reviewService.reviewPage(vo.getClubId(), principalDetails.getUsername());
 		
+		System.out.println(memberVO);
+		
+		model.addAttribute("user", memberVO);
 		model.addAttribute("result", map);	
 		model.addAttribute("menu", "club");
 		model.addAttribute("subMenu", "review");
 		model.addAttribute("userId", principalDetails.getUsername());
+
 		return "user/club/clubReview";
 	}
 	
@@ -88,6 +99,42 @@ public class ReviewController {
 			map.put("result", "fail");
 		}
 		
+		map.put("review", vo);
+		
+		
 		return map;
 	}
+	
+	@PostMapping("/member/reviewUpdate")
+	@ResponseBody
+	public Map<String, Object> updateReview(@AuthenticationPrincipal PrincipalDetails principalDetails, ReviewVO vo) {
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(vo);
+		
+		if(reviewService.updateReview(vo) > 0) {
+			map.put("result", "success");
+		}
+		else {
+			map.put("result", "fail");
+		}
+		
+		return map;
+	}
+	
+	@GetMapping("/member/reviewDelete")
+	@ResponseBody
+	public Map<String, Object> deleteReview(ReviewVO vo){
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(vo);
+		
+		if(reviewService.deleteReview(vo) > 0) {
+			map.put("result", "success");
+		}
+		else {
+			map.put("result", "fail");
+		}
+		
+		return map;
+	}
+	
 }
