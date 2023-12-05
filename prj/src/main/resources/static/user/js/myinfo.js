@@ -3,7 +3,6 @@
  */
 
 $(function(){
-debugger
 let url = $('#infoView').data("url");
 
 /* 닉네임 변경 start */
