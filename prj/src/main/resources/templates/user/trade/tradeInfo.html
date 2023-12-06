@@ -84,7 +84,7 @@
 									<p>거래확정</p>
 								</div>
 								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}">
-									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}"> 홀로페이</p>
+									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}" th:onclick="'location.href=\'/member/tradePay?tradeId='+ @{${tradeInfo.tradeId}} + '\''"> 홀로페이</p>
 								</div>
 							</div>
 						</div>

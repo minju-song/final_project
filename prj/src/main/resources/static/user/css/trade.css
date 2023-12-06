@@ -456,3 +456,29 @@ li{
 .classHidden{
 	display : none;
 }
+
+
+
+
+
+
+.holoPaywrap{
+    margin: 0 auto;
+    border-radius: 7px;
+    border: 1px solid #bbbbbb;
+    width: 70%;
+    padding: 30px;
+}
+
+.payImg{
+	width: 30px;
+    margin-right: 8px;
+}
+
+.payInsert{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+    border-bottom-right-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}

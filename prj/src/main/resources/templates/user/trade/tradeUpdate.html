@@ -18,7 +18,7 @@
 		<div class="card">
 			<div class="card-body">
 				<form class="row g-3" th:action="@{/member/tradeUpdate}"
-					method="POST" th:object="${tradeInfo}">
+					method="POST" th:object="${tradeInfo}" encType="multipart/form-data">
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
 						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required th:field="*{title}">
@@ -74,9 +74,9 @@
 							<img class="tradeImgPlus" id="tradeImg" th:src="@{/user/images/trade/photo.png}"> 
 							<input class="real_file" type="file" onchange="addFile(this);" required multiple />
 							<div class="file-list">
-								<li calss="position_rela" th:each="tradeImg, stat : ${tradeImg}">
-									<img id="deleteImg" data-file="${tradeImg.saveFile}" src="/user/images/trade/delete-button.png" class="delBtn position_absol" th:onclick="@{delFile(e)}">
-									<img th:src="@{/images/}+ ${tradeImg.saveFile}" class="imgSize">
+								<li calss="position_rela">
+									<img data-file="${tradeImg.saveFile}" src="/user/images/trade/delete-button.png" class="delBtn position_absol">
+									<img src="@{/images/} + ${tradeImg.saveFile}" class="imgSize" data-file="${tradeImg.saveFile}">
 								</li>
 							</div>
 						</div>
@@ -97,6 +97,7 @@
 						<button type="reset" class="btn btn-secondary">취소</button>
 						<button type="submit" class="btn btn-primary">등록</button>
 					</div>
+					<input type="number" th:field="*{tradeId}" hidden>
 				</form>
 			</div>
 		</div>
@@ -107,6 +108,7 @@
 			let latitude = `[[${tradeInfo.latitude}]]`;
 			let longitude = `[[${tradeInfo.longitude}]]`;
 			let tradeType = `[[${tradeInfo.tradeType}]]`;
+			let imgSize = `[[${tradeImg.size}]]`
 		</script>
 		<script src="/user/js/tradeUpdate.js"></script>
 	</div>

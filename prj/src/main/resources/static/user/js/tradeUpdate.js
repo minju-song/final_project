@@ -2,6 +2,13 @@
  * tradeUpdate
  */
 
+let fileDelButton = document.querySelectorAll('.position_absol');
+for(let i=0; i<fileDelButton.length; i++){
+	fileDelButton[i].addEventListener('click', function(e){
+		e.target.parentElement.remove();
+	})
+}
+
 //장소, 위도, 경도 저장	
 document.getElementById('placeSelectButton').addEventListener('click', function(){
   let width = 500; //팝업의 너비
@@ -78,8 +85,7 @@ let number = document.getElementById('price');
         const imagePreview = document.querySelector('.file-list');
         //const docFrag = new DocumentFragment();
         //console.log(typeof files, files);
-
-        if ([...files].length >= 6) {
+        if ((Number(imgSize) + [...files].length) >= 6) {
           alert('이미지는 최대 5개까지 업로드가 가능합니다.');
           return;
         }

@@ -99,7 +99,6 @@ public class TradeController {
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		attachmentVO.setPostId(tradeVO.getTradeId());
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
-		System.out.println(attachmentService.getAttachmentList(attachmentVO) + "................");
 		return "user/trade/tradeUpdate";
 	}
 	
@@ -139,5 +138,9 @@ public class TradeController {
 		tradeService.deleteTrade(tradeVO);
 	}
 	
-
+	//계산페이지 이동
+		@GetMapping("member/tradePay")
+		public String tradePay(TradeVO tradeVO) {
+			return "user/trade/tradePay";
+		}
 }
