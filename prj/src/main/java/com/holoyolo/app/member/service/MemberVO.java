@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MemberVO {
-	
+	// 회원
 	private String memberId;
 	private String memberName;
 	private String password;
@@ -43,4 +43,11 @@ public class MemberVO {
 	private String authNum;
 	private String vResult;
 
+	// 관리자
+	// 검색
+	private String search;
+	// 페이징
+	private int page=1;
+	private int rn;
+	private int pageUnit=10;
 }

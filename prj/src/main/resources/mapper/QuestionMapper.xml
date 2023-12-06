@@ -2,101 +2,82 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.holoyolo.app.question.mapper.QuestionMapper">
-  		<select id="selectQuestionTotalList" resultType="QuestionVO">
-			SELECT * FROM 
-		    (SELECT A.* , ROWNUM rn FROM (
-		SELECT * FROM (        
-		     SELECT 
-				    q.question_id, 
-				    q.title, 
-				    q.member_id, 
-				    q.write_date,
-				    fn_get_code_name(question_type) AS question_type,
-				    CASE 
-				        WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id  ) = 0 THEN '답변대기'
-				        ELSE '답변완료'
-				    END AS question_yn
-				FROM question q
-		  ) question
-	  <where>
-			<if test="questionYn != null and questionYn != '' ">
-			 AND question_yn = #{questionYn}
-		  	</if>
-		  	<if test="search != null and search != ''">
-		  		 AND (title LIKE '%'||#{search}||'%' OR question_id LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%') AND question_yn LIKE '%'||#{questionYn}||'%'
-			 </if>
-	  </where>
-	  	ORDER BY question_id DESC
-	  	) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
-	</select>
-	
-	<!--<select id="selectQuestionTotalList" resultType="QuestionVO">
-			SELECT * FROM 
-		    (SELECT A.* , ROWNUM rn FROM (
-				SELECT * FROM (        
-				     SELECT 
-					    q.question_id, 
-					    q.title, 
-					    q.member_id, 
-					    q.write_date,
-					    fn_get_code_name(question_type) AS question_type,
-					    CASE 
-					        WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id  ) = 0 THEN '답변대기'
-					        ELSE '답변완료'
-					    END AS question_yn
-					FROM question q
-		  ) question
-		  WHERE 1=1
-		<where>
-			 <if test="questionYn != null and questionYn != ''">
-			 	 question_yn = #{questionYn}
-			 </if>
 
+<mapper
+	namespace="com.holoyolo.app.question.mapper.QuestionMapper">
+	<select id="selectQuestionTotalList" resultType="QuestionVO">
+		SELECT * FROM
+			(SELECT A.* , ROWNUM rn FROM (
+				SELECT * FROM (
+					SELECT
+						q.question_id,
+						q.title,
+						q.member_id,
+						q.write_date,
+						fn_get_code_name(question_type) AS question_type,
+					CASE
+					WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id ) = 0 THEN '답변대기'
+					ELSE '답변완료'
+					END AS question_yn
+				FROM question q
+			) question
+		<where>
+			<if test="questionYn != null and questionYn != '' ">
+				AND question_yn = #{questionYn}
+			</if>
+			<if test="search != null and search != ''">
+				AND (
+					title LIKE '%'||#{search}||'%' OR 
+					question_id LIKE '%'||#{search}||'%' OR
+					member_id LIKE '%'||#{search}||'%'
+					)
+				AND question_yn LIKE '%'||#{questionYn}||'%'
+			</if>
 		</where>
-ORDER BY question_id DESC
-	  	<if test="page != null and page != ''">
-		  	) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
-	  	</if>
-	</select>-->
-  	
-  	<!--단건조회-->
-  	<select id="selectQuestionInfo" resultType="QuestionVO">
-  		SELECT question_id
-  			 , fn_get_code_name(question_type) question_type
-  			 , title
-  			 , content
-  			 , write_date
-  			 , member_id 
+		ORDER BY question_id DESC ) A) b 
+		WHERE rn 
+			BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
+	</select>
+
+	<!--단건조회 -->
+	<select id="selectQuestionInfo" resultType="QuestionVO">
+		SELECT question_id
+		, fn_get_code_name(question_type) question_type
+		, title
+		, content
+		, write_date
+		, member_id
 		FROM question
 		WHERE question_id = #{questionId}
-  	</select>
-  	
-  	<!-- 전체 개수 조회 -->
-	<select id="selectQuestionTotalCount" resultType="int">
-	
-	    SELECT COUNT(*) FROM (        
-		     SELECT 
-				    q.question_id, 
-				    q.title, 
-				    q.member_id, 
-				    q.write_date,
-				    fn_get_code_name(question_type) AS question_type,
-				    CASE 
-				        WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id  ) = 0 THEN '답변대기'
-				        ELSE '답변완료'
-				    END AS question_yn
-				FROM question q
-		  ) question
-	  <where>
-			<if test="questionYn != null and questionYn != '' ">
-			 AND question_yn = #{questionYn}
-		  	</if>
-		  	<if test="search != null and search != ''">
-		  		AND (title LIKE '%'||#{search}||'%' OR question_id LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%') AND question_yn LIKE '%'||#{questionYn}||'%'
-			</if>
-	  </where>
 	</select>
 
-  </mapper>
+	<!-- 전체 개수 조회 -->
+	<select id="selectQuestionTotalCount" resultType="int">
+
+		SELECT COUNT(*) FROM (
+		SELECT
+		q.question_id,
+		q.title,
+		q.member_id,
+		q.write_date,
+		fn_get_code_name(question_type) AS question_type,
+		CASE
+		WHEN ( SELECT COUNT(*) FROM answer a WHERE a.question_id = q.question_id )
+		= 0 THEN '답변대기'
+		ELSE '답변완료'
+		END AS question_yn
+		FROM question q
+		) question
+		<where>
+			<if test="questionYn != null and questionYn != '' ">
+				AND question_yn = #{questionYn}
+			</if>
+			<if test="search != null and search != ''">
+				AND (title LIKE '%'||#{search}||'%' OR question_id LIKE
+				'%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%') AND
+				question_yn LIKE '%'||#{questionYn}||'%'
+			</if>
+		</where>
+	</select>
+
+</mapper>

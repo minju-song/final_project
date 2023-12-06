@@ -21,7 +21,7 @@ public class AdminMemberController {
 	
 	@GetMapping("/admin/member")
 	public String selectMemberList(Model model) {
-		return "/admin/memberMgt";
+		return "/admin/member/memberPage";
 	}
 	
 	@GetMapping("/admin/member/list")

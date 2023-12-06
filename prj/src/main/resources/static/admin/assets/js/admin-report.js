@@ -149,7 +149,7 @@ $(document).ready(function () {
 				// 목록출력 
 				let reportData = data.list;
 				// 개수출력
-				$("#initReportCount").text(`${reportData.length}개`)
+				$("#initReportCount").text(`(${reportData.length})`)
 				console.log(reportData);
 				$.each(reportData, function (index, item) {
 					let template = `<tr>

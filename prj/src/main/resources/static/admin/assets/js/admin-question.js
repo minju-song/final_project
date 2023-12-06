@@ -30,7 +30,7 @@ $(document).ready(function () {
 		})
 			.done(function (data) {
 				// 개수출력
-				$("#initQuestionCount").text(`${data.count}개`)
+				$("#initQuestionCount").text(`(${data.count})`)
 				console.log(data)
 				// 목록출력 
 				let listData = data.list;
@@ -102,8 +102,7 @@ $(document).ready(function () {
 		questionYn = "";
 		search = "";
 		$("#searchInput").val("");
-		$("#pendingQuestionCount").removeClass('active');
-		$("#completedQuestionCount").removeClass('active');
+		$("#pendingQuestionCount, #completedQuestionCount").removeClass('active');
 		$("#totalQuestionCount").addClass('active');
 		renderQuestionList(questionYn, pageNum, search);
 	});
@@ -114,8 +113,7 @@ $(document).ready(function () {
 		questionYn = "답변대기"
 		search = "";
 		$("#searchInput").val("");
-		$("#totalQuestionCount").removeClass('active');
-		$("#completedQuestionCount").removeClass('active');
+		$("#totalQuestionCount, #completedQuestionCount").removeClass('active');
 		$("#pendingQuestionCount").addClass('active');
 		renderQuestionList(questionYn, pageNum, search);
 	});
@@ -126,8 +124,7 @@ $(document).ready(function () {
 		questionYn = "답변완료"
 		search = "";
 		$("#searchInput").val("");
-		$("#totalQuestionCount").removeClass('active');
-		$("#pendingQuestionCount").removeClass('active');
+		$("#totalQuestionCount, #pendingQuestionCount").removeClass('active');
 		$("#completedQuestionCount").addClass('active');
 		renderQuestionList(questionYn, pageNum, search);
 	});
