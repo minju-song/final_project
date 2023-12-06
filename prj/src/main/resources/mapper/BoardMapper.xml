@@ -54,7 +54,10 @@
 	
 	</update>
 	
-	<delete id="deleteBoard"></delete>
+	<delete id="deleteBoard" parameterType="BoardVO">
+		DELETE BOARD 
+		WHERE BOARD_ID =#{boardId} 
+	</delete>
 
 
 

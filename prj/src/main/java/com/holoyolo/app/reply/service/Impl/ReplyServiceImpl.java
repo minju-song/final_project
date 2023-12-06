@@ -22,8 +22,20 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public int deleteReply(ReplyVO vo) {
-		return replyMapper.deleteReply(vo);
+	public String deleteReply(ReplyVO vo) {
+		
+		String result = "";
+
+		int set =  replyMapper.deleteReply(vo);
+		if (set == 0) {
+			result = "err";
+		} else if (set == 1) {
+			result = "댓글이 삭제되었습니다";
+		}
+
+		return result;
+		
+		 
 	}
 
 	@Override
@@ -37,7 +49,6 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyMapper.memberReplyList();
 	}
 
-	
 	@Override
 	public List<ReplyVO> searchReplyPage(JSONObject req) {
 		int start = (int) req.get("start");
@@ -53,6 +64,19 @@ public class ReplyServiceImpl implements ReplyService {
 		vo.setBoardId((int) req.get("boardId"));
 		return replyMapper.getTotalReplyRecords(vo);
 	}
-	
-	 
+
+	@Override
+	public String updateReply(ReplyVO vo) {
+		String result = "";
+
+		int set = replyMapper.updateReply(vo);
+		if (set == 0) {
+			result = "err";
+		} else if (set == 1) {
+			result = "댓글이 수정되었습니다";
+		}
+
+		return result;
+	}
+
 }

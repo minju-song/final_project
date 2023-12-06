@@ -24,5 +24,7 @@ public interface ReplyMapper {
 
 		// 전체 레코드 수 조회
 		public int getTotalReplyRecords(ReplyVO vo);
+
+		public int updateReply(ReplyVO vo);
 		
 }

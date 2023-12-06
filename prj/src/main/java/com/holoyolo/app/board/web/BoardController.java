@@ -55,7 +55,7 @@ public class BoardController {
 		mo.addAttribute("user", prd.getMemberVO());
 		mo.addAttribute("menu", "community");
 		mo.addAttribute("boardType", "정보공유게시판");
-		//addInfoBoard
+		// addInfoBoard
 		return "user/community/insertBoard";
 	}
 
@@ -112,6 +112,22 @@ public class BoardController {
 		model.addAttribute("loginId", loginId);
 		return "/user/community/postUpdate";
 	}
+
 //삭제
-	
+	@PostMapping("/member/board/delete")
+	@ResponseBody
+	public Map<String, Object> deleteBoard(Model mo, @RequestBody BoardVO vo) {
+
+		System.out.println("===================" + mo);
+		System.out.println("===================" + vo);
+		// 회원만 보이는 버튼
+
+		// 삭제
+		boardService.deleteBoard(vo);
+		// 게시물 로드
+		Map<String, Object> result = new HashMap<>();
+		result.put("resultMsg", "삭제되었습니다.");
+		return result;
+
+	}
 }

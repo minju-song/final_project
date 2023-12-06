@@ -44,7 +44,11 @@ ORDER BY
     VALUES(#{replyId}, #{upperReplyId}, #{content}, sysdate, null, #{boardId}, #{memberId})
 </insert>
 
-
+<update id="updateReply" parameterType="ReplyVO" >
+	UPDATE REPLY
+	SET CONTENT = #{content}
+	WHERE REPLY_ID = 	#{replyId}
+</update>
 
 <select id="searchReplyPaged" resultType="ReplyVO" parameterType="int">
 	    SELECT title, write_date, 
@@ -58,5 +62,10 @@ ORDER BY
     FROM REPLY
     WHERE BOARD_ID = #{boardId}
     </select>
+    
+    <delete id="deleteReply" parameterType="ReplyVO">
+    	DELETE FROM REPLY
+    	WHERE REPLY_ID=#{replyId}
+    </delete>
 
 </mapper>
