@@ -57,7 +57,7 @@
 	  	FROM acc_book_history 
 	  	WHERE member_id = #{memberId} 
 	  	AND trunc(pay_date) = trunc(#{payDate}) 
-	  	AND input_output='GA2'
+	  	AND input_output='GB2'
 	  </select>
 	  
 	  <!-- 해당 날짜 총 소득금액 -->
@@ -66,7 +66,7 @@
 	  	FROM acc_book_history 
 	  	WHERE member_id = #{memberId} 
 	  	AND trunc(pay_date) = trunc(#{payDate}) 
-	  	AND input_output='GA1'
+	  	AND input_output='GB1'
 	  </select>
 	  
 	  <!-- 해당 월 총 소비금액 -->
