@@ -156,11 +156,11 @@ function drawInput() {
             if (key == 'inputOutput') {
                 let option1 = document.createElement('option')
                 option1.innerText = '지출';
-                option1.value = 'GA2';
+                option1.value = 'GB2';
                 select.appendChild(option1);
                 let option2 = document.createElement('option')
                 option2.innerText = '소득';
-                option2.value = 'GA1';
+                option2.value = 'GB1';
                 select.appendChild(option2);
             }
             else {
@@ -278,7 +278,7 @@ function drawTr(history, ck, drawDate) {
     for (const key in history) {
         let td = document.createElement('td');
         if (key == 'inputOutput') {
-            if (history[key] == 'GA2') {
+            if (history[key] == 'GB2') {
                 td.innerText = '지출';
             }
             else {

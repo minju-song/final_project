@@ -57,7 +57,7 @@
 	  	FROM acc_book_history 
 	  	WHERE member_id = #{memberId} 
 	  	AND pay_date = #{payDate} 
-	  	AND input_output='GA2'
+	  	AND input_output='GB2'
 	  </select>
 	  
 	  <!-- 해당 월 총 소비금액 -->
