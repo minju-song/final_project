@@ -82,4 +82,26 @@
 	  	WHERE member_id = #{memberId}
 	  </select>
 	  
+	  <!-- 마이페이지 차트용 쿼리 -->
+	  <select id="selectChartData" resultType="AccBookHistoryVO">
+	  	SELECT  to_char(b.dt, 'YYYY-MM') as pay_date_month
+		        , SUM(case input_output when 'GB1' THEN  price ELSE 0 END) INPUT_SUM
+		        , SUM(case input_output when 'GB1' THEN  0 ELSE nvl(price,0) END) OUTPUT_SUM
+		        , SUM(case input_output when 'GB1' THEN  price ELSE nvl(price,0)*-1 END) PRICE
+		FROM    (SELECT trunc(pay_date, 'MM') pay_date
+		                , input_output
+		                , price
+		        FROM acc_book_history
+		        where member_id = #{memberId}
+		        AND PAYMENT_TYPE = #{paymentType}
+		        AND trunc(pay_date) > LAST_DAY(add_months(trunc(sysdate, 'MM'),-12))) a
+		        ,
+		        (SELECT add_months(trunc(sysdate,'MM'),-11) + LEVEL - 1 AS dt
+		         FROM dual 
+		         CONNECT BY LEVEL <![CDATA[<=]]> (trunc(sysdate) - add_months(trunc(sysdate, 'MM'),-11))) b
+		where b.dt = a.pay_date(+)
+		GROUP BY to_char(b.dt, 'YYYY-MM')
+		ORDER BY to_char(b.dt, 'YYYY-MM')
+	  </select>
+	  
   </mapper>

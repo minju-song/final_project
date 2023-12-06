@@ -58,11 +58,4 @@ public class HomeController {
 		
 		return "index";
 	}
-	
-	@GetMapping("test")
-	public String mailtest(Model model) {
-		model.addAttribute("member", "오이오이");
-		model.addAttribute("clubName", "거지방");
-		return "/user/mailbody/mandate";
-	}
 }

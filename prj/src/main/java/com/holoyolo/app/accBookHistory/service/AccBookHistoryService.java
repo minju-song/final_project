@@ -2,10 +2,6 @@ package com.holoyolo.app.accBookHistory.service;
 
 import java.util.List;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
-import com.holoyolo.app.auth.PrincipalDetails;
-
 public interface AccBookHistoryService {
 	public AccBookHistoryVO test(AccBookHistoryVO vo);
 	
@@ -26,5 +22,8 @@ public interface AccBookHistoryService {
 	
 	//거래내역 삭제
 	public int deleteHistory(AccBookHistoryVO vo);
+	
+	//마이페이지 차트용 데이터(멤버아이디와 가계부 결제방식 필요)
+	public List<AccBookHistoryVO> selectChartData(AccBookHistoryVO vo);
 	
 }

@@ -1,21 +1,23 @@
 package com.holoyolo.app.member.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.accBookHistory.service.AccBookHistoryService;
+import com.holoyolo.app.accBookHistory.service.AccBookHistoryVO;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
@@ -25,6 +27,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	AccBookHistoryService accBookHistoryService;
 	
 	/**
 	 * 로그인 페이지
@@ -132,14 +137,38 @@ public class MemberController {
 	@GetMapping("/member/myHome")
 	public String myHome(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String memberId = principalDetails.getUsername();
+		
+		// 회원의 개인정보
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
+		
+		// 회원의 가계부 데이터
+		AccBookHistoryVO abvo = new AccBookHistoryVO();
+		abvo.setMemberId(principalDetails.getUsername());
+		abvo.setPaymentType("GA1");
+		List<AccBookHistoryVO> chartData = accBookHistoryService.selectChartData(abvo);
+		model.addAttribute("chartData", chartData);
 		
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myHome");
 		
 		return "user/mypage/myHome";
+	}
+	
+	/**
+	 * 마이페이지-홈(가계부 차트)
+	 * @param principalDetails
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping("/member/myHome/chartData")
+	@ResponseBody
+	public List<AccBookHistoryVO> myChartData(@AuthenticationPrincipal PrincipalDetails principalDetails, AccBookHistoryVO vo) {
+		// 회원의 가계부 데이터
+		vo.setMemberId(principalDetails.getUsername());
+		List<AccBookHistoryVO> chartData = accBookHistoryService.selectChartData(vo);
+		return chartData;
 	}
 	
 	/**
@@ -173,8 +202,6 @@ public class MemberController {
 	@ResponseBody
 	public boolean infoAuth(HttpServletRequest request, MemberVO memberVO, Model model,
 							@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		HttpSession session = request.getSession();
-		//model.removeAttribute("authYn");
 		
 		memberVO.setMemberId(principalDetails.getUsername());
 		boolean result = memberService.checkPassword(memberVO);
