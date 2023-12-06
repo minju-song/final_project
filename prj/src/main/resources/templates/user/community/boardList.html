@@ -14,12 +14,12 @@
   <div layout:fragment="content">
     <div class="container">
       <div class="text-center">
-        <h2>정보게시판</h2>
+        <h2 th:text ="${boardType}"></h2>
       </div>
       <div class="row justify-content-end mt-3">
         <div class="col-2">
           <th:block th:if="${not #strings.isEmpty(username)}">
-            <a class="btn btn-primary btn-block" type="button" th:href="@{/member/board/insert}">등록</a>
+            <a class="btn btn-primary btn-block" type="button" th:href="@{/member/board/insert(boardType=${boardType})}">등록</a>
           </th:block>
 
         </div>

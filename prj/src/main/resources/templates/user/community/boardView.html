@@ -5,59 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    <link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
     <!-- TUI 에디터 CSS CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <style>
-        body {
-            height: 100%;
-        }
 
-        .editor_container {
-            font-family: arial;
-            font-size: 22px;
-            margin: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: solid 1px #ccc;
-        }
+    <link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
 
-        #editorContent {
-            width: 100%;
-            height: 100%;
-            max-height: 200px;
-            overflow: scroll;
-
-        }
-
-        img {
-            max-width: 350px;
-        }
-
-        #viewer {
-            width: 80%;
-            box-sizing: border-box;
-            min-height: 350px;
-        }
-
-        .boardData {
-            text-align: center;
-            color: rgb(110, 101, 101);
-            margin: 0;
-        }
-
-        .align-right {
-            text-align: right;
-        }
-
-        #boardLikeBtn {
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body layout:fragment="content">
@@ -65,23 +22,27 @@
 
     <div class="container">
 
-        <h3>정보</h3>
-        <div id="updateDelBtnDiv row" class="align-right">
-            <th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
-                <button type="button" class="btns save btn btn-primary"
-                    th:onclick="'location.href=\'/member/updateview?boardId='+ @{${board.boardId}} + '\''">수정</button>
-                <button type="button" class="btns save btn btn-danger" data-toggle="modal"
-                    data-target="#deletePostModal">삭제</button>
-                <input type="hidden" id="memberId" name="memberId"
-                    th:value="${#authentication.principal.memberVO.memberId}">
-            </th:block>
-        </div>
+        <h4>INFORMATION</h3>
+
+
+
         <div class="row">
-            <div class="col-12">
-                <span id="title"></span>
+            <div class="col-10">
+                <span id="title" style="font-size: 20px; margin-bottom: 10px;"></span>
+            </div>
+            <div id="updateDelBtnDiv col-1" class="align-right">
+                <th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
+                    <button type="button" class="btns save btn btn-primary"
+                        th:onclick="'location.href=\'/member/board/update?boardId='+ @{${board.boardId}} + '\''">수정</button>
+                    <button type="button" class="btns save btn btn-danger" data-toggle="modal"
+                        data-target="#deletePostModal">삭제</button>
+                    <input type="hidden" id="memberId" name="memberId"
+                        th:value="${#authentication.principal.memberVO.memberId}">
+                </th:block>
             </div>
         </div>
-        <div class="row">
+
+        <div class="row ">
             <div class="col-3">
                 <div class="row">
                     <div class="col-4">
@@ -123,35 +84,43 @@
                 </div>
             </div>
         </div>
-        <div class="editor_container col-12">
+
+
+
+        <div class="col-12 editor_container">
             <!--/* 에디터 콘텐츠 렌더링 영역 */-->
             <div id="viewer"></div>
         </div>
-        <button class="btn btn-primary" type="button" id="boardLikeBtn">🤍</button>
-        <a href="#" class="btn btn-danger">신고</a>
-        <a href="/board/info" class="btn btn-secondary">뒤로 가기</a>
-
+        <div class="col-12">
+            <button class="btn btn-primary" type="button" id="boardLikeBtn">🤍</button>
+            <a href="#" class="btn btn-danger">신고</a>
+            <a href="/board/info" class="btn btn-secondary">뒤로 가기</a>
+        </div>
+        <br>
         <div class="row">
             <div class="col-12">
-
-                <textarea class="form-control" id="replyForm" cols="30" rows="2" placeholder="댓글을 입력하세요"></textarea>
-                <button type="button" id="addReplyBtn" class="btn btn-primary">댓글 등록 </button>
-                <button type="button" id="cancelReplyBtn" class="btn btn-secondary">취소</button>
-                <div id="replyFormArea"></div>
-                <div id="addreplyBtn"></div>
-                <table class="table">
-                    <tbody id="ReplyTableBody">
-                        <tr>
-                            <td>데이터</td>
-                        </tr>
-                        <div></div>
-                    </tbody>
-                </table>
-                <div id="pagination-container">
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                        </ul>
-                    </nav>
+                <div class="col-12">
+                    <textarea class="form-control" id="replyForm" cols="30" rows="2" placeholder="댓글을 입력하세요"></textarea>
+                    <button type="button" id="addReplyBtn" class="btn btn-primary">댓글 등록 </button>
+                    <button type="button" id="cancelReplyBtn" class="btn btn-secondary">취소</button>
+                </div>
+                <div class="col-12">
+                    <div id="replyFormArea"></div>
+                    <div id="addreplyBtn"></div>
+                    <table class="table">
+                        <tbody id="ReplyTableBody">
+                            <tr>
+                                <td>데이터</td>
+                            </tr>
+                            <div></div>
+                        </tbody>
+                    </table>
+                    <div id="pagination-container">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
@@ -207,7 +176,7 @@
         });
 
         document.getElementById('deletPostBtn')
-            .addEventListener('click', (e)=>deletePost());
+            .addEventListener('click', (e) => deletePost());
 
     </script>
     <script th:inline="javascript">

@@ -42,7 +42,7 @@ public class BoardController {
 		} else {
 			mo.addAttribute("boardList", "0");
 		}
-
+		mo.addAttribute("boardType", "정보게시판");
 		mo.addAttribute("likeCount", 0);
 		mo.addAttribute("username", username);
 		mo.addAttribute("menu", "community");
@@ -51,10 +51,10 @@ public class BoardController {
 
 //글 등록
 	@GetMapping("/member/board/insert")
-	public String addBoard(@AuthenticationPrincipal PrincipalDetails prd, Model mo) {
+	public String addBoard(@AuthenticationPrincipal PrincipalDetails prd, Model mo, String boardType) {
 		mo.addAttribute("user", prd.getMemberVO());
 		mo.addAttribute("menu", "community");
-		mo.addAttribute("boardType", "정보공유게시판");
+		mo.addAttribute("boardType", boardType);
 		// addInfoBoard
 		return "user/community/insertBoard";
 	}
@@ -99,7 +99,7 @@ public class BoardController {
 	}
 
 	// 수정
-	@GetMapping("/member/updateview")
+	@GetMapping("/member/board/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model model) {
 		String loginId = "not found";
 
@@ -117,11 +117,6 @@ public class BoardController {
 	@PostMapping("/member/board/delete")
 	@ResponseBody
 	public Map<String, Object> deleteBoard(Model mo, @RequestBody BoardVO vo) {
-
-		System.out.println("===================" + mo);
-		System.out.println("===================" + vo);
-		// 회원만 보이는 버튼
-
 		// 삭제
 		boardService.deleteBoard(vo);
 		// 게시물 로드
@@ -130,4 +125,29 @@ public class BoardController {
 		return result;
 
 	}
+
+	// 수다게시판 리스트
+	@GetMapping("/board/chat")
+	public String boardChatList(Model mo, @AuthenticationPrincipal PrincipalDetails prd) {
+		// 회원만 보이는 버튼
+		String username = "";
+		if (prd != null) {
+			username = (String) prd.getUsername();
+		}
+		// 게시물 로드
+		List<BoardVO> history = boardService.BoardList("AA1");
+		if (history.size() != 0) {
+			mo.addAttribute("boardList", history);
+		} else {
+			mo.addAttribute("boardList", "0");
+		}
+		mo.addAttribute("boardType", "수다방");
+		mo.addAttribute("likeCount", 0);
+		mo.addAttribute("username", username);
+		mo.addAttribute("menu", "community");
+		return "user/community/boardList";
+
+	}
+
+	
 }

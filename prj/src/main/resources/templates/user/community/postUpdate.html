@@ -10,36 +10,11 @@
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
 
+	<link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
+
 	<!-- 버튼 영역 CSS -->
 	<style>
-		#btnDiv {
-			text-align: center;
-			margin-top: 20px;
-		}
-
-		.btns {
-			display: inline-block;
-			padding: 0 10px;
-			height: 28px;
-			line-height: 26px;
-			text-align: center;
-			vertical-align: middle;
-			border-radius: 3px;
-			border: 1px solid transparent;
-			font-weight: 500;
-		}
-
-		.btns.save {
-			background: #139dc8;
-			color: #fff;
-			cursor: pointer;
-		}
-
-		.btns.back {
-			background: #fff;
-			border: 1px solid #199bc4;
-			color: #199bc4;
-		}
+	
 	</style>
 </head>
 
@@ -91,7 +66,9 @@
 			const url = `/api/board/${postId}`;
 			const response = await fetch(url);
 			const post = await response.json();
-
+			console.log(post)
+			let title = document.getElementById('title')
+			title.value= post.title
 			// 3. 에디터 콘텐츠 렌더링
 			editor = new toastui.Editor({
 				el: document.querySelector('#viewer'),      // 에디터를 적용할 요소 (컨테이너)
@@ -166,7 +143,7 @@
 
 				const postId = await response.json();
 				alert(postId + '번 게시글이 저장되었습니다.');
-				location.href = '/editor/postview?boardId=' + boardId;
+				location.href = '/member/board/info?boardId=' + boardId;
 
 			} catch (error) {
 				console.error('저장 실패 : ', error)

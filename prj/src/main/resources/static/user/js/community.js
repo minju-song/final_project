@@ -69,12 +69,20 @@ function loadData(page) {
     currentPage = page;
     let start = (currentPage - 1) * recordsPerPage;
     let end = start + recordsPerPage;
+    let searchBoardSet = location.pathname
+    let boardType ="";
 
+        if(searchBoardSet =="/board/chat"){
+            boardType = "AA3"
+        }else if(searchBoardSet == "/board/info"){
+            boardType = "AA2"
+        }
+        
     $.ajax({
         type: 'POST',
         url: '/boardLoad',
         contentType: 'application/json;charset=UTF-8',
-        data: JSON.stringify({ "start": start, "end": end, "type": "AA2" }),
+        data: JSON.stringify({ "start": start, "end": end, "type": boardType }),
         success: function (data) {
 
             updateTable(data, page);
@@ -91,11 +99,7 @@ function loadData(page) {
 }
 //테이블 갱신
 function updateTable(data, page) {
-
     currentPage = page;
-    let endPage = Math.ceil(data.totalRecords / recordsPerPage);
-    console.log(endPage)
-
     let tbody = $("#boardTableBody");
     tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
 
