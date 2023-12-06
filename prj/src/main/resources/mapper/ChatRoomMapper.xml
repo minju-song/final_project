@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.holoyolo.app.chat.mapper.ChatRoomMapper">
+  	
+  	<select id="getChatRoom" parameterType="int">
+  		SELECT *
+  		FROM chatroom
+  		WHERE club_id = #{clubId}
+  	</select>
+  	
+  	<insert id="createChatRoom" parameterType="int">
+  		INSERT into chatroom
+  		VALUES (#{clubId})
+  	</insert>
+  	
+  	<insert id="insertChat" parameterType="ChatVO">
+  		<selectKey keyProperty="chatId"
+					   resultType="int"
+					   order="BEFORE">
+	  		SELECT NVL(MAX(chat_id),0) + 1
+				FROM chat
+	  	</selectKey>
+	  	
+	  	INSERT INTO chat
+	  	VALUES (
+	  			#{chatId}
+	  			, #{clubId}
+	  			, #{memberId}
+	  			, #{msg}
+	  			, #{realDate}
+	  			, #{memberName}
+	  			)
+  	</insert>
+  	
+  </mapper>
