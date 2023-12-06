@@ -74,32 +74,32 @@
 	
 	<!-- 회원 전체조회 -->
 	<select id="selectMemberAll" resultType="MemberVO">
-    SELECT *
-    FROM (
-        SELECT A.*, ROWNUM rn
-        FROM (
-        SELECT * FROM ( 
-            SELECT
-                m.member_name,
-                m.member_id,
-                    NVL(m.phone, '-') AS phone,
-                    NVL(m.addr, '-') AS addr,
-                m.join_date,
-                NVL(TO_CHAR(fn_get_code_name(role)), '관리자') AS role
-            FROM member m ) member
-            <where>
-                <if test="role != null and role != '' ">
-                    AND role = #{role}
-                </if>
-                <if test="search != null and search != ''">
-                    AND (member_name LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%' OR phone LIKE '%'||#{search}||'%' OR addr LIKE '%'||#{search}||'%')
-                </if>
-            </where>
-            ORDER BY join_date DESC
-        ) A
-    ) b
-    WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 AND #{page} * #{pageUnit}
-</select>
+	    SELECT *
+	    FROM (
+	        SELECT A.*, ROWNUM rn
+	        FROM (
+	        SELECT * FROM ( 
+	            SELECT
+	                m.member_name,
+	                m.member_id,
+	                    NVL(m.phone, '-') AS phone,
+	                    NVL(m.addr, '-') AS addr,
+	                m.join_date,
+	                NVL(TO_CHAR(fn_get_code_name(role)), '관리자') AS role
+	            FROM member m ) member
+	            <where>
+	                <if test="role != null and role != '' ">
+	                    AND role = #{role}
+	                </if>
+	                <if test="search != null and search != ''">
+	                    AND (member_name LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%' OR phone LIKE '%'||#{search}||'%' OR addr LIKE '%'||#{search}||'%')
+	                </if>
+	            </where>
+	            ORDER BY join_date DESC
+	        ) A
+	    ) b
+	    WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 AND #{page} * #{pageUnit}
+	</select>
 	
 	<select id="selectMemberCount" resultType="int">
 		SELECT COUNT(*) FROM (  
@@ -118,6 +118,33 @@
 	  	</if>
 	  </where>
 	</select>
+	
+	<select id="getHolopayHistory" resultType="MemberVO">
+		SELECT member_id
+		    , nickname
+		    , SUM(CASE point_type WHEN 'PA1' THEN price ELSE price * -1 END) AS point_price  
+		    , SUM(CASE  WHEN hp_type ='HP1' OR hp_type ='HP4' THEN hp_price ELSE hp_price * -1 END) AS holopay_price
+		FROM (
+		    SELECT p.member_id
+		        , m.nickname
+		        , p.point_type
+		        , p.price
+		        , '' hp_type
+		        , 0 hp_price
+		    FROM member m
+		        JOIN point_history p ON p.member_id = m.member_id
+		        UNION ALL
+		    SELECT h.member_id
+		        , m.nickname
+		        , ''
+		        , 0
+		        , h.hp_type
+		        , h.price
+		    FROM member m
+		        JOIN holopay_history h ON h.member_id = m.member_id
+		) a
+		GROUP BY  member_id, nickname
+	</select> 
 	
 	<!-- 회원가입 - 아이디 중복체크 -->
 	<select id="checkMemberId" resultType="MemberVO">

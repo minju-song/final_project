@@ -86,10 +86,10 @@ public class HoloPayController {
 
 	@GetMapping("/admin/holopay")
 	public String selectHolopayList(Model model) {
-//		List<HoloPayHistoryVO> list = holopayHistoryService.totalHolopayHistoryList();
-//		model.addAttribute("holopayList", list);
-		return "admin/holopayMgt";
+		return "admin/holopay/holopayPage";
 	}
+	
+	@GetMapping("")
 
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody

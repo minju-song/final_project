@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/adminLayout}">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container-xxl flex-grow-1 container-p-y">
+			<h4 class="fw-bold py-3 mb-4">홀로페이관리</h4>
+			<!-- Hoverable Table rows -->
+			<div class="card card-admin-container">
+				<div class="d-flex px-4 pt-4 justify-content-between">
+					<h5>
+						전체회원 <span id="initMemberCount" class="text-info"></span>
+					</h5>
+					<!-- 날짜검색 -->
+					<!-- <div class=" card-body p-0">
+						<div class="row float-right">
+							<div class="col-md-4 ms-auto bd-highlight pe-4">
+								<input class="form-control" type="date" value="2021-06-18"
+									id="html5-date-input" />
+							</div>
+						</div>
+					</div> -->
+					<!-- 검색창 -->
+					<div
+						class="float-right demo-vertical-spacing demo-only-element p-0">
+						<div class="input-group input-group-merge">
+							<span class="input-group-text" id="basic-addon-search31"><i
+								class="bx bx-search"></i></span> <input id="searchInput" type="text"
+								class="form-control" placeholder="Search..."
+								aria-label="Search..." aria-describedby="basic-addon-search31" />
+						</div>
+					</div>
+				</div>
+
+				<!--검색 조건-->
+				<div class="d-flex bd-highlight mb-3 mt-0 ps-4 pb-4"
+					aria-label="Basic example">
+					<!-- 회원유형 옵션 -->
+					<!-- <div class="p-2 bd-highlight">
+						<button id="totalMemberCount" name="totalMemberCount"
+							type="button" class="btn btn-outline-primary active">전체</button>
+						<button id="generalMemberCount" name="generalMemberCount"
+							type="button" class="btn btn-outline-primary">일반회원</button>
+						<button id="transactionSuspensionCount" name="transactionSuspensionCount"
+							type="button" class="btn btn-outline-primary">거래정지</button>
+						<button id="accountSuspensionCount" name="accountSuspensionCount"
+							type="button" class="btn btn-outline-primary">계정정지</button>
+					</div> -->
+					<!-- 게시물수 옵션 -->
+					<!-- 	<div class="ms-auto p-2 bd-highlight btn-group float-right pe-4">
+						<button type="button"
+							class="btn btn-outline-primary dropdown-toggle"
+							data-bs-toggle="dropdown" aria-expanded="false">게시물 수</button>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="javascript:void(0);">10</a></li>
+							<li><a class="dropdown-item" href="javascript:void(0);">50</a></li>
+							<li><a class="dropdown-item" href="javascript:void(0);">100</a></li>
+						</ul>
+					</div> -->
+				</div>
+
+				<div class="table-responsive text-nowrap">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>닉네임</th>
+								<th>회원아이디</th>
+								<th>홀로페이 잔액</th>
+								<th>포인트 잔액</th>
+							</tr>
+						</thead>
+						<tbody class="table-border-bottom-0">
+							<!-- 홀로페이 데이터 테이블 Ajax => admin-member.js -->
+						</tbody>
+					</table>
+					<hr class="m-0" />
+					<nav class="p-4" aria-label="Page navigation">
+						<ul class="pagination m-0">
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!--/ Hoverable Table rows -->
+		</div>
+		<script type="module" th:src="@{/admin/assets/js/admin-holopay.js}"></script>
+	</div>
+</body>
+</html>
