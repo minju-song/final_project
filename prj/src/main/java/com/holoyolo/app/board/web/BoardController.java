@@ -93,11 +93,11 @@ public class BoardController {
 			loginId = principalDetails.getUsername();
 		}
 		BoardVO vo = boardService.selectBoard(boardId);
-		
+
 		mo.addAttribute("menu", "community");
 		mo.addAttribute("board", vo);
 		mo.addAttribute("loginId", loginId);
-		
+
 		return "/user/community/boardView";
 
 	}
@@ -153,5 +153,13 @@ public class BoardController {
 
 	}
 
-	
+	@PostMapping("/checkWriter")
+	@ResponseBody
+	public Map<String, Object> checkWriter(@RequestBody BoardVO vo) {
+		vo = boardService.checkBoard(vo.getBoardId());
+		Map<String, Object> result = new HashMap<>();
+		result.put("board", vo);
+		return result;
+	}
+
 }

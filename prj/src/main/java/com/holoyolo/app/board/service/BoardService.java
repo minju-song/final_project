@@ -28,5 +28,7 @@ public interface BoardService {
 	//조회수 증가
 	
 	public int addView(int vo);
+
+	BoardVO checkBoard(int boardId);
 	
 }

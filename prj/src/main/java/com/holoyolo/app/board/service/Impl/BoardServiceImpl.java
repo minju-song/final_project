@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int deleteBoard(BoardVO vo) {
-		
+
 		return boardMapper.deleteBoard(vo);
 	}
 
@@ -77,5 +77,12 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO vo = new BoardVO();
 		vo.setBoardId(boardId);
 		return boardMapper.addView(vo);
+	}
+
+	@Override
+	public BoardVO checkBoard(int boardId) {
+		BoardVO vo = new BoardVO();
+		vo = boardMapper.selectBoard(boardId);
+		return vo;
 	}
 }
