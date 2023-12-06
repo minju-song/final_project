@@ -60,27 +60,27 @@
 								<p th:text="무료나눔" th:if="${tradeInfo.price == 0}" th:style="@{color:#ff6868;}"></p>
 							</div>
 							<!-- 판매자 버튼 -->
-							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '약속신청'}">
-								<div class="pay insertbutton" th:onclick="promiseCancel(${tradeInfo.tradeId})">
+							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '약속대기'}">
+								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속취소</p>
 								</div>
-								<div class="pay redButton" th:onclick="promiseNextLevel(`[[${tradeInfo.tradeId}]]`, 'TD3')">
+								<div class="pay redButton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속확정</p>
 								</div>
 							</div>
 							<!-- 구매자 버튼 -->
-							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '약속대기'}">
-								<div class="pay insertbutton" th:onclick="promiseNextLevel(`[[${tradeInfo.tradeId}]]`, 'TD2')">
+							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatus == null}">
+								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속잡기</p>
 								</div>
 							</div>
-							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '약속신청'}">
-								<div class="pay insertbutton" th:onclick="promiseCancel(${tradeInfo.tradeId})">
+							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '약속대기'} and ${memberId != tradeInfo.sellerId}">
+								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속취소</p>
 								</div>
 							</div>
-							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '약속확정'}">
-								<div class="pay insertbutton" th:onclick="promiseNextLevel(`[[${tradeInfo.tradeId}]]`, 'TD4')">
+							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '거래중'} and ${memberId != tradeInfo.sellerId}">
+								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>거래확정</p>
 								</div>
 								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}">
@@ -90,7 +90,7 @@
 						</div>
 					</div>
 				</div>
-			</div><hr>
+			</div><hr class="bottomdown30">
 			<div class="row bottomdown10 margins">
 				<img th:src="@{/images/}+ ${tradeInfo.profileImg}" alt="Profile" class="rounded-circle" th:if="${tradeInfo.profileImg != null}">
 				<img th:src="@{/user/images/trade/user.png}" alt="Profile" class="rounded-circle" th:if="${tradeInfo.profileImg == null}">
@@ -98,168 +98,41 @@
 					<span class="nickName" th:text="${tradeInfo.nickname}"></span>
 				</div>
 			</div>
-			<div class="tradeCategory bottomdown margins" style="margin-bottom: 50px">
-				<span th:text="${tradeInfo.description}"></span>
-			</div><hr>
+			<div class="tradeCategory bottomdown margins bottomdown30 ddd">
+				<span th:text="${tradeInfo.description}" th:style="@{white-space:pre;}"></span>
+			</div><hr class="bottomdown30">
 			<div class="col-12 bottomdown30">
                 <div class="input-group mb-3 openKakao">
 	               <span class="input-group-text" id="openKakao">오픈 카카오톡</span>
 	               <a class="form-control" th:href="${tradeInfo.openKakao}">[[${tradeInfo.openKakao}]]</a>
 	            </div>
             </div>
-            <div class="card noneMap" style="display: none;">
-	        	<div class="card-body" style="text-align: center;">
-	        		<h5 class="card-title">지정된 장소가 없습니다.</h5>
-		            <br>등록된 지정 장소가 없어 지도를 표시할 수 없습니다.
-	        	</div>
-	        </div>
-            <div class="bottomdown30" id="map" style="width:100%;height:350px;"></div>
+            <div class="bottomdown30" id="map" style="width:100%;height:350px;" th:classappend="${tradeInfo.tradePlace eq null or tradeInfo.tradePlace eq ''} ? 'classHidden'" ></div>
+	        <div class="_card" th:unless="${tradeInfo.tradePlace != null and tradeInfo.tradePlace != ''}">
+			  <div class="card-inner">
+			    <div class="card-front">
+			      <span>판매자가 등록한<br> 거래장소가 없습니다.</span>
+			    </div>
+			    <div class="card-back">
+			      <span>등록된 지정 장소가 없어<br> 지도를 표시할 수 없습니다.</span>
+			    </div>
+			  </div>
+			</div>
+	        
             <div class="col-md-12 writeInput buttonFrom" th:if="${tradeInfo.sellerId == memberId}">
               <button type="button" class="btn btn-secondary" th:onclick="'location.href=\'/member/tradeUpdate?tradeId='+ @{${tradeInfo.tradeId}} + '\''">수정</button>
               <button type="button" class="btn btn-primary tradeDelete" th:onclick="deleteTrade()">삭제</button>
             </div>
         </div>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7"></script>
-		<script>
-			if(`[[${tradeInfo.latitude}]]` != ''){
-				let mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-				    mapOption = { 
-				        center: new kakao.maps.LatLng(`[[${tradeInfo.latitude}]]`, `[[${tradeInfo.longitude}]]`), // 지도의 중심좌표
-				        level: 3 // 지도의 확대 레벨
-				    };
-				
-				let map = new kakao.maps.Map(mapContainer, mapOption);
-				
-				// 마커가 표시될 위치입니다 
-				let markerPosition  = new kakao.maps.LatLng(`[[${tradeInfo.latitude}]]`, `[[${tradeInfo.longitude}]]`); 
-				
-				// 마커를 생성합니다
-				let marker = new kakao.maps.Marker({
-				    position: markerPosition
-				});
-				
-				// 마커가 지도 위에 표시되도록 설정합니다
-				marker.setMap(map);
-				
-				let iwContent = '<div style="padding:5px;">[[${tradeInfo.tradePlace}]] <br><a href="https://map.kakao.com/link/map/[[${tradeInfo.tradePlace}]],[[${tradeInfo.latitude}]], [[${tradeInfo.longitude}]]" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/[[${tradeInfo.tradePlace}]],[[${tradeInfo.latitude}]], [[${tradeInfo.longitude}]]" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				    iwPosition = new kakao.maps.LatLng(`[[${tradeInfo.latitude}]]`, `[[${tradeInfo.longitude}]]`); //인포윈도우 표시 위치입니다
-				
-				// 인포윈도우를 생성합니다
-				let infowindow = new kakao.maps.InfoWindow({
-				    position : iwPosition, 
-				    content : iwContent 
-				});
-				  
-				// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-				infowindow.open(map, marker); 
-			}else{
-				document.querySelector('.noneMap').style.display = 'block';
-				document.querySelector('.bottomdown30').style.display = 'none !important';
-			}
-			
-			//중고거래 삭제
-			function deleteTrade(){
-				let tradeId = [[${tradeInfo.tradeId}]]
-				$.ajax({
-					url : '/member/tradeDelete',  //이동할 jsp 파일 주소
-					data : {tradeId},
-					success: function(data){
-						Swal.fire({
-		                    title: '정말로 그렇게 하시겠습니까?',
-		                    text: "다시 되돌릴 수 없습니다. 신중하세요.",
-		                    icon: 'warning',
-		                    showCancelButton: true,
-		                    confirmButtonColor: '#3085d6',
-		                    cancelButtonColor: '#d33',
-		                    confirmButtonText: '승인',
-		                    cancelButtonText: '취소'
-		                }).then((result) => {
-		                    if (result.isConfirmed) {
-		                        Swal.fire(
-		                            '중고거래 삭제',
-		                            '선택하신 중고거래를 삭제했습니다!',
-		                            'success'
-		                        )
-								document.querySelector('.swal2-confirm').addEventListener('click', function(e){
-								   location.href = "/tradeList";
-								});
-		                    }
-		                })
-					},
-					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-						console.log("중고거래 삭제 실패");
-					}
-				})
-			}
-			
-			document.getElementById('heart').addEventListener('click', function(e){
-				let tradeId = [[${tradeInfo.tradeId}]];
-				let heartCount = '';
-				if(!e.target.classList.contains('bi-heart')){
-					e.target.src = '/user/images/trade/fill-heart.png';
-					heartCount = Number(`[[${heartCount.heartCount}]]`) + 1;
-					document.querySelector('.heartCount').innerText = '관심 ' + heartCount;
-					$.ajax({
-						type: 'POST',
-						url : '/member/heartInsert',  //이동할 jsp 파일 주소
-						data : {tradeId},
-						success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
-							console.log("성공");
-						},
-						error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-							console.log('실패');
-						}
-					})	
-				}else{
-					e.target.src = '/user/images/trade/bin-heart.png';
-					heartCount = `[[${heartCount.heartCount}]]`;
-					document.querySelector('.heartCount').innerText = '관심 ' + heartCount;
-					$.ajax({
-						url : '/member/heartDelete',  //이동할 jsp 파일 주소
-						data : {tradeId},
-						success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
-							console.log("성공");
-						},
-						error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-							console.log("실패");
-						}
-					})
-				}
-				e.target.classList.toggle('bi-heart');
-			})
-			
-			//약속상태, 구매자 수정
-			function promiseNextLevel(tradeId, promiseStatus){
-				$.ajax({
-					type: 'POST',
-					url : '/member/BuyerIdUpdate',  //이동할 jsp 파일 주소
-					data : {tradeId, promiseStatus},
-					success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
-						console.log("성공");
-					},
-					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-						console.log("실패");
-					}
-				})
-			}
-			
-			////약속상태, 구매자 취소
-			function promiseCancel(tradeId){
-				let buyerId = '';
-				let promiseStatus = 'TD1';
-				$.ajax({
-					type: 'POST',
-					url : '/member/BuyerIdUpdate',  //이동할 jsp 파일 주소
-					data : {tradeId, promiseStatus},
-					success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
-						console.log("성공");
-					},
-					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-						console.log("실패");
-					}
-				})
-			}
+		<script th:inline="javascript">
+			let tradePlace = [[${tradeInfo.tradePlace}]];
+			let latitude = [[${tradeInfo.latitude}]];
+			let longitude = [[${tradeInfo.longitude}]];
+			let tradeId = [[${tradeInfo.tradeId}]];
+			let heart = `[[${heartCount.heartCount}]]`;
 		</script>
+		<script src="/user/js/tradeInfo.js"></script>
 	</div>
 </body>
 </html>

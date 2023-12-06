@@ -82,12 +82,13 @@ function drawTrade(tradeArr){
 		
 		let divTradeType = document.createElement('div');
 		divTradeType.classList.add('badge', 'position-absolute');
+		divTradeType.style.right = '0.5rem';
 		divTradeType.innerText = tradeArr[i].tradeType;
 		divCard.appendChild(divTradeType);
 		
 		let promiseStatus = document.createElement('div');
 		promiseStatus.classList.add('badge', 'position-absolute');
-		promiseStatus.style.right = '0.5rem';
+		
 		promiseStatus.innerText = tradeArr[i].promiseStatus;
 		divCard.appendChild(promiseStatus);
 		

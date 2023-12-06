@@ -119,7 +119,9 @@
 		UPDATE trade
 		<set>
 			promise_status = #{promiseStatus},
-			buyer_id = #{buyerId},
+			<if test="buyerId != null and !buyerId.equals('')">
+				buyer_id = #{buyerId},
+			</if>
 			update_date = sysdate
 		</set>
 		WHERE trade_id = #{tradeId}
@@ -184,11 +186,11 @@
 	<select id="cntData" parameterType="TradeVO" resultType="int">
 		SELECT COUNT(*)
 		FROM trade
+		WHERE 1=1
 		<include refid="criteria"></include>
 	</select>
 	
 	<sql id="criteria">		
-		<where>
 			<if test="search != null and search != ''">
 				<if test="searchTitle == 'title'">
 					AND title LIKE '%'||#{search}||'%'
@@ -203,6 +205,5 @@
 			<if test="sellCheck != null and sellCheck.equals('true')">
 				AND promise_status <![CDATA[<>]]> 'TD3'
 			</if>
-		</where>
 	</sql>
 </mapper>

@@ -97,8 +97,9 @@ public class TradeController {
 							  TradeVO tradeVO) {
 		tradeVO.setSellerId(principalDetails.getUsername());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
-		System.out.println(tradeService.getTrade(tradeVO));
+		attachmentVO.setPostId(tradeVO.getTradeId());
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
+		System.out.println(attachmentService.getAttachmentList(attachmentVO) + "................");
 		return "user/trade/tradeUpdate";
 	}
 	
@@ -119,9 +120,10 @@ public class TradeController {
 	@ResponseBody
 	public String buyerIdUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 								TradeVO tradeVO) {
-		if(tradeVO.getPromiseStatus() == "TD1") {
+		System.out.println(tradeVO.getPromiseStatus());
+		if(tradeVO.getPromiseStatus().equals("")) {
 			tradeVO.setBuyerId(null);
-		}else {
+		}else if(tradeVO.getPromiseStatus().equals("TD1")) {
 			tradeVO.setBuyerId(principalDetails.getUsername());
 		}
 		tradeService.updateBuyerId(tradeVO);

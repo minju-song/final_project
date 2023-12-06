@@ -6,6 +6,7 @@
 <mapper namespace="com.holoyolo.app.attachment.mapper.AttachmentMapper">
 	<select id="selectAttachmentList" resultType="AttachmentVO">
 		SELECT attachment_seq
+				, origin_file
 				, save_file
 		FROM attachment
 		WHERE menu_type = 'AA1'
@@ -41,4 +42,10 @@
 			 			, #{fileSize}
 			 		)
 	</insert>
+	
+	<delete id="deleteAttachment" parameterType="AttachmentVO">
+		DELETE FROM attachment
+		WHERE menu_type = 'AA1'
+		AND post_id = #{postId}
+	</delete>
 </mapper>

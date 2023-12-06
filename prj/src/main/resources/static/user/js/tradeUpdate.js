@@ -2,10 +2,7 @@
  * tradeUpdate
  */
 
-//장소, 위도, 경도 저장
-let tradePlace = `[[${tradeInfo.tradePlace}]]`;
-let latitude = `[[${tradeInfo.latitude}]]`;
-let longitude = `[[${tradeInfo.longitude}]]`;
+//장소, 위도, 경도 저장	
 document.getElementById('placeSelectButton').addEventListener('click', function(){
   let width = 500; //팝업의 너비
   let height = 600; //팝업의 높이
@@ -40,9 +37,9 @@ document.getElementById('placeSelectButton').addEventListener('click', function(
 })
 
 //장소 선택 활성화&비활성화
-if(`[[${tradeInfo.tradeType}]]` == '직거래'){
-  $('#placeSelectButton').attr("disabled", false);
-  $('#placeSelectButton').css("background-color", "#09203f");
+if(tradeType == "직거래"){
+  	$('#placeSelectButton').attr("disabled", false);
+  	$('#placeSelectButton').css("background-color", "#09203f");
 }
 
 $(document).on("change", "select[id=tradeType]", function(){
@@ -70,3 +67,88 @@ let number = document.getElementById('price');
           return false;
       }
   }
+  
+  $(function () {
+      let uploadFiles = [];
+      
+      // 첨부된 이미지 파일 리스트
+      function getImageFiles(e) {
+
+        const files = e.currentTarget.files;
+        const imagePreview = document.querySelector('.file-list');
+        //const docFrag = new DocumentFragment();
+        //console.log(typeof files, files);
+
+        if ([...files].length >= 6) {
+          alert('이미지는 최대 5개까지 업로드가 가능합니다.');
+          return;
+        }
+
+        // 파일타입 검사
+        [...files].forEach(file => {
+          if (!file.type.match("image/.*")) {
+            alert('이미지 파일만 업로드가 가능합니다.');
+            return
+          }
+
+          // 태그 생성
+          if ([...files].length < 7) {
+            uploadFiles.push(file);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const preview = createElement(e, file);
+              imagePreview.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+        console.log(uploadFiles);
+      }
+
+      function createElement(e, file) {
+        const li = document.createElement('li');
+        const img = document.createElement('img');
+        const btn = document.createElement('img');
+        li.setAttribute('calss', 'position_rela');
+        img.setAttribute('src', e.target.result);
+        img.setAttribute('class', 'imgSize');
+        img.setAttribute('data-file', file.name);
+        btn.setAttribute('data-file', file.name);
+        btn.setAttribute('src', '/user/images/trade/delete-button.png');
+        btn.setAttribute('class', 'delBtn position_absol');
+        btn.addEventListener('click', delFile);
+        li.appendChild(btn);
+        li.appendChild(img);
+
+        return li;
+      }
+
+      let realUpload = document.querySelector('.real_file');
+      let upload = document.querySelector('#tradeImg');
+
+      upload.addEventListener('click', () => realUpload.click());
+      realUpload.addEventListener('change', getImageFiles);
+
+      function delFile(e) {
+        let fileName = e.target.getAttribute('data-file');
+
+        let newFilesArr = uploadFiles.filter((file, idx) => {
+          return file.name != fileName;
+        })
+
+        uploadFiles = newFilesArr;
+
+        e.target.parentNode.remove();
+      }
+    })
+    
+//http:형식 확인
+$('#openKakaoAddr').change(() => {
+	let expUrl = /^http[s]?:\/\/([\S]{3,})/i;
+	let strUrl = $('#openKakaoAddr').val();
+	console.log(expUrl.test(strUrl))
+	if (!expUrl.test(strUrl)) {
+		alert("url 형식에 맞지 않습니다");
+	}
+})
