@@ -6,19 +6,46 @@
 <meta charset="UTF-8">
 <title>holoyolo::마이페이지 홈</title>
 <link rel="stylesheet" href="/user/css/tooplate.css">
+<link rel="stylesheet" href="/user/css/myhome.css">
 </head>
 <body>
 	<th:block layout:fragment="content">
 		<div class="row tm-content-row tm-mt-big">
 			<div class="tm-col tm-col-big">
 				<div class="bg-white tm-block h-100">
-					<h2 class="tm-block-title">최근 1년 소비액</h2>
-					<select id="paymentType" name="paymentType">
-						<option value="GA1">현금</option>
-						<option value="GA2">이체</option>
-						<option value="GA3">카드</option>
-					</select>
-					<canvas id="lineChart"></canvas>
+					<div class="title_wrap">
+						<div class="display_flex">
+							<h2 class="tm-block-title">최근 1년 소비 그래프</h2>
+							<div class="min_text">
+								<span>
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+										<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+									</svg>
+									평균소비/지출
+								</span>
+								<table class="avg_area">
+									<tbody>
+										<tr>
+											<th>평균 소득액</th>
+											<td id="avgInput"></td>
+										</tr>
+										<tr>
+											<th>평균 지출액</th>
+											<td id="avgOutput"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="chart_wrap">
+						<select id="paymentType" name="paymentType">
+							<option value="GA1">현금</option>
+							<option value="GA2">이체</option>
+							<option value="GA3">카드</option>
+						</select>
+						<canvas id="lineChart"></canvas>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -44,6 +71,20 @@
 					inputData[i] = chartData[i].inputSum;
 					outputData[i] = chartData[i].outputSum;
 				}
+				
+				//평균소득액/지출액
+				let avgInput = 0;
+				let avgOutput = 0;
+				for(let i=0; i<chartData.length; i++){
+					avgInput += chartData[i].inputSum;
+					avgOutput += chartData[i].outputSum;
+				}
+				avgInput = Math.round(avgInput/12);
+				avgInput = avgInput.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$('#avgInput').text(avgInput);
+				avgOutput = Math.round(avgOutput/12);
+				avgOutput = avgOutput.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$('#avgOutput').text(avgOutput);
 				
 				updateChartOptions();
 				drawLineChart(date, inputData, outputData); // Line Chart

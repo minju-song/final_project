@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+.display_flex {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+.tm-block canvas {
+	margin-top: 50px;
+}
+.tm-block-title::before {
+	content: '';
+    background: #525e81;
+    color: #525e81;
+    display: inline-block;
+    width: 3px;
+    height: 18px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+.title_wrap {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	margin-left: 30px;
+	margin-right: 25px;
+}
+.title_wrap h2 {
+	margin: 0;
+}
+.tm-block {
+	padding: 0 !important;
+}
+.tm-block-title {
+	position: relative;
+}
+.min_text {
+	position: relative;
+}
+.min_text span {
+	font-size: 13px;
+	color: #cecece;
+	display: flex;
+}
+.min_text svg {
+	margin-top: 3px;
+	margin-right: 5px;
+}
+.min_text:hover .avg_area {
+	display: block;
+}
+.avg_area {
+	display: none;
+	width: 160px;
+	position: absolute;
+  	border-collapse: collapse;
+  	background: #fff;
+  	top: 30px;
+  	left: 0;
+  	font-size: 12px;
+  	z-index: 99;
+}
+.avg_area th, .avg_area td {
+	border: 1px solid #e6e6e6;
+}
+.avg_area th, .avg_area td {
+	padding: 5px 8px;
+	font-size: 12px;
+}
+.avg_area td {
+	text-align: right;
+}
+.chart_wrap {
+	position: relative;
+}
+.chart_wrap select {
+	position: absolute;
+	top: -10px;
+	right: 3%;
+	padding: 5px 10px;
+	border: 1px solid #cecece;
+	border-radius: 5px;
+	color: #676767;
+}
