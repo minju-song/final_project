@@ -54,5 +54,8 @@ public interface MemberMapper {
 	public List<MemberVO> selectMemberAll(MemberVO memberVO);
 
 	public Object selectMemberCount(MemberVO memberVO);
+	
+	// 어드민 홀로페이 내역
+	public List<MemberVO> getHolopayHistory(MemberVO memberVO);
 
 }

@@ -65,4 +65,7 @@ public interface MemberService {
 	// 비밀번호 검증
 	public boolean checkPassword(MemberVO memberVO);
 	
+	// 어드민 홀로페이 내역
+	public List<MemberVO> getHolopayHistory(MemberVO memberVO);
+	
 }

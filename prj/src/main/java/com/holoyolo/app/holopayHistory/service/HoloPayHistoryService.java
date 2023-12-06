@@ -29,4 +29,5 @@ public interface HoloPayHistoryService {
 
 	  //전체 레코드 수 조회
 	  public int getTotalRecords(String str, HoloPayHistoryVO vo);
+	
 }

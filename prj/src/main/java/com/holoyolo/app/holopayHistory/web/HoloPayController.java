@@ -84,13 +84,6 @@ public class HoloPayController {
 		return "user/mypage/myholopay";
 	}
 
-	@GetMapping("/admin/holopay")
-	public String selectHolopayList(Model model) {
-		return "admin/holopay/holopayPage";
-	}
-	
-	@GetMapping("")
-
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object>  apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, 

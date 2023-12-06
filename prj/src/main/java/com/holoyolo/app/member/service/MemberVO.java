@@ -50,4 +50,7 @@ public class MemberVO {
 	private int page=1;
 	private int rn;
 	private int pageUnit=10;
+	// 홀로페이
+	private int pointPrice;
+	private int holopayPrice;
 }

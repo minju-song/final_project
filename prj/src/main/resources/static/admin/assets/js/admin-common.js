@@ -27,7 +27,7 @@ const colorMapping = {
 	'일반회원': 'bg-label-info',
 	'거래정지': 'bg-label-danger',
 	'계정정지': 'bg-label-dark',
-	'관리자': 'bg-label-primary'
+	'관리자': 'bg-label-primary',
 };
 
 export default colorMapping;
