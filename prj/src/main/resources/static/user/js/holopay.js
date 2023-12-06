@@ -241,7 +241,7 @@ function updateTable(data) {
     data.historyList.forEach(function (item, index) {
       let row = $("<tr>");
       row.append($("<td>").text(index + 1));
-      row.append($("<td>").text(getTransactionType(item.hpType)));
+      row.append($("<td>").text(item.hpType));
       row.append($("<td>").text(item.price));
       row.append($("<td>").text(item.holopayComment));
       row.append($("<td>").text(formatDate(item.hpDate)));

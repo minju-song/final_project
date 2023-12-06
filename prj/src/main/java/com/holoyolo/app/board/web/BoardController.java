@@ -74,16 +74,18 @@ public class BoardController {
 	@PostMapping("/boardLoad")
 	@ResponseBody
 	public Map<String, Object> infoBoardLoad(@RequestBody JSONObject req) {
+		System.out.println(req);
 		List<BoardVO> resultList = boardService.searchBoardPaged(req);
 		int totalRecords = boardService.getTotalBoardRecords(req);
 		Map<String, Object> result = new HashMap<>();
 		result.put("historyList", resultList);
 		result.put("totalRecords", totalRecords);
+		result.put("boardType", req.get("type"));
 		return result;
 	}
 
 //상세보기
-	@GetMapping("/member/board/info")
+	@GetMapping("/member/board/view")
 	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model mo) {
 
 		String loginId = "not found";
@@ -91,9 +93,11 @@ public class BoardController {
 			loginId = principalDetails.getUsername();
 		}
 		BoardVO vo = boardService.selectBoard(boardId);
+		
 		mo.addAttribute("menu", "community");
 		mo.addAttribute("board", vo);
 		mo.addAttribute("loginId", loginId);
+		
 		return "/user/community/boardView";
 
 	}

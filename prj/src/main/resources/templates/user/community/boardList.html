@@ -33,7 +33,7 @@
                 <th>글번호</th>
                 <th>제목</th>
                 <th>작성일</th>
-                <th>작성자</th>
+                <th th:if="${boardType}==정보게시판">작성자</th>
                 <th>좋아요 / 조회수</th>
               </tr>
             </thead>

@@ -70,14 +70,14 @@ function loadData(page) {
     let start = (currentPage - 1) * recordsPerPage;
     let end = start + recordsPerPage;
     let searchBoardSet = location.pathname
-    let boardType ="";
+    let boardType = "";
 
-        if(searchBoardSet =="/board/chat"){
-            boardType = "AA3"
-        }else if(searchBoardSet == "/board/info"){
-            boardType = "AA2"
-        }
-        
+    if (searchBoardSet == "/board/chat") {
+        boardType = "AA3"
+    } else if (searchBoardSet == "/board/info") {
+        boardType = "AA2"
+    }
+
     $.ajax({
         type: 'POST',
         url: '/boardLoad',
@@ -101,6 +101,8 @@ function loadData(page) {
 function updateTable(data, page) {
     currentPage = page;
     let tbody = $("#boardTableBody");
+    let searchBoardSet = data.boardType;
+    console.log(searchBoardSet)
     tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
 
     if (data && data.historyList && data.historyList.length > 0) {
@@ -108,7 +110,7 @@ function updateTable(data, page) {
 
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
-            row.attr("onclick", `location.href='/member/board/info?boardId=${item.boardId}'`);
+            row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
             if (data.totalRecords > page * recordsPerPage) {
                 row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
                 // row.append($("<td>").text(index + 1));
@@ -117,7 +119,12 @@ function updateTable(data, page) {
             }
             row.append($("<td>").text(item.title));
             row.append($("<td>").text(formatDate(item.writeDate)));
-            row.append($("<td>").text(item.nickname));
+            if (searchBoardSet == 'AA3') {
+                
+            } else if (searchBoardSet == 'AA2') {
+                row.append($("<td>").text(item.nickname));
+            }
+
             row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
 
             tbody.append(row);
@@ -157,9 +164,14 @@ async function findPost() {
         viewer: true,
         initialValue: post.content
     });
-
+console.log(post)
     document.getElementById('title').innerText = post.title;
-    document.getElementById('writer').innerText = post.nickname;
+    if(post.menuType == "AA2"){
+        document.getElementById('writer').innerText = post.nickname;
+    }else if(post.menuType =="AA3"){
+        document.getElementById('writer').innerText = "작성자";
+    }
+    
     document.getElementById('boardLike').innerText = post.likeCount;
     document.getElementById('writeDate').innerText = formatDate(post.writeDate);
     document.getElementById('views').innerText = post.views;
