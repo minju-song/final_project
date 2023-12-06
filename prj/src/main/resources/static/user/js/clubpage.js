@@ -261,6 +261,7 @@ function join() {
 
 //방장위임
 function mandate(memberId) {
+    if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
     if (clubLeader != userId) {
         console.log("방장아님");
         return;
@@ -417,6 +418,46 @@ function uploadImg() {
             }
         })
         .catch(err => console.log(err));
+}
+
+//회원정보모달
+function memberInfo(mid, mname) {
+    console.log(clubId+'클럽의 '+mname+'회원을 조회');
+
+    fetch('/clubSuccessMember5?memberId='+mid+'&clubId='+clubId)
+    .then(resolve => resolve.json())
+    .then(result => {
+        console.log(result.list);
+        let history = ``;
+
+        for(let i=0; i<result.list.length; i++) {
+            history += `<p>`+result.list[i].ranking+`위  `+dateFormat(result.list[i].startDate)+` ~ `+dateFormat(result.list[i].endDate)+'</p><br>'
+        }
+
+        if (result.list.length == 0) {
+            history = `<p>내역이 없습니다.</p>`;
+        }
+
+        Swal.fire({
+            title: "<strong>"+mname+"</strong>님의 지난 성적",
+    
+            html: history,
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: `
+            확인
+            `,
+            confirmButtonAriaLabel: "확인"
+          });
+    })
+}
+
+function dateFormat(str) {
+    let date = new Date(str);
+    let newDate = date.getFullYear() + '-' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+        '-' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()));
+    return newDate;
 }
 
 

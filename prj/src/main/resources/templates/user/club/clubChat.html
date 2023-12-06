@@ -7,7 +7,7 @@
     <title>Insert title here</title>
     <style>
         #chattingDiv {
-            background-color: skyblue;
+            background-color: darkcyan;
             width: 100%;
             height: 500px;
             margin-bottom: 20px;
@@ -16,8 +16,11 @@
         }
 
         #sendArea {
-            width: 50%;
-
+            width: 80%;
+            border-radius: 20px;
+            height: 50px;
+            padding: 10px;
+            border: 3px solid #ffc107;
         }
 
         .me,
@@ -36,7 +39,7 @@
         }
 
         .me {
-            background-color: yellow;
+            background-color: #ffc107;
 
         }
 
@@ -57,12 +60,21 @@
             color: white;
             text-align: center;
         }
+
+        #sendChat {
+            width: 100px;
+        }
+
+        #size {
+            font-size: smaller;
+            color: orangered;
+        }
     </style>
 </head>
 
 <body>
     <div layout:fragment="content">
-        <p>채팅방</p>
+        <h3>&#128155;[[${result.club.clubName}]]&#128155;<span id="size"></span> </h3>
         <div id="chattingDiv">
             <!-- <div class="msg">
                 <div class="other">
@@ -71,8 +83,10 @@
                 <p class="sender">수신자</p>
             </div> -->
         </div>
-        <textarea id="sendArea"></textarea>
-        <button id="sendChat" onclick="sendMsg()">전송</button>
+        <div style="display: flex; justify-content: space-around;" >
+            <input  id="sendArea">
+            <button class="btn btn-warning" id="sendChat" onclick="sendMsg()">전송</button>
+        </div>
 
         <script th:inline="javascript">
             let memberId = /*[[${memberId}]]*/ null;
@@ -190,6 +204,11 @@
                     p.setAttribute('class', 'enter');
                     p.innerText = data.msg
                     chatBox.appendChild(p);
+                }
+
+                else if (data.type == 'size') {
+                    let sizeSpan = document.getElementById('size');
+                    sizeSpan.innerText = data.size+'명 접속 중';
                 }
 
                 chatBox.scrollTop = chatBox.scrollHeight;

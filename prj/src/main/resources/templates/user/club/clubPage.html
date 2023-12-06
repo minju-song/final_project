@@ -89,10 +89,11 @@
                     <div th:text="${#dates.format(result.end, 'yyyy년 MM월 dd일')}"></div> -->
                     <th:block th:if="${session.check eq true}">
                         <span>[[${result.start}]] - [[${result.end}]]</span>
-                        <div th:each="member : ${result.members}">
+                        <div th:each="member : ${result.members}" >
                             <th:block th:if="${member.memberId == result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/king.png}">
-                                    <span class="nickname"
+                                    <span class="nickname" th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
+                                        th:data-member-id="${member.memberId}" th:data-member-name="${member.memberName}"
                                         th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
                                         data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
@@ -101,7 +102,8 @@
                                 <p><img class="kingImg" th:src="@{/user/images/club/notking.png}"
                                         th:data-member-id="${member.memberId}"
                                         th:onclick="mandate(this.getAttribute('data-member-id'))">
-                                    <span class="nickname"
+                                    <span class="nickname" th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
+                                        th:data-member-id="${member.memberId}" th:data-member-name="${member.memberName}"
                                         th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
                                         data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
@@ -115,26 +117,26 @@
                 </div>
                 <th:block
                     th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople and result.club.openScope eq 'OA1'}">
-                    <button onclick="join()">즉시가입</button><br>
+                    <button class="btn btn-primary" onclick="join()">즉시가입</button><br>
                 </th:block>
                 <th:block
                     th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople and result.club.openScope eq 'OA2'}">
-                    <button id="sendMail" onclick="sendMail()">가입신청</button><br>
+                    <button class="btn btn-primary" id="sendMail" onclick="sendMail()">가입신청</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq '탈퇴'}">
-                    <button onclick="rejoin()">재가입</button><br>
+                    <button class="btn btn-primary" onclick="rejoin()">재가입</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq '승인대기'}">
-                    <button disabled>승인대기</button><br>
+                    <button class="btn btn-secondary" disabled>승인대기</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq '재가입승인대기'}">
-                    <button disabled>재가입승인대기</button><br>
+                    <button class="btn btn-secondary" disabled>재가입승인대기</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq true}">
-                    <button id="outClub" onclick="outClub()">모임탈퇴</button><br>
+                    <button class="btn btn-danger" id="outClub" onclick="outClub()">모임탈퇴</button><br>
                 </th:block>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
-                    <button onclick="clubRemove()">모임삭제</button><br>
+                    <button class="btn btn-danger" onclick="clubRemove()">모임삭제</button><br>
                 </th:block>
                 <br>
             </div>
@@ -197,7 +199,7 @@
             let leader = (userId === /*[[${result.club.clubLeader}]]*/ null) ? true : false;
             let clubLeader = /*[[${result.club.clubLeader}]]*/ null;
             let clubName = /*[[${result.club.clubName}]]*/ null;
-
+      
             //클럽탈퇴버튼
             // let outClubBtn = document.getElementById('outClub');
             // outClubBtn.addEventListener("click", outClub);

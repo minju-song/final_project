@@ -42,10 +42,12 @@ public class WebSocketChat {
 
 		    //그 클럽아이디에 해당하는 세션들 가져와서 메시지 전송
 	        Set<Session> sessions = clientsMap.get(clubId);
+			int size = sessions.size();
+			String sizestr = "{ \"size\":"+" \""+size+"\", \"type\":\"size\"}";
 	        if (sessions != null) {
 	            for (Session s : sessions) {
 	                System.out.println("send data : " + msg);
-	                
+	                s.getBasicRemote().sendText(sizestr);
 	                s.getBasicRemote().sendText(msg);
 	            }
 	        }
@@ -68,14 +70,17 @@ public class WebSocketChat {
 		}
 
 		Set<Session> sessions = clientsMap.get(clubId);
-
+		
 		//해당 방에 있는 회원들에게 입장알림 전송
 		if (!sessions.contains(s)) {
 		    sessions.add(s);
+		    int size = sessions.size();
+			String sizestr = "{ \"size\":"+" \""+size+"\", \"type\":\"size\"}";
 		    if (sessions != null) {
 	            for (Session se : sessions) {
 	            	String msg = "{ \"msg\" : "+"\""+s.getUserPrincipal().getName()+"님이 입장하였습니다.\", \"type\" : \"enter\"}";
 	                System.out.println("send data : " + msg);
+	                se.getBasicRemote().sendText(sizestr);
 	                se.getBasicRemote().sendText(msg);
 	            }
 	        }
@@ -91,14 +96,17 @@ public class WebSocketChat {
 		    int clubId = extractClubIdFromURI(uri);
 		    
 		    Set<Session> sessions = clientsMap.get(clubId);
-
+			
 		    //해당 방 회원들에게 퇴장알림
 		    if (sessions.contains(s)) {
 			    sessions.remove(s);
+			    int size = sessions.size();
+				String sizestr = "{ \"size\":"+" \""+size+"\", \"type\":\"size\"}";
 			    if (sessions != null) {
 		            for (Session se : sessions) {
 		            	String msg = "{ \"msg\" : "+"\""+s.getUserPrincipal().getName()+"님이 퇴장하였습니다.\", \"type\" : \"enter\"}";
 		                System.out.println("send data : " + msg);
+		                se.getBasicRemote().sendText(sizestr);
 		                se.getBasicRemote().sendText(msg);
 		            }
 		        }

@@ -4,6 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -75,14 +77,29 @@
 					<ul>
 						<li class="side_main_menu"><a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}"
 								th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a></li>
-						<li class="side_main_menu"><a th:href="@{/member/club/clubChat(clubId=${result.club.clubId})}" 
-							th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a></li>
+						<th:block th:if="${session.check != true}">
+							<li class="side_main_menu" onclick="nomember()"><a th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a></li>
+						</th:block>
+						<th:block th:if="${session.check == true}">
+							<li class="side_main_menu"><a th:href="@{/member/club/clubChat(clubId=${result.club.clubId})}" 
+								th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a></li>
+						</th:block> 
 						<li class="side_main_menu"><a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}"
 								th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a></li>
 					</ul>
 				</div>
 			</th:block>
 		</div>
+
+		<script>
+			function nomember() {
+				Swal.fire({
+					icon: "error",
+					title: "입장불가",
+					text: "모임멤버만 입장 가능합니다."
+					});
+			}
+		</script>
 	</div>
 </body>
 

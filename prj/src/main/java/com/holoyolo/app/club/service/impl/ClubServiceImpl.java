@@ -121,6 +121,10 @@ public class ClubServiceImpl implements ClubService {
 			map.put("start",simpleDateFormat.format(csvo.getStartDate()));
 			map.put("end",simpleDateFormat.format(csvo.getEndDate()));
 		}
+		else {
+			map.put("start","없음");
+			map.put("end","없음");
+		}
 		return map;
 	}
 

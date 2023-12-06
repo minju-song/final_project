@@ -21,6 +21,8 @@ import com.holoyolo.app.chat.service.ChatService;
 import com.holoyolo.app.chat.service.ChatVO;
 import com.holoyolo.app.club.service.ClubService;
 import com.holoyolo.app.club.service.ClubVO;
+import com.holoyolo.app.clubMember.service.ClubMemberService;
+import com.holoyolo.app.clubMember.service.ClubMemberVO;
 
 @Controller
 public class ChatController {
@@ -31,16 +33,46 @@ public class ChatController {
 	@Autowired
 	ChatService chatService;
 
+	@Autowired
+	ClubMemberService clubMemberService;
+	
 	
 	@GetMapping("/member/club/clubChat")
-	public String clubChatting(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model, ClubVO vo) {
+	public String clubChatting(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model, HttpSession session, ClubVO vo) {
 		Map<String, Object> map = new HashMap<>();
+		
+		//클럽정보
 		vo = clubService.getClub(vo.getClubId());
 		map.put("club", vo);
 		System.out.println("채팅방입장");
 		
+		//채팅방
 		ChatRoomVO room = chatService.findOrCreateRoom(vo.getClubId());
 
+		//모임멤버여부
+		ClubMemberVO cmvo = new ClubMemberVO();
+		cmvo.setClubId(vo.getClubId());
+		cmvo.setMemberId(principalDetails.getUsername());
+		cmvo = clubMemberService.checkMyClub(cmvo);
+		if(cmvo != null) {
+			if(cmvo.getStopDate() != null) {
+				if(cmvo.getJoinDate() == null) {
+					session.setAttribute("check", "재가입승인대기");
+				}
+				else {					
+					session.setAttribute("check", "탈퇴");
+				}
+			}
+			else if (cmvo.getJoinDate() == null) {
+				session.setAttribute("check", "승인대기");
+			}
+			else {				
+				session.setAttribute("check", true);
+			}
+		}
+		else {
+			session.setAttribute("check", false);
+		}
 		
 		
 		System.out.println(room.getClubId());
