@@ -10,10 +10,10 @@ public interface ClubService {
 	
 	// 기본 CRUD
 	// 모임 전체조회
-	public List<ClubVO> selectClubAll();
+	public Map<String, Object> selectClubAll(ClubVO clubVO);
 	
 	// 모임 단건조회
-	public ClubVO selectClubInfo(ClubVO clubVO);
+	public ClubVO getClubDetail(ClubVO clubVO);
 	
 	// 모임 등록
 	public int insertClubInfo(ClubVO clubVO);
@@ -56,5 +56,5 @@ public interface ClubService {
 	public int updateClubProfile(ClubVO vo);
 	
 	//클럽삭제
-	public int delectClub(ClubVO vo);
+	public int delectClub(ClubVO clubVO);
 }

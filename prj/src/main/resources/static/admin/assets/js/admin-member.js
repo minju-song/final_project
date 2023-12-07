@@ -30,8 +30,8 @@ let search = '';
 				$.each(memberData, function (index, list) {
 					let template = `<tr>
                         <td>${list.rn}</td>
+                        <td>${list.memberId}</td>
                         <td>${list.memberName}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
-                        <td name="goQuestionDetail" class="cursor-pointer">${list.memberId}</td>
                         <td>${list.phone}</td>
                         <td>${list.addr}</td>
                         <td>${list.joinDate}</td>

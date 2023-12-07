@@ -4,6 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.clubSuccessHistory.mapper.ClubSuccessHistoryMapper">
   
+  	<!-- 해당 클럽의 성공 횟수 -->
+  	<select id="getSuccessCount" resultType="int" parameterType="ClubVO">
+        SELECT COUNT(*)
+		FROM club_success_history
+			WHERE club_id = #{clubId}
+			AND fn_get_code_name(success_state) = '성공'
+  	</select>
+  
   	<!-- 해당 클럽의 평균 성공률 -->
   	<select id="getSuccessPct" resultType="double" parameterType="ClubVO">
         SELECT 

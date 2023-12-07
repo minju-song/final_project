@@ -17,4 +17,7 @@ public interface ClubSuccessHistoryMapper {
 	
 	//현재 진행중인 성공기록 삭제
 	public int deleteIng(ClubBudgetVO vo);
+	
+	//해당 클럽의 성공 횟수
+	public int getSuccessCount(int id);
 }

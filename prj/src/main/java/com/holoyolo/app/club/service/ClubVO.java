@@ -2,7 +2,10 @@ package com.holoyolo.app.club.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -13,6 +16,8 @@ public class ClubVO {
 	private String clubIntro;
 	private String clubProfileImg;
 	private int clubPeople;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date clubDate;
 	private String joinCondition;
 	private String openScope;
@@ -20,16 +25,14 @@ public class ClubVO {
 	private String clubCasher;
 
 	
-	//페이징
-	private int page;
-	//검색어
-	private String search;
 	//검색주제
 	private String searchTitle;
 	//리더 이름
 	private String leaderName;
 	//클럽 가입자수
 	private int joinCnt;
+	//클럽 성공횟수
+	private int successCnt;
 	//가입요청메시지
 	private String text;
 	
@@ -43,5 +46,13 @@ public class ClubVO {
 	
 	//가입타입 (최초가입, 재가입)
 	private String type;
+	
+	// 검색
+	private String search;
+	
+	// 페이징
+	private int page;
+	private int rn;
+	private int pageUnit;
 
 }

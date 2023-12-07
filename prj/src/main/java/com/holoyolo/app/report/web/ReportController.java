@@ -46,13 +46,15 @@ public class ReportController {
 		return "admin/report/reportDetail";
 	}
 	
-	// 신고 단건조회 - 처리
-	@GetMapping("/admin/report/detail/{reportId}")
-	@ResponseBody
-	public Map<String, Object> getReportDetailMapAjax(ReportVO reportVO) {
-		Map<String,Object> reportInfo = reportService.selectReportInfo(reportVO);
-		return reportInfo;
-	}
+	/*
+	 * // 신고 단건조회 - 처리
+	 * 
+	 * @GetMapping("/admin/report/detail/{reportId}")
+	 * 
+	 * @ResponseBody public Map<String, Object> getReportDetailMapAjax(ReportVO
+	 * reportVO) { Map<String,Object> reportInfo =
+	 * reportService.selectReportInfo(reportVO); return reportInfo; }
+	 */
 	
 	// 신고사유 수정
 	@PutMapping("/admin/report/detail/{reportId}")

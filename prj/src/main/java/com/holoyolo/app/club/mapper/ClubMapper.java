@@ -9,16 +9,13 @@ public interface ClubMapper {
 
 	// 기본 CRUD
 	// 모임 전체조회
-	public List<ClubVO> selectClubAll();
+	public List<ClubVO> selectClubAll(ClubVO clubVO);
 	
 	// 모임 단건조회
-	public ClubVO selectClubInfo(ClubVO clubVO);
+	public ClubVO getClubDetail(ClubVO clubVO);
 	
 	// 모임 등록
 	public int insertClubInfo(ClubVO clubVO);
-	
-	// 모임 수정
-//	public Map<String, Object> updateClubInfo(ClubVO clubVO);
 	
 	// 모임 삭제
 	public boolean deleteClubInfo(int clubId);

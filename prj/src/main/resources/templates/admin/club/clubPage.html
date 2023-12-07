@@ -15,7 +15,7 @@
 			<!-- Hoverable Table rows -->
 			<div class="card">
 				<h5 class="ps-4 pt-4">
-					전체모임 <span style="color: skyblue">30개</span>
+					전체모임 <span id="initClubCount" class="text-info"></span>
 				</h5>
 				<div class="ps-4 pb-4 demo-inline-spacing">
 					<button type="button" class="btn btn-outline-primary">전체</button>
@@ -28,8 +28,9 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>모임이름</th>
+								<th>번호</th>
 								<th>모임장아이디</th>
+								<th>모임이름</th>
 								<th>모임성공횟수</th>
 								<th>가입자수/모집인원</th>
 								<th>개설일자</th>
@@ -37,38 +38,13 @@
 							</tr>
 						</thead>
 						<tbody class="table-border-bottom-0">
-							<th:block th:each="list, stat : ${clubList}">
-								<tr>
-									<td th:text="${list.clubId}"><i
-										class="fab fa-angular fa-lg text-danger me-3"></i> <strong>1</strong></td>
-									<td th:text="${list.clubLeader}"></td>
-									<td>작업중..</td>
-									<td><span>작업중.. / </span><span th:text="${list.clubPeople}"></span></td>
-									<td th:text="${#dates.format(list.clubDate, 'yyyy-MM-dd')}"></td>
-									<td><span class="badge bg-label-primary me-1" th:text="${list.openScope}"></span></td>
-									<td>
-										<div class="dropdown">
-											<button type="button"
-												class="btn p-0 dropdown-toggle hide-arrow"
-												data-bs-toggle="dropdown">
-												<i class="bx bx-dots-vertical-rounded"></i>
-											</button>
-											<div class="dropdown-menu">
-												<a class="dropdown-item" href="javascript:void(0);"><i
-													class="bx bx-edit-alt me-1"></i> 수정</a> <a
-													class="dropdown-item" href="javascript:void(0);"><i
-													class="bx bx-trash me-1"></i> 삭제</a>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</th:block>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<!--/ Hoverable Table rows -->
 		</div>
+		<script type="module" th:src="@{/admin/assets/js/admin-club.js}"></script>
 	</div>
 </body>
 </html>

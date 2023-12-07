@@ -65,7 +65,7 @@ SELECT *
   	<update id="updateReportReason" parameterType="ReportVO">
   		UPDATE report SET
                 report_process_type = #{reportProcessType},
-                process_comment = #{processComment}
+                process_comment = COALESCE(#{processComment}, '')
 		WHERE report_id = #{reportId}
   	</update>
   </mapper>

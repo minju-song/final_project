@@ -37,8 +37,8 @@ $(document).ready(function () {
 				$.each(listData, function (index, list) {
 					let template = `<tr>
                                 <td>${list.questionId}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
-                                <td name="goQuestionDetail" class="cursor-pointer">${list.title}</td>
                                 <td>${list.memberId}</td>
+                                <td name="goQuestionDetail" class="cursor-pointer fw-bold">${list.title}</td>
                                 <td><span id="badgeColor" class="badge ${colorMapping[list.questionType]} me-1">${list.questionType}</span></td>
                                 <td>${list.writeDate}</td>
                                 <td><span class="badge ${colorMapping[list.questionYn]} me-1">${list.questionYn}</span></td>
@@ -150,7 +150,7 @@ $(document).ready(function () {
 
 	// 상세페이지 이동
 	$(document).on("click", "td[name='goQuestionDetail']", function (e) {
-		let questionId = $(this).prev().text();
+		let questionId = $(this).prev().prev().text();
 		location.href = `/admin/question/detail?questionId=${questionId}`;
 	});
 

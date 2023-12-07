@@ -30,8 +30,8 @@ function renderHolopayList(page, search) {
 				$.each(listData, function (index, list) {
 					let template = `<tr>
                                 <td>${list.rn}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
-                                <td class="cursor-pointer">${list.nickname}</td>
                                 <td>${list.memberId}</td>
+                                <td class="cursor-pointer">${list.nickname}</td>
                                 <td><span id="badgeColor" class="badge ${!isNaN(list.pointPrice) ? 'bg-label-info' : ''} me-1">${list.pointPrice}</span></td>
                                 <td><span  class="badge ${!isNaN(list.holopayPrice) ? 'bg-label-info' : ''} me-1"">${list.holopayPrice}</span></td>
                                 <td>
