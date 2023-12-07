@@ -50,7 +50,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insertBoard(BoardVO vo) {
-		return boardMapper.insertBoard(vo);
+		boardMapper.insertBoard(vo);
+		return vo.getBoardId();
+		
 	}
 
 	@Override
@@ -70,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
 		String menuType = (String) req.get("type");
-		List<BoardVO> allList = BoardList(menuType, "","");
+		List<BoardVO> allList = BoardList(menuType, "", "");
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
@@ -102,9 +104,9 @@ public class BoardServiceImpl implements BoardService {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
 		String search = (String) req.get("search");
-		String searchType = (String)req.get("searchType");
+		String searchType = (String) req.get("searchType");
 		String menuType = (String) req.get("type");
-		List<BoardVO> allList = BoardList(menuType, search,searchType);
+		List<BoardVO> allList = BoardList(menuType, search, searchType);
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
