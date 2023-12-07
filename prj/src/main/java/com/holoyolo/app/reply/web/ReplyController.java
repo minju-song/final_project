@@ -32,6 +32,7 @@ public class ReplyController {
 		Map<String, Object> result = new HashMap<>();
 		result.put("historyList", resultList);
 		result.put("totalRecords", totalRecords);
+		
 		return result;
 	}
 

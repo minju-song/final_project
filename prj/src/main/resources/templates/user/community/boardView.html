@@ -175,7 +175,8 @@
         resetBtn.addEventListener('click', function () {
             replyForm.value = "";
         });
-
+        let reportBtn = document.getElementById('reportBtn')
+        reportBtn.addEventListener('click',()=>reportFormSet())
         document.getElementById('deletPostBtn')
             .addEventListener('click', (e) => deletePost());
 

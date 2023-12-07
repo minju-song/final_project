@@ -160,7 +160,8 @@ public class BoardController {
 		result.put("board", vo);
 		return result;
 	}
-
+	
+	//검색
 	@PostMapping("/searchBoardLoad")
 	@ResponseBody
 	public Map<String, Object> searchBoardLoad(@RequestBody JSONObject req) {
@@ -174,4 +175,7 @@ public class BoardController {
 		return result;
 	}
 
+	
+	
+	
 }

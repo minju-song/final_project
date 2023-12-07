@@ -23,10 +23,10 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public String deleteReply(ReplyVO vo) {
-		
+
 		String result = "";
 
-		int set =  replyMapper.deleteReply(vo);
+		int set = replyMapper.deleteReply(vo);
 		if (set == 0) {
 			result = "err";
 		} else if (set == 1) {
@@ -34,8 +34,7 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 
 		return result;
-		
-		 
+
 	}
 
 	@Override
