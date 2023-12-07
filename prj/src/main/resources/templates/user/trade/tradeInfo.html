@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
-<!-- 소스 다운 -->
-<script src="https://unpkg.com/@yaireo/tagify"></script>
-<!-- 폴리필 (구버젼 브라우저 지원) -->
-<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+	<!-- 소스 다운 -->
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
+	<!-- 폴리필 (구버젼 브라우저 지원) -->
+	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
+
 <body>
 	<div layout:fragment="content">
 		<div class="container">
 			<div class="row centerwrap">
 				<!-- 사진 슬라이더 -->
+
 				<div id="carouselExampleControlsNoTouching" class="carousel slide" data-touch="false" data-interval="false">
 				  <div class="carousel-inner">
 				    <div class="carousel-item" th:classappend="${stat.count == 1} ? 'active' : ''" th:each="trade, stat : ${tradeImg}">
@@ -56,7 +58,8 @@
 						</div>
 						<div class="row bottomwrap watchwrap">
 							<div class="tradePrice">
-								<p th:text="|${#numbers.formatInteger(tradeInfo.price, 0, 'COMMA')}원|" th:if="${tradeInfo.price != 0}"></p>
+								<p th:text="|${#numbers.formatInteger(tradeInfo.price, 0, 'COMMA')}원|"
+									th:if="${tradeInfo.price != 0}"></p>
 								<p th:text="무료나눔" th:if="${tradeInfo.price == 0}" th:style="@{color:#ff6868;}"></p>
 							</div>
 							<!-- 판매자 버튼 -->
@@ -91,6 +94,7 @@
 					</div>
 				</div>
 			</div><hr class="bottomdown30">
+
 			<div class="row bottomdown10 margins">
 				<img th:src="@{/images/}+ ${tradeInfo.profileImg}" alt="Profile" class="rounded-circle" th:if="${tradeInfo.profileImg != null}">
 				<img th:src="@{/user/images/trade/user.png}" alt="Profile" class="rounded-circle" th:if="${tradeInfo.profileImg == null}">
@@ -125,15 +129,16 @@
             </div>
         </div>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7"></script>
-		<script th:inline="javascript">
-			let tradePlace = [[${tradeInfo.tradePlace}]];
-			let latitude = [[${tradeInfo.latitude}]];
-			let longitude = [[${tradeInfo.longitude}]];
-			let tradeId = [[${tradeInfo.tradeId}]];
-			let heart = `[[${heartCount.heartCount}]]`;
-		</script>
+        <script th:inline="javascript">
+          let tradePlace = [[${tradeInfo.tradePlace}]];
+          let latitude = [[${tradeInfo.latitude}]];
+          let longitude = [[${tradeInfo.longitude}]];
+          let tradeId = [[${tradeInfo.tradeId}]];
+          let heart = `[[${heartCount.heartCount}]]`;
+
+        </script>
 		<script src="/user/js/tradeInfo.js"></script>
 	</div>
 </body>
-</html>
 
+</html>

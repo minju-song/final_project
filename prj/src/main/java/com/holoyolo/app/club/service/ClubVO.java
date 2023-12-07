@@ -1,8 +1,11 @@
 package com.holoyolo.app.club.service;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.WebSocketSession;
 
 import lombok.Data;
 
@@ -43,5 +46,15 @@ public class ClubVO {
 	
 	//가입타입 (최초가입, 재가입)
 	private String type;
+	
+
+	//모임성공률
+	private int successRate;
+	//순번
+	private String rnum;
+
+	//채팅세션
+	private Set<WebSocketSession> sessions = new HashSet<>();
+
 
 }

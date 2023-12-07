@@ -49,9 +49,10 @@
                                         <label id="clubIntro">한줄소개</label>
                                         <div class="input-wrap">
                                             <input type="text" id="clubIntro" th:field="*{clubIntro}"
-                                                class="form-control" required="required" placeholder="모임 한줄 소개를 입력해 주세요"
+                                                class="form-control" required="required"
+                                                placeholder="모임 한줄 소개를 입력해 주세요 (최대 30자)"
                                                 onfocus="this.placeholder = '모임 한줄 소개를 입력해 주세요'"
-                                                onblur="this.placeholder = '모임 한줄 소개를 입력해 주세요'">
+                                                onblur="this.placeholder = '모임 한줄 소개를 입력해 주세요'" maxlength='30'>
                                         </div>
                                     </div>
                                     <!--/* 닉네임 */-->
@@ -70,8 +71,9 @@
                                         <div class="input-wrap">
                                             <input type="text" class="form-control" id="joinCondition"
                                                 th:field="*{joinCondition}" required="required"
-                                                placeholder="가입자격을 서술해 주세요" onfocus="this.placeholder = '가입자격을 서술해 주세요'"
-                                                onblur="this.placeholder = '가입자격을 서술해 주세요'">
+                                                placeholder="가입자격을 서술해 주세요 (최대 30자)"
+                                                onfocus="this.placeholder = '가입자격을 서술해 주세요'"
+                                                onblur="this.placeholder = '가입자격을 서술해 주세요'" maxlength='30'>
                                         </div>
                                     </div>
 

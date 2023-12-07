@@ -380,10 +380,18 @@ section
 	transition: all 200ms ease;
 	padding: 10px;
 }
-.main_nav ul li a:hover
-{
-	/* color: #0015bf; */
-	color: #0015bf;
+
+
+.main_nav ul li a:hover:before {
+    content: "";
+    display: inline-block;
+    background-image: url(/user/images/mypage/heart_fill.svg);
+    background-size: 10px 10px;
+    width: 10px;
+    height: 10px;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-bottom: 2px;
 }
 
 /*********************************

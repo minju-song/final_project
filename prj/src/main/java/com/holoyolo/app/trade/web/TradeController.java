@@ -39,8 +39,6 @@ public class TradeController {
 
 	@GetMapping("/admin/trade")
 	public String selectTradeList(Model model) {
-		List<TradeVO> list = tradeService.getTradeList();
-		model.addAttribute("tradeList", list);
 		return "admin/tradeMgt";
 	}
 	
@@ -54,7 +52,7 @@ public class TradeController {
 	@GetMapping("tradePaging")
 	@ResponseBody
 	public Map<String, Object> tradePaging(TradeVO tradeVO){
-		Map<String, Object> map = tradeService.tradePaging(tradeVO);
+		Map<String, Object> map = tradeService.getTradeList(tradeVO);
 		return map;
 	}
 	

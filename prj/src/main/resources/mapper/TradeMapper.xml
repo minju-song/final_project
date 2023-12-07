@@ -162,6 +162,7 @@
 			FROM (
 				SELECT t.trade_id
 				        , t.title
+				        , t.description
 				        , fn_get_code_name(trade_category) as trade_category
 				        , t.price
 				        , t.trade_place

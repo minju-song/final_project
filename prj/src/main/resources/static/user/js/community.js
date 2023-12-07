@@ -1,9 +1,6 @@
-
-
-
 // 페이징
 let currentPage = 1;
-const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
+const recordsPerPage = 5; // 페이지당 표시할 레코드 수, 필요에 따라 조절
 
 // 페이지 버튼 생성
 function setupPagination(totalPages) {
@@ -68,38 +65,46 @@ function setupPagination(totalPages) {
     }
 }
 //게시판 목록 로드
-function loadData(page) {
+function loadData(page, search) {
     currentPage = page;
     let start = (currentPage - 1) * recordsPerPage;
     let end = start + recordsPerPage;
-
+    let searchBoardSet = location.pathname
+    let boardType = "";
+    let setUrl = ""
+    let searchOption = document.getElementById('searchTitle').value
+    if (searchBoardSet == "/board/chat") {
+        boardType = "AA3"
+    } else if (searchBoardSet == "/board/info") {
+        boardType = "AA2"
+    } else if (searchBoardSet == "/member/notice") {
+        boardType = "AA6"
+    }
+    //검색 설정
+    if (search != null && search != '') {
+        setUrl = "/searchBoardLoad"
+    } else {
+        setUrl = "/boardLoad"
+    }
     $.ajax({
         type: 'POST',
-        url: '/boardLoad',
+        url: setUrl,
         contentType: 'application/json;charset=UTF-8',
-        data: JSON.stringify({ "start": start, "end": end, "type": "AA2" }),
+        data: JSON.stringify({ "start": start, "end": end, "type": boardType, "search": search, "searchType": searchOption }),
         success: function (data) {
-
-            updateTable(data, page);
-            // 페이징 처리
+            updateTable(data, page, "");
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
             setupPagination(totalPages);
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
-            console.error("error: " + error);
+        error: function (error) {
         }
     });
 }
 //테이블 갱신
 function updateTable(data, page) {
-
     currentPage = page;
-    let endPage = Math.ceil(data.totalRecords / recordsPerPage);
-    console.log(endPage)
-
     let tbody = $("#boardTableBody");
+    let searchBoardSet = data.boardType;
     tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
 
     if (data && data.historyList && data.historyList.length > 0) {
@@ -107,7 +112,7 @@ function updateTable(data, page) {
 
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
-            row.attr("onclick", `location.href='/member/BoardInfo?boardId=${item.boardId}'`);
+            row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
             if (data.totalRecords > page * recordsPerPage) {
                 row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
                 // row.append($("<td>").text(index + 1));
@@ -116,7 +121,12 @@ function updateTable(data, page) {
             }
             row.append($("<td>").text(item.title));
             row.append($("<td>").text(formatDate(item.writeDate)));
-            row.append($("<td>").text(item.nickname));
+            if (searchBoardSet == 'AA3') {
+
+            } else if (searchBoardSet == 'AA2') {
+                row.append($("<td>").text(item.nickname));
+            }
+
             row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
 
             tbody.append(row);
@@ -158,7 +168,12 @@ async function findPost() {
     });
 
     document.getElementById('title').innerText = post.title;
-    document.getElementById('writer').innerText = post.nickname;
+    if (post.menuType == "AA2") {
+        document.getElementById('writer').innerText = post.nickname;
+    } else if (post.menuType == "AA3") {
+        document.getElementById('writer').innerText = "작성자";
+    }
+
     document.getElementById('boardLike').innerText = post.likeCount;
     document.getElementById('writeDate').innerText = formatDate(post.writeDate);
     document.getElementById('views').innerText = post.views;
@@ -181,9 +196,7 @@ function replyLoad(page) {
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({ "boardId": boardId, "start": start, "end": end }),
         success: function (data) {
-            console.log(data)
             updateReplyTable(data, page);
-
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
             setupPagination(totalPages);
         },
@@ -191,47 +204,154 @@ function replyLoad(page) {
 
             console.error("error: " + error);
         }
-    });
-
+    })
 }
 
 //댓글 테이블 생성
 function updateReplyTable(data, page) {
-
     currentPage = page;
     let tbody = $("#ReplyTableBody");
-    tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
+    tbody.empty();
 
-    if (data && data.historyList && data.historyList.length > 0) {
-        // 데이터가 있을 경우 테이블에 행 추가
+    // 트리 구조로 변환
+    const rootComments = convertToTreeStructure(data);
+    if (data.totalRecords != '0') {
+        // 댓글 출력
+        function renderComments(comments, depth = 0) {
+            let checkBoard = "";
+            let thisBoard;
+            $.ajax({
+                type: 'POST',
+                url: '/checkWriter',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify({ "boardId": comments[0].boardId }),
+                success: function (data) {
+                    thisBoard = data.board;
+                    checkBoard = thisBoard.menuType
 
-        data.historyList.forEach(function (item, index) {
-            console.log(item)
-            let row = $("<tr>");
-            if (data.totalRecords > page * recordsPerPage) {
-                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
-            } else {
-                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
-            }
-            row.append($("<td>").text(item.content));
-            row.append($("<td>").text(formatDate(item.writeDate)));
-            row.append($("<td>").text(item.nickname));
 
-            let rowReplyAddBtn = $("<button>").text("댓글").addClass('btn', 'btn-secondary').attr('id', 'rowReplyFormOpen').attr('value', item.replyId);
-            rowReplyAddBtn.on('click', function () {
-                rowReplyInsertForm();
-            });
-            row.append(rowReplyAddBtn);
+                    comments.forEach((comment) => {
+                        let row = $("<tr>");
+                        if (comment.upperReplyId != 0) {
+                            row.append($("<td>").text("↳").css("text-align", "right"));
+                        } else {
+                            row.append($("<td>").text("  "));
+                        }
+                        row.append($("<td>").text(comment.content).css("width", "40%"));
+                        row.append($("<td>").text(formatDate(comment.writeDate)));
+                        if (checkBoard == "AA3") {
+                            if (thisBoard.memberId == comment.memberId) {
+                                row.append($("<td>").text("작성자"));
+                            } else {
+                                row.append($("<td>").text("익명"));
+                            }
 
-            let rowReplyFormArea = $("<div>").attr('id', 'rowReplyFormArea');
-            row.append(rowReplyFormArea);
-            tbody.append(row);
-        });
-    } else {
-        // 데이터가 없을 경우 테이블에 메시지 추가
-        let noDataMessage = $("<tr>").append($("<td colspan='5' class='text-center'>").text("댓글이 없습니다."));
-        tbody.append(noDataMessage);
+                        } else if (checkBoard == "AA2") {
+                            row.append($("<td>").text(comment.nickname));
+                        }
+
+                        let row2 = $("<tr>");
+
+                        // 대댓글 버튼 추가
+
+                        let rowReplyAddBtn = $("<button>")
+                            .text("댓글")
+                            .attr('id', 'rowReplyFormOpen_' + comment.replyId)
+                            .attr('value', comment.replyId);
+                        rowReplyAddBtn.on('click', function () {
+                            rowReplyAddBtn.prop('disabled', true);
+                            rowReplyInsertForm(comment.replyId, row2);
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/searchReplyWriter',
+                            contentType: 'application/json;charset=UTF-8',
+                            success: function (userdata) {
+                                if (userdata.loginUser == comment.memberId) {
+
+                                    //수정버튼
+                                    let ReplyUpdateBtn = $("<button>")
+                                        .text("수정")
+                                        .attr('id', 'replyUpdateBtn' + comment.replyId)
+                                        .attr('value', comment.replyId);
+
+                                    ReplyUpdateBtn.on('click', function () {
+                                        replyUpdateForm(comment.replyId, comment.content, row2);
+                                        ReplyUpdateBtn.prop('disabled', true);
+                                    });
+
+                                    row.append(ReplyUpdateBtn);
+                                    //삭제버튼
+                                    let ReplyDeleteBtn = $("<button>")
+                                        .text("삭제")
+                                        .attr('id', 'replydeleteBtn' + comment.replyId)
+                                        .attr('value', comment.replyId);
+
+                                    ReplyDeleteBtn.on('click', function () {
+                                        Swal.fire({
+                                            title: "댓글을 삭제하시겠습니까",
+                                            text: "삭제된 글은 복구 할 수 없습니다",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                            confirmButtonText: "삭제"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    type: 'POST',
+                                                    url: '/deleteReply',
+                                                    contentType: 'application/json;charset=UTF-8',
+                                                    data: JSON.stringify({ "replyId": comment.replyId }),
+                                                    success: function (data) {
+                                                        Swal.fire({
+                                                            title: "성공!",
+                                                            text: data.resultMsg,
+                                                            icon: "success",
+                                                            closeOnClickOutside: false
+                                                        }).then(function () {
+                                                            replyLoad(1);
+                                                        })
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    });
+
+                                    row.append(ReplyDeleteBtn);
+                                }
+                            },
+                            error: function (error) {
+
+                                console.error("error: " + error);
+                            }
+                        })
+
+                        row.append(rowReplyAddBtn);
+                        tbody.append(row, row2);
+                        if (comment.replies.length > 0) {
+                            renderComments(comment.replies, depth + 1);
+                        }
+                    });
+
+
+
+                },
+                error: function (error) {
+                    console.error("error: " + error);
+                }
+            })
+
+
+
+        }
+        renderComments(rootComments);
     }
+
+
+
+    // 댓글 출력 시작
 
 }
 
@@ -299,43 +419,6 @@ function deleteLike(heart) {
     heart.classList.add('animate__animated', 'animate__bounceIn');
 }
 
-//댓글 입력 폼 생성
-function openForm() {
-    let replyForm = document.createElement('textarea');
-    replyForm.id = 'replyForm';
-    replyForm.placeholder = ' 답글을 입력하세요.';
-    replyForm.classList.add('form-control', 'text');
-    document.getElementById('replyFormArea').append(replyForm);
-
-    let addReplyBtn = document.createElement('button');
-    addReplyBtn.type = 'button';
-    addReplyBtn.id = "addReplyBtn";
-    addReplyBtn.classList.add('btn', 'btn-primary')
-    addReplyBtn.textContent = '댓글 등록';
-
-    let cancelBtn = document.createElement('button');
-    cancelBtn.type = 'button';
-    cancelBtn.id = "cancelReplyBtn";
-    cancelBtn.classList.add('btn', 'btn-danger');
-    cancelBtn.textContent = '닫기';
-
-    addReplyBtn.addEventListener('click', insertReply)
-    cancelBtn.addEventListener('click', function () {
-        let replyForm = document.getElementById('replyForm');
-        replyForm.remove();
-        document.getElementById('replyFormOpen').disabled = false;
-
-        let addReplyBtn = document.getElementById('addReplyBtn');
-        addReplyBtn.remove();
-
-        let cancelReplyBtn = document.getElementById('cancelReplyBtn')
-        cancelReplyBtn.remove()
-    });
-    document.getElementById('addreplyBtn').append(addReplyBtn, cancelBtn);
-    document.getElementById('replyFormOpen').disabled = true;
-
-};
-
 //댓글 등록
 function insertReply() {
     const searchParams = new URLSearchParams(location.search);
@@ -347,11 +430,11 @@ function insertReply() {
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({ "boardId": boardId, "content": content }),
         success: function (data) {
-            console.log(data)
+
             replyLoad(currentPage);
 
             let replyForm = document.getElementById('replyForm');
-            replyForm.remove();
+            replyForm.value = ""
             document.getElementById('replyFormOpen').disabled = false;
 
             let addReplyBtn = document.getElementById('addReplyBtn');
@@ -360,15 +443,21 @@ function insertReply() {
             let cancelReplyBtn = document.getElementById('cancelReplyBtn')
             cancelReplyBtn.remove()
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
+        error: function (error) {
             console.error("error: " + error);
+            Swal.fire({
+                title: "",
+                text: "댓글을 입력해 주세요",
+                icon: "error",
+                closeOnClickOutside: false
+            }).then(function () {
+
+            })
         }
     });
 }
 
-// 페이지 버튼 생성
+// 댓글페이지 버튼 생성
 function setupReplyPagination(totalPages) {
     let paginationContainer = document.getElementById("pagination-container");
 
@@ -432,66 +521,266 @@ function setupReplyPagination(totalPages) {
 }
 
 //대댓글 입력 폼
-function rowReplyInsertForm() {
-    let rowReplyFormArea = $("#rowReplyFormArea");
-    let replyForm = $("<textarea>").attr('id', 'rowReplyForm').attr('placeholder', ' 답글을 입력하세요.').addClass('form-control');
-    rowReplyFormArea.append(replyForm);
+function rowReplyInsertForm(replyId, thisRow) {
+    let rowReplyFormArea = document.createElement('td');
+    rowReplyFormArea.id = "rowReplyFormArea_" + replyId;
+
+    let replyForm = document.createElement('textarea');
+    replyForm.id = "replyForm_" + replyId;
+    replyForm.placeholder = '답글을 입력하세요.';
+    replyForm.classList.add('form-control', 'text');
+
+    let addReplyBtn = document.createElement('button');
+    addReplyBtn.type = 'button';
+    addReplyBtn.classList.add('btn', 'btn-primary');
+    addReplyBtn.id = 'addReplyBtn_' + replyId;
+    addReplyBtn.textContent = '댓글 등록';
+    addReplyBtn.addEventListener('click', function () {
+        insertRowReply(replyId);
+    });
+
+    let cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.id = 'cancelReplyBtn_' + replyId;
+    cancelBtn.classList.add('btn', 'btn-danger');
+    cancelBtn.textContent = '닫기';
+    cancelBtn.addEventListener('click', function () {
+        document.getElementById('rowReplyFormOpen_' + replyId).removeAttribute('disabled');
+        rowReplyFormArea.remove();
+    });
+    thisRow.find('#rowReplyFormOpen_' + replyId).prop('disabled', true);
+    rowReplyFormArea.setAttribute('colspan', '4')
+    rowReplyFormArea.append(replyForm, addReplyBtn, cancelBtn);
+    thisRow.append(rowReplyFormArea);
+    document.getElementById('rowReplyFormOpen_' + replyId).disabled = true;
+
+}
+
+//대댓글 등록
+function insertRowReply(upperReplyId) {
+
+    const searchParams = new URLSearchParams(location.search);
+    let boardId = Number(searchParams.get('boardId'));
+    let content = document.getElementById('replyForm_' + upperReplyId).value
+
+    $.ajax({
+        type: 'POST',
+        url: '/insertReply',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "boardId": boardId, "content": content, "upperReplyId": upperReplyId }),
+        success: function (data) {
+            replyLoad(currentPage);
+            let rowReplyForm = document.getElementById('rowReplyForm');
+            if (rowReplyForm) {
+                rowReplyForm.remove();
+            }
+            document.getElementById('rowReplyFormOpen').disabled = false;
+
+            let addReplyBtn = document.getElementById('addRowReplyBtn');
+            addReplyBtn.remove();
+
+            let cancelReplyBtn = document.getElementById('cancelRowReplyBtn');
+            cancelReplyBtn.remove();
+        },
+        error: function (error) {
+            console.error("error: " + error);
+        }
+    })
+
+}
+
+//대댓글 배치
+function convertToTreeStructure(data) {
+
+    const commentMap = new Map(); // 댓글 ID를 키로 갖는 Map
+    const rootComments = []; // 최상위 댓글을 저장하는 배열
+
+    // 댓글을 Map에 추가
+    data.historyList.forEach((comment) => {
+        comment.replies = []; // 대댓글을 저장할 배열 추가
+        commentMap.set(comment.replyId, comment);
+    });
+
+    // 부모 댓글에 대댓글 추가
+    data.historyList.forEach((comment) => {
+        if (comment.upperReplyId && commentMap.has(comment.upperReplyId)) {
+            const parentComment = commentMap.get(comment.upperReplyId);
+            parentComment.replies.push(comment);
+        } else {
+            rootComments.push(comment); // 최상위 댓글인 경우 rootComments 배열에 추가
+        }
+    });
+
+    return rootComments;
+}
+
+//댓글 삭제
+function deletePost() {
+
+    const searchParams = new URLSearchParams(location.search);
+    const boardId = Number(searchParams.get('boardId'));
+
+    $.ajax({
+        type: 'POST',
+        url: '/member/board/delete',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "boardId": boardId }),
+        success: function (data) {
+            Swal.fire({
+                title: "",
+                text: data.resultMsg,
+                icon: "success",
+                closeOnClickOutside: false
+            }).then(function () {
+                location.href = "/board/info"
+            })
+        },
+        error: function (error) {
+
+            console.error("error: " + error);
+        }
+    });
+
+}
+
+//댓글 수정 폼생성
+function replyUpdateForm(replyId, content, thisRow) {
+    let rowReplyFormArea = document.createElement('td');
+    rowReplyFormArea.id = "rowReplyFormArea_" + replyId;
+    console.log(replyId);
+    let replyForm = document.createElement('textarea');
+    replyForm.id = "replyForm_" + replyId;
+    replyForm.placeholder = '답글을 입력하세요.';
+    replyForm.classList.add('form-control', 'text');
+    replyForm.value = content;
+
 
 
     let addReplyBtn = document.createElement('button');
     addReplyBtn.type = 'button';
-    addReplyBtn.id = 'addRowReplyBtn';
     addReplyBtn.classList.add('btn', 'btn-primary');
-    addReplyBtn.textContent = '댓글등록'
-    addReplyBtn.addEventListener('click', insertReply);
+    addReplyBtn.id = 'addReplyBtn_' + replyId;
+    addReplyBtn.textContent = '댓글 등록';
 
 
     let cancelBtn = document.createElement('button');
     cancelBtn.type = 'button';
-    cancelBtn.id = 'cancelRowReplyBtn';
+    cancelBtn.id = 'cancelReplyBtn_' + replyId;
     cancelBtn.classList.add('btn', 'btn-danger');
-    cancelBtn.textContent = '취소'
+    cancelBtn.textContent = '닫기';
+
+    rowReplyFormArea.setAttribute('colspan', '4');
+    rowReplyFormArea.append(replyForm, addReplyBtn, cancelBtn);
+    thisRow.append(rowReplyFormArea);
     cancelBtn.addEventListener('click', function () {
-       
-        let rowReplyForm = document.getElementById('rowReplyForm');
-        rowReplyForm.remove();
-        document.getElementById('rowReplyFormOpen').disabled = false;
-
-        let addReplyBtn = document.getElementById('addRowReplyBtn');
-        addReplyBtn.remove();
-
-        let cancelReplyBtn = document.getElementById('cancelRowReplyBtn');
-        cancelReplyBtn.remove();
+        let updateBtnId = document.getElementById('replyUpdateBtn' + replyId);
+        $(updateBtnId).prop('disabled', false);
+        rowReplyFormArea.remove();
     });
+    addReplyBtn.addEventListener('click', function () {
 
-    let testBtn = document.createElement('button');
-    testBtn.type = 'button';
-    testBtn.id = 'testBtn';
-    testBtn.classList.add('btn', 'btn-secondary');
-    testBtn.textContent = 'TEST'
-    testBtn.addEventListener('click', function(){
-       
+        let fixedContent = replyForm.value;
+        updateReply(replyId, fixedContent);
+    });
+}
+//댓글수정 등록
+function updateReply(replyId, content) {
+    $.ajax({
+        type: 'POST',
+        url: '/updateReply',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "content": content, "replyId": replyId }),
+        success: function (data) {
+            Swal.fire({
+                title: "",
+                text: data.resultMsg,
+                icon: "success",
+                closeOnClickOutside: false
+            }).then(function () {
+                let updateBtnId = document.getElementById('replyUpdateBtn' + replyId);
+                $(updateBtnId).prop('disabled', false);
 
-        let searchReplyId1 = this.parentNode.parentNode;
+                document.getElementById("rowReplyFormArea_" + replyId).remove();
+                replyLoad(1);
 
-        // 부모 노드의 부모 노드의 첫 번째 자식의 5번째자식
-        let searchReplyId2 = searchReplyId1.childNodes[0];
-        let searchReplyId = searchReplyId2.childNodes[5]
-        console.log(searchReplyId1)
-        console.log(searchReplyId2)
-        console.log(searchReplyId)
+            })
+        },
+        error: function (request, status, error) {
+
+            console.error("error: " + error);
+        }
     })
-    
-
-    rowReplyFormArea.append(addReplyBtn, cancelBtn, testBtn);
-    rowReplyFormArea.insertAfter(replyForm.closest("tr"));
-    $("#rowReplyFormOpen").prop('disabled', true);
-    document.getElementById('rowReplyFormOpen').disabled = true;
 }
-//대댓글 등록
+//신고
+function reportFormSet() {
+    console.log('신고')
+    // 1. URL 쿼리 스트링에서 게시글 번호 조회
+    const searchParams = new URLSearchParams(location.search);
+    const postId = Number(searchParams.get('boardId'));
+    let thisBoard = "";
+    $.ajax({
+        type: 'POST',
+        url: '/checkWriter',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({ "boardId": postId }),
+        success: function (data) {
+            thisBoard = data.board;
+            const { value: formValues } = Swal.fire({
+                title: `신고하시겠습니까`,
+                html: `
+                <div class="container">
+                    <div class="row">
+                        <label class="col-3">신고 유형</label>
+                        <select id="reportType" class="col-3 custom-select justify-content-end" >
+                            <option value="SA1">욕설</option>
+                            <option value="SA2">음란성</option>
+                            <option value="SA3">모욕/비방</option>
+                            <option value="SA4">사기</option>
+                            <option value="SA5">기타</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="col-3">신고 내용 : </label>
+                        <input type ="text" id="reportContent" class="form-control col-8">
+                    </div>
+                </div>           
+                `,
+                width: '35%',
+                height: '40%',
+                focusConfirm: false,
+                preConfirm: () => {
+                    let reportType = document.getElementById("reportType").value;
+                    let reportContent = document.getElementById("reportContent").value;
 
-function rowReply() {
-    let content = document.getElementById('rowReplyForm')
-    console.log(content);
+                    $.ajax({
+                        type: 'POST',
+                        url: '/insertReport',
+                        contentType: 'application/json;charset=UTF-8',
+                        data: JSON.stringify({ "reportedId": thisBoard.memberId, "reportType": reportType, "reportContent": reportContent, "postId": thisBoard.boardId, "menuType": thisBoard.menuType }),
+                        success: function (data) {
+                            console.log(data)
+                            Swal.fire({
+                                title: "",
+                                text: data.resultMsg,
+                                icon: "success",
+                                closeOnClickOutside: false
+                            }).then(function () {
+                                location.href='/board/info'
+                            })
+                        },
+                        error: function (request, status, error) {
+                            console.error("error: " + error);
+                        }
+                    })
+                }
+            });
+        },
+        error: function (error) {
+
+            console.error("error: " + error);
+        }
+    })
+
+
 }
-

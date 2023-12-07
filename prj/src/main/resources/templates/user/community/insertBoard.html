@@ -76,7 +76,7 @@
         </div>
       </div>
 
-      
+
       <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
       <script>
@@ -84,13 +84,10 @@
         let insertPostBtn = document.getElementById('insertPostBtn');
         insertPostBtn.addEventListener('click', savePost);
         //게시판 체크(AA1~AA6)
-        let ckBoardType = document.getElementById('ckBoardType').value;
-        let boardType = "";
-        if (ckBoardType == "정보공유게시판") {
-          boardType = "AA2";
-        } else if (ckBoardType == "수다방") {
-          boardType = "AA3";
-        }
+
+        
+
+
 
         const editor = new toastui.Editor({
           el: document.querySelector('#content'),      // 에디터를 적용할 요소 (컨테이너)
@@ -142,16 +139,24 @@
           }
 
           // 2. url, parameter 세팅
-          const url = '/api/posts';
+          const url = '/api/Board/posts';
           const memberId = document.getElementById('userId').value;
           const title = document.getElementById('title').value;
+          let ckBoardType = document.getElementById('ckBoardType').value;
+          let boardType = "";
+          if (ckBoardType == "정보게시판") {
+            boardType = "AA2";
+          } else if (ckBoardType == "수다방") {
+            boardType = "AA3";
+          }
+          console.log(boardType,ckBoardType)
           const params = {
             title: title,
             content: editor.getMarkdown(),
             memberId: memberId,
             menuType: boardType
           }
-
+          
           // 3. API 호출
           try {
             const response = await fetch(url, {
@@ -164,7 +169,7 @@
 
             const postId = await response.json();
             alert(postId + '번 게시글이 저장되었습니다.');
-            location.href = "/infoBoard";
+            location.href = "/board/info";
 
           } catch (error) {
             console.error('저장 실패 : ', error)
