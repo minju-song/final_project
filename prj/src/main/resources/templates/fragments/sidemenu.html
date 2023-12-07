@@ -38,7 +38,6 @@
 								th:class="${subMenu eq 'myHolopay'}? 'submenu_active' : ''">홀로페이</a></li>
 						<li class="side_main_menu"><a href="#">포인트</a></li>
 						<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
-
 						<!--/* 나의중고거래 서브메뉴 start */-->
 						<li class="side_sub_menu"><a th:href="@{/}">판매내역</a></li>
 						<li class="side_sub_menu"><a th:href="@{/}">구매내역</a></li>
@@ -60,16 +59,16 @@
 				</div>
 			</th:block>
 
-			<th:block th:if="${menu == 'cs'}">
-				<div class="sidebar_title side_main_menu">고객센터</div>
-				<div class="sidebar_section_content">
-					<ul>
-						<li class="side_main_menu"><a th:href="@{/}">공지사항</a></li>
-						<li class="side_main_menu"><a th:href="@{/}">자주하는질문</a></li>
-						<li class="side_main_menu"><a th:href="@{/}">1:1문의</a></li>
-					</ul>
-				</div>
-			</th:block>
+		<th:block th:if="${menu == 'cs'}">
+			<div class="sidebar_title side_main_menu">고객센터</div>
+			<div class="sidebar_section_content">
+				<ul>
+					<li class="side_main_menu"><a th:href="@{/cs/help/notice}">공지사항</a></li>
+					<li class="side_main_menu"><a th:href="@{/}">자주하는질문</a></li>
+					<li class="side_main_menu"><a th:href="@{/cs/help/question}">1:1문의</a></li>
+				</ul>
+			</div>
+		</th:block>
 
 			<th:block th:if="${menu == 'club'}">
 				<div class="sidebar_title side_main_menu">[[${result.club.clubName}]]</div>

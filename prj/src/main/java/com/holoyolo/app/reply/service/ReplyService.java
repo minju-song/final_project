@@ -9,7 +9,7 @@ public interface ReplyService {
 	public List<ReplyVO> ReplyList(int boardId);
 
 //게시물 댓글삭제
-	public int deleteReply(ReplyVO vo);
+	public String deleteReply(ReplyVO vo);
 
 //게시물 댓글등록
 	public int insertReply(ReplyVO vo);
@@ -20,6 +20,8 @@ public interface ReplyService {
 	List<ReplyVO> searchReplyPage(JSONObject req);
 
 	int getTotalReplyRecords(JSONObject req);
+
+	String updateReply(ReplyVO vo);
 
 	
 }
