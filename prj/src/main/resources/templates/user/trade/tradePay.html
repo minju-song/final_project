@@ -66,16 +66,26 @@
 		</div>
 		<script>
 			//가격 양수만 입력
+			let pointCnt = `[[${pointCnt}]]`;
+			pointCntDigit = pointCnt.toString().length;
+			console.log(pointCntDigit)
+			
 			let number = document.querySelectorAll('[type=number]');
 			for(let i=0; i< number.length; i++){
-				number[i].onkeydown = function(e) {
+			    let num = number[i].value;
+				numDigit = num.toString().length;
+				number[i].onkeyup = function(e) {
 				    if(!((e.keyCode > 95 && e.keyCode < 106)
 				    	|| (e.keyCode > 47 && e.keyCode < 58) 
 				    	|| e.keyCode == 8)) {
 				        return false;
-				    }
+				    }else if(numDigit > pointCntDigit || num > pointCnt){
+						return false;
+					}
 				}
 			}
+			
+			
 		</script>
 	</div>
 </body>
