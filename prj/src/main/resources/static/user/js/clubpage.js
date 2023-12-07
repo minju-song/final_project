@@ -261,6 +261,7 @@ function join() {
 
 //방장위임
 function mandate(memberId) {
+    if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
     if (clubLeader != userId) {
         console.log("방장아님");
         return;
@@ -320,35 +321,6 @@ function mandate(memberId) {
         }
     });
 
-
-
-    // Swal.fire({
-    //     title: "모임장을 위임하시겠습니까?",
-    //     text: "즉시 위임이 가능합니다.",
-    //     icon: "question",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "Yes"
-    // }).then((result) => {
-    //     if (result.isConfirmed) {
-    //         fetch('/member/mandate?clubId=' + clubId + "&clubLeader=" + memberId)
-    //             .then(resolve => resolve.text())
-    //             .then(result => {
-    //                 console.log(result);
-    //                 Swal.fire({
-    //                     title: "위임완료",
-    //                     text: "위임이 완료되었습니다.",
-    //                     icon: "success"
-    //                 }).then((result) => {
-    //                     if (result.isConfirmed) {
-    //                         location.reload();
-    //                     }
-
-    //                 });
-    //             });
-    //     }
-    // })
 }
 
 /**
@@ -417,6 +389,55 @@ function uploadImg() {
             }
         })
         .catch(err => console.log(err));
+}
+
+//회원정보모달
+function memberInfo(mid, mname) {
+    console.log(clubId + '클럽의 ' + mname + '회원을 조회');
+
+    fetch('/clubSuccessMember5?memberId=' + mid + '&clubId=' + clubId)
+        .then(resolve => resolve.json())
+        .then(result => {
+            console.log(result.list);
+            let history = `<div style="height:300px; overflow-y: auto;">`;
+
+
+            for (let i = 0; i < result.list.length; i++) {
+                let rankingText = ``;
+                if (result.list[i].ranking == 1) rankingText = `&#129351; ` + result.list[i].ranking + `위 &#129351;`;
+                else if (result.list[i].ranking == 2) rankingText = `&#129352; ` + result.list[i].ranking + `위 &#129352;`;
+                else if (result.list[i].ranking == 3) rankingText = `&#129353; ` + result.list[i].ranking + `위 &#129353;`;
+                else rankingText = `&#127881; ` + result.list[i].ranking + `위 &#127881;`;
+                history += `<hr><div>
+                <strong style="color:#7373e9;">` + rankingText + `</strong> `
+                    + `<p>예산기간 : ` + dateFormat(result.list[i].startDate) + ` ~ ` + dateFormat(result.list[i].endDate) + '</p>'
+                    + `</div>`
+            }
+
+            if (result.list.length == 0) {
+                history = `<h4>내역이 없습니다.</h4>`;
+            }
+            history += `</div>`
+            Swal.fire({
+                title: "<strong>" + mname + "</strong><span style='font-size:smaller;'> 님의 지난 성적</span>",
+
+                html: history,
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonText: `
+            확인
+            `,
+                confirmButtonAriaLabel: "확인"
+            });
+        })
+}
+
+function dateFormat(str) {
+    let date = new Date(str);
+    let newDate = date.getFullYear() + '-' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+        '-' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()));
+    return newDate;
 }
 
 

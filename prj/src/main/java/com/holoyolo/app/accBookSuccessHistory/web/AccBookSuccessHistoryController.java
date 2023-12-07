@@ -1,5 +1,8 @@
 package com.holoyolo.app.accBookSuccessHistory.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,19 @@ public class AccBookSuccessHistoryController {
 		String result = accBookSuccessHistoryService.getSuccessByDay(vo);
 
 		return result;
+	}
+	
+	//성공기록가져오기
+	@GetMapping("/getRecord")
+	@ResponseBody
+	public Map<String, Object> getRecord(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+			                      AccBookSuccessHistoryVO vo) {
+		Map<String, Object> map = new HashMap<>();
+		vo.setMemberId(principalDetails.getUsername());
+		
+		vo = accBookSuccessHistoryService.getSuccessRecord(vo);
+		map.put("record", vo);
+		return map;
 	}
 	
 }

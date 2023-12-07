@@ -20,4 +20,21 @@
                 			WHERE rownum = 1)
            AND member_id = #{memberId}
   	</select>
+  	
+  	<!-- 해당 회원의 최근 5회 성적가져오기 -->
+<select id="getSuccessMember" parameterType="ClubMemberVO" resultType="ClubSuccessHistoryMemberVO">
+	    SELECT *
+	    FROM (
+	        SELECT csh.*, cs.start_date, cs.end_date
+	        FROM club_success_history_member csh
+	        JOIN club_success_history cs ON csh.goal_id = cs.goal_id
+	        WHERE csh.member_id = #{memberId}
+	          AND cs.club_id = #{clubId}
+	        ORDER BY csh.goal_member_id DESC
+	    )
+	    <![CDATA[
+	    WHERE ROWNUM <= 5
+	    ]]>
+</select>
+  	
   </mapper>

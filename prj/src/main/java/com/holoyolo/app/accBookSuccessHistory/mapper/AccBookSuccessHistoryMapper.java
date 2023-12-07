@@ -1,6 +1,7 @@
 package com.holoyolo.app.accBookSuccessHistory.mapper;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.holoyolo.app.accBookSuccessHistory.service.AccBookSuccessHistoryVO;
 import com.holoyolo.app.accBudget.service.AccBudgetVO;
@@ -15,4 +16,7 @@ public interface AccBookSuccessHistoryMapper {
 	
 	//예산 수정 시 현재 진행 중인 예산성공기록 삭제
 	public int deleteIng(String id);
+	
+	//날짜마다 성공기록
+	public AccBookSuccessHistoryVO getSuccessRecord(AccBookSuccessHistoryVO vo);
 }
