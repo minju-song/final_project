@@ -47,15 +47,6 @@ public class ClubController {
 	@Autowired
 	AttachmentService attachmentService;
 	
-
-	@GetMapping("/admin/club")
-	public String selectClubList(Model model) {
-		List<ClubVO> list = clubService.selectClubAll();
-		model.addAttribute("clubList", list);
-		return "admin/clubMgt";
-		}
-
-
 	//클럽목록으로 이동
 	@GetMapping("/clublist")
 	public String clubListPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model) {
@@ -243,5 +234,29 @@ public class ClubController {
 	}
 	
 
+	// 관리자 클럽 리스트
+	// 페이지 이동
+	@GetMapping("/admin/club")
+	public String selectClubList() {
+		return "admin/club/clubPage";
+		}
+	// 처리
+	@GetMapping("/admin/club/list")
+	@ResponseBody
+	public Map<String, Object> getClubListAjax(ClubVO clubVO) {
+		Map<String, Object> clubMap = new HashMap<>();
+		System.out.println(clubService.selectClubAll(clubVO));
+		clubMap.put("list", clubService.selectClubAll(clubVO));
+		
+		return clubMap;
+	}
 	
+	@GetMapping("/admin/club/detail")
+	public String selectClubDetail(ClubVO clubVO, Model model) {
+//		Map<String, Object> clubInfo = clubService.getClubDetail(clubVO);
+//		model.addAttribute("clubInfo", clubInfo.get("clubInfo"));
+		return "admin/club/clubDetail";
+	}
+		
+
 }

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -50,14 +49,29 @@ public class ClubServiceImpl implements ClubService {
 
 	// 모임 전체조회
 	@Override
-	public List<ClubVO> selectClubAll() {
-		return clubMapper.selectClubAll();
+	public Map<String, Object> selectClubAll(ClubVO clubVO) {
+		Map<String, Object> map = new HashMap<>();
+		List<ClubVO> list = clubMapper.selectClubAll(clubVO);
+		
+		for(int i=0; i<list.size(); i++) {
+			ClubVO temp = new ClubVO();
+			temp = list.get(i);
+			temp.setJoinCnt(clubMemberMapper.countMember(list.get(i).getClubId()));
+			temp.setSuccessCnt(clubSuccessHistoryMapper.getSuccessCount(list.get(i).getClubId()));
+			list.set(i, temp);
+		}
+		
+		map.put("result", list);
+		
+		return map;
 	}
 
 	// 모임 단건조회
 	@Override
-	public ClubVO selectClubInfo(ClubVO clubVO) {
-		return clubMapper.selectClubInfo(clubVO);
+	public ClubVO getClubDetail(ClubVO clubVO) {
+		
+		
+		return clubMapper.getClubDetail(clubVO);
 	}
 	
 	// 모임 등록

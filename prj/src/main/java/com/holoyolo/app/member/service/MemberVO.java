@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MemberVO {
-	
+	// 회원
 	private String memberId;
 	private String memberName;
 	private String password;
@@ -24,12 +24,14 @@ public class MemberVO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date joinDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date stopDate;
 	private String role;
 	private String profileImg;
 	private String memberIntro;
 	private int reportCnt = -1;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date freedomDate;
 	private int loginFailCnt;
 	private String lockYn;
@@ -41,4 +43,14 @@ public class MemberVO {
 	private String authNum;
 	private String vResult;
 
+	// 관리자
+	// 검색
+	private String search;
+	// 페이징
+	private int page=1;
+	private int rn;
+	private int pageUnit=10;
+	// 홀로페이
+	private int pointPrice;
+	private int holopayPrice;
 }

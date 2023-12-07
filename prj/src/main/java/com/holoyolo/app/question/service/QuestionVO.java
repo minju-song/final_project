@@ -24,8 +24,11 @@ public class QuestionVO {
 	private String questionYn;
 	private String memberId;
 	
+	// 검색
+	private String search;
+	
 	// 페이징
-	private int page=1;
+	private int page;
 	private int rn;
 	private int pageUnit;
 }

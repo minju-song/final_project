@@ -89,5 +89,4 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 	    List<HoloPayHistoryVO> allHistoryList = searchPay(str, vo);
 	    return allHistoryList.size();
 	  }
-
 }

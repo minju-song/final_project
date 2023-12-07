@@ -88,11 +88,11 @@
 											<a class="text-info cursor-pointer"
 												th:answerId="${info.answerId}"
 												th:questionId="${info.questionId}"
-												th:onclick="updateAnswerBtn(this.getAttribute('answerId'), this.getAttribute('questionId'))">수정</a>
+												th:onclick="updateAnswerBtn(this.getAttribute('answerId'), this.getAttribute('questionId'),event)">수정</a>
 											<a class="text-info ms-1 cursor-pointer"
 												th:answerId="${info.answerId}"
 												th:questionId="${info.questionId}"
-												th:onclick="deleteAnswerBtn(this.getAttribute('answerId'), this.getAttribute('questionId'))">삭제</a>
+												th:onclick="deleteAnswerBtn(this.getAttribute('answerId'), this.getAttribute('questionId'), event)">삭제</a>
 										</div>
 									</div>
 									<form id="updateInputForm" class="p-0 pb-3 d-none updateInput">

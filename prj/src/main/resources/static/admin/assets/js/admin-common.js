@@ -25,7 +25,13 @@ const colorMapping = {
 	
 	// 멤버
 	'일반회원': 'bg-label-info',
-	'관리자': 'bg-label-primary'
+	'거래정지': 'bg-label-danger',
+	'계정정지': 'bg-label-dark',
+	'관리자': 'bg-label-primary',
+	
+	// 알뜰모임
+	'공개' : 'bg-label-info',
+	'비공개' : 'bg-label-secondary',
 };
 
 export default colorMapping;

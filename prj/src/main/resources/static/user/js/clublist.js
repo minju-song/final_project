@@ -117,6 +117,7 @@ function callList(page, search) {
 
 //들어온 데이터 화면에 그려줌
 function drawClub(clubArr) {
+console.log(clubArr)
 
     let clubList = document.getElementById('clubList');
 

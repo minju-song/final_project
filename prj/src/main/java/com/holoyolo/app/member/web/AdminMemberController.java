@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.holoyolo.app.holopayHistory.service.HoloPayHistoryVO;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
 
@@ -21,7 +22,7 @@ public class AdminMemberController {
 	
 	@GetMapping("/admin/member")
 	public String selectMemberList(Model model) {
-		return "/admin/memberMgt";
+		return "/admin/member/memberPage";
 	}
 	
 	@GetMapping("/admin/member/list")
@@ -33,5 +34,17 @@ public class AdminMemberController {
 		memberMap.put("count", memberService.selectMemberCount(memberVO));
 		return memberMap;
 	}
-		
+
+	@GetMapping("/admin/holopay")
+	public String selectHolopayList(Model model) {
+		return "admin/holopay/holopayPage";
+	}
+	@GetMapping("/admin/holopay/list")
+	@ResponseBody
+	public Map<String, Object> getHolopayMapAjax(MemberVO memberVO) {
+		Map<String, Object> holopayMap = new HashMap<>();
+		holopayMap.put("list", memberService.getHolopayHistory(memberVO));
+		return holopayMap;
+	}
+	
 }

@@ -3,6 +3,38 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.club.mapper.ClubMapper">
+  
+  	<select id="getClubDetail" resultType="ClubVO">
+  		SELECT
+		    c.club_id,
+		    c.club_name,
+		    c.club_leader,
+		    c.club_people,
+		    c.club_intro,
+		    c.club_date,
+		    b.club_budget_price,
+		    COALESCE(cs.success_count, 0) AS success_count,
+		    COALESCE(cm.member_count, 0) AS member_count
+		FROM club c
+		JOIN club_budget b ON c.club_id = b.club_id
+		LEFT JOIN (
+		    SELECT
+		        club_id,
+		        COUNT(*) AS success_count
+		    FROM club_success_history
+		    WHERE fn_get_code_name(success_state) = '성공'
+		    GROUP BY club_id
+		) cs ON c.club_id = cs.club_id
+		LEFT JOIN (
+		    SELECT
+		        club_id,
+		        COUNT(member_id) AS member_count
+		    FROM club_member
+		    WHERE stop_date IS NULL OR stop_date > CURRENT_DATE
+		    GROUP BY club_id
+		) cm ON c.club_id = cm.club_id
+		WHERE c.club_id = #{clubId}
+  	</select>
 
 	<select id="getClub" resultType="ClubVO">
 		SELECT c.*, m.nickname as leader_name
@@ -11,16 +43,30 @@
 	</select>
   
   	<select id="selectClubAll" resultType="ClubVO">
-  		
   		<!-- 모임성공횟수, 가입자수 추후 추가 -->
-		SELECT club_id, club_name, club_leader, club_people, club_date,
-		    CASE 
-		        WHEN open_scope = 'OA1' THEN '공개'
-		        WHEN open_scope = 'OA2' THEN '비공개'
-		        END AS open_scope
+  		SELECT * FROM (SELECT A.* , ROWNUM rn FROM (
+		SELECT club_id
+		    , club_name
+		    , club_leader
+		    , club_people
+		    , club_date
+		    , fn_get_code_name(open_scope) AS open_scope
 		FROM club
+		<where>
+			<if test="openScope != null and openScope != '' ">
+				AND open_scope = #{openScope}
+			</if>
+			<if test="search != null and search != ''">
+				AND (
+					title LIKE '%'||#{search}||'%' OR 
+					question_id LIKE '%'||#{search}||'%' OR
+					member_id LIKE '%'||#{search}||'%'
+					)
+				AND open_scope LIKE '%'||#{openScope}||'%'
+			</if>
+		</where>
 		ORDER BY club_id
-  		
+		) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
   	</select>
   
 

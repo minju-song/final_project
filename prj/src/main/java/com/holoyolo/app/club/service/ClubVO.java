@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.WebSocketSession;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -16,6 +19,8 @@ public class ClubVO {
 	private String clubIntro;
 	private String clubProfileImg;
 	private int clubPeople;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date clubDate;
 	private String joinCondition;
 	private String openScope;
@@ -23,16 +28,14 @@ public class ClubVO {
 	private String clubCasher;
 
 	
-	//페이징
-	private int page;
-	//검색어
-	private String search;
 	//검색주제
 	private String searchTitle;
 	//리더 이름
 	private String leaderName;
 	//클럽 가입자수
 	private int joinCnt;
+	//클럽 성공횟수
+	private int successCnt;
 	//가입요청메시지
 	private String text;
 	
@@ -48,6 +51,18 @@ public class ClubVO {
 	private String type;
 	
 
+	// admin검색
+	private String search;
+	
+	// admin페이징
+	private int page;
+	private int rn;
+	private int pageUnit;
+
+
+  
+  
+  
 	//모임성공률
 	private int successRate;
 	//순번
@@ -55,6 +70,7 @@ public class ClubVO {
 
 	//채팅세션
 	private Set<WebSocketSession> sessions = new HashSet<>();
+
 
 
 }

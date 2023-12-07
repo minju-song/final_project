@@ -24,8 +24,6 @@ public class QuestionController {
 	// 문의 전체조회
 	@GetMapping("/admin/question")
 	public String selectQuestionList(Model model) {
-		// List<QuestionVO> list = questionService.selectQuestionTotalList(null);
-		// model.addAttribute("questionList", list);
 		return "admin/question/questionPage";
 	}
 

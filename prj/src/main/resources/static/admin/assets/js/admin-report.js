@@ -149,13 +149,13 @@ $(document).ready(function () {
 				// 목록출력 
 				let reportData = data.list;
 				// 개수출력
-				$("#initReportCount").text(`${reportData.length}개`)
+				$("#initReportCount").text(`(${reportData.length})`)
 				console.log(reportData);
 				$.each(reportData, function (index, item) {
 					let template = `<tr>
                                 <td>${item.reportId}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
                                 <td>${item.reporterId}</td>
-                                <td class="cursor-pointer" name="goReportDetail">${item.reportContent}</td>
+                                <td class="cursor-pointer fw-bold" name="goReportDetail">${item.reportContent}</td>
                                 <td><span id="badgeColor" class="badge ${colorMapping[item.reportType]} me-1">${item.reportType}</span></td>
                                 <td>${item.reportDate}</td>
                                 <td><span class="badge ${colorMapping[item.reportProcessType]} me-1">${item.reportProcessType}</span></td>

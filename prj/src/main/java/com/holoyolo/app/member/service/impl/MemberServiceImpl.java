@@ -241,4 +241,10 @@ public class MemberServiceImpl implements MemberService {
 		
 		return bool;
 	}
+
+	// 어드민 홀로페이 내역
+	@Override
+	public List<MemberVO> getHolopayHistory(MemberVO memberVO) {
+		return memberMapper.getHolopayHistory(memberVO);
+	}
 }
