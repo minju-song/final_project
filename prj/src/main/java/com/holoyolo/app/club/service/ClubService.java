@@ -13,7 +13,7 @@ public interface ClubService {
 	public Map<String, Object> selectClubAll(ClubVO clubVO);
 	
 	// 모임 단건조회
-	public ClubVO getClubDetail(ClubVO clubVO);
+	public Map<String, Object> getClubDetail(ClubVO clubVO);
 	
 	// 모임 등록
 	public int insertClubInfo(ClubVO clubVO);
