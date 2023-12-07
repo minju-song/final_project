@@ -145,30 +145,28 @@ public class MemberController {
 		// 회원의 가계부 데이터
 		AccBookHistoryVO abvo = new AccBookHistoryVO();
 		abvo.setMemberId(principalDetails.getUsername());
+		// 현금 데이터
 		abvo.setPaymentType("GA1");
-		List<AccBookHistoryVO> chartData = accBookHistoryService.selectChartData(abvo);
-		model.addAttribute("chartData", chartData);
+		List<AccBookHistoryVO> cashData = accBookHistoryService.selectChartData(abvo);
+		model.addAttribute("cashData", cashData);
+		// 뱅킹 데이터
+		abvo.setPaymentType("GA2");
+		List<AccBookHistoryVO> bankData = accBookHistoryService.selectChartData(abvo);
+		model.addAttribute("bankData", bankData);
+		// 카드 데이터
+		abvo.setPaymentType("GA3");
+		List<AccBookHistoryVO> cardData = accBookHistoryService.selectChartData(abvo);
+		model.addAttribute("cardData", cardData);
+		
+		
+		// 개행처리
+		String nlString = System.getProperty("line.separator").toString();
+		model.addAttribute("nlString", nlString);
 		
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
-		model.addAttribute("subMenu", "myHome");
 		
 		return "user/mypage/myHome";
-	}
-	
-	/**
-	 * 마이페이지-홈(가계부 차트)
-	 * @param principalDetails
-	 * @param vo
-	 * @return
-	 */
-	@PostMapping("/member/myHome/chartData")
-	@ResponseBody
-	public List<AccBookHistoryVO> myChartData(@AuthenticationPrincipal PrincipalDetails principalDetails, AccBookHistoryVO vo) {
-		// 회원의 가계부 데이터
-		vo.setMemberId(principalDetails.getUsername());
-		List<AccBookHistoryVO> chartData = accBookHistoryService.selectChartData(vo);
-		return chartData;
 	}
 	
 	/**
@@ -286,7 +284,6 @@ public class MemberController {
 	public String deleteMemberForm(Model model) {
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
-		model.addAttribute("subMenu", "myInfo");
 		return "/user/mypage/memberDelete";
 	}
 	

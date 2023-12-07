@@ -48,5 +48,13 @@ public class QuestionController {
 		model.addAttribute("answerInfo", questionInfo.get("answerInfo"));
 		return "admin/question/questionDetail";
 	}
+	
+	@GetMapping("/cs/faq")
+	public String fapPage(Model model) {
+		// 사이드메뉴 정보 넘기기
+		model.addAttribute("menu", "cs");
+				
+		return "/user/cs/faq";
+	}
 
 }

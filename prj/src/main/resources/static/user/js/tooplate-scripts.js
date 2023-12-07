@@ -23,9 +23,9 @@ function drawLineChart(payDate, inputData, outputData) {
     // Set aspect ratio based on window width
     optionsLine.maintainAspectRatio =
       $(window).width() < width_threshold ? false : true;
-	
-	
-	
+
+
+
     configLine = {
       type: "line",
       data: {
@@ -54,24 +54,20 @@ function drawLineChart(payDate, inputData, outputData) {
   }
 }
 
-function drawBarChart() {
+function drawBarChart(payDate, cashData, bankData, cardData, inputTotal) {
+
   if ($("#barChart").length) {
     ctxBar = document.getElementById("barChart").getContext("2d");
 
     optionsBar = {
       responsive: true,
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true
-            },
-            scaleLabel: {
-              display: true,
-              labelString: "Hits"
-            }
-          }
-        ]
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true
+        }
       }
     };
 
@@ -81,28 +77,39 @@ function drawBarChart() {
     configBar = {
       type: "bar",
       data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: payDate,
         datasets: [
           {
-            label: "# of Hits",
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
-            ],
-            borderColor: [
-              "rgba(255,99,132,1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)"
-            ],
-            borderWidth: 1
+            label: '총수입',
+            data: inputTotal,
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            borderWidth: 1,
+            stack: 'Stack 1',
+          },
+          {
+            label: '현금',
+            data: cashData,
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1,
+            stack: 'Stack 0',
+          },
+          {
+            label: '이체',
+            data: bankData,
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+            stack: 'Stack 0',
+          },
+          {
+            label: '카드',
+            data: cardData,
+            backgroundColor: "rgba(153, 102, 255, 0.2)",
+            borderColor: "rgba(153, 102, 255, 1)",
+            borderWidth: 1,
+            stack: 'Stack 0',
           }
         ]
       },
@@ -168,16 +175,38 @@ function updateLineChart() {
   }
 }
 
-function updateBarChart() {
-  if (barChart) {
-    barChart.options = optionsBar;
-    barChart.update();
-  }
-}
-
 function reloadPage() {
-  setTimeout(function() {
+  setTimeout(function () {
     window.location.reload();
   }); // Reload the page so that charts will display correctly
+}
+
+
+function stackedBarChart(payDate, inputData, outputData) {
+  let date = payDate;
+  let input = inputData;
+  let output = outputData;
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Chart.js Bar Chart - Stacked'
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true
+        }
+      }
+    }
+  };
 }
 

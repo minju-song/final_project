@@ -42,6 +42,7 @@
 	font-size: 13px;
 	color: #cecece;
 	display: flex;
+	width: 160px;
 }
 .min_text svg {
 	margin-top: 3px;
@@ -50,9 +51,20 @@
 .min_text:hover .avg_area {
 	display: block;
 }
+.move_accbook {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	color: #cecece;
+}
+.more_btn, .coin_icon {
+	width: 20px;
+}
+.coin_icon {
+	margin-right: 5px;
+}
 .avg_area {
 	display: none;
-	width: 160px;
 	position: absolute;
   	border-collapse: collapse;
   	background: #fff;
@@ -60,6 +72,8 @@
   	left: 0;
   	font-size: 12px;
   	z-index: 99;
+  	margin-left: 20px;
+  	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 .avg_area th, .avg_area td {
 	border: 1px solid #e6e6e6;
@@ -82,4 +96,35 @@
 	border: 1px solid #cecece;
 	border-radius: 5px;
 	color: #676767;
+}
+.form-control:focus {
+	border: none !important;
+	box-shadow: none !important;
+}
+textarea {
+	margin-bottom: 0 !important;
+}
+#my_profile {
+	display: flex;
+}
+#memberIntroWrap .hl_textarea {
+	max-width: 300px;
+}
+#imageWrap div.dp_flex {
+	margin: 0;
+	justify-content: flex-start;
+	gap: 10px;
+	padding: 20px 0;
+}
+#imageWrap {
+	width: 60%;
+}
+#holopayWrap {
+	width: 40%;
+	background-color: #f9f9f9;
+	border-radius: 10px;
+	padding: 20px;
+}
+#my_profile {
+	padding-right: 25px;
 }

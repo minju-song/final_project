@@ -82,7 +82,7 @@
 	  	WHERE member_id = #{memberId}
 	  </select>
 	  
-	  <!-- 마이페이지 차트용 쿼리 -->
+	  <!-- 마이페이지 차트용 쿼리(현금) -->
 	  <select id="selectChartData" resultType="AccBookHistoryVO">
 	  	SELECT  TO_CHAR(b.dt, 'YYYY-MM') AS pay_date_month
 		        , SUM(CASE input_output WHEN 'GB1' THEN  price ELSE 0 END) input_sum
