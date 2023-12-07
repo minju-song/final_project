@@ -213,7 +213,7 @@ $(document).ready(function () {
 function renderClubDetail(clubId) {
 		$("tbody").empty();
 		$.ajax({
-			url: "/admin/club/detail",
+			url: "/admin/club/detaila",
 			data: { clubId },
 			method: "GET"
 		})

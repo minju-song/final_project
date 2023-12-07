@@ -252,6 +252,11 @@ public class ClubController {
 	}
 	
 	@GetMapping("/admin/club/detail")
+	public String goClubDetail() {
+		return "admin/club/clubDetail";
+	}
+	
+	@GetMapping("/admin/club/detaila")
 	@ResponseBody
 	public String selectClubDetail(ClubVO clubVO, Model model) {
 		Map<String, Object> getclubInfo = clubService.getClubDetail(clubVO);

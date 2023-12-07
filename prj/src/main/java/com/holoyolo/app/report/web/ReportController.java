@@ -20,16 +20,16 @@ import com.holoyolo.app.report.service.ReportVO;
 
 @Controller
 public class ReportController {
-	
+
 	@Autowired
 	ReportService reportService;
-	
+
 	// 신고 페이지 이동
 	@GetMapping("/admin/report")
 	public String selectReportList(Model model) {
 		return "admin/report/reportPage";
 	}
-	
+
 	// 신고 조건조회
 	@GetMapping("/admin/report/list")
 	@ResponseBody
@@ -40,47 +40,45 @@ public class ReportController {
 		reportMap.put("count", reportService.selectReportTotalCount(reportVO));
 		return reportMap;
 	}
-	
+
 	// 신고 단건조회 - 이동
 	@GetMapping("/admin/report/detail")
 	public String selectReportInfo(ReportVO reportVO, Model model) {
-		Map<String,Object> reportInfo = reportService.selectReportInfo(reportVO);
+		Map<String, Object> reportInfo = reportService.selectReportInfo(reportVO);
 		model.addAttribute("reportInfo", reportInfo.get("reportInfo"));
 		return "admin/report/reportDetail";
 	}
-	
-	
-	  // 신고 단건조회 - 처리
-	  
-	  @GetMapping("/admin/report/detail/{reportId}")
-	  
-	  @ResponseBody public Map<String, Object> getReportDetailMapAjax(ReportVO
-	  reportVO) { Map<String,Object> reportInfo =
-	  reportService.selectReportInfo(reportVO); return reportInfo; }
-	 
-	
+
+	// 신고 단건조회 - 처리
+
+	@GetMapping("/admin/report/detail/{reportId}")
+	@ResponseBody
+	public Map<String, Object> getReportDetailMapAjax(ReportVO reportVO) {
+		Map<String, Object> reportInfo = reportService.selectReportInfo(reportVO);
+		return reportInfo;
+	}
+
 	// 신고사유 수정
 	@PutMapping("/admin/report/detail/{reportId}")
 	@ResponseBody
 	public Map<String, Object> reportReasonUpdate(@PathVariable("reportId") int reportId,
-												  @RequestBody ReportVO reportVO) {
+			@RequestBody ReportVO reportVO) {
 		reportVO.setReportId(reportId);
 		return reportService.updateReportReason(reportVO);
 	}
-	
-	
+
 	@PostMapping("/insertReport")
 	@ResponseBody
-	public Map<String, Object> insertReport(@RequestBody ReportVO reportVO, @AuthenticationPrincipal PrincipalDetails prd) {
-		reportVO.setReporterId((String)prd.getUsername());
+	public Map<String, Object> insertReport(@RequestBody ReportVO reportVO,
+			@AuthenticationPrincipal PrincipalDetails prd) {
+		reportVO.setReporterId((String) prd.getUsername());
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		if(reportService.insertReportInfo(reportVO)== 1) {
-			resultMap.put("resultMsg", "신고가 접수되었습니다");	
-		};
-		
-		 
+		if (reportService.insertReportInfo(reportVO) == 1) {
+			resultMap.put("resultMsg", "신고가 접수되었습니다");
+		}
+		;
+
 		return resultMap;
-}
-	
-	
+	}
+
 }
