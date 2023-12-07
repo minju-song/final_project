@@ -28,18 +28,22 @@
     
     <!-- 날짜별 성공기록 -->
     <select id="getSuccessRecord" parameterType="AccBookSuccessHistoryVO">
-    <![CDATA[ 
+    
       SELECT suc.*, ac.acc_budget_price as goal_price, ac.acc_budget_unit as goal_unit, (
                                                             SELECT sum(price)
                                                             FROM acc_book_history
+                                                            <![CDATA[ 
                                                             WHERE trunc(pay_date) >= trunc(suc.start_date)
                                                             AND trunc(pay_date) <= trunc(suc.end_date)
+                                                            ]]>
                                                             AND member_id = #{memberId}
                                                             AND input_output = 'GB2') as sum_price
       FROM acc_book_success_history suc JOIN acc_budget ac ON suc.acc_budget_id = ac.acc_budget_id
       WHERE suc.member_id = #{memberId}
+      <![CDATA[ 
       AND trunc(suc.start_date) <= #{startDate}
       AND trunc(suc.end_date) >= #{startDate}
       ]]>
+      
     </select>
   </mapper>
