@@ -114,10 +114,10 @@ public class ApiCall {
                 
                 AccBookHistoryVO acc = new AccBookHistoryVO();
                 if(((String)recItem.get("Ccyn")).equals("1")) {
-                	acc.setInputOutput("GA1");
+                	acc.setInputOutput("GB1");
                 }
                 else {
-                	acc.setInputOutput("GA2");
+                	acc.setInputOutput("GB2");
                 }
                 acc.setPaymentType("GA3");
                 //회원카드회사 가져오기

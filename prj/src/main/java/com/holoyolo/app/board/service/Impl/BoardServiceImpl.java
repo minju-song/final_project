@@ -1,5 +1,6 @@
 package com.holoyolo.app.board.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -22,13 +23,23 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시판 별전체조회
 	@Override
-	public List<BoardVO> BoardList(String req) {
+	public List<BoardVO> BoardList(String menuType, String search, String searchType) {
+
 		BoardVO vo = new BoardVO();
-		vo.setMenuType(req);
-		return boardMapper.BoardList(vo);
+		vo.setMenuType(menuType);
+		List<BoardVO> resultList = new ArrayList<BoardVO>();
+		if (search == "") {
+			resultList = boardMapper.BoardList(vo);
+		} else {
+			vo.setSearchWord(search);
+			vo.setSearchOption(searchType);
+			resultList = boardMapper.searchBoardList(vo);
+		}
+
+		return resultList;
 	}
 
-//단건조회
+	//단건조회
 	@Override
 	public BoardVO selectBoard(int boardId) {
 		BoardVO vo = new BoardVO();
@@ -39,7 +50,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insertBoard(BoardVO vo) {
-		return boardMapper.insertBoard(vo);
+		boardMapper.insertBoard(vo);
+		return vo.getBoardId();
+		
 	}
 
 	@Override
@@ -59,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
 		String menuType = (String) req.get("type");
-		List<BoardVO> allList = BoardList(menuType);
+		List<BoardVO> allList = BoardList(menuType, "", "");
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
@@ -78,4 +91,36 @@ public class BoardServiceImpl implements BoardService {
 		vo.setBoardId(boardId);
 		return boardMapper.addView(vo);
 	}
+
+	@Override
+	public List<BoardVO> recentBoradList(BoardVO vo) {
+		return boardMapper.recentBoradList(vo);
+	}
+
+	public BoardVO checkBoard(int boardId) {
+		BoardVO vo = new BoardVO();
+		vo = boardMapper.selectBoard(boardId);
+		return vo;
+	}
+
+	@Override
+	public List<BoardVO> searchBoardSurfPaged(JSONObject req) {
+				String search = (String) req.get("search");
+		String searchType = (String) req.get("searchType");
+		String menuType = (String) req.get("type");
+		return BoardList(menuType, search, searchType);
+	}
+
+	@Override
+	public int getTotalBoardSurfRecords(JSONObject req) {
+		BoardVO vo = new BoardVO();
+		vo.setMenuType((String) req.get("type"));
+		vo.setSearchOption((String)req.get("searchType"));
+		vo.setSearchWord((String)req.get("search"));
+
+		return boardMapper.getTotalBoardSurfRecords(vo);
+			
+  }
+
+
 }

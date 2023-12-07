@@ -233,6 +233,7 @@ public class ClubController {
 		
 	}
 	
+
 	// 관리자 클럽 리스트
 	// 페이지 이동
 	@GetMapping("/admin/club")
@@ -257,4 +258,5 @@ public class ClubController {
 		return "admin/club/clubDetail";
 	}
 		
+
 }

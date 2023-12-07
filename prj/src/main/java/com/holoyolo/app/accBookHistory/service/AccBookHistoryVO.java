@@ -1,8 +1,6 @@
 package com.holoyolo.app.accBookHistory.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,4 +18,10 @@ public class AccBookHistoryVO {
 	private String memberId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate payDate;
+	
+	//차트용 데이터
+	private int inputSum;
+	private int outputSum;
+	private int inputOutputSum;
+	private String payDateMonth;
 }

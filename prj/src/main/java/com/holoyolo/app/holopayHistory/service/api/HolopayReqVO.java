@@ -21,8 +21,8 @@ public class HolopayReqVO {
 		LocalTime now = LocalTime.now();
 		LocalDate date = LocalDate.now();
 		String year = String.valueOf(date.getYear());
-        String mon = String.valueOf(date.getMonthValue());
-        String day = String.valueOf(date.getDayOfMonth());
+        String mon = String.format("%02d",date.getMonthValue());
+        String day = String.format("%02d",date.getDayOfMonth());
         String hour = String.format("%02d", now.getHour());
         String min = String.format("%02d", now.getMinute());
         String sec = String.format("%02d", now.getSecond());

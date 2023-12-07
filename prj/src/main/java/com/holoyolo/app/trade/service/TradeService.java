@@ -6,8 +6,6 @@ import java.util.Map;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 
 public interface TradeService {
-	//전체조회
-	public List<TradeVO> getTradeList();
 	
 	//단건조회
 	public TradeVO getTrade(TradeVO tradeVO);
@@ -22,8 +20,15 @@ public interface TradeService {
 	public int deleteTrade(TradeVO tradeVO);
 	
 	//리스트 페이징
-	public Map<String, Object> tradePaging(TradeVO tradeVO);
+	public Map<String, Object> getTradeList(TradeVO tradeVO);
 	
 	//조회수 증가
 	public int updateViews(TradeVO tradeVO);
+	
+	//구매자 수정
+	public int updateBuyerId(TradeVO tradeVO);
+
+	//중고거래 이미지 수정(insert)
+	public int updateTradeImg(TradeVO tradeVO, List<AttachmentVO> imgList);
+	
 }

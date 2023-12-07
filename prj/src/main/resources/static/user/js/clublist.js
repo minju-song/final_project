@@ -145,8 +145,15 @@ console.log(clubArr)
 
         //정보를 담을 div
         let divInfo = document.createElement('div');
+
+        let maxChars = 18;
+
+        let shortIntro = clubArr[i].clubIntro.length > maxChars
+        ? clubArr[i].clubIntro.substring(0, maxChars) + "..."
+        : clubArr[i].clubIntro;
+
         divInfo.innerHTML = '모임명 : ' + clubArr[i].clubName + '<br>'
-            + '모임소개 : ' + clubArr[i].clubIntro + '<br>'
+            + '모임소개 : ' + shortIntro + '<br>'
             + '모임장 : ' + clubArr[i].leaderName + '<br>'
             + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + ' [가입인원 / 모집인원]<br>'
             + '절약예산 / 기간단위 <br>';

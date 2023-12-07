@@ -18,8 +18,8 @@
     		CASE 
         		WHEN (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state != 'SU3') = 0 THEN 0
         	ELSE
-	            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state = 'SU1') /
-	            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state != 'SU3')
+	            ROUND(((SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state = 'SU1') /
+	            (SELECT COUNT(*) FROM club_success_history WHERE club_id = #{clubId} AND success_state != 'SU3'))*100, 0)
     		END as result 
 		FROM DUAL
   	</select>

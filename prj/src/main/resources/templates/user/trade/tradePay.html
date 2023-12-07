@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="row holoPaywrap" style="margin-bottom: 50px;">
+				<div class="row w-100 watchwrap fontStyle">
+					<h3><img class="payImg form-label" th:src="@{/user/images/trade/coin.png}">홀로페이·포인트</h3>
+					<h3 th:text="|보유 : |"></h3>
+				</div>
+				<div class="row w-100 watchwrap fontStyle">
+				<img class="payImg form-label lineStyle" th:src="@{/user/images/trade/line.png}">
+					<div>포인트</div>
+					<div class="form-label" th:text="|  P|"></div>
+				</div>
+				<div class="row w-100 watchwrap fontStyle2">
+					<div>홀로페이</div>
+					<div class="form-label" th:text="| 원|"></div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 row w-100 watchwrap fontStyle" style="margin-bottom: -5px !important;">
+						<div style="width:250px;">포인트 사용</div>
+		               <input type="text" class="form-control col-7 borderRadi">
+		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;">전액사용</span>
+		            </div>
+		            <div class="input-group mb-3 row w-100 watchwrap fontStyle2">
+		            	<div style="width:250px;">홀로페이 사용</div>
+		               <input type="text" class="form-control col-7 borderRadi">
+		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;">전액사용</span>
+		            </div>
+		            <p style="text-align: center; margin: 20px 30px">2019.07.01.부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은
+		             포인트 최대 50만원 보유/1회 사용 한도가 적용됩니다.<br> 계좌 연결 시 각 보유/1회 사용 한도는 200만원까지 확대됩니다.</p>
+				</div>
+			</div>
+			<div class="row holoPaywrap">
+				<div class="row w-100 watchwrap fontStyle" style="border-bottom: 1px solid #bbb;">
+					<h3>결제상세</h3>
+				</div><hr>
+				<div class="row w-100 watchwrap fontStyle2">
+					<div>결제금액</div>
+					<div class="form-label" th:text="|  원|"></div>
+				</div>
+				<div class="row w-100 watchwrap fontStyle" style="color: #9a9a9a;">
+				<img class="payImg form-label lineStyle" th:src="@{/user/images/trade/line.png}">
+					<div>포인트 사용</div>
+					<div class="form-label" th:text="|  P|"></div>
+				</div>
+				<div class="row w-100 watchwrap fontStyle2" style="color: #9a9a9a;">
+					<div>홀로페이 사용</div>
+					<div class="form-label" th:text="| 원|"></div>
+				</div>
+			</div>
+			<div class="contentEnd">
+				<div style="margin-right: 20px;">결제 내용을 확인하였으며, 정보 제공 등에 동의합니다.</div>
+				<div class="insertbutton" th:onclick="|location.href='@{/member/tradeInsert}'|">
+					<p>결제하기</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

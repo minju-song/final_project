@@ -55,7 +55,7 @@
 .footer_logo img {
 	display: inline-block;
 	width: 200px;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 .sub_nav_wrap {
@@ -223,4 +223,17 @@
     vertical-align: middle;
     margin-right: 5px;
     margin-bottom: 2px;
+}
+
+
+
+/* 푸터 */
+.footer_nav {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+.footer_nav ul li {
+	color: #9d9d9d;
+	text-align: left;
 }

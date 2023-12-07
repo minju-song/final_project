@@ -20,13 +20,13 @@
 		SELECT t.trade_id
 		        , t.title
 		        , t.description
-		        , fn_get_code_name(trade_category) as trade_category
-		        , trade_category as trade_cate_code
+		        , fn_get_code_name(trade_category) as trade_category_name
+		        , trade_category
 		        , t.price
 		        , t.open_kakao
 		        , t.trade_place
-		        , fn_get_code_name(trade_type) as trade_type
-		        , trade_type as trade_type_code
+		        , fn_get_code_name(trade_type) as trade_type_name
+		        , trade_type
 		        , t.payment_type
 		        , fn_get_code_name(promise_status) as promise_status
 		        , t.views
@@ -106,15 +106,25 @@
 			open_kakao = #{openKakao},
 			trade_place = #{tradePlace},
 			trade_type = #{tradeType},
-			payment = #{payment},
-			promise_status = #{promiseStatus},
+			payment_type = #{paymentType},
 			update_date = sysdate,
 			latitude = #{latitude},
-			longitude = #{longitude},
-			buyer_id = #{buyerId}
+			longitude = #{longitude}
 		</set>
 		WHERE trade_id = #{tradeId}
 		AND seller_id = #{sellerId}
+	</update>
+	
+	<update id="updateBuyerId" parameterType="TradeVO">
+		UPDATE trade
+		<set>
+			promise_status = #{promiseStatus},
+			<if test="buyerId != null and !buyerId.equals('')">
+				buyer_id = #{buyerId},
+			</if>
+			update_date = sysdate
+		</set>
+		WHERE trade_id = #{tradeId}
 	</update>
 	
 	<update id="updateViews">
@@ -152,6 +162,7 @@
 			FROM (
 				SELECT t.trade_id
 				        , t.title
+				        , t.description
 				        , fn_get_code_name(trade_category) as trade_category
 				        , t.price
 				        , t.trade_place
@@ -163,7 +174,7 @@
 				FROM trade t JOIN attachment a
 				                ON(t.trade_id = a.post_id)
 				WHERE a.menu_type = 'AA1'
-				AND a.attachment_seq = 1
+				AND a.attachment_seq = (select min(attachment_seq) from attachment where post_id = t.trade_id)
 				<include refid="criteria"></include>
 				ORDER BY write_date desc
 			) A
@@ -176,11 +187,11 @@
 	<select id="cntData" parameterType="TradeVO" resultType="int">
 		SELECT COUNT(*)
 		FROM trade
+		WHERE 1=1
 		<include refid="criteria"></include>
 	</select>
 	
 	<sql id="criteria">		
-		<where>
 			<if test="search != null and search != ''">
 				<if test="searchTitle == 'title'">
 					AND title LIKE '%'||#{search}||'%'
@@ -195,6 +206,5 @@
 			<if test="sellCheck != null and sellCheck.equals('true')">
 				AND promise_status <![CDATA[<>]]> 'TD3'
 			</if>
-		</where>
 	</sql>
 </mapper>

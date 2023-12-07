@@ -22,12 +22,6 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	AttachmentMapper attachmentMapper;
 	
-	// 거래 전체조회
-	@Override
-	public List<TradeVO> getTradeList() {
-		return tradeMapper.selectTradeList();
-	}
-	
 	// 거래 단건조회
 	@Override
 	public TradeVO getTrade(TradeVO tradeVO) {
@@ -78,7 +72,7 @@ public class TradeServiceImpl implements TradeService {
 
 	//리스트 페이징
 	@Override
-	public Map<String, Object> tradePaging(TradeVO tradeVO) {
+	public Map<String, Object> getTradeList(TradeVO tradeVO) {
 		Map<String, Object> map = new HashMap<>();
 		List<TradeVO> list = tradeMapper.getTradeList(tradeVO);
 		
@@ -91,7 +85,25 @@ public class TradeServiceImpl implements TradeService {
 	//조회수 증가
 	@Override
 	public int updateViews(TradeVO tradeVO) {
-		return 0;
+		return tradeMapper.updateViews(tradeVO);
+	}
+
+	//구매자 수정
+	@Override
+	public int updateBuyerId(TradeVO tradeVO) {
+		return tradeMapper.updateBuyerId(tradeVO);
+	}
+
+	@Override
+	public int updateTradeImg(TradeVO tradeVO, List<AttachmentVO> imgList) {
+		int result = 0;
+		for(int i=0; i<imgList.size(); i++) {
+			AttachmentVO vo = imgList.get(i);
+			vo.setMenuType("AA1");
+			vo.setPostId(tradeVO.getTradeId());
+			result = attachmentMapper.insertAttachment(imgList.get(i));
+		}
+		return result;
 	}
 
 

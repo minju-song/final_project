@@ -12,4 +12,7 @@ public interface AttachmentMapper {
 	
 	//첨부파일 등록
 	public int insertAttachment(AttachmentVO attachmentVO);
+	
+	//첨부파일 삭제
+	public int deleteAttachment(AttachmentVO attachmentVO);
 }
