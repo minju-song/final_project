@@ -165,7 +165,7 @@ function getToday(writeDate){
 //중고거래 상세페이지 이동
 function submit(tradeId, sellerId){
 	console.log(tradeId, sellerId);
-	$.ajax({    
+	/*$.ajax({    
 	    type:"POST",
 	    url : '/member/tradeUpdate',  //이동할 jsp 파일 주소
 	    data : {tradeId, sellerId},
@@ -175,7 +175,7 @@ function submit(tradeId, sellerId){
 	    },    
 	    error : function(request, status, error) { // 결과 에러 콜백함수        
 	       console.log(error);    
-	}})
+	}})*/
 	location.href = '/member/tradeInfo?tradeId=' + tradeId + '&sellerId=' + sellerId;
 }
 

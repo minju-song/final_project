@@ -25,8 +25,8 @@
 					</div>
 					<div class="col-md-3 writeInput">
 						<label for="tradeCategory" class="form-label">상품카테고리<span class="star">*</span></label> 
-						<select id="tradeCategory" class="form-select" required th:field="*{tradeCateCode}">
-							<option selected value="">선택하세요</option>
+						<select id="tradeCategory" class="form-select" required th:field="*{tradeCategory}">
+							<option value="">선택하세요</option>
 							<option value="TB1">생활용품</option>
 							<option value="TB2">의류</option>
 							<option value="TB3">식품</option>
@@ -39,7 +39,7 @@
 					</div>
 					<div class="col-md-3 writeInput">
 						<label for="tradeType" class="form-label">거래방식<span class="star">*</span></label> 
-						<select id="tradeType" class="form-select" required th:field="*{tradeTypeCode}">
+						<select id="tradeType" class="form-select" required th:field="*{tradeType}">
 							<option selected value="">선택하세요</option>
 							<option value="TA1">직거래</option>
 							<option value="TA2">비대면</option>
@@ -72,11 +72,11 @@
 						<label for="tradeImg" class="form-label">상품사진<span class="star">*</span></label>
 						<div class="imgFlex">
 							<img class="tradeImgPlus" id="tradeImg" th:src="@{/user/images/trade/photo.png}"> 
-							<input class="real_file" type="file" onchange="addFile(this);" required multiple />
+							<input class="real_file" name="uploadFiles" type="file" multiple />
 							<div class="file-list">
-								<li calss="position_rela">
-									<img data-file="${tradeImg.saveFile}" src="/user/images/trade/delete-button.png" class="delBtn position_absol">
-									<img src="@{/images/} + ${tradeImg.saveFile}" class="imgSize" data-file="${tradeImg.saveFile}">
+								<li calss="position_rela" th:each="tradeImg, stat : ${tradeImg}">
+									<img th:data-file="${tradeImg.saveFile}" th:src="@{/user/images/trade/delete-button.png}" class="delBtn position_absol" th:onclick=fileDeleteBtn(event)>
+									<img th:src="@{/images/}+ ${tradeImg.saveFile}" class="imgSize" th:data-file="${tradeImg.saveFile}">
 								</li>
 							</div>
 						</div>
@@ -108,7 +108,8 @@
 			let latitude = `[[${tradeInfo.latitude}]]`;
 			let longitude = `[[${tradeInfo.longitude}]]`;
 			let tradeType = `[[${tradeInfo.tradeType}]]`;
-			let imgSize = `[[${tradeImg.size}]]`
+			let imgSize = `[[${tradeImg.size}]]`;
+			let postId = `[[${tradeInfo.tradeId}]]`
 		</script>
 		<script src="/user/js/tradeUpdate.js"></script>
 	</div>

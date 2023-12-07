@@ -20,7 +20,7 @@
 				<!-- 사진 슬라이더 -->
 				<div id="carouselExampleControlsNoTouching" class="carousel slide" data-touch="false" data-interval="false">
 				  <div class="carousel-inner">
-				    <div class="carousel-item" th:classappend="${trade.attachmentSeq == 1} ? 'active' : ''" th:each="trade, stat : ${tradeImg}">
+				    <div class="carousel-item" th:classappend="${stat.count == 1} ? 'active' : ''" th:each="trade, stat : ${tradeImg}">
 				      <img th:src="@{/images/}+ ${trade.saveFile}" class="d-block w-100" alt="...">
 				    </div>
 				  </div>
@@ -48,11 +48,11 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="tradeType bottomdown10"><p th:text="${tradeInfo.tradeType}"></p></div>
+							<div class="tradeType bottomdown10"><p th:text="${tradeInfo.tradeTypeName}"></p></div>
 							<div class="tradeTitle bottomdown" th:text="${tradeInfo.title}"></div>
 						</div>
 						<div class="tradeCategory bottomdown10">
-							<span th:text="|카테고리 : ${tradeInfo.tradeCategory}|"></span>
+							<span th:text="|카테고리 : ${tradeInfo.tradeCategoryName}|"></span>
 						</div>
 						<div class="row bottomwrap watchwrap">
 							<div class="tradePrice">
@@ -83,8 +83,8 @@
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>거래확정</p>
 								</div>
-								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}">
-									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}" th:onclick="'location.href=\'/member/tradePay?tradeId='+ @{${tradeInfo.tradeId}} + '\''"> 홀로페이</p>
+								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="|location.href='@{/member/tradePay(tradeId=${tradeInfo.tradeId})}'|">
+									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}"> 홀로페이</p>
 								</div>
 							</div>
 						</div>

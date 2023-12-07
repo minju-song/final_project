@@ -40,8 +40,8 @@ public class TradeVO {
 	private String nickname;
 	
 	private String profileImg;
-	private String tradeCateCode;
-	private String tradeTypeCode;
+	private String tradeCategoryName;
+	private String tradeTypeName;
 	
 	private String saveFile;
 }

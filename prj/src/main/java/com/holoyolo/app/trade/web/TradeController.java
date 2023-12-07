@@ -18,6 +18,8 @@ import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.heart.service.HeartService;
 import com.holoyolo.app.heart.service.HeartVO;
+import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
 
@@ -31,6 +33,9 @@ public class TradeController {
 	
 	@Autowired
 	HeartService heartService;
+	
+	@Autowired
+	HoloPayHistoryService holoPayService;
 
 	@GetMapping("/admin/trade")
 	public String selectTradeList(Model model) {
@@ -98,7 +103,9 @@ public class TradeController {
 		tradeVO.setSellerId(principalDetails.getUsername());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		attachmentVO.setPostId(tradeVO.getTradeId());
+		System.out.println(attachmentVO + "=====================");
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
+		System.out.println(attachmentService.getAttachmentList(attachmentVO));
 		return "user/trade/tradeUpdate";
 	}
 	
@@ -108,8 +115,9 @@ public class TradeController {
 									TradeVO tradeVO,
 									@RequestPart MultipartFile[] uploadFiles) {
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
+		System.out.println(imgList);
 		tradeVO.setSellerId(principalDetails.getUsername());
-		tradeService.insertTrade(tradeVO, imgList);
+		tradeService.updateTradeImg(tradeVO, imgList);
 		tradeService.updateTrade(tradeVO);
 		return "redirect:/tradeList";
 	}
@@ -139,8 +147,22 @@ public class TradeController {
 	}
 	
 	//계산페이지 이동
-		@GetMapping("member/tradePay")
-		public String tradePay(TradeVO tradeVO) {
-			return "user/trade/tradePay";
-		}
+	@GetMapping("member/tradePay")
+	public String tradePay(@AuthenticationPrincipal PrincipalDetails principalDetails,
+						   TradeVO tradeVO,
+						   MemberVO memberVO,
+						   Model model) {
+		memberVO.setMemberId(principalDetails.getUsername());
+		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
+		model.addAttribute("payInfo", holoPayService.holopayBalance(memberVO));
+		return "user/trade/tradePay";
+	}
+	
+	//삭제
+	@GetMapping("member/attachmentDelete")
+	@ResponseBody
+	public void attachmentDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
+								 AttachmentVO attachmentVO){
+		attachmentService.deleteAttachment(attachmentVO);
+	}
 }

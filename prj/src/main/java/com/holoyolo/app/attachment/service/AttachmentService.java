@@ -34,4 +34,7 @@ public interface AttachmentService {
 	
 	//중고거래 이미지 전체조회
 	public List<AttachmentVO> getAttachmentList(AttachmentVO attachmentVO);
+	
+	//첨부파일 삭제
+	public int deleteAttachment(AttachmentVO attachmentVO);
 }

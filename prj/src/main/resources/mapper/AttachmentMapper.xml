@@ -47,5 +47,6 @@
 		DELETE FROM attachment
 		WHERE menu_type = 'AA1'
 		AND post_id = #{postId}
+		AND save_file = #{saveFile}
 	</delete>
 </mapper>
