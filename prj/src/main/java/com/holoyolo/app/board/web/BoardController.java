@@ -36,7 +36,7 @@ public class BoardController {
 			username = (String) prd.getUsername();
 		}
 		// 게시물 로드
-		List<BoardVO> history = boardService.BoardList("AA2");
+		List<BoardVO> history = boardService.BoardList("AA2", "","");
 		if (history.size() != 0) {
 			mo.addAttribute("boardList", history);
 		} else {
@@ -49,7 +49,7 @@ public class BoardController {
 		return "user/community/boardList";
 	}
 
-//글 등록
+	// 글 등록
 	@GetMapping("/member/board/insert")
 	public String addBoard(@AuthenticationPrincipal PrincipalDetails prd, Model mo, String boardType) {
 		mo.addAttribute("user", prd.getMemberVO());
@@ -70,7 +70,7 @@ public class BoardController {
 		return "/infoBoard";
 	}
 
-//페이지 로드
+	// 페이지 로드
 	@PostMapping("/boardLoad")
 	@ResponseBody
 	public Map<String, Object> infoBoardLoad(@RequestBody JSONObject req) {
@@ -84,7 +84,7 @@ public class BoardController {
 		return result;
 	}
 
-//상세보기
+	// 상세보기
 	@GetMapping("/member/board/view")
 	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model mo) {
 
@@ -106,18 +106,16 @@ public class BoardController {
 	@GetMapping("/member/board/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model model) {
 		String loginId = "not found";
-
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
-
 		BoardVO board = boardService.selectBoard(boardId);
 		model.addAttribute("board", board);
 		model.addAttribute("loginId", loginId);
 		return "/user/community/postUpdate";
 	}
 
-//삭제
+	// 삭제
 	@PostMapping("/member/board/delete")
 	@ResponseBody
 	public Map<String, Object> deleteBoard(Model mo, @RequestBody BoardVO vo) {
@@ -139,7 +137,7 @@ public class BoardController {
 			username = (String) prd.getUsername();
 		}
 		// 게시물 로드
-		List<BoardVO> history = boardService.BoardList("AA1");
+		List<BoardVO> history = boardService.BoardList("AA1","","");
 		if (history.size() != 0) {
 			mo.addAttribute("boardList", history);
 		} else {
@@ -153,12 +151,26 @@ public class BoardController {
 
 	}
 
+	// 수다방 작성자 체크
 	@PostMapping("/checkWriter")
 	@ResponseBody
 	public Map<String, Object> checkWriter(@RequestBody BoardVO vo) {
 		vo = boardService.checkBoard(vo.getBoardId());
 		Map<String, Object> result = new HashMap<>();
 		result.put("board", vo);
+		return result;
+	}
+
+	@PostMapping("/searchBoardLoad")
+	@ResponseBody
+	public Map<String, Object> searchBoardLoad(@RequestBody JSONObject req) {
+		System.out.println(req);
+		List<BoardVO> resultList = boardService.searchBoardSurfPaged(req);
+		int totalRecords = boardService.getTotalBoardRecords(req);
+		Map<String, Object> result = new HashMap<>();
+		result.put("historyList", resultList);
+		result.put("totalRecords", totalRecords);
+		result.put("boardType", req.get("type"));
 		return result;
 	}
 

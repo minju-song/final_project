@@ -20,4 +20,6 @@ public interface BoardMapper {
 	public List<BoardVO> searchBoardPaged(int start, int end);
 
 	public int addView(BoardVO vo);
+
+	public List<BoardVO> searchBoardList(BoardVO vo);
 }

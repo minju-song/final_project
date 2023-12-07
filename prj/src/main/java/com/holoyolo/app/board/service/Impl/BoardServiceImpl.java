@@ -1,5 +1,6 @@
 package com.holoyolo.app.board.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -22,10 +23,20 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시판 별전체조회
 	@Override
-	public List<BoardVO> BoardList(String req) {
+	public List<BoardVO> BoardList(String menuType, String search, String searchType) {
+
 		BoardVO vo = new BoardVO();
-		vo.setMenuType(req);
-		return boardMapper.BoardList(vo);
+		vo.setMenuType(menuType);
+		List<BoardVO> resultList = new ArrayList<BoardVO>();
+		if (search == "") {
+			resultList = boardMapper.BoardList(vo);
+		} else {
+			vo.setSearchWord(search);
+			vo.setSearchOption(searchType);
+			resultList = boardMapper.searchBoardList(vo);
+		}
+
+		return resultList;
 	}
 
 //단건조회
@@ -59,7 +70,7 @@ public class BoardServiceImpl implements BoardService {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
 		String menuType = (String) req.get("type");
-		List<BoardVO> allList = BoardList(menuType);
+		List<BoardVO> allList = BoardList(menuType, "","");
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
@@ -85,4 +96,16 @@ public class BoardServiceImpl implements BoardService {
 		vo = boardMapper.selectBoard(boardId);
 		return vo;
 	}
+
+	@Override
+	public List<BoardVO> searchBoardSurfPaged(JSONObject req) {
+		int start = (int) req.get("start");
+		int end = (int) req.get("end");
+		String search = (String) req.get("search");
+		String searchType = (String)req.get("searchType");
+		String menuType = (String) req.get("type");
+		List<BoardVO> allList = BoardList(menuType, search,searchType);
+		return allList.subList(start, Math.min(end, allList.size()));
+	}
+
 }

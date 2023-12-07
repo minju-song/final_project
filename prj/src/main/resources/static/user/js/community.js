@@ -65,35 +65,38 @@ function setupPagination(totalPages) {
     }
 }
 //게시판 목록 로드
-function loadData(page) {
+function loadData(page, search) {
     currentPage = page;
     let start = (currentPage - 1) * recordsPerPage;
     let end = start + recordsPerPage;
     let searchBoardSet = location.pathname
     let boardType = "";
-
+    let setUrl = ""
+    let searchOption = document.getElementById('searchTitle').value
     if (searchBoardSet == "/board/chat") {
         boardType = "AA3"
     } else if (searchBoardSet == "/board/info") {
         boardType = "AA2"
     }
-
+    //검색 설정
+    if (search != null && search != '') {
+        setUrl = "/searchBoardLoad"
+    } else {
+        setUrl = "/boardLoad"
+    }
     $.ajax({
         type: 'POST',
-        url: '/boardLoad',
+        url: setUrl,
         contentType: 'application/json;charset=UTF-8',
-        data: JSON.stringify({ "start": start, "end": end, "type": boardType }),
+        data: JSON.stringify({ "start": start, "end": end, "type": boardType, "search": search, "searchType": searchOption }),
         success: function (data) {
-
-            updateTable(data, page);
+            updateTable(data, page, "");
             // 페이징 처리
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
             setupPagination(totalPages);
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
-            console.error("error: " + error);
+        error: function (error) {
+
         }
     });
 }
@@ -102,7 +105,6 @@ function updateTable(data, page) {
     currentPage = page;
     let tbody = $("#boardTableBody");
     let searchBoardSet = data.boardType;
-    console.log(searchBoardSet)
     tbody.empty(); // 기존 데이터를 지우고 새로운 데이터로 갱신
 
     if (data && data.historyList && data.historyList.length > 0) {
@@ -164,7 +166,7 @@ async function findPost() {
         viewer: true,
         initialValue: post.content
     });
-    console.log(post)
+
     document.getElementById('title').innerText = post.title;
     if (post.menuType == "AA2") {
         document.getElementById('writer').innerText = post.nickname;
@@ -567,9 +569,7 @@ function insertRowReply(upperReplyId) {
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({ "boardId": boardId, "content": content, "upperReplyId": upperReplyId }),
         success: function (data) {
-            console.log(data)
             replyLoad(currentPage);
-
             let rowReplyForm = document.getElementById('rowReplyForm');
             if (rowReplyForm) {
                 rowReplyForm.remove();
@@ -582,9 +582,7 @@ function insertRowReply(upperReplyId) {
             let cancelReplyBtn = document.getElementById('cancelRowReplyBtn');
             cancelReplyBtn.remove();
         },
-        error: function (request, status, error) {
-            console.error("code: " + request.status);
-            console.error("message: " + request.responseText);
+        error: function (error) {
             console.error("error: " + error);
         }
     })
@@ -627,7 +625,6 @@ function deletePost() {
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({ "boardId": boardId }),
         success: function (data) {
-            console.log(data)
             Swal.fire({
                 title: "",
                 text: data.resultMsg,
@@ -636,7 +633,6 @@ function deletePost() {
             }).then(function () {
                 location.href = "/board/info"
             })
-
         },
         error: function (error) {
 
