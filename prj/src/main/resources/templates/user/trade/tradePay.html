@@ -13,26 +13,26 @@
 			<div class="row holoPaywrap" style="margin-bottom: 50px;">
 				<div class="row w-100 watchwrap fontStyle">
 					<h3><img class="payImg form-label" th:src="@{/user/images/trade/coin.png}">홀로페이·포인트</h3>
-					<h3 th:text="|보유 : |"></h3>
+					<h3 th:text="|보유 : ${#numbers.formatInteger((pointCnt + holoPayCnt), 0, 'COMMA')}|"></h3>
 				</div>
 				<div class="row w-100 watchwrap fontStyle">
 				<img class="payImg form-label lineStyle" th:src="@{/user/images/trade/line.png}">
 					<div>포인트</div>
-					<div class="form-label" th:text="|  P|"></div>
+					<div class="form-label" th:text="|${#numbers.formatInteger(pointCnt, 0, 'COMMA')}  P|"></div>
 				</div>
 				<div class="row w-100 watchwrap fontStyle2">
 					<div>홀로페이</div>
-					<div class="form-label" th:text="| 원|"></div>
+					<div class="form-label" th:text="|${#numbers.formatInteger(holoPayCnt, 0, 'COMMA')} 원|"></div>
 				</div>
 				<div class="row">
 					<div class="input-group mb-3 row w-100 watchwrap fontStyle" style="margin-bottom: -5px !important;">
 						<div style="width:250px;">포인트 사용</div>
-		               <input type="text" class="form-control col-7 borderRadi">
+		               <input type="number" class="form-control col-7 borderRadi">
 		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;">전액사용</span>
 		            </div>
 		            <div class="input-group mb-3 row w-100 watchwrap fontStyle2">
 		            	<div style="width:250px;">홀로페이 사용</div>
-		               <input type="text" class="form-control col-7 borderRadi">
+		               <input type="number" class="form-control col-7 borderRadi">
 		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;">전액사용</span>
 		            </div>
 		            <p style="text-align: center; margin: 20px 30px">2019.07.01.부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은
@@ -64,6 +64,19 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			//가격 양수만 입력
+			let number = document.querySelectorAll('[type=number]');
+			for(let i=0; i< number.length; i++){
+				number[i].onkeydown = function(e) {
+				    if(!((e.keyCode > 95 && e.keyCode < 106)
+				    	|| (e.keyCode > 47 && e.keyCode < 58) 
+				    	|| e.keyCode == 8)) {
+				        return false;
+				    }
+				}
+			}
+		</script>
 	</div>
 </body>
 </html>
