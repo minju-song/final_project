@@ -119,8 +119,7 @@ function choiceDate(newDIV) {
     //sumPrice
 
 
-    console.log('오늘: ' + dateFormat(today));
-    console.log('들어온값: ' + dateFormat(new Date(newDIV.id)));
+    document.getElementById('getResultText').onclick = function () { getResult(dateFormat(new Date(newDIV.id))) };
 
     let paydate = dateFormat(new Date(newDIV.id));
     getSumPrice(paydate);
@@ -130,12 +129,14 @@ function getSumPrice(payDate) {
     fetch('/getSumPrice?payDate=' + payDate)
         .then(resolve => resolve.json())
         .then(result => {
-            if (result == 0) {
+            if (result.price == 0 && result.input == 0) {
                 document.getElementById('sumPrice').innerText = '거래내역이 없습니다.';
             }
             else {
-                let price = result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                document.getElementById('sumPrice').innerText = '총 소비금액 : ' + price + '원';
+                let price = result.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                let input = result.input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                document.getElementById('sumPrice').innerHTML = '<span class="red">총 소비금액 : ' + price + '원</span><br>'
+                    + '<span class="blue">총 소득금액 : ' + input + '원</span>';
             }
         })
 }
@@ -156,11 +157,11 @@ function drawInput() {
             if (key == 'inputOutput') {
                 let option1 = document.createElement('option')
                 option1.innerText = '지출';
-                option1.value = 'GA2';
+                option1.value = 'GB2';
                 select.appendChild(option1);
                 let option2 = document.createElement('option')
                 option2.innerText = '소득';
-                option2.value = 'GA1';
+                option2.value = 'GB1';
                 select.appendChild(option2);
             }
             else {
@@ -208,15 +209,6 @@ function drawInput() {
     tr.setAttribute("id", "inputTr");
     document.querySelector('#hisTable').appendChild(tr);
 
-    // form.appendChild(tr);
-    // let btn = document.createElement('button');
-    // btn.onclick = function () { choiceDate(this); }
-
-    // btn.innerText = '입력';
-    // btn.setAttribute("class", "btn btn-primary");
-    // btn.onclick = function () { insertHistory(); }
-    // document.querySelector('#hisTable').appendChild(tr);
-    // document.querySelector('#hisTable').appendChild(btn);
 }
 
 //오늘 거래내역 현금은 삭제 가능
@@ -278,7 +270,7 @@ function drawTr(history, ck, drawDate) {
     for (const key in history) {
         let td = document.createElement('td');
         if (key == 'inputOutput') {
-            if (history[key] == 'GA2') {
+            if (history[key] == 'GB2') {
                 td.innerText = '지출';
             }
             else {
