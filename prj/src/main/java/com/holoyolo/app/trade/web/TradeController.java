@@ -18,6 +18,8 @@ import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.heart.service.HeartService;
 import com.holoyolo.app.heart.service.HeartVO;
+import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
 
@@ -31,6 +33,9 @@ public class TradeController {
 	
 	@Autowired
 	HeartService heartService;
+	
+	@Autowired
+	HoloPayHistoryService holoPayService;
 
 	@GetMapping("/admin/trade")
 	public String selectTradeList(Model model) {
@@ -51,11 +56,13 @@ public class TradeController {
 		return map;
 	}
 	
+	//등록페이지 이동
 	@GetMapping("member/tradeInsert")
 	public String tradeInsert(TradeVO tradeVO) {
 		return "user/trade/tradeInsert";
 	}
 	
+	//등록
 	@PostMapping("member/tradeInsert")
 	public String tradeInsertProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 									TradeVO tradeVO,
@@ -63,10 +70,10 @@ public class TradeController {
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
 		tradeVO.setSellerId(principalDetails.getUsername());
 		tradeService.insertTrade(tradeVO, imgList);
-		System.out.println(imgList);
 		return "redirect:/tradeList";
 	}
 	
+	//상세보기
 	@GetMapping("member/tradeInfo")
 	public String tradeInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
 							TradeVO tradeVO, 
@@ -75,13 +82,17 @@ public class TradeController {
 							HeartVO heartVO) {
 		attachmentVO.setPostId(tradeVO.getTradeId());
 		heartVO.setTradeId(tradeVO.getTradeId());
+		tradeService.updateViews(tradeVO);
 		model.addAttribute("memberId", principalDetails.getUsername());
+		heartVO.setMemberId(principalDetails.getUsername());
+		model.addAttribute("heartInfo", heartService.getHeart(heartVO));
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		model.addAttribute("heartCount", heartService.getHeartCount(heartVO));
 		return "user/trade/tradeInfo";
 	}
 	
+	//수정페이지 이동
 	@GetMapping("member/tradeUpdate")
 	public String tradeUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails,
 							  Model model,
@@ -89,11 +100,42 @@ public class TradeController {
 							  TradeVO tradeVO) {
 		tradeVO.setSellerId(principalDetails.getUsername());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
-		System.out.println(tradeService.getTrade(tradeVO));
+		attachmentVO.setPostId(tradeVO.getTradeId());
+		System.out.println(attachmentVO + "=====================");
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
+		System.out.println(attachmentService.getAttachmentList(attachmentVO));
 		return "user/trade/tradeUpdate";
 	}
 	
+	//수정
+	@PostMapping("member/tradeUpdate")
+	public String tradeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+									TradeVO tradeVO,
+									@RequestPart MultipartFile[] uploadFiles) {
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
+		System.out.println(imgList);
+		tradeVO.setSellerId(principalDetails.getUsername());
+		tradeService.updateTradeImg(tradeVO, imgList);
+		tradeService.updateTrade(tradeVO);
+		return "redirect:/tradeList";
+	}
+	
+	//구매자, 거래상태 수정
+	@PostMapping("member/BuyerIdUpdate")
+	@ResponseBody
+	public String buyerIdUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+								TradeVO tradeVO) {
+		System.out.println(tradeVO.getPromiseStatus());
+		if(tradeVO.getPromiseStatus().equals("")) {
+			tradeVO.setBuyerId(null);
+		}else if(tradeVO.getPromiseStatus().equals("TD1")) {
+			tradeVO.setBuyerId(principalDetails.getUsername());
+		}
+		tradeService.updateBuyerId(tradeVO);
+		return "redirect:/tradeList";
+	}
+	
+	//삭제
 	@GetMapping("member/tradeDelete")
 	@ResponseBody
 	public void tradeDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -102,5 +144,23 @@ public class TradeController {
 		tradeService.deleteTrade(tradeVO);
 	}
 	
-
+	//계산페이지 이동
+	@GetMapping("member/tradePay")
+	public String tradePay(@AuthenticationPrincipal PrincipalDetails principalDetails,
+						   TradeVO tradeVO,
+						   MemberVO memberVO,
+						   Model model) {
+		memberVO.setMemberId(principalDetails.getUsername());
+		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
+		model.addAttribute("payInfo", holoPayService.holopayBalance(memberVO));
+		return "user/trade/tradePay";
+	}
+	
+	//삭제
+	@GetMapping("member/attachmentDelete")
+	@ResponseBody
+	public void attachmentDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
+								 AttachmentVO attachmentVO){
+		attachmentService.deleteAttachment(attachmentVO);
+	}
 }

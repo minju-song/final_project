@@ -24,4 +24,11 @@ public interface TradeService {
 	
 	//조회수 증가
 	public int updateViews(TradeVO tradeVO);
+	
+	//구매자 수정
+	public int updateBuyerId(TradeVO tradeVO);
+
+	//중고거래 이미지 수정(insert)
+	public int updateTradeImg(TradeVO tradeVO, List<AttachmentVO> imgList);
+	
 }
