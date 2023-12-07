@@ -18,4 +18,11 @@ public class AccBookSuccessHistoryVO {
 	
 	//임의로 회원아이디 추가
 	private String memberId;
+	
+	//해당 기간동안 쓴 소비금액
+	private int sumPrice;
+	
+	private int goalPrice;
+	
+	private String goalUnit;
 }

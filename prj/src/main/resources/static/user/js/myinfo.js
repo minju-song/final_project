@@ -1,9 +1,20 @@
 /**
  * 마이페이지-나의정보
  */
-
+ 
 $(function(){
-debugger
+const Toast = Swal.mixin({
+			    toast: true,
+			    position: 'center',
+			    showConfirmButton: false,
+			    timer: 2000,
+			    timerProgressBar: true,
+			    didOpen: (toast) => {
+			        toast.addEventListener('mouseenter', Swal.stopTimer)
+			        toast.addEventListener('mouseleave', Swal.resumeTimer)
+			    }
+			})
+
 let url = $('#infoView').data("url");
 
 /* 닉네임 변경 start */

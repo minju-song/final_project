@@ -1,12 +1,187 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>holoyolo::마이페이지 홈</title>
+<link rel="stylesheet" href="/user/css/tooplate.css">
+<link rel="stylesheet" href="/user/css/myinfo.css">
+<link rel="stylesheet" href="/user/css/myhome.css">
 </head>
 <body>
+	<th:block layout:fragment="content">
+		<!--/* 프로필, 닉네임, 소개 영역 start */-->
+		<div id="my_profile">
+			<div id="imageWrap">
+				<input class="input_file real_upload" type="file" name="uploadFiles" accept="image/*" />
+				<div class="dp_flex">
+					<div id="memberProfile">
+						<th:block th:if="${memberInfo.profileImg != null}">
+							<div class="upload profile" data-toggle="tooltip" data-placement="top" title="Click! 프로필 사진 변경"
+								 th:style="'background-image:url(\'/images/'+ ${memberInfo.profileImg} +'\');'">
+							</div>
+						</th:block>
+						<th:block th:unless="${memberInfo.profileImg != null}">
+							<div class="upload profile" data-toggle="tooltip" data-placement="top" title="Click! 프로필 사진 변경"
+								 style="background-image:url('/user/images/mypage/basic_profile.png');">
+							</div>
+						</th:block>
+					</div>
+					<div id="memberIntroWrap">
+						<div class="input_wrap">
+							<span class="input input_wrap">
+								<span class="my_flex margin-top-10">
+									<input type="text" id="nickName" class="hl_input" th:value="${memberInfo.nickname}" readonly>
+								</span>
+							</span>
+						</div>
+						<div class="input_wrap">
+							<span class="input">
+								<span class="my_flex">
+									<span class="hl_input" id="memberId" th:text="${memberInfo.memberId}"></span>
+								</span>
+							</span>
+						</div>
+						<div class="input_wrap">
+							<span class="input input_wrap">
+								<textarea class="hl_textarea form-control" id="memberIntro" rows="3" cols="100" 
+										  spellcheck="false" placeholder="등록된 자기소개가 없습니다" readonly
+										  th:value="${#strings.replace(memberInfo.memberIntro, nlString, '&lt;br /&gt;')}" 
+										  th:utext="${#strings.replace(memberInfo.memberIntro, nlString, '&lt;br /&gt;')}"></textarea>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div id="holopayWrap">
+				<div class="dp_flex">
+					<span><img class="coin_icon" alt="코인아이콘" th:src="@{/user/images/trade/credit-card.svg}">홀로페이·포인트 보유현황</span>
+				</div>
+			</div>
+		</div>
+		<!--/* 프로필, 닉네임, 소개 영역 end */-->
+	
+	
+		<!--/* 가계부 차트 start */-->
+		<div class="row tm-content-row tm-mt-big">
+			<div class="tm-col tm-col-big">
+				<div class="bg-white tm-block h-100">
+					<div class="title_wrap">
+						<div class="display_flex">
+							<h2 class="tm-block-title">최근 1년 소득/지출 그래프</h2>
+							<div class="min_text">
+								<span>
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+										<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+									</svg>
+									최근 1년 평균소득/지출
+								</span>
+								<table class="avg_area">
+									<tbody>
+										<tr>
+											<td colspan="2">(총소득 or 총지출)&divide;12</td>
+										</tr>
+										<tr>
+											<th>평균 소득액</th>
+											<td id="avgInput"></td>
+										</tr>
+										<tr>
+											<th>평균 지출액</th>
+											<td id="avgOutput"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<a class="move_accbook" href="/member/accBook"><img alt="가계부바로가기" src="/user/home/images/arrow-right-circle.svg" class="more_btn"> 가계부 바로가기</a>
+					</div>
+					<div class="chart_wrap">
+						<canvas id="barChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/* 가계부 차트 end */-->
+		
+		
+		
+		<script src="/user/js/utils.js"></script>
+		<script src="/user/js/Chart.min.js"></script>
+		<script src="/user/js/tooplate-scripts.js"></script>
+		<script th:inline="javascript">
+			let ctxLine, ctxBar, ctxPie, optionsLine, optionsBar, optionsPie, configLine, configBar, configPie, lineChart, barChart, pieChart;
 
+			// DOM is ready
+			$(function() {
+				let cashData = [[${cashData}]];
+				let bankData = [[${bankData}]];
+				let cardData = [[${cardData}]];
+				
+				let payDate = [];
+				let cash = [];
+				let bank = [];
+				let card = [];
+				let inputTotal = [];
+				
+				
+				// 배열데이터 만들기
+				for(let i=0; i<cashData.length; i++){
+					payDate[i] = cashData[i].payDateMonth;	// 날짜
+					cash[i] = cashData[i].outputSum;		// 현금
+					bank[i] = bankData[i].outputSum;		// 이체
+					card[i] = cardData[i].outputSum;		// 카드
+				}
+				
+				// 수입 더하기
+				for(let i=0; i<cashData.length; i++) {
+					inputTotal[i] = cashData[i].inputSum +
+									bankData[i].inputSum +
+									cardData[i].inputSum;
+				}
+				
+				//평균소득액/지출액
+				let avgInput = 0;
+				let avgOutput = 0;
+				
+				for(let i=0; i<cashData.length; i++) {
+					avgInput = avgInput + (cashData[i].inputSum
+										   + bankData[i].inputSum
+										   + cardData[i].inputSum);
+				}
+				for(let i=0; i<cashData.length; i++) {
+					avgOutput = avgOutput + (cashData[i].outputSum
+										   + bankData[i].outputSum
+										   + cardData[i].outputSum);
+				}
+				
+				avgInput = Math.round(avgInput/12);
+				avgInput = avgInput.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$('#avgInput').text(avgInput);
+				avgOutput = Math.round(avgOutput/12);
+				avgOutput = avgOutput.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$('#avgOutput').text(avgOutput);
+				
+				
+				//차트그리기
+				updateChartOptions();
+				drawBarChart(payDate, cash, bank, card, inputTotal);
+				
+							
+
+				$(window).resize(function() {
+					updateChartOptions();
+					updateLineChart();
+					updateBarChart();
+					reloadPage();
+				});
+			})
+			
+			
+		</script>
+
+	</th:block>
 </body>
 </html>

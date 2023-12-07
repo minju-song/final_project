@@ -178,3 +178,13 @@ $(function () {
     e.target.parentNode.remove();
   }
 })
+
+//http:형식 확인
+$('#openKakaoAddr').change(() => {
+	let expUrl = /^http[s]?:\/\/([\S]{3,})/i;
+	let strUrl = $('#openKakaoAddr').val();
+	console.log(expUrl.test(strUrl))
+	if (!expUrl.test(strUrl)) {
+		alert("url 형식에 맞지 않습니다");
+	}
+})

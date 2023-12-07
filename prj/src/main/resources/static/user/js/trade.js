@@ -82,12 +82,13 @@ function drawTrade(tradeArr){
 		
 		let divTradeType = document.createElement('div');
 		divTradeType.classList.add('badge', 'position-absolute');
+		divTradeType.style.right = '0.5rem';
 		divTradeType.innerText = tradeArr[i].tradeType;
 		divCard.appendChild(divTradeType);
 		
 		let promiseStatus = document.createElement('div');
 		promiseStatus.classList.add('badge', 'position-absolute');
-		promiseStatus.style.right = '0.5rem';
+		
 		promiseStatus.innerText = tradeArr[i].promiseStatus;
 		divCard.appendChild(promiseStatus);
 		
@@ -140,7 +141,7 @@ function drawTrade(tradeArr){
 		
 		let writeDate = document.createElement('span');
 		writeDate.classList.add('text-muted');
-		writeDate.innerText = '2023-11-10';//tradeArr[i].writeDate;
+		writeDate.innerText = getToday(tradeArr[i].writeDate);
 		writeDate.style.position = 'absolute';
         writeDate.style.right = '-0.9rem';
         writeDate.style.bottom = '-2.4rem';
@@ -152,10 +153,19 @@ function drawTrade(tradeArr){
 	}
 }
 
+function getToday(writeDate){
+    var date = new Date(writeDate);
+    var year = date.getFullYear();
+    var month = ("0" + (1 + date.getMonth())).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+
+    return year + "-" + month + "-" + day;
+}
+
 //중고거래 상세페이지 이동
 function submit(tradeId, sellerId){
 	console.log(tradeId, sellerId);
-	$.ajax({    
+	/*$.ajax({    
 	    type:"POST",
 	    url : '/member/tradeUpdate',  //이동할 jsp 파일 주소
 	    data : {tradeId, sellerId},
@@ -165,7 +175,7 @@ function submit(tradeId, sellerId){
 	    },    
 	    error : function(request, status, error) { // 결과 에러 콜백함수        
 	       console.log(error);    
-	}})
+	}})*/
 	location.href = '/member/tradeInfo?tradeId=' + tradeId + '&sellerId=' + sellerId;
 }
 

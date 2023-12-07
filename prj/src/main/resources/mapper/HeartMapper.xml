@@ -8,5 +8,32 @@
 			FROM heart
 			WHERE trade_id = #{tradeId}
 	  </select>
+	  
+	  <select id="selectHeart" resultType="HeartVO">
+	  	SELECT member_id
+	  			, trade_id
+	  	FROM heart
+	  	WHERE trade_id = #{tradeId}
+	  	AND member_id = #{memberId}
+	  </select>
+	  
+	  <insert id="insertHeart" parameterType="heartVO">
+	  		INSERT INTO heart
+	  			(
+	  				member_id
+	  				, trade_id
+	  			)
+	  		VALUES
+	  			(
+	  				#{memberId}
+	  				, #{tradeId}
+	  			)
+	  </insert>
+	  
+	  <delete id="deleteHeart" parameterType="HeartVO">
+	  	DELETE FROM heart
+	  	WHERE trade_id = #{tradeId}
+	  	AND member_id = #{memberId}
+	  </delete>
   </mapper>
   

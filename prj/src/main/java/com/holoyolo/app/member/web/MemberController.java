@@ -1,21 +1,23 @@
 package com.holoyolo.app.member.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.accBookHistory.service.AccBookHistoryService;
+import com.holoyolo.app.accBookHistory.service.AccBookHistoryVO;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
@@ -25,6 +27,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	AccBookHistoryService accBookHistoryService;
 	
 	/**
 	 * 로그인 페이지
@@ -132,12 +137,34 @@ public class MemberController {
 	@GetMapping("/member/myHome")
 	public String myHome(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		String memberId = principalDetails.getUsername();
+		
+		// 회원의 개인정보
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
 		
+		// 회원의 가계부 데이터
+		AccBookHistoryVO abvo = new AccBookHistoryVO();
+		abvo.setMemberId(principalDetails.getUsername());
+		// 현금 데이터
+		abvo.setPaymentType("GA1");
+		List<AccBookHistoryVO> cashData = accBookHistoryService.selectChartData(abvo);
+		model.addAttribute("cashData", cashData);
+		// 뱅킹 데이터
+		abvo.setPaymentType("GA2");
+		List<AccBookHistoryVO> bankData = accBookHistoryService.selectChartData(abvo);
+		model.addAttribute("bankData", bankData);
+		// 카드 데이터
+		abvo.setPaymentType("GA3");
+		List<AccBookHistoryVO> cardData = accBookHistoryService.selectChartData(abvo);
+		model.addAttribute("cardData", cardData);
+		
+		
+		// 개행처리
+		String nlString = System.getProperty("line.separator").toString();
+		model.addAttribute("nlString", nlString);
+		
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
-		model.addAttribute("subMenu", "myHome");
 		
 		return "user/mypage/myHome";
 	}
@@ -173,8 +200,6 @@ public class MemberController {
 	@ResponseBody
 	public boolean infoAuth(HttpServletRequest request, MemberVO memberVO, Model model,
 							@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		HttpSession session = request.getSession();
-		//model.removeAttribute("authYn");
 		
 		memberVO.setMemberId(principalDetails.getUsername());
 		boolean result = memberService.checkPassword(memberVO);
@@ -259,7 +284,6 @@ public class MemberController {
 	public String deleteMemberForm(Model model) {
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
-		model.addAttribute("subMenu", "myInfo");
 		return "/user/mypage/memberDelete";
 	}
 	

@@ -1,9 +1,12 @@
 package com.holoyolo.app.club.service;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -47,12 +50,27 @@ public class ClubVO {
 	//가입타입 (최초가입, 재가입)
 	private String type;
 	
-	// 검색
+
+	// admin검색
 	private String search;
 	
-	// 페이징
+	// admin페이징
 	private int page;
 	private int rn;
 	private int pageUnit;
+
+
+  
+  
+  
+	//모임성공률
+	private int successRate;
+	//순번
+	private String rnum;
+
+	//채팅세션
+	private Set<WebSocketSession> sessions = new HashSet<>();
+
+
 
 }

@@ -7,7 +7,7 @@
 	namespace="com.holoyolo.app.holopayHistory.mapper.HoloPayHistoryMapper">
 	
 	<select id="holopayHistoryList" resultType="HoloPayHistoryVO">
-		SELECT * 
+		SELECT HP_HISTORY_ID, HP_DATE, PRICE, HOLOPAY_COMMENT, TRADE_ID, MEMBER_ID, MEMBER_FINANCE_ID, fn_get_code_name(HP_TYPE) AS HP_TYPE
         FROM holopay_history
         WHERE member_id = #{memberId}
         ORDER BY hp_history_id

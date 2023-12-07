@@ -57,7 +57,7 @@ function callRechargeApi(rechargePrice) {
   let callRechargeApiInfo = {
     "Tram": rechargePrice,
   };
-
+let viewIcon="";
   console.log(callRechargeApiInfo);
   $.ajax({
     type: 'POST',
@@ -77,7 +77,7 @@ function callRechargeApi(rechargePrice) {
       icon: viewIcon,
       closeOnClickOutside: false
     }).then(function () {
-      location.reload()
+      location.reload();
     });
   }).fail(function (request, status, error) {
     // Handle the error response from the server
@@ -90,6 +90,7 @@ function callRechargeApi(rechargePrice) {
 //반환버튼
 let withdrawBtn = document.getElementById('callHoloPaywithdrawApi');
 withdrawBtn.addEventListener('click', callwithdrawApi);
+
 function callwithdrawApi() {
   let withdrawPrice = document.getElementById('withdrawPrice').value;
   console.log(withdrawPrice);
@@ -104,6 +105,7 @@ function callwithdrawApi() {
     data: JSON.stringify(callwithdrawApiInfo)
   }).done(function (data) {
   //  let data = JSON.parse(response)
+  console.log(data)
     if (data.resultCode == 2) {
       viewIcon = "success"
     } else if (data.resultCode == 3) {
@@ -126,12 +128,12 @@ function callwithdrawApi() {
     console.log("code: " + request.status)
     console.log("message: " + request.responseText)
     console.log("error: " + error);
-
-
-
   })
 
 }
+
+
+
 // 페이징
 let currentPage = 1;
 const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
@@ -241,7 +243,7 @@ function updateTable(data) {
     data.historyList.forEach(function (item, index) {
       let row = $("<tr>");
       row.append($("<td>").text(index + 1));
-      row.append($("<td>").text(getTransactionType(item.hpType)));
+      row.append($("<td>").text(item.hpType));
       row.append($("<td>").text(item.price));
       row.append($("<td>").text(item.holopayComment));
       row.append($("<td>").text(formatDate(item.hpDate)));

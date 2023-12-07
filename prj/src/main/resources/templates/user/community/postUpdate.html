@@ -1,144 +1,155 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	  layout:decorate="~{layout/layout}">
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
+
 <head>
-<meta charset="UTF-8">
-<title>글쓰기 페이지</title>
+	<meta charset="UTF-8">
+	<title>글쓰기 페이지</title>
 
-<!-- TUI 에디터 CSS CDN -->
-<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
+	<!-- TUI 에디터 CSS CDN -->
+	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
 
-<!-- 버튼 영역 CSS -->
-<style>
-    #btnDiv { text-align: center; margin-top: 20px; }
-    .btns { display: inline-block; padding: 0 10px; height: 28px; line-height: 26px; text-align: center; vertical-align: middle; border-radius: 3px; border: 1px solid transparent; font-weight: 500; }
-    .btns.save { background: #139dc8; color: #fff; cursor: pointer; }
-    .btns.back { background: #fff; border: 1px solid #199bc4; color: #199bc4; }
-</style>
+	<link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
+
+	<!-- 버튼 영역 CSS -->
+	<style>
+	
+	</style>
 </head>
+
 <body layout:fragment="content">
-    
+
 	<h2 style="text-align: center;">게시글 수정 페이지</h2>
+	<div class="row">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" placeholder="제목" id="title">
+		</div>
+		<div class="editor_container col-12">
+			<!--/* 에디터 콘텐츠 렌더링 영역 */-->
+			<div id="viewer"></div>
+		</div>
 
-	<div class="editor_container">
-		<!--/* 에디터 콘텐츠 렌더링 영역 */-->
-		<div id="viewer"></div>
-	</div>
-
-    <!--/* 저장 버튼 영역 */-->
-    <div id="saveBtnDiv" sec:authorize="isAuthenticated()">
-    	<th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
-	        <button type="button" class="btns save" th:onclick="savePost([[${board.boardId}]]);">저장하기</button>
-	        <input type="hidden" id="memberId" name="memberId" th:value="${#authentication.principal.memberVO.memberId}">
-	    </th:block>
-	    <a th:onclick="'location.href=\'/member/BoardInfo?boardId='+ @{${board.boardId}} + '\''" class="btns back">뒤로 가기</a>
+		<!--/* 저장 버튼 영역 */-->
+		<div class="row">
+			<div id="saveBtnDiv" sec:authorize="isAuthenticated()">
+				<th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
+					<button type="button" class="btns save" th:onclick="savePost([[${board.boardId}]]);">저장하기</button>
+					<input type="hidden" id="memberId" name="memberId"
+						th:value="${#authentication.principal.memberVO.memberId}">
+				</th:block>
+				<a th:onclick="'location.href=\'/member/BoardInfo?boardId='+ @{${board.boardId}} + '\''"
+					class="btns back">뒤로 가기</a>
 	
-    </div>
-
-    <!-- TUI 에디터 JS CDN -->
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <script>
-	    
-	    window.onload = async () => {
-	        findPost();
-	    }
-	
-	
-	    let editor;
-	    // 게시글 상세정보 조회
-	    async function findPost() {
-	
-	        // 1. URL 쿼리 스트링에서 게시글 번호 조회
-	        const searchParams = new URLSearchParams(location.search);
-	        const postId = Number(searchParams.get('boardId'));
-	
-	        // 2. API 호출
-	        const url = `/api/board/${postId}`;
-	        const response = await fetch(url);
-	        const post = await response.json();
-	
-	        // 3. 에디터 콘텐츠 렌더링
-	        editor = new toastui.Editor({
-	            el: document.querySelector('#viewer'),      // 에디터를 적용할 요소 (컨테이너)
-	            height: '500px',                             // 에디터 영역의 높이 값 (OOOpx || auto)
-	            initialEditType: 'markdown',                 // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-	            initialValue: post.content,                            // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-	            previewStyle: 'vertical',                    // 마크다운 프리뷰 스타일 (tab || vertical)
-	            placeholder: '내용을 입력해 주세요.',
-	            hooks: {
-	                async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
-	                    try {
-	                        /*
-	                         * 1. 에디터에 업로드한 이미지를 FormData 객체에 저장
-	                         *    (이때, 컨트롤러 uploadEditorImage 메서드의 파라미터인 'image'와 formData에 append 하는 key('image')값은 동일해야 함)
-	                         */
-	                        const formData = new FormData();
-	                        formData.append('image', blob);
-
-	                        // 2. FileApiController - uploadEditorImage 메서드 호출
-	                        const response = await fetch('/tui-editor/image-upload', {
-	                            method : 'POST',
-	                            body : formData,
-	                        });
-
-	                        // 3. 컨트롤러에서 전달받은 디스크에 저장된 파일명
-	                        const filename = await response.text();
-	                        console.log('서버에 저장된 파일명 : ', filename);
-
-	                        // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
-	                        const imageUrl = `/tui-editor/image-print?filename=${filename}`;
-	                        callback(imageUrl, 'image alt attribute');
-
-	                    } catch (error) {
-	                        console.error('업로드 실패 : ', error);
-	                    }
-	                }
-	            }
-	            /* end of hooks */
-	        });
-	    }
-
-
+		</div>
 		
-        // 게시글 저장
-        async function savePost(boardId) {
-            // 1. 콘텐츠 입력 유효성 검사
-            if (editor.getMarkdown().length < 1) {
-                alert('에디터 내용을 입력해 주세요.');
-                throw new Error('editor content is required!');
-            }
+		</div>
+	</div>
+	<!-- TUI 에디터 JS CDN -->
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script>
 
-            // 2. url, parameter 세팅
-            const url = '/editor/update';
-            const memberId = document.querySelector('#memberId').value;
-            const content = document.querySelector('.toastui-editor-pseudo-clipboard').value;
-            const params = {
-                title: '게시글 제목',
-                content: editor.getMarkdown(),
-                boardId: boardId
-            }
+		window.onload = async () => {
+			findPost();
+		}
 
-            // 3. API 호출
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(params),
-                });
 
-                const postId = await response.json();
-                alert(postId + '번 게시글이 저장되었습니다.');
-                location.href = '/editor/postview?boardId='+boardId;
+		let editor;
+		// 게시글 상세정보 조회
+		async function findPost() {
 
-            } catch (error) {
-                console.error('저장 실패 : ', error)
-            }
-        }
-    </script>
+			// 1. URL 쿼리 스트링에서 게시글 번호 조회
+			const searchParams = new URLSearchParams(location.search);
+			const postId = Number(searchParams.get('boardId'));
+
+			// 2. API 호출
+			const url = `/api/board/${postId}`;
+			const response = await fetch(url);
+			const post = await response.json();
+			console.log(post)
+			let title = document.getElementById('title')
+			title.value= post.title
+			// 3. 에디터 콘텐츠 렌더링
+			editor = new toastui.Editor({
+				el: document.querySelector('#viewer'),      // 에디터를 적용할 요소 (컨테이너)
+				height: '500px',                             // 에디터 영역의 높이 값 (OOOpx || auto)
+				initialEditType: 'markdown',                 // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+				initialValue: post.content,                            // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+				previewStyle: 'vertical',                    // 마크다운 프리뷰 스타일 (tab || vertical)
+				placeholder: '내용을 입력해 주세요.',
+				hooks: {
+					async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
+						try {
+							/*
+							 * 1. 에디터에 업로드한 이미지를 FormData 객체에 저장
+							 *    (이때, 컨트롤러 uploadEditorImage 메서드의 파라미터인 'image'와 formData에 append 하는 key('image')값은 동일해야 함)
+							 */
+							const formData = new FormData();
+							formData.append('image', blob);
+
+							// 2. FileApiController - uploadEditorImage 메서드 호출
+							const response = await fetch('/tui-editor/image-upload', {
+								method: 'POST',
+								body: formData,
+							});
+
+							// 3. 컨트롤러에서 전달받은 디스크에 저장된 파일명
+							const filename = await response.text();
+							console.log('서버에 저장된 파일명 : ', filename);
+
+							// 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
+							const imageUrl = `/tui-editor/image-print?filename=${filename}`;
+							callback(imageUrl, 'image alt attribute');
+
+						} catch (error) {
+							console.error('업로드 실패 : ', error);
+						}
+					}
+				}
+				/* end of hooks */
+			});
+		}
+
+
+
+		// 게시글 저장
+		async function savePost(boardId) {
+			// 1. 콘텐츠 입력 유효성 검사
+			if (editor.getMarkdown().length < 1) {
+				alert('에디터 내용을 입력해 주세요.');
+				throw new Error('editor content is required!');
+			}
+
+			// 2. url, parameter 세팅
+			const url = '/editor/update';
+			const memberId = document.querySelector('#memberId').value;
+			const content = document.querySelector('.toastui-editor-pseudo-clipboard').value;
+			const title = document.getElementById('title').value;
+			const params = {
+				title: title,
+				content: editor.getMarkdown(),
+				boardId: boardId
+			}
+
+			// 3. API 호출
+			try {
+				const response = await fetch(url, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(params),
+				});
+
+				const postId = await response.json();
+				alert(postId + '번 게시글이 저장되었습니다.');
+				location.href = '/member/board/info?boardId=' + boardId;
+
+			} catch (error) {
+				console.error('저장 실패 : ', error)
+			}
+		}
+	</script>
 </body>
+
 </html>

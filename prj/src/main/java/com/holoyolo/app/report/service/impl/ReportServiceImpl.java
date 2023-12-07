@@ -27,21 +27,22 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public Map<String, Object> selectReportInfo(ReportVO reportVO) {
 		Map<String, Object> result = new HashMap<>();
-		
+
 		ReportVO findReportVO = reportMapper.selectReportInfo(reportVO);
-		
+
 		result.put("reportInfo", findReportVO);
-		
+
 		return result;
 	}
-	
+
 	// 신고 등록
 	@Override
 	public int insertReportInfo(ReportVO reportVO) {
+		System.out.println(reportVO);
 		int result = reportMapper.insertReportInfo(reportVO);
-		
+
 		if (result == 1) {
-			return reportVO.getReportId();
+			return result;
 		} else {
 			return -1;
 		}
@@ -51,20 +52,20 @@ public class ReportServiceImpl implements ReportService {
 	public boolean deleteReportInfo(int reportId) {
 		return false;
 	}
-	
+
 	// 신고사유 수정
 	@Override
 	public Map<String, Object> updateReportReason(ReportVO reportVO) {
 		Map<String, Object> map = new HashMap<>();
 		boolean isSuccessed = false;
-		
+
 		int result = reportMapper.updateReportReason(reportVO);
 		if (result == 1) {
 			isSuccessed = true;
 		}
 		map.put("result", isSuccessed);
 		map.put("target", reportVO);
-		
+
 		return map;
 	}
 

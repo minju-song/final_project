@@ -164,8 +164,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	@Override
 	public int insertAttachment(AttachmentVO attachmentVO) {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int deleteAttachment(AttachmentVO attachmentVO) {
+		return attachmentMapper.deleteAttachment(attachmentVO);
 	}
 
 }

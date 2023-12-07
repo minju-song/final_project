@@ -193,4 +193,23 @@
 		DELETE club
 		WHERE club_id = #{clubId}
 	</delete>
+	
+	<!-- 베스트 클럽리스트(메인페이지용) -->
+	<select id="bestClubList" resultType="ClubVO">
+		SELECT LPAD(ROWNUM, 2, '0') rnum, T.*
+		FROM (  SELECT club_id
+		               , club_name
+		               , club_intro
+		               , fn_club_success_rate(club_id) AS success_rate
+		               , club_people
+		               , (SELECT COUNT(*) FROM club_member WHERE CLUB_ID = C.CLUB_ID) AS join_cnt
+		               , fn_get_code_name(open_scope) AS open_scope
+		               , club_profile_img
+		               , fn_mem_nickname(club_leader) club_leader
+		        FROM CLUB C
+		        ORDER BY success_rate DESC, join_cnt DESC) T
+		WHERE ROWNUM <![CDATA[<=]]> #{page}
+	
+	</select>
+	
   </mapper>
