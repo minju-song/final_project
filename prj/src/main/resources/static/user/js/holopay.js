@@ -57,7 +57,7 @@ function callRechargeApi(rechargePrice) {
   let callRechargeApiInfo = {
     "Tram": rechargePrice,
   };
-let viewIcon="";
+  let viewIcon = "";
   console.log(callRechargeApiInfo);
   $.ajax({
     type: 'POST',
@@ -92,6 +92,7 @@ let withdrawBtn = document.getElementById('callHoloPaywithdrawApi');
 withdrawBtn.addEventListener('click', callwithdrawApi);
 
 function callwithdrawApi() {
+  let myAccountNum = document.getElementById('myAccountNum')
   let withdrawPrice = document.getElementById('withdrawPrice').value;
   console.log(withdrawPrice);
   let callwithdrawApiInfo = {
@@ -103,23 +104,22 @@ function callwithdrawApi() {
     url: '/withdrawapireq',
     contentType: 'application/json;charset=UTF-8',
     data: JSON.stringify(callwithdrawApiInfo)
-  }).done(function (data) {
-  //  let data = JSON.parse(response)
-  console.log(data)
-    if (data.resultCode == 2) {
+  }).done(function (response) {
+    console.log(response)
+    if (response.resultCode == 2) {
       viewIcon = "success"
-    } else if (data.resultCode == 3) {
+    } else if (response.resultCode == 3) {
       viewIcon = "error"
     } else {
       viewIcon = "error"
     }
     Swal.fire({
       title: "",
-      text: data.resultMsg,
+      text: response.resultMsg,
       icon: viewIcon,
       closeOnClickOutside: false
     }).then(function () {
-      if (data.resultCode == 2) {
+      if (response.resultCode == 2) {
         location.reload()
       }
     })
@@ -280,7 +280,7 @@ function getTransactionType(type) {
     default:
       return type;
   }
-  
+
 }
 
 
