@@ -198,7 +198,18 @@ $(document).ready(function () {
 	renderClubList("", 1, search,1,"");
 })
 
+	// 수정된 formData
+	function getUpdateInputForm() {
+		let target = event.target
+		let formData = $(target).closest('#updateInputForm').serializeArray(); // 폼 태그 전용 메서드
+		let objData = {};
+		$.each(formData, (idx, obj) => {
+			objData[obj.name] = obj.value;
+		});
+		return objData;
+	}
 
+$(document).ready(function () {
 function renderClubDetail(clubId) {
 		$("tbody").empty();
 		$.ajax({
@@ -231,3 +242,5 @@ function renderClubDetail(clubId) {
 
 	}
 	renderClubDetail(1);
+	
+	})

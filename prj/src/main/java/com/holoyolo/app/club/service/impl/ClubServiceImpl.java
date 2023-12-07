@@ -68,10 +68,14 @@ public class ClubServiceImpl implements ClubService {
 
 	// 모임 단건조회
 	@Override
-	public ClubVO getClubDetail(ClubVO clubVO) {
+	public Map<String, Object> getClubDetail(ClubVO clubVO) {
+		Map<String, Object> result = new HashMap<>();
 		
+		ClubVO findClubVO = clubMapper.getClubDetail(clubVO);
 		
-		return clubMapper.getClubDetail(clubVO);
+		result.put("clubInfo", findClubVO);
+		
+		return result;
 	}
 	
 	// 모임 등록
