@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.holoyolo.app.chat.mapper.ChatRoomMapper">
+  	
+  	<!-- 채팅방 조회 -->
+  	<select id="getChatRoom" parameterType="int">
+  		SELECT *
+  		FROM chatroom
+  		WHERE club_id = #{clubId}
+  	</select>
+  	
+  	<!-- 채팅방 개설 -->
+  	<insert id="createChatRoom" parameterType="int">
+  		INSERT into chatroom
+  		VALUES (#{clubId})
+  	</insert>
+  	
+  	<!-- 공지사항 등록 -->
+  	<insert id="insertChat" parameterType="ChatVO">
+  		<selectKey keyProperty="chatId"
+					   resultType="int"
+					   order="BEFORE">
+	  		SELECT NVL(MAX(chat_id),0) + 1
+				FROM chat
+	  	</selectKey>
+	  	
+	  	INSERT INTO chat
+	  	VALUES (
+	  			#{chatId}
+	  			, #{clubId}
+	  			, #{memberId}
+	  			, #{msg}
+	  			, #{realDate}
+	  			, #{memberName}
+	  			)
+  	</insert>
+  	
+  	<!-- 제일 마지막 공지사항 -->
+  	<select id="getLatestNotice" resultType="String">
+  		SELECT * 
+  		FROM ( 
+  			SELECT msg 
+  			FROM chat 
+  			WHERE club_id = #{clubId}
+  			ORDER by chat_id DESC)
+  		<![CDATA[ 
+  		WHERE rownum <= 1
+  		]]>
+  	</select>
+  	
+  	<!-- 공지사항 리스트 -->
+  	<select id="getNoticeList" resultType="ChatVO">
+  		SELECT * 
+  		FROM chat 
+  		WHERE club_id = #{clubId} 
+  		ORDER BY chat_id DESC
+  	</select>
+  </mapper>

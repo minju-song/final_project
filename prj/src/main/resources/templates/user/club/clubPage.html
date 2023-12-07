@@ -48,6 +48,7 @@
                             <h4>[[${result.club.joinCnt}]] / [[${result.club.clubPeople}]]</h4>
                             <h4>평균 성공률 : [[${result.avg}]]%</h4>
 
+
                         </div>
                     </div>
                     <hr>
@@ -73,18 +74,12 @@
                         </th:block>
                     </div>
                 </div>
-                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
-                    <h1>모임장</h1>
-                </th:block>
-                <th:block th:if="${session.check eq true}">
-                    <h1>모임원맞음</h1>
-                </th:block>
             </div>
 
 
             <div class="col-3">
                 <div class="info memberList">
-                    <h3>팀원들의 진행상황</h3>
+                    <h3>현재 순위</h3>
                     <!-- <div th:text="${#dates.format(result.start, 'yyyy년 MM월 dd일')}"></div>
                     <div th:text="${#dates.format(result.end, 'yyyy년 MM월 dd일')}"></div> -->
                     <th:block th:if="${session.check eq true}">
@@ -92,47 +87,55 @@
                         <div th:each="member : ${result.members}">
                             <th:block th:if="${member.memberId == result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/king.png}">
-                                    <span class="nickname">[[${member.memberName}]]님</span>
-                                    <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
+                                    <span class="nickname"
+                                        th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
+                                        th:data-member-id="${member.memberId}"
+                                        th:data-member-name="${member.memberName}"
+                                        th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
+                                        data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
                             </th:block>
                             <th:block th:if="${member.memberId != result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/notking.png}"
                                         th:data-member-id="${member.memberId}"
                                         th:onclick="mandate(this.getAttribute('data-member-id'))">
-                                    <span class="nickname">[[${member.memberName}]]님</span>
-                                    <span th:text="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"></span>
+                                    <span class="nickname"
+                                        th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
+                                        th:data-member-id="${member.memberId}"
+                                        th:data-member-name="${member.memberName}"
+                                        th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
+                                        data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
                             </th:block>
                         </div>
                     </th:block>
                     <th:block th:if="${session.check != true}">
 
-                        <h5>가입해야만 확인할 수 있습니다.</h5>
+                        <h5>멤버만 확인할 수 있습니다.</h5>
                     </th:block>
                 </div>
                 <th:block
                     th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople and result.club.openScope eq 'OA1'}">
-                    <button onclick="join()">즉시가입</button><br>
+                    <button class="btn btn-primary" onclick="join()">즉시가입</button><br>
                 </th:block>
                 <th:block
                     th:if="${session.check eq false and result.club.joinCnt < result.club.clubPeople and result.club.openScope eq 'OA2'}">
-                    <button id="sendMail" onclick="sendMail()">가입신청</button><br>
+                    <button class="btn btn-primary" id="sendMail" onclick="sendMail()">가입신청</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq '탈퇴'}">
-                    <button onclick="rejoin()">재가입</button><br>
+                    <button class="btn btn-primary" onclick="rejoin()">재가입</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq '승인대기'}">
-                    <button disabled>승인대기</button><br>
+                    <button class="btn btn-secondary" disabled>승인대기</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq '재가입승인대기'}">
-                    <button disabled>재가입승인대기</button><br>
+                    <button class="btn btn-secondary" disabled>재가입승인대기</button><br>
                 </th:block>
                 <th:block th:if="${session.check eq true}">
-                    <button id="outClub" onclick="outClub()">모임탈퇴</button><br>
+                    <button class="btn btn-danger" id="outClub" onclick="outClub()">모임탈퇴</button><br>
                 </th:block>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
-                    <button onclick="clubRemove()">모임삭제</button><br>
+                    <button class="btn btn-danger" onclick="clubRemove()">모임삭제</button><br>
                 </th:block>
                 <br>
             </div>

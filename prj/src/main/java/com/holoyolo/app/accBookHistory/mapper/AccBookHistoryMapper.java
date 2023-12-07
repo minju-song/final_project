@@ -20,6 +20,9 @@ public interface AccBookHistoryMapper {
 	//해당 날짜 총 소비금액
 	public int getSumPrice(AccBookHistoryVO vo);
 	
+	//해당 날짜 총 수입금액
+	public int getSumInputPrice(AccBookHistoryVO vo);
+	
 	//해당 월 총 소비금액
 	public int getMonthPrice(AccBookHistoryVO vo);
 	

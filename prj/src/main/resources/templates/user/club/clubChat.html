@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="/user/css/clubChat.css">
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h3>&#128155;[[${result.club.clubName}]]&#128155;<span id="size"></span> </h3>
+        <div id="noticeBox" onclick="noticeList()"><img class="noticeImg"
+                th:src="@{/user/images/club/chat/notice.png}"><span id="noticeText"></span></div>
+        <div id="chattingDiv">
+            <!-- <div class="msg">
+                <div class="other">
+                    안녕
+                </div>
+                <p class="sender">수신자</p>
+            </div> -->
+        </div>
+        <div style="display: flex; justify-content: space-around;">
+            <textarea id="sendArea"></textarea>
+            <button class="btn btn-warning" id="sendChat" onclick="sendMsg()">전송</button>
+        </div>
+
+        <script th:inline="javascript">
+            let memberId = /*[[${memberId}]]*/ null;
+            let memberName = /*[[${memberName}]]*/ null;
+            let clubId = /*[[${result.club.clubId}]]*/ null;
+            let room = /*[[${room}]]*/ null;
+        </script>
+
+        <script th:src="@{/user/js/clubChat.js}" defer></script>
+    </div>
+</body>
+
+</html>
