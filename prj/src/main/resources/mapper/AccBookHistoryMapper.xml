@@ -67,6 +67,7 @@
 	  	WHERE member_id = #{memberId} 
 	  	AND trunc(pay_date) = trunc(#{payDate}) 
 	  	AND input_output='GB1'
+
 	  </select>
 	  
 	  <!-- 해당 월 총 소비금액 -->
@@ -89,6 +90,28 @@
 	  	SELECT MAX(ab_history_id) 
 	  	FROM acc_book_history 
 	  	WHERE member_id = #{memberId}
+	  </select>
+	  
+	  <!-- 마이페이지 차트용 쿼리(현금) -->
+	  <select id="selectChartData" resultType="AccBookHistoryVO">
+	  	SELECT  TO_CHAR(b.dt, 'YYYY-MM') AS pay_date_month
+		        , SUM(CASE input_output WHEN 'GB1' THEN  price ELSE 0 END) input_sum
+		        , SUM(CASE input_output WHEN 'GB1' THEN  0 ELSE NVL(price,0) END) output_sum
+		        , SUM(CASE input_output WHEN 'GB1' THEN  price ELSE NVL(price,0) * -1 END) input_output_sum
+		FROM    (SELECT TRUNC(pay_date, 'MM') pay_date
+		                , input_output
+		                , price
+		        FROM acc_book_history
+		        WHERE member_id = #{memberId}
+		        AND payment_type = #{paymentType}
+		        AND TRUNC(pay_date) > LAST_DAY(ADD_MONTHS(TRUNC(sysdate, 'MM'),-12))) a
+		        ,
+		        (SELECT ADD_MONTHS(TRUNC(sysdate,'MM'),-11) + LEVEL - 1 AS dt
+		         FROM dual 
+		         CONNECT BY LEVEL <![CDATA[<=]]> (TRUNC(sysdate) - ADD_MONTHS(TRUNC(sysdate, 'MM'),-11))) b
+		WHERE b.dt = a.pay_date(+)
+		GROUP BY TO_CHAR(b.dt, 'YYYY-MM')
+		ORDER BY TO_CHAR(b.dt, 'YYYY-MM')
 	  </select>
 	  
   </mapper>

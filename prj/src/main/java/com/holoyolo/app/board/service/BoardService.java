@@ -25,7 +25,9 @@ public interface BoardService {
 
 	// 전체 레코드 수 조회
 	public int getTotalBoardRecords(JSONObject req);
-	// 조회수 증가
+
+	
+	//조회수 증가
 
 	public int addView(int vo);
 
@@ -36,5 +38,7 @@ public interface BoardService {
 	int getTotalBoardSurfRecords(JSONObject req);
 
 	
+
+	public List<BoardVO> recentBoradList(BoardVO vo); //메인용 리스트
 
 }

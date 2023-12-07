@@ -39,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
 		return resultList;
 	}
 
-//단건조회
+	//단건조회
 	@Override
 	public BoardVO selectBoard(int boardId) {
 		BoardVO vo = new BoardVO();
@@ -93,6 +93,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public List<BoardVO> recentBoradList(BoardVO vo) {
+		return boardMapper.recentBoradList(vo);
+	}
+
 	public BoardVO checkBoard(int boardId) {
 		BoardVO vo = new BoardVO();
 		vo = boardMapper.selectBoard(boardId);
@@ -115,6 +119,8 @@ public class BoardServiceImpl implements BoardService {
 		vo.setSearchWord((String)req.get("search"));
 
 		return boardMapper.getTotalBoardSurfRecords(vo);
-			}
+			
+  }
+
 
 }

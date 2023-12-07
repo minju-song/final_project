@@ -15,12 +15,11 @@
 <link rel="stylesheet" th:href="@{/user/home/css/aos.css}">
 <!-- Theme Style -->
 <link rel="stylesheet" th:href="@{/user/home/css/style.css}">
-
 </head>
 <th:block layout:fragment="mainContent">
 
 	<div class="slider-item overlay" data-stellar-background-ratio="0.5"
-		style="background-image: url('/user/home/images/hero_2.jpg');">
+		style="background-image: url('/user/home/images/banner6.png');">
 		<div class="container">
 			<div
 				class="row slider-text align-items-center justify-content-center">
@@ -45,49 +44,17 @@
 		</div>
 		<div class="container">
 			<div class="row mb-5 no-gutters">
-				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade" data-aos-delay="100">
-					<a href="portfolio-single.html" class="work-thumb">
-						<div class="work-text">
-							<h2>생활용품</h2>
-							<p>
-								2024년 가계부 싸게 팔아용<br>
-								사용감 전혀없고 깨끗합니당~<br>
-								편하게 연락주세욤
-							</p>
-						</div>
-						<img th:src="@{/user/home/images/work_1.jpg}" alt="Image" class="img-fluid">
-					</a>
-				</div>
-
-				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
-					data-aos-delay="200">
-					<a href="portfolio-single.html" class="work-thumb">
-						<div class="work-text">
-							<h2>Project Name Here</h2>
-							<p>Design</p>
-						</div> <img th:src="@{/user/home/images/work_2.jpg}" alt="Image" class="img-fluid">
-					</a>
-				</div>
-
-				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
-					data-aos-delay="300">
-					<a href="portfolio-single.html" class="work-thumb">
-						<div class="work-text">
-							<h2>Project Name Here</h2>
-							<p>Business</p>
-						</div> <img th:src="@{/user/home/images/work_3.jpg}" alt="Image" class="img-fluid">
-					</a>
-				</div>
-
-				<div class="col-sm-3 col-md-3 col-lg-3" data-aos="fade"
-					data-aos-delay="400">
-					<a href="portfolio-single.html" class="work-thumb">
-						<div class="work-text">
-							<h2>Project Name Here</h2>
-							<p>Business</p>
-						</div> <img th:src="@{/user/home/images/work_4.jpg}" alt="Image" class="img-fluid">
-					</a>
-				</div>
+				<th:block th:each="trade : ${tradeList}">
+					<div class="trade-card col-sm-2 col-md-2 col-lg-2" data-aos="fade" data-aos-delay="100">
+						<a th:href="@{/member/tradeInfo(tradeId=${trade.tradeId},sellerId=${trade.sellerId})}" class="work-thumb">
+							<div class="work-text">
+								<h2>[[${trade.tradeCategory}]]</h2>
+								<p>[[${trade.description}]]</p>
+							</div>
+							<img th:src="@{/images/} + ${trade.saveFile}" alt="Image" class="img-fluid">
+						</a>
+					</div>
+				</th:block>
 			</div>
 		</div>
 	</div>
@@ -106,149 +73,42 @@
 			<div class="nonloop-block-11 owl-carousel">
 			
 				<!--/* 모임카드 start */-->
-				<div class="item d-flex">
-					<div class="block-33 h-100 d-flex">
-						<div class="vcard d-flex mb-3 flex-sm-column">
-							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/clubprofile2.PNG}" alt="Person here">
-							</div>
-							<div class="name-text align-self-center d-flex flex-sm-column">
-								<h2 class="heading">나혼자산다</h2>
-								<span class="meta d-flex">
-									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
-									<span>코쿤캅사와디캅</span>
-								</span>
-							</div>
-						</div>
-						<div class="text d-flex flex-xl-column">
-							<div>
-								<h1 class="ranking">01</h1>
-								<blockquote>
-									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
-								</blockquote>
-							</div>
-							<div class="d-flex bottom-area">
-								<div>
-									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
-									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
+				<th:block th:each="club : ${clubList}">
+					<div class="item d-flex">
+						<div class="block-33 h-100 d-flex">
+							<div class="vcard d-flex mb-3 flex-sm-column">
+								<div class="image align-self-center">
+									<img th:src="@{/images/} + ${club.clubProfileImg}" alt="Person here">
 								</div>
-								<div class="btn_wrapper d-flex">
-									<button type="button" id="moveClubDetail">모임상세보기</button>
+								<div class="name-text align-self-center d-flex flex-sm-column">
+									<h2 class="heading">[[${club.clubName}]]</h2>
+									<span class="meta d-flex">
+										<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
+										<span>[[${club.clubLeader}]]</span>
+									</span>
+								</div>
+							</div>
+							<div class="text d-flex flex-xl-column">
+								<div>
+									<h1 class="ranking">[[${club.rnum}]]</h1>
+									<blockquote>
+										<p>&ldquo;[[${club.clubIntro}]]&rdquo;</p>
+									</blockquote>
+								</div>
+								<div class="d-flex bottom-area">
+									<div>
+										<p class="club-info"><span>가입인원 </span><span>[[${club.joinCnt}]]</span>/<span>[[${club.clubPeople}]]</span></p>
+										<p class="club-info"><span>평균성공률 </span><span>[[${club.successRate}]]</span>%</p>
+									</div>
+									<div class="btn_wrapper d-flex">
+										<button type="button" id="moveClubDetail" th:onclick="|location.href='@{/member/club/clubPage(clubId=${club.clubId})}'|">모임상세보기</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</th:block>
 				<!--/* 모임카드 end */-->
-			
-				<!--/* 모임카드 start */-->
-				<div class="item d-flex">
-					<div class="block-33 h-100 d-flex">
-						<div class="vcard d-flex mb-3 flex-sm-column">
-							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/clubprofile1.PNG}" alt="Person here">
-							</div>
-							<div class="name-text align-self-center d-flex flex-sm-column">
-								<h2 class="heading">나혼자산다</h2>
-								<span class="meta d-flex">
-									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
-									<span>코쿤캅사와디캅</span>
-								</span>
-							</div>
-						</div>
-						<div class="text d-flex flex-xl-column">
-							<div>
-								<h1 class="ranking">01</h1>
-								<blockquote>
-									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
-								</blockquote>
-							</div>
-							<div class="d-flex bottom-area">
-								<div>
-									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
-									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
-								</div>
-								<div class="btn_wrapper d-flex">
-									<button type="button" id="moveClubDetail">모임상세보기</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--/* 모임카드 end */-->
-			
-				<!--/* 모임카드 start */-->
-				<div class="item d-flex">
-					<div class="block-33 h-100 d-flex">
-						<div class="vcard d-flex mb-3 flex-sm-column">
-							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/clubprofile2.PNG}" alt="Person here">
-							</div>
-							<div class="name-text align-self-center d-flex flex-sm-column">
-								<h2 class="heading">나혼자산다</h2>
-								<span class="meta d-flex">
-									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
-									<span>코쿤캅사와디캅</span>
-								</span>
-							</div>
-						</div>
-						<div class="text d-flex flex-xl-column">
-							<div>
-								<h1 class="ranking">01</h1>
-								<blockquote>
-									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
-								</blockquote>
-							</div>
-							<div class="d-flex bottom-area">
-								<div>
-									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
-									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
-								</div>
-								<div class="btn_wrapper d-flex">
-									<button type="button" id="moveClubDetail">모임상세보기</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--/* 모임카드 end */-->
-			
-				<!--/* 모임카드 start */-->
-				<div class="item d-flex">
-					<div class="block-33 h-100 d-flex">
-						<div class="vcard d-flex mb-3 flex-sm-column">
-							<div class="image align-self-center">
-								<img th:src="@{/user/home/images/clubprofile4.jpg}" alt="Person here">
-							</div>
-							<div class="name-text align-self-center d-flex flex-sm-column">
-								<h2 class="heading">나혼자산다</h2>
-								<span class="meta d-flex">
-									<img class="leader" alt="모임장로고" src="/user/home/images/leader.svg">
-									<span>코쿤캅사와디캅</span>
-								</span>
-							</div>
-						</div>
-						<div class="text d-flex flex-xl-column">
-							<div>
-								<h1 class="ranking">01</h1>
-								<blockquote>
-									<p>&ldquo;매주 3만원으로 살기 시작하실분.. 어서 오시라요 매주 3만원으로 살기 시작하실분.. 어서 오시라요&rdquo;</p>
-								</blockquote>
-							</div>
-							<div class="d-flex bottom-area">
-								<div>
-									<p class="club-info"><span>가입인원 </span><span>3</span>/<span>10</span></p>
-									<p class="club-info"><span>평균성공률 </span><span>50</span>%</p>
-								</div>
-								<div class="btn_wrapper d-flex">
-									<button type="button" id="moveClubDetail">모임상세보기</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--/* 모임카드 end */-->
-				
 			</div>
 		</div>
 	</div>
@@ -278,39 +138,20 @@
 						<thead>
 							<tr>
 								<th scope="col">no</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">작성일자</th>
+								<th scope="col" class="td_title">제목</th>
+								<th scope="col" class="td_nickname">작성자</th>
+								<th scope="col" class="td_date">작성일자</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td scope="row">1</td>
-								<td>Mark</td>
-								<td>Otto</td>
-								<td>@mdo</td>
-							</tr>
-							<tr>
-								<td scope="row">2</td>
-								<td>Jacob</td>
-								<td>Thornton</td>
-								<td>@fat</td>
-							</tr>
-							<tr>
-								<td scope="row">3</td>
-								<td colspan="2">Larry the Bird</td>
-								<td>@twitter</td>
-							</tr>
-							<tr>
-								<td scope="row">4</td>
-								<td colspan="2">Larry the Bird</td>
-								<td>@twitter</td>
-							</tr>
-							<tr>
-								<td scope="row">5</td>
-								<td colspan="2">Larry the Bird</td>
-								<td>@twitter</td>
-							</tr>
+							<th:block th:each="info : ${infoBoard}">
+								<tr th:onclick="|location.href='@{/member/BoardInfo(boardId=${info.boardId})}'|">
+									<td scope="row">[[${info.rnum}]]</td>
+									<td class="td_title">[[${info.title}]]</td>
+									<td class="td_nickname">[[${info.nickname}]]</td>
+									<td class="td_date">[[${#dates.format(info.writeDate, 'yyyy-MM-dd')}]]</td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 				</div>
@@ -326,39 +167,20 @@
 						<thead>
 							<tr>
 								<th scope="col">no</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">작성일자</th>
+								<th scope="col" class="td_title">제목</th>
+								<th scope="col" class="td_nickname">작성자</th>
+								<th scope="col" class="td_date">작성일자</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td scope="row">1</td>
-								<td>Mark</td>
-								<td>Otto</td>
-								<td>@mdo</td>
-							</tr>
-							<tr>
-								<td scope="row">2</td>
-								<td>Jacob</td>
-								<td>Thornton</td>
-								<td>@fat</td>
-							</tr>
-							<tr>
-								<td scope="row">3</td>
-								<td colspan="2">Larry the Bird</td>
-								<td>@twitter</td>
-							</tr>
-							<tr>
-								<td scope="row">4</td>
-								<td colspan="2">Larry the Bird</td>
-								<td>@twitter</td>
-							</tr>
-							<tr>
-								<td scope="row">5</td>
-								<td colspan="2">Larry the Bird</td>
-								<td>@twitter</td>
-							</tr>
+							<th:block th:each="chat : ${chatBoard}">
+								<tr th:onclick="|location.href='@{/member/BoardInfo(boardId=${chat.boardId})}'|">
+									<td scope="row">[[${chat.rnum}]]</td>
+									<td class="td_title">[[${chat.title}]]</td>
+									<td class="td_nickname">[[${chat.nickname}]]</td>
+									<td class="td_date">[[${#dates.format(chat.writeDate, 'yyyy-MM-dd')}]]</td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 				</div>

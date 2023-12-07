@@ -52,4 +52,7 @@ public interface ClubMapper {
 	
 	//클럽삭제
 	public int delectClub(ClubVO vo);
+	
+	//베스트 클럽리스트(메인페이지용)
+	public List<ClubVO> bestClubList(ClubVO vo);
 }

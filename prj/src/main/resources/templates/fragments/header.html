@@ -22,8 +22,8 @@
 							<div class="sub_nav_wrap">
 								<div class="sub_nav">
 									<ul>
-										<li><a th:href="@{/board/info}">정보공유</a></li>
-										<li><a th:href="@{/board/chat}">수다방</a></li>
+										<li><a href="@{/board/info}" id="info">정보공유</a></li>
+										<li><a href="@{/board/chat}">수다방</a></li>
 									</ul>
 								</div>
 							</div>
@@ -35,7 +35,7 @@
 								<div class="sub_nav">
 									<ul>
 										<li><a th:href="@{/cs/help/notice}">공지사항</a></li>
-										<li><a th:href="@{/}">자주하는질문</a></li>
+										<li><a th:href="@{/cs/faq}" id="faq">자주하는질문</a></li>
 										<li><a th:href="@{/}">1:1문의</a></li>
 									</ul>
 								</div>
@@ -101,22 +101,25 @@
 		</div>
 		
 		<script>
-			let currentUri = "[[${ #request.requestURI }]]";
-			let color = 'red';
-			
-			if(currentUri == '/member/memoList') {
-				$('#memo').addClass('menu_active');
-			} else if(currentUri == '/infoBoard') {
-				$('#community').addClass('menu_active');
-			} else if(currentUri == '/clublist') {
-				$('#club').addClass('menu_active');
-			} else if(currentUri == '/tradeList') {
-				$('#trade').addClass('menu_active');
-			} else if(currentUri == '/member/accBook') {
-				$('#accBook').addClass('menu_active');
-			} else if(currentUri == '/') {
-				$('#cs').addClass('menu_active');
-			}
+			$(function(){
+				let currentUri = "[[${ #request.requestURI }]]";
+				let color = 'red';
+				
+				if(currentUri.indexOf('memo') != -1) {
+					$('#memo').addClass('menu_active');
+				} else if(currentUri.indexOf('info') != -1) {
+					$('#community').addClass('menu_active');
+					$('#infoBoard').addClass('menu_active');
+				} else if(currentUri.indexOf('club') != -1) {
+					$('#club').addClass('menu_active');
+				} else if(currentUri.indexOf('trade') != -1) {
+					$('#trade').addClass('menu_active');
+				} else if(currentUri.indexOf('accBook') != -1) {
+					$('#accBook').addClass('menu_active');
+				} else if(currentUri.indexOf('cs') != -1) {
+					$('#cs').addClass('menu_active');
+				}
+			})
 		</script>
 	</div>
 </body>

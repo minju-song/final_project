@@ -23,19 +23,24 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="/user/js/daumPostcode.js"></script>
 	
-	
 	<!--/* JavaScript */-->
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<script>
-		
+		let snsYn = "[[${#authentication.getPrincipal().memberVO.snsYn}]]";	
+	
 		// 프로필사진 툴팁관련
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip()
 		})
 		
 		$(document).ready(function () {
-			let url = $('#authView').data("url");
-			$('#authView').load(url);
+			if(snsYn == "N") {
+				let url = $('#authView').data("url");
+				$('#authView').load(url);
+			} else if(snsYn == "Y") {
+				let url = $('#infoView').data("url");
+				$('#infoView').load(url);
+			}
 		})
 		
 	</script>

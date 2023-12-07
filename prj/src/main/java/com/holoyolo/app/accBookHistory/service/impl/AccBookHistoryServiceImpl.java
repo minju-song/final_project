@@ -3,18 +3,15 @@ package com.holoyolo.app.accBookHistory.service.impl;
 
 
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.holoyolo.app.accBookHistory.mapper.AccBookHistoryMapper;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryService;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryVO;
-import com.holoyolo.app.auth.PrincipalDetails;
 
 @Service
 public class AccBookHistoryServiceImpl implements AccBookHistoryService {
@@ -83,10 +80,19 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 		return accBookHistoryMapper.deleteHistory(vo);
 	}
 
+
+	//마이페이지 차트용 데이터(멤버아이디와 가계부 결제방식 필요)
+	@Override
+	public List<AccBookHistoryVO> selectChartData(AccBookHistoryVO vo) {
+		List<AccBookHistoryVO> list = accBookHistoryMapper.selectChartData(vo);
+		return list;
+  }
+
 	@Override
 	public int getSumInputPrice(AccBookHistoryVO vo) {
 
 		return accBookHistoryMapper.getSumInputPrice(vo);
+
 	}
 
 	

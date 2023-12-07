@@ -21,7 +21,12 @@ public interface BoardMapper {
 
 	public int addView(BoardVO vo);
 
+	
+	public List<BoardVO> recentBoradList(BoardVO vo); //메인용 리스트
+
+
 	public List<BoardVO> searchBoardList(BoardVO vo);
 
 	public int getTotalBoardSurfRecords(BoardVO vo);
+
 }

@@ -234,6 +234,11 @@ public class ClubServiceImpl implements ClubService {
 		return clubMapper.delectClub(vo);
 	}
 
+	@Override
+	public List<ClubVO> bestClubList(ClubVO vo) {
+		return clubMapper.bestClubList(vo);
+	}
+
 
 
 
