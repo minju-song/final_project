@@ -16,7 +16,7 @@
 <body>
     <div layout:fragment="content">
         <div style="display: flex;">
-            <div class="info">
+            <div class="info" style="flex: 1;">
                 <div style="flex: 1;" th:if="${cardNo.equals('null')}">
                     <h4>💳 카드를 등록해주세요
                         <button type="button" class="mybtn" data-toggle="modal" data-target="#amountSetting"
@@ -62,7 +62,9 @@
                     </h4>
                 </div>
             </div>
-
+            <div class="aboutNotice" style="flex: 1;" onclick="aboutNotice()">
+                <p>가계부 이용방법&#129300;</p>
+            </div>
         </div>
         <div id="divbox" style="display: flex;">
             <div id="cal" style="flex: 2;">
@@ -97,6 +99,9 @@
                 <table id="hisTable">
 
                 </table>
+                <div class="getResult">
+                    <span id="getResultText">&#128269;기록 상세보기</span>
+                </div>
                 <div class="sumDiv">
                     <h4 id="sumPrice"></h4>
                 </div>

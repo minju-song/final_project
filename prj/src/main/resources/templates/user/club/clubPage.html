@@ -73,12 +73,6 @@
                         </th:block>
                     </div>
                 </div>
-                <th:block th:if="${#authentication.Principal.memberVO.memberId eq result.club.clubLeader}">
-                    <h1>모임장</h1>
-                </th:block>
-                <th:block th:if="${session.check eq true}">
-                    <h1>모임원맞음</h1>
-                </th:block>
             </div>
 
 
@@ -89,11 +83,13 @@
                     <div th:text="${#dates.format(result.end, 'yyyy년 MM월 dd일')}"></div> -->
                     <th:block th:if="${session.check eq true}">
                         <span>[[${result.start}]] - [[${result.end}]]</span>
-                        <div th:each="member : ${result.members}" >
+                        <div th:each="member : ${result.members}">
                             <th:block th:if="${member.memberId == result.club.clubLeader}">
                                 <p><img class="kingImg" th:src="@{/user/images/club/king.png}">
-                                    <span class="nickname" th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
-                                        th:data-member-id="${member.memberId}" th:data-member-name="${member.memberName}"
+                                    <span class="nickname"
+                                        th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
+                                        th:data-member-id="${member.memberId}"
+                                        th:data-member-name="${member.memberName}"
                                         th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
                                         data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
@@ -102,8 +98,10 @@
                                 <p><img class="kingImg" th:src="@{/user/images/club/notking.png}"
                                         th:data-member-id="${member.memberId}"
                                         th:onclick="mandate(this.getAttribute('data-member-id'))">
-                                    <span class="nickname" th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
-                                        th:data-member-id="${member.memberId}" th:data-member-name="${member.memberName}"
+                                    <span class="nickname"
+                                        th:onclick="memberInfo(this.getAttribute('data-member-id'), this.getAttribute('data-member-name'))"
+                                        th:data-member-id="${member.memberId}"
+                                        th:data-member-name="${member.memberName}"
                                         th:title="|${#numbers.formatInteger(member.sumPrice, 0, 'COMMA')}원|"
                                         data-toggle="tooltip" data-placement="top">[[${member.memberName}]]님</span>
                                 </p>
@@ -199,7 +197,7 @@
             let leader = (userId === /*[[${result.club.clubLeader}]]*/ null) ? true : false;
             let clubLeader = /*[[${result.club.clubLeader}]]*/ null;
             let clubName = /*[[${result.club.clubName}]]*/ null;
-      
+
             //클럽탈퇴버튼
             // let outClubBtn = document.getElementById('outClub');
             // outClubBtn.addEventListener("click", outClub);

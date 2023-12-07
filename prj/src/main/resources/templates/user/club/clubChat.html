@@ -5,76 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <style>
-        #chattingDiv {
-            background-color: darkcyan;
-            width: 100%;
-            height: 500px;
-            margin-bottom: 20px;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        #sendArea {
-            width: 80%;
-            border-radius: 20px;
-            height: 50px;
-            padding: 10px;
-            border: 3px solid #ffc107;
-        }
-
-        .me,
-        .other {
-            width: 300px;
-            /* color: white; */
-            font-weight: bold;
-            border-radius: 20px;
-            padding: 10px;
-            color: black;
-        }
-
-        .other {
-            background-color: white;
-
-        }
-
-        .me {
-            background-color: #ffc107;
-
-        }
-
-        .sender {
-            color: white;
-        }
-
-        .me_div {
-            display: flex;
-            justify-content: end;
-        }
-
-        .me_div>.box>.sender {
-            text-align: end;
-        }
-
-        .enter {
-            color: white;
-            text-align: center;
-        }
-
-        #sendChat {
-            width: 100px;
-        }
-
-        #size {
-            font-size: smaller;
-            color: orangered;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="/user/css/clubChat.css">
 </head>
 
 <body>
     <div layout:fragment="content">
         <h3>&#128155;[[${result.club.clubName}]]&#128155;<span id="size"></span> </h3>
+        <div id="noticeBox" onclick="noticeList()"><img class="noticeImg"
+                th:src="@{/user/images/club/chat/notice.png}"><span id="noticeText"></span></div>
         <div id="chattingDiv">
             <!-- <div class="msg">
                 <div class="other">
@@ -83,8 +23,8 @@
                 <p class="sender">수신자</p>
             </div> -->
         </div>
-        <div style="display: flex; justify-content: space-around;" >
-            <input  id="sendArea">
+        <div style="display: flex; justify-content: space-around;">
+            <textarea id="sendArea"></textarea>
             <button class="btn btn-warning" id="sendChat" onclick="sendMsg()">전송</button>
         </div>
 
@@ -95,127 +35,7 @@
             let room = /*[[${room}]]*/ null;
         </script>
 
-        <script>
-            console.log(memberName);
-            let data = {};
-
-            let ws;
-            let sendBtn = document.getElementById('sendChat');
-            let msg = document.getElementById('sendArea');
-            let chatBox = document.getElementById('chattingDiv');
-
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-
-
-
-            $(document).ready(function () {
-                console.log(memberId);
-                ws = new WebSocket("ws://" + location.host + "/chat?clubId=" + clubId);
-
-                ws.onmessage = function (msg) {
-                    let data = JSON.parse(msg.data);
-                    console.log(data);
-
-
-                    drawChat(data);
-                }
-            });
-
-            msg.onkeyup = function (e) {
-                if (e.keyCode == 13) {
-                    send();
-                }
-            }
-
-            sendBtn.onclick = function () {
-                send();
-            }
-
-            function send() {
-                if (msg.value.trim() != '') {
-                    data.memberId = memberId;
-                    data.msg = msg.value;
-                    data.date = new Date().toLocaleString();
-                    data.clubId = clubId;
-                    data.memberName = memberName;
-                    data.type = 'msg';
-                    let temp = JSON.stringify(data);
-                    ws.send(temp);
-                    console.log(temp);
-
-                    fetch("/member/insertChat", {
-                        method: "POST",
-                        body: temp,
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.result == 'success') {
-                                console.log('디비저장성공');
-                            }
-                            else {
-                                console.log('디비저장실패');
-                            }
-                        })
-
-                }
-
-                msg.value = '';
-            }
-
-            function drawChat(data) {
-                if (data.type == 'msg') {
-                    let div = document.createElement('div');
-
-
-                    let divbox = document.createElement('div');
-                    divbox.setAttribute('class', 'box');
-
-                    let div2 = document.createElement('div');
-
-
-                    div2.innerText = data.msg;
-
-                    let p = document.createElement('p');
-                    p.setAttribute('class', 'sender');
-
-                    if (data.memberId == memberId) {
-                        div.classList.add('msg', 'me_div');
-                        div2.setAttribute('class', 'me');
-                        p.innerHTML = '<span style="padding:0 15px;">' + data.date + '</span>' + ' 나';
-                    }
-                    else {
-                        div.classList.add('msg', 'other_div');
-                        div2.setAttribute('class', 'other');
-                        p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date + '</span>';
-                    }
-
-                    divbox.appendChild(div2);
-                    divbox.appendChild(p);
-                    div.appendChild(divbox);
-                    chatBox.appendChild(div);
-                }
-
-                else if (data.type == 'enter') {
-                    let p = document.createElement('p');
-                    p.setAttribute('class', 'enter');
-                    p.innerText = data.msg
-                    chatBox.appendChild(p);
-                }
-
-                else if (data.type == 'size') {
-                    let sizeSpan = document.getElementById('size');
-                    sizeSpan.innerText = data.size+'명 접속 중';
-                }
-
-                chatBox.scrollTop = chatBox.scrollHeight;
-
-            }
-
-        </script>
+        <script th:src="@{/user/js/clubChat.js}" defer></script>
     </div>
 </body>
 

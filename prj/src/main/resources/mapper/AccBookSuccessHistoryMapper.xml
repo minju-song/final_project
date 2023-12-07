@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.holoyolo.app.accBookSuccessHistory.mapper.AccBookSuccessHistoryMapper">
   	
+  	<!-- 날짜마다 성공여부가져오기 -->
   	<select id="getSuccessByDay" resultType="AccBookSuccessHistoryVO">
         SELECT ab.success_state 
         FROM acc_book_success_history ab 
@@ -13,13 +14,32 @@
         AND budget.member_id = #{memberId}
   	</select>
   	
+  	<!-- 성공여부 넣어주기 -->
   	<update id="insertSuccess" parameterType="java.util.HashMap">
         {call test1(#{memberId, mode=IN, jdbcType=VARCHAR})}
     </update>
     
+    <!-- 진행중 삭제 -->
     <delete id="deleteIng" parameterType="String">
     	DELETE acc_book_success_history 
     	WHERE member_id = #{memberId} 
     	AND success_state = 'SU3'
     </delete>
+    
+    <!-- 날짜별 성공기록 -->
+    <select id="getSuccessRecord" parameterType="AccBookSuccessHistoryVO">
+    <![CDATA[ 
+      SELECT suc.*, ac.acc_budget_price as goal_price, ac.acc_budget_unit as goal_unit, (
+                                                            SELECT sum(price)
+                                                            FROM acc_book_history
+                                                            WHERE trunc(pay_date) >= trunc(suc.start_date)
+                                                            AND trunc(pay_date) <= trunc(suc.end_date)
+                                                            AND member_id = #{memberId}
+                                                            AND input_output = 'GB2') as sum_price
+      FROM acc_book_success_history suc JOIN acc_budget ac ON suc.acc_budget_id = ac.acc_budget_id
+      WHERE suc.member_id = #{memberId}
+      AND trunc(suc.start_date) <= #{startDate}
+      AND trunc(suc.end_date) >= #{startDate}
+      ]]>
+    </select>
   </mapper>

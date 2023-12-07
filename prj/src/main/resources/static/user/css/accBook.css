@@ -121,7 +121,7 @@
             padding: 10px;
             margin-left: 5px;
             margin-right: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
 
@@ -219,7 +219,8 @@
         .sumDiv {
             position: absolute;
             top: 90%;
-            left: 68%;
+            left: 65%;
+            width: 300px;
         }
 
         #hisTable {
@@ -237,6 +238,22 @@
 
         .blue {
             color: rgb(12, 12, 190);
+        }
+
+        .getResult > span, .aboutNotice > p{
+            color: #7a9cc6;
+            font-weight: bold;
+        }
+
+        .aboutNotice > p {
+            margin: 0;
+            padding: 20px;
+        }
+
+        .aboutNotice {
+            padding: 10px;
+            text-align: end;
+           
         }
         
         

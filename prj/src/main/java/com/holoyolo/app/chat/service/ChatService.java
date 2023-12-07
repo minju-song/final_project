@@ -2,7 +2,9 @@ package com.holoyolo.app.chat.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -64,7 +66,7 @@ public class ChatService {
         return chatRoom;
     }
     
-    //채팅 저장
+    //공지사항 저장
     public int insertChat(String chat) {
     	System.out.println("들어온 메시지 : "+chat);
     	
@@ -90,5 +92,22 @@ public class ChatService {
     	
     	return chatRoomMapper.insertChat(chatObj);
     }
+    
+	//제일 마지막 공지사항 가져오기
+	public String getLatestNotice(int clubId) {
+		
+		return chatRoomMapper.getLatestNotice(clubId);
+	};
+	
+	//공지사항 리스트 가져오기
+	public Map<String, Object> getNoticeList(int clubId) {
+		Map<String, Object> map = new HashMap<>();
+		List<ChatVO> list = chatRoomMapper.getNoticeList(clubId);
+		
+		map.put("list", list);
+		
+		return map;
+	}
+	
 
 }

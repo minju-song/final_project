@@ -104,4 +104,17 @@ public class ChatController {
 		return map;
 	}
 	
+	@GetMapping("/getLatestNotice")
+	@ResponseBody
+	public String getLatestNotice(ClubVO vo) {
+
+		return chatService.getLatestNotice(vo.getClubId());
+	}
+	
+	@GetMapping("/getNoticeList")
+	@ResponseBody
+	public Map<String, Object> getNoticeList(ClubVO vo) {
+		return chatService.getNoticeList(vo.getClubId());
+	}
+	
 }
