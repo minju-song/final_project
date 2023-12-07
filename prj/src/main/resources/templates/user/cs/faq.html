@@ -5,8 +5,46 @@
 <head>
 <meta charset="utf-8">
 <title>holoyolo::자주하는 질문</title>
+<link rel="stylesheet" type="text/css" th:href="@{/common/styles/contact.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/common/styles/contact_responsive.css}">
 </head>
-<body>
+<body >
+<th:block layout:fragment="content">
+	<!--/* FAQ */-->
+	<div class="col-lg-12">
+		<div class="faq">
+			<h2 class="h2_title">FAQ</h2>
+			<div class="faq_content">
+				<!-- Accordions -->
+				<div class="accordions">
 
+					<div class="accordion_container">
+						<div class="accordion d-flex flex-row align-items-center"><div>Lorem ipsum dolor sit amet, consectetur?</div></div>
+						<div class="accordion_panel">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis quam ipsum. Pellentesque consequat tellus non tortor tempus, id egestas elit iaculis. Proin eu dui porta, pretium metus vitae, pharetra odio. Sed ac mi commodo, pellentesque erat eget, accumsan justo.</p>
+						</div>
+					</div>
+
+					<div class="accordion_container">
+						<div class="accordion d-flex flex-row align-items-center"><div>Ipsum dolor sit amet, consectetur?</div></div>
+						<div class="accordion_panel">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis quam ipsum. Pellentesque consequat tellus non tortor tempus, id egestas elit iaculis. Proin eu dui porta, pretium metus vitae, pharetra odio. Sed ac mi commodo, pellentesque erat eget, accumsan justo.</p>
+						</div>
+					</div>
+
+					<div class="accordion_container">
+						<div class="accordion d-flex flex-row align-items-center active"><div>Proin eu dui porta, pretium metus vitae?</div></div>
+						<div class="accordion_panel">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis quam ipsum. Pellentesque consequat tellus non tortor tempus, id egestas elit iaculis. Proin eu dui porta, pretium metus vitae, pharetra odio. Sed ac mi commodo, pellentesque erat eget, accumsan justo.</p>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/common/js/contact_custom.js}"></script>
+</th:block>
 </body>
 </html>
