@@ -77,6 +77,8 @@ function loadData(page, search) {
         boardType = "AA3"
     } else if (searchBoardSet == "/board/info") {
         boardType = "AA2"
+    } else if (searchBoardSet == "/member/notice") {
+        boardType = "AA6"
     }
     //검색 설정
     if (search != null && search != '') {
@@ -709,7 +711,7 @@ function updateReply(replyId, content) {
         }
     })
 }
-
+//신고
 function reportFormSet() {
     console.log('신고')
     // 1. URL 쿼리 스트링에서 게시글 번호 조회
@@ -724,10 +726,9 @@ function reportFormSet() {
         success: function (data) {
             thisBoard = data.board;
             const { value: formValues } = Swal.fire({
-                title: `${thisBoard.nickname}을 신고하시겠습니까`,
+                title: `신고하시겠습니까`,
                 html: `
                 <div class="container">
-                    <p>신고 대상 : ${thisBoard.nickname}</p>
                     <div class="row">
                         <label class="col-3">신고 유형</label>
                         <select id="reportType" class="col-3 custom-select justify-content-end" >
@@ -759,18 +760,14 @@ function reportFormSet() {
                         data: JSON.stringify({ "reportedId": thisBoard.memberId, "reportType": reportType, "reportContent": reportContent, "postId": thisBoard.boardId, "menuType": thisBoard.menuType }),
                         success: function (data) {
                             console.log(data)
-                            // Swal.fire({
-                            //     title: "",
-                            //     text: data.resultMsg,
-                            //     icon: "success",
-                            //     closeOnClickOutside: false
-                            // }).then(function () {
-                            //     let updateBtnId = document.getElementById('replyUpdateBtn' + replyId);
-                            //     $(updateBtnId).prop('disabled', false);
-
-                            //     document.getElementById("rowReplyFormArea_" + replyId).remove();
-                            //     replyLoad(1);
-                            // })
+                            Swal.fire({
+                                title: "",
+                                text: data.resultMsg,
+                                icon: "success",
+                                closeOnClickOutside: false
+                            }).then(function () {
+                                location.href='/board/info'
+                            })
                         },
                         error: function (request, status, error) {
                             console.error("error: " + error);

@@ -144,7 +144,6 @@ public class BoardController {
 			mo.addAttribute("boardList", "0");
 		}
 		mo.addAttribute("boardType", "수다방");
-		mo.addAttribute("likeCount", 0);
 		mo.addAttribute("username", username);
 		mo.addAttribute("menu", "community");
 		return "user/community/boardList";
@@ -175,7 +174,6 @@ public class BoardController {
 		return result;
 	}
 
-	
 	
 	
 }

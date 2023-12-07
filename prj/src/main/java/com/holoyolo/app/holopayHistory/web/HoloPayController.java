@@ -103,7 +103,7 @@ public class HoloPayController {
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		// api 호출
 		JSONObject apiResult = holopayRechargeApi.getPosts(apiRequest);
-
+System.out.println(apiResult);
 		JSONObject header = (JSONObject) apiResult.get("Header");
 		String resultStatus = (String) header.get("Rpcd");
 		String resultMsg = "";
@@ -169,6 +169,7 @@ public class HoloPayController {
 		JSONObject header = (JSONObject) apiResult.get("Header");
 		String resultStatus = (String) header.get("Rpcd");
 
+		
 		// 응답 후 데이터 반환
 		String resultMsg = "";
 
@@ -184,10 +185,12 @@ public class HoloPayController {
 				SimpleDateFormat dateformat = new SimpleDateFormat("yyMMdd");
 				formatset = dateformat.parse(Tsymd);
 				holoPayHistoryVO.setHpDate(formatset);
+				
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
 
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
 				System.out.println(checkResultType);
+				
 				if (checkResultType == 2) {
 					resultMsg = (String) req.get("Tram") + "원 인출되었습니다.";
 					returnData.addProperty("resultMsg", resultMsg);
