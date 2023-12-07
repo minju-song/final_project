@@ -22,7 +22,7 @@
 
     <div class="container">
 
-        <h4 th:if="${board.menuType}== AA2">자유게시판</h4>
+        <h4 th:if="${board.menuType}== AA2">정보공유</h4>
         <h4 th:if="${board.menuType}== AA3">수다방</h4>
 
 
@@ -180,6 +180,16 @@
         document.getElementById('deletPostBtn')
             .addEventListener('click', (e) => deletePost());
 
+        //사이드메뉴 표시
+        $(function(){
+        	let menu_type = "[[${board.menuType}]]"
+        	if(menu_type == 'AA2') {
+	          $('#_infoBoard').addClass('submenu_active');
+	        } else if(menu_type == 'AA3') {
+	          $('#_chatBoard').addClass('submenu_active');
+	        }
+        })
+        
     </script>
     <script th:inline="javascript">
         /*<![CDATA[*/
