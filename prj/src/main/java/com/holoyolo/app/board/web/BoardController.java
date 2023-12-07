@@ -167,7 +167,7 @@ public class BoardController {
 	public Map<String, Object> searchBoardLoad(@RequestBody JSONObject req) {
 		System.out.println(req);
 		List<BoardVO> resultList = boardService.searchBoardSurfPaged(req);
-		int totalRecords = boardService.getTotalBoardRecords(req);
+		int totalRecords = boardService.getTotalBoardSurfRecords(req);
 		Map<String, Object> result = new HashMap<>();
 		result.put("historyList", resultList);
 		result.put("totalRecords", totalRecords);

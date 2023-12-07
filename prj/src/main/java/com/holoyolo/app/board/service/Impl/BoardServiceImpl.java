@@ -101,13 +101,20 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVO> searchBoardSurfPaged(JSONObject req) {
-		int start = (int) req.get("start");
-		int end = (int) req.get("end");
-		String search = (String) req.get("search");
+				String search = (String) req.get("search");
 		String searchType = (String) req.get("searchType");
 		String menuType = (String) req.get("type");
-		List<BoardVO> allList = BoardList(menuType, search, searchType);
-		return allList.subList(start, Math.min(end, allList.size()));
+		return BoardList(menuType, search, searchType);
 	}
+
+	@Override
+	public int getTotalBoardSurfRecords(JSONObject req) {
+		BoardVO vo = new BoardVO();
+		vo.setMenuType((String) req.get("type"));
+		vo.setSearchOption((String)req.get("searchType"));
+		vo.setSearchWord((String)req.get("search"));
+
+		return boardMapper.getTotalBoardSurfRecords(vo);
+			}
 
 }

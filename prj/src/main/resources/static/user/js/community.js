@@ -91,12 +91,10 @@ function loadData(page, search) {
         data: JSON.stringify({ "start": start, "end": end, "type": boardType, "search": search, "searchType": searchOption }),
         success: function (data) {
             updateTable(data, page, "");
-            // 페이징 처리
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
             setupPagination(totalPages);
         },
         error: function (error) {
-
         }
     });
 }
@@ -457,7 +455,7 @@ function insertReply() {
     });
 }
 
-// 페이지 버튼 생성
+// 댓글페이지 버튼 생성
 function setupReplyPagination(totalPages) {
     let paginationContainer = document.getElementById("pagination-container");
 
@@ -747,37 +745,37 @@ function reportFormSet() {
                     </div>
                 </div>           
                 `,
-           width: '35%',
-           height: '40%',
+                width: '35%',
+                height: '40%',
                 focusConfirm: false,
                 preConfirm: () => {
-                   let reportType = document.getElementById("reportType").value;
-                   let reportContent = document.getElementById("reportContent").value;
+                    let reportType = document.getElementById("reportType").value;
+                    let reportContent = document.getElementById("reportContent").value;
 
-                   $.ajax({
-                    type: 'POST',
-                    url: '/insertReport',
-                    contentType: 'application/json;charset=UTF-8',
-                    data: JSON.stringify({"reportedId" : thisBoard.memberId ,  "reportType": reportType, "reportContent": reportContent , "postId" : thisBoard.boardId, "menuType" : thisBoard.menuType}),
-                    success: function (data) {
-                        console.log(data)
-                        // Swal.fire({
-                        //     title: "",
-                        //     text: data.resultMsg,
-                        //     icon: "success",
-                        //     closeOnClickOutside: false
-                        // }).then(function () {
-                        //     let updateBtnId = document.getElementById('replyUpdateBtn' + replyId);
-                        //     $(updateBtnId).prop('disabled', false);
-            
-                        //     document.getElementById("rowReplyFormArea_" + replyId).remove();
-                        //     replyLoad(1);
-                        // })
-                    },
-                    error: function (request, status, error) {
-                        console.error("error: " + error);
-                    }
-                })
+                    $.ajax({
+                        type: 'POST',
+                        url: '/insertReport',
+                        contentType: 'application/json;charset=UTF-8',
+                        data: JSON.stringify({ "reportedId": thisBoard.memberId, "reportType": reportType, "reportContent": reportContent, "postId": thisBoard.boardId, "menuType": thisBoard.menuType }),
+                        success: function (data) {
+                            console.log(data)
+                            // Swal.fire({
+                            //     title: "",
+                            //     text: data.resultMsg,
+                            //     icon: "success",
+                            //     closeOnClickOutside: false
+                            // }).then(function () {
+                            //     let updateBtnId = document.getElementById('replyUpdateBtn' + replyId);
+                            //     $(updateBtnId).prop('disabled', false);
+
+                            //     document.getElementById("rowReplyFormArea_" + replyId).remove();
+                            //     replyLoad(1);
+                            // })
+                        },
+                        error: function (request, status, error) {
+                            console.error("error: " + error);
+                        }
+                    })
                 }
             });
         },

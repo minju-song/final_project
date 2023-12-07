@@ -22,4 +22,6 @@ public interface BoardMapper {
 	public int addView(BoardVO vo);
 
 	public List<BoardVO> searchBoardList(BoardVO vo);
+
+	public int getTotalBoardSurfRecords(BoardVO vo);
 }

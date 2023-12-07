@@ -96,6 +96,20 @@
     WHERE MENU_TYPE = #{menuType}
     </select>
     
+    
+    <select id="getTotalBoardSurfRecords" resultType="int" >
+	SELECT COUNT(*)
+    FROM BOARD b
+    JOIN member m ON b.member_id = m.member_id
+    WHERE MENU_TYPE = #{menuType}
+       <if test="searchOption == 'title'">
+            AND b.title LIKE '%'||#{searchWord}||'%'
+        </if>
+        <if test="searchOption == 'writer'">
+            AND m.nickname LIKE '%'||#{searchWord}||'%'
+        </if>
+    </select>
+    
 	<update id="addView" parameterType="BoardVO">
 	UPDATE BOARD 
 	SET  VIEWS = (

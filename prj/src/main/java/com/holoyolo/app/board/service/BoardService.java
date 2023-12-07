@@ -32,6 +32,8 @@ public interface BoardService {
 	BoardVO checkBoard(int boardId);
 
 	List<BoardVO> searchBoardSurfPaged(JSONObject req);
+//검색 결과 수 조회
+	int getTotalBoardSurfRecords(JSONObject req);
 
 	
 
