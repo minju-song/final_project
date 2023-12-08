@@ -8,6 +8,12 @@
 	url('https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap')
 	;
 
+
+.bg-light {
+	background: url('/user/home/images/vedio.gif');
+    background-size: 49%;
+    background-color: rgba(255,255,255,0.9);
+}
 .slider-item:before {
 	background: none !important; 
 	opacity: 1 !important;

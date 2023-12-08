@@ -6,6 +6,9 @@
 .space_between {
 	justify-content: space-between;
 }
+.flex-end {
+	justify-content: flex-end;
+}
 .m-top {
 	margin-top: 20px;
 }
@@ -28,6 +31,9 @@
 }
 
 /* 검색 */
+#searchTitle {
+	min-width: 110px;
+}
 .search-wrap {
 	height: 40px;
 	gap: 10px;
