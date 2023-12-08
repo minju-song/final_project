@@ -5,6 +5,7 @@ console.log("admin-report.js 작업중");
 $(document).ready(function () {
 	function renderReportProcessForm(status, type) {
 		$("#reportArea").empty();
+		console.log(window.location.search.split('=')[1])
 		let reportId = window.location.search.split('=')[1];
 
 		$.ajax({

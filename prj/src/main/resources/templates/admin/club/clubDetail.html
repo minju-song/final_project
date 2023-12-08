@@ -15,43 +15,68 @@
 			<div class="card card-admin-container">
 				<div class="p-5 overflow-auto scrollBar">
 					<!-- 문의 제목 -->
-					<div class="d-flex">
-						<h5 class="fw-bold">테스트문의제목1</h5>
-						<h5 class="text-warning ms-3 fw-bold">답변대기</h5>
+					<div class="d-flex bd-highlight">
+						<div class="me-auto d-flex bd-highlight">
+							<h5 th:text="${info.clubId}"
+								class="badge bg-label-primary fw-bold">테스트문의제목1</h5>
+							<h5 th:text="${info.clubName}" class="text-primary ms-3 fw-bold"></h5>
+						</div>
+						<div class="bd-highlight me-2">
+							<button id="clubDelete" class="btn btn-outline-danger fw-bold">삭제하기</button>
+						</div>
+
 					</div>
 					<!-- /문의 제목 -->
 					<div class="row">
 						<!-- 회원 문의 -->
 						<div class="col-md p-4">
 							<div class="d-flex mb-3">
-								<div class="flex-shrink-0">
+								<!-- 		<div class="flex-shrink-0">
 									<img src="/admin/assets/img/avatars/1.png" alt="facebook"
 										class="me-3 rounded" height="36" />
-								</div>
+								</div> -->
 								<div class="flex-grow-1 row">
 									<div class="col-12 col-sm-12 mb-sm-0 mb-2">
-										<h6 class="mb-0">1:1 문의</h6>
-										<span class="text-info">회원아이디</span>
-										<span class="text-secondary ms-3">2023-11-09 22:12</span>
+										<h6 class="fw-bold ">
+											리더 <span th:text="${info.clubLeader}"
+												class="badge bg-label-info"></span>
+										</h6>
+										<h6 class="fw-bold">
+											인원 <span th:text="${info.joinCnt}+' / '+${info.clubPeople}"
+												class="badge bg-label-info"></span>
+										</h6>
+										<h6 class="fw-bold">
+											성공 <span th:text="${info.successCnt}"
+												class="badge bg-label-success"></span>
+										</h6>
+										<h6 class="fw-bold">
+											예산 <span th:text="${info.price}"
+												class="badge bg-label-warning"></span>
+										</h6>
+										<h6 class="fw-bold mb-1">소개</h6>
+										<span th:text="${info.clubIntro}"></span>
+										<!-- <h6 th:text="'🏴 '+${info.clubLeader}" class="mb-0">1:1 문의</h6>
+										<span th:text="'😀 '+${info.joinCnt}+' / '+${info.clubPeople}" class="text-info">회원아이디</span>
+										<span th:text="${#dates.format(info.clubDate, 'yyyy-MM-dd hh:mm')}" class="text-secondary ms-3">2023-11-09 22:12</span> -->
 									</div>
 								</div>
 							</div>
 
-							<p class="mt-4">답변 내용</p>
 							<img alt="사진" src="/admin/assets/img/avatars/1.png">
 						</div>
 						<!-- /회원 문의 -->
 						<!-- 관리자 답변 -->
-						<div class="col-md p-4 position-relative">
-							<form action="/admin/question/detail" method="post">
-								<input type="hidden" name="questionId" /> <span class="fw-bold">답변
+						<div id="deleteReason" class=" col-md p-4 position-relative d-none">
+ 							<form id="deleteReasonForm" class="">
+								<input type="hidden" name="clubId" th:value="${info.clubId}"/> <span class="fw-bold">사유
+								<input type="hidden" name="clubName" th:value="${info.clubName}"/> <span class="fw-bold">사유
 									작성</span>
 								<div class="mt-2">
-									<textarea class="form-control" id="answer" name="answerContent"
+									<textarea class="form-control" name="text"
 										placeholder="내용을 입력해주세요." rows="15"></textarea>
 								</div>
 								<div class="mt-2 position-absolute end-0">
-									<button type="submit" class="btn btn-primary me-4">보내기</button>
+									<button type="submit" class="btn btn-danger me-4">삭제하기</button>
 								</div>
 							</form>
 						</div>
@@ -60,6 +85,7 @@
 				</div>
 			</div>
 		</div>
+		<script type="module" th:src="@{/admin/assets/js/admin-club.js}"></script>
 	</div>
 </body>
 

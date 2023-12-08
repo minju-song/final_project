@@ -162,5 +162,33 @@ public class EmailService {
         String path = "/user/mailbody/request";
         return templateEngine.process(path, context);
     }
+    
+    public String deleteReason(EmailVO emailVO) {
+    	MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		try {
+			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+			mimeMessageHelper.setTo(emailVO.getTo()); // 수신자
+			mimeMessageHelper.setSubject(emailVO.getSubject()); // 제목
+			mimeMessageHelper.setText(setContextDeleteReason(emailVO.getClubId(),emailVO.getClubName(), emailVO.getText()), true); // 메일 본문 내용, HTML 여부
+			javaMailSender.send(mimeMessage);
+			
+			log.info("Mail Send Success");
+			return "success";
+			//return authNum;
+			
+		} catch(MessagingException e) {
+			log.info("Mail Send Fail");
+			throw new RuntimeException(e);
 
+		}
+    }
+    
+    public String setContextDeleteReason(int clubId,String clubName, String text) {
+        Context context = new Context();
+        context.setVariable("club", clubId); //클럽아이디
+        context.setVariable("clubName", clubName); //클럽이름
+        context.setVariable("text", text); // 삭제사유
+        String path = "/user/mailbody/deleteReason";
+        return templateEngine.process(path, context);
+    }
 }

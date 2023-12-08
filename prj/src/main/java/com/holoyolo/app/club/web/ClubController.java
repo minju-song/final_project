@@ -2,9 +2,7 @@ package com.holoyolo.app.club.web;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -13,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -251,14 +248,26 @@ public class ClubController {
 		
 		return clubMap;
 	}
-	
+	// 상세페이지
 	@GetMapping("/admin/club/detail")
-	@ResponseBody
-	public String selectClubDetail(ClubVO clubVO, Model model) {
+	public String goClubDetail(ClubVO clubVO, Model model) {
 		Map<String, Object> getclubInfo = clubService.getClubDetail(clubVO);
-		model.addAttribute("clubInfo", getclubInfo.get("clubInfo"));
+		model.addAttribute("info", getclubInfo.get("clubInfo"));
 		return "admin/club/clubDetail";
 	}
+
+	// 삭제
+	@DeleteMapping("/admin/club/delete")
+	@ResponseBody
+	public String deleteClub(ClubVO clubVO){
+		if(clubService.delectClub(clubVO) > 0) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+	}
+
 	
 	//마이페이지 나의 알뜰모임 페이지
 	@GetMapping("/member/myClub")
