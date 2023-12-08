@@ -120,22 +120,24 @@
 				</span>
 			</div>
 		</div>
-		<div class="form_wrap">
-			<!--/* 새비밀번호 */-->
-			<div class="hl_label">
-				<span class="attr_name hl_title">새비밀번호</span>
-				<input type="password" class="input form-control col_width_1" id="password" name="password" required="required" autocomplete="off"
-					   placeholder="새로운 비밀번호를 입력해 주세요" onfocus="this.placeholder = '새로운 비밀번호를 입력해 주세요'" onblur="this.placeholder = '새로운 비밀번호를 입력해 주세요'">
+		<th:block th:if="${#authentication.getPrincipal().memberVO.snsYn} == 'N'">
+			<div class="form_wrap">
+				<!--/* 새비밀번호 */-->
+				<div class="hl_label">
+					<span class="attr_name hl_title">새비밀번호</span>
+					<input type="password" class="input form-control col_width_1" id="password" name="password" required="required" autocomplete="off"
+						   placeholder="새로운 비밀번호를 입력해 주세요" onfocus="this.placeholder = '새로운 비밀번호를 입력해 주세요'" onblur="this.placeholder = '새로운 비밀번호를 입력해 주세요'">
+				</div>
+				<!--/* 새비밀번호 확인 */-->
+				<div class="hl_label">
+					<span class="attr_name hl_title">새비밀번호 확인</span>
+					<span class="input_wrap my_flex">
+						<input type="password" class="input form-control col_width_2" id="passwordCheck" autocomplete="off" required="required" placeholder="새로운 비밀번호를 한번 더 입력해 주세요">
+						<button type="button" class="form_btn btn_disabled" id="passwordUpdate" disabled="disabled">변경하기</button>
+					</span>
+				</div>
 			</div>
-			<!--/* 새비밀번호 확인 */-->
-			<div class="hl_label">
-				<span class="attr_name hl_title">새비밀번호 확인</span>
-				<span class="input_wrap my_flex">
-					<input type="password" class="input form-control col_width_2" id="passwordCheck" autocomplete="off" required="required" placeholder="새로운 비밀번호를 한번 더 입력해 주세요">
-					<button type="button" class="form_btn btn_disabled" id="passwordUpdate" disabled="disabled">변경하기</button>
-				</span>
-			</div>
-		</div>
+		</th:block>
 	</form>
 	<!--/* 개인정보 폼 end */-->
 	

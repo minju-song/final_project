@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        .card {
+            height: 450px;
+            margin: 10px;
+        }
+
+        .profile {
+            height: 247px;
+            object-fit: cover;
+        }
+
+        .club_intro {
+            width: 100%;
+            height: 100px;
+        }
+
+        .imgDiv {
+            height: 247px;
+            /* border: 1px solid palevioletred; */
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h3>나의 알뜰모임</h3>
+        <div style="display: flex; justify-content: center;">
+            <div class="listDiv row" style="justify-content: first baseline; width: 100%;">
+                <th:block th:each="club : ${result.clubs}">
+                    <div class="card" style="width: 18rem;" th:onclick="goClub(`[[${club.clubId}]]`)">
+                        <div class="imgDiv">
+                            <img th:src="@{/images/}+${club.clubProfileImg}" class="card-img-top profile" alt="...">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">[[${club.clubName}]]</h4>
+                            <div class="club_intro">
+                                <p class="card-text">[[${club.clubIntro}]]</p>
+                            </div>
+                            <th:block th:if="${#authentication.Principal.memberVO.memberId eq club.clubLeader}">
+                                <a href="#" class="btn btn-danger">모임장</a>
+                            </th:block>
+                            <th:block th:if="${#authentication.Principal.memberVO.memberId != club.clubLeader}">
+                                <a href="#" class="btn btn-primary">모임원</a>
+                            </th:block>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            let clubs = /*[[${result.clubs}]]*/ null;
+
+        </script>
+        <script>
+            for (let i = 0; i < clubs.length; i++) {
+                console.log(clubs[i]);
+            }
+
+
+            function goClub(clubId) {
+                console.log(clubId);
+                location.href = '/member/club/clubPage?clubId=' + clubId;
+            }
+        </script>
+    </div>
+</body>
+
+</html>
