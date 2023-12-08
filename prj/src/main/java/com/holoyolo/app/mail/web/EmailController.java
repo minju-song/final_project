@@ -120,6 +120,22 @@ public class EmailController {
 		else return "fail";
 	}
 	
-	
+	@PostMapping("/sendMail/deleteReason")
+	@ResponseBody
+	public String deleteReason(@RequestBody ClubVO vo) {
+		System.out.println("들어온 값 : "+vo);
+		EmailVO emailVO = EmailVO.builder()
+				.to("kongom2@naver.com")
+				.subject(vo.getClubName() + "모임은 삭제되었습니다.")
+				.clubId(vo.getClubId())
+				.clubName(vo.getClubName())
+				.text(vo.getText())
+				.build();
+		
+		if(emailService.deleteReason(emailVO).equals("success")) {
+			return "success";
+		}
+		else return "fail";
+	}
 	
 }
