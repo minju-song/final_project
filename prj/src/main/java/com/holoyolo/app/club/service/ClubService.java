@@ -61,5 +61,8 @@ public interface ClubService {
 	
 	//베스트 클럽리스트(메인페이지용)
 	public List<ClubVO> bestClubList(ClubVO vo);
+	
+	//마이페이지 나의 모임 페이지이동
+	public Map<String, Object> getMyClub(String id);
 
 }
