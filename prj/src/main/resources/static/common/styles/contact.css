@@ -961,8 +961,8 @@ section
 }
 .h2_title::before {
 	content: '';
-    background: royalblue;
-    color: #ffffff;
+    background: #4161bf;
+    color: #4161bf;
     display: inline-block;
     width: 3px;
     height: 17px;
