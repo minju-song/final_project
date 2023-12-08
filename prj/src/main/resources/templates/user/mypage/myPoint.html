@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        .pointDiv {
+            border: 1px solid lightgray;
+            border-radius: 20px;
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        .pointImg {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+    <!-- jQuery -->
+
+    <!-- DataTables -->
+
+    <!-- DataTables Bootstrap Integration -->
+    <!-- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    부트스트랩 CSS -->
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- DataTables CSS -->
+    <!-- <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
+
+    <link href="/user/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div id="content">
+            <div class="pointDiv">
+                <h3><img class="pointImg" th:src="@{/user/images/mypage/reward.png}">포인트 잔액 : [[${result.nowPoint}]] 포인트
+                </h3>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-dark">포인트</h6>
+                </div>
+                <div class="card-body">
+                    <!-- <div class="table-responsive"> -->
+                    <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.js"></script>
+                    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+                    <table class="table table-bordered" id="dataTable" width="100%">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-1">순번</th>
+                                <th class="col-1">유형</th>
+                                <th class="col-1">금액</th>
+                                <th class="col-3">내용</th>
+                                <th class="col-1">날짜</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="history, stat : ${result.history}">
+                                <td>[[${stat.index + 1}]]</td>
+                                <td th:if="${history.pointType eq 'PA1'}">적립</td>
+                                <!-- <td class="col-1" th:if="${history.pointType eq 'PA2'}">사용</td> -->
+                                <td th:text="${history.price+'원'}"></td>
+                                <td th:if="${history.pointType eq 'PA1'}">1번 클럽 성공 포인트</td>
+                                <!-- <td class="col-3" th:if="${history.pointType eq 'PA2'}">[[${history.tradeId}]]번 거래 구매
+                                </td> -->
+                                <td th:text="${#dates.format(history.pointDate, 'yyyy년 MM월 dd일')}"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            let nowPoint = /*[[${result.nowPoint}]]*/ null;
+            let history = /*[[${result.history}]]*/ null;
+        </script>
+
+
+        <script>
+            console.log("회원 포인트 : " + nowPoint);
+            for (let i = 0; i < history.length; i++) {
+                console.log(history[i]);
+            }
+
+            $(document).ready(function () {
+                // $('#dataTable').DataTable();
+                $("#dataTable").DataTable({
+                    // "serverSide": true,
+                    "processing": true,
+
+                });
+            });
+        </script>
+
+    </div>
+</body>
+
+</html>

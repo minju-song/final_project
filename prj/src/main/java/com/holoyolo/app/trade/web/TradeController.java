@@ -3,7 +3,10 @@ package com.holoyolo.app.trade.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.resource.HttpResource;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
@@ -20,6 +24,7 @@ import com.holoyolo.app.heart.service.HeartService;
 import com.holoyolo.app.heart.service.HeartVO;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
 import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.pointHistory.service.PointHistoryService;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
 
@@ -36,6 +41,9 @@ public class TradeController {
 	
 	@Autowired
 	HoloPayHistoryService holoPayService;
+	
+	@Autowired
+	PointHistoryService pointService;
 
 	@GetMapping("/admin/trade")
 	public String selectTradeList(Model model) {
@@ -101,7 +109,6 @@ public class TradeController {
 		tradeVO.setSellerId(principalDetails.getUsername());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		attachmentVO.setPostId(tradeVO.getTradeId());
-		System.out.println(attachmentVO + "=====================");
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		System.out.println(attachmentService.getAttachmentList(attachmentVO));
 		return "user/trade/tradeUpdate";
@@ -113,7 +120,6 @@ public class TradeController {
 									TradeVO tradeVO,
 									@RequestPart MultipartFile[] uploadFiles) {
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "trade");
-		System.out.println(imgList);
 		tradeVO.setSellerId(principalDetails.getUsername());
 		tradeService.updateTradeImg(tradeVO, imgList);
 		tradeService.updateTrade(tradeVO);
@@ -125,7 +131,6 @@ public class TradeController {
 	@ResponseBody
 	public String buyerIdUpdate(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 								TradeVO tradeVO) {
-		System.out.println(tradeVO.getPromiseStatus());
 		if(tradeVO.getPromiseStatus().equals("")) {
 			tradeVO.setBuyerId(null);
 		}else if(tradeVO.getPromiseStatus().equals("TD1")) {
@@ -147,12 +152,14 @@ public class TradeController {
 	//계산페이지 이동
 	@GetMapping("member/tradePay")
 	public String tradePay(@AuthenticationPrincipal PrincipalDetails principalDetails,
+						   HttpServletRequest request,
 						   TradeVO tradeVO,
 						   MemberVO memberVO,
 						   Model model) {
 		memberVO.setMemberId(principalDetails.getUsername());
-		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
-		model.addAttribute("payInfo", holoPayService.holopayBalance(memberVO));
+		model.addAttribute("price", request.getParameter("price"));
+		model.addAttribute("holoPayCnt", holoPayService.holopayBalance(memberVO));
+		model.addAttribute("pointCnt", pointService.pointBalance(memberVO));
 		return "user/trade/tradePay";
 	}
 	

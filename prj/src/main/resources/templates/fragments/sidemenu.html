@@ -32,16 +32,15 @@
 					<ul>
 						<li class="side_main_menu"><a th:href="@{/member/myHome}" id="_myHome">홈</a></li>
 						<li class="side_main_menu"><a th:href="@{/member/myInfo}" id="_myInfo">내정보</a></li>
-
 						<li class="side_main_menu"><a th:href="@{/member/myHolopay}" id="_myHolopay">홀로페이</a></li>
-						<li class="side_main_menu"><a href="#">포인트</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myPoint}">포인트</a></li>
 						<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
 						<!--/* 나의중고거래 서브메뉴 start */-->
 						<li class="side_sub_menu"><a th:href="@{/}">판매내역</a></li>
 						<li class="side_sub_menu"><a th:href="@{/}">구매내역</a></li>
 						<li class="side_sub_menu last_sub_menu"><a th:href="@{/}">관심목록</a></li>
 						<!--/* 나의중고거래 서브메뉴 end */-->
-						<li class="side_main_menu"><a th:href="@{/}">나의 알뜰모임</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myClub}">나의 알뜰모임</a></li>
 						<li class="side_main_menu"><a th:href="@{/}">나의 커뮤니티</a></li>
 					</ul>
 				</div>
