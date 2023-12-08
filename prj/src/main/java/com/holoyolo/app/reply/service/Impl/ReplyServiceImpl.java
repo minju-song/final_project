@@ -1,5 +1,6 @@
 package com.holoyolo.app.reply.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -17,8 +18,11 @@ public class ReplyServiceImpl implements ReplyService {
 	ReplyMapper replyMapper;
 
 	@Override
-	public List<ReplyVO> ReplyList(int boardId) {
-		return replyMapper.ReplyList(boardId);
+	public List<ReplyVO> upperReplyList(ReplyVO vo) {
+		List<ReplyVO> setList = new ArrayList<ReplyVO>();
+		setList = replyMapper.upperReplyList(vo);
+
+		return setList;
 	}
 
 	@Override
@@ -52,8 +56,12 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyVO> searchReplyPage(JSONObject req) {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
-		int boardId = (int) req.get("boardId");
-		List<ReplyVO> allList = ReplyList(boardId);
+		 
+		
+		ReplyVO vo = new ReplyVO();
+		vo.setBoardId((int) req.get("boardId"));
+		vo.setUpperReplyId(0);
+		List<ReplyVO> allList = upperReplyList(vo);
 		return allList.subList(start, Math.min(end, allList.size()));
 	}
 
@@ -67,7 +75,6 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public String updateReply(ReplyVO vo) {
 		String result = "";
-
 		int set = replyMapper.updateReply(vo);
 		if (set == 0) {
 			result = "err";
@@ -76,6 +83,14 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 
 		return result;
+
 	}
 
+	@Override
+	public ReplyVO upperReplySearch(int replyId) {
+		ReplyVO vo = new ReplyVO();
+		vo = replyMapper.upperReplySearch(replyId);
+
+		return vo;
+	}
 }

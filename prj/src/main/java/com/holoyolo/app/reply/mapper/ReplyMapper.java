@@ -8,7 +8,7 @@ import com.holoyolo.app.reply.service.ReplyVO;
 
 public interface ReplyMapper {
 	// 게시물 댓글목록
-	public List<ReplyVO> ReplyList(int boardId);
+	public List<ReplyVO> upperReplyList(ReplyVO vo);
 
 	// 게시물 댓글삭제
 	public int deleteReply(ReplyVO vo);
@@ -26,5 +26,7 @@ public interface ReplyMapper {
 		public int getTotalReplyRecords(ReplyVO vo);
 
 		public int updateReply(ReplyVO vo);
+		
+		public ReplyVO upperReplySearch(int replyId);
 		
 }

@@ -21,7 +21,7 @@ public class ReplyController {
 	@Autowired
 	ReplyService replyService;
 
-	@PostMapping("/loadReply")
+	@PostMapping("/loadUpperReply")
 	@ResponseBody
 	public Map<String, Object> loadReply(@RequestBody JSONObject reqJson,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
