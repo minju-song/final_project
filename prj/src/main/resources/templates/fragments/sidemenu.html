@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -59,8 +59,8 @@
 				</div>
 			</th:block>
 			<!--/* 사이드(알뜰모임) end */-->
-			
-			
+
+
 			<!--/* 사이드(고객센터) start */-->
 			<th:block th:if="${menu == 'cs'}">
 				<div class="sidebar_title side_main_menu">고객센터</div>
@@ -73,8 +73,8 @@
 				</div>
 			</th:block>
 			<!--/* 사이드(고객센터) end */-->
-			
-			
+
+
 			<!--/* 사이드(알뜰모임 상세) start */-->
 			<th:block th:if="${menu == 'club'}">
 				<div class="sidebar_title side_main_menu">[[${result.club.clubName}]]</div>
@@ -82,7 +82,11 @@
 					<ul>
 						<li class="side_main_menu">
 							<a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}"
-							   th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a>
+								th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a>
+						</li>
+						<li class="side_main_menu">
+							<a th:href="@{/member/club/clubHistory(clubId=${result.club.clubId})}"
+								th:class="${subMenu eq 'history'}? 'submenu_active' : ''">모임성공기록</a>
 						</li>
 						<th:block th:if="${session.check != true}">
 							<li class="side_main_menu" onclick="nomember()">
@@ -92,31 +96,31 @@
 						<th:block th:if="${session.check == true}">
 							<li class="side_main_menu">
 								<a th:href="@{/member/club/clubChat(clubId=${result.club.clubId})}"
-								   th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a>
+									th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a>
 							</li>
 						</th:block>
 						<li class="side_main_menu">
 							<a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}"
-							   th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a>
+								th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a>
 						</li>
 					</ul>
 				</div>
 			</th:block>
 			<!--/* 사이드(알뜰모임 상세) end */-->
-			
+
 		</div>
 
 		<script>
 			function nomember() {
 				Swal.fire({
-					icon : "error",
-					title : "입장불가",
-					text : "모임멤버만 입장 가능합니다."
+					icon: "error",
+					title: "입장불가",
+					text: "모임멤버만 입장 가능합니다."
 				});
 			}
 
 			// 현재메뉴 표시
-			$(function() {
+			$(function () {
 				let currentUri = "[[${ #request.requestURI }]]";
 				let color = 'red';
 
