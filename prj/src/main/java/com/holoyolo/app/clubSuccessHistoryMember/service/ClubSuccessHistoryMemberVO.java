@@ -19,4 +19,7 @@ public class ClubSuccessHistoryMemberVO {
 	//끝날짜
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
+	
+	private String profileImg;
+	private String memberIntro;
 }

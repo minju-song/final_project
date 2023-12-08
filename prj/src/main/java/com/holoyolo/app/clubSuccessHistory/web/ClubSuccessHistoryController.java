@@ -23,14 +23,13 @@ public class ClubSuccessHistoryController {
 	@Autowired
 	ClubService clubService;
 	
+	//클럽 성공기록
 	@GetMapping("/member/club/clubHistory")
 	public String clubHistoryPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model,ClubVO vo) {
 		Map<String, Object> map = new HashMap<>();
 		System.out.println(vo);
 		
-		vo = clubService.getClub(vo.getClubId());
-		
-		map.put("club", vo);
+		map = clubSuccessHistoryService.clubHistoryPage(vo);
 		
 		model.addAttribute("result", map);
 		model.addAttribute("menu", "club");
