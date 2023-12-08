@@ -983,7 +983,7 @@ section
 }
 .accordions
 {
-	margin-top: 80px;
+	margin-top: 50px;
 }
 .accordion_container
 {
@@ -993,7 +993,7 @@ section
 {
 	height: 57px;
 	width: 100%;
-	background: #f9f9f9;
+	/* background: #f9f9f9; */
     color: #373737;
 	padding-left: 33px;
 	cursor: pointer;
@@ -1004,6 +1004,7 @@ section
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 .accordion div
 {
@@ -1013,9 +1014,10 @@ section
 }
 .accordion.active
 {
-	background: #FFFFFF;
-	border: solid 1px #b5b5b5;
+	/* background: #FFFFFF; */
+	/* border: solid 1px #b5b5b5; */
 	color: #232323;
+	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 .accordion:active
 {
@@ -1052,12 +1054,12 @@ section
 }
 .accordion:hover
 {
-	background: #b5b5b5;
+	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 .accordion_panel
 {
-	padding-left: 8px;
-	padding-right: 8px;
+	padding-left: 30px;
+	padding-right: 30px;
 	max-height: 0px;
 	overflow: hidden;
 	-webkit-transition: all 500ms ease;
@@ -1068,7 +1070,7 @@ section
 }
 .accordion_panel p
 {
-	padding-top: 28px;
+	padding-top: 15px;
 }
 .accordion_panel p:last-child
 {
