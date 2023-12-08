@@ -20,8 +20,10 @@ public class PointHistoryServiceImpl implements PointHistoryService {
 
 	@Override
 	public int pointBalance(MemberVO vo) {
-	   return pointHistoryMapper.pointBalance(vo);
+		return pointHistoryMapper.pointBalance(vo);
 	}
+
+
 
 	//마이페이지 
 	@Override

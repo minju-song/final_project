@@ -5,19 +5,20 @@
   
 <mapper namespace="com.holoyolo.app.pointHistory.mapper.PointHistoryMapper">
 	<select id="pointBalance" resultType="int">
-      SELECT    
-          NVL(SUM(NVL(PA1, 0)), 0) - NVL(SUM(NVL(PA2, 0)), 0) AS nowPoint
-      FROM
-          (
-          SELECT point_type, price, member_id
-          FROM point_history
-          WHERE member_id = #{memberId}
-          )
-      PIVOT
-          (
-          SUM(price) FOR point_type IN ('PA1' AS PA1, 'PA2' AS PA2)
-          )
-   </select>
+		SELECT    
+		    NVL(SUM(NVL(PA1, 0)), 0) - NVL(SUM(NVL(PA2, 0)), 0) AS nowPoint
+		FROM
+		    (
+		    SELECT point_type, price, member_id
+		    FROM point_history
+		    WHERE member_id = #{memberId}
+		    )
+		PIVOT
+		    (
+		    SUM(price) FOR point_type IN ('PA1' AS PA1, 'PA2' AS PA2)
+		    )
+	</select>
+
    
    <!-- 포인트 내역 조회 -->
    <select id="getPointHistory" resultType="PointHistoryVO">
@@ -26,4 +27,5 @@
    		WHERE member_id = #{memberId}
    		ORDER BY p_history_id desc
    </select>
+
 </mapper>
