@@ -62,7 +62,7 @@ public class ReplyServiceImpl implements ReplyService {
 		vo.setBoardId((int) req.get("boardId"));
 		vo.setUpperReplyId(0);
 		List<ReplyVO> allList = upperReplyList(vo);
-		return allList.subList(start, Math.min(end, allList.size()));
+		return allList.subList(start, Math.min(end+1, allList.size()));
 	}
 
 	@Override

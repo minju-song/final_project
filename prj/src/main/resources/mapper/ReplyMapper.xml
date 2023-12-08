@@ -94,6 +94,7 @@ ORDER BY
 	SELECT COUNT(*)
     FROM REPLY
     WHERE BOARD_ID = #{boardId}
+    AND UPPER_REPLY_ID = #{upperReplyId}
     </select>
     
     <delete id="deleteReply" parameterType="ReplyVO">
