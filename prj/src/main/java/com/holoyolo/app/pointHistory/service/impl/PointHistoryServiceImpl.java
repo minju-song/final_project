@@ -3,6 +3,7 @@ package com.holoyolo.app.pointHistory.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.pointHistory.mapper.PointHistoryMapper;
 import com.holoyolo.app.pointHistory.service.PointHistoryService;
 
@@ -12,4 +13,8 @@ public class PointHistoryServiceImpl implements PointHistoryService {
 	@Autowired
 	PointHistoryMapper pointHistoryMapper;
 
+	@Override
+	public int pointBalance(MemberVO vo) {
+	   return pointHistoryMapper.pointBalance(vo);
+	}
 }
