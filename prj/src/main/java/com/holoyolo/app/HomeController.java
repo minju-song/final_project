@@ -53,8 +53,8 @@ public class HomeController {
 		
 		// 커뮤니티(수다방) 조회
 		bvo.setMenuType("AA3");
-		List<BoardVO> sudaBoardList = boardService.recentBoradList(bvo);
-		model.addAttribute("sudaBoard", sudaBoardList);
+		List<BoardVO> chatBoardList = boardService.recentBoradList(bvo);
+		model.addAttribute("chatBoard", chatBoardList);
 		
 		return "index";
 	}
