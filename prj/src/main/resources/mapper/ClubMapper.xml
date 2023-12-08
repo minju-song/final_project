@@ -212,4 +212,14 @@
 	
 	</select>
 	
+	
+	<!-- 회원이 속한 알뜰모임 목록 -->
+	<select id="getMyClub" resultType="ClubVO">
+		SELECT c.*
+		FROM club c JOIN club_member cm ON c.club_id = cm.club_id
+		WHERE cm.member_id = #{memberId} 
+		AND cm.join_date is not null
+		AND cm.stop_date is null
+	</select>
+	
   </mapper>

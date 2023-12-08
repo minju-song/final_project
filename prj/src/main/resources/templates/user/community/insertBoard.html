@@ -10,6 +10,8 @@
   <link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
   <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
+  <link rel="stylesheet" type="text/css" href="/user/css/boardInsert.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <style>
     #btnDiv {
       text-align: center;
@@ -47,10 +49,7 @@
     <div class="container">
       <div id="boardContent">
         <div class="row">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="제목" id="title">
-          </div>
-          <div class="row justify-content-center">
+          <div class="row">
             <div class="mb-3 col-4 input-group">
               <label for="boardType">글 유형</label>
               <input type="text" class="form-control" aria-label="boardType" th:value="${boardType}" id="ckBoardType"
@@ -66,7 +65,9 @@
               <input type="text" class="form-control" aria-label="Username" th:value="${user.memberId}" id="userId"
                 readonly>
             </div>
-
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="제목" id="title">
           </div>
           <div id="content"></div>
           <div class="d-flex justify-content-end">
@@ -85,8 +86,28 @@
         insertPostBtn.addEventListener('click', savePost);
         //게시판 체크(AA1~AA6)
 
-        
-
+        //사이드메뉴 표시
+        $(function(){
+        	let menu_type = "[[${boardType}]]"
+        	if(menu_type == '정보공유') {
+	          $('#_infoBoard').addClass('submenu_active');
+	        } else if(menu_type == '수다방') {
+	          $('#_chatBoard').addClass('submenu_active');
+	        }
+        })
+		
+        // sweet alert
+        const Toast = Swal.mixin({
+		    toast: true,
+		    position: 'center',
+		    showConfirmButton: false,
+		    timer: 2000,
+		    timerProgressBar: true,
+		    didOpen: (toast) => {
+		        toast.addEventListener('mouseenter', Swal.stopTimer)
+		        toast.addEventListener('mouseleave', Swal.resumeTimer)
+		    }
+		})
 
 
         const editor = new toastui.Editor({
@@ -134,7 +155,10 @@
         async function savePost() {
           // 1. 콘텐츠 입력 유효성 검사
           if (editor.getMarkdown().length < 1) {
-            alert('에디터 내용을 입력해 주세요.');
+			Toast.fire({
+				icon: 'warning',
+				title: '내용을 입력해주세요!'
+			})
             throw new Error('editor content is required!');
           }
 
@@ -144,7 +168,7 @@
           const title = document.getElementById('title').value;
           let ckBoardType = document.getElementById('ckBoardType').value;
           let boardType = "";
-          if (ckBoardType == "정보게시판") {
+          if (ckBoardType == "정보공유") {
             boardType = "AA2";
           } else if (ckBoardType == "수다방") {
             boardType = "AA3";
@@ -168,8 +192,16 @@
             });
 
             const postId = await response.json();
+            
+            
             alert(postId + '번 게시글이 저장되었습니다.');
-            location.href = "/board/info";
+            
+            
+            if (ckBoardType == "정보공유") {
+            	location.href = "/board/info";
+            } else if (ckBoardType == "수다방") {
+            	location.href = "/board/chat";
+            }
 
           } catch (error) {
             console.error('저장 실패 : ', error)

@@ -257,6 +257,16 @@ public class ClubServiceImpl implements ClubService {
 		return clubMapper.bestClubList(vo);
 	}
 
+	//마이페이지 나의 클럽
+	@Override
+	public Map<String, Object> getMyClub(String id) {
+		Map<String, Object> map = new HashMap<>();
+		
+		List<ClubVO> list =  clubMapper.getMyClub(id);
+		map.put("clubs", list);
+		return map;
+	}
+
 
 
 

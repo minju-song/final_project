@@ -42,7 +42,7 @@ public class BoardController {
 		} else {
 			mo.addAttribute("boardList", "0");
 		}
-		mo.addAttribute("boardType", "정보게시판");
+		mo.addAttribute("boardType", "정보공유");
 		mo.addAttribute("likeCount", 0);
 		mo.addAttribute("username", username);
 		mo.addAttribute("menu", "community");

@@ -13,29 +13,25 @@
 			<div class="row holoPaywrap" style="margin-bottom: 50px;">
 				<div class="row w-100 watchwrap fontStyle">
 					<h3><img class="payImg form-label" th:src="@{/user/images/trade/coin.png}">홀로페이·포인트</h3>
-					<h3 th:text="|보유 : |"></h3>
+					<h3 class="myPrice" th:text="|보유 : ${#numbers.formatInteger((pointCnt + holoPayCnt), 0, 'COMMA')} 원|"></h3>
 				</div>
 				<div class="row w-100 watchwrap fontStyle">
 				<img class="payImg form-label lineStyle" th:src="@{/user/images/trade/line.png}">
 					<div>포인트</div>
-					<div class="form-label" th:text="|  P|"></div>
+					<div class="form-label oriPoint" th:text="|${#numbers.formatInteger(pointCnt, 0, 'COMMA')}  P|"></div>
 				</div>
 				<div class="row w-100 watchwrap fontStyle2">
 					<div>홀로페이</div>
-					<div class="form-label" th:text="| 원|"></div>
+					<div class="form-label oriHoloPay" th:text="|${#numbers.formatInteger(holoPayCnt, 0, 'COMMA')} 원|"></div>
 				</div>
 				<div class="row">
-					<div class="input-group mb-3 row w-100 watchwrap fontStyle" style="margin-bottom: -5px !important;">
+					<div class="input-group mb-3 row w-100 watchwrap fontStyle2" style="margin-bottom: -5px !important;">
 						<div style="width:250px;">포인트 사용</div>
-		               <input type="text" class="form-control col-7 borderRadi">
-		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;">전액사용</span>
+		               <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" th:maxlength="${pointCnt.toString().length}" class="form-control col-7 borderRadi pointSel">
+		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;" th:onclick="payAllSel()">전액사용</span>
+		               <span class="pointUnit">P</span>
 		            </div>
-		            <div class="input-group mb-3 row w-100 watchwrap fontStyle2">
-		            	<div style="width:250px;">홀로페이 사용</div>
-		               <input type="text" class="form-control col-7 borderRadi">
-		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;">전액사용</span>
-		            </div>
-		            <p style="text-align: center; margin: 20px 30px">2019.07.01.부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은
+		            <p style="text-align: center; margin: 35px 33px 5px;">2019.07.01.부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은
 		             포인트 최대 50만원 보유/1회 사용 한도가 적용됩니다.<br> 계좌 연결 시 각 보유/1회 사용 한도는 200만원까지 확대됩니다.</p>
 				</div>
 			</div>
@@ -45,25 +41,85 @@
 				</div><hr>
 				<div class="row w-100 watchwrap fontStyle2">
 					<div>결제금액</div>
-					<div class="form-label" th:text="|  원|"></div>
+					<div class="form-label usePrice" th:text="|${#numbers.formatInteger(price, 0, 'COMMA')} 원|"></div>
 				</div>
 				<div class="row w-100 watchwrap fontStyle" style="color: #9a9a9a;">
 				<img class="payImg form-label lineStyle" th:src="@{/user/images/trade/line.png}">
 					<div>포인트 사용</div>
-					<div class="form-label" th:text="|  P|"></div>
+					<div class="form-label usePoint" th:text="|0  P|"></div>
 				</div>
 				<div class="row w-100 watchwrap fontStyle2" style="color: #9a9a9a;">
 					<div>홀로페이 사용</div>
-					<div class="form-label" th:text="| 원|"></div>
+					<div class="form-label useHoloPay" th:text="|${#numbers.formatInteger(price, 0, 'COMMA')} 원|"></div>
 				</div>
 			</div>
 			<div class="contentEnd">
 				<div style="margin-right: 20px;">결제 내용을 확인하였으며, 정보 제공 등에 동의합니다.</div>
-				<div class="insertbutton" th:onclick="|location.href='@{/member/tradeInsert}'|">
+				<div class="insertbutton">
 					<p>결제하기</p>
 				</div>
 			</div>
 		</div>
+		<script>
+			let pointCnt = [[${pointCnt}]];
+			let holoPayCnt = [[${holoPayCnt}]];
+			let price = [[${price}]];
+			
+			$(document).ready(function(){
+				if(Number(pointCnt) + Number(holoPayCnt) < price){
+					/* alert("헤이 조심해") */
+				}
+			})
+
+			//input number 최대값 지정
+			let number = document.querySelector('[type=text]');
+			let usePrice = document.querySelector('.usePrice');
+		    let usePoint = document.querySelector('.usePoint');
+		    let useHoloPay = document.querySelector('.useHoloPay');
+		    let oriHoloPay = document.querySelector('.oriHoloPay');
+		    let oriPoint = document.querySelector('.oriPoint');
+		    let myPrice = document.querySelector('.myPrice');
+			number.onkeyup = function() {
+			    if(pointCnt < number.value) {
+			    	number.value = pointCnt;
+			        return false;
+			    }
+			    payCal(number.value)
+			}
+			
+			//전액사용 클릭 이벤트
+			function payAllSel(){
+				if(price < pointCnt){
+					number.value = price;
+				}else{
+					number.value = pointCnt;
+				}
+				payCal(number.value);
+				
+			}
+			
+			//계산
+			function payCal(num){
+				useHoloPay.innerText = (price - number.value).toLocaleString('ko-KR') + ' 원';
+				useHoloPay.value = price - number.value;
+				usePoint.innerText = num.toLocaleString('ko-KR') + ' P';
+				usePoint.value = num;
+				if(usePoint.innerText == 'P'){
+					usePoint.innerText = '0 P';
+				}
+				oriHoloPay.innerText = (holoPayCnt - useHoloPay.value).toLocaleString('ko-KR') + ' 원';
+				oriHoloPay.value = holoPayCnt - useHoloPay.value;
+				oriPoint.innerText = (pointCnt - usePoint.value).toLocaleString('ko-KR') + ' P';
+				oriPoint.value = pointCnt - usePoint.value;
+				myPrice.innerText = (oriPoint.value + oriHoloPay.value).toLocaleString('ko-KR') + ' 원';
+			}
+			
+			//결제버튼 클릭 시
+			let payment = document.querySelector('.insertbutton');
+			payment.addEventListener('click', function(e){
+				console.log(useHoloPay.value, usePoint.value)
+			})
+		</script>
 	</div>
 </body>
 </html>

@@ -145,7 +145,7 @@
 						</thead>
 						<tbody>
 							<th:block th:each="info : ${infoBoard}">
-								<tr th:onclick="|location.href='@{/member/BoardInfo(boardId=${info.boardId})}'|">
+								<tr th:onclick="|location.href='@{/member/board/view(boardId=${info.boardId})}'|">
 									<td scope="row">[[${info.rnum}]]</td>
 									<td class="td_title">[[${info.title}]]</td>
 									<td class="td_nickname">[[${info.nickname}]]</td>
@@ -174,7 +174,7 @@
 						</thead>
 						<tbody>
 							<th:block th:each="chat : ${chatBoard}">
-								<tr th:onclick="|location.href='@{/member/BoardInfo(boardId=${chat.boardId})}'|">
+								<tr th:onclick="|location.href='@{/member/board.view(boardId=${chat.boardId})}'|">
 									<td scope="row">[[${chat.rnum}]]</td>
 									<td class="td_title">[[${chat.title}]]</td>
 									<td class="td_nickname">[[${chat.nickname}]]</td>

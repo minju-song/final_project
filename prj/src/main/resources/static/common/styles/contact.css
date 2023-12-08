@@ -26,6 +26,7 @@
 1. Fonts
 ***********/
 
+/*
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
 @font-face
 {
@@ -43,12 +44,13 @@
 	font-family: 'Beyond';
 	src: url('../fonts/beyond_the_mountains.otf')  format('opentype'),
 		 url('../fonts/beyond_the_mountains.ttf')  format('truetype');
-}
+}*/
 
 /*********************************
 2. Body and some general stuff
 *********************************/
 
+/*
 *
 {
 	margin: 0;
@@ -298,11 +300,14 @@ section
 {
 	color: #232323;
 }
+*/
+
 
 /*********************************
 3. Header
 *********************************/
 
+/*
 .header
 {
 	position: fixed;
@@ -330,10 +335,13 @@ section
 	height: 100%;
 }
 
+*/
+
 /*********************************
 3.1 Header - Logo
 *********************************/
 
+/*
 .logo a
 {
 	font-family: 'Lucida', serif;
@@ -345,6 +353,7 @@ section
 3.2 Header - Main Navigation
 *********************************/
 
+/*
 .main_nav
 {
 	padding-left: 252px;
@@ -385,6 +394,7 @@ section
 3.3 Header - Search
 *********************************/
 
+/*
 .search
 {
 	display: inline-block;
@@ -433,6 +443,7 @@ section
 3.4 Header - Shopping
 *********************************/
 
+/*
 .shopping
 {
 	display: inline-block;
@@ -500,6 +511,7 @@ section
 3.5 Header - Burger
 *********************************/
 
+/*
 .burger_container
 {
 	position: absolute;
@@ -535,6 +547,7 @@ section
 4. Home
 *********************************/
 
+/*
 .home
 {
 	width: 100%;
@@ -607,6 +620,7 @@ section
 5. Menu
 *********************************/
 
+/*
 .menu
 {
 	position: fixed;
@@ -705,6 +719,7 @@ section
 6. Map
 *********************************/
 
+/*
 .map
 {
 	width: 100%;
@@ -730,6 +745,7 @@ section
 7. Contact
 *********************************/
 
+/*
 .contact
 {
 	width: 100%;
@@ -852,6 +868,7 @@ section
 8. Contact Text
 *********************************/
 
+/*
 .contact_text
 {
 	width: 100%;
@@ -864,6 +881,7 @@ section
 8.1 Contact Info
 *********************************/
 
+/*
 .contact_info
 {
 
@@ -937,6 +955,24 @@ section
 8.2 FAQ
 *********************************/
 
+.h2_title {
+	margin-left: 5px;
+	font-size: 25px;
+}
+.h2_title::before {
+	content: '';
+    background: #4161bf;
+    color: #4161bf;
+    display: inline-block;
+    width: 3px;
+    height: 17px;
+    margin-right: 10px;
+}
+
+
+
+
+
 .faq
 {
 	
@@ -947,7 +983,7 @@ section
 }
 .accordions
 {
-	margin-top: 80px;
+	margin-top: 50px;
 }
 .accordion_container
 {
@@ -957,10 +993,10 @@ section
 {
 	height: 57px;
 	width: 100%;
-	background: #937c6f;
+	/* background: #f9f9f9; */
+    color: #373737;
 	padding-left: 33px;
 	cursor: pointer;
-	color: #FFFFFF;
 	font-size: 14px;
 	font-weight: 400;
 	-webkit-transition: all 200ms ease;
@@ -968,6 +1004,7 @@ section
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 .accordion div
 {
@@ -977,9 +1014,10 @@ section
 }
 .accordion.active
 {
-	background: #FFFFFF;
-	border: solid 1px #b5b5b5;
+	/* background: #FFFFFF; */
+	/* border: solid 1px #b5b5b5; */
 	color: #232323;
+	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 .accordion:active
 {
@@ -1001,7 +1039,7 @@ section
 	height: 100%;
 	content: '+';
 	font-size: 16px;
-	color: #FFFFFF;
+	color: #373737;
 	font-weight: 600;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -1016,11 +1054,12 @@ section
 }
 .accordion:hover
 {
-	background: #b5b5b5;
+	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 .accordion_panel
 {
-	padding-right: 8px;
+	padding-left: 30px;
+	padding-right: 30px;
 	max-height: 0px;
 	overflow: hidden;
 	-webkit-transition: all 500ms ease;
@@ -1031,7 +1070,7 @@ section
 }
 .accordion_panel p
 {
-	padding-top: 28px;
+	padding-top: 15px;
 }
 .accordion_panel p:last-child
 {
@@ -1042,6 +1081,7 @@ section
 9. Newsletter
 *********************************/
 
+/*
 .newsletter
 {
 	width: 100%;
@@ -1152,10 +1192,12 @@ section
 	margin-top: 19px;
 }
 
+*/
 /*********************************
 10. Footer
 *********************************/
 
+/*
 .footer
 {
 	padding-top: 80px;
@@ -1231,3 +1273,5 @@ section
 	font-size: 12px;
 	color: #232323;
 }
+
+*/

@@ -52,4 +52,7 @@ public interface ClubMapper {
 	
 	//베스트 클럽리스트(메인페이지용)
 	public List<ClubVO> bestClubList(ClubVO vo);
+	
+	//마이페이지 알뜰모임 클럽리스트
+	public List<ClubVO> getMyClub(String id);
 }

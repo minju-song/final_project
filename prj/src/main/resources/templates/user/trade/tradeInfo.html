@@ -86,7 +86,7 @@
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>거래확정</p>
 								</div>
-								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="|location.href='@{/member/tradePay(tradeId=${tradeInfo.tradeId})}'|">
+								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="'location.href=\'/member/tradePay?price='+ @{${tradeInfo.price}} + '\''">
 									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}"> 홀로페이</p>
 								</div>
 							</div>
