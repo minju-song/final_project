@@ -18,4 +18,12 @@
           SUM(price) FOR point_type IN ('PA1' AS PA1, 'PA2' AS PA2)
           )
    </select>
+   
+   <!-- 포인트 내역 조회 -->
+   <select id="getPointHistory" resultType="PointHistoryVO">
+   		SELECT * 
+   		FROM point_history 
+   		WHERE member_id = #{memberId}
+   		ORDER BY p_history_id desc
+   </select>
 </mapper>
