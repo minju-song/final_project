@@ -3,7 +3,10 @@ package com.holoyolo.app.trade.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.resource.HttpResource;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
@@ -148,11 +152,12 @@ public class TradeController {
 	//계산페이지 이동
 	@GetMapping("member/tradePay")
 	public String tradePay(@AuthenticationPrincipal PrincipalDetails principalDetails,
+						   HttpServletRequest request,
 						   TradeVO tradeVO,
 						   MemberVO memberVO,
 						   Model model) {
 		memberVO.setMemberId(principalDetails.getUsername());
-		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
+		model.addAttribute("price", request.getParameter("price"));
 		model.addAttribute("holoPayCnt", holoPayService.holopayBalance(memberVO));
 		model.addAttribute("pointCnt", pointService.pointBalance(memberVO));
 		return "user/trade/tradePay";

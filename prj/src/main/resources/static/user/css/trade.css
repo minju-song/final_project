@@ -2,6 +2,10 @@
 
 /* 중고거래 리스트 페이지 시작 */
 
+body{
+	overflow-x: hidden;
+}
+
 .search {
 	width: 800px;
 	position: realative;
@@ -123,6 +127,9 @@ option > selected{
 	adding-right: none;
     padding-left: 50px;
     margin: 10px;
+}
+#tradeList .col {
+    flex-grow: 0;
 }
 
 /* 중고거래 상세페이지 시작 */
@@ -299,13 +306,21 @@ option > selected{
     right: 27px;
 }
 
+.pointUnit{
+	position: absolute;
+    top: 6px;
+    right: 152px;
+    z-index: 1000;
+    font-size: 18px;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-input[type="number"]{
+input[type="number"], .pointSel{
     padding-right: 35px;
     text-align: right;
 

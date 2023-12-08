@@ -6,12 +6,12 @@
 <mapper namespace="com.holoyolo.app.pointHistory.mapper.PointHistoryMapper">
 	<select id="pointBalance" resultType="int">
 		SELECT    
-		    NVL(SUM(NVL(PA1, 0)), 0) - NVL(SUM(NVL(PA2, 0)), 0) AS 잔액
+		    NVL(SUM(NVL(PA1, 0)), 0) - NVL(SUM(NVL(PA2, 0)), 0) AS nowPoint
 		FROM
 		    (
 		    SELECT point_type, price, member_id
 		    FROM point_history
-		    WHERE member_id = 'hsg04067@naver.com'
+		    WHERE member_id = #{memberId}
 		    )
 		PIVOT
 		    (
