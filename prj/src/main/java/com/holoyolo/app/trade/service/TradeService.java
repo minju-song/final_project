@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.holoyolo.app.attachment.service.AttachmentVO;
+import com.holoyolo.app.member.service.MemberVO;
 
 public interface TradeService {
 	
@@ -31,4 +32,6 @@ public interface TradeService {
 	//중고거래 이미지 수정(insert)
 	public int updateTradeImg(TradeVO tradeVO, List<AttachmentVO> imgList);
 	
+	//포인트, 홀로페이 등록
+	public Map<String, Object> insertPayPoint(MemberVO memberVO);
 }

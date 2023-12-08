@@ -81,4 +81,12 @@ public class ReportController {
 		return resultMap;
 	}
 
+	@PostMapping("member/inserReport")
+	@ResponseBody
+	public int insertReport(@AuthenticationPrincipal PrincipalDetails principalDetails,
+								ReportVO reportVO) {
+		reportVO.setReporterId(principalDetails.getUsername());
+		reportVO.setMenuType("AA1");
+		return reportService.insertReport(reportVO);
+	}
 }

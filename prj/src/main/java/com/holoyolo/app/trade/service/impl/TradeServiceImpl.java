@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentVO;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.trade.mapper.TradeMapper;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
@@ -104,6 +105,22 @@ public class TradeServiceImpl implements TradeService {
 			result = attachmentMapper.insertAttachment(imgList.get(i));
 		}
 		return result;
+	}
+
+	//포인트, 홀로페이 등록
+	@Override
+	public Map<String, Object> insertPayPoint(MemberVO memberVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSucceed = false;
+		
+		int result = tradeMapper.insertPayPoint(memberVO);
+		if(result == 1) {
+			isSucceed = true;
+		}
+		
+		map.put("result", isSucceed);
+		map.put("info", memberVO);
+		return map;
 	}
 
 

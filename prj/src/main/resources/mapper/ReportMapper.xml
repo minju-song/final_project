@@ -77,4 +77,31 @@ SELECT *
 		INSERT INTO REPORT(REPORT_ID, MENU_TYPE, POST_ID, REPORT_TYPE, REPORT_DATE, REPORT_PROCESS_TYPE, PROCESS_COMMENT, PROCESS_DATE, REPORTED_ID, REPORTER_ID, REPORT_CONTENT)
 		VALUES (#{reportId}, #{menuType}, #{postId}, #{reportType}, sysdate, null, null, null, #{reportedId}, #{reporterId}, #{reportContent})
 	</insert>
+	
+	<insert id="insertReport" parameterType="ReportVO">
+		<selectKey keyProperty="reportId" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(report_id),0) + 1 as reportId
+			FROM report
+		</selectKey>
+		INSERT INTO report
+			(
+				report_id
+				, menu_type
+				, post_id
+				, report_type
+				, report_date
+				, report_id
+				, reporter_id
+			)
+		VALUES
+			(
+				#{reportId}
+				, 'AA1'
+				, #{postId}
+				, #{reportType}
+				, sysdate
+				, #{reportId}
+				, #{reporterId}
+			)
+	</insert>
   </mapper>

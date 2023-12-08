@@ -53,4 +53,9 @@ public class MemberVO {
 	// 홀로페이
 	private int pointPrice;
 	private int holopayPrice;
+	
+	//포인트, 홀로페이 등록
+	private int point;
+	private int tradeId;
+	private int holoPay;
 }

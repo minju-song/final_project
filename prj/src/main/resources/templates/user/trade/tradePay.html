@@ -6,6 +6,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+<!-- 소스 다운 -->
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+<!-- 폴리필 (구버젼 브라우저 지원) -->
+<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -60,66 +66,13 @@
 				</div>
 			</div>
 		</div>
-		<script>
+		<script th:inline="javascript">
 			let pointCnt = [[${pointCnt}]];
 			let holoPayCnt = [[${holoPayCnt}]];
 			let price = [[${price}]];
-			
-			$(document).ready(function(){
-				if(Number(pointCnt) + Number(holoPayCnt) < price){
-					/* alert("헤이 조심해") */
-				}
-			})
-
-			//input number 최대값 지정
-			let number = document.querySelector('[type=text]');
-			let usePrice = document.querySelector('.usePrice');
-		    let usePoint = document.querySelector('.usePoint');
-		    let useHoloPay = document.querySelector('.useHoloPay');
-		    let oriHoloPay = document.querySelector('.oriHoloPay');
-		    let oriPoint = document.querySelector('.oriPoint');
-		    let myPrice = document.querySelector('.myPrice');
-			number.onkeyup = function() {
-			    if(pointCnt < number.value) {
-			    	number.value = pointCnt;
-			        return false;
-			    }
-			    payCal(number.value)
-			}
-			
-			//전액사용 클릭 이벤트
-			function payAllSel(){
-				if(price < pointCnt){
-					number.value = price;
-				}else{
-					number.value = pointCnt;
-				}
-				payCal(number.value);
-				
-			}
-			
-			//계산
-			function payCal(num){
-				useHoloPay.innerText = (price - number.value).toLocaleString('ko-KR') + ' 원';
-				useHoloPay.value = price - number.value;
-				usePoint.innerText = num.toLocaleString('ko-KR') + ' P';
-				usePoint.value = num;
-				if(usePoint.innerText == 'P'){
-					usePoint.innerText = '0 P';
-				}
-				oriHoloPay.innerText = (holoPayCnt - useHoloPay.value).toLocaleString('ko-KR') + ' 원';
-				oriHoloPay.value = holoPayCnt - useHoloPay.value;
-				oriPoint.innerText = (pointCnt - usePoint.value).toLocaleString('ko-KR') + ' P';
-				oriPoint.value = pointCnt - usePoint.value;
-				myPrice.innerText = (oriPoint.value + oriHoloPay.value).toLocaleString('ko-KR') + ' 원';
-			}
-			
-			//결제버튼 클릭 시
-			let payment = document.querySelector('.insertbutton');
-			payment.addEventListener('click', function(e){
-				console.log(useHoloPay.value, usePoint.value)
-			})
+			let tradeId = [[${tradeId}]];
 		</script>
+		<script src="/user/js/tradePay.js"></script>
 	</div>
 </body>
 </html>

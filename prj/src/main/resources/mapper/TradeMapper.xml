@@ -207,4 +207,14 @@
 				AND promise_status <![CDATA[<>]]> 'TD3'
 			</if>
 	</sql>
-</mapper>
+	
+	<!-- 포인트, 홀로페이 등록 -->
+	<insert id="insertPayPoint" parameterType="memberVO">
+		{call insert_pay_point(
+			#{memberId, mode=IN, jdbcType=VARCHAR},
+			#{point, mode=IN, jdbcType=INTEGER},
+			#{tradeId, mode=IN, jdbcType=INTEGER},
+			#{holoPay, mode=IN, jdbcType=INTEGER}
+		)}
+	</insert>
+</mapper> 
