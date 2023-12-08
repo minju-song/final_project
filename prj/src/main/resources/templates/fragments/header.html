@@ -22,8 +22,8 @@
 							<div class="sub_nav_wrap">
 								<div class="sub_nav">
 									<ul>
-										<li><a href="@{/board/info}" id="info">정보공유</a></li>
-										<li><a href="@{/board/chat}">수다방</a></li>
+										<li><a th:href="@{/board/info}" id="info">정보공유</a></li>
+										<li><a th:href="@{/board/chat}" id="chat">수다방</a></li>
 									</ul>
 								</div>
 							</div>
@@ -107,9 +107,8 @@
 				
 				if(currentUri.indexOf('memo') != -1) {
 					$('#memo').addClass('menu_active');
-				} else if(currentUri.indexOf('info') != -1) {
+				} else if(currentUri.indexOf('board') != -1) {
 					$('#community').addClass('menu_active');
-					$('#infoBoard').addClass('menu_active');
 				} else if(currentUri.indexOf('club') != -1) {
 					$('#club').addClass('menu_active');
 				} else if(currentUri.indexOf('trade') != -1) {

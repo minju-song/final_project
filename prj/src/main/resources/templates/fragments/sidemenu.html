@@ -23,102 +23,121 @@
 			3. 현재 메뉴 표시 CSS 
 				th:class="${subMenu eq 'myHome'}? 'submenu_active' : ''" 
 				
-		*/-->
-		
-		<th:block th:if="${menu == 'mypage'}">
-			<div class="sidebar_title side_main_menu">마이페이지</div>
-			<div class="sidebar_section_content">
-				<ul>
-					<li class="side_main_menu"><a th:href="@{/member/myHome}" id="_myHome">홈</a></li>
-					<li class="side_main_menu"><a th:href="@{/member/myInfo}" id="_myInfo">내정보</a></li>
+			*/-->
 
-					<li class="side_main_menu"><a th:href="@{/member/myHolopay}" id="_myHolopay">홀로페이</a></li>
-					<li class="side_main_menu"><a th:href="@{/member/myPoint}">포인트</a></li>
-					<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
-					<!--/* 나의중고거래 서브메뉴 start */-->
-					<li class="side_sub_menu"><a th:href="@{/}">판매내역</a></li>
-					<li class="side_sub_menu"><a th:href="@{/}">구매내역</a></li>
-					<li class="side_sub_menu last_sub_menu"><a th:href="@{/}">관심목록</a></li>
-					<!--/* 나의중고거래 서브메뉴 end */-->
-					<li class="side_main_menu"><a th:href="@{/member/myClub}">나의 알뜰모임</a></li>
-					<li class="side_main_menu"><a th:href="@{/}">나의 커뮤니티</a></li>
-				</ul>
-			</div>
-		</th:block>
+			<!--/* 사이드(마이페이지) start */-->
+			<th:block th:if="${menu == 'mypage'}">
+				<div class="sidebar_title side_main_menu">마이페이지</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu"><a th:href="@{/member/myHome}" id="_myHome">홈</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myInfo}" id="_myInfo">내정보</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myHolopay}" id="_myHolopay">홀로페이</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myPoint}">포인트</a></li>
+						<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
+						<!--/* 나의중고거래 서브메뉴 start */-->
+						<li class="side_sub_menu"><a th:href="@{/}">판매내역</a></li>
+						<li class="side_sub_menu"><a th:href="@{/}">구매내역</a></li>
+						<li class="side_sub_menu last_sub_menu"><a th:href="@{/}">관심목록</a></li>
+						<!--/* 나의중고거래 서브메뉴 end */-->
+						<li class="side_main_menu"><a th:href="@{/member/myClub}">나의 알뜰모임</a></li>
+						<li class="side_main_menu"><a th:href="@{/}">나의 커뮤니티</a></li>
+					</ul>
+				</div>
+			</th:block>
+			<!--/* 사이드(마이페이지) end */-->
 
-		<th:block th:if="${menu == 'community'}">
-			<div class="sidebar_title side_main_menu">커뮤니티</div>
-			<div class="sidebar_section_content">
-				<ul>
-					<li class="side_main_menu"><a th:href="@{/board/info}" id="_infoBoard">정보게시판</a></li>
-					<li class="side_main_menu"><a th:href="@{/board/chat}" id="_chatBoard">수다방</a></li>
-				</ul>
-			</div>
-		</th:block>
 
-    <th:block th:if="${menu == 'cs'}">
-      <div class="sidebar_title side_main_menu">고객센터</div>
-      <div class="sidebar_section_content">
-        <ul>
-          <li class="side_main_menu"><a th:href="@{/cs/help/notice}">공지사항</a></li>
-					<li class="side_main_menu"><a th:href="@{/cs/faq}" id="_faq">자주하는질문</a></li>
-					<li class="side_main_menu"><a th:href="@{/cs/help/question}">1:1문의</a></li>
-        </ul>
-      </div>
-    </th:block>
-
-    <th:block th:if="${menu == 'club'}">
-      <div class="sidebar_title side_main_menu">[[${result.club.clubName}]]</div>
-      <div class="sidebar_section_content">
-        <ul>
-          <li class="side_main_menu"><a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}"
-              th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a></li>
-          <th:block th:if="${session.check != true}">
-            <li class="side_main_menu" onclick="nomember()"><a th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a></li>
-          </th:block>
-          <th:block th:if="${session.check == true}">
-            <li class="side_main_menu"><a th:href="@{/member/club/clubChat(clubId=${result.club.clubId})}" 
-              th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a></li>
-          </th:block> 
-          <li class="side_main_menu"><a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}"
-              th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a></li>
-        </ul>
-      </div>
-    </th:block>
+			<!--/* 사이드(커뮤니티) start */-->
+			<th:block th:if="${menu == 'community'}">
+				<div class="sidebar_title side_main_menu">커뮤니티</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu"><a th:href="@{/board/info}" id="_infoBoard">정보공유</a></li>
+						<li class="side_main_menu"><a th:href="@{/board/chat}" id="_chatBoard">수다방</a></li>
+					</ul>
+				</div>
+			</th:block>
+			<!--/* 사이드(알뜰모임) end */-->
+			
+			
+			<!--/* 사이드(고객센터) start */-->
+			<th:block th:if="${menu == 'cs'}">
+				<div class="sidebar_title side_main_menu">고객센터</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu"><a th:href="@{/cs/help/notice}">공지사항</a></li>
+						<li class="side_main_menu"><a th:href="@{/cs/faq}" id="_faq">자주하는질문</a></li>
+						<li class="side_main_menu"><a th:href="@{/cs/help/question}">1:1문의</a></li>
+					</ul>
+				</div>
+			</th:block>
+			<!--/* 사이드(고객센터) end */-->
+			
+			
+			<!--/* 사이드(알뜰모임 상세) start */-->
+			<th:block th:if="${menu == 'club'}">
+				<div class="sidebar_title side_main_menu">[[${result.club.clubName}]]</div>
+				<div class="sidebar_section_content">
+					<ul>
+						<li class="side_main_menu">
+							<a th:href="@{/member/club/clubPage(clubId=${result.club.clubId})}"
+							   th:class="${subMenu eq 'main'}? 'submenu_active' : ''">메인홈</a>
+						</li>
+						<th:block th:if="${session.check != true}">
+							<li class="side_main_menu" onclick="nomember()">
+								<a th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a>
+							</li>
+						</th:block>
+						<th:block th:if="${session.check == true}">
+							<li class="side_main_menu">
+								<a th:href="@{/member/club/clubChat(clubId=${result.club.clubId})}"
+								   th:class="${subMenu eq 'chat'}? 'submenu_active' : ''">모임채팅방</a>
+							</li>
+						</th:block>
+						<li class="side_main_menu">
+							<a th:href="@{/member/club/clubReview(clubId=${result.club.clubId})}"
+							   th:class="${subMenu eq 'review'}? 'submenu_active' : ''">모임리뷰</a>
+						</li>
+					</ul>
+				</div>
+			</th:block>
+			<!--/* 사이드(알뜰모임 상세) end */-->
+			
 		</div>
 
 		<script>
 			function nomember() {
 				Swal.fire({
-					icon: "error",
-					title: "입장불가",
-					text: "모임멤버만 입장 가능합니다."
-					});
+					icon : "error",
+					title : "입장불가",
+					text : "모임멤버만 입장 가능합니다."
+				});
 			}
-      
-      $(function(){
-        let currentUri = "[[${ #request.requestURI }]]";
-        let color = 'red';
-        console.log(currentUri);
 
-        if(currentUri.indexOf('myHome') != -1) {
-          $('#_myHome').addClass('submenu_active');
-        } else if(currentUri.indexOf('myInfo') != -1) {
-          $('#_myInfo').addClass('submenu_active');
-        } else if(currentUri.indexOf('myHolopay') != -1) {
-          $('#_myHolopay').addClass('submenu_active');
-        } else if(currentUri.indexOf('clubPage') != -1) {
-          $('#_clubPage').addClass('submenu_active');
-        } else if(currentUri.indexOf('clubReview') != -1) {
-          $('#_clubReview').addClass('submenu_active');
-        } else if(currentUri.indexOf('faq') != -1) {
-          $('#_faq').addClass('submenu_active');
-        } else if(currentUri.indexOf('info') != -1) {
-          $('#_infoBoard').addClass('submenu_active');
-        }
-      })
-      
-      
+			// 현재메뉴 표시
+			$(function() {
+				let currentUri = "[[${ #request.requestURI }]]";
+				let color = 'red';
+
+				if (currentUri.indexOf('myHome') != -1) {
+					$('#_myHome').addClass('submenu_active');
+				} else if (currentUri.indexOf('myInfo') != -1) {
+					$('#_myInfo').addClass('submenu_active');
+				} else if (currentUri.indexOf('myHolopay') != -1) {
+					$('#_myHolopay').addClass('submenu_active');
+				} else if (currentUri.indexOf('clubPage') != -1) {
+					$('#_clubPage').addClass('submenu_active');
+				} else if (currentUri.indexOf('clubReview') != -1) {
+					$('#_clubReview').addClass('submenu_active');
+				} else if (currentUri.indexOf('faq') != -1) {
+					$('#_faq').addClass('submenu_active');
+				} else if (currentUri.indexOf('info') != -1) {
+					$('#_infoBoard').addClass('submenu_active');
+				} else if (currentUri.indexOf('chat') != -1) {
+					$('#_chatBoard').addClass('submenu_active');
+				}
+			})
 		</script>
 	</div>
 </body>

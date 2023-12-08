@@ -1,6 +1,6 @@
 // 페이징
 let currentPage = 1;
-const recordsPerPage = 5; // 페이지당 표시할 레코드 수, 필요에 따라 조절
+const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
 
 // 페이지 버튼 생성
 function setupPagination(totalPages) {
@@ -19,7 +19,7 @@ function setupPagination(totalPages) {
         let previousLink = document.createElement("a");
         previousLink.className = "page-link";
         previousLink.href = "#";
-        previousLink.innerText = "Previous";
+        previousLink.innerText = "«";
         previousLink.addEventListener("click", function () {
             if (currentPage > 1) {
                 loadData(currentPage - 1);
@@ -50,7 +50,7 @@ function setupPagination(totalPages) {
         nextLi.className = "page-item";
         nextLink.className = "page-link";
         nextLink.href = "#";
-        nextLink.innerText = "Next";
+        nextLink.innerText = "»";
         nextLink.addEventListener("click", function () {
             if (currentPage < totalPages) {
                 loadData(currentPage + 1);
@@ -112,22 +112,23 @@ function updateTable(data, page) {
 
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
-            row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
+            //row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
             if (data.totalRecords > page * recordsPerPage) {
-                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
+                row.append($("<td class='board-no'>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
                 // row.append($("<td>").text(index + 1));
             } else {
-                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
+                row.append($("<td class='board-no'>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
             }
-            row.append($("<td>").text(item.title));
-            row.append($("<td>").text(formatDate(item.writeDate)));
+            row.append($("<td class='board-title' onclick="+ `location.href='/member/board/view?boardId=${item.boardId}'` + ">").text(item.title));
+            row.append($("<td class='board-date'>").text(formatDate(item.writeDate)));
             if (searchBoardSet == 'AA3') {
 
             } else if (searchBoardSet == 'AA2') {
-                row.append($("<td>").text(item.nickname));
+                row.append($("<td class='board-nickname'>").text(item.nickname));
             }
 
-            row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
+            //row.append($("<td class='board-likeAndView'>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
+            row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`));
 
             tbody.append(row);
         });
@@ -474,7 +475,7 @@ function setupReplyPagination(totalPages) {
         let previousLink = document.createElement("a");
         previousLink.className = "page-link";
         previousLink.href = "#";
-        previousLink.innerText = "Previous";
+        previousLink.innerText = "«";
         previousLink.addEventListener("click", function () {
             if (currentPage > 1) {
                 loadData(currentPage - 1);
@@ -505,7 +506,7 @@ function setupReplyPagination(totalPages) {
         nextLi.className = "page-item";
         nextLink.className = "page-link";
         nextLink.href = "#";
-        nextLink.innerText = "Next";
+        nextLink.innerText = "»";
         nextLink.addEventListener("click", function () {
             if (currentPage < totalPages) {
                 loadData(currentPage + 1);
