@@ -25,7 +25,6 @@ import com.holoyolo.app.accBookHistory.service.AccBookHistoryVO;
 import com.holoyolo.app.accBookHistory.service.apiVO.CardRequestBodyVO;
 import com.holoyolo.app.memberFinanceInfo.service.MemberFinanceInfoService;
 
-import lombok.Data;
 import com.google.gson.Gson;
 
 @Service

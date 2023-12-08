@@ -240,6 +240,7 @@ public class ClubController {
 	public String selectClubList() {
 		return "admin/club/clubPage";
 		}
+	
 	// 처리
 	@GetMapping("/admin/club/list")
 	@ResponseBody
@@ -257,6 +258,17 @@ public class ClubController {
 		Map<String, Object> getclubInfo = clubService.getClubDetail(clubVO);
 		model.addAttribute("clubInfo", getclubInfo.get("clubInfo"));
 		return "admin/club/clubDetail";
+	}
+	
+	//마이페이지 나의 알뜰모임 페이지
+	@GetMapping("/member/myClub")
+	public String myClubPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		Map<String, Object> map = clubService.getMyClub(principalDetails.getUsername());
+		
+		
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("result", map);
+		return "user/mypage/myClub";
 	}
 		
 
