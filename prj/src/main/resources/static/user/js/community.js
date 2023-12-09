@@ -368,7 +368,7 @@ async function checkLike() {
         success: function (data) {
             let heart = document.getElementById('boardLikeBtn');
             if (data.searchLike == "true") {
-                heart.innerHTML = '❤️';
+                heart.innerHTML = '&#128420;';
             }
         },
         error: function (error) {
@@ -410,13 +410,13 @@ function addLike() {
 //버튼 js
 function changeText(heart) {
     heart.classList.remove('animate__bounce');
-    heart.innerHTML = '❤️';
+    heart.innerHTML = '&#128420;';
     heart.classList.add('animate__animated', 'animate__bounce');
 }
 //좋아요 취소
 function deleteLike(heart) {
     heart.classList.remove('animate__bounceIn');
-    heart.innerHTML = '🤍';
+    heart.innerHTML = '&#129293;';
     heart.classList.add('animate__animated', 'animate__bounceIn');
 }
 
