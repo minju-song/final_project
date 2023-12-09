@@ -119,26 +119,28 @@ function updateTable(data, page) {
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
             if(searchBoardSet == "AA2" || searchBoardSet == "AA3"){
-                row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
+            	// 클릭이벤트 제목에만 처리(전유진)
+                //row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
             }else if(searchBoardSet == "AA6"){
                 row.attr("onclick", `location.href='/cs/help/notice/view?boardId=${item.boardId}'`);
             }
             
             if (data.totalRecords > page * recordsPerPage) {
-                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
+                row.append($("<td class='board-no'>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
                 // row.append($("<td>").text(index + 1));
             } else {
-                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
+                row.append($("<td class='board-no'>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
             }
-            row.append($("<td>").text(item.title));
-            row.append($("<td>").text(formatDate(item.writeDate)).css('text-align', 'center'));
+            // 클릭이벤트 제목에만 처리(전유진)
+            row.append($("<td class='board-title' onclick="+ `location.href='/member/board/view?boardId=${item.boardId}'` + ">").text(item.title));
+            row.append($("<td class='board-date'>").text(formatDate(item.writeDate)).css('text-align', 'center'));
             if (searchBoardSet == 'AA3'||searchBoardSet == "AA6") {
 
             } else if (searchBoardSet == 'AA2') {
-                row.append($("<td>").text(item.nickname));
+                row.append($("<td class='board-nickname'>").text(item.nickname));
             }
 
-            row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
+            row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`));
 
             tbody.append(row);
         });
