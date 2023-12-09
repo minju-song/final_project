@@ -12,6 +12,7 @@ public class TradeChatRoomVO {
 	private String buyerId;
 	private String title;
 	private int notread;
+	private String lastchat;
     @Builder
     public TradeChatRoomVO(int tradeId, String sellerId, String buyerId, String title) {
         this.tradeId = tradeId;

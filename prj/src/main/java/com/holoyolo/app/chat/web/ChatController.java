@@ -190,8 +190,20 @@ public class ChatController {
 		vo.setMemberId(principalDetails.getUsername());
 		tradeChatService.updateAllChat(vo);
 		Map<String, Object> map = new HashMap<>();
-		
+		map.put("result", "success");
 		return map;
+	}
+	
+	
+	//실시간채팅 읽음 완료
+	@GetMapping("checkMessageRead")
+	@ResponseBody
+	public String checkMessageRead(TradeChatVO vo) {
+		if(tradeChatService.updateRead(vo) > 0 ) {
+			return "success";
+		}
+		else return "fail";
+		
 	}
 	
 	

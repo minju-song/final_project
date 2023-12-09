@@ -105,4 +105,9 @@ public class TradeChatService {
 		public int updateAllChat(TradeChatVO vo) {
 			return tradeChatRoomMapper.updateAllChat(vo);
 		}
+		
+		//실시간 채팅 읽음 
+		public int updateRead(TradeChatVO vo) {
+			return tradeChatRoomMapper.updateRead(vo);
+		}
 }

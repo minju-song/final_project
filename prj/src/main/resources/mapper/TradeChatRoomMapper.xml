@@ -43,7 +43,14 @@
                         from trade_chat
                         where trade_chat_room = c.trade_id
                         and member_id != #{memberId} 
-                        and read_check = 'N') as notread
+                        and read_check = 'N') as notread,
+                        (select msg
+                        from trade_chat
+                        where trade_chat_room = c.trade_id
+                        and trade_chat_id = (
+                                            select max(trade_chat_id)
+                                            from trade_chat
+                                            where trade_chat_room = c.trade_id)) as lastchat
 		FROM trade_chat_room c JOIN trade t ON c.trade_id = t.trade_id      
 		WHERE c.seller_id = #{memberId} 
 		OR c.buyer_id = #{memberId} 
@@ -65,5 +72,12 @@
   		WHERE trade_chat_room = #{tradeChatRoomId}
   		AND read_check = 'N'
   		AND member_id != #{memberId}
+  	</update>
+  	
+  	<!-- 실시간으로 읽음 표시 -->
+  	<update id="updateRead" parameterType="TradeChatVO">
+  		UPDATE trade_chat 
+  		SET read_check = 'Y' 
+  		WHERE trade_chat_id = #{tradeChatId}
   	</update>
   </mapper>
