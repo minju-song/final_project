@@ -174,7 +174,7 @@
 						</thead>
 						<tbody>
 							<th:block th:each="chat : ${chatBoard}">
-								<tr th:onclick="|location.href='@{/member/board.view(boardId=${chat.boardId})}'|">
+								<tr th:onclick="|location.href='@{/member/board/view(boardId=${chat.boardId})}'|">
 									<td scope="row">[[${chat.rnum}]]</td>
 									<td class="td_title">[[${chat.title}]]</td>
 									<td class="td_nickname">[[${chat.nickname}]]</td>
