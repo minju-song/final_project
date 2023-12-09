@@ -267,7 +267,6 @@ function replyLoad(page) {
         data: JSON.stringify({ "boardId": boardId, "start": start, "end": end }),
         success: function (data) {
             updateReplyTable(data, page);
-
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
             console.log(totalPages)
             setupReplyPagination(totalPages);
@@ -290,7 +289,8 @@ function updateReplyTable(data) {
         console.log(upperReplyList.historyList[0].boardId)
 
         try {
-
+            let tbody = $("#ReplyTableBody");
+            tbody.empty()
 
             $.ajax({
                 type: 'POST',
@@ -412,52 +412,47 @@ function updateReplyTable(data) {
                             success: function (rowReplyList) {
                                 let rowList = rowReplyList.rowList;
                                 if (rowList.length != 0) {
-                                   
+
                                     for (let i = 0; i < rowList.length; i++) {
-                                        
+
                                         let rowReply = rowList[i];
                                         console.log(rowReply)
-
-
                                         let row2 = $("<tr>");
                                         row2.append($("<td>").text("↳"));
-                                        row2.append($("<td>").text(reply.content).css("width", "40%"));
-                                        row2.append($("<td>").text(formatDate(reply.writeDate)));
+                                        row2.append($("<td>").text(rowReply.content).css("width", "40%"));
+                                        row2.append($("<td>").text(formatDate(rowReply.writeDate)));
 
                                         if (thisboard.menuType == "AA3") {
-                                            if (thisboard.memberId == reply.memberId) {
+                                            if (thisboard.memberId == rowReply.memberId) {
                                                 row2.append($("<td>").text("작성자"));
                                             } else {
                                                 row2.append($("<td>").text("익명"));
                                             }
                                         } else if (thisboard.menuType == "AA2") {
-                                            row2.append($("<td>").text(reply.nickname));
+                                            row2.append($("<td>").text(rowReply.nickname));
                                         }
-
                                         $.ajax({
                                             type: 'POST',
                                             url: '/searchReplyWriter',
                                             contentType: 'application/json;charset=UTF-8',
-                                            data: JSON.stringify({ "memberId": reply.memberId }),
+                                            data: JSON.stringify({ "memberId": rowReply.memberId }),
                                             success: function (data) {
-
-                                                if (data.loginUser == reply.memberId) {
+                                                if (data.loginUser == rowReply.memberId) {
                                                     // 수정버튼
                                                     let ReplyUpdateBtn = $("<button>")
                                                         .text("수정")
-                                                        .attr('id', 'replyUpdateBtn' + reply.replyId)
-                                                        .attr('value', reply.replyId);
-
+                                                        .attr('id', 'replyUpdateBtn' + rowReply.replyId)
+                                                        .attr('value', rowReply.replyId);
                                                     ReplyUpdateBtn.on('click', function () {
-                                                        replyUpdateForm(reply.replyId, reply.content, row);
-                                                        let updateBtnId = document.getElementById('replyUpdateBtn' + reply.replyId)
+                                                        replyUpdateForm(rowReply.replyId, rowReply.content, row);
+                                                        let updateBtnId = document.getElementById('replyUpdateBtn' + rowReply.replyId)
                                                         updateBtnId.setAttribute('disabled', 'true');
                                                     });
                                                     // 삭제버튼
                                                     let ReplyDeleteBtn = $("<button>")
                                                         .text("삭제")
-                                                        .attr('id', 'replydeleteBtn' + reply.replyId)
-                                                        .attr('value', reply.replyId);
+                                                        .attr('id', 'replydeleteBtn' + rowReply.replyId)
+                                                        .attr('value', rowReply.replyId);
 
                                                     ReplyDeleteBtn.on('click', function () {
                                                         Swal.fire({
@@ -474,7 +469,7 @@ function updateReplyTable(data) {
                                                                     type: 'POST',
                                                                     url: '/deleteReply',
                                                                     contentType: 'application/json;charset=UTF-8',
-                                                                    data: JSON.stringify({ "replyId": reply.replyId }),
+                                                                    data: JSON.stringify({ "replyId": rowReply.replyId }),
                                                                     success: function (data) {
                                                                         Swal.fire({
                                                                             title: "성공!",
@@ -493,31 +488,16 @@ function updateReplyTable(data) {
                                                     row2.append(ReplyDeleteBtn);
                                                 }
                                             }
-
                                         });
-
-                                        if (reply.upperReplyId == 0) {
-                                            row2.append(rowReplyAddBtn);
-                                        }
-                                        tbody.append(row2)
-
-
+                                        row.after(row2)
                                     }
-
-                                    console.log('==============')
                                 }
-
-
                             },
                             error: function (error) {
                                 console.error("error: " + error);
                             }
                         })
-
-
-
                         tbody.append(row);
-                        
                     }
                 },
                 error: function () {
