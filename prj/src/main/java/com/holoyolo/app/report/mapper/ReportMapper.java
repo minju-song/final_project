@@ -26,4 +26,7 @@ public interface ReportMapper {
 	public int selectReportTotalCount(ReportVO reportVO);
 	
 	// 추가 인터페이스 작성 ↓↓
+	
+	//신고 등록
+	public int insertReport(ReportVO reportVO);
 }

@@ -5,6 +5,7 @@ console.log("admin-report.js 작업중");
 $(document).ready(function () {
 	function renderReportProcessForm(status, type) {
 		$("#reportArea").empty();
+		console.log(window.location.search.split('=')[1])
 		let reportId = window.location.search.split('=')[1];
 
 		$.ajax({
@@ -14,11 +15,15 @@ $(document).ready(function () {
 			success: function (data) {
 			console.log(data)
 				let originContent = data.reportInfo.processComment
+				let reporterId = data.reportInfo.reporterId
+				let reportedId = data.reportInfo.reportedId
 				console.log(originContent)
 				let template = `
 			<form id="reportForm">
 				<input type="hidden" name="reportId" value="${reportId}"/> 
 				<input type="hidden" name="reportProcessType" value="${type}"/> 
+				<input type="hidden" name="reporterId" value="${reporterId}"/> 
+				<input type="hidden" name="reportedId" value="${reportedId}"/> 
 				<span class="fw-bold">${status}처리사유 작성</span>
 				<div class="mt-2">
 					<textarea class="form-control" id="processComment"
@@ -66,7 +71,7 @@ $(document).ready(function () {
 				})
 		})
 
-		// 보내기 클릭
+		// 신고처리사유 보내기 클릭
 		$(document).on("click", "#reportFormSubmitBtn", function () {
 			let id = window.location.search.split('=')[1];
 			let formData = getUpdateInputForm();
@@ -76,15 +81,28 @@ $(document).ready(function () {
 				data: JSON.stringify(formData),
 				method: "PUT"
 			})
-				.done(function (data) {
+				.done((data) => {
 					let reportData = data.target;
 					let type = reportData.reportProcessType
 					let comment = reportData.processComment
+					let reporterId = formData.reporterId;
+					console.log(reporterId)
 
 					// 템플릿 활용
 					let template = reportCommentTemplate(type, comment)
+					
+					
+					//if(type == SB1){
+					// 1. 관련 회원이 해당페이지 접근시
+					
+					// 2. 신고당한 회원 메세지
+					// 3. 신고한 회원에게 메세지
+					// 4. 신고당한 회원 신고횟수 +1
+					//}
 
 					$("#reportArea").empty().append(template)
+					
+					
 				})
 				.fail(function (error) {
 					console.error("Error fetching question list: ", error);

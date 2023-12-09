@@ -28,7 +28,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeRequests()
 	        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-	        .antMatchers("/member/trade/**").access("hasRole('HA1')")
+	        .antMatchers("/member/tradeInfo/**").access("hasRole('HA1')")
 	        .antMatchers("/member/**").authenticated() // 인증만되면 들어갈 수 있는 주소
 	        .anyRequest().permitAll()
 	        .and()
@@ -36,8 +36,8 @@ public class SecurityConfig {
 	        .loginPage("/loginForm")
 	        .usernameParameter("memberId")
 	        .loginProcessingUrl("/login") // /login 호출시 시큐리티가 인터셉트해서 대신 로그인을 진행..
-	        .failureHandler(customAuthFailureHandler)
 	        .successHandler(customAuthSuccessHandler) // 추가정보 세션에 담기
+	        .failureHandler(customAuthFailureHandler)
 	        .and()
 	        .logout()
 	        .logoutSuccessUrl("/")

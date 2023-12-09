@@ -46,7 +46,7 @@
 								<div class="reviewCount silverColor" th:text="| │ 조회수 ${tradeInfo.views} │ ${#dates.format(tradeInfo.writeDate, 'yyyy-MM-dd')}|"></div>
 							</div>
 							<div class="row" th:if="${memberId != tradeInfo.sellerId}">
-								<div class="report silverColor">신고하기</div>
+								<div class="report silverColor" th:onclick="reportBtn([[${tradeInfo.tradeId}]],[[${tradeInfo.sellerId}]], event)">신고하기</div>
 							</div>
 						</div>
 						<div class="row">
@@ -71,6 +71,11 @@
 									<p>약속확정</p>
 								</div>
 							</div>
+							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '거래중'}">
+								<div class="pay insertbutton" th:onclick="|location.href='@{/member/tradeChat(sellerId=${tradeInfo.sellerId},tradeId=${tradeInfo.tradeId})}'|">
+									<p>대화하기</p>
+								</div>
+							</div>
 							<!-- 구매자 버튼 -->
 							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatus == null}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
@@ -86,8 +91,11 @@
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>거래확정</p>
 								</div>
-								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="|location.href='@{/member/tradePay(tradeId=${tradeInfo.tradeId})}'|">
+								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="|location.href='@{/member/tradePay(price=${tradeInfo.price},tradeId=${tradeInfo.tradeId})}'|">
 									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}"> 홀로페이</p>
+								</div>
+								<div class="pay insertbutton" th:onclick="|location.href='@{/member/tradeChat(sellerId=${tradeInfo.sellerId},tradeId=${tradeInfo.tradeId})}'|">
+									<p>대화하기</p>
 								</div>
 							</div>
 						</div>
@@ -124,7 +132,7 @@
 			</div>
 	        
             <div class="col-md-12 writeInput buttonFrom" th:if="${tradeInfo.sellerId == memberId}">
-              <button type="button" class="btn btn-secondary" th:onclick="'location.href=\'/member/tradeUpdate?tradeId='+ @{${tradeInfo.tradeId}} + '\''">수정</button>
+              <button type="button" class="btn btn-secondary" th:onclick="'location.href=\'/member/tradeUpdate?tradeId='+ @{${tradeInfo.tradeId}} +'\''">수정</button>
               <button type="button" class="btn btn-primary tradeDelete" th:onclick="deleteTrade()">삭제</button>
             </div>
         </div>
@@ -135,7 +143,8 @@
           let longitude = [[${tradeInfo.longitude}]];
           let tradeId = [[${tradeInfo.tradeId}]];
           let heart = `[[${heartCount.heartCount}]]`;
-
+		  let title = `[[${tradeInfo.title}]]`;
+		  let sellerId = `[[${tradeInfo.sellerId}]]`;
         </script>
 		<script src="/user/js/tradeInfo.js"></script>
 	</div>

@@ -38,6 +38,7 @@ public class ReviewController {
 	@Autowired
 	MemberService memberService;
 	
+	//리뷰페이지
 	@GetMapping("/member/club/clubReview")
 	public String clubPage(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model,HttpSession session, ClubVO vo) {
 		//회원이 가입한 클럽인지 체크한 후 세션에 저장
@@ -83,6 +84,7 @@ public class ReviewController {
 		return "user/club/clubReview";
 	}
 	
+	//리뷰등록
 	@PostMapping("/member/reviewinsert")
 	@ResponseBody
 	public Map<String, Object> insertReview(@AuthenticationPrincipal PrincipalDetails principalDetails, ReviewVO vo) {
@@ -105,6 +107,7 @@ public class ReviewController {
 		return map;
 	}
 	
+	//리뷰수정
 	@PostMapping("/member/reviewUpdate")
 	@ResponseBody
 	public Map<String, Object> updateReview(@AuthenticationPrincipal PrincipalDetails principalDetails, ReviewVO vo) {

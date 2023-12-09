@@ -12,15 +12,15 @@
 		    c.club_people,
 		    c.club_intro,
 		    c.club_date,
-		    b.club_budget_price,
-		    COALESCE(cs.success_count, 0) AS success_count,
-		    COALESCE(cm.member_count, 0) AS member_count
+		    b.club_budget_price AS price,
+		    COALESCE(cs.successCnt, 0) AS successCnt,
+		    COALESCE(cm.join_Cnt, 0) AS join_Cnt
 		FROM club c
 		JOIN club_budget b ON c.club_id = b.club_id
 		LEFT JOIN (
 		    SELECT
 		        club_id,
-		        COUNT(*) AS success_count
+		        COUNT(*) AS successCnt
 		    FROM club_success_history
 		    WHERE fn_get_code_name(success_state) = '성공'
 		    GROUP BY club_id
@@ -28,7 +28,7 @@
 		LEFT JOIN (
 		    SELECT
 		        club_id,
-		        COUNT(member_id) AS member_count
+		        COUNT(member_id) AS join_Cnt
 		    FROM club_member
 		    WHERE stop_date IS NULL OR stop_date > CURRENT_DATE
 		    GROUP BY club_id
@@ -210,6 +210,16 @@
 		        ORDER BY success_rate DESC, join_cnt DESC) T
 		WHERE ROWNUM <![CDATA[<=]]> #{page}
 	
+	</select>
+	
+	
+	<!-- 회원이 속한 알뜰모임 목록 -->
+	<select id="getMyClub" resultType="ClubVO">
+		SELECT c.*
+		FROM club c JOIN club_member cm ON c.club_id = cm.club_id
+		WHERE cm.member_id = #{memberId} 
+		AND cm.join_date is not null
+		AND cm.stop_date is null
 	</select>
 	
   </mapper>

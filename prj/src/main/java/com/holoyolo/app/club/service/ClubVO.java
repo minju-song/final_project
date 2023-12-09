@@ -53,14 +53,14 @@ public class ClubVO {
 
 	// admin검색
 	private String search;
-	
 	// admin페이징
 	private int page;
 	private int rn;
 	private int pageUnit;
 
 
-  
+	// admin모임삭제사유
+	private int deleteReason;
   
   
 	//모임성공률

@@ -6,6 +6,7 @@ import colorMapping from './admin-common.js';
 
 console.log("admin-question.js 작업중")
 
+
 let pageNum = 0;
 let pageSize = 0; //페이지 번호 수
 let pageUnit = 0;  //한페이지에 출력할 행의 수
@@ -133,19 +134,19 @@ $(document).ready(function () {
 	$(document).on("keyup", '#searchInput', function () {
 		clearTimeout(searchTimer);
 
-    searchTimer = setTimeout(function () {
-		pageNum = 1;
-		search = $("#searchInput").val();
-		
-		if ($("button[name='pendingQuestionCount']").hasClass("active")) {
-			questionYn = "답변대기";
-		} else if ($("button[name='completedQuestionCount']").hasClass("active")) {
-			questionYn = "답변완료";
-		} else {
-			questionYn = "";
-		}
-		renderQuestionList(questionYn, pageNum, search)
-		 }, 300); // 300 밀리초 (0.3초) 후에 검색 실행
+		searchTimer = setTimeout(function () {
+			pageNum = 1;
+			search = $("#searchInput").val();
+
+			if ($("button[name='pendingQuestionCount']").hasClass("active")) {
+				questionYn = "답변대기";
+			} else if ($("button[name='completedQuestionCount']").hasClass("active")) {
+				questionYn = "답변완료";
+			} else {
+				questionYn = "";
+			}
+			renderQuestionList(questionYn, pageNum, search)
+		}, 300); // 300 밀리초 (0.3초) 후에 검색 실행
 	})
 
 	// 상세페이지 이동
@@ -206,7 +207,6 @@ $(document).ready(function () {
 		$(updateInput).removeClass('d-none');
 		$(originContent).addClass('d-none');
 	}
-
 	// 수정
 	$(document).on("click", "button[name='updateConfirm']", function (e) {
 		e.preventDefault();

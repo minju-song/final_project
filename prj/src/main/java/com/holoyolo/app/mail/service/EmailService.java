@@ -15,6 +15,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.holoyolo.app.member.service.MemberService;
+import com.holoyolo.app.trade.service.TradeVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,18 +39,21 @@ public class EmailService {
 	 * @param type
 	 * @return
 	 */
-	public void sendMail(EmailVO emailVO, String type) {
-		String authNum = createCode(10); //임시비밀번호
-		
+	public void sendMail(EmailVO emailVO, TradeVO tradeVO, String type) {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		
-		if(type.equals("password")) memberService.updateMemberPwd(emailVO.getTo(), passwordEncoder.encode(authNum));
 		
 		try {
 			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 			mimeMessageHelper.setTo(emailVO.getTo()); // 수신자
 			mimeMessageHelper.setSubject(emailVO.getSubject()); // 제목
-			mimeMessageHelper.setText(setContext(authNum, type), true); // 메일 본문 내용, HTML 여부
+			
+			if(type.equals("password")) {
+				String authNum = createCode(10); //임시비밀번호
+				memberService.updateMemberPwd(emailVO.getTo(), passwordEncoder.encode(authNum));
+				mimeMessageHelper.setText(setContext(authNum, type), true); // 메일 본문 내용, HTML 여부
+			} else if(type.equals("promise")) {
+				mimeMessageHelper.setText(setContext(tradeVO, type), true);
+			}
 			javaMailSender.send(mimeMessage);
 			
 			log.info("Mail Send Success");
@@ -95,6 +99,23 @@ public class EmailService {
         context.setVariable("code", code);
         String path = "/user/mailbody/";
         return templateEngine.process(path + type, context);
+    }
+    
+    /**
+     * 중고거래 약속잡기
+     * @param tradeVO
+     * @param type
+     * @return
+     */
+    public String setContext(TradeVO tradeVO, String type) {
+    	Context context = new Context();
+        context.setVariable("nickname", tradeVO.getNickname());
+        context.setVariable("title", tradeVO.getTitle());
+        context.setVariable("sellerId", tradeVO.getSellerId());
+        context.setVariable("buyerId", tradeVO.getBuyerId());
+        context.setVariable("tradeId", tradeVO.getTradeId());
+        String path = "/user/mailbody/";
+    	return templateEngine.process(path + type, context);
     }
     
     
@@ -162,5 +183,33 @@ public class EmailService {
         String path = "/user/mailbody/request";
         return templateEngine.process(path, context);
     }
+    
+    public String deleteReason(EmailVO emailVO) {
+    	MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		try {
+			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+			mimeMessageHelper.setTo(emailVO.getTo()); // 수신자
+			mimeMessageHelper.setSubject(emailVO.getSubject()); // 제목
+			mimeMessageHelper.setText(setContextDeleteReason(emailVO.getClubId(),emailVO.getClubName(), emailVO.getText()), true); // 메일 본문 내용, HTML 여부
+			javaMailSender.send(mimeMessage);
+			
+			log.info("Mail Send Success");
+			return "success";
+			//return authNum;
+			
+		} catch(MessagingException e) {
+			log.info("Mail Send Fail");
+			throw new RuntimeException(e);
 
+		}
+    }
+    
+    public String setContextDeleteReason(int clubId,String clubName, String text) {
+        Context context = new Context();
+        context.setVariable("club", clubId); //클럽아이디
+        context.setVariable("clubName", clubName); //클럽이름
+        context.setVariable("text", text); // 삭제사유
+        String path = "/user/mailbody/deleteReason";
+        return templateEngine.process(path, context);
+    }
 }

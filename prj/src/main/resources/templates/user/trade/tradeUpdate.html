@@ -94,7 +94,7 @@
 						<input type="text" id="longitude" name="longitude" style="display:none" th:field="*{longitude}">
 					</div>
 					<div class="col-md-12 writeInput buttonFrom">
-						<button type="reset" class="btn btn-secondary">취소</button>
+						<button type="reset" class="btn btn-secondary" th:onclick="|location.href='@{/tradeList}'|">취소</button>
 						<button type="submit" class="btn btn-primary">등록</button>
 					</div>
 					<input type="number" th:field="*{tradeId}" hidden>

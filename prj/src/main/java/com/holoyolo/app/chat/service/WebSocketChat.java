@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Service 
 @ServerEndpoint(value="/chat")
 public class WebSocketChat {
-	private static Map<Integer, Set<Session>> clientsMap = Collections.synchronizedMap(new HashMap<Integer, Set<Session>>());
+	private static Map<Object, Set<Session>> clientsMap = Collections.synchronizedMap(new HashMap<Object, Set<Session>>());
 
 	@Autowired
 	ChatService chatService;

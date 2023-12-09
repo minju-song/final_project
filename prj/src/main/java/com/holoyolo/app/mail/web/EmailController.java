@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +14,7 @@ import com.holoyolo.app.clubMember.service.ClubMemberVO;
 import com.holoyolo.app.mail.service.EmailService;
 import com.holoyolo.app.mail.service.EmailVO;
 import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.trade.service.TradeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,7 +41,7 @@ public class EmailController {
 				.subject("[holoyolo] 임시 비밀번호 발급 메일입니다.")
 				.build();
 		
-		emailService.sendMail(emailVO, "password");
+		emailService.sendMail(emailVO, null, "password");
 	}
 	
 	/**
@@ -57,7 +56,7 @@ public class EmailController {
 				.subject("[holoyolo]" + memberVO.getMemberName() + "님, 회원가입을 축하드립니다")
 				.build();
 		
-		emailService.sendMail(emailVO, "join");
+		emailService.sendMail(emailVO, null, "join");
 	}
 	
 	//클럽가입요청
@@ -120,6 +119,41 @@ public class EmailController {
 		else return "fail";
 	}
 	
+	@PostMapping("/sendMail/deleteReason")
+	@ResponseBody
+	public String deleteReason(@RequestBody ClubVO vo) {
+		System.out.println("들어온 값 : "+vo);
+		EmailVO emailVO = EmailVO.builder()
+				.to("kongom2@naver.com")
+				.subject(vo.getClubName() + "모임은 삭제되었습니다.")
+				.clubId(vo.getClubId())
+				.clubName(vo.getClubName())
+				.text(vo.getText())
+				.build();
+		
+		if(emailService.deleteReason(emailVO).equals("success")) {
+			return "success";
+		}
+		else return "fail";
+	}
+	
+	/**
+	 * 중고거래 약속잡기 메일
+	 * @param tradeVO
+	 * @return
+	 */
+	@PostMapping("/sendmail/trade/promise")
+	public void sendPromise(@AuthenticationPrincipal PrincipalDetails principalDetails
+						    , TradeVO tradeVO) {
+		EmailVO emailVO = EmailVO.builder()
+				.to(tradeVO.getSellerId())
+				.subject("[holoyolo] 약속신청이 도착했어요!")
+				.build();
+		
+		tradeVO.setNickname(principalDetails.getName()); 	//구매자 닉네임
+		tradeVO.setBuyerId(principalDetails.getUsername());	//구매자 아이디
+		emailService.sendMail(emailVO, tradeVO, "promise");
+	}
 	
 	
 }

@@ -157,6 +157,57 @@ $(document).ready(function () {
 		location.href = `/admin/club/detail?clubId=${clubId}`;
 	});
 
+	// 삭제하기
+	$(document).on("click", "#clubDelete", function(e) {
+		$("#deleteReason").toggleClass('d-none')
+		$("#deleteReason").hasClass("d-none") == false ?
+		$("#clubDelete").text('작성취소') : $("#clubDelete").text('삭제하기')
+	})
+	
+	$(document).on("click", "#deleteReasonForm button", function(e){
+		e.preventDefault();
+		let formData = getUpdateInputForm();
+		let clubId = formData.clubId
+		console.log(formData)
+		$.ajax({
+			type : 'POST',
+			url : "/sendMail/deleteReason",
+			contentType: 'application/json',
+			data: JSON.stringify(formData)
+			})
+			.done(result  => {
+			console.log(result)
+				if(result=="fail") {
+				alert("삭제를 실패했습니다.")
+				} else {
+					 $.ajax({
+					 	type : "DELETE",
+					 	url : `/admin/club/delete?clubId=${clubId}`
+					 })
+					 .done(result => {
+					 console.log(result)
+					if (result == "success") {
+						alert('클럽이 삭제되었습니다.');
+						location.href = '/admin/club'
+					} else {
+						alert('삭제를 실패했습니다.');
+					}
+				})
+				.fail(error => console.log(error))
+				}
+			})
+			.fail(err => console.log(err))
+	})
+		// 수정된 formData
+	function getUpdateInputForm() {
+		let target = event.target
+		let formData = $(target).closest('#deleteReason form').serializeArray(); // 폼 태그 전용 메서드
+		let objData = {};
+		$.each(formData, (idx, obj) => {
+			objData[obj.name] = obj.value;
+		});
+		return objData;
+	}
 	// 페이지 버튼
 	function showPage(replyCnt) {
 
@@ -198,30 +249,22 @@ $(document).ready(function () {
 	renderClubList("", 1, search,1,"");
 })
 
-	// 수정된 formData
-	function getUpdateInputForm() {
-		let target = event.target
-		let formData = $(target).closest('#updateInputForm').serializeArray(); // 폼 태그 전용 메서드
-		let objData = {};
-		$.each(formData, (idx, obj) => {
-			objData[obj.name] = obj.value;
-		});
-		return objData;
-	}
-
+/*
 $(document).ready(function () {
+let clubId = window.location.href.split('=')[1];
 function renderClubDetail(clubId) {
+console.log(clubId)
 		$("tbody").empty();
 		$.ajax({
-			url: "/admin/club/detail",
+			url: "/admin/club/detail/{clubId}",
 			data: { clubId },
 			method: "GET"
 		})
 			.done(function (data) {
 				console.log(data)
-				let listData = data.list.result;
+				let listData = data.list;
 				// 개수출력
-				$("#initClubCount").text(`(${listData.length})`)
+				$("#initClubCount").text(`(${listData})`)
 				// 목록출력 
 				$.each(listData, function (index, list) {
 					let template = `
@@ -241,6 +284,6 @@ function renderClubDetail(clubId) {
 			});
 
 	}
-	renderClubDetail(1);
+	renderClubDetail(clubId);
 	
-	})
+	})*/

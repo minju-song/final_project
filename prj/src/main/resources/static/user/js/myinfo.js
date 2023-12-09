@@ -4,16 +4,16 @@
  
 $(function(){
 const Toast = Swal.mixin({
-			    toast: true,
-			    position: 'center',
-			    showConfirmButton: false,
-			    timer: 2000,
-			    timerProgressBar: true,
-			    didOpen: (toast) => {
-			        toast.addEventListener('mouseenter', Swal.stopTimer)
-			        toast.addEventListener('mouseleave', Swal.resumeTimer)
-			    }
-			})
+    toast: true,
+    position: 'center',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
 let url = $('#infoView').data("url");
 

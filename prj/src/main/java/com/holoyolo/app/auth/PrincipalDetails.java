@@ -100,7 +100,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User{
 	@Override
 	public String getName() {
 		// oauth2
-		return null; //attributes.get("sub")
+		return memberVO.getNickname();
 	}
 
 }

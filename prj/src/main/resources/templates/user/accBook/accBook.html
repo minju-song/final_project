@@ -15,6 +15,11 @@
 
 <body>
     <div layout:fragment="content">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div>
+                <strong>가계부 성공 기록</strong>은 다음 날 아침 10시 이전 또는 이후에 업데이트됩니다.
+            </div>
+        </div>
         <div style="display: flex;">
             <div class="info" style="flex: 1;">
                 <div style="flex: 1;" th:if="${cardNo.equals('null')}">

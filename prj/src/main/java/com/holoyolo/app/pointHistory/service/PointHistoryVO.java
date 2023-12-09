@@ -18,4 +18,6 @@ public class PointHistoryVO {
 	private int clubId;
 	private int tradeId;
 
+	
+	private int nowPoint;
 }
