@@ -71,6 +71,11 @@
 									<p>약속확정</p>
 								</div>
 							</div>
+							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '거래중'}">
+								<div class="pay insertbutton" th:onclick="|location.href='@{/member/tradeChat(sellerId=${tradeInfo.sellerId},tradeId=${tradeInfo.tradeId})}'|">
+									<p>대화하기</p>
+								</div>
+							</div>
 							<!-- 구매자 버튼 -->
 							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatus == null}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
@@ -88,6 +93,9 @@
 								</div>
 								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="|location.href='@{/member/tradePay(price=${tradeInfo.price},tradeId=${tradeInfo.tradeId})}'|">
 									<p><img class="holoPay" id="holoPay" th:src="@{/user/images/trade/piggy-bank.svg}"> 홀로페이</p>
+								</div>
+								<div class="pay insertbutton" th:onclick="|location.href='@{/member/tradeChat(sellerId=${tradeInfo.sellerId},tradeId=${tradeInfo.tradeId})}'|">
+									<p>대화하기</p>
 								</div>
 							</div>
 						</div>
