@@ -75,13 +75,15 @@ function loadData(page, search) {
     let searchOption = ""
     if (location.pathname == "/board/info" || location.pathname == "/board/chat") {
         searchOption = document.getElementById('searchTitle').value
+    }else if(searchBoardSet == "/cs/help/notice" ){
+        searchOption = document.getElementById('searchTitle').value
     }
 
     if (searchBoardSet == "/board/chat") {
         boardType = "AA3"
     } else if (searchBoardSet == "/board/info") {
         boardType = "AA2"
-    } else if (searchBoardSet == "/member/notice") {
+    } else if (searchBoardSet == "/cs/help/notice") {
         boardType = "AA6"
     }
     //검색 설정
@@ -116,7 +118,12 @@ function updateTable(data, page) {
 
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
-            row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
+            if(searchBoardSet == "AA2" || searchBoardSet == "AA3"){
+                row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
+            }else if(searchBoardSet == "AA6"){
+                row.attr("onclick", `location.href='/cs/help/notice/view?boardId=${item.boardId}'`);
+            }
+            
             if (data.totalRecords > page * recordsPerPage) {
                 row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
                 // row.append($("<td>").text(index + 1));
@@ -124,8 +131,8 @@ function updateTable(data, page) {
                 row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
             }
             row.append($("<td>").text(item.title));
-            row.append($("<td>").text(formatDate(item.writeDate)));
-            if (searchBoardSet == 'AA3') {
+            row.append($("<td>").text(formatDate(item.writeDate)).css('text-align', 'center'));
+            if (searchBoardSet == 'AA3'||searchBoardSet == "AA6") {
 
             } else if (searchBoardSet == 'AA2') {
                 row.append($("<td>").text(item.nickname));
@@ -184,7 +191,6 @@ async function findPost() {
 
 
 }
-
 
 //페이지 로딩 시 좋아요 표시
 async function checkLike() {
@@ -816,9 +822,6 @@ function replyUpdateForm(replyId, content, thisRow) {
     });
 }
 
-
-
-
 // 버튼을 생성하는 함수
 function createButton(id, text, className) {
     let button = document.createElement('button');
@@ -927,3 +930,5 @@ function reportFormSet() {
         }
     })
 }
+
+

@@ -9,7 +9,7 @@
 				, origin_file
 				, save_file
 		FROM attachment
-		WHERE menu_type = 'AA1'
+		WHERE menu_type = #{menuType}
 		AND post_id = #{postId}
 	</select>
 	
@@ -45,7 +45,7 @@
 	
 	<delete id="deleteAttachment" parameterType="AttachmentVO">
 		DELETE FROM attachment
-		WHERE menu_type = 'AA1'
+		WHERE menu_type =#{menuType}
 		AND post_id = #{postId}
 		AND save_file = #{saveFile}
 	</delete>

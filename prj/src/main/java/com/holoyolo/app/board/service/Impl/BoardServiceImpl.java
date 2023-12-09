@@ -6,7 +6,10 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.holoyolo.app.attachment.service.AttachmentService;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.board.mapper.BoardMapper;
 import com.holoyolo.app.board.service.BoardService;
 import com.holoyolo.app.board.service.BoardVO;
@@ -20,6 +23,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	BoardLikeService boardLikeService;
+
+	@Autowired
+	AttachmentService attachmentService;
 
 	// 게시판 별전체조회
 	@Override
@@ -39,7 +45,7 @@ public class BoardServiceImpl implements BoardService {
 		return resultList;
 	}
 
-	//단건조회
+	// 단건조회
 	@Override
 	public BoardVO selectBoard(int boardId) {
 		BoardVO vo = new BoardVO();
@@ -52,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
 	public int insertBoard(BoardVO vo) {
 		boardMapper.insertBoard(vo);
 		return vo.getBoardId();
-		
+
 	}
 
 	@Override
@@ -105,7 +111,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVO> searchBoardSurfPaged(JSONObject req) {
-				String search = (String) req.get("search");
+		String search = (String) req.get("search");
 		String searchType = (String) req.get("searchType");
 		String menuType = (String) req.get("type");
 		return BoardList(menuType, search, searchType);
@@ -115,12 +121,32 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotalBoardSurfRecords(JSONObject req) {
 		BoardVO vo = new BoardVO();
 		vo.setMenuType((String) req.get("type"));
-		vo.setSearchOption((String)req.get("searchType"));
-		vo.setSearchWord((String)req.get("search"));
+		vo.setSearchOption((String) req.get("searchType"));
+		vo.setSearchWord((String) req.get("search"));
 
 		return boardMapper.getTotalBoardSurfRecords(vo);
-			
-  }
 
+	}
 
+	@Override
+	@Transactional
+	public int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList) {
+		boardVO.setMenuType("AA6");
+		int result = boardMapper.insertBoard(boardVO);
+		for (int i = 0; i < imgList.size(); i++) {
+			AttachmentVO vo = imgList.get(i);	
+			vo.setMenuType("AA6");
+			vo.setPostId(boardVO.getBoardId());
+			attachmentService.insertAttachment(imgList.get(i));
+		}
+		
+	
+		if (result == 1) {
+			return boardVO.getBoardId();
+		} else {
+			return -1;
+		}
+	}
+	
+	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryVO;
 
@@ -40,5 +41,7 @@ public interface BoardService {
 	
 
 	public List<BoardVO> recentBoradList(BoardVO vo); //메인용 리스트
+
+	int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList);
 
 }
