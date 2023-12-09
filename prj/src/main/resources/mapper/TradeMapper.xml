@@ -204,7 +204,7 @@
 				AND trade_category = #{tradeCategory}
 			</if>
 			<if test="sellCheck != null and sellCheck.equals('true')">
-				AND promise_status <![CDATA[<>]]> 'TD3'
+				AND promise_status = 'TD4'
 			</if>
 	</sql>
 	

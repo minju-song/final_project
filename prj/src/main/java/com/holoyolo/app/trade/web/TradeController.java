@@ -93,6 +93,7 @@ public class TradeController {
 		heartVO.setMemberId(principalDetails.getUsername());
 		model.addAttribute("heartInfo", heartService.getHeart(heartVO));
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
+		attachmentVO.setMenuType("AA1");
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		model.addAttribute("heartCount", heartService.getHeartCount(heartVO));
 		return "user/trade/tradeInfo";
@@ -107,6 +108,7 @@ public class TradeController {
 		tradeVO.setSellerId(principalDetails.getUsername());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		attachmentVO.setPostId(tradeVO.getTradeId());
+		attachmentVO.setMenuType("AA1");
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		System.out.println(attachmentService.getAttachmentList(attachmentVO));
 		return "user/trade/tradeUpdate";
@@ -138,6 +140,13 @@ public class TradeController {
 		return "redirect:/tradeList";
 	}
 	
+	//구매자, 거래상태 수정
+	@GetMapping("member/BuyerIdUpdate")
+	public String buyerIdUpdateMail(TradeVO tradeVO) {
+		tradeService.updateBuyerId(tradeVO);
+		return "member/";
+	}
+	
 	//삭제
 	@GetMapping("member/tradeDelete")
 	@ResponseBody
@@ -167,6 +176,7 @@ public class TradeController {
 	@ResponseBody
 	public void attachmentDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
 								 AttachmentVO attachmentVO){
+		attachmentVO.setMenuType("AA1");
 		attachmentService.deleteAttachment(attachmentVO);
 	}
 	
@@ -188,5 +198,12 @@ public class TradeController {
 	public void tradeChat(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 						  TradeVO tradeVO) {
 		System.out.println(tradeVO);
+	}
+	
+	//마이페이지 나의 알뜰모임 페이지
+	@GetMapping("member/myTrade")
+	public String myClubPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		
+		return "user/mypage/mySell";
 	}
 }
