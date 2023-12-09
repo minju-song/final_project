@@ -1,4 +1,4 @@
-package com.holoyolo.app.chat.service;
+package com.holoyolo.app.chat.service.trade;
 
 import java.util.Date;
 
@@ -7,15 +7,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class ChatVO {
-
+public class TradeChatVO {
+	private int tradeChatId;
+	private int tradeChatRoomId;
     private String memberId;
     private String msg;
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date realDate;
     private String date;
-    private int clubId;
+
     private String memberName;
     private String type;
-    private int chatId;
+    private int tradeId;
 }

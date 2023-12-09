@@ -5,11 +5,252 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<style>
+		#chattingDiv {
+			background-color: darkcyan;
+			width: 100%;
+			height: 500px;
+			margin-bottom: 20px;
+			padding: 20px;
+			overflow-y: auto;
+		}
+
+		#sendArea {
+			width: 80%;
+			border-radius: 20px;
+			height: 50px;
+			padding: 10px;
+			border: 3px solid #ffc107;
+		}
+
+		.me,
+		.other {
+			width: 300px;
+			/* color: white; */
+			font-weight: bold;
+			border-radius: 20px;
+			padding: 10px;
+			color: black;
+		}
+
+		.other {
+			background-color: white;
+
+		}
+
+		.me {
+			background-color: #ffc107;
+
+		}
+
+		.sender {
+			color: white;
+		}
+
+		.me_div {
+			display: flex;
+			justify-content: end;
+		}
+
+		.me_div>.box>.sender {
+			text-align: end;
+		}
+
+		.enter {
+			color: white;
+			text-align: center;
+		}
+
+		#sendChat {
+			width: 100px;
+		}
+
+		#size {
+			font-size: small;
+			color: orangered;
+
+		}
+
+		#noticeBox {
+			width: 100%;
+			height: 50px;
+			line-height: 30px;
+			background-color: rgb(250 41 41 / 14%);
+			/* border-radius: 10px; */
+			border: 2px solid rgb(250 41 41 / 35%);
+			padding: 10px;
+		}
+
+		.noticeImg {
+			width: 30px;
+			height: 30px;
+			margin-right: 10px;
+		}
+
+		#noticeText {
+			font-weight: bold;
+		}
+
+		#noticeChat {
+			border-radius: 10px;
+			background-color: rgb(241 231 238);
+			border: 2px solid rgb(250 41 41 / 80%);
+			padding: 10px;
+		}
+	</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
+		<h3>[[${result.trade.nickname}]]님의 중고거래 채팅</h3>
+		<div id="chattingDiv">
 
+		</div>
+		<div style="display: flex; justify-content: space-around;">
+			<textarea id="sendArea"></textarea>
+			<button class="btn btn-warning" id="sendChat" onclick="sendMsg()">전송</button>
+		</div>
+
+
+		<script th:inline="javascript">
+			let trade = /*[[${result.trade}]]*/ null;
+
+			let memberId = /*[[${member.memberId}]]*/ null;
+			let memberName = /*[[${member.memberName}]]*/ null;
+			let room = /*[[${room}]]*/ null;
+			let chats = /*[[${chats}]]*/ null;
+		</script>
+
+		<script>
+			console.log(chats);
+			console.log(room);
+			let data = {};
+
+			let ws;
+			let sendBtn = document.getElementById('sendChat');
+			let msg = document.getElementById('sendArea');
+			let chatBox = document.getElementById('chattingDiv');
+
+			chatBox.scrollTop = chatBox.scrollHeight;
+			$(document).ready(function () {
+				// console.log(memberId);
+				//소켓생성
+				fetch('/checkMessageAll?tradeChatRoomId=' + room.tradeId)
+					.then(result => result.json())
+					.then(resolve => console.log(resolve));
+
+				ws = new WebSocket("ws://" + location.host + "/tradeChat?tradeId=" + trade.tradeId);
+
+				for (let i = 0; i < chats.length; i++) {
+					chats[i].type = 'msg';
+					chats[i].date = dateFormat(chats[i].realDate);
+					drawChat(chats[i]);
+				}
+
+				//메시지수신
+				ws.onmessage = function (msg) {
+					let data = JSON.parse(msg.data);
+					console.log(data);
+					// fetch('/checkMessageAll?tradeChatRoomId=' + room.tradeId)
+					// 	.then(result => result.json())
+					// 	.then(resolve => console.log(resolve));
+
+
+					drawChat(data);
+				}
+			});
+
+			//엔터클릭
+			msg.onkeyup = function (e) {
+				if (e.keyCode == 13 && e.shiftKey) {
+					return;
+				}
+				else if (e.keyCode == 13) {
+					send();
+				}
+			}
+
+			//보내기버튼 클릭
+			sendBtn.onclick = function () {
+				send();
+			}
+
+			//메시지 전송
+			function send() {
+				if (msg.value.trim() != '') {
+					data.memberId = memberId;
+					data.msg = msg.value;
+					data.date = new Date().toLocaleString();
+					data.tradeId = trade.tradeId;
+					data.memberName = memberName;
+					data.type = 'msg';
+					let temp = JSON.stringify(data);
+					ws.send(temp);
+					console.log(temp);
+
+					fetch("/member/insertTradeChat", {
+						method: "POST",
+						body: temp,
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}).then(response => response.json())
+						.then(result => {
+							console.log(result);
+						})
+
+				}
+
+				msg.value = '';
+			}
+
+			function drawChat(data) {
+				if (data.type == 'msg') {
+					let div = document.createElement('div');
+
+
+					let divbox = document.createElement('div');
+					divbox.setAttribute('class', 'box');
+
+					let div2 = document.createElement('div');
+
+
+					div2.innerText = data.msg;
+
+					let p = document.createElement('p');
+					p.setAttribute('class', 'sender');
+
+					if (data.memberId == memberId) {
+						div.classList.add('msg', 'me_div');
+						div2.setAttribute('class', 'me');
+						p.innerHTML = '<span style="padding:0 15px;">' + dateFormat(data.date.toString()) + '</span>' + ' 나';
+					}
+					else {
+						div.classList.add('msg', 'other_div');
+						div2.setAttribute('class', 'other');
+						p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date + '</span>';
+					}
+
+
+					divbox.appendChild(div2);
+					divbox.appendChild(p);
+					div.appendChild(divbox);
+					chatBox.appendChild(div);
+				}
+
+
+				chatBox.scrollTop = chatBox.scrollHeight;
+
+			}
+
+			function dateFormat(str) {
+				let date = new Date(str);
+				let newDate = date.getFullYear() + '년 ' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+					'월' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()))
+					+ '일  ' + ((date.getHours() + 1) <= 9 ? "0" + (date.getHours() + 1) : (date.getHours() + 1)) + '시 ' + ((date.getMinutes() + 1) <= 9 ? "0" + (date.getMinutes() + 1) : (date.getMinutes() + 1)) + '분';
+				return newDate;
+			}
+		</script>
 	</div>
 
 </body>

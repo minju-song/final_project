@@ -2,8 +2,8 @@ package com.holoyolo.app.chat.mapper;
 
 import java.util.List;
 
-import com.holoyolo.app.chat.service.ChatRoomVO;
-import com.holoyolo.app.chat.service.ChatVO;
+import com.holoyolo.app.chat.service.club.ChatRoomVO;
+import com.holoyolo.app.chat.service.club.ChatVO;
 
 public interface ChatRoomMapper {
 	

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        .chatBox {
+            border: 1px solid black;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        채팅리스트
+        <h3 id="test">0</h3>
+        <div class="chatBox" th:each="chatting : ${result.list}">
+            <div th:id="${chatting.tradeId}"
+                th:onclick="|location.href='@{/member/tradeChat(sellerId=${chatting.sellerId},tradeId=${chatting.tradeId})}'|">
+                <h3>[[${chatting.title}]] <span class="not" style="color: red;">[[${chatting.notread}]]</span></h3>
+                <h4>구매자 : [[${chatting.buyerId}]]</h4>
+                <h4>판매자 : [[${chatting.sellerId}]]</h4>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            let list = /*[[${result.list}]]*/ null;
+
+        </script>
+
+        <script>
+            console.log(list);
+
+            let ws;
+            let test = document.getElementById('test')
+            $(document).ready(function () {
+                // console.log(memberId);
+
+                for (let i = 0; i < list.length; i++) {
+                    ws = new WebSocket("ws://" + location.host + "/tradeChat?tradeId=" + list[i].tradeId);
+
+                    ws.onmessage = function (msg) {
+                        let data = JSON.parse(msg.data);
+                        console.log(data);
+
+                        // document.getElementById(data.tradeId).querySelector('.not')
+                        let notread = document.getElementById(data.tradeId).querySelector('.not')
+                        console.log(notread);
+                        notread.innerText = Number(notread.innerText) + 1;
+                    }
+                }
+                //소켓생성
+
+
+                //메시지수신
+            });
+        </script>
+    </div>
+</body>
+
+</html>
