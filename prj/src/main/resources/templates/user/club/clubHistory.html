@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <style>
-        #myChart{
+        #myChart {
             width: 100%;
         }
     </style>
@@ -15,8 +15,8 @@
 <body>
     <div layout:fragment="content">
         <h3>성공그래프</h3>
-        <canvas id="myChart"height="400"></canvas>
-        <canvas id="myChart2"height="400"></canvas>
+        <canvas id="myChart" height="400"></canvas>
+        <canvas id="myChart2" height="400"></canvas>
         <select>
             <option>1주</option>
             <option>1달</option>
@@ -27,8 +27,8 @@
 
         <script src="/user/js/Chart.min.js"></script>
         <script src="/user/js/utils.js"></script>
-        <script th:inline="javascript"> 
-             let club = /*[[${result.club}]]*/ null;
+        <script th:inline="javascript">
+            let club = /*[[${result.club}]]*/ null;
             let histories = /*[[${result.list}]]*/ null;
         </script>
 
@@ -37,16 +37,16 @@
             let pctData = [];
             let backgroundColorArr = [];
             let borderColorArr = [];
-            for(let i = 0; i < histories.length; i++) {
+            for (let i = 0; i < histories.length; i++) {
                 console.log(histories[i]);
-                if(dateFormat(histories[i].startDate) == dateFormat(histories[i].endDate)) {
+                if (dateFormat(histories[i].startDate) == dateFormat(histories[i].endDate)) {
                     labelArr[i] = dateFormat(histories[i].startDate);
                 }
                 else {
                     labelArr[i] = dateFormat(histories[i].startDate) + ' ~ ' + dateFormat(histories[i].endDate);
                 }
                 pctData[i] = histories[i].successPct;
-                if(histories[i].successState == 'SU1') {
+                if (histories[i].successState == 'SU1') {
                     backgroundColorArr[i] = 'rgba(54, 162, 235, 0.2)';
                     borderColorArr[i] = 'rgba(54, 162, 235, 1)';
                 }
@@ -84,44 +84,44 @@
                     }
                 });
                 const DATA_COUNT = 7;
-                const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
+                const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 
                 const labels = [];
                 for (let i = 0; i < DATA_COUNT; ++i) {
-                labels.push(Utils.newDate(i));
+                    labels.push(Utils.newDate(i));
                 }
 
 
                 var ctx2 = document.getElementById('myChart2');
                 var myChart2 = new Chart(ctx, {
                     labels: labels,
-                datasets: [{
-                    type: 'bar',
-                    label: 'Dataset 1',
-                    backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-                    borderColor: Utils.CHART_COLORS.red,
-                    data: Utils.numbers(NUMBER_CFG),
-                }, {
-                    type: 'bar',
-                    label: 'Dataset 2',
-                    backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-                    borderColor: Utils.CHART_COLORS.blue,
-                    data: Utils.numbers(NUMBER_CFG),
-                }, {
-                    type: 'line',
-                    label: 'Dataset 3',
-                    backgroundColor: Utils.transparentize(Utils.CHART_COLORS.green, 0.5),
-                    borderColor: Utils.CHART_COLORS.green,
-                    fill: false,
-                    data: Utils.numbers(NUMBER_CFG),
-                }]
+                    datasets: [{
+                        type: 'line',
+                        label: 'Dataset 1',
+                        backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+                        borderColor: Utils.CHART_COLORS.red,
+                        data: Utils.numbers(NUMBER_CFG),
+                    }, {
+                        type: 'bar',
+                        label: 'Dataset 2',
+                        backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+                        borderColor: Utils.CHART_COLORS.blue,
+                        data: Utils.numbers(NUMBER_CFG),
+                    }, {
+                        type: 'line',
+                        label: 'Dataset 3',
+                        backgroundColor: Utils.transparentize(Utils.CHART_COLORS.green, 0.5),
+                        borderColor: Utils.CHART_COLORS.green,
+                        fill: false,
+                        data: Utils.numbers(NUMBER_CFG),
+                    }]
                 })
-    
 
-                
-                
+
+
+
             })
-        
+
 
             function dateFormat(str) {
                 let date = new Date(str);

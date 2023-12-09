@@ -401,8 +401,8 @@ function memberInfo(mid, mname) {
             console.log(result.list);
             let history = `<div style="height:300px; overflow-y: auto;">`;
 
-            history += `<img src="/images/`+result.list[0].profileImg+`" style="width:100px; border-radius:50px;">`
-            +`<br><h3><strong>"`+ result.list[0].memberIntro +`"</strong></h3>`
+            history += `<img src="/images/` + result.list[0].profileImg + `" style="width:100px; height:100px;object-fit: cover; border-radius:50px;">`
+                + `<br><h3><strong>"` + result.list[0].memberIntro + `"</strong></h3>`
             for (let i = 0; i < result.list.length; i++) {
                 let rankingText = ``;
                 if (result.list[i].ranking == 1) rankingText = `&#129351; ` + result.list[i].ranking + `위 &#129351;`;
