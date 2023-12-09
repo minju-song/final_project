@@ -158,6 +158,7 @@ public class TradeController {
 						   Model model) {
 		memberVO.setMemberId(principalDetails.getUsername());
 		model.addAttribute("price", request.getParameter("price"));
+		model.addAttribute("tradeId", request.getParameter("tradeId"));
 		model.addAttribute("holoPayCnt", holoPayService.holopayBalance(memberVO));
 		model.addAttribute("pointCnt", pointService.pointBalance(memberVO));
 		return "user/trade/tradePay";
@@ -169,5 +170,19 @@ public class TradeController {
 	public void attachmentDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
 								 AttachmentVO attachmentVO){
 		attachmentService.deleteAttachment(attachmentVO);
+	}
+	
+	//포인트, 홀로페이 등록
+	@PostMapping("member/insertPayPoint")
+	@ResponseBody
+	public void insertPayPoint(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+							   MemberVO memberVO,
+							   TradeVO tradeVO) {
+		memberVO.setMemberId(principalDetails.getUsername());
+		System.out.println(memberVO);
+		tradeService.insertPayPoint(memberVO);
+		tradeVO.setPromiseStatus("TD3");
+		tradeVO.setTradeId(tradeVO.getTradeId());
+		tradeService.updateBuyerId(tradeVO);
 	}
 }

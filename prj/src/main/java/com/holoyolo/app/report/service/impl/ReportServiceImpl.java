@@ -75,4 +75,16 @@ public class ReportServiceImpl implements ReportService {
 		return reportMapper.selectReportTotalCount(reportVO);
 	}
 
+	//신고 등록
+	@Override
+	public int insertReport(ReportVO reportVO) {
+		int result = reportMapper.insertReport(reportVO);
+
+		if (result == 1) {
+			return result;
+		} else {
+			return -1;
+		}
+	}
+
 }

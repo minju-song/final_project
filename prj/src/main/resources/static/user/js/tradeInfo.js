@@ -127,6 +127,7 @@ let cd = {'약속잡기': 'TD1', '약속확정' : 'TD2', '거래확정' : 'TD3',
 				console.log("성공");
 				if(pay.innerText == '약속잡기'){
 					pay.innerText = '약속취소';
+					mailSend();
 				}else{
 					pay.parentElement.parentElement.remove();
 				}
@@ -155,4 +156,62 @@ let cd = {'약속잡기': 'TD1', '약속확정' : 'TD2', '거래확정' : 'TD3',
 			}
 		})
 	}
+}
+
+//메일 보내기
+function mailSend(){
+	$.ajax({
+		type: 'POST',
+		url : '/sendmail/trade/promise',  //이동할 jsp 파일 주소
+		data : {title, sellerId, tradeId},
+		success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+			console.log("성공");
+			if(pay.parentElement.nextElementSibling){
+				pay.parentElement.nextElementSibling.remove();
+			}else{
+				pay.innerText = '약속잡기';							
+			}
+		},
+		error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+			console.log("실패");
+		}
+	})
+}
+
+//신고버튼
+function reportBtn(postId, reportedId, e){
+	Swal.fire({
+        title: '신고 유형 및 사유를 작성해주세요.',
+        html: `<label for="reportType" class="form-label">신고 유형</label> 
+        	    <select id="reportType" class="form-select" required>
+					<option selected value="">선택하세요</option>
+					<option value="SA1">욕설</option>
+					<option value="SA2">음란성</option>
+					<option value="SA3">모욕/비방</option>
+					<option value="SA4">사기</option>
+					<option value="SA5">기타</option>
+				</select>
+				<input type="text" placeholder="사유를 입력하세요." id="reportContent">`
+    }).then((result) => {
+		if (result.isConfirmed) {
+		let reportType = document.querySelector('#reportType').value;
+		let reportContent = document.querySelector('#reportContent').value;
+		let menuType = 'AA1';
+			$.ajax({
+				type: 'POST',
+				url : '/member/insertReport',  //이동할 jsp 파일 주소
+				data : {postId, reportedId, menuType, reportType, reportContent},
+				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+					Swal.fire({
+				      title: "신고 접수",
+				      text: "신고가 접수되었습니다.",
+				      icon: "success"
+				    });
+				},
+				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+					console.log("실패");
+				}
+			})
+		}
+	});
 }
