@@ -3,6 +3,7 @@ package com.holoyolo.app.member.service.impl;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -246,5 +247,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberVO> getHolopayHistory(MemberVO memberVO) {
 		return memberMapper.getHolopayHistory(memberVO);
+	}
+
+	@Override
+	public MemberVO findById(String memberId) {
+		return memberMapper.findById(memberId);
+	}
+	
+	@Override
+	public MemberVO addMonth(MemberVO memberVO) {
+		return memberMapper.addMonth(memberVO);
 	}
 }

@@ -29,7 +29,7 @@ public class MemberVO {
 	private String role;
 	private String profileImg;
 	private String memberIntro;
-	private int reportCnt = -1;
+	private Integer reportCnt = -1;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date freedomDate;

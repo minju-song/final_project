@@ -17,6 +17,7 @@ $(document).ready(function () {
 				let originContent = data.reportInfo.processComment
 				let reporterId = data.reportInfo.reporterId
 				let reportedId = data.reportInfo.reportedId
+				let menuType = data.reportInfo.menuType
 				console.log(originContent)
 				let template = `
 			<form id="reportForm">
@@ -24,6 +25,7 @@ $(document).ready(function () {
 				<input type="hidden" name="reportProcessType" value="${type}"/> 
 				<input type="hidden" name="reporterId" value="${reporterId}"/> 
 				<input type="hidden" name="reportedId" value="${reportedId}"/> 
+				<input type="hidden" name="menuType" value="${menuType}"/> 
 				<span class="fw-bold">${status}처리사유 작성</span>
 				<div class="mt-2">
 					<textarea class="form-control" id="processComment"
@@ -82,11 +84,12 @@ $(document).ready(function () {
 				method: "PUT"
 			})
 				.done((data) => {
-					let reportData = data.target;
-					let type = reportData.reportProcessType
-					let comment = reportData.processComment
+					let type = formData.reportProcessType
+					let comment = formData.processComment
 					let reporterId = formData.reporterId;
-					console.log(reporterId)
+					let reportedId = formData.reportedId;
+					let menuType = formData.menuType;
+					console.log(menuType)
 
 					// 템플릿 활용
 					let template = reportCommentTemplate(type, comment)
@@ -94,7 +97,9 @@ $(document).ready(function () {
 					
 					//if(type == SB1){
 					// 1. 관련 회원이 해당페이지 접근시
+					//reporterId 신고자 아이디
 					
+					//유저가
 					// 2. 신고당한 회원 메세지
 					// 3. 신고한 회원에게 메세지
 					// 4. 신고당한 회원 신고횟수 +1

@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.holoyolo.app.member.mapper.MemberMapper;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.report.mapper.ReportMapper;
 import com.holoyolo.app.report.service.ReportService;
 import com.holoyolo.app.report.service.ReportVO;
@@ -16,6 +18,9 @@ public class ReportServiceImpl implements ReportService {
 
 	@Autowired // 매퍼 주입
 	ReportMapper reportMapper;
+	
+	@Autowired
+	MemberMapper memberMapper;
 
 	// 신고 전체조회
 	@Override
@@ -85,6 +90,21 @@ public class ReportServiceImpl implements ReportService {
 		} else {
 			return -1;
 		}
+	}
+	
+	@Override
+	public int updateMemberReportCnt(String reportedId) {
+		return reportMapper.updateMemberReportCnt(reportedId);
+	}
+
+	@Override
+	public int updateMemberReportCntReset(String reportedId) {
+		return reportMapper.updateMemberReportCntReset(reportedId);
+	}
+
+	@Override
+	public int updateMemberInfo(MemberVO memberVO) {
+		return memberMapper.updateMemberInfo(memberVO);
 	}
 
 }

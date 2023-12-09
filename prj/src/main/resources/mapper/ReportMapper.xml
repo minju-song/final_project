@@ -106,4 +106,17 @@ SELECT *
 				, #{reportContent}
 			)
 	</insert>
+	
+		<!-- 신고 횟수 ++ -->
+	<update id="updateMemberReportCnt" parameterType="String">
+		update member
+		set report_cnt = report_cnt + 1
+		where member_id = #{reportedId}
+	</update>
+	<!-- 신고 횟수 리셋 -->
+	<update id="updateMemberReportCntReset" parameterType="String">
+		update member
+		set report_cnt = 0
+		where member_id = #{reportedId}
+	</update>
   </mapper>

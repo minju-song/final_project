@@ -68,4 +68,7 @@ public interface MemberService {
 	// 어드민 홀로페이 내역
 	public List<MemberVO> getHolopayHistory(MemberVO memberVO);
 	
+	public MemberVO findById(String memberId);
+	
+	public MemberVO addMonth(MemberVO memberVO);
 }
