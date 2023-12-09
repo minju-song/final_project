@@ -25,9 +25,10 @@
 <select id="getSuccessMember" parameterType="ClubMemberVO" resultType="ClubSuccessHistoryMemberVO">
 	    SELECT *
 	    FROM (
-	        SELECT csh.*, cs.start_date, cs.end_date
+	        SELECT csh.*, cs.start_date, cs.end_date, m.member_intro , m.profile_img 
 	        FROM club_success_history_member csh
 	        JOIN club_success_history cs ON csh.goal_id = cs.goal_id
+	        JOIN member m ON m.member_id = csh.member_id
 	        WHERE csh.member_id = #{memberId}
 	          AND cs.club_id = #{clubId}
 	        ORDER BY csh.goal_member_id DESC

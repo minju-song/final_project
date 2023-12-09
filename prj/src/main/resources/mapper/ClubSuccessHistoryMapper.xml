@@ -64,5 +64,13 @@
 		WHERE success_state = 'SU3' 
 		AND club_id = #{clubId}
 	</delete>
+	
+	<!-- 클럽별 성공기록 -->
+	<select id="getClubSuccess" resultType="ClubSuccessHistoryVO">
+		SELECT * 
+		FROM club_success_history 
+		WHERE club_id = #{clubId}
+		AND success_state != 'SU3'
+	</select>
 
   </mapper>

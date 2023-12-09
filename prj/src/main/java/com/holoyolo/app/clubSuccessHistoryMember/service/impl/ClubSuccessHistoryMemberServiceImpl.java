@@ -11,6 +11,8 @@ import com.holoyolo.app.clubMember.service.ClubMemberVO;
 import com.holoyolo.app.clubSuccessHistoryMember.mapper.ClubSuccessHistoryMemberMapper;
 import com.holoyolo.app.clubSuccessHistoryMember.service.ClubSuccessHistoryMemberService;
 import com.holoyolo.app.clubSuccessHistoryMember.service.ClubSuccessHistoryMemberVO;
+import com.holoyolo.app.member.mapper.MemberMapper;
+import com.holoyolo.app.member.service.MemberVO;
 
 @Service
 public class ClubSuccessHistoryMemberServiceImpl implements ClubSuccessHistoryMemberService {
@@ -18,12 +20,16 @@ public class ClubSuccessHistoryMemberServiceImpl implements ClubSuccessHistoryMe
 	@Autowired
 	ClubSuccessHistoryMemberMapper clubSuccessHistoryMemberMapper;
 
+	@Autowired
+	MemberMapper memberMapper;
+	
 	@Override
 	public Map<String, Object> getFiveHistory(ClubMemberVO vo) {
 		Map<String, Object> map = new HashMap<>();
 		
 		List<ClubSuccessHistoryMemberVO> list = clubSuccessHistoryMemberMapper.getSuccessMember(vo);
 		map.put("list", list);
+		
 		
 		return map;
 	}
