@@ -2,6 +2,7 @@ package com.holoyolo.app.reply.service.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,13 +57,12 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyVO> searchReplyPage(JSONObject req) {
 		int start = (int) req.get("start");
 		int end = (int) req.get("end");
-		 
-		
+
 		ReplyVO vo = new ReplyVO();
 		vo.setBoardId((int) req.get("boardId"));
 		vo.setUpperReplyId(0);
 		List<ReplyVO> allList = upperReplyList(vo);
-		return allList.subList(start, Math.min(end+1, allList.size()));
+		return allList.subList(start, Math.min(end + 1, allList.size()));
 	}
 
 	@Override
@@ -92,5 +92,12 @@ public class ReplyServiceImpl implements ReplyService {
 		vo = replyMapper.upperReplySearch(replyId);
 
 		return vo;
+	}
+
+	@Override
+	public List<ReplyVO> rowReplyList(ReplyVO vo) {
+		List<ReplyVO> setList = new ArrayList<ReplyVO>();
+		setList = replyMapper.rowReplyList(vo);
+		return setList;
 	}
 }

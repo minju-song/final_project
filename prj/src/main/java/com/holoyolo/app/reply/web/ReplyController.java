@@ -32,7 +32,7 @@ public class ReplyController {
 		Map<String, Object> result = new HashMap<>();
 		result.put("historyList", resultList);
 		result.put("totalRecords", totalRecords);
-		
+
 		return result;
 	}
 
@@ -66,6 +66,15 @@ public class ReplyController {
 	public Map<String, Object> deleteReply(@RequestBody ReplyVO vo) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("resultMsg", replyService.deleteReply(vo));
+		return result;
+	}
+
+	@PostMapping("/loadRowReply")
+	@ResponseBody
+	public Map<String, Object> rowreplyload(@RequestBody ReplyVO vo) {
+		// 대댓글 리스트 호출
+		Map<String, Object> result =new HashMap<String, Object>() ;
+				result.put("rowList",replyService.rowReplyList(vo));
 		return result;
 	}
 }

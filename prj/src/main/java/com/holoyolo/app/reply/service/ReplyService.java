@@ -29,4 +29,6 @@ public interface ReplyService {
 
 	List<ReplyVO> upperReplyList(ReplyVO vo);
 
+	List<ReplyVO> rowReplyList(ReplyVO vo);
+
 }

@@ -29,4 +29,6 @@ public interface ReplyMapper {
 		
 		public ReplyVO upperReplySearch(int replyId);
 		
+		
+		public List<ReplyVO> rowReplyList(ReplyVO vo);
 }

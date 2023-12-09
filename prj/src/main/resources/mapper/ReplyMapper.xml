@@ -67,6 +67,35 @@ ORDER BY
     WRITE_DATE DESC
 </select> 
 
+<select id="rowReplyList"  resultType="ReplyVO">
+SELECT 
+    r.REPLY_ID AS REPLY_ID, 
+    r.UPPER_REPLY_ID AS UPPER_REPLY_ID, 
+    r.CONTENT AS CONTENT, 
+    r.WRITE_DATE AS WRITE_DATE, 
+    r.UPDATE_DATE AS UPDATE_DATE, 
+    r.BOARD_ID AS BOARD_ID, 
+    m.NICKNAME AS NICKNAME,
+    r.member_id AS MEMBER_ID
+FROM 
+    REPLY r
+JOIN 
+    member m ON r.member_id = m.member_id
+WHERE 
+    UPPER_REPLY_ID = #{upperReplyId}
+GROUP BY 
+    r.REPLY_ID, 
+    r.UPPER_REPLY_ID, 
+    r.CONTENT, 
+    r.WRITE_DATE, 
+    r.UPDATE_DATE, 
+    r.BOARD_ID, 
+    m.NICKNAME,
+    r.member_id
+ORDER BY 
+    WRITE_DATE DESC
+</select> 
+
 
 <insert id="insertReply" parameterType="ReplyVO">
     <selectKey keyProperty="replyId" resultType="int" order="BEFORE">
