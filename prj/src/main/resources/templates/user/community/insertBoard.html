@@ -1,215 +1,210 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}">
-
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-
-  <link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
-  <link rel="stylesheet" type="text/css" href="/user/css/boardInsert.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <style>
-    #btnDiv {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .btns {
-      display: inline-block;
-      padding: 0 10px;
-      height: 28px;
-      line-height: 26px;
-      text-align: center;
-      vertical-align: middle;
-      border-radius: 3px;
-      border: 1px solid transparent;
-      font-weight: 500;
-    }
-
-    .btns.save {
-      background: #139dc8;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .btns.back {
-      background: #fff;
-      border: 1px solid #199bc4;
-      color: #199bc4;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>holoyolo::커뮤니티</title>
+    <link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
+    <link rel="stylesheet" type="text/css" href="/user/css/board.css">
+    <link rel="stylesheet" type="text/css" href="/user/css/boardInsert.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
-
 <body>
-  <div layout:fragment="content">
-    <div class="container">
-      <div id="boardContent">
-        <div class="row">
-          <div class="row">
-            <div class="mb-3 col-4 input-group">
-              <label for="boardType">글 유형</label>
-              <input type="text" class="form-control" aria-label="boardType" th:value="${boardType}" id="ckBoardType"
-                readonly>
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="text-left dp_flex space_between align-center">
+                <h2 class="h2_title" th:text="${boardType}"></h2>
+                <div class="d-flex justify-content-end btn_wrap">
+                    <button type="button" class="btn btn-primary" id="insertPostBtn">등록</button>
+                    <button type="button" class="btn btn-danger" id="insertCancle">취소</button>
+                </div>
             </div>
-            <div class="input-group mb-4 col-3">
-              <label for="nickname">작성자</label>
-              <input type="text" class="form-control" aria-label="Username" th:value="${user.nickname}" id="nickname"
-                readonly>
+            <div id="boardContent">
+                <div class="row member_info">
+                    <div class="input-group col-4">
+                        <label for="boardType" class="col-4">글유형</label>
+                        <input type="text" class="form-control" aria-label="boardType" th:value="${boardType}"
+                            id="ckBoardType" readonly>
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="nickname" class="col-4">닉네임</label>
+                        <input type="text" class="form-control" aria-label="Username" th:value="${user.nickname}"
+                            id="nickname" readonly>
+                    </div>
+                    <div class="input-group col-4">
+                        <label for="nickname" class="col-4">아이디</label>
+                        <input type="text" class="form-control" aria-label="Username" th:value="${user.memberId}"
+                            id="userId" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <input type="text" placeholder="제목" id="title">
+                    </div>
+                    <!--/* 에디터 컨텐츠 */-->
+                    <div id="content"></div>
+                </div>
             </div>
-            <div class="input-group mb-4 col-3">
-              <label for="nickname">작성자ID</label>
-              <input type="text" class="form-control" aria-label="Username" th:value="${user.memberId}" id="userId"
-                readonly>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="제목" id="title">
-          </div>
-          <div id="content"></div>
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" id="insertPostBtn">등록</button>
-            <button type="button" class="btn btn-danger" id="">취소</button>
-          </div>
-        </div>
-      </div>
 
 
-      <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+            <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
-      <script>
-        //등록이벤트
-        let insertPostBtn = document.getElementById('insertPostBtn');
-        insertPostBtn.addEventListener('click', savePost);
-        //게시판 체크(AA1~AA6)
+            <script>
+                //등록이벤트
+                let insertPostBtn = document.getElementById('insertPostBtn');
+                insertPostBtn.addEventListener('click', savePost);
+                //게시판 체크(AA1~AA6)
 
-        //사이드메뉴 표시
-        $(function(){
-        	let menu_type = "[[${boardType}]]"
-        	if(menu_type == '정보공유') {
-	          $('#_infoBoard').addClass('submenu_active');
-	        } else if(menu_type == '수다방') {
-	          $('#_chatBoard').addClass('submenu_active');
-	        }
-        })
-		
-        // sweet alert
-        const Toast = Swal.mixin({
-		    toast: true,
-		    position: 'center',
-		    showConfirmButton: false,
-		    timer: 2000,
-		    timerProgressBar: true,
-		    didOpen: (toast) => {
-		        toast.addEventListener('mouseenter', Swal.stopTimer)
-		        toast.addEventListener('mouseleave', Swal.resumeTimer)
-		    }
-		})
+                //사이드메뉴 표시
+                $(function () {
+                    let menu_type = "[[${boardType}]]"
+                    if (menu_type == '정보공유') {
+                        $('#_infoBoard').addClass('submenu_active');
+                    } else if (menu_type == '수다방') {
+                        $('#_chatBoard').addClass('submenu_active');
+                    }
+                })
+
+                // sweet alert
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
 
 
-        const editor = new toastui.Editor({
-          el: document.querySelector('#content'),      // 에디터를 적용할 요소 (컨테이너)
-          height: '500px',                             // 에디터 영역의 높이 값 (OOOpx || auto)
-          initialEditType: 'markdown',                 // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-          initialValue: '',                            // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-          previewStyle: 'vertical',                    // 마크다운 프리뷰 스타일 (tab || vertical)
-          placeholder: '내용을 입력해 주세요.',
-          /* start of hooks */
-          hooks: {
-            async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
-              try {
-                /*
-                 * 1. 에디터에 업로드한 이미지를 FormData 객체에 저장
-                 *    (이때, 컨트롤러 uploadEditorImage 메서드의 파라미터인 'image'와 formData에 append 하는 key('image')값은 동일해야 함)
-                 */
-                const formData = new FormData();
-                formData.append('image', blob);
+                const editor = new toastui.Editor({
+                    el: document.querySelector('#content'),      // 에디터를 적용할 요소 (컨테이너)
+                    height: '500px',                             // 에디터 영역의 높이 값 (OOOpx || auto)
+                    initialEditType: 'markdown',                 // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+                    initialValue: '',                            // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+                    previewStyle: 'vertical',                    // 마크다운 프리뷰 스타일 (tab || vertical)
+                    placeholder: '내용을 입력해 주세요.',
+                    /* start of hooks */
+                    hooks: {
+                        async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
+                            try {
+                                /*
+                                 * 1. 에디터에 업로드한 이미지를 FormData 객체에 저장
+                                 *    (이때, 컨트롤러 uploadEditorImage 메서드의 파라미터인 'image'와 formData에 append 하는 key('image')값은 동일해야 함)
+                                 */
+                                const formData = new FormData();
+                                formData.append('image', blob);
 
-                // 2. FileApiController - uploadEditorImage 메서드 호출
-                const response = await fetch('/tui-editor/image-upload', {
-                  method: 'POST',
-                  body: formData,
+                                // 2. FileApiController - uploadEditorImage 메서드 호출
+                                const response = await fetch('/tui-editor/image-upload', {
+                                    method: 'POST',
+                                    body: formData,
+                                });
+
+                                // 3. 컨트롤러에서 전달받은 디스크에 저장된 파일명
+                                const filename = await response.text();
+                                console.log('서버에 저장된 파일명 : ', filename);
+
+                                // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
+                                const imageUrl = `/tui-editor/image-print?filename=${filename}`;
+                                callback(imageUrl, 'image alt attribute');
+
+                            } catch (error) {
+                                console.error('업로드 실패 : ', error);
+                            }
+                        }
+                    }
+                    /* end of hooks */
                 });
 
-                // 3. 컨트롤러에서 전달받은 디스크에 저장된 파일명
-                const filename = await response.text();
-                console.log('서버에 저장된 파일명 : ', filename);
 
-                // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 렌더링
-                const imageUrl = `/tui-editor/image-print?filename=${filename}`;
-                callback(imageUrl, 'image alt attribute');
+                // 게시글 저장
+                async function savePost() {
+                    // 1. 콘텐츠 입력 유효성 검사
+                    if (editor.getMarkdown().length < 1) {
+                        Toast.fire({
+                            icon: 'warning',
+                            title: '내용을 입력해주세요!'
+                        })
+                        throw new Error('editor content is required!');
+                    }
 
-              } catch (error) {
-                console.error('업로드 실패 : ', error);
-              }
-            }
-          }
-          /* end of hooks */
-        });
+                    // 2. url, parameter 세팅
+                    const url = '/api/Board/posts';
+                    const memberId = document.getElementById('userId').value;
+                    const title = document.getElementById('title').value;
+                    let ckBoardType = document.getElementById('ckBoardType').value;
+                    let boardType = "";
+                    
+                   	if(title == null || title == '') {
+                   		Toast.fire({
+                            icon: 'warning',
+                            title: '제목을 입력해주세요!'
+                        })
+                       	return;
+                   	}
+                    
+                    if (ckBoardType == "정보공유") {
+                        boardType = "AA2";
+                    } else if (ckBoardType == "수다방") {
+                        boardType = "AA3";
+                    }
+                    console.log(boardType, ckBoardType)
+                    const params = {
+                        title: title,
+                        content: editor.getMarkdown(),
+                        memberId: memberId,
+                        menuType: boardType
+                    }
+
+                    // 3. API 호출
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(params),
+                        });
+
+                        const postId = await response.json();
 
 
-        // 게시글 저장
-        async function savePost() {
-          // 1. 콘텐츠 입력 유효성 검사
-          if (editor.getMarkdown().length < 1) {
-			Toast.fire({
-				icon: 'warning',
-				title: '내용을 입력해주세요!'
-			})
-            throw new Error('editor content is required!');
-          }
+                        Toast.fire({
+                            icon: 'success',
+                            title: '게시글이 정상적으로 저장되었습니다!'
+                        })
 
-          // 2. url, parameter 세팅
-          const url = '/api/Board/posts';
-          const memberId = document.getElementById('userId').value;
-          const title = document.getElementById('title').value;
-          let ckBoardType = document.getElementById('ckBoardType').value;
-          let boardType = "";
-          if (ckBoardType == "정보공유") {
-            boardType = "AA2";
-          } else if (ckBoardType == "수다방") {
-            boardType = "AA3";
-          }
-          console.log(boardType,ckBoardType)
-          const params = {
-            title: title,
-            content: editor.getMarkdown(),
-            memberId: memberId,
-            menuType: boardType
-          }
-          
-          // 3. API 호출
-          try {
-            const response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(params),
-            });
 
-            const postId = await response.json();
-            
-            
-            alert(postId + '번 게시글이 저장되었습니다.');
-            
-            
-            if (ckBoardType == "정보공유") {
-            	location.href = "/board/info";
-            } else if (ckBoardType == "수다방") {
-            	location.href = "/board/chat";
-            }
+                        if (ckBoardType == "정보공유") {
+                            location.href = "/board/info";
+                        } else if (ckBoardType == "수다방") {
+                            location.href = "/board/chat";
+                        }
 
-          } catch (error) {
-            console.error('저장 실패 : ', error)
-          }
-        }
-      </script>
+                    } catch (error) {
+                        console.error('저장 실패 : ', error)
+                    }
+                }
+                
+                // 취소 버튼 클릭
+                document.querySelector('#insertCancle').addEventListener('click', function(){
+                	let ckBoardType = document.getElementById('ckBoardType').value;
+                	if (ckBoardType == "정보공유") {
+                        location.href = "/board/info";
+                    } else if (ckBoardType == "수다방") {
+                        location.href = "/board/chat";
+                    }
+                })
+            </script>
+        </div>
     </div>
-  </div>
 </body>
 
 </html>
