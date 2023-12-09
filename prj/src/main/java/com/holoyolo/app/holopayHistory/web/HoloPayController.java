@@ -144,7 +144,7 @@ System.out.println(apiResult);
 
 	@RequestMapping(value = "/withdrawapireq", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonObject takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
+	public Map<String, Object> takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
 			Model mo) {
 		// 요청 객체 생성
 		MemberFinanceInfoVO memberFinanceInfoVO = new MemberFinanceInfoVO();
@@ -167,7 +167,9 @@ System.out.println(apiResult);
 		String resultMsg = "";
 
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
-		JsonObject returnData = new JsonObject();
+		Map<String, Object> returnData = new HashMap<String, Object>();
+		
+		System.out.println("=============="+apiResult+ "==============");
 		if ("00000".equals(resultStatus)) {
 			try {
 				Date formatset;
@@ -186,12 +188,12 @@ System.out.println(apiResult);
 				
 				if (checkResultType == 2) {
 					resultMsg = (String) req.get("Tram") + "원 인출되었습니다.";
-					returnData.addProperty("resultMsg", resultMsg);
-					returnData.addProperty("resultCode", checkResultType);
+					returnData.put("resultMsg", resultMsg);
+					returnData.put("resultCode", checkResultType);
 				} else if (checkResultType == 3) {
 					resultMsg = "홀로페이 잔액이 부족합니다.";
-					returnData.addProperty("resultMsg", resultMsg);
-					returnData.addProperty("resultCode", checkResultType);
+					returnData.put("resultMsg", resultMsg);
+					returnData.put("resultCode", checkResultType);
 				}
 
 			} catch (ParseException e) {
@@ -201,7 +203,7 @@ System.out.println(apiResult);
 
 		} else {
 			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.//";
-			returnData.addProperty("resultMsg", resultMsg);
+			returnData.put("resultMsg", resultMsg);
 
 		}
 		return returnData;

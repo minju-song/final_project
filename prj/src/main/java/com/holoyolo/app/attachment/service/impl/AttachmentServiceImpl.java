@@ -82,7 +82,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 	    		if(uploadFile.getContentType().startsWith("image") == false){
 	    			System.err.println("this file is not image type");
 	    			return null;
-	    		}
+	    		}}
+	    		
+	    		if(type.equals("notice")) {
+
+	    			 if (uploadFile.isEmpty()) {
+	    			        System.err.println("this file is not image type");
+	    			        return null;
+	    			    }
 	    	}
 	  
 	    	// 원래이름과 저장할이름(파일명 중복 때문)
@@ -140,6 +147,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 			folderPath = "mypage" + File.separator + "profile";
 		} else if(type.equals("trade")) {
 			folderPath = "trade" + File.separator + "product";
+		}else if(type.equals("notice")) {
+			folderPath = "cs" + File.separator + "notice";
 		}
 		
 		// File newFile = new File(dir,"파일명");
@@ -164,7 +173,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	@Override
 	public int insertAttachment(AttachmentVO attachmentVO) {
-		return 0;
+		return attachmentMapper.insertAttachment(attachmentVO);
 	}
 
 	@Override

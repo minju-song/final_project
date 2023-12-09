@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+	<!-- 소스 다운 -->
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
+	<!-- 폴리필 (구버젼 브라우저 지원) -->
+	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<style>
+		.card {
+			border: none;
+			box-shadow: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+
+			<div class="row g-3" th:object="${boardVO}">
+				<div class="col-md-12 writeInput">
+					<label for="title" class="form-label">제목<span class="star">*</span></label>
+					<div type="text" class="form-control" id="title" th:text="*{title}"></div>
+				</div>
+				<div class="col-12 writeInput">
+					<div class="form-control" id="description" style="height: 300px;" required th:text="*{content}">
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-12 writeInput">
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
+					<input type="file" class="form-control" id="noticeAttach" aria-describedby="basic-addon3">
+				</div>
+			</div>
+
+
+			<div class="row col-md-12 writeInput">
+				<div class="imgFlex">
+					<div class="file-list"></div>
+					<img th:src="@{/images/}+${noticeImg[0].saveFile}" alt="">
+				</div>
+
+			</div>
+			<div class="col-md-12 writeInput buttonFrom">
+				<button type="reset" class="btn btn-secondary">취소</button>
+				<button type="submit" class="btn btn-primary">등록</button>
+			</div>
+
+
+			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+			<script
+				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
+			<script src="/user/js/noticeInsert.js"></script>
+			<script src="/user/js/community.js"></script>
+		</div>
+	</div>
+
+</body>
+
+</html>
