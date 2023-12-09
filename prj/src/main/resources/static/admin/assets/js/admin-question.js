@@ -6,6 +6,7 @@ import colorMapping from './admin-common.js';
 
 console.log("admin-question.js 작업중")
 
+
 let pageNum = 0;
 let pageSize = 0; //페이지 번호 수
 let pageUnit = 0;  //한페이지에 출력할 행의 수
