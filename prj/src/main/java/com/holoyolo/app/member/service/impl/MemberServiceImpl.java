@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
 			String rawPassword = memberVO.getPassword();
 			String encPassword = passwordEncoder.encode(rawPassword);
 			memberVO.setPassword(encPassword);
-			memberVO.setRole("HA1"); //일반회원
+			memberVO.setRole("ROLE_HA1"); //일반회원
 			
 			System.out.println(memberVO);
 			

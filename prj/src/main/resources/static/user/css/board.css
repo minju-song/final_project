@@ -267,9 +267,21 @@ select option {
 }
 .reply_wrapper .write_area {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	gap: 10px;
-	border-bottom: 1px solid #e0e3e4;
+	border: 1px solid #e0e3e4;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+.reply_table th, .reply_table td {
+	border: none;
+}
+.reply_table tr {
+	border-bottom: 1px solid #e9ecef;
+}
+.write_area .btn_wrap {
+	display: flex;
+	justify-content: flex-end;
 }
 #boardLikeBtn, #reportBtn {
 	padding: 0;
@@ -293,4 +305,43 @@ select option {
 	outline: none;
 	box-shadow: none;
 	border: none;
+}
+.arrow {
+	width: 60px;
+    text-align: right;
+}
+#ReplyTableBody button {
+	border: none;
+	outline: none;
+	background: transparent;
+	padding: 0.75rem 0 0.75rem 5px;
+	color: #a2a2a2;
+}
+#ReplyTableBody button:focus {
+	outline: none;
+	border: none;
+	box-shadow: none;
+}
+.child-row textarea {
+	font-size: 14px;
+}
+.child-row button {
+	padding: 5px 8px !important;
+	background: #e6e6e6 !important;
+	margin-left: 10px;
+}
+.child-row .btn-primary, .child-row .btn-danger {
+	border: none !important;
+	font-size: 13px;
+	outline: none;
+	color: #fff !important;
+}
+.child-row .btn-primary:focus, .child-row .btn-danger:focus {
+	box-shadow: none;
+} 
+.child-row .btn-primary {
+	background: #09203f !important;
+}
+.child-row .btn-danger {
+	background: #868e96 !important;
 }

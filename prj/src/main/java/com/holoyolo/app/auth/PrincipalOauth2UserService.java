@@ -52,7 +52,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		String memberId = oauth2UserInfo.getEmail();
 		String memberName = oauth2UserInfo.getName();
 		String password = bCryptPasswordEncoder.encode("snslogin");
-		String role = "HA1";
+		String role = "ROLE_HA1";
 		String snsYn = "Y";
 		
 		MemberVO member = memberService.selectUser(memberId);

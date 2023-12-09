@@ -1,6 +1,6 @@
 // 페이징
 let currentPage = 1;
-const recordsPerPage = 5; // 페이지당 표시할 레코드 수, 필요에 따라 조절
+const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
 
 // 페이지 버튼 생성
 function setupPagination(totalPages) {
@@ -19,7 +19,7 @@ function setupPagination(totalPages) {
         let previousLink = document.createElement("a");
         previousLink.className = "page-link";
         previousLink.href = "#";
-        previousLink.innerText = "Previous";
+        previousLink.innerText = "이전";
         previousLink.addEventListener("click", function () {
             if (currentPage > 1) {
                 loadData(currentPage - 1);
@@ -50,7 +50,7 @@ function setupPagination(totalPages) {
         nextLi.className = "page-item";
         nextLink.className = "page-link";
         nextLink.href = "#";
-        nextLink.innerText = "Next";
+        nextLink.innerText = "다음";
         nextLink.addEventListener("click", function () {
             if (currentPage < totalPages) {
                 loadData(currentPage + 1);
@@ -298,7 +298,7 @@ function updateReplyTable(data) {
 
         try {
             let tbody = $("#ReplyTableBody");
-            tbody.empty()
+            tbody.empty();
 
             $.ajax({
                 type: 'POST',
@@ -316,11 +316,11 @@ function updateReplyTable(data) {
                         let row = $("<tr>");
                         if (reply.upperReplyId != 0) {
                             row.append($("<td>").text("↳"));
+                            row.append($("<td>").text(reply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
                         } else {
-                            row.append($("<td>").text("  "));
+                            row.append($("<td colspan='2'>").text(reply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
                         }
-                        row.append($("<td>").text(reply.content).css("width", "40%"));
-                        row.append($("<td>").text(formatDate(reply.writeDate)));
+                        row.append($("<td>").text(formatDate(reply.writeDate)).css("text-align", "center"));
 
                         if (thisboard.menuType == "AA3") {
                             if (thisboard.memberId == reply.memberId) {
@@ -336,7 +336,7 @@ function updateReplyTable(data) {
                         let rowReplyAddBtn = "";
                         if (reply.upperReplyId == 0) {
                             rowReplyAddBtn = $("<button>")
-                                .text("댓글")
+                                .text("답댓글")
                                 .attr('id', 'rowReplyFormOpen_' + reply.replyId)
                                 .attr('value', reply.replyId);
                             rowReplyAddBtn.on('click', function () {
@@ -426,9 +426,9 @@ function updateReplyTable(data) {
                                         let rowReply = rowList[i];
                                         console.log(rowReply)
                                         let row2 = $("<tr>");
-                                        row2.append($("<td>").text("↳"));
-                                        row2.append($("<td>").text(rowReply.content).css("width", "40%"));
-                                        row2.append($("<td>").text(formatDate(rowReply.writeDate)));
+                                        row2.append($("<td class='arrow'>").text("↳").css("color", "#232323"));
+                                        row2.append($("<td>").text(rowReply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
+                                        row2.append($("<td>").text(formatDate(rowReply.writeDate)).css("text-align", "center"));
 
                                         if (thisboard.menuType == "AA3") {
                                             if (thisboard.memberId == rowReply.memberId) {
@@ -577,7 +577,7 @@ function setupReplyPagination(totalPages) {
         let previousLink = document.createElement("a");
         previousLink.className = "page-link";
         previousLink.href = "#";
-        previousLink.innerText = "Previous";
+        previousLink.innerText = "이전";
         previousLink.addEventListener("click", function () {
             if (currentPage > 1) {
                 replyLoad(currentPage - 1);
@@ -606,7 +606,7 @@ function setupReplyPagination(totalPages) {
         nextLi.className = "page-item";
         nextLink.className = "page-link";
         nextLink.href = "#";
-        nextLink.innerText = "Next";
+        nextLink.innerText = "다음";
         nextLink.addEventListener("click", function () {
             replyLoad(currentPage + 1);
         });
@@ -621,7 +621,7 @@ function setupReplyPagination(totalPages) {
 
 //대댓글 입력 폼
 function rowReplyInsertForm(replyId, thisRow) {
-    let rowReplyFormArea = document.createElement('td');
+    let rowReplyFormArea = document.createElement('div');
     rowReplyFormArea.id = "rowReplyFormArea_" + replyId;
 
     let replyForm = document.createElement('textarea');
@@ -633,7 +633,7 @@ function rowReplyInsertForm(replyId, thisRow) {
     addReplyBtn.type = 'button';
     addReplyBtn.classList.add('btn', 'btn-primary');
     addReplyBtn.id = 'addReplyBtn_' + replyId;
-    addReplyBtn.textContent = '댓글 등록';
+    addReplyBtn.textContent = '등록';
     addReplyBtn.addEventListener('click', function () {
         insertRowReply(replyId);
     });
@@ -645,7 +645,7 @@ function rowReplyInsertForm(replyId, thisRow) {
     cancelBtn.textContent = '닫기';
     cancelBtn.addEventListener('click', function () {
         document.getElementById('rowReplyFormOpen_' + replyId).removeAttribute('disabled');
-        rowReplyFormArea.remove();
+        rowReplyFormArea.closest('.child-row').remove();
     });
     thisRow.find('#rowReplyFormOpen_' + replyId).prop('disabled', true);
 
@@ -773,7 +773,7 @@ function deletePost() {
 // 댓글 수정 폼 생성
 function replyUpdateForm(replyId, content, thisRow) {
     // 수정 폼을 감싸는 셀 생성
-    let rowReplyFormArea = document.createElement('td');
+    let rowReplyFormArea = document.createElement('div');
     rowReplyFormArea.id = "rowReplyFormArea_" + replyId;
 
 
