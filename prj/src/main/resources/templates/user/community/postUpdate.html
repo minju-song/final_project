@@ -9,13 +9,9 @@
 	<!-- TUI 에디터 CSS CDN -->
 	<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
-
 	<link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
 
-	<!-- 버튼 영역 CSS -->
-	<style>
-	
-	</style>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body layout:fragment="content">
@@ -52,6 +48,19 @@
 		window.onload = async () => {
 			findPost();
 		}
+		
+		// sweet alert
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
 
 
 		let editor;
@@ -142,8 +151,12 @@
 				});
 
 				const postId = await response.json();
-				alert(postId + '번 게시글이 저장되었습니다.');
-				location.href = '/member/board/info?boardId=' + boardId;
+				await Toast.fire({
+                    icon: 'success',
+                    title: '게시글이 수정되었습니다!'
+                })
+				
+				location.href = '/member/board/view?boardId=' + boardId;
 
 			} catch (error) {
 				console.error('저장 실패 : ', error)
