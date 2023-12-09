@@ -54,7 +54,11 @@ public class ReportController {
 	@GetMapping("/admin/report/detail/{reportId}")
 	@ResponseBody
 	public Map<String, Object> getReportDetailMapAjax(ReportVO reportVO) {
-		Map<String, Object> reportInfo = reportService.selectReportInfo(reportVO);
+		Map<String, Object> reportInfo = new HashMap<>();
+		if(reportInfo != null) {
+		 reportInfo = reportService.selectReportInfo(reportVO);
+		}
+		
 		return reportInfo;
 	}
 
@@ -63,6 +67,7 @@ public class ReportController {
 	@ResponseBody
 	public Map<String, Object> reportReasonUpdate(@PathVariable("reportId") int reportId,
 			@RequestBody ReportVO reportVO) {
+		System.out.println(reportVO);
 		reportVO.setReportId(reportId);
 		return reportService.updateReportReason(reportVO);
 	}
