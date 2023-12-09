@@ -90,18 +90,20 @@ SELECT *
 				, post_id
 				, report_type
 				, report_date
-				, report_id
 				, reporter_id
+				, reported_id
+				, report_content
 			)
 		VALUES
 			(
 				#{reportId}
-				, 'AA1'
+				, #{menuType}
 				, #{postId}
 				, #{reportType}
 				, sysdate
-				, #{reportId}
 				, #{reporterId}
+				, #{reportedId}
+				, #{reportContent}
 			)
 	</insert>
   </mapper>

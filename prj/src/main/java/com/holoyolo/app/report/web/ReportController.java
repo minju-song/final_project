@@ -81,12 +81,11 @@ public class ReportController {
 		return resultMap;
 	}
 
-	@PostMapping("member/inserReport")
+	@PostMapping("member/insertReport")
 	@ResponseBody
 	public int insertReport(@AuthenticationPrincipal PrincipalDetails principalDetails,
-								ReportVO reportVO) {
+							ReportVO reportVO) {
 		reportVO.setReporterId(principalDetails.getUsername());
-		reportVO.setMenuType("AA1");
 		return reportService.insertReport(reportVO);
 	}
 }

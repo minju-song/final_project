@@ -46,7 +46,7 @@
 								<div class="reviewCount silverColor" th:text="| │ 조회수 ${tradeInfo.views} │ ${#dates.format(tradeInfo.writeDate, 'yyyy-MM-dd')}|"></div>
 							</div>
 							<div class="row" th:if="${memberId != tradeInfo.sellerId}">
-								<div class="report silverColor" th:onclick="reportBtn(`[[${tradeInfo.tradeId}]]`, `[[${tradeInfo.sellerId}]]`, event)">신고하기</div>
+								<div class="report silverColor" th:onclick="reportBtn([[${tradeInfo.tradeId}]],[[${tradeInfo.sellerId}]], event)">신고하기</div>
 							</div>
 						</div>
 						<div class="row">
@@ -135,7 +135,8 @@
           let longitude = [[${tradeInfo.longitude}]];
           let tradeId = [[${tradeInfo.tradeId}]];
           let heart = `[[${heartCount.heartCount}]]`;
-
+		  let title = `[[${tradeInfo.title}]]`;
+		  let sellerId = `[[${tradeInfo.sellerId}]]`;
         </script>
 		<script src="/user/js/tradeInfo.js"></script>
 	</div>
