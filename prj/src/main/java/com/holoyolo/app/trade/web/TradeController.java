@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.resource.HttpResource;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
@@ -184,5 +182,11 @@ public class TradeController {
 		tradeVO.setPromiseStatus("TD3");
 		tradeVO.setTradeId(tradeVO.getTradeId());
 		tradeService.updateBuyerId(tradeVO);
+	}
+	
+	@GetMapping("member/tradeChat")
+	public void tradeChat(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+						  TradeVO tradeVO) {
+		System.out.println(tradeVO);
 	}
 }
