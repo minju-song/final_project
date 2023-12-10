@@ -187,6 +187,7 @@
 .button:hover
 {
 	background-color: #e0e3e4;
+	color: #232323 !important;
 }
 
 .button:hover p
@@ -247,7 +248,9 @@
 }
 
 .search {
-	width: 800px;
+	width: 40vw;
+	max-width: 600px;
+	min-width: 300px;
 	position: realative;
 }
 
@@ -257,7 +260,7 @@
 
 .searchwrap {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
 }
 
 .deleteAll{
@@ -267,4 +270,64 @@
 /* 추가 */
 .products {
 	background: #fcfcfc;
+}
+.searchwrap {
+	margin-bottom: 30px;
+}
+#search_input {
+	background: #fff;
+	border: 1px solid #c9c9c9;
+	box-sizing: border-box;
+	padding: 15px;
+	border-radius: 5px;
+}
+.row {
+	margin: 0 !important;
+}
+.dp-flex {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+.header_search {
+	margin-left: 20px;
+}
+.deleteAll {
+	margin: 0;
+}
+.del-area {
+	gap: 15px;
+}
+.del-area .button p {
+	margin: 0;
+}
+.del-area .button {
+	width: auto;
+	padding: 0 8px;
+	height: auto;
+	color: #fff;
+	line-height: 30px;
+	font-size: 12px;
+}
+.upload {
+	flex-grow: 1;
+	min-width: 88px;
+	height: 100px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-radius: 10px;
+	padding: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.memo {
+	overflow: auto;
+}
+.memo_image {
+	display: flex;
+	width: 100%;
+	height: auto;
+	flex-wrap: wrap;
+	margin-top: 10px;
 }

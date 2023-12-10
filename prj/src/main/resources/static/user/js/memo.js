@@ -155,14 +155,6 @@
 	}
 
 	
-	// 첨부파일
-	// .addEventListener('click', () => realUpload.click());
-	let fileBtn = document.querySelectorAll('.file_btn');
-	let realFile = document.querySelectorAll('.real_file');
-	for(let i=0; i<fileBtn.length; i++){
-		fileBtn[i].addEventListener('click', () => realFile[i].click());
-	}
-	
 	//hashtag 표시
     let input = $('input[name=tags]:gt(0)');
     for(let i=0; i<input.length; i++){
