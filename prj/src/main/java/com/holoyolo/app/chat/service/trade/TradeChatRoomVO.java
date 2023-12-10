@@ -1,6 +1,12 @@
 package com.holoyolo.app.chat.service.trade;
 
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.holoyolo.app.member.service.MemberVO;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +19,12 @@ public class TradeChatRoomVO {
 	private String title;
 	private int notread;
 	private String lastchat;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	private Date lastChatTime;
+	
+	//상대정보
+	private MemberVO you;
     @Builder
     public TradeChatRoomVO(int tradeId, String sellerId, String buyerId, String title) {
         this.tradeId = tradeId;

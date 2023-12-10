@@ -17,6 +17,8 @@
   		VALUES (#{tradeId}, #{sellerId}, #{buyerId})
   	</insert>
   	
+  	
+  	<!--  채팅저장 -->
   	<insert id="insertTradeChat" parameterType="TradeChatVO">
   	  	<selectKey keyProperty="tradeChatId"
 					   resultType="int"
@@ -50,7 +52,14 @@
                         and trade_chat_id = (
                                             select max(trade_chat_id)
                                             from trade_chat
-                                            where trade_chat_room = c.trade_id)) as lastchat
+                                            where trade_chat_room = c.trade_id)) as lastchat,
+                        (select real_date
+                        from trade_chat
+                        where trade_chat_room = c.trade_id
+                        and trade_chat_id = (
+                                            select max(trade_chat_id)
+                                            from trade_chat
+                                            where trade_chat_room = c.trade_id)) as lastChatTime
 		FROM trade_chat_room c JOIN trade t ON c.trade_id = t.trade_id      
 		WHERE c.seller_id = #{memberId} 
 		OR c.buyer_id = #{memberId} 

@@ -247,10 +247,11 @@
 			}
 
 			function dateFormat(str) {
+				console.log(str)
 				let date = new Date(str);
-				let newDate = date.getFullYear() + '년 ' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
-					'월' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()))
-					+ '일  ' + ((date.getHours() + 1) <= 9 ? "0" + (date.getHours() + 1) : (date.getHours() + 1)) + '시 ' + ((date.getMinutes() + 1) <= 9 ? "0" + (date.getMinutes() + 1) : (date.getMinutes() + 1)) + '분';
+				let newDate = date.getFullYear() + '. ' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+					'.' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()))
+					+ '.  ' + date.getHours() + ':' + date.getMinutes()
 				return newDate;
 			}
 		</script>

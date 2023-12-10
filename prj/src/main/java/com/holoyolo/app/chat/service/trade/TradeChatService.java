@@ -7,10 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.holoyolo.app.chat.mapper.TradeChatRoomMapper;
+import com.holoyolo.app.member.mapper.MemberMapper;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.trade.service.TradeVO;
 
 import groovy.util.logging.Slf4j;
@@ -22,6 +25,9 @@ import lombok.RequiredArgsConstructor;
 public class TradeChatService {
 	
 	private final TradeChatRoomMapper tradeChatRoomMapper;
+	
+	@Autowired
+	MemberMapper memberMapper;
 	
 	 private Map<Integer, TradeChatRoomVO> tradeChatRooms = new LinkedHashMap<>();
 	 
@@ -92,6 +98,20 @@ public class TradeChatService {
 			Map<String, Object> map = new HashMap<>();
 			
 			List<TradeChatRoomVO> list = tradeChatRoomMapper.getMyChattings(id);
+			for(int i = 0; i < list.size(); i++) {
+				if (list.get(i).getBuyerId().equals(id)) {
+					MemberVO you = memberMapper.selectUser(list.get(i).getSellerId());
+					list.get(i).setYou(you);
+				}
+				else {
+					MemberVO you = memberMapper.selectUser(list.get(i).getBuyerId());
+					list.get(i).setYou(you);
+				}
+			}
+			
+			System.out.println(list);
+			
+			
 			map.put("list", list);
 			return map;
 		}
