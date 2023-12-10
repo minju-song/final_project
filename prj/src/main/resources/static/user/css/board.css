@@ -345,3 +345,16 @@ select option {
 .child-row .btn-danger {
 	background: #868e96 !important;
 }
+.post_update_view #viewer {
+	width: 100%;
+}
+.post_update_view .row {
+	margin: 0;
+}
+post_update_view .btn-primary {
+	border: none !important;
+	font-size: 13px;
+	outline: none;
+	color: #fff !important;
+	background: #09203f !important;
+}

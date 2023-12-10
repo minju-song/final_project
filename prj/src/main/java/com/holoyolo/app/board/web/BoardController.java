@@ -112,6 +112,7 @@ public class BoardController {
 		BoardVO board = boardService.selectBoard(boardId);
 		model.addAttribute("board", board);
 		model.addAttribute("loginId", loginId);
+		model.addAttribute("menu", "community");
 		return "/user/community/postUpdate";
 	}
 
