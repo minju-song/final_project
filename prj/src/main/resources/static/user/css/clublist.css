@@ -1,5 +1,5 @@
         .search {
-            width: 800px;
+            width: 100%;
             position: realative;
         }
 
@@ -33,6 +33,10 @@
             height: 150px;
             margin: 10px;
             padding: 20px;
+            
+            -ms-flex: 0 0 48%;
+		    flex: 0 0 48%;
+		    max-width: 48%;
         }
 
         .club_img,
@@ -49,3 +53,12 @@
             display: flex;
         }
 
+
+/* 검색 */
+.row {
+	margin: 0;
+}
+.header_search > .row {
+	margin: 0 15px;
+	justify-content: space-between;
+}
