@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
+import com.holoyolo.app.member.service.MemberVO;
 
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
@@ -179,6 +180,20 @@ public class AttachmentServiceImpl implements AttachmentService {
 	@Override
 	public int deleteAttachment(AttachmentVO attachmentVO) {
 		return attachmentMapper.deleteAttachment(attachmentVO);
+	}
+
+	@Override
+	public int deleteFiles(List<AttachmentVO> list) {
+		for(AttachmentVO vo : list) {
+			File file = new File(uploadPath + "/" + vo.getSaveFile());
+			
+			if(file.exists()) {
+				file.delete();
+			} else {
+				System.out.println("삭제안됨==" + vo);
+			}
+		}
+		return 0;
 	}
 
 }

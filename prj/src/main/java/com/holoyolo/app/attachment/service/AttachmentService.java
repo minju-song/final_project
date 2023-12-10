@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.member.service.MemberVO;
+
 public interface AttachmentService {
 
 	/**
@@ -37,4 +39,11 @@ public interface AttachmentService {
 	
 	//첨부파일 삭제
 	public int deleteAttachment(AttachmentVO attachmentVO);
+	
+	/**
+	 * 실재 파일 삭제
+	 * @param list
+	 * @return
+	 */
+	public int deleteFiles(List<AttachmentVO> list);
 }

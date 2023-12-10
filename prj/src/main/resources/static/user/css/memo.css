@@ -263,3 +263,8 @@
 .deleteAll{
     margin-top: 17px;
 }
+
+/* 추가 */
+.products {
+	background: #fcfcfc;
+}

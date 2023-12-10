@@ -38,6 +38,7 @@
 		    flex: 0 0 48%;
     		max-width: 48%;
     		box-sizing: border-box;
+    		background: #fff;
         }
 
         .club_img,
@@ -73,12 +74,16 @@
 
 
 /* 검색 */
+.products {
+	background: #fcfcfc;
+}
 .row {
 	margin: 0;
 }
 .header_search > .row {
 	margin: 0 15px;
-	justify-content: space-between;
+	justify-content: flex-start;
+	gap: 10px;
 }
 .new_club_btn {
 	border: none;
@@ -86,4 +91,8 @@
 	border-radius: 5px;
 	max-width: 120px;
 	color: #fff;
+}
+.search-wrap {
+	background: #fff;
+	max-width: 450px;
 }
