@@ -53,6 +53,8 @@ public class EmailService {
 				mimeMessageHelper.setText(setContext(authNum, type), true); // 메일 본문 내용, HTML 여부
 			} else if(type.equals("promise")) {
 				mimeMessageHelper.setText(setContext(tradeVO, type), true);
+			} else if(type.equals("promiseOk")) {
+				mimeMessageHelper.setText(setContext(tradeVO, type), true);
 			}
 			javaMailSender.send(mimeMessage);
 			

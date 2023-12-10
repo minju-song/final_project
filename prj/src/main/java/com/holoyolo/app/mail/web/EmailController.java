@@ -155,5 +155,20 @@ public class EmailController {
 		emailService.sendMail(emailVO, tradeVO, "promise");
 	}
 	
-	
+	/**
+	 * 중고거래 약속수락 메일
+	 * @param tradeVO
+	 * @return
+	 */
+	@PostMapping("/sendmail/trade/promiseOk")
+	public void sendPromiseOk(@AuthenticationPrincipal PrincipalDetails principalDetails
+						    , TradeVO tradeVO) {
+		EmailVO emailVO = EmailVO.builder()
+				.to(tradeVO.getBuyerId())
+				.subject("[holoyolo] 약속신청이 수락되었어요!")
+				.build();
+		
+		tradeVO.setSellerId(principalDetails.getUsername());	//판매자 아이디
+		emailService.sendMail(emailVO, tradeVO, "promiseOk");
+	}
 }

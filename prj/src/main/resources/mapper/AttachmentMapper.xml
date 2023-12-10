@@ -47,6 +47,8 @@
 		DELETE FROM attachment
 		WHERE menu_type = #{menuType}
 		AND post_id = #{postId}
-		AND save_file = #{saveFile}
+		<if test="saveFile != null and !saveFile.equals('')">
+			AND save_file = #{saveFile}
+		</if>
 	</delete>
 </mapper>

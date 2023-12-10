@@ -125,5 +125,9 @@ public class TradeServiceImpl implements TradeService {
 		return map;
 	}
 
-
+	//마이페이지 전체조회
+	@Override
+	public List<TradeVO> selectMyTradeList(TradeVO tradeVO) {
+		return tradeMapper.selectMyTradeList(tradeVO);
+	}
 }

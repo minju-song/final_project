@@ -12,14 +12,14 @@
 	<table style="margin-left: 210px; padding-top: 257px;">
 		<tbody>
 			<tr>
-				<td th:text="${nickname}" style="font-size: 25px; color: #5a789e; font-weight: 700;">수민이</td>
+				<td th:text="${nickname}" style="font-size: 25px; color: #5a789e;"></td>
 			</tr>
 			<tr>
-				<td th:text="|${title}|" style="font-size: 28px; color: #567669; font-weight: 700; padding-left: 12px; padding-top: 115px; width: 600px; text-align: center;"></td>
+				<td th:text="|${title}|" style="font-size: 28px; color: #567669; padding-left: 12px; padding-top: 115px; width: 600px; text-align: center;"></td>
 			</tr>
-			<tr>
-				<td><a th:href="@{http://localhost:8090/member/BuyerIdUpdate(promiseStatus='TD2',tradeId=${tradeId})}">수락</a></td>
-				<td><a th:href="@{http://localhost:8090/member/BuyerIdUpdate(promiseStatus='TD4',buyerId='',tradeId=${tradeId})}">취소</a></td>
+			<tr style="display: flex; justify-content: center; margin-top: 145px;">
+				<!-- <td style="font-size: 28px; margin: 20px;"><a style="text-decoration: none; color: white; border: 1px solid #5a789e; border-radius: 10px; padding: 8px; background-color: #5a789e;" th:href="@{http://localhost:8090/member/BuyerIdUpdate(promiseStatus='TD2',tradeId=${tradeId})}">수락</a></td> -->
+				<td style="font-size: 28px; margin: 20px;"><a style="text-decoration: none; color: white; border: 1px solid #b53a34; border-radius: 10px; padding: 8px; background-color: #b53a34;" th:href="@{http://localhost:8090/member/myHome(memberId=${buyerId})}">마이페이지</a></td>
 			</tr>
 		</tbody>
 	</table>

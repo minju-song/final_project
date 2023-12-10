@@ -151,9 +151,13 @@ public class TradeController {
 	@GetMapping("member/tradeDelete")
 	@ResponseBody
 	public void tradeDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
-						   TradeVO tradeVO){
+						   TradeVO tradeVO,
+						   AttachmentVO attachmentVO){
 		tradeVO.setSellerId(principalDetails.getUsername());
 		tradeService.deleteTrade(tradeVO);
+		attachmentVO.setPostId(tradeVO.getTradeId());
+		attachmentVO.setMenuType("AA1");
+		attachmentService.deleteAttachment(attachmentVO);
 	}
 	
 	//계산페이지 이동
@@ -202,8 +206,10 @@ public class TradeController {
 	
 	//마이페이지 나의 알뜰모임 페이지
 	@GetMapping("member/myTrade")
-	public String myClubPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		
+	public String myClubPage(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+							Model model,
+							TradeVO tradeVO) {
+		tradeVO.setSellerId(principalDetails.getUsername());
 		return "user/mypage/mySell";
 	}
 }
