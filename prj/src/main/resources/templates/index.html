@@ -177,7 +177,7 @@
 								<tr th:onclick="|location.href='@{/member/board/view(boardId=${chat.boardId})}'|">
 									<td scope="row">[[${chat.rnum}]]</td>
 									<td class="td_title">[[${chat.title}]]</td>
-									<td class="td_nickname">[[${chat.nickname}]]</td>
+									<td class="td_nickname">익명</td>
 									<td class="td_date">[[${#dates.format(chat.writeDate, 'yyyy-MM-dd')}]]</td>
 								</tr>
 							</th:block>

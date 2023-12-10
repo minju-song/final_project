@@ -1,6 +1,6 @@
 .info {
     border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
     margin-bottom: 30px;
     padding: 5px;
     margin-left: 5px;
@@ -53,7 +53,7 @@
 }
 
 .clubInfo {
-    height: 400px;
+    height: 100%;
 }
 
 
@@ -80,7 +80,6 @@
 #profile-container {
     display: flex;
     align-items: center;
-    justify-content: center;
     height: 100%;
 }
 
@@ -129,7 +128,6 @@ hr {
 #memberProfile {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin-right: 20px;
     gap: 5px;
@@ -137,4 +135,119 @@ hr {
 
 .btn {
     margin-top: 10px;
+}
+
+/* 추가 */
+.club_info {
+	gap: 30px;
+}
+.fade.show {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.club_page_wrap .row {
+	margin: 0;
+}
+.clubInfo, .memberList {
+	border-radius: 5px;
+	background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+.upload {
+	border-radius: 10px;
+	width: 200px;
+	height: 250px;
+	border: none;
+}
+#profile-container {
+	height: 100%;
+}
+.btn_wrap {
+	display: flex;
+	gap: 5px;
+	justify-content: flex-end;
+}
+.btn {
+	font-size: 12px;
+}
+.btn-primary {
+	margin: 0;
+	background: #09203f;
+	border: none;
+}
+.club_name {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.club_name p {
+	font-size: 25px;
+	margin: 0;
+	color: #232323;
+	font-weight: 700
+}
+.leader {
+	width: 22px;
+	margin-top: 3px;
+}
+.info_wrap {
+	justify-content: space-between;
+}
+.dp-flex-col {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.dp-flex-center {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 15px;
+}
+h4 {
+	font-size: 15px;
+	margin: 0;
+}
+.text-bg-color {
+	display: inline-block;
+	background: #e6e6e6;
+	font-size: 12px;
+	padding: 5px 8px;
+	border-radius: 5px;
+	margin-right: 6px;
+	width: 73px;
+	text-align: center;
+}
+.budget_unit {
+	display: inline-block;
+	background: #09203f;
+	font-size: 11px;
+	padding: 5px 7px;
+	border-radius: 5px;
+	color: #fff;
+}
+.mybtn {
+	background: transparent;
+}
+.club_page_wrap .content_wrap {
+	margin-top: 40px;
+}
+.memberList {
+	height: 100%;
+}
+.info {
+	padding: 30px;
+}
+hr {
+	margin-top: 30px;
+}
+.member_profile {
+	width: 40px;
+	height: 40px;
+	background-size: cover;
+	border-radius: 50%;
+	border: 1px solid #e6e6e6;
+}
+.rank_member_info {
+	margin-bottom: 10px;
 }
