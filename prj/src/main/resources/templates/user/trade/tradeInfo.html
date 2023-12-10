@@ -113,12 +113,6 @@
 			<div class="tradeCategory bottomdown margins bottomdown30 ddd">
 				<span th:text="${tradeInfo.description}" th:style="@{white-space:pre;}"></span>
 			</div><hr class="bottomdown30">
-			<div class="col-12 bottomdown30">
-                <div class="input-group mb-3 openKakao">
-	               <span class="input-group-text" id="openKakao">오픈 카카오톡</span>
-	               <a class="form-control" th:href="${tradeInfo.openKakao}">[[${tradeInfo.openKakao}]]</a>
-	            </div>
-            </div>
             <div class="bottomdown30" id="map" style="width:100%;height:350px;" th:classappend="${tradeInfo.tradePlace eq null or tradeInfo.tradePlace eq ''} ? 'classHidden'" ></div>
 	        <div class="_card" th:unless="${tradeInfo.tradePlace != null and tradeInfo.tradePlace != ''}">
 			  <div class="card-inner">
@@ -145,6 +139,7 @@
           let heart = `[[${heartCount.heartCount}]]`;
 		  let title = `[[${tradeInfo.title}]]`;
 		  let sellerId = `[[${tradeInfo.sellerId}]]`;
+		  let buyerId = `[[${tradeInfo.buyerId}]]`;
         </script>
 		<script src="/user/js/tradeInfo.js"></script>
 	</div>

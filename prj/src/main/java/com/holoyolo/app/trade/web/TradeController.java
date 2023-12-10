@@ -206,10 +206,23 @@ public class TradeController {
 	
 	//마이페이지 나의 알뜰모임 페이지
 	@GetMapping("member/myTrade")
-	public String myClubPage(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+	public String myTradePage(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 							Model model,
 							TradeVO tradeVO) {
-		tradeVO.setSellerId(principalDetails.getUsername());
-		return "user/mypage/mySell";
+		String page = "";
+		if(tradeVO.getListType().equals("HLIST")) {
+			tradeVO.setMemberId(principalDetails.getUsername());
+			page = "user/mypage/myHeart";
+		}else if(tradeVO.getListType().equals("BLIST")){
+			tradeVO.setBuyerId(principalDetails.getUsername());
+			page = "user/mypage/myBuy";
+		}else {
+			tradeVO.setSellerId(principalDetails.getUsername());
+			page = "user/mypage/mySell";
+		}
+		List<TradeVO> list = tradeService.selectMyTradeList(tradeVO);
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("tradeList", list);
+		return page;
 	}
 }

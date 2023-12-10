@@ -195,7 +195,7 @@ function okMailSend(){
 	$.ajax({
 		type: 'POST',
 		url : '/sendmail/trade/promiseOk',  //이동할 jsp 파일 주소
-		data : {title, sellerId, tradeId},
+		data : {title, buyerId, tradeId},
 		success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 			console.log("성공");
 			if(pay.parentElement.nextElementSibling){

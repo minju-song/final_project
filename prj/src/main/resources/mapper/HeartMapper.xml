@@ -13,7 +13,9 @@
 	  	SELECT member_id
 	  			, trade_id
 	  	FROM heart
-	  	WHERE trade_id = #{tradeId}
+	  	<if test="tradeId != null and tradeId != 0">
+	  		WHERE trade_id = #{tradeId}
+	  	</if>
 	  	AND member_id = #{memberId}
 	  </select>
 	  
