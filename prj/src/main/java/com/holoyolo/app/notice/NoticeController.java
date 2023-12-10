@@ -1,6 +1,8 @@
 package com.holoyolo.app.notice;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,10 +50,13 @@ public class NoticeController {
 	// 등록
 	@PostMapping("/notice/insert")
 	public String tradeInsertProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
-			@RequestPart MultipartFile[] uploadFiles) {
-		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "notice");
+			@RequestParam("imageFiles") MultipartFile[] imageFiles,
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "notice");
+		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "noticeAttach");
 		boardVO.setMemberId(principalDetails.getUsername());
-		boardService.insertNotice(boardVO, imgList);
+		boardService.insertNotice(boardVO, imgList, attachList);
 		return "redirect:/cs/help/notice";
 	}
 
@@ -58,23 +64,48 @@ public class NoticeController {
 
 	// 상세보기
 	@GetMapping("/cs/help/notice/view")
-	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model mo,
-			AttachmentVO attachmentVO) {
+	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int boardId, Model mo) {
+		AttachmentVO attachmentVO = new AttachmentVO();
 
 		String loginId = "not found";
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
+		boardService.addView(boardId);
+
 		BoardVO vo = boardService.selectBoard(boardId);
 		attachmentVO.setPostId(boardId);
 		attachmentVO.setMenuType("AA6");
+
+		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
+		System.out.println(returnMap);
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("boardVO", vo);
 		mo.addAttribute("loginId", loginId);
-		mo.addAttribute("noticeImg", attachmentService.getAttachmentList(attachmentVO));
-		System.out.println(mo);
+		mo.addAttribute("noticeImg", returnMap.get("imgList"));
+		mo.addAttribute("noticeAttach", returnMap.get("attachList"));
+
 		return "user/cs/noticeview";
 
+	}
+
+	@GetMapping("/cs/help/notice/update")
+	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
+			int boardId, Model mo) {
+		String loginId = "not found";
+		if (principalDetails != null) {
+			loginId = principalDetails.getUsername();
+		}
+
+		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
+
+		BoardVO board = boardService.selectBoard(boardId);
+		mo.addAttribute("menu", "cs");
+		mo.addAttribute("board", board);
+		mo.addAttribute("noticeImg", returnMap.get("imgList"));
+		mo.addAttribute("noticeAttach", returnMap.get("attachList"));
+
+		return "user/cs/noticeUpdate";
 	}
 
 }

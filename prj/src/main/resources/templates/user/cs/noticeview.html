@@ -29,39 +29,53 @@
 					<label for="title" class="form-label">제목<span class="star">*</span></label>
 					<div type="text" class="form-control" id="title" th:text="*{title}"></div>
 				</div>
+
 				<div class="col-12 writeInput">
 					<div class="form-control" id="description" style="height: 300px;" required th:text="*{content}">
+					</div>
+					<div><span>조회수 : </span><span th:text="*{views}"></span></div>
+				</div>
+			</div>
+
+
+			<div class="col-12 writeInput" th:if="${noticeAttach} != null">
+				<div class="input-group mb-3">
+					<span class="input-group-text">첨부파일</span>
+					<div th:each="notice, stat : ${noticeAttach}" class="form-control">
+						<div id="noticeAtach" aria-describedby="basic-addon3">
+							<a th:href="@{'/download/' + ${notice.saveFile}}" th:text="${notice.originFile}"></a>
+						</div>
 					</div>
 				</div>
 			</div>
 
-
-			<div class="col-12 writeInput">
-				<div class="input-group mb-3">
-					<span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
-					<input type="file" class="form-control" id="noticeAttach" aria-describedby="basic-addon3">
-				</div>
-			</div>
-
-
 			<div class="row col-md-12 writeInput">
-				<div class="imgFlex">
+				<div class="imgFlex" th:each="notice, stat : ${noticeImg}">
 					<div class="file-list"></div>
-					<img th:src="@{/images/}+${noticeImg[0].saveFile}" alt="">
+					<img th:src="@{'/images/' + ${notice.saveFile}}" alt="">
 				</div>
 
 			</div>
-			<div class="col-md-12 writeInput buttonFrom">
-				<button type="reset" class="btn btn-secondary">취소</button>
-				<button type="submit" class="btn btn-primary">등록</button>
-			</div>
+			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+				<div class="col-md-12 writeInput buttonFrom">
+					<button type="reset" class="btn btn-secondary"
+					th:onclick="'location.href=\'/cs/help/notice/update?boardId=' + ${boardVO.boardId} + '\''">수정</button>
+					
 
+					<button type="submit" class="btn btn-primary">삭제</button>
+				</div>
+			</th:block>
+
+			<div class="col-md-12 writeInput buttonFrom">
+				<button type="reset" class="btn btn-secondary" onclick="location.href = '/cs/help/notice'">목록으로</button>
+			</div>
 
 			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 			<script
 				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
-			<script src="/user/js/noticeInsert.js"></script>
+			<script src="/user/js/notice.js"></script>
 			<script src="/user/js/community.js"></script>
+
 		</div>
 	</div>
 

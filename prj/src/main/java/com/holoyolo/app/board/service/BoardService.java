@@ -42,6 +42,6 @@ public interface BoardService {
 
 	public List<BoardVO> recentBoradList(BoardVO vo); //메인용 리스트
 
-	int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList);
+	public int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
 
 }

@@ -130,23 +130,32 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	@Transactional
-	public int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList) {
+	public int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
 		boardVO.setMenuType("AA6");
 		int result = boardMapper.insertBoard(boardVO);
 		for (int i = 0; i < imgList.size(); i++) {
-			AttachmentVO vo = imgList.get(i);	
+			AttachmentVO vo = imgList.get(i);
 			vo.setMenuType("AA6");
 			vo.setPostId(boardVO.getBoardId());
+
 			attachmentService.insertAttachment(imgList.get(i));
+
 		}
-		
-	
+		for (int i = 0; i < attachList.size(); i++) {
+			AttachmentVO vo = attachList.get(i);
+			vo.setMenuType("AA6");
+			vo.setPostId(boardVO.getBoardId());
+			System.out.println(attachList);
+
+			attachmentService.insertAttachment(attachList.get(i));
+
+		}
+
 		if (result == 1) {
 			return boardVO.getBoardId();
 		} else {
 			return -1;
 		}
 	}
-	
-	
+
 }
