@@ -1,17 +1,24 @@
 package com.holoyolo.app.notice;
 
-import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
@@ -19,8 +26,6 @@ import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.board.service.BoardService;
 import com.holoyolo.app.board.service.BoardVO;
-import com.holoyolo.app.heart.service.HeartVO;
-import com.holoyolo.app.trade.service.TradeVO;
 
 @Controller
 public class NoticeController {
@@ -108,4 +113,50 @@ public class NoticeController {
 		return "user/cs/noticeUpdate";
 	}
 
+	/*
+	 * 
+	 * 데이터 로드 등록된 이미지/첨부 삭제 새로 테이블 등록 board 테이블은 수정
+	 */
+	// 수정등록
+	@PostMapping("/notice/update")
+	public String noticeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
+			@RequestParam("imageFiles") MultipartFile[] imageFiles,
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+		System.out.println(boardVO);
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "notice");
+		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "noticeAttach");
+		boardVO.setMemberId(principalDetails.getUsername());
+		boardService.updateNotice(boardVO, imgList, attachList);
+		return "redirect:/cs/help/notice";
+	}
+
+	@Value("${file.upload.path}")
+	private String uploadPath;
+
+	// 다운로드 처리
+	@GetMapping("/download")
+	public ResponseEntity<Resource> downloadFile(@RequestParam String saveFile) {
+
+		// 파일의 경로
+		Path filePath = Paths.get(uploadPath, saveFile).normalize();
+		Resource resource;
+
+		try {
+			resource = new UrlResource(filePath.toUri());
+			if (resource.exists() && resource.isReadable()) {
+				// 파일 다운로드를 위한 HTTP 응답 헤더 설정
+				HttpHeaders headers = new HttpHeaders();
+				headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFilename());
+				return ResponseEntity.ok().headers(headers).body(resource);
+			} else {
+				// 파일이 존재하지 않거나 읽을 수 없는 경우 404 에러 반환
+				return ResponseEntity.notFound().build();
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			// MalformedURLException 처리
+			return ResponseEntity.badRequest().build(); // 예외 발생 시 400 Bad Request 반환
+		}
+
+	}
 }

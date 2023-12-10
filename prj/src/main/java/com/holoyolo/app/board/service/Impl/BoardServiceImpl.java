@@ -133,22 +133,15 @@ public class BoardServiceImpl implements BoardService {
 	public int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
 		boardVO.setMenuType("AA6");
 		int result = boardMapper.insertBoard(boardVO);
-		for (int i = 0; i < imgList.size(); i++) {
-			AttachmentVO vo = imgList.get(i);
+		for (AttachmentVO vo : imgList) {
 			vo.setMenuType("AA6");
 			vo.setPostId(boardVO.getBoardId());
-
-			attachmentService.insertAttachment(imgList.get(i));
-
+			attachmentService.insertAttachment(vo);
 		}
-		for (int i = 0; i < attachList.size(); i++) {
-			AttachmentVO vo = attachList.get(i);
+		for (AttachmentVO vo : imgList) {
 			vo.setMenuType("AA6");
 			vo.setPostId(boardVO.getBoardId());
-			System.out.println(attachList);
-
-			attachmentService.insertAttachment(attachList.get(i));
-
+			attachmentService.insertAttachment(vo);
 		}
 
 		if (result == 1) {
@@ -156,6 +149,40 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			return -1;
 		}
+	}
+
+	@Override
+	@Transactional
+	public int updateNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
+		boardVO.setMenuType("AA6");
+		// 기존 첨부파일 삭제
+		attachmentService.deletePostAttachment(boardVO);
+
+		// 본문 내용 UPDATE
+		int result = boardMapper.updateBoard(boardVO);
+		if (imgList != null) {
+			for (AttachmentVO vo : imgList) {
+				vo.setMenuType("AA6");
+				vo.setPostId(boardVO.getBoardId());
+				attachmentService.insertAttachment(vo);
+			}
+		}
+		// 이미지 및 첨부파일 새로 등록
+		if (attachList != null) {
+			for (AttachmentVO vo : attachList) {
+				vo.setMenuType("AA6");
+				vo.setPostId(boardVO.getBoardId());
+				System.out.println(attachList);
+				attachmentService.insertAttachment(vo);
+			}
+		}
+
+		if (result == 1) {
+			return boardVO.getBoardId();
+		} else {
+			return -1;
+		}
+
 	}
 
 }

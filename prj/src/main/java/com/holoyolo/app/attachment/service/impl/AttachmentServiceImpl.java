@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
+import com.holoyolo.app.board.service.BoardVO;
 
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
@@ -199,36 +200,41 @@ public class AttachmentServiceImpl implements AttachmentService {
 	@Override
 	public Map<String, List<AttachmentVO>> getCSAttachmentList(AttachmentVO attachmentVO) {
 		List<AttachmentVO> sourceList = attachmentMapper.selectAttachmentList(attachmentVO);
+
 		Map<String, List<AttachmentVO>> resultMap = new HashMap<>();
+		List<AttachmentVO> attachList = new ArrayList<>();
+		List<AttachmentVO> imgList = new ArrayList<>();
+		String[] imgExtension = { "png", "jpg", "jpeg", "gif" };
 		for (AttachmentVO attach : sourceList) {
 			String originalFile = attach.getOriginFile();
-			String[] imgExtension = { "png", "jpg", "jpeg", "gif" };
-
 			int lastDotIndex = originalFile.lastIndexOf(".");
-			List<AttachmentVO> attachList = new ArrayList<>();
-			List<AttachmentVO> imgList = new ArrayList<>();
 			if (lastDotIndex > 0) {
 				boolean imgCheck = false;
 				String thisExtension = originalFile.substring(lastDotIndex + 1);
-				System.out.println("outext : " + thisExtension);
 				for (String ext : imgExtension) {
 					if (thisExtension.equals(ext)) {
-						System.out.println("inext : " +thisExtension);
 						imgList.add(attach);
+						System.out.println(attach);
 						resultMap.put("imgList", imgList);
 						imgCheck = true;
-						break;
 					}
 				}
 				if (!imgCheck) {
 					attachList.add(attach);
 					resultMap.put("attachList", attachList);
 				}
-
 			}
 		}
 
 		return resultMap;
+	}
+
+	@Override
+	public int deletePostAttachment(BoardVO boardVO) {
+		AttachmentVO attachmentVO = new AttachmentVO();
+		attachmentVO.setPostId(boardVO.getBoardId());
+		attachmentVO.setMenuType(boardVO.getMenuType());
+		return attachmentMapper.deletePostAttachment(attachmentVO);
 	}
 
 	// 파일 업로드

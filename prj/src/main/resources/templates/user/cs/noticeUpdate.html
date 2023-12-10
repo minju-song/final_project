@@ -24,12 +24,13 @@
 	<div layout:fragment="content">
 		<div class="card">
 			<div class="card-body">
-				<form class="row g-3" th:action="@{/notice/update}" method="POST" th:object="${boardVO}"
+				<form class="row g-3" th:action="@{/notice/update}" method="POST" th:object="${board}"
 					enctype="multipart/form-data">
+					<input type="hidden" th:field="*{boardId}" />
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
 						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required
-							th:field="*{title}"  th:text="*{title}">
+							th:field="*{title}" th:text="*{title}">
 					</div>
 					<div class="col-12 writeInput">
 						<textarea class="form-control" id="description" style="height: 300px;" required
@@ -40,7 +41,7 @@
 						<label for="tradeImg" class="form-label">이미지<span class="star">*</span></label>
 						<div class="imgFlex">
 							<img class="tradeImgPlus" id="noticeImg" th:src="@{/user/images/trade/photo.png}">
-							<input class="real_file" name="imageFiles" type="file" accept="image/*" required multiple />
+							<input class="real_file" name="imageFiles" type="file" accept="image/*"  multiple />
 							<div class="file-list"></div>
 						</div>
 
