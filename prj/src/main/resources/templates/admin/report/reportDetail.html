@@ -19,7 +19,7 @@
 						<!-- 문의제목 -->
 						<div class="d-flex">
 							<!-- 신고내용 -->
-							<h5 th:text="${item.reportContent}"  class="fw-bold"></h5>
+							<h5 th:if="${item.reportContent != null}" th:text="${item.reportContent}"  class="fw-bold"></h5>
 							<!-- 신고유형 -->
 							<h5 th:text="${item.reportType}"
 								class="text-warning ms-3 fw-bold"></h5>

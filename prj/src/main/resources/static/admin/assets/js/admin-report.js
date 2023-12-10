@@ -29,7 +29,7 @@ $(document).ready(function () {
 				<span class="fw-bold">${status}처리사유 작성</span>
 				<div class="mt-2">
 					<textarea class="form-control" id="processComment"
-						name="processComment" placeholder="내용을 입력해주세요." rows="15" value="${originContent}">${originContent}</textarea>
+						name="processComment" placeholder="내용을 입력해주세요." rows="15" value="${originContent != null ? originContent : ''}">${originContent != null ? originContent : ''}</textarea>
 				</div>
 				<div id="reportFormBtnGroup" class="mt-2 position-absolute end-0">
 					<button id="reportFormResetBtn" type="reset" class="btn btn-primary me-4">취소</button>

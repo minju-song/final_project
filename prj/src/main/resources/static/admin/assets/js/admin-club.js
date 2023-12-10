@@ -166,7 +166,7 @@ $(document).ready(function () {
 	
 	$(document).on("click", "#deleteReasonForm button", function(e){
 		e.preventDefault();
-		let formData = getUpdateInputForm();
+		let formData = getUpdateInputForm(e);
 		let clubId = formData.clubId
 		console.log(formData)
 		$.ajax({
@@ -199,8 +199,9 @@ $(document).ready(function () {
 			.fail(err => console.log(err))
 	})
 		// 수정된 formData
-	function getUpdateInputForm() {
-		let target = event.target
+	function getUpdateInputForm(e) {
+		let target = e.target
+		console.log(target)
 		let formData = $(target).closest('#deleteReason form').serializeArray(); // 폼 태그 전용 메서드
 		let objData = {};
 		$.each(formData, (idx, obj) => {
