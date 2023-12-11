@@ -43,7 +43,7 @@ public class MemberController {
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		
-		return "/user/loginForm";
+		return "user/loginForm";
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class MemberController {
 	 */
 	@GetMapping("/joinForm")
 	public String joinForm() {
-		return "/user/joinForm";
+		return "user/joinForm";
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class MemberController {
 	 */
 	@GetMapping("/findForm")
 	public String findForm() {
-		return "/user/findForm";
+		return "user/findForm";
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class MemberController {
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("subMenu", "myInfo");
 		
-		return "/user/mypage/myInfo";
+		return "user/mypage/myInfo";
 	}
 	
 	/**
@@ -190,7 +190,7 @@ public class MemberController {
 	 */
 	@GetMapping("/member/myInfo/authview")
 	public String infoAuthView() {
-		return "/user/mypage/memberAuthView";
+		return "user/mypage/memberAuthView";
 	}
 	/**
 	 * 마이페이지-내정보 페이지(인증)
@@ -225,7 +225,7 @@ public class MemberController {
 		String nlString = System.getProperty("line.separator").toString();
 		model.addAttribute("nlString", nlString);
 		
-		return "/user/mypage/memberInfoView";
+		return "user/mypage/memberInfoView";
 	}
 	
 	/**
@@ -284,7 +284,7 @@ public class MemberController {
 	public String deleteMemberForm(Model model) {
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");
-		return "/user/mypage/memberDelete";
+		return "user/mypage/memberDelete";
 	}
 	
 	/**
