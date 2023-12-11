@@ -3,6 +3,8 @@ package com.holoyolo.app.report.service;
 import java.util.List;
 import java.util.Map;
 
+import com.holoyolo.app.member.service.MemberVO;
+
 public interface ReportService {
 	// 기본 CRUD
 	// 신고 전체조회
@@ -26,4 +28,12 @@ public interface ReportService {
 	
 	//신고 등록
 	public int insertReport(ReportVO reportVO);
+	
+	// 신고 횟수 ++
+	public int updateMemberReportCnt(String reportedId);
+
+	// 신고 횟수 초기화
+	public int updateMemberReportCntReset(String reportedId);
+
+	public int updateMemberInfo(MemberVO memberVO);
 }

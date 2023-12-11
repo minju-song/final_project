@@ -133,6 +133,7 @@
 			<if test="memberIntro != null">member_intro = #{memberIntro},</if>
 			<if test="reportCnt != -1">report_cnt = #{reportCnt},</if>
 			<if test="lockYn != null">lock_yn = #{lockYn},</if>
+			<if test="stopDate != null">stop_date = #{stopDate},</if>
 		</set>
 		WHERE member_id = #{memberId}
 	</update>
@@ -271,4 +272,12 @@
 	  	</if>
 	  </where>
 	</select>
+	
+    <select id="findById" parameterType="String" resultType="MemberVO">
+        SELECT * FROM member WHERE member_id = #{memberId}
+    </select>
+    
+    <select id="addMonth" resultType="MemberVO">
+    	SELECT ADD_MONTHS(sysdate, 1) FROM dual
+    </select>
  </mapper>

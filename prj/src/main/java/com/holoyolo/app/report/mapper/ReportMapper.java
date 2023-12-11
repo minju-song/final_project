@@ -3,6 +3,7 @@ package com.holoyolo.app.report.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.report.service.ReportVO;
 
 public interface ReportMapper {
@@ -29,4 +30,10 @@ public interface ReportMapper {
 	
 	//신고 등록
 	public int insertReport(ReportVO reportVO);
+	
+	// 신고 횟수 ++
+	public int updateMemberReportCnt(String reportedId);
+
+	// 신고 횟수 초기화
+	public int updateMemberReportCntReset(String reportedId);
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-import colorMapping from './admin-common.js';
+// import colorMapping from './admin-common.js';
 
 console.log("admin-holopay.js 작업중")
 

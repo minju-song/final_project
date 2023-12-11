@@ -34,4 +34,4 @@ const colorMapping = {
 	'비공개' : 'bg-label-secondary',
 };
 
-export default colorMapping;
+// export default colorMapping;
