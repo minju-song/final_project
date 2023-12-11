@@ -67,7 +67,7 @@ public class BoardController {
 		vo.setMemberId(userId);
 		boardService.insertBoard(vo);
 //		insertPostreq
-		return "/infoBoard";
+		return "infoBoard";
 	}
 
 	// 페이지 로드
@@ -98,7 +98,7 @@ public class BoardController {
 		mo.addAttribute("board", vo);
 		mo.addAttribute("loginId", loginId);
 
-		return "/user/community/boardView";
+		return "user/community/boardView";
 
 	}
 
@@ -113,7 +113,7 @@ public class BoardController {
 		model.addAttribute("board", board);
 		model.addAttribute("loginId", loginId);
 		model.addAttribute("menu", "community");
-		return "/user/community/postUpdate";
+		return "user/community/postUpdate";
 	}
 
 	// 삭제

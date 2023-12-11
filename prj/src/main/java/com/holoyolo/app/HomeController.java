@@ -58,9 +58,5 @@ public class HomeController {
 		
 		return "index";
 	}
-	
-	@GetMapping("/test")
-	public String promise(Model model) {
-		return "/user/mailbody/promise";
-	}
+
 }

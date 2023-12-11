@@ -52,7 +52,7 @@ public class QuestionController {
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "cs");
 				
-		return "/user/cs/faq";
+		return "user/cs/faq";
 	}
 
 }
