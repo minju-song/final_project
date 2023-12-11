@@ -3,6 +3,8 @@ package com.holoyolo.app.memo.service;
 import java.util.List;
 import java.util.Map;
 
+import com.holoyolo.app.attachment.service.AttachmentVO;
+
 public interface MemoService {
 	//전체조회
 	public List<MemoVO> getMemoList(MemoVO memoVO);
@@ -21,4 +23,6 @@ public interface MemoService {
 	
 	//index 수정
 	public Map<String, Object> memoIndex(MemoVO memoVO);
+	
+	public int memoUploadImg(MemoVO memoVO, List<AttachmentVO> imgList);
 }

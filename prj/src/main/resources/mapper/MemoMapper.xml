@@ -3,8 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.holoyolo.app.memo.mapper.MemoMapper">
+
+	<resultMap type="MemoVO" id="selectMemoListMap">
+		<collection property="images" ofType="AttachmentVO" column="memo_id" select="selectAttachList" javaType="ArrayList"></collection>
+	</resultMap>
 	<!-- 전체조회 -->
-	<select id="selectMemoList" resultType="MemoVO">
+	<select id="selectMemoList" resultMap="selectMemoListMap">
 		SELECT memo_id
 				, seq_no
 				, color
@@ -17,6 +21,11 @@
 		FROM memo
 		WHERE member_id = #{memberId}
 		ORDER BY seq_no
+	</select>
+	<select id="selectAttachList" resultType="AttachmentVO">
+		select * from attachment
+		where menu_type = 'AA7'
+		and post_id = #{memoId}
 	</select>
 	
 	<!-- 단건조회 -->

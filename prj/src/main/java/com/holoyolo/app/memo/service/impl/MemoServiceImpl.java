@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.holoyolo.app.attachment.mapper.AttachmentMapper;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.memo.mapper.MemoMapper;
 import com.holoyolo.app.memo.service.MemoService;
 import com.holoyolo.app.memo.service.MemoVO;
@@ -16,6 +18,8 @@ public class MemoServiceImpl implements MemoService {
 
 	@Autowired
 	MemoMapper memoMapper;
+	@Autowired
+	AttachmentMapper attachmentMapper;
 	
 	@Override
 	public List<MemoVO> getMemoList(MemoVO memoVO) {
@@ -71,5 +75,19 @@ public class MemoServiceImpl implements MemoService {
 		map.put("info", memoVO);
 		return map;
 	}
+
+	@Override
+	public int memoUploadImg(MemoVO memoVO, List<AttachmentVO> imgList) {
+		int result = 0;
+		for(int i=0; i<imgList.size(); i++) {
+			AttachmentVO vo = imgList.get(i);
+			vo.setMenuType("AA7");
+			vo.setPostId(memoVO.getMemoId());
+			result += attachmentMapper.insertAttachment(imgList.get(i));
+		}
+		return result;
+	}
+	
+	
 
 }

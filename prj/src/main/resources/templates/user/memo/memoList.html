@@ -90,7 +90,6 @@
 					</div>
 					<!-- 복사용 메모 끝 --> 
 					<!-- 즐겨찾기 메모리스트 시작 -->
-					
 	              	<th:block th:each="memo, stat : ${memoList}" th:if="${!#lists.isEmpty(memoList)}">
 	              		<th:block th:if="${memo.bookmark == 'Y'}">
 							<div class="memo draggable btn-modal" draggable="true" th:style="|background:${memo.color}|">
@@ -101,7 +100,11 @@
 								<!-- 메모 고정 버튼 -->
 								<img class="menubars bi-pin bi-pin-fill" th:src="@{/user/images/memo/pin-fill.svg}">
 								<div class="inputMemoId" data-toggle="modal" data-target="#writedMemo" th:data-memo="${memo.memoId}">
-									<div class="memo_image"></div>
+									<div class="memo_image">
+										<th:block th:each="image, stat : ${memo.images}">
+											<div class="upload" th:style="|background-image: url('/images/${image.saveFile}')|"></div>
+										</th:block>
+									</div>
 									<!-- 메모 내용 -->
 									<div class="memotext" th:text="${memo.content}"></div>
 									<!-- 메모 해시태그 -->
@@ -147,7 +150,11 @@
 								<!-- 메모 고정 버튼 -->
 								<img class="menubars bi-pin" th:src="@{/user/images/memo/pin.svg}">
 								<div class="inputMemoId" data-toggle="modal" data-target="#writedMemo" th:data-memo="${memo.memoId}">
-									<div class="memo_image"></div>
+									<div class="memo_image">
+										<th:block th:each="image, stat : ${memo.images}">
+											<div class="upload" th:style="|background-image: url('/images/${image.saveFile}')|"></div>
+										</th:block>
+									</div>
 									<!-- 메모 내용 -->
 									<div class="memotext" th:text="${memo.content}"></div>
 									<!-- 메모 해시태그 -->
@@ -174,7 +181,7 @@
 								</div>
 								<!-- 메모 이미지 등록 버튼 -->
 								<img class="file_btn menubars bi-image" th:src="@{/user/images/memo/image.svg}">
-								<input class="real_file" type="file" />
+								<input class="real_file" type="file" multiple="multiple"/>
 							</div>
 						</th:block>
 					</th:block>
@@ -214,7 +221,7 @@
 							</div>
 							<!-- 메모 이미지 등록 버튼 -->
 							<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
-							<input class="real_file" type="file" />
+							<input class="real_file" type="file" multiple="multiple"/>
 						</div>
 		        	</div>
 		      	</div>
@@ -253,7 +260,9 @@
 							</div>
 							<!-- 메모 이미지 등록 버튼 -->
 							<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
-							<input class="real_file" type="file" />
+							<form enctype="multipart/form-data">
+								<input class="real_file" type="file" />
+							</form>
 						</div>
 		        	</div>
 		      	</div>

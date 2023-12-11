@@ -39,25 +39,53 @@ function imgFileSelectHandler(e) {
   	
   	console.log(uploadFiles);
   	
-  	uploadImg();
+  	uploadImg(e);
 }
 
 //파일 업로드
-function uploadImg() {
+function uploadImg(e) {
+	let memoId = $(e.target).siblings('.inputMemoId').data('memo');
+	let target = e.target;
 	let formData = new FormData();
-  	let file = document.querySelector('.real_file').files[0];
-  	formData.append("file", file);
+  	let files = target.files;
 	
+	
+	// 메모 아이디 formData에 append
+	formData.append("memoId", memoId);
+	// 첩부된 파일 목록 formData에 append
+	for(let file of files) {
+		formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
+	}
 	for (const x of formData) {
 	 console.log(x);
 	};
 	
+	//jQuery.ajax
+	$.ajax({
+       url: '/member/memoUploadImg',	
+       type: 'POST',
+       processData: false,
+       contentType: false,	
+       data: formData,               
+       success: function(result){
+           console.log(result);
+           
+       },
+       error: function(reject){	
+           console.log(reject);
+       }
+   }); 
 	
-  	/*fetch('/member/myInfo/uploadImg', {
+	
+	
+	
+	
+	
+	
+  	/*fetch('/member/memoUploadImg', {
 		method : 'post',
 		body : formData
 	})
-	.then((response) => response.json())
   	.then((data) => {
   		console.log(data);
   		const Toast = Swal.mixin({
@@ -74,7 +102,7 @@ function uploadImg() {
   		if(data.result == 'Success') {
 			Toast.fire({
 			    icon: 'success',
-			    title: '프로필 사진이 변경되었습니다!'
+			    title: '사진이 저장되었습니다!'
 			})
   		} else {
   			Toast.fire({

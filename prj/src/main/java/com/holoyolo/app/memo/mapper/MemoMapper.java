@@ -25,4 +25,5 @@ public interface MemoMapper {
 	
 	//index 수정
 	public int memoIndex(MemoVO memoVO);
+	
 }
