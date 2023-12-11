@@ -199,11 +199,11 @@ public class TradeController {
 	}
 	
 
-	@GetMapping("member/tradeChat")
-	public void tradeChat(@AuthenticationPrincipal PrincipalDetails principalDetails, 
-						  TradeVO tradeVO) {
-		System.out.println(tradeVO);
-	}
+//	@GetMapping("member/tradeChat")
+//	public void tradeChat(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+//						  TradeVO tradeVO) {
+//		System.out.println(tradeVO);
+//	}
 	
 	//마이페이지 나의 알뜰모임 페이지
 	@GetMapping("member/myTrade")
