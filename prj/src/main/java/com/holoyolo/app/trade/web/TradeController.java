@@ -93,6 +93,7 @@ public class TradeController {
 		heartVO.setMemberId(principalDetails.getUsername());
 		model.addAttribute("heartInfo", heartService.getHeart(heartVO));
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
+		attachmentVO.setMenuType("AA1");
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		model.addAttribute("heartCount", heartService.getHeartCount(heartVO));
 		return "user/trade/tradeInfo";
@@ -107,6 +108,7 @@ public class TradeController {
 		tradeVO.setSellerId(principalDetails.getUsername());
 		model.addAttribute("tradeInfo", tradeService.getTrade(tradeVO));
 		attachmentVO.setPostId(tradeVO.getTradeId());
+		attachmentVO.setMenuType("AA1");
 		model.addAttribute("tradeImg", attachmentService.getAttachmentList(attachmentVO));
 		System.out.println(attachmentService.getAttachmentList(attachmentVO));
 		return "user/trade/tradeUpdate";
@@ -138,13 +140,24 @@ public class TradeController {
 		return "redirect:/tradeList";
 	}
 	
+	//구매자, 거래상태 수정
+	@GetMapping("member/BuyerIdUpdate")
+	public String buyerIdUpdateMail(TradeVO tradeVO) {
+		tradeService.updateBuyerId(tradeVO);
+		return "member/";
+	}
+	
 	//삭제
 	@GetMapping("member/tradeDelete")
 	@ResponseBody
 	public void tradeDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
-						   TradeVO tradeVO){
+						   TradeVO tradeVO,
+						   AttachmentVO attachmentVO){
 		tradeVO.setSellerId(principalDetails.getUsername());
 		tradeService.deleteTrade(tradeVO);
+		attachmentVO.setPostId(tradeVO.getTradeId());
+		attachmentVO.setMenuType("AA1");
+		attachmentService.deleteAttachment(attachmentVO);
 	}
 	
 	//계산페이지 이동
@@ -167,6 +180,7 @@ public class TradeController {
 	@ResponseBody
 	public void attachmentDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
 								 AttachmentVO attachmentVO){
+		attachmentVO.setMenuType("AA1");
 		attachmentService.deleteAttachment(attachmentVO);
 	}
 	
@@ -184,9 +198,33 @@ public class TradeController {
 		tradeService.updateBuyerId(tradeVO);
 	}
 	
+
 	@GetMapping("member/tradeChat")
 	public void tradeChat(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 						  TradeVO tradeVO) {
 		System.out.println(tradeVO);
 	}
+	
+	//마이페이지 나의 알뜰모임 페이지
+	@GetMapping("member/myTrade")
+	public String myTradePage(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+							Model model,
+							TradeVO tradeVO) {
+		String page = "";
+		if(tradeVO.getListType().equals("HLIST")) {
+			tradeVO.setMemberId(principalDetails.getUsername());
+			page = "user/mypage/myHeart";
+		}else if(tradeVO.getListType().equals("BLIST")){
+			tradeVO.setBuyerId(principalDetails.getUsername());
+			page = "user/mypage/myBuy";
+		}else {
+			tradeVO.setSellerId(principalDetails.getUsername());
+			page = "user/mypage/mySell";
+		}
+		List<TradeVO> list = tradeService.selectMyTradeList(tradeVO);
+		model.addAttribute("menu", "mypage");
+		model.addAttribute("tradeList", list);
+		return page;
+	}
+
 }

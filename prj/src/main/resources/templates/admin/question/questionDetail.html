@@ -10,6 +10,7 @@
 
 <body>
 	<div layout:fragment="content">
+
 		<div class="container-xxl flex-grow-1 container-p-y">
 			<h4 class="fw-bold py-3 mb-4">문의관리 상세페이지</h4>
 			<div class="card card-admin-container">
@@ -120,30 +121,10 @@
 				</div>
 			</div>
 		</div>
-		<script type="module" th:src="@{/admin/assets/js/admin-question.js}"></script>
+		<script th:src="@{/admin/assets/js/admin-common.js}"></script>
+		<script th:src="@{/admin/assets/js/admin-question.js}"></script>
 		<script type="text/javascript" th:inline="javascript">
-		const deleteAnswerBtn = (answerId, questionId, event) => {
-			const agreeCheck = confirm("답변을 삭제 하시겠습니까?");
-			const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
-			let target = event.target;
-			console.log(target)
-
-			if (agreeCheck == true) {
-				$.ajax({
-					type: 'DELETE',
-					url: requestUrl
-				})
-					.done(result => {
-						if (result) {
-							alert('댓글이 삭제되었습니다.');
-							$(target).closest('.row').remove();
-						} else {
-							alert('삭제가 실패했습니다.');
-						}
-					})
-					.fail(error => console.log(error))
-			}
-		}
+		
 		
 		let message = [[${result}]];
 			if(message != null) {

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div style="width: 1049px; height: 744px; position: relative; margin: 0 auto;
+	 background: url('https://velog.velcdn.com/images/qkrtnals0818/post/097988b1-9b64-4421-ab4f-e5603c9ac98f/image.png') no-repeat center center;">
+	
+	<table style="margin-left: 210px; padding-top: 270px;">
+		<tbody>
+			<tr>
+				<td th:text="|${title}|" style="font-size: 29px; color: #567669; width: 625px; text-align: center;"></td>
+			</tr>
+			<tr style="display: flex; justify-content: center; margin-top: 205px;">
+				<td style="font-size: 25px; margin: 20px;"><a style="text-decoration: none; color: white; border: 1px solid #0b6c59; border-radius: 10px; padding: 6px; background-color: #0b6c59;" th:href="@{http://localhost:8090/member/myHome(memberId=${buyerId})}">마이페이지</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+	<div class="btn_wrap" style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
+	</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-import colorMapping from './admin-common.js';
+// import colorMapping from './admin-common.js';
 //import showPage from './admin-utils.js';
 
 console.log("admin-question.js 작업중")
@@ -14,7 +14,7 @@ let pageUnit = 0;  //한페이지에 출력할 행의 수
 let questionYn = "";
 
 // 진입시 총 문의 개수
-$(document).ready(function () {
+
 
 	let search = '';
 
@@ -271,5 +271,7 @@ $(document).ready(function () {
 				.fail(error => console.log(error))
 		}
 	}
+
+$(document).ready(function () {
 	renderQuestionList("", 1, search);
 })

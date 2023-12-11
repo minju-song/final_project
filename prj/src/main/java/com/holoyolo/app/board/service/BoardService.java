@@ -27,21 +27,21 @@ public interface BoardService {
 	// 전체 레코드 수 조회
 	public int getTotalBoardRecords(JSONObject req);
 
-	
-	//조회수 증가
+	// 조회수 증가
 
 	public int addView(int vo);
 
 	BoardVO checkBoard(int boardId);
 
 	List<BoardVO> searchBoardSurfPaged(JSONObject req);
+
 //검색 결과 수 조회
 	int getTotalBoardSurfRecords(JSONObject req);
 
-	
+	public List<BoardVO> recentBoradList(BoardVO vo); // 메인용 리스트
 
-	public List<BoardVO> recentBoradList(BoardVO vo); //메인용 리스트
+	public int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
 
-	int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList);
+	public int updateNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
 
 }

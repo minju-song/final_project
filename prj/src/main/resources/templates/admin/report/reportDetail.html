@@ -19,7 +19,7 @@
 						<!-- 문의제목 -->
 						<div class="d-flex">
 							<!-- 신고내용 -->
-							<h5 th:text="${item.reportContent}"  class="fw-bold"></h5>
+							<h5 th:if="${item.reportContent != null}" th:text="${item.reportContent}"  class="fw-bold"></h5>
 							<!-- 신고유형 -->
 							<h5 th:text="${item.reportType}"
 								class="text-warning ms-3 fw-bold"></h5>
@@ -85,8 +85,8 @@
 				</th:block>
 			</div>
 		</div>
-		<script type="module" th:src="@{/admin/assets/js/admin-report.js}" th:inline="javascript"
-			defer>
+		<script th:src="@{/admin/assets/js/admin-common.js}" th:inline="javascript" defer>
+		<script th:src="@{/admin/assets/js/admin-report.js}" th:inline="javascript" defer>
 </script>
 
 	</div>

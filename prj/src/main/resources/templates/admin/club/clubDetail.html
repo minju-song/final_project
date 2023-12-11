@@ -68,9 +68,9 @@
 						<!-- 관리자 답변 -->
 						<div id="deleteReason" class=" col-md p-4 position-relative d-none">
  							<form id="deleteReasonForm" class="">
-								<input type="hidden" name="clubId" th:value="${info.clubId}"/> <span class="fw-bold">사유
-								<input type="hidden" name="clubName" th:value="${info.clubName}"/> <span class="fw-bold">사유
-									작성</span>
+								<input type="hidden" name="clubId" th:value="${info.clubId}"/>
+								<input type="hidden" name="clubName" th:value="${info.clubName}"/>
+								<span class="fw-bold">사유 작성</span>
 								<div class="mt-2">
 									<textarea class="form-control" name="text"
 										placeholder="내용을 입력해주세요." rows="15"></textarea>
@@ -85,7 +85,8 @@
 				</div>
 			</div>
 		</div>
-		<script type="module" th:src="@{/admin/assets/js/admin-club.js}"></script>
+		<script th:src="@{/admin/assets/js/admin-common.js}"></script>
+		<script th:src="@{/admin/assets/js/admin-club.js}"></script>
 	</div>
 </body>
 

@@ -48,8 +48,16 @@
 	
 	<delete id="deleteAttachment" parameterType="AttachmentVO">
 		DELETE FROM attachment
+		WHERE menu_type = #{menuType}
+		AND post_id = #{postId}
+		<if test="saveFile != null and !saveFile.equals('')">
+			AND save_file = #{saveFile}
+		</if>
+	</delete>
+	<delete id="deletePostAttachment" parameterType="AttachmentVO">
+		DELETE FROM attachment
 		WHERE menu_type =#{menuType}
 		AND post_id = #{postId}
-		AND save_file = #{saveFile}
+		
 	</delete>
 </mapper>

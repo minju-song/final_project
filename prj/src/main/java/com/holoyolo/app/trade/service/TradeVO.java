@@ -44,4 +44,7 @@ public class TradeVO {
 	private String tradeTypeName;
 	
 	private String saveFile;
+	
+	private String listType;
+	private String memberId;
 }

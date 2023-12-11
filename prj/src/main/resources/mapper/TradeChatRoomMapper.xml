@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.holoyolo.app.chat.mapper.TradeChatRoomMapper">
+  <!-- 채팅방 조회 -->
+	  <select id="getTradeChatRoom" resultType="TradeChatRoomVO">
+		SELECT c.*, t.title
+		FROM trade_chat_room c join trade t on c.trade_id = t.trade_id
+		WHERE t.trade_id = #{tradeId}
+	  </select>
+  
+    	<!-- 채팅방 개설 -->
+  	<insert id="createTradeChatRoom" parameterType="TradeVO">
+  		INSERT INTO trade_chat_room
+  		VALUES (#{tradeId}, #{sellerId}, #{buyerId})
+  	</insert>
+  	
+  	
+  	<!--  채팅저장 -->
+  	<insert id="insertTradeChat" parameterType="TradeChatVO">
+  	  	<selectKey keyProperty="tradeChatId"
+					   resultType="int"
+					   order="BEFORE">
+	  		SELECT NVL(MAX(trade_chat_id),0) + 1
+				FROM trade_chat
+	  	</selectKey>
+	  	
+  		INSERT INTO trade_chat
+  		VALUES (
+  				#{tradeChatId}
+  				, #{tradeChatRoomId}
+  				, #{memberId}
+  				, #{msg}
+  				, #{realDate}
+  				, #{memberName}
+  				, 'N'
+  				)
+  	</insert>
+  	
+  	<!-- 내가 참여중인 대화 -->
+  	<select id="getMyChattings" resultType="TradeChatRoomVO">
+  		SELECT c.*, t.title, (select count(*)
+                        from trade_chat
+                        where trade_chat_room = c.trade_id
+                        and member_id != #{memberId} 
+                        and read_check = 'N') as notread,
+                        (select msg
+                        from trade_chat
+                        where trade_chat_room = c.trade_id
+                        and trade_chat_id = (
+                                            select max(trade_chat_id)
+                                            from trade_chat
+                                            where trade_chat_room = c.trade_id)) as lastchat,
+                        (select real_date
+                        from trade_chat
+                        where trade_chat_room = c.trade_id
+                        and trade_chat_id = (
+                                            select max(trade_chat_id)
+                                            from trade_chat
+                                            where trade_chat_room = c.trade_id)) as lastChatTime
+		FROM trade_chat_room c JOIN trade t ON c.trade_id = t.trade_id      
+		WHERE c.seller_id = #{memberId} 
+		OR c.buyer_id = #{memberId} 
+		ORDER BY c.trade_id desc
+  	</select>
+  	
+  	<!-- 해당 채팅방 지난 채팅내역 -->
+  	<select id="getChat" resultType="TradeChatVO">
+  		SELECT * 
+  		FROM trade_chat 
+  		WHERE trade_chat_room = #{tradeChatRoomId}
+  		ORDER BY trade_chat_id
+  	</select>
+  
+  <!-- 모두 읽음표시 -->
+  	<update id="updateAllChat" parameterType="TradeChatVO">
+  		UPDATE trade_chat 
+  		SET read_check = 'Y' 
+  		WHERE trade_chat_room = #{tradeChatRoomId}
+  		AND read_check = 'N'
+  		AND member_id != #{memberId}
+  	</update>
+  	
+  	<!-- 실시간으로 읽음 표시 -->
+  	<update id="updateRead" parameterType="TradeChatVO">
+  		UPDATE trade_chat 
+  		SET read_check = 'Y' 
+  		WHERE trade_chat_id = #{tradeChatId}
+  	</update>
+  </mapper>

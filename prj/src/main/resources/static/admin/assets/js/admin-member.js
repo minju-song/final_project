@@ -1,4 +1,4 @@
-import colorMapping from './admin-common.js';
+//import colorMapping from './admin-common.js';
 
 console.log("admin-member.js 작업중")
 

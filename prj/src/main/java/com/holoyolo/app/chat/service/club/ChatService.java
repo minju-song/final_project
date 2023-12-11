@@ -1,4 +1,4 @@
-package com.holoyolo.app.chat.service;
+package com.holoyolo.app.chat.service.club;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

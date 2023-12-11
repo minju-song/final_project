@@ -15,4 +15,6 @@ public interface AttachmentMapper {
 	
 	//첨부파일 삭제
 	public int deleteAttachment(AttachmentVO attachmentVO);
+	
+	public int deletePostAttachment(AttachmentVO attachmentVO);
 }

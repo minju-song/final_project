@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -266,5 +267,15 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println("기존 회원정보 ::: " + memberVO);
 		}
 		return 0;
+  }
+
+	@Override
+	public MemberVO findById(String memberId) {
+		return memberMapper.findById(memberId);
+	}
+	
+	@Override
+	public MemberVO addMonth(MemberVO memberVO) {
+		return memberMapper.addMonth(memberVO);
 	}
 }

@@ -2,10 +2,13 @@ package com.holoyolo.app.attachment.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.board.service.BoardVO;
+
 
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
@@ -80,6 +85,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 		for (MultipartFile uploadFile : uploadFiles) {
 			AttachmentVO vo = new AttachmentVO();
+
 			if (type.equals("trade") || type.equals("memo")) {
 				// 이미지파일만 가능하도록 제한.
 				if (uploadFile.getContentType().startsWith("image") == false) {
@@ -89,6 +95,13 @@ public class AttachmentServiceImpl implements AttachmentService {
 			}
 
 			if (type.equals("notice")) {
+				if (uploadFile.isEmpty()) {
+					System.err.println("this file is not image type");
+					return null;
+				}
+			}
+
+			if (type.equals("noticeAttach")) {
 				if (uploadFile.isEmpty()) {
 					System.err.println("this file is not image type");
 					return null;
@@ -155,6 +168,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 			folderPath = "cs" + File.separator + "notice";
 		} else if (type.equals("memo")) {
 			folderPath = "memo" + File.separator + "images";
+		} else if (type.equals("noticeAttach")) {
+			folderPath = "cs" + File.separator + "noticeAttach";
 		}
 
 		// File newFile = new File(dir,"파일명");
@@ -201,5 +216,47 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 		return 0;
 	}
+  
+	@Override
+	public Map<String, List<AttachmentVO>> getCSAttachmentList(AttachmentVO attachmentVO) {
+		List<AttachmentVO> sourceList = attachmentMapper.selectAttachmentList(attachmentVO);
+
+		Map<String, List<AttachmentVO>> resultMap = new HashMap<>();
+		List<AttachmentVO> attachList = new ArrayList<>();
+		List<AttachmentVO> imgList = new ArrayList<>();
+		String[] imgExtension = { "png", "jpg", "jpeg", "gif" };
+		for (AttachmentVO attach : sourceList) {
+			String originalFile = attach.getOriginFile();
+			int lastDotIndex = originalFile.lastIndexOf(".");
+			if (lastDotIndex > 0) {
+				boolean imgCheck = false;
+				String thisExtension = originalFile.substring(lastDotIndex + 1);
+				for (String ext : imgExtension) {
+					if (thisExtension.equals(ext)) {
+						imgList.add(attach);
+						System.out.println(attach);
+						resultMap.put("imgList", imgList);
+						imgCheck = true;
+					}
+				}
+				if (!imgCheck) {
+					attachList.add(attach);
+					resultMap.put("attachList", attachList);
+				}
+			}
+		}
+
+		return resultMap;
+	}
+
+	@Override
+	public int deletePostAttachment(BoardVO boardVO) {
+		AttachmentVO attachmentVO = new AttachmentVO();
+		attachmentVO.setPostId(boardVO.getBoardId());
+		attachmentVO.setMenuType(boardVO.getMenuType());
+		return attachmentMapper.deletePostAttachment(attachmentVO);
+	}
+
+	// 파일 업로드
 
 }

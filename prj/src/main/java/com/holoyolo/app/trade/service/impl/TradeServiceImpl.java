@@ -98,11 +98,13 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	public int updateTradeImg(TradeVO tradeVO, List<AttachmentVO> imgList) {
 		int result = 0;
-		for(int i=0; i<imgList.size(); i++) {
-			AttachmentVO vo = imgList.get(i);
-			vo.setMenuType("AA1");
-			vo.setPostId(tradeVO.getTradeId());
-			result = attachmentMapper.insertAttachment(imgList.get(i));
+		if(imgList != null) {
+			for(int i=0; i<imgList.size(); i++) {
+				AttachmentVO vo = imgList.get(i);
+				vo.setMenuType("AA1");
+				vo.setPostId(tradeVO.getTradeId());
+				result = attachmentMapper.insertAttachment(imgList.get(i));
+			}
 		}
 		return result;
 	}
@@ -123,5 +125,9 @@ public class TradeServiceImpl implements TradeService {
 		return map;
 	}
 
-
+	//마이페이지 전체조회
+	@Override
+	public List<TradeVO> selectMyTradeList(TradeVO tradeVO) {
+		return tradeMapper.selectMyTradeList(tradeVO);
+	}
 }

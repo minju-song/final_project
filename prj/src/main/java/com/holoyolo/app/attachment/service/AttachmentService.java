@@ -2,10 +2,15 @@ package com.holoyolo.app.attachment.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.holoyolo.app.member.service.MemberVO;
+
+import com.holoyolo.app.board.service.BoardVO;
+
 
 public interface AttachmentService {
 
@@ -39,6 +44,7 @@ public interface AttachmentService {
 	
 	//첨부파일 삭제
 	public int deleteAttachment(AttachmentVO attachmentVO);
+
 	
 	/**
 	 * 실재 파일 삭제
@@ -46,4 +52,12 @@ public interface AttachmentService {
 	 * @return
 	 */
 	public int deleteFiles(List<AttachmentVO> list);
+
+	//고객센터 첨부 조회
+	public Map<String, List<AttachmentVO>> getCSAttachmentList(AttachmentVO attachmentVO);
+	
+	
+	//업데이트 전 첨부파일 초기화
+	public int deletePostAttachment(BoardVO boardVO);
+
 }
