@@ -30,6 +30,8 @@ public class ClubSuccessHistoryMemberServiceImpl implements ClubSuccessHistoryMe
 		List<ClubSuccessHistoryMemberVO> list = clubSuccessHistoryMemberMapper.getSuccessMember(vo);
 		map.put("list", list);
 		
+		MemberVO mvo = memberMapper.selectUser(vo.getMemberId());
+		map.put("member", mvo);
 		
 		return map;
 	}
