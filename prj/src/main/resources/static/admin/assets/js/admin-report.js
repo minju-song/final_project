@@ -1,4 +1,4 @@
-import colorMapping from './admin-common.js';
+// import colorMapping from './admin-common.js';
 //console.log(window.location.pathname) 현재 경로
 console.log("admin-report.js 작업중");
 
