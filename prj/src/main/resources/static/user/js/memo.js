@@ -4,15 +4,17 @@
  
  	//팔레트 클릭시 색상표 출력 함수 
 	function openPalette(e, pal){
+		console.log('click!!!!!');
+		console.log(pal.nextElementSibling);
 		if(pal.nextElementSibling.style.display == 'block'){
 			pal.nextElementSibling.style.display = 'none';
-			let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+			let selMenubars = e.currentTarget.closest('.menubars');
 			for(let i=0; i<selMenubars.length; i++){
 				selMenubars[i].classList.toggle('menubars_active');
 			}
 		}else{
 			pal.nextElementSibling.style.display = 'block';
-			let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+			let selMenubars = e.currentTarget.closest('.menubars');
 			for(let i=0; i<selMenubars.length; i++){
 				selMenubars[i].classList.toggle('menubars_active');
 			}
@@ -22,7 +24,7 @@
 	//핀 색상 변경 함수
 	function pinChange(e){
 	console.log("전체리스트에서 핀클릭");
-		let memoId = e.currentTarget.parentElement.querySelector('.inputMemoId').dataset.memo;
+		let memoId = e.currentTarget.closest('.inputMemoId').dataset.memo;
 		if(!e.target.classList.contains('bi-pin-fill')){
 			e.target.src=`/user/images/memo/pin-fill.svg`;
 			bookmark = 'Y';
@@ -50,8 +52,10 @@
 	
 	//색상 클릭 시 메모 바탕색 변경 함수
 	function changeMemoColor(e){
-    	let memoId = e.currentTarget.parentElement.parentElement.parentElement.querySelector('.inputMemoId').dataset.memo;
-    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement;
+    	console.log(e.currentTarget);
+    	let memoId = e.currentTarget.parentElement.parentElement.parentElement.parentElement.querySelector('.inputMemoId').dataset.memo;
+    	console.log(memoId);
+    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
     	let color = e.currentTarget.value
     	$.ajax({    
         type:"POST",
@@ -400,6 +404,12 @@
 		for(let i=0; i<memoColor.length; i++){
 			memoColor[i].addEventListener('click', function(e){changeMemoColor(e);	});
 		}
+		
+		//첨부파일
+		let fileBtn =  clone[0].querySelector('.file_btn');
+		let realFile = clone[0].querySelector('.real_file');
+		fileBtn.addEventListener('click', () => realFile.click())
+		realFile.addEventListener('change', (e) => imgFileSelectHandler(e));
 	}
 	
     //메모 수정
@@ -487,4 +497,78 @@
 		       console.log(error);    
 		    }})
 		}	
+	}
+
+	
+	/* 파일업로드 추가 */
+	// 첨부파일
+	let fileBtn = document.querySelectorAll('.file_btn');
+	let realFile = document.querySelectorAll('.real_file');
+	for(let i=0; i<fileBtn.length; i++){
+		fileBtn[i].addEventListener('click', () => realFile[i].click());
+		realFile[i].addEventListener('change', (e) => imgFileSelectHandler(e));
+	}
+	
+	// 파일이 첨부되면.
+	function imgFileSelectHandler(e) {
+	  	
+	  	let files = e.currentTarget.files;
+	  	let memo = $(e.target).closest('.memo');
+	  	let memoImage = $(e.target).closest('.memo').find('.memo_image');
+	  	console.log(files);
+	  	
+		// 파일타입 검사 및 미리보기 생성
+		[...files].forEach(file => {
+	        if (!file.type.match("image/.*")) {
+				alert('이미지 파일만 업로드가 가능합니다.');
+				return
+	        }
+	
+	        // 태그 생성
+	        if ([...files].length < 7) {
+				const reader = new FileReader();
+				reader.onload = (e) => {
+		            $(memoImage).prepend('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
+				};
+	          	reader.readAsDataURL(file);
+	        }
+		});
+	  	
+	  	uploadImg(e);
+	}
+	
+	//파일 업로드
+	function uploadImg(e) {
+		let memoId = $(e.target).closest('.memo').find('.inputMemoId').data('memo');
+		console.log(memoId);
+		let target = e.target;
+		let formData = new FormData();
+	  	let files = target.files;
+		
+		
+		// 메모 아이디 formData에 append
+		formData.append("memoId", memoId);
+		// 첩부된 파일 목록 formData에 append
+		for(let file of files) {
+			formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
+		}
+		for (const x of formData) {
+		 console.log(x);
+		};
+		
+		//jQuery.ajax
+		$.ajax({
+	       url: '/member/memoUploadImg',	
+	       type: 'POST',
+	       processData: false,
+	       contentType: false,	
+	       data: formData,               
+	       success: function(result){
+	           console.log(result);
+	           
+	       },
+	       error: function(reject){	
+	           console.log(reject);
+	       }
+	   }); 
 	}

@@ -69,28 +69,32 @@
 							<!-- 메모 해시태그 -->
 							<input class="hashtag" name="tags" readonly th:value="해시태그">
 						</div>
-						<!-- 메모 색상 버튼 -->
-						<img class="menubars bi-palette" th:src="@{/user/images/memo/palette.svg}">
-						<div class="shop__sidebar__color">
-							<label class="ca1 changeColor">
-								<input type="radio" value="#F4CCCC" name="color">
-							</label>
-							<label class="ca2 changeColor">
-								<input type="radio" value="#FFF2CC" name="color">
-							</label>
-							<label class="ca3 changeColor">
-								<input type="radio" value="#D9EAD3" name="color">
-							</label>
-							<label class="ca4 changeColor">
-								<input type="radio" value="#D0E0E3" name="color">
-							</label>
-							<label class="ca5 changeColor">
-								<input type="radio" value="#D9D2E9" name="color">
-							</label>
+						<div class="memo_btn_wrap">
+							<!-- 메모 색상 버튼 -->
+							<img class="menubars bi-palette" th:src="@{/user/images/memo/palette.svg}">
+							<div class="shop__sidebar__color">
+								<label class="ca1 changeColor">
+									<input type="radio" value="#F4CCCC" name="color">
+								</label>
+								<label class="ca2 changeColor">
+									<input type="radio" value="#FFF2CC" name="color">
+								</label>
+								<label class="ca3 changeColor">
+									<input type="radio" value="#D9EAD3" name="color">
+								</label>
+								<label class="ca4 changeColor">
+									<input type="radio" value="#D0E0E3" name="color">
+								</label>
+								<label class="ca5 changeColor">
+									<input type="radio" value="#D9D2E9" name="color">
+								</label>
+							</div>
+							<!-- 메모 이미지 등록 버튼 -->
+							<img class="menubars file_btn bi-image" th:src="@{/user/images/memo/image.svg}">
+							<form enctype="multipart/form-data">
+								<input class="real_file" type="file" onchange="addFile(this);" multiple />
+							</form>
 						</div>
-						<!-- 메모 이미지 등록 버튼 -->
-						<img class="file_btn menubars bi-image" th:src="@{/user/images/memo/image.svg}">
-						<input class="real_file" type="file" onchange="addFile(this);" multiple />
 					</div>
 					<!-- 복사용 메모 끝 -->
 					<!-- 즐겨찾기 메모리스트 시작 -->
@@ -117,28 +121,32 @@
 									<!-- 메모 해시태그 -->
 									<input class="hashtag" name="tags" readonly th:value="${memo.hashTag}">
 								</div>
-								<!-- 메모 색상 버튼 -->
-								<img class="menubars bi-palette" th:src="@{/user/images/memo/palette.svg}">
-								<div class="shop__sidebar__color">
-									<label class="ca1 changeColor">
-										<input type="radio" value="#F4CCCC" name="color">
-									</label>
-									<label class="ca2 changeColor">
-										<input type="radio" value="#FFF2CC" name="color">
-									</label>
-									<label class="ca3 changeColor">
-										<input type="radio" value="#D9EAD3" name="color">
-									</label>
-									<label class="ca4 changeColor">
-										<input type="radio" value="#D0E0E3" name="color">
-									</label>
-									<label class="ca5 changeColor">
-										<input type="radio" value="#D9D2E9" name="color">
-									</label>
+								<div class="memo_btn_wrap">
+									<!-- 메모 색상 버튼 -->
+									<img class="menubars bi-palette" th:src="@{/user/images/memo/palette.svg}">
+									<div class="shop__sidebar__color">
+										<label class="ca1 changeColor">
+											<input type="radio" value="#F4CCCC" name="color">
+										</label>
+										<label class="ca2 changeColor">
+											<input type="radio" value="#FFF2CC" name="color">
+										</label>
+										<label class="ca3 changeColor">
+											<input type="radio" value="#D9EAD3" name="color">
+										</label>
+										<label class="ca4 changeColor">
+											<input type="radio" value="#D0E0E3" name="color">
+										</label>
+										<label class="ca5 changeColor">
+											<input type="radio" value="#D9D2E9" name="color">
+										</label>
+									</div>
+									<!-- 메모 이미지 등록 버튼 -->
+									<img class="menubars file_btn bi-image" th:src="@{/user/images/memo/image.svg}">
+									<form enctype="multipart/form-data">
+										<input class="real_file" type="file" multiple="multiple" />
+									</form>
 								</div>
-								<!-- 메모 이미지 등록 버튼 -->
-								<img class="file_btn menubars bi-image" th:src="@{/user/images/memo/image.svg}">
-								<input class="real_file" type="file" multiple="multiple" />
 							</div>
 						</th:block>
 					</th:block>
@@ -172,28 +180,32 @@
 									<!-- 메모 해시태그 -->
 									<input class="hashtag" name='tags' readonly th:value="${memo.hashTag}">
 								</div>
-								<!-- 메모 색상 버튼 -->
-								<img class="menubars bi-palette" th:src="@{/user/images/memo/palette.svg}">
-								<div class="shop__sidebar__color">
-									<label class="ca1 changeColor">
-										<input type="radio" value="#F4CCCC" name="color">
-									</label>
-									<label class="ca2 changeColor">
-										<input type="radio" value="#FFF2CC" name="color">
-									</label>
-									<label class="ca3 changeColor">
-										<input type="radio" value="#D9EAD3" name="color">
-									</label>
-									<label class="ca4 changeColor">
-										<input type="radio" value="#D0E0E3" name="color">
-									</label>
-									<label class="ca5 changeColor">
-										<input type="radio" value="#D9D2E9" name="color">
-									</label>
+								<div class="memo_btn_wrap">
+									<!-- 메모 색상 버튼 -->
+									<img class="menubars bi-palette" th:src="@{/user/images/memo/palette.svg}">
+									<div class="shop__sidebar__color">
+										<label class="ca1 changeColor">
+											<input type="radio" value="#F4CCCC" name="color">
+										</label>
+										<label class="ca2 changeColor">
+											<input type="radio" value="#FFF2CC" name="color">
+										</label>
+										<label class="ca3 changeColor">
+											<input type="radio" value="#D9EAD3" name="color">
+										</label>
+										<label class="ca4 changeColor">
+											<input type="radio" value="#D0E0E3" name="color">
+										</label>
+										<label class="ca5 changeColor">
+											<input type="radio" value="#D9D2E9" name="color">
+										</label>
+									</div>
+									<!-- 메모 이미지 등록 버튼 -->
+									<img class="menubars file_btn bi-image" th:src="@{/user/images/memo/image.svg}">
+									<form enctype="multipart/form-data">
+										<input class="real_file" type="file" multiple="multiple" />
+									</form>
 								</div>
-								<!-- 메모 이미지 등록 버튼 -->
-								<img class="file_btn menubars bi-image" th:src="@{/user/images/memo/image.svg}">
-								<input class="real_file" type="file" multiple="multiple" />
 							</div>
 						</th:block>
 					</th:block>
@@ -211,30 +223,34 @@
 									spellcheck="false" placeholder="메모 입력..."></textarea>
 								<input class="tagwidth" name="plustag" placeholder="해시태그 입력...">
 							</div>
-							<!-- 메모 고정 버튼 -->
-							<img class="modal-bi-pin modalmenu inputMemoId" th:src="@{/user/images/memo/pin.svg}">
-							<!-- 메모 색상 버튼 -->
-							<img class="bi-palette modalmenu" th:src="@{/user/images/memo/palette.svg}">
-							<div class="shop__sidebar__color modalColor modalmenu">
-								<label class="ca1">
-									<input type="radio" value="#F4CCCC" name="color">
-								</label>
-								<label class="ca2">
-									<input type="radio" value="#FFF2CC" name="color">
-								</label>
-								<label class="ca3">
-									<input type="radio" value="#D9EAD3" name="color">
-								</label>
-								<label class="ca4">
-									<input type="radio" value="#D0E0E3" name="color">
-								</label>
-								<label class="ca5">
-									<input type="radio" value="#D9D2E9" name="color">
-								</label>
+							<div class="memo_btn_wrap modal_btn_wrap">
+								<!-- 메모 고정 버튼 -->
+								<img class="modal-bi-pin modalmenu inputMemoId" th:src="@{/user/images/memo/pin.svg}">
+								<!-- 메모 색상 버튼 -->
+								<img class="bi-palette modalmenu" th:src="@{/user/images/memo/palette.svg}">
+								<div class="shop__sidebar__color modalColor modalmenu">
+									<label class="ca1">
+										<input type="radio" value="#F4CCCC" name="color">
+									</label>
+									<label class="ca2">
+										<input type="radio" value="#FFF2CC" name="color">
+									</label>
+									<label class="ca3">
+										<input type="radio" value="#D9EAD3" name="color">
+									</label>
+									<label class="ca4">
+										<input type="radio" value="#D0E0E3" name="color">
+									</label>
+									<label class="ca5">
+										<input type="radio" value="#D9D2E9" name="color">
+									</label>
+								</div>
+								<!-- 메모 이미지 등록 버튼 -->
+								<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
+								<form enctype="multipart/form-data">
+									<input class="real_file" type="file" multiple="multiple" />
+								</form>
 							</div>
-							<!-- 메모 이미지 등록 버튼 -->
-							<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
-							<input class="real_file" type="file" multiple="multiple" />
 						</div>
 					</div>
 				</div>
@@ -251,32 +267,34 @@
 									spellcheck="false" placeholder="메모 입력..."></textarea>
 								<input class="tagwidth" name="plustag" placeholder="해시태그 입력...">
 							</div>
-							<!-- 메모 고정 버튼 -->
-							<img class="modal-bi-pin bi-pin-fill modalmenu" th:src="@{/user/images/memo/pin-fill.svg}">
-							<!-- 메모 색상 버튼 -->
-							<img class="bi-palette modalmenu" th:src="@{/user/images/memo/palette.svg}">
-							<div class="shop__sidebar__color modalColor modalmenu">
-								<label class="ca1">
-									<input type="radio" value="#F4CCCC" name="color">
-								</label>
-								<label class="ca2">
-									<input type="radio" value="#FFF2CC" name="color">
-								</label>
-								<label class="ca3">
-									<input type="radio" value="#D9EAD3" name="color">
-								</label>
-								<label class="ca4">
-									<input type="radio" value="#D0E0E3" name="color">
-								</label>
-								<label class="ca5">
-									<input type="radio" value="#D9D2E9" name="color">
-								</label>
+							<div class="memo_btn_wrap modal_btn_wrap">
+								<!-- 메모 고정 버튼 -->
+								<img class="modal-bi-pin bi-pin-fill modalmenu" th:src="@{/user/images/memo/pin-fill.svg}">
+								<!-- 메모 색상 버튼 -->
+								<img class="bi-palette modalmenu" th:src="@{/user/images/memo/palette.svg}">
+								<div class="shop__sidebar__color modalColor modalmenu">
+									<label class="ca1">
+										<input type="radio" value="#F4CCCC" name="color">
+									</label>
+									<label class="ca2">
+										<input type="radio" value="#FFF2CC" name="color">
+									</label>
+									<label class="ca3">
+										<input type="radio" value="#D9EAD3" name="color">
+									</label>
+									<label class="ca4">
+										<input type="radio" value="#D0E0E3" name="color">
+									</label>
+									<label class="ca5">
+										<input type="radio" value="#D9D2E9" name="color">
+									</label>
+								</div>
+								<!-- 메모 이미지 등록 버튼 -->
+								<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
+								<form enctype="multipart/form-data">
+									<input class="real_file" type="file" />
+								</form>
 							</div>
-							<!-- 메모 이미지 등록 버튼 -->
-							<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
-							<form enctype="multipart/form-data">
-								<input class="real_file" type="file" />
-							</form>
 						</div>
 					</div>
 				</div>

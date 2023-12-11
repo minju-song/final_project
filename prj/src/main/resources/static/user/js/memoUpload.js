@@ -11,7 +11,6 @@ for(let i=0; i<fileBtn.length; i++){
 }
 
 // 파일이 첨부되면.
-let uploadFiles = [];
 function imgFileSelectHandler(e) {
   	
   	let files = e.currentTarget.files;
@@ -28,7 +27,6 @@ function imgFileSelectHandler(e) {
 
         // 태그 생성
         if ([...files].length < 7) {
-			uploadFiles.push(file);
 			const reader = new FileReader();
 			reader.onload = (e) => {
 	            $(memoImage).prepend('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
@@ -36,8 +34,6 @@ function imgFileSelectHandler(e) {
           	reader.readAsDataURL(file);
         }
 	});
-  	
-  	console.log(uploadFiles);
   	
   	uploadImg(e);
 }
@@ -75,41 +71,4 @@ function uploadImg(e) {
            console.log(reject);
        }
    }); 
-	
-	
-	
-	
-	
-	
-	
-  	/*fetch('/member/memoUploadImg', {
-		method : 'post',
-		body : formData
-	})
-  	.then((data) => {
-  		console.log(data);
-  		const Toast = Swal.mixin({
-		    toast: true,
-		    position: 'center',
-		    showConfirmButton: false,
-		    timer: 2000,
-		    timerProgressBar: true,
-		    didOpen: (toast) => {
-		        toast.addEventListener('mouseenter', Swal.stopTimer)
-		        toast.addEventListener('mouseleave', Swal.resumeTimer)
-		    }
-		})
-  		if(data.result == 'Success') {
-			Toast.fire({
-			    icon: 'success',
-			    title: '사진이 저장되었습니다!'
-			})
-  		} else {
-  			Toast.fire({
-			    icon: 'error',
-			    title: '죄송합니다, 다시 시도해 주세요'
-			})
-  		}
-  	})
-	.catch(err => console.log(err));*/
 }
