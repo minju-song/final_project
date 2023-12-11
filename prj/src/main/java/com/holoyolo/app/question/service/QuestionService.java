@@ -3,6 +3,9 @@ package com.holoyolo.app.question.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+
 public interface QuestionService {
 	
 	// 기본 CRUD
@@ -27,4 +30,11 @@ public interface QuestionService {
 	// 추가 인터페이스 작성 ↓↓
 	// 페이징
 	public int selectTotalPagingCount(QuestionVO questionVO);
+	
+	
+	//회원 문의 리스트
+	
+	public Page<QuestionVO> MyQuestionList(Pageable pageable, String string);
+    
+	
 }

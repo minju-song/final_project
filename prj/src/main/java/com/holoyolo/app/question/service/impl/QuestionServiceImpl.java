@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.holoyolo.app.answer.service.AnswerService;
@@ -19,42 +21,38 @@ public class QuestionServiceImpl implements QuestionService {
 	@Autowired // 매퍼 주입
 	QuestionMapper questionMapper;
 
-
-
 	@Autowired
 	AnswerService answerService;
 
 	// 문의 조건조회
-    @Override
-    public List<QuestionVO> selectQuestionTotalList(QuestionVO questionVO) {
-        return questionMapper.selectQuestionTotalList(questionVO);
-    }
+	@Override
+	public List<QuestionVO> selectQuestionTotalList(QuestionVO questionVO) {
+		return questionMapper.selectQuestionTotalList(questionVO);
+	}
 
 	// 문의 단건조회
 	@Override
 	public Map<String, Object> selectQuestionInfo(QuestionVO questionVO) {
 		Map<String, Object> result = new HashMap<>();
 
-		
 		// 문의 단건정보
 		QuestionVO findQuestionVO = questionMapper.selectQuestionInfo(questionVO);
-		
+
 		// 답변 전체조회
 		List<AnswerVO> findAnswerVO = answerService.selectAnswerAll(questionVO);
 
-	    result.put("questionInfo", findQuestionVO);
-	    result.put("answerInfo", findAnswerVO);
+		result.put("questionInfo", findQuestionVO);
+		result.put("answerInfo", findAnswerVO);
 
 		return result;
 	}
-	
 
 	// 문의 개수조회
-    @Override
-    public int selectQuestionTotalCount(QuestionVO questionVO) {
-        return questionMapper.selectQuestionTotalCount(questionVO);
-    }
-	
+	@Override
+	public int selectQuestionTotalCount(QuestionVO questionVO) {
+		return questionMapper.selectQuestionTotalCount(questionVO);
+	}
+
 	// 문의 등록
 	@Override
 	public int insertQuestionInfo(QuestionVO questionVO) {
@@ -101,5 +99,12 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public int selectTotalPagingCount(QuestionVO questionVO) {
 		return questionMapper.selectTotalPagingCount(questionVO);
+	}
+
+	@Override
+	public Page<QuestionVO> MyQuestionList(String memberId, Pageable pageable) {
+		questionMapper.MyQuestionList(memberId);
+	
+		return 
 	}
 }

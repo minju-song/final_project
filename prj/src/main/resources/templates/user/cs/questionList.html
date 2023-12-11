@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="text-center">
+                <h3 th:text="${boardType}"></h3>
+            </div>
+
+            <form action="#" class="row col-9">
+                <select id="searchTitle" class="col-3">
+                    <option value="title">글 제목</option>
+                </select>
+                <input type="search" id="search_input" class="search_input col-9" required="required" placeholder="검색">
+            </form>
+            <div class="row justify-content-end mt-3">
+                <div class="col-2">
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                        <span><a th:href="@{/cs/help/notice/Insert}">공지 등록</a></span>
+                    </th:block>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>제목</th>
+                                <th>문의유형</th>
+                                <th>작성일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="list:${qnaList}">
+                                <td th:text="${list.title}"></td>
+                                <td th:if="${list.questionType} == 'MA1'" th:text="가계부"></td>
+                                <td th:if="${list.questionType} == 'MA2'" th:text="중고거래"></td>
+                                <td th:if="${list.questionType} == 'MA3'" th:text="알뜰모임"></td>
+                                <td th:if="${list.questionType} == 'MA4'" th:text="커뮤니티"></td>
+                                <td th:if="${list.questionType} == 'MA5'" th:text="메모"></td>
+                                <td th:if="${list.questionType} == 'MA6'" th:text="홀로페이"></td>
+                                <td th:if="${list.questionType} == 'MA7'" th:text="포인트"></td>
+                                <td th:if="${list.questionType} == 'MA8'" th:text="기타"></td>
+                                <td>
+                                    <a th:text="${list.writeDate}" th:href="@{/member/qna(id=${list.id})}"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="pagination-container">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/user/js/notice.js}"></script>
+        <script th:src="@{/user/js/community.js}"></script>
+        <script>
+            loadData(currentPage);
+
+            $(document).ready(function () {
+                loadData(currentPage);
+            });
+
+            //검색어 입력할 때마다 데이터 호출 및 페이징
+            let searchInput = document.getElementById('search_input');
+            searchInput.addEventListener('keyup', function () {
+                search = searchInput.value;
+                loadData(currentPage, search);
+            })
+        </script>
+    </div>
+</body>
+
+</html>

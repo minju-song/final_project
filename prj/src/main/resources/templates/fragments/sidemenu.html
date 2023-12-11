@@ -68,7 +68,7 @@
 					<ul>
 						<li class="side_main_menu"><a th:href="@{/cs/help/notice}">공지사항</a></li>
 						<li class="side_main_menu"><a th:href="@{/cs/faq}" id="_faq">자주하는질문</a></li>
-						<li class="side_main_menu"><a th:href="@{/cs/help/question}">1:1문의</a></li>
+						<li class="side_main_menu" sec:authorize="hasRole('ROLE_HA1')"><a th:href="@{/member/cs/help/question}">1:1문의</a></li>
 					</ul>
 				</div>
 			</th:block>

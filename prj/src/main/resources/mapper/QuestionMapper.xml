@@ -80,4 +80,11 @@
 		</where>
 	</select>
 
+
+<!-- 회원별 질문 리스트  -->
+	<select id="MyQuestionList" resultType="QuestionVO">
+			SELECT *
+			FROM QUESTION
+			WHERE MEMBER_ID =#{memberId}
+	</select>
 </mapper>
