@@ -13,7 +13,7 @@ public interface MemoService {
 	public MemoVO getMemo(MemoVO memoVO);
 	
 	//등록
-	public int insertMemo(MemoVO memoVO);
+	public int insertMemo(MemoVO memoVO, List<AttachmentVO> imgList);
 	
 	//수정
 	public Map<String, Object> updateMemo(MemoVO memoVO);

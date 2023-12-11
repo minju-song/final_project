@@ -51,9 +51,11 @@ public class MemoController {
 	@PostMapping("member/memoInsert")
 	@ResponseBody
 	public int memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, 
-						  MemoVO memoVO) {
+						  MemoVO memoVO,
+						  @RequestPart MultipartFile[] uploadFiles) {
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "memo");
 		memoVO.setMemberId(principalDetails.getUsername());
-		int id = memoService.insertMemo(memoVO);
+		int id = memoService.insertMemo(memoVO, imgList);
 		return id;
 	}
 	

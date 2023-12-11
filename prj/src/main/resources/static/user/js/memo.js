@@ -22,7 +22,8 @@
 	//핀 색상 변경 함수
 	function pinChange(e){
 	console.log("전체리스트에서 핀클릭");
-		let memoId = e.currentTarget.closest('.inputMemoId').dataset.memo;
+		let memoId = e.currentTarget.parentElement.querySelector('.inputMemoId').dataset.memo;
+		console.log(memoId);
 		if(!e.target.classList.contains('bi-pin-fill')){
 			e.target.src=`/user/images/memo/pin-fill.svg`;
 			bookmark = 'Y';
@@ -277,6 +278,14 @@
 				$('#writedMemo').find('[name=plustag]')[0].value = data.hashTag;
 				$('#writedMemo').find('.modal-body')[0].style.backgroundColor = data.color;
 				$('#writedMemo')[0].value = memoId;
+				
+				// 이미지관련
+				$('#writedMemo').find('.memo_image').empty();
+				for(let i=0; i<data.images.length; i++) {
+					let tag = $('<div>').addClass('upload').css('background-image', `url('/images/${data.images[i].saveFile}')`);
+					$('#writedMemo').find('.memo_image').append(tag);
+				}
+				
 				if(data.bookmark == 'Y'){
 					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin-fill.svg';
 				}else{
@@ -515,6 +524,12 @@
 	  	let memoImage = $(e.target).closest('.memo').find('.memo_image');
 	  	console.log(files);
 	  	
+	  	if($(e.target).hasClass("modal_file") === true) {
+	  		console.log('test');
+	  		memo = $(e.target).closest('.modal');
+	  		memoImage = $(e.target).closest('.modal').find('.memo_image');
+	  	}
+	  	
 		// 파일타입 검사 및 미리보기 생성
 		[...files].forEach(file => {
 	        if (!file.type.match("image/.*")) {
@@ -532,12 +547,17 @@
 	        }
 		});
 	  	
-	  	uploadImg(e);
+	  	if($(e.target).hasClass("insert_file") !== true) {
+		  	uploadImg(e);
+	  	}
 	}
 	
 	//파일 업로드
 	function uploadImg(e) {
-		let memoId = $(e.target).closest('.memo').find('.inputMemoId').data('memo');
+		if($(e.target).hasClass("modal_file") !== true) {
+			memoId = $(e.target).closest('.memo').find('.inputMemoId').data('memo');
+	  	}
+		
 		console.log(memoId);
 		let target = e.target;
 		let formData = new FormData();

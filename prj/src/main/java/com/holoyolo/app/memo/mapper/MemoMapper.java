@@ -22,6 +22,7 @@ public interface MemoMapper {
 	
 	//삭제
 	public int deleteMemo(MemoVO memoVO);
+	public int deleteMemoImage(MemoVO memoVO);
 	
 	//index 수정
 	public int memoIndex(MemoVO memoVO);

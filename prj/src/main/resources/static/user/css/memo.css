@@ -16,6 +16,18 @@
 	margin: 10px;
 	padding: 10px;
 }
+.memo::-webkit-scrollbar {
+  background: transparent;
+  width: 5px;
+  border-radius: 20px !important;
+}
+.memo::-webkit-scrollbar-thumb {
+	background: #ec79ab !important;
+	border: 2px solid #ffffff00 !important;
+}
+.memo::-webkit-scrollbar-track {
+    background: #ffffff00;
+}
 
 .modalmenu{
 	padding: 5px;

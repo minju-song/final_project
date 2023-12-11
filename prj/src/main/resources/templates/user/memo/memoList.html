@@ -56,7 +56,6 @@
 					<!-- 복사용 메모 -->
 					<div class="memo draggable btn-modal" draggable="true"
 						th:style="|background:#FFF2CC; display:none|">
-						<div class="memo_image"></div>
 						<!-- 삭제 체크박스 -->
 						<label class="menubars">
 							<input type="checkbox" value="메모">
@@ -64,6 +63,7 @@
 						<!-- 메모 고정 버튼 -->
 						<img class="menubars bi-pin bi-pin-fill" th:src="@{/user/images/memo/pin-fill.svg}">
 						<div class="inputMemoId" data-toggle="modal" data-target="#writedMemo" th:data-memo="1">
+							<div class="memo_image"></div>
 							<!-- 메모 내용 -->
 							<div class="memotext" th:text="내용"></div>
 							<!-- 메모 해시태그 -->
@@ -221,6 +221,7 @@
 							<div class="form-group">
 								<textarea class="review_form_text body-contents" name="content" id="text-contents"
 									spellcheck="false" placeholder="메모 입력..."></textarea>
+								<div class="memo_image"></div>
 								<input class="tagwidth" name="plustag" placeholder="해시태그 입력...">
 							</div>
 							<div class="memo_btn_wrap modal_btn_wrap">
@@ -248,7 +249,7 @@
 								<!-- 메모 이미지 등록 버튼 -->
 								<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
 								<form enctype="multipart/form-data">
-									<input class="real_file" type="file" multiple="multiple" />
+									<input class="real_file modal_file insert_file" type="file" multiple="multiple" />
 								</form>
 							</div>
 						</div>
@@ -265,6 +266,7 @@
 							<div class="form-group">
 								<textarea class="review_form_text body-contents" name="content" id="text-contents"
 									spellcheck="false" placeholder="메모 입력..."></textarea>
+								<div class="memo_image"></div>
 								<input class="tagwidth" name="plustag" placeholder="해시태그 입력...">
 							</div>
 							<div class="memo_btn_wrap modal_btn_wrap">
@@ -292,7 +294,7 @@
 								<!-- 메모 이미지 등록 버튼 -->
 								<img class="file_btn bi-image modalmenu" th:src="@{/user/images/memo/image.svg}">
 								<form enctype="multipart/form-data">
-									<input class="real_file" type="file" />
+									<input class="real_file modal_file" type="file" multiple="multiple"/>
 								</form>
 							</div>
 						</div>
