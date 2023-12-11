@@ -3,6 +3,8 @@ package com.holoyolo.app.question.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.holoyolo.app.question.service.QuestionVO;
 
 public interface QuestionMapper {
@@ -30,5 +32,9 @@ public interface QuestionMapper {
 	// 페이징
 	public int selectTotalPagingCount(QuestionVO questionVO);
 	
-	public List<QuestionVO> MyQuestionList(String string);
+	public List<QuestionVO> MyQuestionList(String memberId);
+	
+	
+	public int myQuestionCnt(String memberId);
+	
 }

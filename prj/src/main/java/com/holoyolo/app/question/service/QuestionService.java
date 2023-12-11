@@ -35,6 +35,8 @@ public interface QuestionService {
 	//회원 문의 리스트
 	
 	public Page<QuestionVO> MyQuestionList(Pageable pageable, String string);
+	//회원 문의 개수
+	public int myQuestionCnt(String string);
     
 	
 }

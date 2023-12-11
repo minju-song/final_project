@@ -101,10 +101,15 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionMapper.selectTotalPagingCount(questionVO);
 	}
 
-	@Override
-	public Page<QuestionVO> MyQuestionList(String memberId, Pageable pageable) {
-		questionMapper.MyQuestionList(memberId);
 	
-		return 
+	@Override
+	public Page<QuestionVO> MyQuestionList(Pageable pageable, String string) {
+	
+		return null;
+	}
+
+	@Override
+	public int myQuestionCnt(String memberId) {
+		return questionMapper.myQuestionCnt(memberId);
 	}
 }

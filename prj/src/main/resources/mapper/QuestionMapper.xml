@@ -87,4 +87,12 @@
 			FROM QUESTION
 			WHERE MEMBER_ID =#{memberId}
 	</select>
+	
+	<!-- 회원별 질문 개수 -->
+	
+	<select id= "myQuestionCnt" resultType="int">
+			SELECT count(*)
+			FROM QUESTION
+			WHERE MEMBER_ID =#{memberId}
+	</select>
 </mapper>
