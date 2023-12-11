@@ -5,6 +5,7 @@
 <mapper namespace="com.holoyolo.app.memo.mapper.MemoMapper">
 
 	<resultMap type="MemoVO" id="selectMemoListMap">
+		<id column="memo_id" property="memoId"/>
 		<collection property="images" ofType="AttachmentVO" column="memo_id" select="selectAttachList" javaType="ArrayList"></collection>
 	</resultMap>
 	<!-- 전체조회 -->
