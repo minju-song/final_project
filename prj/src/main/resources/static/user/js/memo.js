@@ -4,17 +4,15 @@
  
  	//팔레트 클릭시 색상표 출력 함수 
 	function openPalette(e, pal){
-		console.log('click!!!!!');
-		console.log(pal.nextElementSibling);
 		if(pal.nextElementSibling.style.display == 'block'){
 			pal.nextElementSibling.style.display = 'none';
-			let selMenubars = e.currentTarget.closest('.menubars');
+			let selMenubars = $(e.currentTarget).closest('.memo').find('.menubars');
 			for(let i=0; i<selMenubars.length; i++){
 				selMenubars[i].classList.toggle('menubars_active');
 			}
 		}else{
 			pal.nextElementSibling.style.display = 'block';
-			let selMenubars = e.currentTarget.closest('.menubars');
+			let selMenubars = $(e.currentTarget).closest('.memo').find('.menubars');
 			for(let i=0; i<selMenubars.length; i++){
 				selMenubars[i].classList.toggle('menubars_active');
 			}
@@ -53,9 +51,9 @@
 	//색상 클릭 시 메모 바탕색 변경 함수
 	function changeMemoColor(e){
     	console.log(e.currentTarget);
-    	let memoId = e.currentTarget.parentElement.parentElement.parentElement.parentElement.querySelector('.inputMemoId').dataset.memo;
+    	let memoId = $(e.currentTarget).closest('.memo').find('.inputMemoId').data('memo');
     	console.log(memoId);
-    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
+    	let backcolor = e.currentTarget.closest('.memo');
     	let color = e.currentTarget.value
     	$.ajax({    
         type:"POST",
@@ -256,7 +254,7 @@
 		let writecolors = document.querySelectorAll('.modal [type=radio]');
 		for(let i=0; i<writecolors.length; i++){
 	    	writecolors[i].addEventListener('click', function(e){
-	    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement;
+	    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
 	    	let color = e.currentTarget.value
 	    	backcolor.style.backgroundColor = color;
 	    	})
