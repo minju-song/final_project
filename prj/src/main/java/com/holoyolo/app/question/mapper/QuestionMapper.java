@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import com.holoyolo.app.question.service.QuestionVO;
 
@@ -32,7 +34,7 @@ public interface QuestionMapper {
 	// 페이징
 	public int selectTotalPagingCount(QuestionVO questionVO);
 	
-	public List<QuestionVO> MyQuestionList(String memberId);
+	public List<QuestionVO> MyQuestionList(String memberId, int offset, int limit);
 	
 	
 	public int myQuestionCnt(String memberId);

@@ -82,12 +82,20 @@
 
 
 <!-- 회원별 질문 리스트  -->
-	<select id="MyQuestionList" resultType="QuestionVO">
-			SELECT *
-			FROM QUESTION
-			WHERE MEMBER_ID =#{memberId}
-	</select>
-	
+<select id="MyQuestionList" resultType="QuestionVO">
+    <![CDATA[
+        SELECT * FROM (
+        SELECT Q.*, ROWNUM AS rnum
+        FROM (
+            SELECT *
+            FROM QUESTION
+            WHERE MEMBER_ID = #{memberId}
+            ORDER BY WRITE_DATE DESC
+        ) Q
+        WHERE ROWNUM <= #{limit}
+    ) WHERE rnum > #{offset}
+    ]]>
+</select>
 	<!-- 회원별 질문 개수 -->
 	
 	<select id= "myQuestionCnt" resultType="int">

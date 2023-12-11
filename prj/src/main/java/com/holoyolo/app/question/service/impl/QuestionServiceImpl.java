@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.holoyolo.app.answer.service.AnswerService;
 import com.holoyolo.app.answer.service.AnswerVO;
+import com.holoyolo.app.attachment.service.AttachmentService;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.question.mapper.QuestionMapper;
 import com.holoyolo.app.question.service.QuestionService;
 import com.holoyolo.app.question.service.QuestionVO;
@@ -23,6 +27,9 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Autowired
 	AnswerService answerService;
+
+	@Autowired
+	AttachmentService attachmentService;
 
 	// 문의 조건조회
 	@Override
@@ -101,15 +108,44 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionMapper.selectTotalPagingCount(questionVO);
 	}
 
-	
-	@Override
-	public Page<QuestionVO> MyQuestionList(Pageable pageable, String string) {
-	
-		return null;
+	public Page<QuestionVO> MyQuestionList(String memberId, Pageable pageable) {
+		int offset = pageable.getPageNumber() * pageable.getPageSize();
+		int limit = pageable.getPageSize();
+
+		List<QuestionVO> questionList = questionMapper.MyQuestionList(memberId, offset, limit);
+		return new PageImpl<>(questionList, pageable, questionList.size());
 	}
 
 	@Override
 	public int myQuestionCnt(String memberId) {
 		return questionMapper.myQuestionCnt(memberId);
+	}
+
+	@Override
+	@Transactional
+	public int insertQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
+		questionVO.setQuestionType("AA6");
+		int result = questionMapper.insertQuestionInfo(questionVO);
+
+		if (imgList != null) {
+			for (AttachmentVO vo : imgList) {
+				vo.setMenuType("AA6");
+				vo.setPostId(questionVO.getQuestionId());
+				attachmentService.insertAttachment(vo);
+			}
+		}
+
+		if (attachList != null) {
+			for (AttachmentVO vo : attachList) {
+				vo.setMenuType("AA6");
+				vo.setPostId(questionVO.getQuestionId());
+				attachmentService.insertAttachment(vo);
+			}
+		}
+		if (result == 1) {
+			return questionVO.getQuestionId();
+		} else {
+			return -1;
+		}
 	}
 }

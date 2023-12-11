@@ -25,8 +25,8 @@
             </form>
             <div class="row justify-content-end mt-3">
                 <div class="col-2">
-                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                        <span><a th:href="@{/cs/help/notice/Insert}">공지 등록</a></span>
+                    <th:block sec:authorize="hasRole('ROLE_HA1')">
+                        <span><a th:href="@{/member/cs/help/question/insert}">문의하기</a></span>
                     </th:block>
 
                 </div>
@@ -71,20 +71,7 @@
         </div>
         <script th:src="@{/user/js/notice.js}"></script>
         <script th:src="@{/user/js/community.js}"></script>
-        <script>
-            loadData(currentPage);
 
-            $(document).ready(function () {
-                loadData(currentPage);
-            });
-
-            //검색어 입력할 때마다 데이터 호출 및 페이징
-            let searchInput = document.getElementById('search_input');
-            searchInput.addEventListener('keyup', function () {
-                search = searchInput.value;
-                loadData(currentPage, search);
-            })
-        </script>
     </div>
 </body>
 

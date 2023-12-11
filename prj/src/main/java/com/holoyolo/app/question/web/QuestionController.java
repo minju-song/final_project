@@ -1,20 +1,27 @@
 package com.holoyolo.app.question.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.attachment.service.AttachmentService;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.question.service.QuestionService;
 import com.holoyolo.app.question.service.QuestionVO;
 
@@ -23,6 +30,9 @@ public class QuestionController {
 
 	@Autowired
 	QuestionService questionService;
+	
+	@Autowired
+	AttachmentService attachmentService;
 
 	// 문의 전체조회
 	@GetMapping("/admin/question")
@@ -59,29 +69,40 @@ public class QuestionController {
 	}
 
 	
-	 @GetMapping("/member/cs/help/question")
-	    public String boardList(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @PageableDefault(page=0, size=10, sort="writeDate", direction=Sort.Direction.DESC) Pageable pageable){
+	@GetMapping("/member/cs/help/question")
+	public String boardList(@AuthenticationPrincipal PrincipalDetails principalDetails, Model mo, @PageableDefault(size = 10) Pageable pageable) {
+	    String memberId = (String) principalDetails.getUsername();
+	    
+	    // 서비스를 통해 질문 목록 가져오기
+	    Page<QuestionVO> list = questionService.MyQuestionList(memberId, pageable);
 
+	    // 뷰에 결과 전달
+	    mo .addAttribute("qnaList", list);
+	    mo.addAttribute("menu", "cs");
+	    return "user/cs/questionList";
+	}
+	
+	
+//문의 등록 페이지
+		@GetMapping("/member/cs/help/question/insert")
+		public String insertQuestionPage(Model mo, QuestionVO questionVO) {
+			mo.addAttribute("boardType", "1:1문의");
+			mo.addAttribute("menu", "cs");
+			return "user/cs/questionInsert";
+		}
 
-	        Page<QuestionVO> list = questionService.MyQuestionList((String)principalDetails.getUsername(), pageable);
+		// 등록
+		@PostMapping("/question/insert")
+		public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
+				@RequestParam("imageFiles") MultipartFile[] imageFiles,
+				@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
 
+			List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
+			List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
+			questionVO.setMemberId(principalDetails.getUsername());
+			questionService.insertQuestion(questionVO, imgList, attachList);
+			return "redirect:/cs/help/notice";
+		}
 
-	        //페이지블럭 처리
-	        //1을 더해주는 이유는 pageable은 0부터라 1을 처리하려면 1을 더해서 시작해주어야 한다.
-	        int nowPage = list.getPageable().getPageNumber() + 1;
-	        //-1값이 들어가는 것을 막기 위해서 max값으로 두 개의 값을 넣고 더 큰 값을 넣어주게 된다.
-	        int startPage =  Math.max(nowPage - 4, 1);
-	        int endPage = Math.min(nowPage+9, list.getTotalPages());
-
-
-	        model.addAttribute("list", list);
-	        model.addAttribute("nowPage",nowPage);
-	        model.addAttribute("startPage", startPage);
-	        model.addAttribute("endPage", endPage);
-
-
-
-	        return "boardlist";
-	    }
 	
 }

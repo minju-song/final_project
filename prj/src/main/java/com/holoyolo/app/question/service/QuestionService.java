@@ -3,8 +3,11 @@ package com.holoyolo.app.question.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.holoyolo.app.attachment.service.AttachmentVO;
+
 
 public interface QuestionService {
 	
@@ -33,10 +36,13 @@ public interface QuestionService {
 	
 	
 	//회원 문의 리스트
-	
-	public Page<QuestionVO> MyQuestionList(Pageable pageable, String string);
+	 
+	public Page<QuestionVO> MyQuestionList(String memberId, Pageable pageable);
 	//회원 문의 개수
 	public int myQuestionCnt(String string);
     
+	//문의 등록
+	
+	public int insertQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
 	
 }
