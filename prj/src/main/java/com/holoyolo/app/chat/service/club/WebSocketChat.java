@@ -1,4 +1,4 @@
-package com.holoyolo.app.chat.service;
+package com.holoyolo.app.chat.service.club;
 
 
 import java.net.URI;
@@ -57,9 +57,11 @@ public class WebSocketChat {
 	//처음 접속
 	@OnOpen
 	public void onOpen(Session s, EndpointConfig config) throws Exception {
+		System.out.println("소켓");
 		System.out.println(s.getUserPrincipal().getName());
 
 		URI uri = s.getRequestURI();
+		System.out.println("uri" +uri);
 	    int clubId = extractClubIdFromURI(uri);
 		System.out.println(s.getRequestURI());
 		System.out.println(clubId);
@@ -116,6 +118,7 @@ public class WebSocketChat {
 	
 	private int extractClubIdFromURI(URI uri) {
 	    String query = uri.getQuery();
+	    System.out.println(query);
 	    String[] params = query.split("&");
 	    for (String param : params) {
 	        String[] keyValue = param.split("=");

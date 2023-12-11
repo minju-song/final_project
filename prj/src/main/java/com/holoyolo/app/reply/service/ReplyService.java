@@ -5,8 +5,8 @@ import java.util.List;
 import org.json.simple.JSONObject;
 
 public interface ReplyService {
-	// 게시물 댓글목록
-	public List<ReplyVO> ReplyList(int boardId);
+	
+	
 
 //게시물 댓글삭제
 	public String deleteReply(ReplyVO vo);
@@ -17,11 +17,18 @@ public interface ReplyService {
 //회원별 댓글 단 게시물 목록
 	public List<ReplyVO> memberReplyList();
 
-	List<ReplyVO> searchReplyPage(JSONObject req);
+	public List<ReplyVO> searchReplyPage(JSONObject req);
 
-	int getTotalReplyRecords(JSONObject req);
+	public int getTotalReplyRecords(JSONObject req);
 
-	String updateReply(ReplyVO vo);
+	public String updateReply(ReplyVO vo);
 
+	public ReplyVO upperReplySearch(int replyId);
+	// 게시물 상위댓글목록
 	
+
+	List<ReplyVO> upperReplyList(ReplyVO vo);
+
+	List<ReplyVO> rowReplyList(ReplyVO vo);
+
 }

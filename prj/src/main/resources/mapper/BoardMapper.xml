@@ -71,8 +71,14 @@
 		VALUES (#{boardId}, #{menuType}, #{title}, #{content}, sysdate, null, 0,#{memberId}, null)
 	</insert>
 	
-	<update id="">
-	
+	<update id="updateBoard">
+		UPDATE BOARD
+		SET 
+		 TITLE = #{title}, 
+		 CONTENT = #{content},  
+		 UPDATE_DATE = sysdate
+		WHERE BOARD_ID = #{boardId}
+		AND MENU_TYPE = #{menuType} 
 	</update>
 	
 

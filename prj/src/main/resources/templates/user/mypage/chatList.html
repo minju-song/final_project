@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="/user/css/chatList.css">
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h3>중고거래 채팅목록</h3>
+        <div class="chatBox" th:each="chatting : ${result.list}" style="display: flex;">
+            <div style="flex: 1; display: flex; justify-content: center;">
+                <img th:src="@{/images/}+${chatting.you.profileImg}" alt="..." class="profile">
+            </div>
+            <div th:id="${chatting.tradeId}" style="flex: 7;"
+                th:onclick="|location.href='@{/member/tradeChat(sellerId=${chatting.sellerId},tradeId=${chatting.tradeId})}'|">
+                <h3>[[${chatting.you.nickname}]] <span style="font-size: small;"
+                        th:text="${#dates.format(chatting.lastChatTime, 'yyyy-MM-dd hh:mm')}"></span>
+                    <span class="not" th:if="${chatting.notread > 0}"> [[${chatting.notread}]]</span>
+                    <span class="not" th:if="${chatting.notread == 0}" style="display: none;">
+                        [[${chatting.notread}]]</span>
+                </h3>
+                <h4 class="lastchat">&#128140;[[${chatting.lastchat}]]</h4>
+                <h4>거래명 : [[${chatting.title}]]</h4>
+                <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.buyerId}">
+                    <h5 class="type">구매</h5>
+                </th:block>
+                <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.sellerId}">
+                    <h5 class="type">판매</h5>
+                </th:block>
+
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            let list = /*[[${result.list}]]*/ null;
+        </script>
+
+        <script th:src="@{/user/js/chatList.js}"></script>
+    </div>
+</body>
+
+</html>

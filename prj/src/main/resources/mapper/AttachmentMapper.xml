@@ -51,4 +51,10 @@
 			AND save_file = #{saveFile}
 		</if>
 	</delete>
+	<delete id="deletePostAttachment" parameterType="AttachmentVO">
+		DELETE FROM attachment
+		WHERE menu_type =#{menuType}
+		AND post_id = #{postId}
+		
+	</delete>
 </mapper>

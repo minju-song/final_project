@@ -198,6 +198,7 @@ public class TradeController {
 		tradeService.updateBuyerId(tradeVO);
 	}
 	
+
 	@GetMapping("member/tradeChat")
 	public void tradeChat(@AuthenticationPrincipal PrincipalDetails principalDetails, 
 						  TradeVO tradeVO) {
@@ -225,4 +226,5 @@ public class TradeController {
 		model.addAttribute("tradeList", list);
 		return page;
 	}
+
 }
