@@ -24,12 +24,12 @@
                         [[${chatting.notread}]]</span>
                 </h3>
                 <h4 class="lastchat">&#128140;[[${chatting.lastchat}]]</h4>
-                <h4>거래명 : [[${chatting.title}]]</h4>
+                <h5>거래명 : [[${chatting.title}]]</h5>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.buyerId}">
-                    <h5 class="type">구매</h5>
+                    <h6 class="type">구매</h6>
                 </th:block>
                 <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.sellerId}">
-                    <h5 class="type">판매</h5>
+                    <h6 class="type">판매</h6>
                 </th:block>
 
             </div>

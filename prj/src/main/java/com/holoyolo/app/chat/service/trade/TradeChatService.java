@@ -130,4 +130,13 @@ public class TradeChatService {
 		public int updateRead(TradeChatVO vo) {
 			return tradeChatRoomMapper.updateRead(vo);
 		}
+		
+		//헤더에 올릴 메시지
+		public Map<String, Object> checkNew(String id) {
+			Map<String, Object> map = new HashMap<>();
+			
+			if(tradeChatRoomMapper.selectNotreadCount(id) > 0) map.put("result", true);
+			else map.put("result", false);
+			return map;
+		}
 }

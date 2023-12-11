@@ -45,9 +45,10 @@
 				<!--/* 로그인한 사람들 */-->
 				<th:block sec:authorize="isAuthenticated()">
 					<div class="menu_mypage_wrap">
-						<a th:href="@{/member/chatList}" class="menu_mypage">
+						<a th:href="@{/member/chatList}">
 							<img alt="채팅목록" th:src="@{/user/images/logo/chat.png}"
 								style="width: 20px; height: 20px; margin-left: 18px;">
+							<span id="newMsg">N</span>
 						</a>
 						<a th:href="@{/member/myHome}" class="menu_mypage">
 							<img alt="마이페이지" th:src="@{/user/images/logo/person-circle.svg}">
@@ -102,6 +103,12 @@
 					<li class="menu_mm"><a th:href="@{/cs/help/notice}">고객센터</a></li>
 				</ul>
 			</nav>
+			<th:block sec:authorize="isAuthenticated()">
+				<span id="userIdVal" hidden>true</span>
+			</th:block>
+			<th:block sec:authorize="!isAuthenticated()">
+				<span id="userIdVal" hidden>false</span>
+			</th:block>
 		</div>
 
 		<script>
@@ -123,6 +130,27 @@
 					$('#cs').addClass('menu_active');
 				}
 			})
+
+			let userIdHeader = document.getElementById('userIdVal').innerText;
+			// console.log(userId);
+			if (userIdHeader == 'true') {
+				let newMsg = document.getElementById('newMsg');
+				console.log("로그인함")
+				fetch('BooleanMsgCk')
+					.then(resolve => resolve.json())
+					.then(result => {
+						console.log(result.result)
+						if (result.result == true) {
+							newMsg.style.display = 'block';
+						}
+						else {
+							newMsg.style.display = 'none';
+						}
+					});
+			}
+			else {
+				console.log("로그인안함")
+			}
 		</script>
 	</div>
 </body>

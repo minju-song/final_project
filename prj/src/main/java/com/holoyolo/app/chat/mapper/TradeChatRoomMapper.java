@@ -28,4 +28,7 @@ public interface TradeChatRoomMapper {
 	
 	//실시간 채팅 읽음 
 	public int updateRead(TradeChatVO vo);
+	
+	//안읽은 메시지갯수
+	public int selectNotreadCount(String id);
 }
