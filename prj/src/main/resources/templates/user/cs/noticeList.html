@@ -25,9 +25,9 @@
       </form>
       <div class="row justify-content-end mt-3">
         <div class="col-2">
-             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-						<span><a th:href="@{/cs/help/notice/Insert}">공지 등록</a></span>
-					</th:block>
+          <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <span><a th:href="@{/cs/help/notice/Insert}">공지 등록</a></span>
+          </th:block>
 
         </div>
       </div>
@@ -44,13 +44,13 @@
               </tr>
             </thead>
             <tbody id="boardTableBody">
-             
+
             </tbody>
           </table>
           <div id="pagination-container">
             <nav aria-label="...">
               <ul class="pagination">
-                
+
               </ul>
             </nav>
           </div>
@@ -67,11 +67,11 @@
       });
 
       //검색어 입력할 때마다 데이터 호출 및 페이징
-let searchInput = document.getElementById('search_input');
-searchInput.addEventListener('keyup', function () {
-    search = searchInput.value;
-    loadData(currentPage, search);
-})
+      let searchInput = document.getElementById('search_input');
+      searchInput.addEventListener('keyup', function () {
+        search = searchInput.value;
+        loadData(currentPage, search);
+      })
     </script>
   </div>
 </body>

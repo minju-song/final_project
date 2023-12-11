@@ -179,14 +179,15 @@ public class NoticeController {
 		reqboardVO.setMenuType("AA6");
 		int attResult = attachmentService.deletePostAttachment(reqboardVO);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		if (boardResult == 1 && attResult == 1) {
+		if (boardResult == 1 || attResult == 1) {
 			resultMap.put("resultMsg", "공지가 삭제되었습니다");
 			resultMap.put("resultCode", "1");
-
 		} else {
 			resultMap.put("resultMsg", "err");
 			resultMap.put("resultCode", "0");
 		}
 		return resultMap;
 	}
+	
+	
 }

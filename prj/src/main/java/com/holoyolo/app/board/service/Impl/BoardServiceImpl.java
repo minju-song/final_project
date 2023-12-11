@@ -133,15 +133,21 @@ public class BoardServiceImpl implements BoardService {
 	public int insertNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
 		boardVO.setMenuType("AA6");
 		int result = boardMapper.insertBoard(boardVO);
-		for (AttachmentVO vo : imgList) {
-			vo.setMenuType("AA6");
-			vo.setPostId(boardVO.getBoardId());
-			attachmentService.insertAttachment(vo);
+
+		if (imgList != null) {
+			for (AttachmentVO vo : imgList) {
+				vo.setMenuType("AA6");
+				vo.setPostId(boardVO.getBoardId());
+				attachmentService.insertAttachment(vo);
+			}
 		}
-		for (AttachmentVO vo : attachList) {
-			vo.setMenuType("AA6");
-			vo.setPostId(boardVO.getBoardId());
-			attachmentService.insertAttachment(vo);
+
+		if (attachList != null) {
+			for (AttachmentVO vo : attachList) {
+				vo.setMenuType("AA6");
+				vo.setPostId(boardVO.getBoardId());
+				attachmentService.insertAttachment(vo);
+			}
 		}
 
 		if (result == 1) {
