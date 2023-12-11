@@ -1,4 +1,4 @@
-package com.holoyolo.app.chat.service;
+package com.holoyolo.app.chat.service.club;
 
 import java.util.HashSet;
 import java.util.Set;

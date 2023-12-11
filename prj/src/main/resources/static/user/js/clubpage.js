@@ -401,22 +401,37 @@ function memberInfo(mid, mname) {
             console.log(result.list);
             let history = `<div style="height:300px; overflow-y: auto;">`;
 
-            history += `<img src="/images/` + result.list[0].profileImg + `" style="width:100px; height:100px;object-fit: cover; border-radius:50px;">`
-                + `<br><h3><strong>"` + result.list[0].memberIntro + `"</strong></h3>`
-            for (let i = 0; i < result.list.length; i++) {
-                let rankingText = ``;
-                if (result.list[i].ranking == 1) rankingText = `&#129351; ` + result.list[i].ranking + `위 &#129351;`;
-                else if (result.list[i].ranking == 2) rankingText = `&#129352; ` + result.list[i].ranking + `위 &#129352;`;
-                else if (result.list[i].ranking == 3) rankingText = `&#129353; ` + result.list[i].ranking + `위 &#129353;`;
-                else rankingText = `&#127881; ` + result.list[i].ranking + `위 &#127881;`;
-                history += `<hr><div>
-                <strong style="color:#7373e9;">` + rankingText + `</strong> `
-                    + `<p>예산기간 : ` + dateFormat(result.list[i].startDate) + ` ~ ` + dateFormat(result.list[i].endDate) + '</p>'
-                    + `</div>`
+            console.log(result.member);
+            let intro = '';
+            if (result.member.memberIntro == null) intro = '등록된 소개글이 없습니다.';
+            else intro = result.member.memberIntro;
+
+            console.log(intro);
+            let img = '';
+            if (result.member.profileImg == null) img = '<img src = "/user/images/trade/user.png"';
+            else img = `<img src="/images/` + result.member.profileImg;
+
+            history += img + `" style="width:100px; height:100px;object-fit: cover; border-radius:50px;">`
+                + `<br><h3><strong>"` + intro + `"</strong></h3>`;
+
+            if (result.list.length > 0) {
+                for (let i = 0; i < result.list.length; i++) {
+                    let rankingText = ``;
+                    if (result.list[i].ranking == 1) rankingText = `&#129351; ` + result.list[i].ranking + `위 &#129351;`;
+                    else if (result.list[i].ranking == 2) rankingText = `&#129352; ` + result.list[i].ranking + `위 &#129352;`;
+                    else if (result.list[i].ranking == 3) rankingText = `&#129353; ` + result.list[i].ranking + `위 &#129353;`;
+                    else rankingText = `&#127881; ` + result.list[i].ranking + `위 &#127881;`;
+                    history += `<hr><div>
+                    <strong style="color:#7373e9;">` + rankingText + `</strong> `
+                        + `<p>예산기간 : ` + dateFormat(result.list[i].startDate) + ` ~ ` + dateFormat(result.list[i].endDate) + '</p>'
+                        + `</div>`
+                }
             }
-            if (result.list.length == 0) {
-                history = `<h4>내역이 없습니다.</h4>`;
+            else {
+                history += `<br><h4>&#128591;내역이 없습니다.&#128591;</h4>`;
             }
+
+
             history += `</div>`
             Swal.fire({
                 title: "<strong>" + mname + "</strong><span style='font-size:smaller;'> 님의 지난 성적 (최근 5회)</span>",
