@@ -128,8 +128,21 @@ let cd = {'약속잡기': 'TD1', '약속확정' : 'TD2', '거래확정' : 'TD3',
 				if(pay.innerText == '약속잡기'){
 					pay.innerText = '약속취소';
 					mailSend();
+					Swal.fire({
+				      title: "약속신청 완료!",
+				      text: "약속신청 메일을 발송하였습니다.",
+				      icon: "success"
+				    });
 				}else{
 					pay.parentElement.parentElement.remove();
+					if(pay.innerText == '약속확정'){
+						okMailSend();
+						Swal.fire({
+					      title: "약속확정 완료!",
+					      text: "대화하기 버튼을 눌러 상대방과 대화를 시작하세요.",
+					      icon: "success"
+					    });
+					}
 				}
 			},
 			error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
@@ -164,6 +177,25 @@ function mailSend(){
 		type: 'POST',
 		url : '/sendmail/trade/promise',  //이동할 jsp 파일 주소
 		data : {title, sellerId, tradeId},
+		success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+			console.log("성공");
+			if(pay.parentElement.nextElementSibling){
+				pay.parentElement.nextElementSibling.remove();
+			}else{
+				pay.innerText = '약속잡기';							
+			}
+		},
+		error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+			console.log("실패");
+		}
+	})
+}
+
+function okMailSend(){
+	$.ajax({
+		type: 'POST',
+		url : '/sendmail/trade/promiseOk',  //이동할 jsp 파일 주소
+		data : {title, buyerId, tradeId},
 		success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 			console.log("성공");
 			if(pay.parentElement.nextElementSibling){

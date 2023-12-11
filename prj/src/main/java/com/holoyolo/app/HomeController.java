@@ -61,6 +61,6 @@ public class HomeController {
 	
 	@GetMapping("/test")
 	public String promise(Model model) {
-		return "/user/mailbody/promise";
+		return "/user/mailbody/promiseOk";
 	}
 }

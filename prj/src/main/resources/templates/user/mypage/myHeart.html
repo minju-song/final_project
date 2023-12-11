@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/user/css/myinfo.css">
+<style>
+	.tradeSize2{
+		width: 237px;
+    	height: 290px !important;
+	}
+	.heart_{
+		position: absolute;
+	    bottom: 90%;
+	    right: 88%;
+	    width: 19px;
+	}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="container">
+			<div class="row" id="tradeList">
+				<div class="col mb-5" th:each="trade, stat : ${tradeList}">
+					<div class="card tradeSize2" th:onclick="|location.href='@{/member/tradeInfo(tradeId=${trade.tradeId},sellerId=${trade.sellerId})}'|">
+						<div class="badge position-absolute" style="right: 0.5rem;" th:text="${trade.tradeType}"></div>
+							<div class="badge position-absolute" th:text="${trade.promiseStatus}"></div>
+							<img class="card-img-top" th:src="@{/images/}+ ${trade.saveFile}" style="width: 235px; height: 159px;">
+				  			<img class="heart_ bi-heart" id="heart" th:src="@{/user/images/trade/fill-heart.png}" th:onclick="heartCng([[${trade.tradeId}]], event)">
+							<div class="card-body p-4">
+								<div class="text-center">
+								<h3 class="fw-bolder" th:text="${trade.title}"></h3>
+								<div><span class="text-muted text-decoration-line-through" th:text="|${#numbers.formatInteger(trade.price, 0, 'COMMA')}원|"></span></div>
+							</div>
+							<div><span class="text-muted" style="position: absolute; left: -0.9rem; bottom: -2.4rem;" th:text="${trade.tradeCategory}"></span></div>
+							<div><span class="text-muted" style="position: absolute; right: -0.9rem; bottom: -2.4rem;" th:text="${#dates.format(trade.writeDate, 'yyyy-MM-dd')}"></span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function heartCng(tradeId, e){
+				e.stopImmediatePropagation();
+				$.ajax({
+					url : '/member/heartDelete',  //이동할 jsp 파일 주소
+					data : {tradeId},
+					success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+						e.target.closest('.tradeSize2').remove();
+					},
+					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+						console.log("실패");
+					}
+				})
+			}
+			
+		</script>
+	</th:block>
+</body>
+</html>

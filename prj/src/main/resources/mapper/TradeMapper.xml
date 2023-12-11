@@ -204,7 +204,7 @@
 				AND trade_category = #{tradeCategory}
 			</if>
 			<if test="sellCheck != null and sellCheck.equals('true')">
-				AND promise_status <![CDATA[<>]]> 'TD3'
+				AND promise_status = 'TD4'
 			</if>
 	</sql>
 	
@@ -217,4 +217,35 @@
 			#{holoPay, mode=IN, jdbcType=INTEGER}
 		)}
 	</insert>
+	
+	<!-- 마이페이지 리스트 -->
+	<select id="selectMyTradeList" resultType="tradeVO">
+		SELECT t.trade_id
+		        , t.title
+		        , fn_get_code_name(trade_category) as trade_category
+		        , t.price
+		        , fn_get_code_name(trade_type) as trade_type
+		        , fn_get_code_name(promise_status) as promise_status
+		        , t.write_date
+		        , t.seller_id
+		        <if test="listType == 'HLIST'">
+					, a.save_file
+						FROM trade t JOIN attachment a
+					                 ON(t.trade_id = a.post_id)
+					                 JOIN heart h
+					                 ON(t.trade_id = h.trade_id)
+						WHERE a.menu_type = 'AA1'
+						AND a.attachment_seq = (select min(attachment_seq) from attachment where post_id = t.trade_id)
+						AND h.member_id = #{memberId}
+				</if>
+		<if test="listType == 'SLIST'">
+			FROM trade t
+			WHERE seller_id = #{sellerId}
+		</if>
+		<if test="listType == 'BLIST'">
+			FROM trade t
+			WHERE buyer_id = #{buyerId}
+		</if>
+		ORDER BY write_date desc
+	</select>
 </mapper> 

@@ -34,4 +34,7 @@ public interface TradeService {
 	
 	//포인트, 홀로페이 등록
 	public Map<String, Object> insertPayPoint(MemberVO memberVO);
+	
+	//마이페이지 전체조회
+	public List<TradeVO> selectMyTradeList(TradeVO tradeVO);
 }
