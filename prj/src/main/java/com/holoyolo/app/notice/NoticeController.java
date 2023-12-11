@@ -3,6 +3,7 @@ package com.holoyolo.app.notice;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +17,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.attachment.service.AttachmentService;
@@ -136,11 +138,9 @@ public class NoticeController {
 	// 다운로드 처리
 	@GetMapping("/download")
 	public ResponseEntity<Resource> downloadFile(@RequestParam String saveFile) {
-
 		// 파일의 경로
 		Path filePath = Paths.get(uploadPath, saveFile).normalize();
 		Resource resource;
-
 		try {
 			resource = new UrlResource(filePath.toUri());
 			if (resource.exists() && resource.isReadable()) {
@@ -154,9 +154,28 @@ public class NoticeController {
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			// MalformedURLException 처리
 			return ResponseEntity.badRequest().build(); // 예외 발생 시 400 Bad Request 반환
 		}
+	}
 
+	@PostMapping("/deleteNotice")
+	@ResponseBody
+	public Map<String, Object> deleteNotice(@RequestBody BoardVO reqboardVO) {
+
+		// 본문삭제
+		int boardResult = boardService.deleteBoard(reqboardVO);
+		// 첨부및 이미지 삭제
+		reqboardVO.setMenuType("AA6");
+		int attResult = attachmentService.deletePostAttachment(reqboardVO);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if (boardResult == 1 && attResult == 1) {
+			resultMap.put("resultMsg", "공지가 삭제되었습니다");
+			resultMap.put("resultCode", "1");
+			
+		} else {
+			resultMap.put("resultMsg", "err");
+			resultMap.put("resultCode", "0");
+		}
+		return resultMap;
 	}
 }
