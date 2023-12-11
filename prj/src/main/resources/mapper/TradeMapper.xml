@@ -220,12 +220,6 @@
 	
 	<!-- 마이페이지 리스트 -->
 	<select id="selectMyTradeList" resultType="tradeVO">
-	<if test="listType == 'HLIST'">
-		SELECT *
-			FROM (
-				SELECT rownum rn, a.*
-					FROM (
-	</if>
 		SELECT t.trade_id
 		        , t.title
 		        , fn_get_code_name(trade_category) as trade_category
@@ -243,10 +237,6 @@
 						WHERE a.menu_type = 'AA1'
 						AND a.attachment_seq = (select min(attachment_seq) from attachment where post_id = t.trade_id)
 						AND h.member_id = #{memberId}
-						) A
-						WHERE rownum <![CDATA[<=]]> #{page} * 6
-					) B
-					WHERE B.rn > (#{page} - 1) * 6
 				</if>
 		<if test="listType == 'SLIST'">
 			FROM trade t
