@@ -10,29 +10,36 @@
 
 <body>
     <div layout:fragment="content">
-        <h3>중고거래 채팅목록</h3>
-        <div class="chatBox" th:each="chatting : ${result.list}" style="display: flex;">
-            <div style="flex: 1; display: flex; justify-content: center;">
-                <img th:src="@{/images/}+${chatting.you.profileImg}" alt="..." class="profile">
+        <th:block th:if="${result.list.size == 0}">
+            <h3 style="text-align: center;">중고거래 채팅 내역이 없습니다.</h3>
+        </th:block>
+        <th:block th:if="${result.list.size > 0}">
+            <div class="chatBox" th:each="chatting : ${result.list}" style="display: flex;">
+                <div class="img-div">
+                    <img th:src="@{/images/}+${chatting.you.profileImg}" alt="..." class="profile">
+                </div>
+                <div th:id="${chatting.tradeId}" style="flex: 7;"
+                    th:onclick="|location.href='@{/member/tradeChat(sellerId=${chatting.sellerId},tradeId=${chatting.tradeId})}'|">
+                    <h3>[[${chatting.you.nickname}]] <span style="font-size: small;"
+                            th:text="${#dates.format(chatting.lastChatTime, 'yyyy-MM-dd hh:mm')}"></span>
+                        <span class="not" th:if="${chatting.notread > 0}"> [[${chatting.notread}]]</span>
+                        <span class="not" th:if="${chatting.notread == 0}" style="display: none;">
+                            [[${chatting.notread}]]</span>
+                    </h3>
+                    <h4 class="lastchat gray">마지막 메시지 : <strong>[[${chatting.lastchat}]]</strong></h4>
+                    <h5 class="gray">거래명 : [[${chatting.title}]]</h5>
+                    <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.buyerId}">
+                        <h6 class="type">구매</h6>
+                    </th:block>
+                    <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.sellerId}">
+                        <h6 class="type">판매</h6>
+                    </th:block>
+    
+                </div>
             </div>
-            <div th:id="${chatting.tradeId}" style="flex: 7;"
-                th:onclick="|location.href='@{/member/tradeChat(sellerId=${chatting.sellerId},tradeId=${chatting.tradeId})}'|">
-                <h3>[[${chatting.you.nickname}]] <span style="font-size: small;"
-                        th:text="${#dates.format(chatting.lastChatTime, 'yyyy-MM-dd hh:mm')}"></span>
-                    <span class="not" th:if="${chatting.notread > 0}"> [[${chatting.notread}]]</span>
-                    <span class="not" th:if="${chatting.notread == 0}" style="display: none;">
-                        [[${chatting.notread}]]</span>
-                </h3>
-                <h4 class="lastchat">&#128140;[[${chatting.lastchat}]]</h4>
-                <h5>거래명 : [[${chatting.title}]]</h5>
-                <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.buyerId}">
-                    <h6 class="type">구매</h6>
-                </th:block>
-                <th:block th:if="${#authentication.Principal.memberVO.memberId eq chatting.sellerId}">
-                    <h6 class="type">판매</h6>
-                </th:block>
-
-            </div>
+        </th:block>
+        <div class="btn-div">
+            <button class="btn btn-primary" th:onclick="|location.href='@{/tradeList}'|">중고거래 하러 가기</button>
         </div>
 
         <script th:inline="javascript">

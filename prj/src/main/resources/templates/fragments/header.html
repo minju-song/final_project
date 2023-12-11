@@ -45,10 +45,10 @@
 				<!--/* 로그인한 사람들 */-->
 				<th:block sec:authorize="isAuthenticated()">
 					<div class="menu_mypage_wrap">
-						<a th:href="@{/member/chatList}">
+						<a th:href="@{/member/chatList}" style="display: flex;">
 							<img alt="채팅목록" th:src="@{/user/images/logo/chat.png}"
 								style="width: 20px; height: 20px; margin-left: 18px;">
-							<span id="newMsg">N</span>
+							<span id="newMsg" style="display: none;">N</span>
 						</a>
 						<a th:href="@{/member/myHome}" class="menu_mypage">
 							<img alt="마이페이지" th:src="@{/user/images/logo/person-circle.svg}">
@@ -134,9 +134,9 @@
 			let userIdHeader = document.getElementById('userIdVal').innerText;
 			// console.log(userId);
 			if (userIdHeader == 'true') {
-				let newMsg = document.getElementById('newMsg');
+				var newMsg = document.getElementById('newMsg');
 				console.log("로그인함")
-				fetch('BooleanMsgCk')
+				fetch('/BooleanMsgCk')
 					.then(resolve => resolve.json())
 					.then(result => {
 						console.log(result.result)
