@@ -43,7 +43,6 @@
 	</select>
   
   	<select id="selectClubAll" resultType="ClubVO">
-  		<!-- 모임성공횟수, 가입자수 추후 추가 -->
   		SELECT * FROM (SELECT A.* , ROWNUM rn FROM (
 		SELECT club_id
 		    , club_name
