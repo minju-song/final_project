@@ -1,6 +1,9 @@
 package com.holoyolo.app.notice;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -56,7 +59,7 @@ public class NoticeController {
 
 	// 등록
 	@PostMapping("/notice/insert")
-	public String tradeInsertProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
+	public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles,
 			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
 
@@ -144,9 +147,17 @@ public class NoticeController {
 		try {
 			resource = new UrlResource(filePath.toUri());
 			if (resource.exists() && resource.isReadable()) {
+
+				String filename = resource.getFilename();
+				String encodedFilename = null;
+				try {
+					encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8.toString());
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace(); // 예외 처리 필요
+				}
 				// 파일 다운로드를 위한 HTTP 응답 헤더 설정
 				HttpHeaders headers = new HttpHeaders();
-				headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFilename());
+				headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + encodedFilename);
 				return ResponseEntity.ok().headers(headers).body(resource);
 			} else {
 				// 파일이 존재하지 않거나 읽을 수 없는 경우 404 에러 반환
@@ -171,7 +182,7 @@ public class NoticeController {
 		if (boardResult == 1 && attResult == 1) {
 			resultMap.put("resultMsg", "공지가 삭제되었습니다");
 			resultMap.put("resultCode", "1");
-			
+
 		} else {
 			resultMap.put("resultMsg", "err");
 			resultMap.put("resultCode", "0");

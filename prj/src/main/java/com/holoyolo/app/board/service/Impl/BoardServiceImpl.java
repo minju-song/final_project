@@ -138,7 +138,7 @@ public class BoardServiceImpl implements BoardService {
 			vo.setPostId(boardVO.getBoardId());
 			attachmentService.insertAttachment(vo);
 		}
-		for (AttachmentVO vo : imgList) {
+		for (AttachmentVO vo : attachList) {
 			vo.setMenuType("AA6");
 			vo.setPostId(boardVO.getBoardId());
 			attachmentService.insertAttachment(vo);
