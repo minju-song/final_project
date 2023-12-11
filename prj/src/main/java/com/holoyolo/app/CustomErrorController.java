@@ -23,17 +23,17 @@ public class CustomErrorController implements ErrorController {
             
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
             	model.addAttribute("code", statusCode);
-                return "/error/404";
+                return "error/404";
             } else if(statusCode == HttpStatus.FORBIDDEN.value()) {
             	model.addAttribute("code", statusCode);
-            	return "/error/403";
+            	return "error/403";
         	} else {
             	model.addAttribute("code", statusCode);
-                return "/error/error";
+                return "error/error";
             }
         }
 
-        return "/error/error";
+        return "error/error";
     }
 
 }

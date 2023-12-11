@@ -1,5 +1,5 @@
         .search {
-            width: 800px;
+            width: 100%;
             position: realative;
         }
 
@@ -22,30 +22,77 @@
         }
         #clubList {
             display: flex;
-            justify-content: center;
+            /* justify-content: center; */
+            margin-top: 60px;
+            margin-bottom: 60px;
         }
 
         .card_club {
-            border-radius: 20px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
             display: flex;
-            width: 400px;
-            height: 150px;
-            margin: 10px;
-            padding: 20px;
+            height: 220px;
+            padding: 0;
+            margin: 1%;
+		    max-width: 48%;
+		    flex: 0 0 48%;
+    		max-width: 48%;
+    		box-sizing: border-box;
+    		background: #fff;
         }
 
         .club_img,
         .club_info {
             flex: 1;
         }
+        .club_img img {
+        	width: 100%;
+        	height: 100% !important;
+        	object-fit: cover;
+        	border-radius: 5px 0 0 5px;
+        	border: none;
+        }
 
         .club_info {
-            font-size: 12px;
+            font-size: 14px;
+            padding: 20px;
         }
 
         .club_img {
             justify-content: center;
             display: flex;
         }
+        
+        .club_info button {
+        	border: none;
+        	padding: 5px 10px;
+        	border-radius: 5px;
+        	margin-top: 20px;
+        	background: #dce5ed;
+        	font-size: 13px;
+        }
 
+
+/* 검색 */
+.products {
+	background: #fcfcfc;
+}
+.row {
+	margin: 0;
+}
+.header_search > .row {
+	margin: 0 15px;
+	justify-content: flex-start;
+	gap: 10px;
+}
+.new_club_btn {
+	border: none;
+	background: #09203f;
+	border-radius: 5px;
+	max-width: 120px;
+	color: #fff;
+}
+.search-wrap {
+	background: #fff;
+	max-width: 450px;
+}

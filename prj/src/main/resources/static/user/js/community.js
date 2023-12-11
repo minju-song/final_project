@@ -1,6 +1,6 @@
 // 페이징
 let currentPage = 1;
-const recordsPerPage = 5; // 페이지당 표시할 레코드 수, 필요에 따라 조절
+const recordsPerPage = 10; // 페이지당 표시할 레코드 수, 필요에 따라 조절
 
 // 페이지 버튼 생성
 function setupPagination(totalPages) {
@@ -19,7 +19,7 @@ function setupPagination(totalPages) {
         let previousLink = document.createElement("a");
         previousLink.className = "page-link";
         previousLink.href = "#";
-        previousLink.innerText = "Previous";
+        previousLink.innerText = "이전";
         previousLink.addEventListener("click", function () {
             if (currentPage > 1) {
                 loadData(currentPage - 1);
@@ -50,7 +50,7 @@ function setupPagination(totalPages) {
         nextLi.className = "page-item";
         nextLink.className = "page-link";
         nextLink.href = "#";
-        nextLink.innerText = "Next";
+        nextLink.innerText = "다음";
         nextLink.addEventListener("click", function () {
             if (currentPage < totalPages) {
                 loadData(currentPage + 1);
@@ -119,26 +119,28 @@ function updateTable(data, page) {
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
             if(searchBoardSet == "AA2" || searchBoardSet == "AA3"){
-                row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
+            	// 클릭이벤트 제목에만 처리(전유진)
+                //row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
             }else if(searchBoardSet == "AA6"){
                 row.attr("onclick", `location.href='/cs/help/notice/view?boardId=${item.boardId}'`);
             }
             
             if (data.totalRecords > page * recordsPerPage) {
-                row.append($("<td>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
+                row.append($("<td class='board-no'>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
                 // row.append($("<td>").text(index + 1));
             } else {
-                row.append($("<td>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
+                row.append($("<td class='board-no'>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
             }
-            row.append($("<td>").text(item.title));
-            row.append($("<td>").text(formatDate(item.writeDate)).css('text-align', 'center'));
+            // 클릭이벤트 제목에만 처리(전유진)
+            row.append($("<td class='board-title' onclick="+ `location.href='/member/board/view?boardId=${item.boardId}'` + ">").text(item.title));
+            row.append($("<td class='board-date'>").text(formatDate(item.writeDate)).css('text-align', 'center'));
             if (searchBoardSet == 'AA3'||searchBoardSet == "AA6") {
 
             } else if (searchBoardSet == 'AA2') {
-                row.append($("<td>").text(item.nickname));
+                row.append($("<td class='board-nickname'>").text(item.nickname));
             }
 
-            row.append($("<td>").text(item.likeCount + '/' + item.views).css("text-align", "center"));
+            row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`));
 
             tbody.append(row);
         });
@@ -296,7 +298,7 @@ function updateReplyTable(data) {
 
         try {
             let tbody = $("#ReplyTableBody");
-            tbody.empty()
+            tbody.empty();
 
             $.ajax({
                 type: 'POST',
@@ -314,11 +316,11 @@ function updateReplyTable(data) {
                         let row = $("<tr>");
                         if (reply.upperReplyId != 0) {
                             row.append($("<td>").text("↳"));
+                            row.append($("<td>").text(reply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
                         } else {
-                            row.append($("<td>").text("  "));
+                            row.append($("<td colspan='2'>").text(reply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
                         }
-                        row.append($("<td>").text(reply.content).css("width", "40%"));
-                        row.append($("<td>").text(formatDate(reply.writeDate)));
+                        row.append($("<td>").text(formatDate(reply.writeDate)).css("text-align", "center"));
 
                         if (thisboard.menuType == "AA3") {
                             if (thisboard.memberId == reply.memberId) {
@@ -334,7 +336,7 @@ function updateReplyTable(data) {
                         let rowReplyAddBtn = "";
                         if (reply.upperReplyId == 0) {
                             rowReplyAddBtn = $("<button>")
-                                .text("댓글")
+                                .text("답댓글")
                                 .attr('id', 'rowReplyFormOpen_' + reply.replyId)
                                 .attr('value', reply.replyId);
                             rowReplyAddBtn.on('click', function () {
@@ -424,9 +426,9 @@ function updateReplyTable(data) {
                                         let rowReply = rowList[i];
                                         console.log(rowReply)
                                         let row2 = $("<tr>");
-                                        row2.append($("<td>").text("↳"));
-                                        row2.append($("<td>").text(rowReply.content).css("width", "40%"));
-                                        row2.append($("<td>").text(formatDate(rowReply.writeDate)));
+                                        row2.append($("<td class='arrow'>").text("↳").css("color", "#232323"));
+                                        row2.append($("<td>").text(rowReply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
+                                        row2.append($("<td>").text(formatDate(rowReply.writeDate)).css("text-align", "center"));
 
                                         if (thisboard.menuType == "AA3") {
                                             if (thisboard.memberId == rowReply.memberId) {
@@ -575,7 +577,7 @@ function setupReplyPagination(totalPages) {
         let previousLink = document.createElement("a");
         previousLink.className = "page-link";
         previousLink.href = "#";
-        previousLink.innerText = "Previous";
+        previousLink.innerText = "이전";
         previousLink.addEventListener("click", function () {
             if (currentPage > 1) {
                 replyLoad(currentPage - 1);
@@ -604,7 +606,7 @@ function setupReplyPagination(totalPages) {
         nextLi.className = "page-item";
         nextLink.className = "page-link";
         nextLink.href = "#";
-        nextLink.innerText = "Next";
+        nextLink.innerText = "다음";
         nextLink.addEventListener("click", function () {
             replyLoad(currentPage + 1);
         });
@@ -619,7 +621,7 @@ function setupReplyPagination(totalPages) {
 
 //대댓글 입력 폼
 function rowReplyInsertForm(replyId, thisRow) {
-    let rowReplyFormArea = document.createElement('td');
+    let rowReplyFormArea = document.createElement('div');
     rowReplyFormArea.id = "rowReplyFormArea_" + replyId;
 
     let replyForm = document.createElement('textarea');
@@ -631,7 +633,7 @@ function rowReplyInsertForm(replyId, thisRow) {
     addReplyBtn.type = 'button';
     addReplyBtn.classList.add('btn', 'btn-primary');
     addReplyBtn.id = 'addReplyBtn_' + replyId;
-    addReplyBtn.textContent = '댓글 등록';
+    addReplyBtn.textContent = '등록';
     addReplyBtn.addEventListener('click', function () {
         insertRowReply(replyId);
     });
@@ -643,7 +645,7 @@ function rowReplyInsertForm(replyId, thisRow) {
     cancelBtn.textContent = '닫기';
     cancelBtn.addEventListener('click', function () {
         document.getElementById('rowReplyFormOpen_' + replyId).removeAttribute('disabled');
-        rowReplyFormArea.remove();
+        rowReplyFormArea.closest('.child-row').remove();
     });
     thisRow.find('#rowReplyFormOpen_' + replyId).prop('disabled', true);
 
@@ -771,7 +773,7 @@ function deletePost() {
 // 댓글 수정 폼 생성
 function replyUpdateForm(replyId, content, thisRow) {
     // 수정 폼을 감싸는 셀 생성
-    let rowReplyFormArea = document.createElement('td');
+    let rowReplyFormArea = document.createElement('div');
     rowReplyFormArea.id = "rowReplyFormArea_" + replyId;
 
 

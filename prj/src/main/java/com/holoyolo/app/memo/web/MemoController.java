@@ -8,8 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.attachment.service.AttachmentService;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.memo.service.MemoService;
 import com.holoyolo.app.memo.service.MemoVO;
@@ -19,6 +23,8 @@ public class MemoController {
 	
 	@Autowired
 	MemoService memoService;
+	@Autowired
+	AttachmentService attachmentService;
 	
 	//전체조회
 	@GetMapping("member/memoList")
@@ -76,5 +82,17 @@ public class MemoController {
 						  MemoVO memoVO){
 		memoVO.setMemberId(principalDetails.getUsername());
 		memoService.memoIndex(memoVO);
+	}
+	
+	@PostMapping("member/memoUploadImg")
+	@ResponseBody
+	public String memoUploadImg(MemoVO memoVO, @RequestPart MultipartFile[] uploadFiles) {
+		System.out.println("memoVO ::::: " + memoVO);
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "memo");
+		int result = memoService.memoUploadImg(memoVO, imgList);
+		if(result > 0) {
+			return "Success";
+		}
+		return "Fail";
 	}
 }

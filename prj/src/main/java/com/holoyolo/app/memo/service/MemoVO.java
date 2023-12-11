@@ -2,8 +2,11 @@ package com.holoyolo.app.memo.service;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.holoyolo.app.attachment.service.AttachmentVO;
 
 import lombok.Data;
 
@@ -22,4 +25,6 @@ public class MemoVO {
 	private String memberId;
 	private int firstNo;
 	private int lastNo;
+	
+	List<AttachmentVO> images;
 }

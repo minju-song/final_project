@@ -106,7 +106,7 @@
 		            SELECT c.*, m.nickname as leader_name
 		            FROM club c join member m on c.club_leader = m.member_id
 		            </if>
-           			ORDER BY club_id
+           			ORDER BY club_id DESC
         		) A
         		<![CDATA[
         		WHERE rownum <= #{page} * 6

@@ -1,11 +1,13 @@
 package com.holoyolo.app.member.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +30,9 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	@Value("${file.upload.path}")
+    private String uploadPath;
+	
 	
 	@Override
 	public String joinUser(MemberVO memberVO) {
@@ -40,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
 			String rawPassword = memberVO.getPassword();
 			String encPassword = passwordEncoder.encode(rawPassword);
 			memberVO.setPassword(encPassword);
-			memberVO.setRole("HA1"); //일반회원
+			memberVO.setRole("ROLE_HA1"); //일반회원
 			
 			System.out.println(memberVO);
 			
@@ -177,11 +182,14 @@ public class MemberServiceImpl implements MemberService {
 			e.printStackTrace();
 		}
 		
+		// 이전파일 삭제하기
+		MemberVO info = memberMapper.selectUser(memberId);
+		this.deleteFile(info);
+		
 		// DB에 반영
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemberId(memberId);
 		memberVO.setProfileImg(imagePath);
-		
 		memberMapper.updateMemberInfo(memberVO);
 		
 		if(imagePath == "none") result = "Fail";
@@ -248,6 +256,18 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> getHolopayHistory(MemberVO memberVO) {
 		return memberMapper.getHolopayHistory(memberVO);
 	}
+	
+	@Override
+	public int deleteFile(MemberVO memberVO) {
+		File file = new File(uploadPath + "/" + memberVO.getProfileImg());
+		
+		if(file.exists()) {
+			file.delete();
+		} else {
+			System.out.println("기존 회원정보 ::: " + memberVO);
+		}
+		return 0;
+  }
 
 	@Override
 	public MemberVO findById(String memberId) {

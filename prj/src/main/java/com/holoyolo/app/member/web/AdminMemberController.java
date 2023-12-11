@@ -22,7 +22,7 @@ public class AdminMemberController {
 	
 	@GetMapping("/admin/member")
 	public String selectMemberList(Model model) {
-		return "/admin/member/memberPage";
+		return "admin/member/memberPage";
 	}
 	
 	@GetMapping("/admin/member/list")

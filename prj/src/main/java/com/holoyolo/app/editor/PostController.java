@@ -21,14 +21,14 @@ public class PostController {
 
 	@GetMapping("/editor")
 	public String test() {
-		return "/user/editor/editor";
+		return "user/editor/editor";
 	}
 	
 	@GetMapping("/editor/list")
 	public String postList(Model model) {
 		List<PostVO> posts = postService.selectAllPost("AA2");
 		model.addAttribute("posts", posts);
-		return "/user/editor/editorList";
+		return "user/editor/editorList";
 	}
 	
 	@GetMapping("/editor/postview")
@@ -43,7 +43,7 @@ public class PostController {
 		PostVO board = postService.selectPostInfo(boardId);
 		model.addAttribute("board", board);
 		model.addAttribute("loginId", loginId);
-		return "/user/editor/postView";
+		return "user/editor/postView";
 	}
 	
 	@GetMapping("/editor/updateview")
@@ -58,7 +58,7 @@ public class PostController {
 		PostVO board = postService.selectPostInfo(boardId);
 		model.addAttribute("board", board);
 		model.addAttribute("loginId", loginId);
-		return "/user/editor/postUpdate";
+		return "user/editor/postUpdate";
 	}
 	
 	@PostMapping("/editor/update")

@@ -19,4 +19,7 @@ public class ClubMemberVO {
 	
 	//지난순위
 	private int ranking;
+	
+	//멤버프로필이미지
+	private String profileImg;
 }

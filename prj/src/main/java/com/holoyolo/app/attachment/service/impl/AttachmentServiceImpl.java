@@ -19,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.board.service.BoardVO;
+
 
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
@@ -83,7 +85,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 		for (MultipartFile uploadFile : uploadFiles) {
 			AttachmentVO vo = new AttachmentVO();
-			if (type.equals("trade")) {
+
+			if (type.equals("trade") || type.equals("memo")) {
 				// 이미지파일만 가능하도록 제한.
 				if (uploadFile.getContentType().startsWith("image") == false) {
 					System.err.println("this file is not image type");
@@ -97,6 +100,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 					return null;
 				}
 			}
+
 			if (type.equals("noticeAttach")) {
 				if (uploadFile.isEmpty()) {
 					System.err.println("this file is not image type");
@@ -162,6 +166,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 			folderPath = "trade" + File.separator + "product";
 		} else if (type.equals("notice")) {
 			folderPath = "cs" + File.separator + "notice";
+		} else if (type.equals("memo")) {
+			folderPath = "memo" + File.separator + "images";
 		} else if (type.equals("noticeAttach")) {
 			folderPath = "cs" + File.separator + "noticeAttach";
 		}
@@ -197,6 +203,20 @@ public class AttachmentServiceImpl implements AttachmentService {
 		return attachmentMapper.deleteAttachment(attachmentVO);
 	}
 
+	@Override
+	public int deleteFiles(List<AttachmentVO> list) {
+		for (AttachmentVO vo : list) {
+			File file = new File(uploadPath + "/" + vo.getSaveFile());
+
+			if (file.exists()) {
+				file.delete();
+			} else {
+				System.out.println("삭제안됨==" + vo);
+			}
+		}
+		return 0;
+	}
+  
 	@Override
 	public Map<String, List<AttachmentVO>> getCSAttachmentList(AttachmentVO attachmentVO) {
 		List<AttachmentVO> sourceList = attachmentMapper.selectAttachmentList(attachmentVO);
