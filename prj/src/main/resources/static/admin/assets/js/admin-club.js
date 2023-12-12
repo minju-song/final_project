@@ -17,6 +17,7 @@ $(document).ready(function () {
 	let search = '';
 	// 문의 리스트 포멧
 	function renderClubList(openScope, page, search, clubId,memberId) {
+	console.log(openScope)
 		$("tbody").empty();
 		$.ajax({
 			url: "/admin/club/list",
@@ -60,7 +61,7 @@ $(document).ready(function () {
 					$('tbody').append(template);
 
 					//페이징
-					showPage(data.count);
+					showPage(listData.length);
 					//게시물수
 
 
@@ -86,9 +87,9 @@ $(document).ready(function () {
 		// 현재 선택된 상태에 따라 다른 상태값을 전달
 		let openScope = ""; // 기본값은 전체
 		if ($("button[name='publicClubCount']").hasClass("active")) {
-			openScope = "공개";
+			openScope = "OA1";
 		} else if ($("button[name='privateClubCount']").hasClass("active")) {
-			openScope = "비공개";
+			openScope = "OA2";
 		}
 
 		renderClubList(openScope, pageNum, search);
@@ -100,7 +101,7 @@ $(document).ready(function () {
 
 
 	// 전체 클릭시 문의 리스트
-	$(document).on("click", "button[name='totalClubCount']", function (e) {
+	$(document).on("click", "#totalClubCount", function (e) {
 		pageNum = 1;
 		openScope = "";
 		search = "";
@@ -110,10 +111,10 @@ $(document).ready(function () {
 		renderClubList(openScope, pageNum, search);
 	});
 
-	// 답변대기 클릭시 문의 리스트
-	$(document).on("click", "button[name='publicClubCount']", function (e) {
+	// 공개 클릭시 문의 리스트
+	$(document).on("click", "#publicClubCount", function (e) {
 		pageNum = 1;
-		openScope = "공개"
+		openScope = "OA1"
 		search = "";
 		$("#searchInput").val("");
 		$("#totalClubCount, #privateClubCount").removeClass('active');
@@ -121,10 +122,10 @@ $(document).ready(function () {
 		renderClubList(openScope, pageNum, search);
 	});
 
-	// 답변완료 클릭시 문의 리스트
-	$(document).on("click", "button[name='privateClubCount']", function (e) {
+	// 비공개 클릭시 문의 리스트
+	$(document).on("click", "#privateClubCount", function (e) {
 		pageNum = 1;
-		openScope = "비공개"
+		openScope = "OA2"
 		search = "";
 		$("#searchInput").val("");
 		$("#totalClubCount, #publicClubCount").removeClass('active');

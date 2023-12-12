@@ -26,6 +26,9 @@ public class ReportVO {
 	private String reportedId;
 	private String reportContent;
 	
+	// 검색
+	private String search;
+	
 	// 페이징
 	private int page=1;
 	private int rn;

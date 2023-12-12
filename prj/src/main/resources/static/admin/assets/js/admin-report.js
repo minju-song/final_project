@@ -95,15 +95,16 @@ $(document).ready(function () {
 					let template = reportCommentTemplate(type, comment)
 					
 					
-					//if(type == SB1){
+					if(type == "SB1"){
 					// 1. 관련 회원이 해당페이지 접근시
-					//reporterId 신고자 아이디
+					// reporterId 신고자 아이디
 					
 					//유저가
 					// 2. 신고당한 회원 메세지
 					// 3. 신고한 회원에게 메세지
 					// 4. 신고당한 회원 신고횟수 +1
-					//}
+					
+					}
 
 					$("#reportArea").empty().append(template)
 					
@@ -130,13 +131,13 @@ $(document).ready(function () {
 	let status = ""
 	let type = ""
 
-	$(document).on("click", "[name='completedBtn']", function (e) {
+	$(document).on("click", "#completedBtn", function (e) {
 		status = "신고"
 		type = "SB1"
 		renderReportProcessForm(status, type);
 	})
 
-	$(document).on("click", "[name='rejectedBtn']", function (e) {
+	$(document).on("click", "#rejectedBtn", function (e) {
 		status = "반려"
 		type = "SB2"
 		renderReportProcessForm(status, type);
@@ -160,11 +161,11 @@ $(document).ready(function () {
 	let pageSize = 0; //페이지 번호 수
 	let pageUnit = 0;  //한페이지에 출력할 행의 수
 
-	function renderReportList(reportProcessType, page) {
+	function renderReportList(reportProcessType, page, search) {
 		$("tbody").empty();
 		$.ajax({
 			url: "/admin/report/list",
-			data: { reportProcessType, page, pageUnit },
+			data: { reportProcessType, page, search, pageUnit },
 			method: "GET"
 		})
 			.done(function (data) {
@@ -239,27 +240,56 @@ $(document).ready(function () {
 
 	// 전체 클릭시 신고 리스트
 	$(document).on("click", "button[name='totalReport']", function (e) {
-		e.preventDefault();
-		$("#completedReport").removeClass('active');
-		$("#rejectedReport").removeClass('active');
+		pageNum = 1;
+		reportType = "";
+		search = "";
+		$("#searchInput").val("");
+	
+		$("#completedReport, #rejectedReport").removeClass('active');
 		$("#totalReport").addClass('active');
-		renderReportList("", pageNum)
+		renderReportList(reportType, pageNum, search)
 	})
 	// 반려 클릭시 신고 리스트
 	$(document).on("click", "button[name='rejectedReport']", function (e) {
-		e.preventDefault();
-		$("#totalReport").removeClass('active');
-		$("#completedReport").removeClass('active');
+		pageNum = 1;
+		reportType = "반려";
+		search = "";
+		$("#searchInput").val("");
+		
+		$("#totalReport, #completedReport").removeClass('active');
 		$("#rejectedReport").addClass('active');
-		renderReportList("반려", pageNum)
+		renderReportList(reportType, pageNum, search)
 	})
 	// 신고처리 클릭시 신고 리스트
 	$(document).on("click", "button[name='completedReport']", function (e) {
-		e.preventDefault();
-		$("#totalReport").removeClass('active');
-		$("#rejectedReport").removeClass('active');
+		pageNum = 1;
+		reportType = "신고처리";
+		search = "";
+		$("#searchInput").val("");
+	
+		$("#totalReport, #rejectedReport").removeClass('active');
 		$("#completedReport").addClass('active');
-		renderReportList("신고처리", pageNum)
+		renderReportList(reportType, pageNum, search)
+	})
+	
+	// 검색
+	let searchTimer;
+	$(document).on("keyup", '#searchInput', function () {
+		clearTimeout(searchTimer);
+
+		searchTimer = setTimeout(function () {
+			pageNum = 1;
+			search = $("#searchInput").val();
+
+			if ($("button[name='rejectedReport']").hasClass("active")) {
+				reportType = "반려";
+			} else if ($("button[name='completedReport']").hasClass("active")) {
+				reportType = "신고처리";
+			} else {
+				reportType = "";
+			}
+			renderReportList(reportType, pageNum, search)
+		}, 300); // 300 밀리초 (0.3초) 후에 검색 실행
 	})
 
 	function showPage(replyCnt) {
@@ -298,7 +328,7 @@ $(document).ready(function () {
 
 		$('.pagination').html(str);
 	}
+	
 	// init
-
 	renderReportList();
 });

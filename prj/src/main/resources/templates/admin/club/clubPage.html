@@ -9,20 +9,33 @@
 </head>
 
 <body>
-<div layout:fragment="content">
+	<div layout:fragment="content">
 		<div class="container-xxl flex-grow-1 container-p-y">
 			<h4 class="fw-bold py-3 mb-4">알뜰모임관리</h4>
 			<!-- Hoverable Table rows -->
-			<div class="card">
-				<h5 class="ps-4 pt-4">
-					전체모임 <span id="initClubCount" class="text-info"></span>
-				</h5>
+			<div class="card card-admin-container">
+				<div class="d-flex px-4 pt-4 justify-content-between">
+					<h5>
+						전체모임 <span id="initClubCount" class="text-info"></span>
+					</h5>
+					<!-- 검색창 -->
+					<div
+						class="float-right demo-vertical-spacing demo-only-element p-0">
+						<div class="input-group input-group-merge">
+							<span class="input-group-text" id="basic-addon-search31"><i
+								class="bx bx-search"></i></span> <input id="searchInput" type="text"
+								class="form-control" placeholder="Search..."
+								aria-label="Search..." aria-describedby="basic-addon-search31" />
+						</div>
+					</div>
+				</div>
 				<div class="ps-4 pb-4 demo-inline-spacing">
-					<button type="button" class="btn btn-outline-primary">전체</button>
-					<button type="button" class="btn btn-outline-primary">
-						공개</button>
-					<button type="button" class="btn btn-outline-primary">
-						비공개</button>
+					<button id="totalClubCount" type="button"
+						class="btn btn-outline-primary">전체</button>
+					<button id="publicClubCount" type="button"
+						class="btn btn-outline-primary">공개</button>
+					<button id="privateClubCount" type="button"
+						class="btn btn-outline-primary">비공개</button>
 				</div>
 				<div class="table-responsive text-nowrap">
 					<table class="table table-hover">

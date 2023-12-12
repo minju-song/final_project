@@ -43,7 +43,6 @@
 	</select>
   
   	<select id="selectClubAll" resultType="ClubVO">
-  		<!-- 모임성공횟수, 가입자수 추후 추가 -->
   		SELECT * FROM (SELECT A.* , ROWNUM rn FROM (
 		SELECT club_id
 		    , club_name
@@ -58,9 +57,9 @@
 			</if>
 			<if test="search != null and search != ''">
 				AND (
-					title LIKE '%'||#{search}||'%' OR 
-					question_id LIKE '%'||#{search}||'%' OR
-					member_id LIKE '%'||#{search}||'%'
+					club_id LIKE '%'||#{search}||'%' OR 
+					club_name LIKE '%'||#{search}||'%' OR
+					club_leader LIKE '%'||#{search}||'%'
 					)
 				AND open_scope LIKE '%'||#{openScope}||'%'
 			</if>
