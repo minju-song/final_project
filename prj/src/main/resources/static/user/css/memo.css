@@ -6,7 +6,7 @@
 	/* width: 226px;
     height: 226px; */
     width: 280px;
-    height: 275px;
+    height: 300px;
 	border: none;
 	border-radius: 8px;
 	margin: 12px;
@@ -222,8 +222,8 @@
     height: 50%;
     opacity: 0.2;
     position: absolute;
-    top: 56px;
-    left: 57px;
+    top: 65px;
+    left: 70px;
 }
 
 .review_form_text

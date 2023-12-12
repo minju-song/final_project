@@ -300,6 +300,12 @@
 	});
     
 	//메모등록
+	let uploadFiles = [];
+	$('#insertMemo').on('show.bs.modal', function(event) {
+		//등록 모달 열릴때 추가된 이미지 태그 삭제, 파일 담는 배열 비우기
+		$('#insertMemo').find('.memo_image').empty();
+		uploadFiles = [];
+	});
     $('#insertMemo').on('hidden.bs.modal', function (event) {
   		let content = document.querySelector('#insertMemo').querySelector('[name=content]').value;
    		let plustag = document.querySelector('#insertMemo').querySelector('[name=plustag]').value;
@@ -310,20 +316,16 @@
    		// 사진첨부
    		let formData = new FormData();
    		let target = $('.insert_file');
-	  	let files = target.files;
-	  	console.log(target);
-	  	console.log(files);
+	  	let files = $('.insert_file')[0].files;
 		
 		// 첨부된 파일 목록 formData에 append
-		for(let file of files) {
-			formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
+		if(uploadFiles.length > 0) {
+			console.log(uploadFiles);
+			for(let file of uploadFiles) {
+				formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
+			}
 		}
-		for (const x of formData) {
-		 console.log(x);
-		};
-   		
-   		
-   		
+
    		if(content != '' || plustag != ''){
 	   		if(bookmark.indexOf('pin.svg') == -1){
 	   			bookmark = 'Y';
@@ -337,20 +339,36 @@
 	   				hashTag += ', '
 	   			}
 	   		}
+	   		
+	   		formData.append("color", color);
+	   		formData.append("content", content);
+	   		formData.append("hashTag", hashTag);
+	   		formData.append("bookmark", bookmark);
+	   		
 	   		//ajax 요청
 			$.ajax({
 				type:"POST",
 				url : '/member/memoInsert',  //이동할 jsp 파일 주소
-				data : {color, content, hashTag, bookmark},
-				dataType:'text',
-				success: function(memoId){   //데이터 주고받기 성공했을 경우 실행할 결과
+				data : formData,
+				dataType:'json',
+				contentType: false,
+  				processData: false,
+				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 			        //function(memoId)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
 					$('#insertMemo').find('[name="content"]')[0].value = '';
 					$('#insertMemo').find('[name=plustag]')[0].value = '';
 					$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
 					$('#insertMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin.svg';
+					
+					//사진파일 배열
+					let imageArr = [];
+					for(let i=0; i<data.images.length; i++) {
+						imageArr[i] = data.images[i].saveFile;
+					}
+					console.log(imageArr);
+					
 					//메모 이어붙이기
-					addMemo(content, hashTag, color, bookmark, memoId)
+					addMemo(content, hashTag, color, bookmark, data.memoId, imageArr);
 				},
 				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
 					console.log('등록실패');
@@ -362,7 +380,8 @@
 	});
 	
 	//메모 이어붙이기
-	function addMemo(content, hashTag, color, bookmark, memoId){
+	function addMemo(content, hashTag, color, bookmark, memoId, images){
+		console.log(images);
 		let clone = $('.btn-modal:eq(0)').clone();
 		clone.css('display', 'block');
 		clone.find('.inputMemoId')[0].dataset.memo = memoId;
@@ -381,6 +400,12 @@
 		}else{
 			clone.find('.bi-pin')[0].src = '/user/images/memo/pin.svg';
 			$('.normalmemoStart').append(clone);
+		}
+		
+		//이미지 그리기
+		let memoImage = clone.find('.memo_image');
+		for(let i=0; i<images.length; i++) {
+			memoImage.append('<div class="upload" style="background-image: url(\'/images/' + images[i] +'">');
 		}
 		
 		
@@ -464,7 +489,7 @@
          dataType:'text',
          success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
               //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
-              hashTag = hashTag.replace(" ", "").split(",");
+              /*hashTag = hashTag.replace(" ", "").split(",");
               
               let inputMemoId = $('[data-memo="' + memoId + '"]');
               let tags = $(inputMemoId).find('tags');
@@ -486,17 +511,20 @@
               let memo = $(inputMemoId).parent('.memo');
               
               $(memo).css('background-color', color);
-              console.log()
+              
+              $()
+              
               let biPin = $(inputMemoId).siblings('.bi-pin');
               if(bookmark == 'Y' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
               	console.log("상세페이지 닫을 때 올라갑니다.")
               	$(biPin).prop('src', '/user/images/memo/pin-fill.svg')	
                 $('.importmemoStart').append(memo);
               }else if(bookmark == 'N' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
-              console.log("상세페이지 닫을 때 내려갑니다.")
+                console.log("상세페이지 닫을 때 내려갑니다.")
               	$(biPin).prop('src', '/user/images/memo/pin.svg')	
                 $('.normalmemoStart').prepend(memo);
-              }
+              }*/
+              location.reload();
          },
          error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
             console.log('수정실패');
@@ -557,9 +585,10 @@
 	
 	        // 태그 생성
 	        if ([...files].length < 7) {
+	        	uploadFiles.push(file);
 				const reader = new FileReader();
 				reader.onload = (e) => {
-		            $(memoImage).prepend('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
+		            $(memoImage).append('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
 				};
 	          	reader.readAsDataURL(file);
 	        }
