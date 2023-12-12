@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/adminLayout}">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
@@ -14,31 +15,42 @@
 			<h4 class="fw-bold py-3 mb-4">신고관리</h4>
 			<!-- Hoverable Table rows -->
 			<div class="card card-admin-container">
-				<h5 class="ps-4 pt-4">
-					전체문의 <span id="initReportCount" class="text-info"></span>
-				</h5>
-				<div class="d-flex bd-highlight mb-3 mt-0 ps-4 pb-4" aria-label="Basic example">
-					<div class="p-2 bd-highlight">
-						<button id="totalReport" name="totalReport" type="button"
-							class="btn btn-outline-primary active">전체</button>
-						<button id="rejectedReport" name="rejectedReport" type="button" class="btn btn-outline-primary">
-							반려</button>
-						<button id="completedReport" name="completedReport" type="button"
-							class="btn btn-outline-primary">
-							신고처리</button>
-					</div>
+				<div class="d-flex px-4 pt-4 justify-content-between">
+					<h5>
+						전체문의 <span id="initReportCount" class="text-info"></span>
+					</h5>
 					<div class=" card-body p-0">
 						<div class="row float-right">
-							<div class="col-md-4 ms-auto p-2 bd-highlight pe-4">
-								<input class="form-control" type="date" value="2021-06-18" id="html5-date-input" />
+							<div class="col-md-4 ms-auto bd-highlight pe-4">
+								<input class="form-control" type="date" value="2021-06-18"
+									id="html5-date-input" />
 							</div>
 						</div>
 					</div>
+					<div
+						class="float-right demo-vertical-spacing demo-only-element p-0">
+						<div class="input-group input-group-merge">
+							<span class="input-group-text" id="basic-addon-search31"><i
+								class="bx bx-search"></i></span> <input id="searchInput" type="text"
+								class="form-control" placeholder="Search..."
+								aria-label="Search..." aria-describedby="basic-addon-search31" />
+						</div>
+					</div>
+				</div>
+				<div class="d-flex bd-highlight mb-3 mt-0 ps-4 pb-4"
+					aria-label="Basic example">
+					<div class="p-2 bd-highlight">
+						<button id="totalReport" name="totalReport" type="button"
+							class="btn btn-outline-primary active">전체</button>
+						<button id="rejectedReport" name="rejectedReport" type="button"
+							class="btn btn-outline-primary">반려</button>
+						<button id="completedReport" name="completedReport" type="button"
+							class="btn btn-outline-primary">신고처리</button>
+					</div>
 					<div class="ms-auto p-2 bd-highlight btn-group float-right pe-4">
-						<button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"
-							aria-expanded="false">
-							게시물 수
-						</button>
+						<button type="button"
+							class="btn btn-outline-primary dropdown-toggle"
+							data-bs-toggle="dropdown" aria-expanded="false">게시물 수</button>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="javascript:void(0);">10</a></li>
 							<li><a class="dropdown-item" href="javascript:void(0);">50</a></li>

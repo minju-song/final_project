@@ -76,6 +76,8 @@ public class ReportController {
 		Map<String, Object> map = new HashMap<>();
 		System.out.println("신고 정보 : " + reportVO);
 		reportVO.setReportId(reportId);
+		// 신고처리유형 : SB1(신고처리), SB2(반려)
+		String reportType = reportVO.getReportProcessType();
 		
 		//신고당한 아이디
 		String reportedId = reportVO.getReportedId();
@@ -84,33 +86,39 @@ public class ReportController {
 		System.out.println("111111111111111111===" + reportedCnt);
 		MemberVO reportedRole = new MemberVO();
 		
-		if (reportedCnt == -1 || reportedCnt == 0) {
-			// 신고카운트가 -1 또는 0이면 신고초기화
-			reportService.updateMemberReportCntReset(reportedId);
-			reportService.updateMemberReportCnt(reportedId);
+		if (reportType == "SB1") {
+			if (reportedCnt == -1 || reportedCnt == 0) {
+				// 신고카운트가 -1 또는 0이면 신고초기화
+				reportService.updateMemberReportCntReset(reportedId);
+				reportService.updateMemberReportCnt(reportedId);
+			} else {
+				reportedRole.setMemberId(reportedId);
+		        // 신고횟수 10회 이상
+		        if (reportedCnt >= 10) {
+		            Date now = new Date();
+		            reportedRole.setStopDate(now);
+		        }
+		        // 신고횟수 5회 이상
+		        else if (reportedCnt >= 5) {
+		        	reportedRole.setRole("ROLE_HA3");
+		            memberService.addMonth(memberVO);
+		        }
+		        // 신고횟수 3회 이상
+		        else if (reportedCnt >= 3) {
+		            reportedRole.setRole("ROLE_HA2");
+		        }
+		        System.out.println(reportedRole);
+		        // 날짜, 롤 업데이트
+		        memberService.updateMemberInfo(reportedRole);
+		        // 신고 횟수 증가
+				reportService.updateMemberReportCnt(reportedId);
+				reportService.updateReportReason(reportVO);
+			}
 		} else {
-			reportedRole.setMemberId(reportedId);
-	        // 신고횟수 10회 이상
-	        if (reportedCnt >= 10) {
-	            Date now = new Date();
-	            reportedRole.setStopDate(now);
-	        }
-	        // 신고횟수 5회 이상
-	        else if (reportedCnt >= 5) {
-	        	reportedRole.setRole("ROLE_HA3");
-	            memberService.addMonth(memberVO);
-	        }
-	        // 신고횟수 3회 이상
-	        else if (reportedCnt >= 3) {
-	            reportedRole.setRole("ROLE_HA2");
-	        }
-	        System.out.println(reportedRole);
-	        // 날짜, 롤 업데이트
-	        memberService.updateMemberInfo(reportedRole);
-	        // 신고 횟수 증가
-			reportService.updateMemberReportCnt(reportedId);
 			reportService.updateReportReason(reportVO);
 		}
+		
+		
 		return map;
 	}
 

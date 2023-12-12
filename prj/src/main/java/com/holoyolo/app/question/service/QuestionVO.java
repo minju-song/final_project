@@ -15,11 +15,11 @@ public class QuestionVO {
 	private String questionType;
 	private String title;
 	private String content;
-	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mi")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mi")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Date writeDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mi")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Date updateDate;
 	private String questionYn;
 	private String memberId;

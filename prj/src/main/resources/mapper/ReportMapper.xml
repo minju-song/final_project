@@ -21,8 +21,16 @@ SELECT *
 			    FROM report) report
 			<where>
 				<if test="reportProcessType != null and reportProcessType != ''">
-				 report_process_type = #{reportProcessType}
+				 	report_process_type = #{reportProcessType}
 			  	</if>
+  				<if test="search != null and search != ''">
+					AND (
+						report_content LIKE '%'||#{search}||'%' OR 
+						report_id LIKE '%'||#{search}||'%' OR
+						reporter_id LIKE '%'||#{search}||'%' OR
+						report_type LIKE '%'||#{search}||'%'
+						)
+				</if>
 		  	</where>
 			ORDER BY report_id DESC) A) b 
 	WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
