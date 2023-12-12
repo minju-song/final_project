@@ -13,7 +13,7 @@ $(document).ready(function () {
 			method: "GET",
 			data: { reportId },
 			success: function (data) {
-			console.log(data)
+			console.log(data);
 				let originContent = data.reportInfo.processComment
 				let reporterId = data.reportInfo.reporterId
 				let reportedId = data.reportInfo.reportedId
@@ -169,11 +169,11 @@ $(document).ready(function () {
 			method: "GET"
 		})
 			.done(function (data) {
-
+				console.log(data);
 				// 목록출력 
 				let reportData = data.list;
 				// 개수출력
-				$("#initReportCount").text(`(${reportData.length})`)
+				$("#initReportCount").text(data.count);
 				console.log(reportData);
 				$.each(reportData, function (index, item) {
 					let template = `<tr>

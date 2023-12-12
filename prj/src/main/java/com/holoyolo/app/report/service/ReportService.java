@@ -3,6 +3,7 @@ package com.holoyolo.app.report.service;
 import java.util.List;
 import java.util.Map;
 
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.member.service.MemberVO;
 
 public interface ReportService {

@@ -7,6 +7,45 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<style>
+.table-th, .table-td {
+	padding: 10px 15px;
+	display: inline-block;
+	max-width: 400px;
+}
+.table-tr {
+	display: flex;
+	border: 1px solid #e6e6e6;
+}
+.table-th {
+	border-right: 1px solid #e6e6e6;
+	font-weight: 600;
+}
+.b-bottom-none {
+	border-bottom: none;
+}
+.table-caption {
+	display: flex;
+    align-items: center;
+	font-size: 17px;
+	font-weight: 700;
+	margin: 0;
+}
+.table-caption:before {
+    content: '';
+    background: #4161bf;
+    color: #4161bf;
+    display: inline-block;
+    width: 3px;
+    height: 17px;
+    margin-right: 10px;
+}
+.dp-flex {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+</style>
 </head>
 
 <body>
@@ -55,13 +94,34 @@
 									신고된 아이디 ➡ <span th:text="${item.reportedId}"
 										class="text-danger"></span>
 								</p>
-								<p>원글URL ex.
-									http://localhost:8090/member/BoardInfo?boardId=24</p>
 								<div>
 									<button id="completedBtn" type="button"
 										class="btn btn-info me-4">신고처리</button>
 									<button id="rejectedBtn" type="button"
 										class="btn btn-danger me-4">반려</button>
+								</div>
+								<div class="origin_info mt-5">
+									<div class="dp-flex mb-3">
+										<p class="table-caption">원글정보</p>
+										<th:block th:if="${reportInfo.menuType.toString().equals('중고거래')}">
+											<a th:href="@{/member/tradeInfo(tradeId=${reportInfo.postId}, sellerId=${reportInfo.reportedId})}" target="_blank">
+												<button class="btn btn-info btn-sm">원글 바로가기</button>
+											</a>
+										</th:block>
+										<th:block th:unless="${reportInfo.menuType.toString().equals('중고거래')}">
+											<a th:href="@{/member/board/view(boardId=${reportInfo.postId})}" target="_blank">
+												<button class="btn btn-info">원글 열기</button>
+											</a>
+										</th:block>
+									</div>
+									<div class="table-tr b-bottom-none">
+										<span class="table-th">제목</span>
+										<span class="table-td">[[${boardInfo.title}]]</span>
+									</div>
+									<div class="table-tr mb-2">
+										<span class="table-th">내용</span>
+										<span class="table-td">[[${boardInfo.content}]]</span>
+									</div>
 								</div>
 							</div>
 							<div id="reportArea" class="col-md p-4 position-relative">
