@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+	<!-- 소스 다운 -->
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
+	<!-- 폴리필 (구버젼 브라우저 지원) -->
+	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<style>
+		.card {
+			border: none;
+			box-shadow: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<div class="card-body">
+				<form class="row g-3" th:action="@{/question/update}" method="POST" th:object="${question}"
+					enctype="multipart/form-data">
+					<input type="hidden" th:field="*{questionId}" />
+					<div class="col-md-12 writeInput">
+						<label for="title" class="form-label">제목<span class="star">*</span></label>
+						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required
+							th:field="*{title}" th:text="*{title}">
+					</div>
+					<div class="col-12 writeInput">
+						<textarea class="form-control" id="description" style="height: 300px;" required
+							th:field="*{content}"></textarea>
+					</div>
+
+					<div class="col-md-12 writeInput">
+						<label for="tradeImg" class="form-label">이미지<span class="star">*</span></label>
+						<div class="imgFlex">
+							<img class="tradeImgPlus" id="noticeImg" th:src="@{/user/images/trade/photo.png}">
+							<input class="real_file" name="imageFiles" type="file" accept="image/*"  multiple />
+							<div class="file-list"></div>
+						</div>
+
+					</div>
+					<div class="col-12 writeInput">
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
+							<input type="file" name="attachmentFiles" class="form-control" id="noticeAttach"
+								aria-describedby="basic-addon3" multiple>
+						</div>
+					</div>
+					<div class="col-md-12 writeInput buttonFrom">
+						<button type="reset" class="btn btn-secondary">취소</button>
+						<button type="submit" class="btn btn-primary">등록</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
+		<script src="/user/js/noticeInsert.js"></script>
+		<script src="/user/js/community.js"></script>
+	</div>
+</body>
+
+</html>

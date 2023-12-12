@@ -112,4 +112,15 @@
 		INSERT INTO QUESTION(QUESTION_ID, QUESTION_TYPE, TITLE, CONTENT, WRITE_DATE, UPDATE_DATE, MEMBER_ID)
 		VALUES (#{questionId}, #{questionType}, #{title}, #{content}, sysdate, null, #{memberId})
 	</insert>
+	
+	<delete id="deleteQuestionInfo" parameterType="int">
+		DELETE FROM QUESTION
+		WHERE QUESTION_ID = #{questionId}
+	</delete>
+	
+	<select id="selectQuestion" resultType="QuestionVO">
+		SELECT *
+		FROM QUESTION
+		WHERE QUESTION_ID = #{questionId}
+	</select>
 </mapper>

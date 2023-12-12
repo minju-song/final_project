@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
-import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.question.service.QuestionService;
 import com.holoyolo.app.question.service.QuestionVO;
 
@@ -102,30 +102,71 @@ public class QuestionController {
 		return "redirect:/member/cs/help/question";
 //		return "/question/insert";
 	}
-	//회원 문의 상세보기
-	@GetMapping("/cs/help/question/view")
-	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int questionId, Model mo) {
-		AttachmentVO attachmentVO = new AttachmentVO();
 
+	// 회원 문의 상세보기
+	@GetMapping("/member/cs/help/qna/view")
+	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestParam(name = "id") int questionId, Model mo) {
+		AttachmentVO attachmentVO = new AttachmentVO();
+		QuestionVO questionVO = new QuestionVO();
+		questionVO.setQuestionId(questionId);
 		String loginId = "not found";
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
-		
 
-		QuestionVO vo = questionService.selectQuestionInfo(boardId);
-		attachmentVO.setPostId(boardId);
-		attachmentVO.setMenuType("AA6");
-
+		Map<String, Object> vo = questionService.selectQuestionInfo(questionVO);
+		attachmentVO.setPostId(questionVO.getQuestionId());
+		attachmentVO.setMenuType("AA8");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
 		System.out.println(returnMap);
 		mo.addAttribute("menu", "cs");
-		mo.addAttribute("boardVO", vo);
+		mo.addAttribute("questionVO", vo.get("questionInfo"));
 		mo.addAttribute("loginId", loginId);
-		mo.addAttribute("noticeImg", returnMap.get("imgList"));
-		mo.addAttribute("noticeAttach", returnMap.get("attachList"));
+		mo.addAttribute("questionImg", returnMap.get("imgList"));
+		mo.addAttribute("questionAttach", returnMap.get("attachList"));
 
-		return "user/cs/noticeview";
+		return "user/cs/questionView";
 
 	}
+
+	@PostMapping("/deleteQNA")
+	@ResponseBody
+	public Map<String, Object> deletequestion(@RequestBody QuestionVO reqquestionVO) {
+
+		// 본문삭제
+		boolean questionResult = questionService.deleteQuestionInfo(reqquestionVO.getQuestionId());
+		// 첨부및 이미지 삭제
+		reqquestionVO.setQuestionType("AA8");
+		int attResult = attachmentService.deleteQNAAttachment(reqquestionVO);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if (questionResult || attResult == 1) {
+			resultMap.put("resultMsg", "공지가 삭제되었습니다");
+			resultMap.put("resultCode", "1");
+		} else {
+			resultMap.put("resultMsg", "err");
+			resultMap.put("resultCode", "0");
+		}
+		return resultMap;
+	}
+
+	@GetMapping("/cs/help/question/update")
+	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
+			int questionId, Model mo) {
+		String loginId = "not found";
+		if (principalDetails != null) {
+			loginId = principalDetails.getUsername();
+		}
+		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
+		QuestionVO questionVO = new QuestionVO();
+		questionVO = questionService.selectQuestion(questionId);
+		mo.addAttribute("loginId", loginId);
+		mo.addAttribute("menu", "cs");
+		mo.addAttribute("questionVO", questionVO);
+		mo.addAttribute("questionImg", returnMap.get("imgList"));
+		mo.addAttribute("questionAttach", returnMap.get("attachList"));
+
+		return "user/cs/questionUpdate";
+	}
+
 }

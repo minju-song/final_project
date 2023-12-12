@@ -92,13 +92,13 @@ public class QuestionServiceImpl implements QuestionService {
 	// 문의 삭제
 	@Override
 	public boolean deleteQuestionInfo(int questionId) {
-		int result = questionMapper.deleteQuestionInfo(questionId);
-
-		if (result == 1) {
-			return true;
+		boolean result;
+		if (questionMapper.deleteQuestionInfo(questionId) == 1) {
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	// 페이징
@@ -124,7 +124,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional
 	public int insertQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
-		
+
 		int result = questionMapper.insertQuestionInfo(questionVO);
 
 		if (imgList != null) {
@@ -147,5 +147,11 @@ public class QuestionServiceImpl implements QuestionService {
 		} else {
 			return -1;
 		}
+	}
+
+	@Override
+	public QuestionVO selectQuestion(int questionId) {
+		
+		return questionMapper.selectQuestion(questionId);
 	}
 }
