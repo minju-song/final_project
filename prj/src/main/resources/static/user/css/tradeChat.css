@@ -2,12 +2,18 @@
 		#container {
 			display: flex;
 			justify-content: center;
+			border: 1px solid gainsboro;
+			padding: 20px;
+			border-radius: 20px;
+			/* border-top-left-radius: 20px;
+			border-bottom-left-radius: 20px;
+			border-bottom-right-radius: 20px; */
 		}
 
 		.chattingInfo {
 			flex: 1;
-			border: 1px solid gainsboro;
-			padding: 20px;
+			/* border: 1px solid gainsboro; */
+			padding-right: 20px;
 		}
 
 		.chattingBox {
@@ -92,8 +98,76 @@
 			width: 100px;
 		}
 
-
 		.type {
 			color: rgb(218, 18, 18);
 			font-weight: bold;
+		}
+
+		.buy_sell {
+			margin-bottom: 10px;
+		}
+
+		.youInfo {
+			border: 1px solid gainsboro; 
+			border-radius: 20px; 
+			padding: 10px; 
+			margin-bottom: 20px;
+		}
+
+		.profileDiv {
+			display: flex;
+		}
+
+		.profileImg {
+			flex: 1; 
+			align-content: center;
+		}
+
+		.profileImg > img {
+			width: 50px; 
+			height: 50px; 
+			border-radius: 50px;
+		}
+
+		.profileInfo {
+			flex: 4;
+		}
+
+		.imgDiv {
+			display: flex; 
+			justify-content: center; 
+			margin: 10px;
+			height: 150px;
+		}
+
+
+		.tradeText {
+			display: block;
+			color: #09203f;
+			font-weight: bold;
+		}
+
+		.GoTradeBtn {
+			display: flex; 
+			justify-content: center;
+			margin-top: 20px;
+		}
+
+		.boardInfo {
+			margin-bottom: 20px;
+		}
+
+		.promiseStatus {
+			margin-bottom: 20px;
+			display: flex; 
+			justify-content: center;
+		}
+
+		.profileInfo > h4 {
+			color: black;
+			font-weight: bold;
+		}
+
+		.profileInfo > h5 {
+			color: gray;
 		}

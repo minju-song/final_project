@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.holoyolo.app.attachment.mapper.AttachmentMapper;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.chat.mapper.TradeChatRoomMapper;
 import com.holoyolo.app.member.mapper.MemberMapper;
 import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.trade.mapper.TradeMapper;
 import com.holoyolo.app.trade.service.TradeVO;
 
 import groovy.util.logging.Slf4j;
@@ -28,6 +31,12 @@ public class TradeChatService {
 	
 	@Autowired
 	MemberMapper memberMapper;
+	
+	@Autowired
+	TradeMapper tradeMapper;
+	
+	@Autowired
+	AttachmentMapper attachmentMapper;
 	
 	 private Map<Integer, TradeChatRoomVO> tradeChatRooms = new LinkedHashMap<>();
 	 
@@ -114,6 +123,21 @@ public class TradeChatService {
 			
 			
 			map.put("list", list);
+			return map;
+		}
+		
+		//중고거래채팅방이동
+		public Map<String, Object> tradeChatPage(TradeVO tradeVO){
+			Map<String, Object> map = new HashMap<>();
+			
+			//채팅내역
+			List<TradeChatVO> list = tradeChatRoomMapper.getChat(tradeVO.getTradeId());
+			map.put("chats", list);
+			//상품이미지
+			AttachmentVO img = new AttachmentVO();
+			img = attachmentMapper.getItemImage(tradeVO.getTradeId());
+			map.put("img", img);
+			
 			return map;
 		}
 		
