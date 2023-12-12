@@ -3,6 +3,10 @@ package com.holoyolo.app.question.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.PageRequest;
+
 import com.holoyolo.app.question.service.QuestionVO;
 
 public interface QuestionMapper {
@@ -29,4 +33,13 @@ public interface QuestionMapper {
 	// 추가 인터페이스 작성 ↓↓
 	// 페이징
 	public int selectTotalPagingCount(QuestionVO questionVO);
+	
+	
+	//회원 인터페이스↓↓
+	
+	public List<QuestionVO> MyQuestionList(String memberId, int offset, int limit);
+	
+	
+	public int myQuestionCnt(String memberId);
+	
 }
