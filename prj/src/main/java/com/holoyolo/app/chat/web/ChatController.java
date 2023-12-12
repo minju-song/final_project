@@ -27,6 +27,8 @@ import com.holoyolo.app.club.service.ClubService;
 import com.holoyolo.app.club.service.ClubVO;
 import com.holoyolo.app.clubMember.service.ClubMemberService;
 import com.holoyolo.app.clubMember.service.ClubMemberVO;
+import com.holoyolo.app.member.service.MemberService;
+import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.trade.service.TradeService;
 import com.holoyolo.app.trade.service.TradeVO;
 
@@ -47,6 +49,9 @@ public class ChatController {
 	
 	@Autowired
 	TradeChatService tradeChatService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	
 	@GetMapping("/member/club/clubChat")
@@ -146,6 +151,16 @@ public class ChatController {
 		TradeChatRoomVO room = tradeChatService.findOrCreateRoom(tradeVO);
 		List<TradeChatVO> list = tradeChatService.getChat(room.getTradeId());
 		
+		String youId;
+		if(tradeVO.getBuyerId().equals(principalDetails.getUsername())) {
+			youId = tradeVO.getSellerId();
+		}
+		else {
+			youId = tradeVO.getBuyerId();
+		}
+		MemberVO you = memberService.selectUser(youId);
+		
+		model.addAttribute("you", you);
 		model.addAttribute("chats", list);
 		model.addAttribute("member", principalDetails.getMemberVO());
 		model.addAttribute("room", room);

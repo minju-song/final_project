@@ -10,18 +10,49 @@
 
 <body>
 	<div layout:fragment="content" id="container">
-		<div class="test">
-			<div>
-				<h4>
-					&#128181;[[${result.trade.title}]] 
-					<button class="btn btn-primary" 
-							th:onclick="|location.href='@{/member/tradeInfo(tradeId=${result.trade.tradeId},sellerId=${result.trade.sellerId})}'|">
-							중고거래 페이지로
-					</button>
-				</h4>
+		<div class="chattingInfo">
+			<h4>
+				<span class="type" th:if="${#authentication.Principal.memberVO.memberId != result.trade.sellerId}">
+					구매
+				</span>
+				<span class="type" th:if="${#authentication.Principal.memberVO.memberId eq result.trade.sellerId}">
+					판매
+				</span>
+				[[${result.trade.title}]]
+			</h4>
+			<div class="youInfo" style="display: flex;">
+				<div style="flex: 1; align-content: center;">
+					<img th:src="@{/images/}+${you.profileImg}" style="width: 50px; height: 50px; border-radius: 50px;">
+				</div>
+				<div style="flex: 4;">
+					<h4>[[${you.nickname}]]</h4>
+					<h5>[[${you.addr}]]</h5>
+				</div>
 			</div>
+			<div>
+				[[${result.trade.tradeCategoryName}]]
+				<div th:text="${'작성일 : '+#dates.format(result.trade.writeDate, 'yyyy. MM. dd HH:mm')}"></div>
+			</div>
+			<div>
+				<span th:text="|${#numbers.formatInteger(result.trade.price, 0, 'COMMA')}원|"></span>
+			</div>
+			<div>
+				<div class="tradeType" th:if="${result.trade.tradeType eq 'TA1'}">
+					<span>직거래</span>
+					<span>[[${result.trade.tradePlace}]]</span>
+				</div>
+				<div class="tradeType" th:if="${result.trade.tradeType eq 'TA2'}">
+					비대면
+				</div>
+			</div>
+			<button class="btn btn-primary"
+				th:onclick="|location.href='@{/member/tradeInfo(tradeId=${result.trade.tradeId},sellerId=${result.trade.sellerId})}'|">
+				중고거래 페이지로
+			</button>
+		</div>
+		<div class="chattingBox">
 			<div id="chattingDiv">
-	
+
 			</div>
 			<div class="send-div">
 				<textarea id="sendArea"></textarea>
@@ -31,8 +62,10 @@
 
 
 		<script th:inline="javascript">
+			let you = /*[[${you}]]*/ null;
+			console.log(you);
 			let trade = /*[[${result.trade}]]*/ null;
-
+			console.log(trade);
 			let memberId = /*[[${member.memberId}]]*/ null;
 			let memberName = /*[[${member.memberName}]]*/ null;
 			let room = /*[[${room}]]*/ null;
