@@ -1,8 +1,8 @@
 /**
  * 고객센터 글 등록 (공지/1:1)
  */
- 
- 
+
+
 $(function () {
   let uploadFiles = [];
 
@@ -75,4 +75,37 @@ $(function () {
     e.target.parentNode.remove();
   }
 })
+
+//첨부파일 용량체크
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.querySelector('form');
+  form.addEventListener('submit', function (event) {
+    var imageInput = document.querySelector('input[name="imageFiles"]');
+    var attachmentInput = document.querySelector('input[name="attachmentFiles"]');
+
+    var totalSize = getTotalSize([imageInput, attachmentInput]);
+
+    if (totalSize > 10 * 1024 * 1024) { // 10MB
+      event.preventDefault();
+      Swal.fire({
+        icon: 'error',
+        title: '파일 크기 초과',
+        text: '이미지 및 첨부파일의 크기는 10MB를 초과할 수 없습니다.'
+      });
+    }
+  });
+
+  function getTotalSize(fileInputs) {
+    var totalSize = 0;
+    for (var i = 0; i < fileInputs.length; i++) {
+      var files = fileInputs[i].files;
+      if (files) {
+        for (var j = 0; j < files.length; j++) {
+          totalSize += files[j].size;
+        }
+      }
+    }
+    return totalSize;
+  }
+});
 
