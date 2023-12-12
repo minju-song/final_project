@@ -124,12 +124,12 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional
 	public int insertQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
-		questionVO.setQuestionType("AA6");
+		
 		int result = questionMapper.insertQuestionInfo(questionVO);
 
 		if (imgList != null) {
 			for (AttachmentVO vo : imgList) {
-				vo.setMenuType("AA6");
+				vo.setMenuType("AA8");
 				vo.setPostId(questionVO.getQuestionId());
 				attachmentService.insertAttachment(vo);
 			}
@@ -137,7 +137,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 		if (attachList != null) {
 			for (AttachmentVO vo : attachList) {
-				vo.setMenuType("AA6");
+				vo.setMenuType("AA8");
 				vo.setPostId(questionVO.getQuestionId());
 				attachmentService.insertAttachment(vo);
 			}

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -30,7 +29,7 @@ public class QuestionController {
 
 	@Autowired
 	QuestionService questionService;
-	
+
 	@Autowired
 	AttachmentService attachmentService;
 
@@ -68,41 +67,65 @@ public class QuestionController {
 		return "user/cs/faq";
 	}
 
-	
 	@GetMapping("/member/cs/help/question")
-	public String boardList(@AuthenticationPrincipal PrincipalDetails principalDetails, Model mo, @PageableDefault(size = 10) Pageable pageable) {
-	    String memberId = (String) principalDetails.getUsername();
-	    
-	    // 서비스를 통해 질문 목록 가져오기
-	    Page<QuestionVO> list = questionService.MyQuestionList(memberId, pageable);
+	public String boardList(@AuthenticationPrincipal PrincipalDetails principalDetails, Model mo,
+			@PageableDefault(size = 10) Pageable pageable) {
+		String memberId = (String) principalDetails.getUsername();
 
-	    // 뷰에 결과 전달
-	    mo .addAttribute("qnaList", list);
-	    mo.addAttribute("menu", "cs");
-	    return "user/cs/questionList";
+		// 서비스를 통해 질문 목록 가져오기
+		Page<QuestionVO> list = questionService.MyQuestionList(memberId, pageable);
+
+		// 뷰에 결과 전달
+		mo.addAttribute("qnaList", list);
+
+		mo.addAttribute("menu", "cs");
+		return "user/cs/questionList";
 	}
-	
-	
+
 //문의 등록 페이지
-		@GetMapping("/member/cs/help/question/insert")
-		public String insertQuestionPage(Model mo, QuestionVO questionVO) {
-			mo.addAttribute("boardType", "1:1문의");
-			mo.addAttribute("menu", "cs");
-			return "user/cs/questionInsert";
+	@GetMapping("/member/cs/help/question/insert")
+	public String insertQuestionPage(Model mo, QuestionVO questionVO) {
+		mo.addAttribute("boardType", "1:1문의");
+		mo.addAttribute("menu", "cs");
+		return "user/cs/questionInsert";
+	}
+
+	// 등록
+	@PostMapping("/question/insert")
+	public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
+			@RequestParam("imageFiles") MultipartFile[] imageFiles,
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
+		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
+		questionVO.setMemberId(principalDetails.getUsername());
+		questionService.insertQuestion(questionVO, imgList, attachList);
+		return "redirect:/member/cs/help/question";
+//		return "/question/insert";
+	}
+	//회원 문의 상세보기
+	@GetMapping("/cs/help/question/view")
+	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int questionId, Model mo) {
+		AttachmentVO attachmentVO = new AttachmentVO();
+
+		String loginId = "not found";
+		if (principalDetails != null) {
+			loginId = principalDetails.getUsername();
 		}
+		
 
-		// 등록
-		@PostMapping("/question/insert")
-		public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
-				@RequestParam("imageFiles") MultipartFile[] imageFiles,
-				@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+		QuestionVO vo = questionService.selectQuestionInfo(boardId);
+		attachmentVO.setPostId(boardId);
+		attachmentVO.setMenuType("AA6");
 
-			List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
-			List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
-			questionVO.setMemberId(principalDetails.getUsername());
-			questionService.insertQuestion(questionVO, imgList, attachList);
-			return "redirect:/cs/help/notice";
-		}
+		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
+		System.out.println(returnMap);
+		mo.addAttribute("menu", "cs");
+		mo.addAttribute("boardVO", vo);
+		mo.addAttribute("loginId", loginId);
+		mo.addAttribute("noticeImg", returnMap.get("imgList"));
+		mo.addAttribute("noticeAttach", returnMap.get("attachList"));
 
-	
+		return "user/cs/noticeview";
+
+	}
 }

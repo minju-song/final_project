@@ -103,4 +103,13 @@
 			FROM QUESTION
 			WHERE MEMBER_ID =#{memberId}
 	</select>
+	
+	<insert id="insertQuestionInfo" parameterType="QuestionVO">
+		<selectKey keyProperty="questionId"  resultType="int"  order="BEFORE">
+	  		SELECT NVL(MAX(question_id),0) + 1
+			FROM QUESTION
+	  	</selectKey>
+		INSERT INTO QUESTION(QUESTION_ID, QUESTION_TYPE, TITLE, CONTENT, WRITE_DATE, UPDATE_DATE, MEMBER_ID)
+		VALUES (#{questionId}, #{questionType}, #{title}, #{content}, sysdate, null, #{memberId})
+	</insert>
 </mapper>

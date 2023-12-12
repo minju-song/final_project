@@ -34,6 +34,9 @@ public interface QuestionMapper {
 	// 페이징
 	public int selectTotalPagingCount(QuestionVO questionVO);
 	
+	
+	//회원 인터페이스↓↓
+	
 	public List<QuestionVO> MyQuestionList(String memberId, int offset, int limit);
 	
 	
