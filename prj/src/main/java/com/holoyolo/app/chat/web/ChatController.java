@@ -206,5 +206,14 @@ public class ChatController {
 		
 	}
 	
+	//안읽은 메시지 있는지
+	@GetMapping("BooleanMsgCk")
+	@ResponseBody
+	public Map<String, Object> BooleanMsgCk(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		String memberId = principalDetails.getUsername();
+		Map<String, Object> map = tradeChatService.checkNew(memberId);
+		return map;
+	}
+	
 	
 }
