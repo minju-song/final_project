@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentVO;
@@ -32,8 +33,16 @@ public class MemoServiceImpl implements MemoService {
 	}
 
 	@Override
-	public int insertMemo(MemoVO memoVO) {
+	public int insertMemo(MemoVO memoVO, List<AttachmentVO> imgList) {
 		int result = memoMapper.insertMemo(memoVO);
+		
+		for(int i=0; i<imgList.size(); i++) {
+			AttachmentVO vo = imgList.get(i);
+			vo.setMenuType("AA7");
+			vo.setPostId(memoVO.getMemoId());
+			attachmentMapper.insertAttachment(imgList.get(i));
+		}
+		
 		if(result == 1) {
 			return memoVO.getMemoId();
 		}
@@ -57,8 +66,11 @@ public class MemoServiceImpl implements MemoService {
 	}
 
 	@Override
+	@Transactional
 	public int deleteMemo(MemoVO memoVO) {
-		return memoMapper.deleteMemo(memoVO);
+		int result = memoMapper.deleteMemo(memoVO);
+		result += memoMapper.deleteMemoImage(memoVO);
+		return result;
 	}
 
 	@Override

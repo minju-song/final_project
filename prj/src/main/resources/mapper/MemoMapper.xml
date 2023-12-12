@@ -5,6 +5,7 @@
 <mapper namespace="com.holoyolo.app.memo.mapper.MemoMapper">
 
 	<resultMap type="MemoVO" id="selectMemoListMap">
+		<id column="memo_id" property="memoId"/>
 		<collection property="images" ofType="AttachmentVO" column="memo_id" select="selectAttachList" javaType="ArrayList"></collection>
 	</resultMap>
 	<!-- 전체조회 -->
@@ -28,8 +29,12 @@
 		and post_id = #{memoId}
 	</select>
 	
+	<resultMap type="MemoVO" id="selectMemoMap">
+		<id column="memo_id" property="memoId"/>
+		<collection property="images" ofType="AttachmentVO" column="memo_id" select="selectAttach" javaType="ArrayList"></collection>
+	</resultMap>
 	<!-- 단건조회 -->
-	<select id="selectMemo" resultType="MemoVO">
+	<select id="selectMemo" resultMap="selectMemoMap">
 		SELECT memo_id
 				, seq_no
 				, color
@@ -42,6 +47,11 @@
 		FROM memo
 		WHERE memo_id = #{memoId}
 		AND member_id = #{memberId}
+	</select>
+	<select id="selectAttach" resultType="AttachmentVO">
+		select * from attachment
+		where menu_type = 'AA7'
+		and post_id = #{memoId}
 	</select>
 	
 	<select id="selectMemoMax" resultType="int">
@@ -120,6 +130,11 @@
 		DELETE FROM memo
 		WHERE memo_id = #{memoId}
 		AND member_id = #{memberId}
+	</delete>
+	<delete id="deleteMemoImage" parameterType="MemoVO">
+		DELETE FROM attachment
+		WHERE menu_type = 'AA7'
+		AND post_id = #{memoId}
 	</delete>
 	
 	<!-- index 수정 -->

@@ -3,8 +3,10 @@
 
 .memo {
 	position: relative;
-	width: 226px;
-    min-height: 226px;
+	/* width: 226px;
+    height: 226px; */
+    width: 280px;
+    height: 300px;
 	border: none;
 	border-radius: 8px;
 	margin: 12px;
@@ -13,6 +15,18 @@
 	display: inline-block;
 	margin: 10px;
 	padding: 10px;
+}
+.memo::-webkit-scrollbar {
+  background: transparent;
+  width: 5px;
+  border-radius: 20px !important;
+}
+.memo::-webkit-scrollbar-thumb {
+	background: #ec79ab !important;
+	border: 2px solid #ffffff00 !important;
+}
+.memo::-webkit-scrollbar-track {
+    background: #ffffff00;
 }
 
 .modalmenu{
@@ -74,13 +88,17 @@
 }
 
 .bi-palette {
-	bottom:	10px;
-	right: 35px;
+	/* bottom:	10px;
+	right: 35px; */
+	position: inherit !important;
+	cursor: pointer !important;
 }
 
 .bi-image {
-	bottom:	10px;
-	right: 10px;
+	/* bottom:	10px;
+	right: 10px; */
+	position: inherit !important;
+	cursor: pointer !important;
 }
 
 .real_file {
@@ -204,8 +222,8 @@
     height: 50%;
     opacity: 0.2;
     position: absolute;
-    top: 56px;
-    left: 57px;
+    top: 65px;
+    left: 70px;
 }
 
 .review_form_text
@@ -239,8 +257,8 @@
 
 .modalColor {
 	position: absolute;
-    right: 250px;
-    bottom: 0;
+    right: 220px;
+    bottom: -16px;
 }
 
 .tagwidth{
@@ -330,4 +348,12 @@
 	height: auto;
 	flex-wrap: wrap;
 	margin-top: 10px;
+}
+.memo_btn_wrap {
+	margin-top: 100px;
+	display: flex;
+    gap: 10px;
+}
+.modal_btn_wrap {
+	margin-top: 0;
 }

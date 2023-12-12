@@ -1,6 +1,8 @@
 package com.holoyolo.app.memo.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -50,11 +52,18 @@ public class MemoController {
 	//등록
 	@PostMapping("member/memoInsert")
 	@ResponseBody
-	public int memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, 
-						  MemoVO memoVO) {
+	public MemoVO memoInsert(@AuthenticationPrincipal PrincipalDetails principalDetails, 
+						  MemoVO memoVO,
+						  MultipartFile[] uploadFiles) {
+		System.out.println("들어옴");
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(uploadFiles, "memo");
 		memoVO.setMemberId(principalDetails.getUsername());
-		int id = memoService.insertMemo(memoVO);
-		return id;
+		int id = memoService.insertMemo(memoVO, imgList);
+		MemoVO memoInfo = new MemoVO();
+		memoInfo.setMemoId(id);
+		memoInfo.setMemberId(principalDetails.getUsername());
+		memoInfo = memoService.getMemo(memoInfo);
+		return memoInfo;
 	}
 	
 	//수정

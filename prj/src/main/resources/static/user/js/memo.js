@@ -6,13 +6,13 @@
 	function openPalette(e, pal){
 		if(pal.nextElementSibling.style.display == 'block'){
 			pal.nextElementSibling.style.display = 'none';
-			let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+			let selMenubars = $(e.currentTarget).closest('.memo').find('.menubars');
 			for(let i=0; i<selMenubars.length; i++){
 				selMenubars[i].classList.toggle('menubars_active');
 			}
 		}else{
 			pal.nextElementSibling.style.display = 'block';
-			let selMenubars = e.currentTarget.parentElement.querySelectorAll('.menubars');
+			let selMenubars = $(e.currentTarget).closest('.memo').find('.menubars');
 			for(let i=0; i<selMenubars.length; i++){
 				selMenubars[i].classList.toggle('menubars_active');
 			}
@@ -23,6 +23,7 @@
 	function pinChange(e){
 	console.log("전체리스트에서 핀클릭");
 		let memoId = e.currentTarget.parentElement.querySelector('.inputMemoId').dataset.memo;
+		console.log(memoId);
 		if(!e.target.classList.contains('bi-pin-fill')){
 			e.target.src=`/user/images/memo/pin-fill.svg`;
 			bookmark = 'Y';
@@ -50,8 +51,10 @@
 	
 	//색상 클릭 시 메모 바탕색 변경 함수
 	function changeMemoColor(e){
-    	let memoId = e.currentTarget.parentElement.parentElement.parentElement.querySelector('.inputMemoId').dataset.memo;
-    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement;
+    	console.log(e.currentTarget);
+    	let memoId = $(e.currentTarget).closest('.memo').find('.inputMemoId').data('memo');
+    	console.log(memoId);
+    	let backcolor = e.currentTarget.closest('.memo');
     	let color = e.currentTarget.value
     	$.ajax({    
         type:"POST",
@@ -252,7 +255,7 @@
 		let writecolors = document.querySelectorAll('.modal [type=radio]');
 		for(let i=0; i<writecolors.length; i++){
 	    	writecolors[i].addEventListener('click', function(e){
-	    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement;
+	    	let backcolor = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
 	    	let color = e.currentTarget.value
 	    	backcolor.style.backgroundColor = color;
 	    	})
@@ -275,6 +278,14 @@
 				$('#writedMemo').find('[name=plustag]')[0].value = data.hashTag;
 				$('#writedMemo').find('.modal-body')[0].style.backgroundColor = data.color;
 				$('#writedMemo')[0].value = memoId;
+				
+				// 이미지관련
+				$('#writedMemo').find('.memo_image').empty();
+				for(let i=0; i<data.images.length; i++) {
+					let tag = $('<div>').addClass('upload').css('background-image', `url('/images/${data.images[i].saveFile}')`);
+					$('#writedMemo').find('.memo_image').append(tag);
+				}
+				
 				if(data.bookmark == 'Y'){
 					$('#writedMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin-fill.svg';
 				}else{
@@ -289,12 +300,32 @@
 	});
     
 	//메모등록
+	let uploadFiles = [];
+	$('#insertMemo').on('show.bs.modal', function(event) {
+		//등록 모달 열릴때 추가된 이미지 태그 삭제, 파일 담는 배열 비우기
+		$('#insertMemo').find('.memo_image').empty();
+		uploadFiles = [];
+	});
     $('#insertMemo').on('hidden.bs.modal', function (event) {
   		let content = document.querySelector('#insertMemo').querySelector('[name=content]').value;
    		let plustag = document.querySelector('#insertMemo').querySelector('[name=plustag]').value;
    		let tag = document.querySelectorAll('#insertMemo .tagify__tag-text');
    		let color = document.querySelector('#insertMemo').querySelector('.modal-body').style.backgroundColor;
    		let bookmark = document.querySelector('#insertMemo').querySelector('.modal-bi-pin').src;
+   		
+   		// 사진첨부
+   		let formData = new FormData();
+   		let target = $('.insert_file');
+	  	let files = $('.insert_file')[0].files;
+		
+		// 첨부된 파일 목록 formData에 append
+		if(uploadFiles.length > 0) {
+			console.log(uploadFiles);
+			for(let file of uploadFiles) {
+				formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
+			}
+		}
+
    		if(content != '' || plustag != ''){
 	   		if(bookmark.indexOf('pin.svg') == -1){
 	   			bookmark = 'Y';
@@ -308,20 +339,36 @@
 	   				hashTag += ', '
 	   			}
 	   		}
+	   		
+	   		formData.append("color", color);
+	   		formData.append("content", content);
+	   		formData.append("hashTag", hashTag);
+	   		formData.append("bookmark", bookmark);
+	   		
 	   		//ajax 요청
 			$.ajax({
 				type:"POST",
 				url : '/member/memoInsert',  //이동할 jsp 파일 주소
-				data : {color, content, hashTag, bookmark},
-				dataType:'text',
-				success: function(memoId){   //데이터 주고받기 성공했을 경우 실행할 결과
+				data : formData,
+				dataType:'json',
+				contentType: false,
+  				processData: false,
+				success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 			        //function(memoId)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
 					$('#insertMemo').find('[name="content"]')[0].value = '';
 					$('#insertMemo').find('[name=plustag]')[0].value = '';
 					$('#insertMemo').find('.modal-body')[0].style.backgroundColor = 'rgb(255, 242, 204)';
 					$('#insertMemo').find('.modal-bi-pin')[0].src = '/user/images/memo/pin.svg';
+					
+					//사진파일 배열
+					let imageArr = [];
+					for(let i=0; i<data.images.length; i++) {
+						imageArr[i] = data.images[i].saveFile;
+					}
+					console.log(imageArr);
+					
 					//메모 이어붙이기
-					addMemo(content, hashTag, color, bookmark, memoId)
+					addMemo(content, hashTag, color, bookmark, data.memoId, imageArr);
 				},
 				error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
 					console.log('등록실패');
@@ -333,7 +380,8 @@
 	});
 	
 	//메모 이어붙이기
-	function addMemo(content, hashTag, color, bookmark, memoId){
+	function addMemo(content, hashTag, color, bookmark, memoId, images){
+		console.log(images);
 		let clone = $('.btn-modal:eq(0)').clone();
 		clone.css('display', 'block');
 		clone.find('.inputMemoId')[0].dataset.memo = memoId;
@@ -352,6 +400,12 @@
 		}else{
 			clone.find('.bi-pin')[0].src = '/user/images/memo/pin.svg';
 			$('.normalmemoStart').append(clone);
+		}
+		
+		//이미지 그리기
+		let memoImage = clone.find('.memo_image');
+		for(let i=0; i<images.length; i++) {
+			memoImage.append('<div class="upload" style="background-image: url(\'/images/' + images[i] +'">');
 		}
 		
 		
@@ -400,6 +454,12 @@
 		for(let i=0; i<memoColor.length; i++){
 			memoColor[i].addEventListener('click', function(e){changeMemoColor(e);	});
 		}
+		
+		//첨부파일
+		let fileBtn =  clone[0].querySelector('.file_btn');
+		let realFile = clone[0].querySelector('.real_file');
+		fileBtn.addEventListener('click', () => realFile.click())
+		realFile.addEventListener('change', (e) => imgFileSelectHandler(e));
 	}
 	
     //메모 수정
@@ -429,7 +489,7 @@
          dataType:'text',
          success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
               //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
-              hashTag = hashTag.replace(" ", "").split(",");
+              /*hashTag = hashTag.replace(" ", "").split(",");
               
               let inputMemoId = $('[data-memo="' + memoId + '"]');
               let tags = $(inputMemoId).find('tags');
@@ -451,17 +511,20 @@
               let memo = $(inputMemoId).parent('.memo');
               
               $(memo).css('background-color', color);
-              console.log()
+              
+              $()
+              
               let biPin = $(inputMemoId).siblings('.bi-pin');
               if(bookmark == 'Y' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
               	console.log("상세페이지 닫을 때 올라갑니다.")
               	$(biPin).prop('src', '/user/images/memo/pin-fill.svg')	
                 $('.importmemoStart').append(memo);
               }else if(bookmark == 'N' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
-              console.log("상세페이지 닫을 때 내려갑니다.")
+                console.log("상세페이지 닫을 때 내려갑니다.")
               	$(biPin).prop('src', '/user/images/memo/pin.svg')	
                 $('.normalmemoStart').prepend(memo);
-              }
+              }*/
+              location.reload();
          },
          error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
             console.log('수정실패');
@@ -487,4 +550,90 @@
 		       console.log(error);    
 		    }})
 		}	
+	}
+
+	
+	/* 파일업로드 추가 */
+	// 첨부파일
+	let fileBtn = document.querySelectorAll('.file_btn');
+	let realFile = document.querySelectorAll('.real_file');
+	for(let i=0; i<fileBtn.length; i++){
+		fileBtn[i].addEventListener('click', () => realFile[i].click());
+		realFile[i].addEventListener('change', (e) => imgFileSelectHandler(e));
+	}
+	
+	// 파일이 첨부되면.
+	function imgFileSelectHandler(e) {
+	  	
+	  	let files = e.currentTarget.files;
+	  	let memo = $(e.target).closest('.memo');
+	  	let memoImage = $(e.target).closest('.memo').find('.memo_image');
+	  	console.log(files);
+	  	
+	  	if($(e.target).hasClass("modal_file") === true) {
+	  		console.log('test');
+	  		memo = $(e.target).closest('.modal');
+	  		memoImage = $(e.target).closest('.modal').find('.memo_image');
+	  	}
+	  	
+		// 파일타입 검사 및 미리보기 생성
+		[...files].forEach(file => {
+	        if (!file.type.match("image/.*")) {
+				alert('이미지 파일만 업로드가 가능합니다.');
+				return
+	        }
+	
+	        // 태그 생성
+	        if ([...files].length < 7) {
+	        	uploadFiles.push(file);
+				const reader = new FileReader();
+				reader.onload = (e) => {
+		            $(memoImage).append('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
+				};
+	          	reader.readAsDataURL(file);
+	        }
+		});
+	  	
+	  	if($(e.target).hasClass("insert_file") !== true) {
+		  	uploadImg(e);
+	  	}
+	}
+	
+	//파일 업로드
+	function uploadImg(e) {
+		if($(e.target).hasClass("modal_file") !== true) {
+			memoId = $(e.target).closest('.memo').find('.inputMemoId').data('memo');
+	  	}
+		
+		console.log(memoId);
+		let target = e.target;
+		let formData = new FormData();
+	  	let files = target.files;
+		
+		
+		// 메모 아이디 formData에 append
+		formData.append("memoId", memoId);
+		// 첩부된 파일 목록 formData에 append
+		for(let file of files) {
+			formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
+		}
+		for (const x of formData) {
+		 console.log(x);
+		};
+		
+		//jQuery.ajax
+		$.ajax({
+	       url: '/member/memoUploadImg',	
+	       type: 'POST',
+	       processData: false,
+	       contentType: false,	
+	       data: formData,               
+	       success: function(result){
+	           console.log(result);
+	           
+	       },
+	       error: function(reject){	
+	           console.log(reject);
+	       }
+	   }); 
 	}
