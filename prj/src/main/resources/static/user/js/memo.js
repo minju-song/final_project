@@ -306,6 +306,24 @@
    		let tag = document.querySelectorAll('#insertMemo .tagify__tag-text');
    		let color = document.querySelector('#insertMemo').querySelector('.modal-body').style.backgroundColor;
    		let bookmark = document.querySelector('#insertMemo').querySelector('.modal-bi-pin').src;
+   		
+   		// 사진첨부
+   		let formData = new FormData();
+   		let target = $('.insert_file');
+	  	let files = target.files;
+	  	console.log(target);
+	  	console.log(files);
+		
+		// 첨부된 파일 목록 formData에 append
+		for(let file of files) {
+			formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
+		}
+		for (const x of formData) {
+		 console.log(x);
+		};
+   		
+   		
+   		
    		if(content != '' || plustag != ''){
 	   		if(bookmark.indexOf('pin.svg') == -1){
 	   			bookmark = 'Y';

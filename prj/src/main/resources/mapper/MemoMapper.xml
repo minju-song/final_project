@@ -133,8 +133,8 @@
 	</delete>
 	<delete id="deleteMemoImage" parameterType="MemoVO">
 		DELETE FROM attachment
-		WHERE meny_type = 'AA7'
-		AND memo_id = #{memoId}
+		WHERE menu_type = 'AA7'
+		AND post_id = #{memoId}
 	</delete>
 	
 	<!-- index 수정 -->
