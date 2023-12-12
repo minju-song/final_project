@@ -28,6 +28,9 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr class="odd" th:if="${tradeList.size == 0}">
+					<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+				</tr>
 				<tr th:each="trade, stat : ${tradeList}">
 					<td th:text="${stat.count}"></td>
 					<td th:text="${trade.title}" th:onclick="|location.href='@{/member/tradeInfo(tradeId=${trade.tradeId},sellerId=${trade.sellerId})}'|"></td>
