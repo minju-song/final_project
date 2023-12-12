@@ -5,13 +5,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+	
 	<!-- 소스 다운 -->
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<!-- 폴리필 (구버젼 브라우저 지원) -->
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -88,7 +89,7 @@
 								</div>
 							</div>
 							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '거래중'} and ${memberId != tradeInfo.sellerId}">
-								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
+								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)" th:if="${tradeInfo.paymentType == 'TC1'}">
 									<p>거래확정</p>
 								</div>
 								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="|location.href='@{/member/tradePay(price=${tradeInfo.price},tradeId=${tradeInfo.tradeId})}'|">

@@ -281,3 +281,16 @@ select option {
   color: #ccc;
   font-weight: 300;
 }
+
+#newMsg {
+	display: inline-block;
+	width: 10px; 
+	height: 10px; 
+	background-color: red; 
+	color: white;
+	border-radius: 20px;
+	font-size: 8px;
+	text-align: center;
+	line-height: 10px;
+	font-weight: bold;
+}

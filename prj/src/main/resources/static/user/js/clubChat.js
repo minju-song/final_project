@@ -34,12 +34,13 @@ $(document).ready(function () {
 
 //엔터클릭
 msg.onkeyup = function (e) {
-    if (e.keyCode == 13 && e.shiftKey) {
-        return;
-    }
-    else if (e.keyCode == 13) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         send();
     }
+    else if (e.keyCode == 13 && e.shiftKey) {
+        return;
+    }
+
 }
 
 //보내기버튼 클릭
@@ -85,12 +86,12 @@ function drawChat(data) {
         if (data.memberId == memberId) {
             div.classList.add('msg', 'me_div');
             div2.setAttribute('class', 'me');
-            p.innerHTML = '<span style="padding:0 15px;">' + data.date + '</span>' + ' 나';
+            p.innerHTML = '<span style="padding:0 15px;">' + data.date.substr(0, 21) + '</span>' + ' 나';
         }
         else {
             div.classList.add('msg', 'other_div');
             div2.setAttribute('class', 'other');
-            p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date + '</span>';
+            p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + dateFormat(data.date) + '</span>';
         }
 
         if (data.type == 'notice') {
@@ -239,6 +240,7 @@ function noticeList() {
 
 function dateFormat(str) {
     let date = new Date(str);
+    console.log(str, ' ', date);
     let newDate = date.getFullYear() + '년 ' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
         '월' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()))
         + '일  ' + ((date.getHours() + 1) <= 9 ? "0" + (date.getHours() + 1) : (date.getHours() + 1)) + '시 ' + ((date.getMinutes() + 1) <= 9 ? "0" + (date.getMinutes() + 1) : (date.getMinutes() + 1)) + '분';

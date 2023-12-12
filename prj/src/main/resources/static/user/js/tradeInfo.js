@@ -116,7 +116,6 @@ let cd = {'약속잡기': 'TD1', '약속확정' : 'TD2', '거래확정' : 'TD3',
 
 	let pay = e.target;
 	let promiseStatus =  cd[e.target.innerText]
-	
 	//약속 수락
 	if(promiseStatus != 'TD4'){
 		$.ajax({

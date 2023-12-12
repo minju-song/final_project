@@ -73,7 +73,7 @@ public class TradeChatService {
 	    //채팅저장
 	    public int insertChat(String str) {
 	    	ObjectMapper objectMapper = new ObjectMapper();
-	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a H:mm:ss");
+	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a KK:mm:ss");
 	    	TradeChatVO chatObj = null;
 			try {
 				chatObj = objectMapper.readValue(str, TradeChatVO.class);
@@ -84,6 +84,7 @@ public class TradeChatService {
 			
 			try {
 				chatObj.setRealDate(sdf1.parse(chatObj.getDate()));
+				System.out.println("날짜포맷>>"+chatObj.getRealDate());
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -116,6 +117,7 @@ public class TradeChatService {
 			return map;
 		}
 		
+		
 		//해당 채팅방의 채팅들
 		public List<TradeChatVO> getChat(int id) {
 			return tradeChatRoomMapper.getChat(id);
@@ -129,5 +131,14 @@ public class TradeChatService {
 		//실시간 채팅 읽음 
 		public int updateRead(TradeChatVO vo) {
 			return tradeChatRoomMapper.updateRead(vo);
+		}
+		
+		//헤더에 올릴 메시지
+		public Map<String, Object> checkNew(String id) {
+			Map<String, Object> map = new HashMap<>();
+			
+			if(tradeChatRoomMapper.selectNotreadCount(id) > 0) map.put("result", true);
+			else map.put("result", false);
+			return map;
 		}
 }
