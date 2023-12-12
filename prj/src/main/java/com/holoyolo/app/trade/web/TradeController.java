@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -50,7 +51,7 @@ public class TradeController {
 	
 	//중고거래 페이지 이동
 	@GetMapping("/tradeList")
-	public String tradeList(Model model) {
+	public String tradeList(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		return "user/trade/tradeList";
 	}
 	

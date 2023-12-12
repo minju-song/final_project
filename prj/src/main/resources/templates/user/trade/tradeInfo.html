@@ -50,12 +50,22 @@
 								<div class="report silverColor" th:onclick="reportBtn([[${tradeInfo.tradeId}]],[[${tradeInfo.sellerId}]], event)">신고하기</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="tradeType bottomdown10"><p th:text="${tradeInfo.tradeTypeName}"></p></div>
+						<div class="row" style="margin-bottom:20px;">
+							<div class="tradeType bottomdown10" th:if="${tradeInfo.promiseStatusName != null}"><p th:text="${tradeInfo.promiseStatusName}"></p></div>
+							<div class="tradeType bottomdown10" th:if="${tradeInfo.promiseStatusName == null}"><p>신청가능!</p></div>
 							<div class="tradeTitle bottomdown" th:text="${tradeInfo.title}"></div>
 						</div>
 						<div class="tradeCategory bottomdown10">
 							<span th:text="|카테고리 : ${tradeInfo.tradeCategoryName}|"></span>
+						</div>
+						<div class="tradeCategory bottomdown10">
+							<span th:text="|거래방식 : ${tradeInfo.tradeTypeName}|"></span>
+						</div>
+						<div class="tradeCategory bottomdown10">
+							<span th:text="|결제방식 : ${tradeInfo.paymentTypeName}|"></span>
+						</div>
+						<div class="tradeCategory bottomdown10" th:if="${tradeInfo.tradePlace != null}">
+							<span th:text="|주소 : ${tradeInfo.tradePlace}|"></span>
 						</div>
 						<div class="row bottomwrap watchwrap">
 							<div class="tradePrice">
@@ -63,8 +73,9 @@
 									th:if="${tradeInfo.price != 0}"></p>
 								<p th:text="무료나눔" th:if="${tradeInfo.price == 0}" th:style="@{color:#ff6868;}"></p>
 							</div>
+							
 							<!-- 판매자 버튼 -->
-							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '약속대기'}">
+							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == 'TD1'}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속취소</p>
 								</div>
@@ -72,23 +83,23 @@
 									<p>약속확정</p>
 								</div>
 							</div>
-							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == '거래중'}">
+							<div th:if="${memberId == tradeInfo.sellerId} and ${tradeInfo.promiseStatus == 'TD3'} and ${memberId == tradeInfo.buyerId}">
 								<div class="pay insertbutton" th:onclick="|location.href='@{/member/tradeChat(sellerId=${tradeInfo.sellerId},tradeId=${tradeInfo.tradeId})}'|">
 									<p>대화하기</p>
 								</div>
 							</div>
 							<!-- 구매자 버튼 -->
-							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatus == null}">
+							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatus == 'TD4'}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속잡기</p>
 								</div>
 							</div>
-							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '약속대기'} and ${memberId != tradeInfo.sellerId}">
+							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == 'TD1'} and ${memberId != tradeInfo.sellerId}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속취소</p>
 								</div>
 							</div>
-							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '거래중'} and ${memberId != tradeInfo.sellerId}">
+							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == 'TD2'} and ${memberId != tradeInfo.sellerId}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)" th:if="${tradeInfo.paymentType == 'TC1'}">
 									<p>거래확정</p>
 								</div>
