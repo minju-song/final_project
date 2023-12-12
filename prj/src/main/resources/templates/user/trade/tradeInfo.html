@@ -89,7 +89,7 @@
 								</div>
 							</div>
 							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatus == '거래중'} and ${memberId != tradeInfo.sellerId}">
-								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
+								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)" th:if="${tradeInfo.paymentType == 'TC1'}">
 									<p>거래확정</p>
 								</div>
 								<div class="pay redButton" th:if="${tradeInfo.paymentType == 'TC2'}" th:onclick="|location.href='@{/member/tradePay(price=${tradeInfo.price},tradeId=${tradeInfo.tradeId})}'|">
