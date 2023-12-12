@@ -1,0 +1,99 @@
+@charset "UTF-8";
+		#container {
+			display: flex;
+			justify-content: center;
+		}
+
+		.chattingInfo {
+			flex: 1;
+			border: 1px solid gainsboro;
+			padding: 20px;
+		}
+
+		.chattingBox {
+			/* width: 60%; */
+			flex: 2;
+			/* display: flex;
+			justify-content: center; */
+		}
+
+		.btn {
+			font-size: 12px;
+			color: white;
+		}
+		.btn-primary {
+			margin: 0;
+			background: #09203f;
+			border: none;
+		}
+
+		#chattingDiv {
+			background-color: darkcyan;
+			width: 100%;
+			height: 500px;
+			margin-bottom: 20px;
+			padding: 20px;
+			overflow-y: auto;
+		}
+
+		.send-div {
+			width: 100%;
+			display: flex; 
+			justify-content: space-around;
+		}
+
+		#sendArea {
+			width: 80%;
+			border-radius: 20px;
+			height: 50px;
+			padding: 10px;
+			border: 3px solid #ffc107;
+		}
+
+		.me,
+		.other {
+			width: 300px;
+			/* color: white; */
+			font-weight: bold;
+			border-radius: 20px;
+			padding: 10px;
+			color: black;
+		}
+
+		.other {
+			background-color: white;
+
+		}
+
+		.me {
+			background-color: #ffc107;
+
+		}
+
+		.sender {
+			color: white;
+		}
+
+		.me_div {
+			display: flex;
+			justify-content: end;
+		}
+
+		.me_div>.box>.sender {
+			text-align: end;
+		}
+
+		.enter {
+			color: white;
+			text-align: center;
+		}
+
+		#sendChat {
+			width: 100px;
+		}
+
+
+		.type {
+			color: rgb(218, 18, 18);
+			font-weight: bold;
+		}

@@ -15,6 +15,7 @@ public class TradeChatVO {
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date realDate;
     private String date;
+    private String dateStr;
 
     private String memberName;
     private String type;

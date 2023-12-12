@@ -4,8 +4,8 @@
         /* border: 1px solid black; */
         border-radius: 20px;
         padding: 20px;
-        margin: 10px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-bottom: 20px;
+        border: 1px solid gainsboro;
     }
 
     .not {
@@ -17,6 +17,12 @@
         font-size: small;
     }
 
+    .img-div {
+        flex: 1; 
+        display: flex; 
+        justify-content: center;
+    }
+
     .profile {
         width: 100px; 
         height: 100px;
@@ -26,4 +32,25 @@
 
     .type {
         color: red; 
+    }
+
+    .gray {
+        color: gray;
+    }
+
+    .btn-div {
+        margin-top: 30px;
+        display: flex; 
+        justify-content: center;
+    }
+
+    .btn {
+        font-size: 18px;
+        color: white;
+    }
+    .btn-primary {
+        margin: 0;
+        background: #09203f;
+        border: none;
+        height: 50px;
     }

@@ -89,4 +89,18 @@
   		SET read_check = 'Y' 
   		WHERE trade_chat_id = #{tradeChatId}
   	</update>
+  	
+  	<!-- 회원의 안읽은 메시지 갯수 -->
+  	<select id="selectNotreadCount" resultType="int">
+  		SELECT count(*)
+		FROM trade_chat
+		WHERE trade_chat_room IN (
+		                        SELECT trade_id 
+		                        FROM trade_chat_room 
+		                        WHERE seller_id = #{memberId} 
+		                        OR buyer_id = #{memberId}
+		                        )
+		AND member_id != #{memberId}
+		AND read_check = 'N'
+  	</select>
   </mapper>

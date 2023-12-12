@@ -116,14 +116,22 @@ $(function () {
     //console.log(typeof files, files);
 
     if ([...files].length >= 6) {
-      alert('이미지는 최대 5개까지 업로드가 가능합니다.');
+      swal.fire(
+        	'이미지 업로드 제한!',
+       		'이미지는 최대 5개까지 업로드가 가능합니다.',
+        	'warning'
+      	)
       return;
     }
 
     // 파일타입 검사
     [...files].forEach(file => {
       if (!file.type.match("image/.*")) {
-        alert('이미지 파일만 업로드가 가능합니다.');
+        swal.fire(
+        	'부적절한 형식!',
+       		'이미지 파일만 업로드가 가능합니다.',
+        	'warning'
+      	)
         return
       }
 
@@ -180,11 +188,15 @@ $(function () {
 })
 
 //http:형식 확인
-$('#openKakaoAddr').change(() => {
+/*$('#openKakaoAddr').change(() => {
 	let expUrl = /^http[s]?:\/\/([\S]{3,})/i;
 	let strUrl = $('#openKakaoAddr').val();
 	console.log(expUrl.test(strUrl))
 	if (!expUrl.test(strUrl)) {
-		alert("url 형식에 맞지 않습니다");
+		swal.fire(
+        	'부적절한 형식!',
+       		'url 형식에 맞지 않습니다',
+        	'warning'
+      	)
 	}
-})
+})*/
