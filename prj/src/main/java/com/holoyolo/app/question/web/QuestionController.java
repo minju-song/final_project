@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
-import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.question.service.QuestionService;
 import com.holoyolo.app.question.service.QuestionVO;
 
@@ -43,7 +42,9 @@ public class QuestionController {
 	@GetMapping("/admin/question/list")
 	@ResponseBody
 	public Map<String, Object> getQuestionListAjax(QuestionVO questionVO) {
+		// 문의정보 가져오기
 		Map<String, Object> questionMap = new HashMap<>();
+
 		questionMap.put("questionYn", questionVO.getQuestionYn());
 		questionMap.put("list", questionService.selectQuestionTotalList(questionVO));
 		questionMap.put("count", questionService.selectQuestionTotalCount(questionVO));
@@ -53,7 +54,12 @@ public class QuestionController {
 	// 문의 단건조회
 	@GetMapping("/admin/question/detail")
 	public String selectQuestionInfo(QuestionVO questionVO, Model model) {
+
+		// 문의단건 가져오기
 		Map<String, Object> questionInfo = questionService.selectQuestionInfo(questionVO);
+
+		model.addAttribute("imgInfo", questionInfo.get("imgInfo"));
+		model.addAttribute("attachInfo", questionInfo.get("attachInfo"));
 		model.addAttribute("questionInfo", questionInfo.get("questionInfo"));
 		model.addAttribute("answerInfo", questionInfo.get("answerInfo"));
 		return "admin/question/questionDetail";
@@ -82,7 +88,7 @@ public class QuestionController {
 		return "user/cs/questionList";
 	}
 
-//문의 등록 페이지
+	// 문의 등록 페이지
 	@GetMapping("/member/cs/help/question/insert")
 	public String insertQuestionPage(Model mo, QuestionVO questionVO) {
 		mo.addAttribute("boardType", "1:1문의");
@@ -102,7 +108,9 @@ public class QuestionController {
 		return "redirect:/member/cs/help/question";
 //		return "/question/insert";
 	}
-	//회원 문의 상세보기
+
+	// 회원 문의 상세보기
+
 	@GetMapping("/cs/help/question/view")
 	public String boardInfo(@AuthenticationPrincipal PrincipalDetails principalDetails, int questionId, Model mo) {
 		AttachmentVO attachmentVO = new AttachmentVO();
@@ -111,7 +119,6 @@ public class QuestionController {
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
-		
 
 		QuestionVO vo = questionService.selectQuestionInfo(boardId);
 		attachmentVO.setPostId(boardId);
@@ -128,4 +135,5 @@ public class QuestionController {
 		return "user/cs/noticeview";
 
 	}
+
 }
