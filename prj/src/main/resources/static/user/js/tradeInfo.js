@@ -126,6 +126,11 @@ let cd = {'약속잡기': 'TD1', '약속확정' : 'TD2', '거래확정' : 'TD3',
 				if(pay.innerText == '약속잡기'){
 					pay.innerText = '약속취소';
 					mailSend();
+					Swal.fire({
+				      title: "약속신청 완료!",
+				      text: "약속신청 메일을 발송하였습니다.",
+				      icon: "success"
+				    });
 				}else{
 					pay.parentElement.remove();
 					if(pay.innerText == '약속확정'){
@@ -133,6 +138,11 @@ let cd = {'약속잡기': 'TD1', '약속확정' : 'TD2', '거래확정' : 'TD3',
 						$('.insertbutton').attr('onclick',  null);
 						$('.insertbutton').attr('onclick', `location.href='/member/tradeChat?sellerId=${seller_id}&tradeId=${tradeId}'`);
 						okMailSend();
+						Swal.fire({
+					      title: "약속확정 완료!",
+					      text: "대화하기 버튼을 눌러 상대방과 대화를 시작하세요.",
+					      icon: "success"
+					    });
 					}
 				}
 			},
@@ -169,11 +179,6 @@ function mailSend(){
 		data : {title, sellerId, tradeId},
 		success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 			console.log("성공");
-			Swal.fire({
-		      title: "약속신청 완료!",
-		      text: "약속신청 메일을 발송하였습니다.",
-		      icon: "success"
-		    });
 		},
 		error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
 			console.log("실패");
@@ -188,11 +193,6 @@ function okMailSend(){
 		data : {title, buyerId, tradeId},
 		success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 			console.log("성공");
-			Swal.fire({
-		      title: "약속확정 완료!",
-		      text: "대화하기 버튼을 눌러 상대방과 대화를 시작하세요.",
-		      icon: "success"
-		    });
 		},
 		error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
 			console.log("실패");
@@ -204,8 +204,8 @@ function okMailSend(){
 function reportBtn(postId, reportedId, e){
 	Swal.fire({
         title: '신고 유형 및 사유를 작성해주세요.',
-        html: `<label for="reportType" class="form-label">신고 유형</label> 
-        	    <select id="reportType" class="form-select" required>
+        html: `<label for="reportType" class="form-label" style="font-size: 16px;">신고 유형 :</label> 
+        	    <select id="reportType" class="form-select" style="display: inline-block; width: 210px; margin: 20px 12px;">
 					<option selected value="">선택하세요</option>
 					<option value="SA1">욕설</option>
 					<option value="SA2">음란성</option>
@@ -213,7 +213,7 @@ function reportBtn(postId, reportedId, e){
 					<option value="SA4">사기</option>
 					<option value="SA5">기타</option>
 				</select>
-				<input type="text" placeholder="사유를 입력하세요." id="reportContent">`
+				<input type="text" class="form-select" placeholder="사유를 입력하세요." id="reportContent">`
     }).then((result) => {
 		if (result.isConfirmed) {
 		let reportType = document.querySelector('#reportType').value;
@@ -237,3 +237,27 @@ function reportBtn(postId, reportedId, e){
 		}
 	});
 }
+
+//자기소개 모달창
+document.querySelector('.rounded-circle').addEventListener('click', function(e){
+	let img = '';
+	if(profileImg == null){
+		img = `<img src="/user/images/trade/user.png" alt="Profile" class="rounded-circle" style="width:100px;height:100px;margin:0 auto;">`;
+	}else{
+		img = `<img src="src="/images/` + profileImg + `alt="Profile" class="rounded-circle" style="width:100px;height:100px;margin:0 auto;">`;
+	}
+	let intro = '';
+	if(memberIntro == null){
+		intro = `<strong th:style="@{white-space:pre;}" style="font-size:23px;color: #6b6b6b;">등록된 소개글이 없습니다.</strong>`;
+	}else{
+		intro = `<strong th:style="@{white-space:pre;}" style="font-size:23px;color: #6b6b6b;">" ` + memberIntro + ` "</strong>`;
+	}
+	let html = `<div class="row bottomdown10 margins">`;
+	html += img + `</div>`; 
+	html += `<div class="tradeCategory bottomdown margins">`;
+	html += intro + `</div>`;
+	Swal.fire({
+        title: "&#10024;<strong style='font-size:larger;'>" + nickName + "</strong><span> 님의 프로필</span>&#10024;",
+        html: html
+    })
+})

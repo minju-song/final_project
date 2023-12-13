@@ -38,6 +38,7 @@ public class TradeVO {
 	private String sellCheck;
 	
 	private String nickname;
+	private String memberIntro;
 	
 	private String profileImg;
 	private String tradeCategoryName;

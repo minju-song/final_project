@@ -36,11 +36,10 @@ function callList(page) {
     let sellCheck = document.querySelector('[type=checkbox]').checked;
     let tradeCategory =  document.getElementById('searchCategory').value;
     let search = document.getElementById('search_input').value;
-	console.log(search, tradeCategory, sellCheck)
 
     if (flag) {
         flag = false; 
-         
+         console.log(sellCheck)
         fetch('/tradePaging?page=' + page + 
                         '&search=' + search      + 
                         '&searchTitle=' + searchTitle +

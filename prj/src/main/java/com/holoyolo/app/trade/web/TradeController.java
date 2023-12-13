@@ -50,7 +50,7 @@ public class TradeController {
 	
 	//중고거래 페이지 이동
 	@GetMapping("/tradeList")
-	public String tradeList(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+	public String tradeList() {
 		return "user/trade/tradeList";
 	}
 	

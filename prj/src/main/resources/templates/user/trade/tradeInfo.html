@@ -141,8 +141,8 @@
 			  </div>
 			</div>
 	        
-            <div class="col-md-12 writeInput buttonFrom" th:if="${tradeInfo.sellerId == memberId}">
-              <button type="button" class="btn btn-secondary" th:onclick="'location.href=\'/member/tradeUpdate?tradeId='+ @{${tradeInfo.tradeId}} +'\''">수정</button>
+            <div class="col-md-12 writeInput buttonFrom" th:if="${tradeInfo.sellerId == memberId} and (${tradeInfo.promiseStatusName == null} or ${tradeInfo.promiseStatusName == '거래완료'})">
+              <button type="button" class="btn btn-secondary" th:onclick="'location.href=\'/member/tradeUpdate?tradeId='+ @{${tradeInfo.tradeId}} +'\''" th:if="${tradeInfo.promiseStatusName == null}">수정</button>
               <button type="button" class="btn btn-primary tradeDelete" th:onclick="deleteTrade()">삭제</button>
             </div>
         </div>
@@ -158,6 +158,9 @@
 		  let seller_id = [[${tradeInfo.sellerId}]];
 		  let buyerId = `[[${tradeInfo.buyerId}]]`;
 		  let memberId = `[[${memberId}]]`;
+		  let memberIntro = [[${tradeInfo.memberIntro}]];
+		  let nickName = [[${tradeInfo.nickname}]];
+		  let profileImg = [[${tradeInfo.profileImg}]];
         </script>
 		<script src="/user/js/tradeInfo.js"></script>
 	</div>
