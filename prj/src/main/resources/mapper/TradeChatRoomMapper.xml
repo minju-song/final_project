@@ -103,4 +103,18 @@
 		AND member_id != #{memberId}
 		AND read_check = 'N'
   	</select>
+  	
+  	<!-- 채팅방나가기 -->
+  	<update id="outChatRoom" parameterType="TradeChatVO">
+  		UPDATE trade_chat_room
+  		<set>
+	  		<if test="type.equals('seller')">
+	  			seller_id = null
+	  		</if>
+	  		<if test="type.equals('buyer')">
+	  			buyer_id = null
+	  		</if>
+  		</set>
+  		WHERE trade_id = #{tradeChatRoomId}
+  	</update>
   </mapper>

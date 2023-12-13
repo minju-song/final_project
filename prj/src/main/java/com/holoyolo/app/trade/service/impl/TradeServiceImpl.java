@@ -146,4 +146,9 @@ public class TradeServiceImpl implements TradeService {
 	public List<TradeVO> selectMyTradeList(TradeVO tradeVO) {
 		return tradeMapper.selectMyTradeList(tradeVO);
 	}
+
+	@Override
+	public TradeVO selectTrade2(TradeVO vo) {
+		return tradeMapper.selectTrade2(vo);
+	}
 }

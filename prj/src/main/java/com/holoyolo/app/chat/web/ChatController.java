@@ -147,7 +147,7 @@ public class ChatController {
 
 
 		//중고거래 조회
-		tradeVO = tradeService.getTrade(tradeVO);
+		tradeVO = tradeService.selectTrade2(tradeVO);
 		map.put("trade", tradeVO);
 		
 		TradeChatRoomVO room = tradeChatService.findOrCreateRoom(tradeVO);
@@ -197,6 +197,7 @@ public class ChatController {
 		Map<String, Object> map = tradeChatService.getMyChattings(principalDetails.getUsername());
 		
 		model.addAttribute("result", map);
+		model.addAttribute("userId", principalDetails.getUsername());
 		return "user/mypage/chatList";
 	}
 	
@@ -232,6 +233,23 @@ public class ChatController {
 		String memberId = principalDetails.getUsername();
 		Map<String, Object> map = tradeChatService.checkNew(memberId);
 		return map;
+	}
+	
+	//채팅방 나가기
+	@GetMapping("/outChat")
+	@ResponseBody
+	public String outChat(@AuthenticationPrincipal PrincipalDetails principalDetails,
+						String type, int roomId) {
+		System.out.println(type);
+		TradeChatVO vo = new TradeChatVO();
+		vo.setMemberId(principalDetails.getUsername());
+		vo.setType(type);
+		vo.setTradeChatRoomId(roomId);
+		System.out.println(vo);
+		if(tradeChatService.outChatRoom(vo) > 0) {
+			return "success";
+		}
+		else return "fail";
 	}
 	
 	

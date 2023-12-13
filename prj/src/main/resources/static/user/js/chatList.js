@@ -32,8 +32,12 @@ $(document).ready(function () {
 
 
 //채팅방나가기
-function deleteChat(chatId) {
-    console.log(chatId + '채팅 삭제하고싶음');
+function deleteChat(tradeId, seller, buyer) {
+    let div = document.getElementById(tradeId).parentNode;
+    let type = '';
+    if(userId == seller) type = 'seller';
+    else if(userId == buyer) type = 'buyer';
+
     Swal.fire({
         title: "채팅방을 나가시겠습니까?",
         text: "즉시 채팅방이 삭제됩니다.",
@@ -44,7 +48,26 @@ function deleteChat(chatId) {
         confirmButtonText: "Yes"
     }).then((result) => {
         if (result.isConfirmed) {
+            fetch("/outChat?type="+type+'&roomId='+tradeId)
+                .then(response => response.text())
+                .then(result => {
+                    if (result == "success") {
+                        Swal.fire({
+                            title: "삭제완료",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                        div.remove();
+                    }
+                    else {
+                        Swal.fire({
+                            title: "삭제실패",
+                            text: "Your file has been deleted.",
+                            icon: "error"
+                        });
+                    }
 
+                })
         }
     })
 }

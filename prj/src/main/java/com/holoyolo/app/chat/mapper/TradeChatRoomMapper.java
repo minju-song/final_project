@@ -31,4 +31,7 @@ public interface TradeChatRoomMapper {
 	
 	//안읽은 메시지갯수
 	public int selectNotreadCount(String id);
+	
+	//채팅방나가기
+	public int outChatRoom(TradeChatVO vo);
 }

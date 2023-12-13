@@ -46,5 +46,7 @@ public interface TradeMapper {
 	//마이페이지 전체조회
 	public List<TradeVO> selectMyTradeList(TradeVO tradeVO);
 	
+	//
+	public TradeVO selectTrade2(TradeVO vo);
 
 }

@@ -18,7 +18,7 @@
             </div>
         </div>
         <th:block th:if="${result.list.size == 0}">
-            <h3 style="text-align: center;">중고거래 채팅 내역이 없습니다.</h3>
+            <h3 style="text-align: center; margin: 20px;">중고거래 채팅 내역이 없습니다.</h3>
         </th:block>
         <th:block th:if="${result.list.size > 0}">
             <div class="chatBox" th:each="chatting : ${result.list}" style="display: flex;">
@@ -61,11 +61,16 @@
                     </div>
                     <div th:if="${chatting.promiseStatus == '거래완료'}" class="tradeEnd">
                         <span>[[${chatting.promiseStatus}]]</span>
+                        <button class="chatOutBtn" th:onclick="deleteChat(this.getAttribute('data-chatting-id'),
+                                                                this.getAttribute('data-chatting-seller'),
+                                                                this.getAttribute('data-chatting-buyer')    
+                                                                )"
+                            th:data-chatting-id="${chatting.tradeId}"
+                            th:data-chatting-seller="${chatting.sellerId}"
+                            th:data-chatting-buyer="${chatting.buyerId}">
+                            <img src="/user/images/logo/trash-bin.png">
+                        </button>
                     </div>
-                    <button class="chatOutBtn" th:onclick="deleteChat(this.getAttribute('data-chatting'))"
-                        th:data-chatting="${chatting.tradeId}">
-                        <img src="/user/images/logo/trash-bin.png">
-                    </button>
                 </div>
             </div>
         </th:block>
@@ -75,6 +80,7 @@
 
         <script th:inline="javascript">
             let list = /*[[${result.list}]]*/ null;
+            let userId = /*[[${userId}]]*/ null;
         </script>
 
         <script th:src="@{/user/js/chatList.js}"></script>

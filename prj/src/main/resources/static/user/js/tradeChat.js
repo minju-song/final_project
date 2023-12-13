@@ -85,6 +85,7 @@ function send() {
 	msg.value = '';
 }
 
+//채팅그려주는 함수
 function drawChat(data) {
 	if (data.type == 'msg') {
 		let div = document.createElement('div');

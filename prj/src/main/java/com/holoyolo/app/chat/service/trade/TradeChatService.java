@@ -167,4 +167,9 @@ public class TradeChatService {
 			else map.put("result", false);
 			return map;
 		}
+		
+		//채팅방나가기
+		public int outChatRoom(TradeChatVO vo) {
+			return tradeChatRoomMapper.outChatRoom(vo);
+		}
 }
