@@ -246,8 +246,6 @@ $('#find_pwd').click(function(e){
 	$('#findPwdForm #submitBtn').click(function () {
 		let bool = inputCheck('findPwdForm'); // 입력여부 검증
 		
-		console.log(bool);
-		
 		if(bool == true) { // 비밀번호 찾기 진행		
 						
 			// 입력한 이름과 아이디로 일치하는 회원 찾기(성공이면 임시비밀번호 발급)
@@ -258,7 +256,6 @@ $('#find_pwd').click(function(e){
 					data: memberVO
 				})
 					.done(result => {
-						console.log('넘어온 값은', result);
 						if (result == 'Fail') {
 							Swal.fire({
 								title: '일치하는 정보가 없습니다',
@@ -269,14 +266,12 @@ $('#find_pwd').click(function(e){
 							})
 						} else {
 							// 임시비밀번호 메일 발송
-							console.log(memberVO);
-							console.log(email);
 							$.ajax('/sendmail/password', {
 								type: 'post',
 								data: memberVO
 							})
 								.done(result => {
-									console.log('넘어온 값은', result);
+									console.log('메일발송시작.');
 								})
 								.fail(err => console.log(err))
 						

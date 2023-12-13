@@ -20,12 +20,12 @@ $('#authNumCheck').click(function () {
 
 	} else {
 		// 휴대폰 번호 검증
-		const patternPhone = /01[016789][^0][0-9]{2,3}[0-9]{3,4}/;
+		const patternPhone = /^01([0|1|6|7|8|9]?)([0-9]{3,4})([0-9]{4})$/;
 		if (!patternPhone.test(reception)) {
 			Swal.fire({
 				icon: "error",
 				title: "휴대폰 번호를 확인해 주세요",
-				text: "하이픈없이 숫자만 입력하셔야합니다",
+				text: "하이픈없이 숫자(11자리)만 입력하셔야합니다",
 				confirmButtonText: '확인'
 			})
 			return;

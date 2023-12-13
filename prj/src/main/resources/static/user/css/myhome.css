@@ -120,11 +120,51 @@ textarea {
 	width: 60%;
 }
 #holopayWrap {
-	width: 40%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	gap: 10px;
+	width: 35%;
 	background-color: #f9f9f9;
 	border-radius: 10px;
 	padding: 20px;
 }
 #my_profile {
+	justify-content: space-between;
 	padding-right: 25px;
+}
+#holopayWrap > div > span {
+	font-size: 17px;
+	font-weight: 700;
+}
+.balance_warp {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.balance_warp p{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+.balance_warp .title {
+	display: inline-block;
+	padding: 3px 4px;
+	width: 75px;
+	box-sizing: border-box;
+	background: #040e1c;
+	text-align: center;
+	border-radius: 5px;
+	margin-right: 10px;
+	color: #fff;
+	font-size: 14px;
+}
+.text-right {
+	width: 5vw;
+	min-width: 80px;
+	text-align: right;
+	display: inline-block;
 }
