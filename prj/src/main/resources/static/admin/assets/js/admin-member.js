@@ -35,7 +35,15 @@ let search = '';
                         <td>${list.phone}</td>
                         <td>${list.addr}</td>
                         <td>${list.joinDate}</td>
-                        <td><span class="badge ${colorMapping[list.role]} me-1">${list.role}</span></td>
+                        <td>
+	                        <span class="badge ${colorMapping[list.role]} me-1">
+	                        	${list.role == "ROLE_ADMIN" ? "관리자" : 
+	                        	  list.role == "ROLE_HA1" ? "일반회원" :
+	                        	  list.role == "ROLE_HA2" ? "거래정지" :
+	                        	  list.role == "ROLE_HA3" ? "계정정지" : ""
+	                        	  }
+	                        </span>
+                        </td>
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -70,11 +78,11 @@ let search = '';
 		// 현재 선택된 상태에 따라 다른 상태값을 전달
 		let role = ""; // 기본값은 전체
 		if ($("button[name='generalMemberCount']").hasClass("active")) {
-			role = "일반회원";
+			role = "ROLE_HA1";
 		} else if ($("button[name='transactionSuspensionCount']").hasClass("active")) {
-			role = "거래정지";
+			role = "ROLE_HA2";
 		} else if ($("button[name='accountSuspensionCount']").hasClass("active")) {
-			role = "계정정지";
+			role = "ROLE_HA3";
 		}
 
 		renderMemberList(role, targetPageNum, search);
@@ -104,7 +112,7 @@ let search = '';
 	$(document).on("click", "button[name='generalMemberCount']", function (e) {
 		// 초기값
 		pageNum = 1;
-		role = "일반회원";
+		role = "ROLE_HA1";
 		search = "";
 		$("#searchInput").val("");
 
@@ -120,7 +128,7 @@ let search = '';
 	$(document).on("click", "button[name='transactionSuspensionCount']", function (e) {
 		// 초기값
 		pageNum = 1;
-		role = "거래정지";
+		role = "ROLE_HA2";
 		search = "";
 		$("#searchInput").val("");
 
@@ -136,7 +144,7 @@ let search = '';
 	$(document).on("click", "button[name='accountSuspensionCount']", function (e) {
 		// 초기값
 		pageNum = 1;
-		role = "계정정지";
+		role = "ROLE_HA3";
 		search = "";
 		$("#searchInput").val("");
 
