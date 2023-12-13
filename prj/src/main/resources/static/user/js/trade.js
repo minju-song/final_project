@@ -78,6 +78,9 @@ function drawTrade(tradeArr){
 		divCol.classList.add('col', 'mb-5');
 		let divCard = document.createElement('div');
 		divCard.classList.add('card', 'tradeSize');
+		if(tradeArr[i].promiseStatus == '거래완료'){
+			divCard.style.opacity = '0.5';
+		}
 		divCol.appendChild(divCard);
 		
 		let divTradeType = document.createElement('div');
@@ -88,9 +91,16 @@ function drawTrade(tradeArr){
 		
 		let promiseStatus = document.createElement('div');
 		promiseStatus.classList.add('badge', 'position-absolute');
-		
+		promiseStatus.style.right = '14rem';
+		promiseStatus.style.background = '#235444';
 		promiseStatus.innerText = tradeArr[i].promiseStatus;
 		divCard.appendChild(promiseStatus);
+		
+		let paymentType = document.createElement('div');
+		paymentType.classList.add('badge', 'position-absolute');
+		paymentType.innerText = tradeArr[i].paymentType;
+		paymentType.style.width = '75px';
+		divCard.appendChild(paymentType);
 		
 		let img = document.createElement('img');
 		img.classList.add('card-img-top');
@@ -133,8 +143,28 @@ function drawTrade(tradeArr){
 		category.innerText = tradeArr[i].tradeCategory;
 		category.style.position = 'absolute';
 		category.style.left = '-0.9rem';
-        category.style.bottom = '-2.4rem';
+		if(tradeArr[i].tradePlace != null){
+        	category.style.bottom = '-1.1rem';
+        }else{
+        	category.style.bottom = '-2.4rem';
+        }
 		divCategory.appendChild(category);
+		
+		let divPlace = document.createElement('div');
+		divBody.appendChild(divPlace);
+		
+		if(tradeArr[i].tradePlace != null){
+			let place = document.createElement('span');
+			place.classList.add('text-muted');
+			let tradePlace = tradeArr[i].tradePlace.split(" ", 2);
+			tradePlace = tradePlace[0] + ' ' + tradePlace[1];
+			console.log(tradePlace)
+			place.innerText = tradePlace;
+			place.style.position = 'absolute';
+			place.style.left = '-0.9rem';
+	        place.style.bottom = '-2.4rem';
+			divPlace.appendChild(place);
+		}
 		
 		let divWriteDate = document.createElement('div');
 		divBody.appendChild(divWriteDate);

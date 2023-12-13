@@ -116,6 +116,11 @@ public class QuestionController {
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
+		
+//		QuestionVO vo = questionService.selectQuestionInfo(boardId);
+//		attachmentVO.setPostId(boardId);
+//		attachmentVO.setMenuType("AA6");
+
 
 		Map<String, Object> vo = questionService.selectQuestionInfo(questionVO);
 		attachmentVO.setPostId(questionVO.getQuestionId());

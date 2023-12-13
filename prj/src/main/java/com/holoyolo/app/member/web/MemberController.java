@@ -3,7 +3,6 @@ package com.holoyolo.app.member.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryService;
 import com.holoyolo.app.accBookHistory.service.AccBookHistoryVO;
 import com.holoyolo.app.auth.PrincipalDetails;
+import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.pointHistory.service.PointHistoryService;
 
 @Controller
 public class MemberController {
@@ -30,6 +31,12 @@ public class MemberController {
 	
 	@Autowired
 	AccBookHistoryService accBookHistoryService;
+	
+	@Autowired
+	HoloPayHistoryService holoPayHistoryService;
+	
+	@Autowired
+	PointHistoryService pointHistoryService;
 	
 	/**
 	 * 로그인 페이지
@@ -142,6 +149,13 @@ public class MemberController {
 		MemberVO memberVO = memberService.selectUser(memberId);
 		model.addAttribute("memberInfo", memberVO);
 		
+		// 회원 홀로페이, 포인트 잔액
+		int hpBalance = holoPayHistoryService.holopayBalance(memberVO);
+		int ptBalance = pointHistoryService.pointBalance(memberVO);
+		model.addAttribute("hpBalance", hpBalance);
+		model.addAttribute("ptBalance", ptBalance);
+		
+		
 		// 회원의 가계부 데이터
 		AccBookHistoryVO abvo = new AccBookHistoryVO();
 		abvo.setMemberId(principalDetails.getUsername());
@@ -157,7 +171,6 @@ public class MemberController {
 		abvo.setPaymentType("GA3");
 		List<AccBookHistoryVO> cardData = accBookHistoryService.selectChartData(abvo);
 		model.addAttribute("cardData", cardData);
-		
 		
 		// 개행처리
 		String nlString = System.getProperty("line.separator").toString();

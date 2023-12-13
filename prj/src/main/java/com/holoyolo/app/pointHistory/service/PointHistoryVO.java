@@ -20,4 +20,7 @@ public class PointHistoryVO {
 
 	
 	private int nowPoint;
+	private String title;
+	private String clubName;
+	private String sellerId;
 }

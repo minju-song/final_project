@@ -143,25 +143,29 @@ public class ChatController {
 							Model model, 
 							TradeVO tradeVO) {
 		Map<String, Object> map = new HashMap<>();
-		System.out.println("들어온값임"+tradeVO);
-		
+		map = tradeChatService.tradeChatPage(tradeVO);
+
+
+		//중고거래 조회
 		tradeVO = tradeService.getTrade(tradeVO);
 		map.put("trade", tradeVO);
 		
 		TradeChatRoomVO room = tradeChatService.findOrCreateRoom(tradeVO);
-		List<TradeChatVO> list = tradeChatService.getChat(room.getTradeId());
-		
 		String youId;
-		if(tradeVO.getBuyerId().equals(principalDetails.getUsername())) {
-			youId = tradeVO.getSellerId();
+		MemberVO you = new MemberVO();
+		if(room.getBuyerId() != null && room.getSellerId() != null) {			
+			if(room.getBuyerId().equals(principalDetails.getUsername())) {
+				youId = room.getSellerId();
+				you = memberService.selectUser(youId);
+			}
+			else {
+				youId = room.getBuyerId();
+				you = memberService.selectUser(youId);
+			}
 		}
-		else {
-			youId = tradeVO.getBuyerId();
-		}
-		MemberVO you = memberService.selectUser(youId);
+		System.out.println(you);
 		
 		model.addAttribute("you", you);
-		model.addAttribute("chats", list);
 		model.addAttribute("member", principalDetails.getMemberVO());
 		model.addAttribute("room", room);
 		model.addAttribute("result", map);

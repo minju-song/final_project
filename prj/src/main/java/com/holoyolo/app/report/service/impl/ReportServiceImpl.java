@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.member.mapper.MemberMapper;
 import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.report.mapper.ReportMapper;
@@ -34,8 +35,11 @@ public class ReportServiceImpl implements ReportService {
 		Map<String, Object> result = new HashMap<>();
 
 		ReportVO findReportVO = reportMapper.selectReportInfo(reportVO);
-
 		result.put("reportInfo", findReportVO);
+		
+		// 신고된 게시글의 정보 가져오기
+		BoardVO boardInfo = reportMapper.selectReportBoardInfo(findReportVO);
+		result.put("boardInfo", boardInfo);
 
 		return result;
 	}

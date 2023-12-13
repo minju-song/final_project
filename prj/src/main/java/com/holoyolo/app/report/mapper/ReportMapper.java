@@ -3,7 +3,7 @@ package com.holoyolo.app.report.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.report.service.ReportVO;
 
 public interface ReportMapper {
@@ -14,6 +14,7 @@ public interface ReportMapper {
 	// 신고 단건조회
 	public ReportVO selectReportInfo(ReportVO reportVO);
 	public Map<String, Object> selectReportProcess(int reportId);
+	public BoardVO selectReportBoardInfo(ReportVO reportVO);
 	
 	// 신고 등록
 	public int insertReportInfo(ReportVO reportVO);

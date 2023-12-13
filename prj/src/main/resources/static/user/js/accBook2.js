@@ -47,8 +47,10 @@ $(function () {
 
 
 let delCardBtn = document.getElementById("deleteCard");
+if (delCardBtn != null) {
+    delCardBtn.addEventListener("click", delModal);
+}
 
-delCardBtn.addEventListener("click", delModal);
 
 function delModal(e) {
     let cardno = delCardBtn.value;
@@ -97,7 +99,9 @@ function delModal(e) {
 }
 
 let delBudgetBtn = document.getElementById("deleteBudget");
-delBudgetBtn.addEventListener("click", delBudget);
+if (delBudgetBtn != null) {
+    delBudgetBtn.addEventListener("click", delBudget);
+}
 
 
 function delBudget(e) {
