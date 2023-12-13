@@ -41,13 +41,24 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public Map<String, Object> selectQuestionInfo(QuestionVO questionVO) {
 		Map<String, Object> result = new HashMap<>();
+		AttachmentVO attachmentVO = new AttachmentVO();
 
 		// 문의 단건정보
 		QuestionVO findQuestionVO = questionMapper.selectQuestionInfo(questionVO);
 
 		// 답변 전체조회
 		List<AnswerVO> findAnswerVO = answerService.selectAnswerAll(questionVO);
-
+		
+		attachmentVO.setPostId(findQuestionVO.getQuestionId());
+		attachmentVO.setMenuType("AA8");
+		
+		// 첨부파일 가져오기
+		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
+		
+	
+		System.out.println("모델 값>>>>>>> ::"+returnMap.get("imgList"));
+		result.put("imgInfo", returnMap.get("imgList"));
+		result.put("attachInfo", returnMap.get("attachList"));
 		result.put("questionInfo", findQuestionVO);
 		result.put("answerInfo", findAnswerVO);
 

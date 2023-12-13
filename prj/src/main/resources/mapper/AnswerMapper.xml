@@ -5,6 +5,7 @@
   
   <mapper namespace="com.holoyolo.app.answer.mapper.AnswerMapper">
   
+  	<!-- 답변조회 -->
    	<select id="selectAnswerAll" resultType="AnswerVO">
 		SELECT answer_id
 			 , answer_content
@@ -16,6 +17,7 @@
 		ORDER BY answer_date desc
   	</select>
   	
+  	<!-- 답변등록 -->
 	<insert id="insertAnswerInfo" parameterType="AnswerVO">
 	    <selectKey keyProperty="answerId" resultType="int" order="BEFORE">
 	        SELECT NVL(MAX(answer_id), 0) + 1
@@ -26,13 +28,15 @@
 	    VALUES (#{answerId}, #{answerContent}, sysdate, #{questionId})
 	</insert>
 	
+	<!-- 답변수정 -->
 	<update id="updateAnswerInfo" parameterType="AnswerVO">
 		UPDATE answer SET
 			    answer_content = #{answerContent},
 			    update_date = sysdate
 		WHERE answer_id = #{answerId}
 	</update>
-		
+	
+	<!-- 답변삭제 -->
 	<delete id="deleteAnswerInfo" parameterType="int">
 		DELETE FROM answer
 		WHERE answer_id = #{answerId}

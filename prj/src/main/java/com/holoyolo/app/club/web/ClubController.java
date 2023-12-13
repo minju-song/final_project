@@ -243,7 +243,6 @@ public class ClubController {
 	@ResponseBody
 	public Map<String, Object> getClubListAjax(ClubVO clubVO) {
 		Map<String, Object> clubMap = new HashMap<>();
-		System.out.println(clubService.selectClubAll(clubVO));
 		clubMap.put("list", clubService.selectClubAll(clubVO));
 		
 		return clubMap;

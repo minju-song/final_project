@@ -67,6 +67,8 @@
 		ORDER BY club_id
 		) A) b WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 and #{page} * #{pageUnit}
   	</select>
+  	
+  	
   
 
   	
