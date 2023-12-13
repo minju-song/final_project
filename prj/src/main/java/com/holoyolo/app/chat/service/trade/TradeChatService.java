@@ -109,14 +109,16 @@ public class TradeChatService {
 			
 			List<TradeChatRoomVO> list = tradeChatRoomMapper.getMyChattings(id);
 			for(int i = 0; i < list.size(); i++) {
-				if (list.get(i).getBuyerId().equals(id)) {
-					MemberVO you = memberMapper.selectUser(list.get(i).getSellerId());
-					list.get(i).setYou(you);
+				MemberVO you = new MemberVO();
+				if(list.get(i).getBuyerId() != null && list.get(i).getSellerId() != null) {					
+					if (list.get(i).getBuyerId().equals(id)) {
+						you = memberMapper.selectUser(list.get(i).getSellerId());
+					}
+					else if(list.get(i).getSellerId().equals(id)) {
+						you = memberMapper.selectUser(list.get(i).getBuyerId());
+					}
 				}
-				else {
-					MemberVO you = memberMapper.selectUser(list.get(i).getBuyerId());
-					list.get(i).setYou(you);
-				}
+				list.get(i).setYou(you);
 			}
 			
 			System.out.println(list);

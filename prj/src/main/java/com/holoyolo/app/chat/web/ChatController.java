@@ -152,13 +152,18 @@ public class ChatController {
 		
 		TradeChatRoomVO room = tradeChatService.findOrCreateRoom(tradeVO);
 		String youId;
-		if(tradeVO.getBuyerId().equals(principalDetails.getUsername())) {
-			youId = tradeVO.getSellerId();
+		MemberVO you = new MemberVO();
+		if(room.getBuyerId() != null && room.getSellerId() != null) {			
+			if(room.getBuyerId().equals(principalDetails.getUsername())) {
+				youId = room.getSellerId();
+				you = memberService.selectUser(youId);
+			}
+			else {
+				youId = room.getBuyerId();
+				you = memberService.selectUser(youId);
+			}
 		}
-		else {
-			youId = tradeVO.getBuyerId();
-		}
-		MemberVO you = memberService.selectUser(youId);
+		System.out.println(you);
 		
 		model.addAttribute("you", you);
 		model.addAttribute("member", principalDetails.getMemberVO());

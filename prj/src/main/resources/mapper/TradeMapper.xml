@@ -23,7 +23,6 @@
 		        , fn_get_code_name(trade_category) as trade_category_name
 		        , trade_category
 		        , t.price
-		        , t.open_kakao
 		        , t.trade_place
 		        , fn_get_code_name(trade_type) as trade_type_name
 		        , trade_type
@@ -57,7 +56,6 @@
 			<if test="price > 0">
 				, price
 			</if>
-			, open_kakao
 			<if test="tradePlace != ''">
 				, trade_place
 			</if>
@@ -80,7 +78,6 @@
 			<if test="price > 0">
 				, #{price}
 			</if>
-			, #{openKakao}
 			<if test="tradePlace != ''">
 				, #{tradePlace}
 			</if>
