@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.holoyolo.app.member.service.MemberVO;
-
+import com.holoyolo.app.question.service.QuestionVO;
 import com.holoyolo.app.board.service.BoardVO;
 
 
@@ -59,5 +59,7 @@ public interface AttachmentService {
 	
 	//업데이트 전 첨부파일 초기화
 	public int deletePostAttachment(BoardVO boardVO);
+
+	public int deleteQNAAttachment(QuestionVO questionVO);
 
 }

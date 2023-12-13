@@ -44,7 +44,7 @@
                         </thead>
                         <tbody>
                             <tr th:each="list:${qnaList}">
-                                <td><a th:text="${list.title}" th:href="@{/member/qna(id=${list.questionId})}"></a></td>
+                                <td><a th:text="${list.title}" th:href="@{/member/cs/help/qna/view(id=${list.questionId})}"></a></td>
                                 <td th:if="${list.questionType} == 'MA1'" th:text="가계부"></td>
                                 <td th:if="${list.questionType} == 'MA2'" th:text="중고거래"></td>
                                 <td th:if="${list.questionType} == 'MA3'" th:text="알뜰모임"></td>

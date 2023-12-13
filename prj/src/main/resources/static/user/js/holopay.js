@@ -8,6 +8,14 @@ function checkAmount() {
   let amountNum = document.getElementById('amountNum').value;
   console.log(amountName);
   console.log(amountNum);
+  if (amountNum == "") {
+    Swal.fire({
+      title: "",
+      text: "계좌번호를 입력해 주세요",
+      icon: "error",
+    })
+    return;
+  }
   let memberFinanceInfo = {
     "bankname": amountName,
     "account": amountNum
@@ -39,17 +47,23 @@ let rechargeBtn = document.getElementById('callHoloPayRechargeApiBtn');
 rechargeBtn.addEventListener('click', rechargeCheck);
 function rechargeCheck() {
   let rechargePrice = document.getElementById('rechargePrice').value;
-  if (rechargePrice < 10000) {
+  if (rechargePrice < 10000 && rechargePrice > 0) {
     Swal.fire({
       title: "",
       text: "최소 충전금액은 10,000원 입니다.",
       icon: "info",
-      closeOnClickOutside: false
-    }).then(function () {
 
     })
+  } else if (rechargePrice <= 0) {
+    Swal.fire({
+      title: "",
+      text: "오류가 발생했습니다.",
+      icon: "error"
+    })
+  } else {
+    callRechargeApi(rechargePrice);
   }
-  callRechargeApi(rechargePrice);
+
 }
 //api 호출부
 function callRechargeApi(rechargePrice) {
@@ -68,7 +82,9 @@ function callRechargeApi(rechargePrice) {
     //let data = JSON.parse(response)
     if (data.resultCode == 1) {
       viewIcon = "success"
-    } else if (data.resultCode == 4) {
+    } else if (data.resultCode == 3
+             || data.resultCode == 4  
+             || data.resultCode == 5) {
       viewIcon = "error"
     }
     Swal.fire({
@@ -243,7 +259,7 @@ function updateTable(data) {
     data.historyList.forEach(function (item, index) {
       let row = $("<tr>");
       row.append($("<td>").text(index + 1));
-      row.append($("<td>").text(item.hpType));
+      row.append($("<td>").text(getTransactionType(item.hpType)));
       row.append($("<td>").text(item.price));
       row.append($("<td>").text(item.holopayComment));
       row.append($("<td>").text(formatDate(item.hpDate)));
@@ -277,6 +293,10 @@ function getTransactionType(type) {
     case 'HP2':
       return '인출';
     // 다른 유형에 대한 처리 추가 가능
+    case 'HP3':
+      return '사용';
+    case 'HP4':
+      return '소득';
     default:
       return type;
   }

@@ -71,6 +71,7 @@
 		FROM club_success_history 
 		WHERE club_id = #{clubId}
 		AND success_state != 'SU3'
+		ORDER BY goal_id
 	</select>
 
   </mapper>

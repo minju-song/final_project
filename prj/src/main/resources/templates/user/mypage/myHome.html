@@ -58,7 +58,14 @@
 		
 			<div id="holopayWrap">
 				<div class="dp_flex">
-					<span><img class="coin_icon" alt="코인아이콘" th:src="@{/user/images/trade/credit-card.svg}">홀로페이·포인트 보유현황</span>
+					<span>
+						<!-- <img class="coin_icon" alt="코인아이콘" th:src="@{/user/images/trade/credit-card.svg}"> -->
+						홀로페이·포인트 보유현황
+					</span>
+				</div>
+				<div class="balance_warp">
+					<p><span class="title">홀로페이</span><span class="text-right" th:text="${#numbers.formatInteger(hpBalance, 0, 'COMMA')} + 원"></span></p>
+					<p><span class="title">포인트</span><span class="text-right" th:text="${#numbers.formatInteger(ptBalance, 0, 'COMMA')} + 원"></span></p>
 				</div>
 			</div>
 		</div>

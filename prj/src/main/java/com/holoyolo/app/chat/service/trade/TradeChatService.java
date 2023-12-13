@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.holoyolo.app.attachment.mapper.AttachmentMapper;
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.chat.mapper.TradeChatRoomMapper;
 import com.holoyolo.app.member.mapper.MemberMapper;
 import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.trade.mapper.TradeMapper;
 import com.holoyolo.app.trade.service.TradeVO;
 
 import groovy.util.logging.Slf4j;
@@ -28,6 +31,12 @@ public class TradeChatService {
 	
 	@Autowired
 	MemberMapper memberMapper;
+	
+	@Autowired
+	TradeMapper tradeMapper;
+	
+	@Autowired
+	AttachmentMapper attachmentMapper;
 	
 	 private Map<Integer, TradeChatRoomVO> tradeChatRooms = new LinkedHashMap<>();
 	 
@@ -100,20 +109,37 @@ public class TradeChatService {
 			
 			List<TradeChatRoomVO> list = tradeChatRoomMapper.getMyChattings(id);
 			for(int i = 0; i < list.size(); i++) {
-				if (list.get(i).getBuyerId().equals(id)) {
-					MemberVO you = memberMapper.selectUser(list.get(i).getSellerId());
-					list.get(i).setYou(you);
+				MemberVO you = new MemberVO();
+				if(list.get(i).getBuyerId() != null && list.get(i).getSellerId() != null) {					
+					if (list.get(i).getBuyerId().equals(id)) {
+						you = memberMapper.selectUser(list.get(i).getSellerId());
+					}
+					else if(list.get(i).getSellerId().equals(id)) {
+						you = memberMapper.selectUser(list.get(i).getBuyerId());
+					}
 				}
-				else {
-					MemberVO you = memberMapper.selectUser(list.get(i).getBuyerId());
-					list.get(i).setYou(you);
-				}
+				list.get(i).setYou(you);
 			}
 			
 			System.out.println(list);
 			
 			
 			map.put("list", list);
+			return map;
+		}
+		
+		//중고거래채팅방이동
+		public Map<String, Object> tradeChatPage(TradeVO tradeVO){
+			Map<String, Object> map = new HashMap<>();
+			
+			//채팅내역
+			List<TradeChatVO> list = tradeChatRoomMapper.getChat(tradeVO.getTradeId());
+			map.put("chats", list);
+			//상품이미지
+			AttachmentVO img = new AttachmentVO();
+			img = attachmentMapper.getItemImage(tradeVO.getTradeId());
+			map.put("img", img);
+			
 			return map;
 		}
 		

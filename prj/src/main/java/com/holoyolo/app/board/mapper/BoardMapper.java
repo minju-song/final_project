@@ -29,4 +29,7 @@ public interface BoardMapper {
 
 	public int getTotalBoardSurfRecords(BoardVO vo);
 
+	public List<BoardVO> myBoardList(BoardVO vo);
+	
+	public List<BoardVO> myReplyBoardList(BoardVO vo);
 }

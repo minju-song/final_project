@@ -11,7 +11,7 @@
 <body>
 	<div layout:fragment="content" id="container">
 		<div class="chattingInfo">
-			<h4>
+			<h4 class="buy_sell">
 				<span class="type" th:if="${#authentication.Principal.memberVO.memberId != result.trade.sellerId}">
 					구매
 				</span>
@@ -20,56 +20,99 @@
 				</span>
 				[[${result.trade.title}]]
 			</h4>
-			<div class="youInfo" style="display: flex;">
-				<div style="flex: 1; align-content: center;">
-					<img th:src="@{/images/}+${you.profileImg}" style="width: 50px; height: 50px; border-radius: 50px;">
-				</div>
-				<div style="flex: 4;">
-					<h4>[[${you.nickname}]]</h4>
-					<h5>[[${you.addr}]]</h5>
+			<div class="youInfo">
+				<h4 class="tradeText">거래자</h4>
+				<div class="profileDiv">
+					<div class="profileImg">
+						<th:block th:if="${you.profileImg == null}">
+							<img src="/user/images/trade/user.png" alt="..." class="profile">
+						</th:block>
+						<th:block th:if="${you.profileImg != null}">
+							<img th:src="@{/images/}+${you.profileImg}">
+						</th:block>
+
+					</div>
+					<div class="profileInfo">
+						<th:block th:if="${you.memberId != null}">
+							<h4>[[${you.nickname}]]</h4>
+							<h5>[[${you.addr}]]</h5>
+						</th:block>
+						<th:block th:if="${you.memberId == null}">
+							<h4>알 수 없음</h4>
+							<h5></h5>
+						</th:block>
+					</div>
 				</div>
 			</div>
-			<div>
-				[[${result.trade.tradeCategoryName}]]
+			<div class="imgDiv">
+				<img th:src="@{/images/}+${result.img.saveFile}">
+			</div>
+			<div class="boardInfo">
 				<div th:text="${'작성일 : '+#dates.format(result.trade.writeDate, 'yyyy. MM. dd HH:mm')}"></div>
+				<span th:text="${result.trade.tradeCategoryName}"></span> &#8226;
+				<span class="type" th:text="|${#numbers.formatInteger(result.trade.price, 0, 'COMMA')}원|"></span>
 			</div>
-			<div>
-				<span th:text="|${#numbers.formatInteger(result.trade.price, 0, 'COMMA')}원|"></span>
+			<div th:if="${result.trade.promiseStatus eq '거래중'}" class="promiseStatus btn-danger">
+				<span>[[${result.trade.promiseStatus}]]</span>
+			</div>
+			<div th:if="${result.trade.promiseStatus eq '거래완료'}" class="promiseStatus btn-secondary">
+				<span>[[${result.trade.promiseStatus}]]</span>
 			</div>
 			<div>
 				<div class="tradeType" th:if="${result.trade.tradeType eq 'TA1'}">
-					<span>직거래</span>
-					<span>[[${result.trade.tradePlace}]]</span>
+					<span class="tradeText">직거래</span>
+					<span>약속장소 : [[${result.trade.tradePlace}]]</span>
 				</div>
 				<div class="tradeType" th:if="${result.trade.tradeType eq 'TA2'}">
-					비대면
+					<span class="tradeText">비대면</span>
 				</div>
 			</div>
-			<button class="btn btn-primary"
-				th:onclick="|location.href='@{/member/tradeInfo(tradeId=${result.trade.tradeId},sellerId=${result.trade.sellerId})}'|">
-				중고거래 페이지로
-			</button>
+			<div th:if="${result.trade.paymentType eq 'TC1'}">
+				<span>결제방식 : </span>
+				<span>만나서 결제</span>
+			</div>
+			<div th:if="${result.trade.paymentType eq 'TC2'}">
+				<span>결제방식 : </span>
+				<span>홀로페이 결제</span>
+			</div>
+			<div class="GoTradeBtn">
+				<button class="btn btn-primary"
+					th:onclick="|location.href='@{/member/tradeInfo(tradeId=${result.trade.tradeId},sellerId=${result.trade.sellerId})}'|">
+					중고거래 페이지로
+				</button>
+			</div>
 		</div>
 		<div class="chattingBox">
 			<div id="chattingDiv">
 
 			</div>
-			<div class="send-div">
-				<textarea id="sendArea"></textarea>
-				<button class="btn btn-warning" id="sendChat" onclick="sendMsg()">전송</button>
-			</div>
+			<th:block th:if="${you.memberId != null}">
+				<div class="send-div">
+					<textarea id="sendArea"></textarea>
+					<button class="btn btn-warning" id="sendChat" onclick="sendMsg()">전송</button>
+				</div>
+			</th:block>
+			<th:block th:if="${you.memberId == null}">
+				<div class="send-div">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 100%;">
+						<div>
+							상대방이 채팅방을 퇴장하였습니다.
+						</div>
+					</div>
+				</div>
+			</th:block>
 		</div>
 
 
 		<script th:inline="javascript">
 			let you = /*[[${you}]]*/ null;
-			console.log(you);
 			let trade = /*[[${result.trade}]]*/ null;
-			console.log(trade);
 			let memberId = /*[[${member.memberId}]]*/ null;
 			let memberName = /*[[${member.memberName}]]*/ null;
 			let room = /*[[${room}]]*/ null;
-			let chats = /*[[${chats}]]*/ null;
+			let chats = /*[[${result.chats}]]*/ null;
+			let img = /*[[${result.img}]]*/ null;
+			console.log(you);
 		</script>
 		<script th:src="@{/user/js/tradeChat.js}"></script>
 

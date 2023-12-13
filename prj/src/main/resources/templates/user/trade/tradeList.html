@@ -60,6 +60,10 @@
             <ul class="pagination" id="pagination" style="text-align: center;"></ul>
         </nav>
         <script th:src="@{/user/js/trade.js}"></script>
+        <script th:inline="javascript">
+        	let memberId = [[${member}]];
+        	console.log(memberId)
+        </script>
 	</div>
 </body>
 </html>

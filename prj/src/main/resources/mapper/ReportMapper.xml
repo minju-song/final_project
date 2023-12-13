@@ -82,6 +82,20 @@ SELECT *
 		FROM report
 		WHERE report_id = #{reportId}
   	</select>
+  	<select id="selectReportBoardInfo" resultType="BoardVO" parameterType="ReportVO">
+  		SELECT title
+  			   <if test="menuType != '중고거래'">, content</if>
+  			   <if test="menuType == '중고거래'">, description as content</if>
+  			   , write_date
+  		<if test="menuType == '중고거래'">FROM trade</if>
+  		<if test="menuType != '중고거래'">FROM board</if>
+  		<where>
+  			<if test="menuType == '정보공유'">AND menu_type = 'AA2'</if>
+  			<if test="menuType == '수다방'">AND menu_type = 'AA3'</if>
+  			<if test="menuType != '중고거래'">AND board_id = #{postId}</if>
+  			<if test="menuType == '중고거래'">trade_id = #{postId}</if>
+  		</where>
+  	</select>
   	
   	<update id="updateReportReason" parameterType="ReportVO">
   		UPDATE report SET

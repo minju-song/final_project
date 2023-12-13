@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.holoyolo.app.auth.PrincipalDetails;
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.member.service.MemberService;
 import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.report.service.ReportService;
@@ -52,6 +53,7 @@ public class ReportController {
 	public String selectReportInfo(ReportVO reportVO, Model model) {
 		Map<String, Object> reportInfo = reportService.selectReportInfo(reportVO);
 		model.addAttribute("reportInfo", reportInfo.get("reportInfo"));
+		model.addAttribute("boardInfo", reportInfo.get("boardInfo"));
 		return "admin/report/reportDetail";
 	}
 

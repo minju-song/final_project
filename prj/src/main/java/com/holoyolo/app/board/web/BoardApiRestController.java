@@ -22,7 +22,7 @@ public class BoardApiRestController {
 
 	@GetMapping("/api/board/{boardId}")
 	public BoardVO selectPostInfo(@PathVariable final int boardId) {
-		System.out.println(boardId);
+		
 		boardService.addView(boardId);
 		return boardService.selectBoard(boardId);
 	}

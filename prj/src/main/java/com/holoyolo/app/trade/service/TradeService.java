@@ -32,8 +32,11 @@ public interface TradeService {
 	//중고거래 이미지 수정(insert)
 	public int updateTradeImg(TradeVO tradeVO, List<AttachmentVO> imgList);
 	
-	//포인트, 홀로페이 등록
+	//포인트, 홀로페이 등록(구매자)
 	public Map<String, Object> insertPayPoint(MemberVO memberVO);
+	
+	//포인트, 홀로페이 등록(판매자)
+		public Map<String, Object> insertPayPointSeller(MemberVO memberVO);
 	
 	//마이페이지 전체조회
 	public List<TradeVO> selectMyTradeList(TradeVO tradeVO);

@@ -13,7 +13,7 @@ $(document).ready(function () {
 			method: "GET",
 			data: { reportId },
 			success: function (data) {
-			console.log(data)
+			console.log(data);
 				let originContent = data.reportInfo.processComment
 				let reporterId = data.reportInfo.reporterId
 				let reportedId = data.reportInfo.reportedId
@@ -169,6 +169,7 @@ $(document).ready(function () {
 			method: "GET"
 		})
 			.done(function (data) {
+
 console.log(data)
 				// 목록출력 
 				let reportData = data.list;
