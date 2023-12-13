@@ -109,7 +109,7 @@ public class TradeServiceImpl implements TradeService {
 		return result;
 	}
 
-	//포인트, 홀로페이 등록
+	//포인트, 홀로페이 등록(구매자)
 	@Override
 	public Map<String, Object> insertPayPoint(MemberVO memberVO) {
 		Map<String, Object> map = new HashMap<>();
@@ -124,6 +124,22 @@ public class TradeServiceImpl implements TradeService {
 		map.put("info", memberVO);
 		return map;
 	}
+	
+	//포인트, 홀로페이 등록(판매자)
+		@Override
+		public Map<String, Object> insertPayPointSeller(MemberVO memberVO) {
+			Map<String, Object> map = new HashMap<>();
+			boolean isSucceed = false;
+			
+			int result = tradeMapper.insertPayPointSeller(memberVO);
+			if(result == 1) {
+				isSucceed = true;
+			}
+			
+			map.put("result", isSucceed);
+			map.put("info", memberVO);
+			return map;
+		}
 
 	//마이페이지 전체조회
 	@Override

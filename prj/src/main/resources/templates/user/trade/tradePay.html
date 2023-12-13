@@ -19,16 +19,17 @@
 			<div class="row holoPaywrap" style="margin-bottom: 50px;">
 				<div class="row w-100 watchwrap fontStyle">
 					<h3><img class="payImg form-label" th:src="@{/user/images/trade/coin.png}">홀로페이·포인트</h3>
-					<h3 class="myPrice" th:text="|보유 : ${#numbers.formatInteger((pointCnt + holoPayCnt), 0, 'COMMA')} 원|"></h3>
+					<h3 class="myPrice" th:text="|보유 페이 : ${#numbers.formatInteger(holoPayCnt, 0, 'COMMA')} 원|"></h3>
 				</div>
-				<div class="row w-100 watchwrap fontStyle">
+				<p style="margin:10px 0 0 0;">사용 후 남은 보유 금액</p>
+				<div class="row w-100 watchwrap fontStyle" style="margin-top:0">
 				<img class="payImg form-label lineStyle" th:src="@{/user/images/trade/line.png}">
-					<div>포인트</div>
+					<div >포인트</div>
 					<div class="form-label oriPoint" th:text="|${#numbers.formatInteger(pointCnt, 0, 'COMMA')}  P|"></div>
 				</div>
 				<div class="row w-100 watchwrap fontStyle2">
 					<div>홀로페이</div>
-					<div class="form-label oriHoloPay" th:text="|${#numbers.formatInteger(holoPayCnt, 0, 'COMMA')} 원|"></div>
+					<div class="form-label oriHoloPay" th:text="|${#numbers.formatInteger((holoPayCnt - price), 0, 'COMMA')} 원|"></div>
 				</div>
 				<div class="row">
 					<div class="input-group mb-3 row w-100 watchwrap fontStyle2" style="margin-bottom: -5px !important;">
@@ -71,6 +72,7 @@
 			let holoPayCnt = [[${holoPayCnt}]];
 			let price = [[${price}]];
 			let tradeId = [[${tradeId}]];
+			let sellerId = [[${sellerId}]];
 		</script>
 		<script src="/user/js/tradePay.js"></script>
 	</div>

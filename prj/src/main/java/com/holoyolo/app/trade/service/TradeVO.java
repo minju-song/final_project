@@ -42,6 +42,8 @@ public class TradeVO {
 	private String profileImg;
 	private String tradeCategoryName;
 	private String tradeTypeName;
+	private String paymentTypeName;
+	private String promiseStatusName;
 	
 	private String saveFile;
 	

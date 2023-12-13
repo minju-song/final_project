@@ -26,8 +26,10 @@
 		        , t.trade_place
 		        , fn_get_code_name(trade_type) as trade_type_name
 		        , trade_type
+		        , fn_get_code_name(payment_type) as payment_type_name
 		        , t.payment_type
-		        , fn_get_code_name(promise_status) as promise_status
+		        , fn_get_code_name(promise_status) as promise_status_name
+		        , promise_status
 		        , t.views
 		        , t.write_date
 		        , t.latitude
@@ -100,7 +102,6 @@
 			description = #{description},
 			trade_category = #{tradeCategory},
 			price = #{price},
-			open_kakao = #{openKakao},
 			trade_place = #{tradePlace},
 			trade_type = #{tradeType},
 			payment_type = #{paymentType},
@@ -159,11 +160,11 @@
 			FROM (
 				SELECT t.trade_id
 				        , t.title
-				        , t.description
 				        , fn_get_code_name(trade_category) as trade_category
 				        , t.price
 				        , t.trade_place
 				        , fn_get_code_name(trade_type) as trade_type
+				        , fn_get_code_name(payment_type) as payment_type
 				        , fn_get_code_name(promise_status) as promise_status
 				        , t.write_date
 				        , t.seller_id
@@ -205,11 +206,20 @@
 			</if>
 	</sql>
 	
-	<!-- 포인트, 홀로페이 등록 -->
+	<!-- 포인트, 홀로페이 등록(구매자) -->
 	<insert id="insertPayPoint" parameterType="memberVO">
 		{call insert_pay_point(
 			#{memberId, mode=IN, jdbcType=VARCHAR},
 			#{point, mode=IN, jdbcType=INTEGER},
+			#{tradeId, mode=IN, jdbcType=INTEGER},
+			#{holoPay, mode=IN, jdbcType=INTEGER}
+		)}
+	</insert>
+	
+	<!-- 포인트, 홀로페이 등록(판매자) -->
+	<insert id="insertPayPointSeller" parameterType="memberVO">
+		{call insert_pay_point_seller(
+			#{memberId, mode=IN, jdbcType=VARCHAR},
 			#{tradeId, mode=IN, jdbcType=INTEGER},
 			#{holoPay, mode=IN, jdbcType=INTEGER}
 		)}

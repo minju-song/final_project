@@ -112,7 +112,6 @@ public class QuestionController {
 			loginId = principalDetails.getUsername();
 		}
 		
-
 //		QuestionVO vo = questionService.selectQuestionInfo(boardId);
 //		attachmentVO.setPostId(boardId);
 //		attachmentVO.setMenuType("AA6");
@@ -120,7 +119,9 @@ public class QuestionController {
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
 		System.out.println(returnMap);
 		mo.addAttribute("menu", "cs");
-//		mo.addAttribute("boardVO", vo);
+
+		//mo.addAttribute("boardVO", vo);
+
 		mo.addAttribute("loginId", loginId);
 		mo.addAttribute("noticeImg", returnMap.get("imgList"));
 		mo.addAttribute("noticeAttach", returnMap.get("attachList"));
