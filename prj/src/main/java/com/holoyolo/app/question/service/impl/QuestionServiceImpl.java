@@ -154,4 +154,39 @@ public class QuestionServiceImpl implements QuestionService {
 		
 		return questionMapper.selectQuestion(questionId);
 	}
+
+	@Override
+	@Transactional
+	public int updateQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
+		// 기존 첨부파일 삭제
+		attachmentService.deleteQNAAttachment(questionVO);
+		// 본문 내용 UPDATE
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + questionVO);
+		int result = questionMapper.updateQuestion(questionVO);
+		// 이미지 및 첨부파일 새로 등록
+		if (imgList != null) {
+			for (AttachmentVO vo : imgList) {
+				vo.setMenuType("AA8");
+				vo.setPostId(questionVO.getQuestionId());
+				attachmentService.insertAttachment(vo);
+			}
+		}
+
+		if (attachList != null) {
+			for (AttachmentVO vo : attachList) {
+				vo.setMenuType("AA8");
+				vo.setPostId(questionVO.getQuestionId());
+				System.out.println(attachList);
+				attachmentService.insertAttachment(vo);
+			}
+		}
+
+		if (result == 1) {
+			return questionVO.getQuestionId();
+		} else {
+			return -1;
+		}
+
+	}
+
 }

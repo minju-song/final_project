@@ -24,13 +24,26 @@
 	<div layout:fragment="content">
 		<div class="card">
 			<div class="card-body">
-				<form class="row g-3" th:action="@{/question/update}" method="POST" th:object="${question}"
+				<form class="row g-3" th:action="@{/question/update}" method="POST" th:object="${questionVO}"
 					enctype="multipart/form-data">
-					<input type="hidden" th:field="*{questionId}" />
+					<input type="hidden" th:field="${questionVO.questionId}" />
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
 						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required
-							th:field="*{title}" th:text="*{title}">
+							th:field="*{title}">
+					</div>
+					<div class="input-group col-6">
+						<span> 문의 유형 :</span>
+						<select id="questionType" class="col-3 input-group-text" th:field="*{questionType}">
+							<option value="MA1">가계부</option>
+							<option value="MA2">중고거래</option>
+							<option value="MA3">알뜰모임</option>
+							<option value="MA4">커뮤니티</option>
+							<option value="MA5">메모</option>
+							<option value="MA6">홀로페이</option>
+							<option value="MA7">포인트</option>
+							<option value="MA8">기타</option>
+						</select>
 					</div>
 					<div class="col-12 writeInput">
 						<textarea class="form-control" id="description" style="height: 300px;" required
@@ -41,7 +54,7 @@
 						<label for="tradeImg" class="form-label">이미지<span class="star">*</span></label>
 						<div class="imgFlex">
 							<img class="tradeImgPlus" id="noticeImg" th:src="@{/user/images/trade/photo.png}">
-							<input class="real_file" name="imageFiles" type="file" accept="image/*"  multiple />
+							<input class="real_file" name="imageFiles" type="file" accept="image/*" multiple />
 							<div class="file-list"></div>
 						</div>
 

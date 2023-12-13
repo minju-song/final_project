@@ -46,4 +46,6 @@ public interface QuestionService {
 	public int insertQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
 
 	public QuestionVO selectQuestion(int questionId);
+	
+	public int updateQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
 }

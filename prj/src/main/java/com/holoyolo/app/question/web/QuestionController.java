@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.question.service.QuestionService;
 import com.holoyolo.app.question.service.QuestionVO;
 
@@ -85,6 +86,7 @@ public class QuestionController {
 //문의 등록 페이지
 	@GetMapping("/member/cs/help/question/insert")
 	public String insertQuestionPage(Model mo, QuestionVO questionVO) {
+		mo.addAttribute("questionVO", questionVO);
 		mo.addAttribute("boardType", "1:1문의");
 		mo.addAttribute("menu", "cs");
 		return "user/cs/questionInsert";
@@ -152,13 +154,12 @@ public class QuestionController {
 
 	@GetMapping("/cs/help/question/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
-			int questionId, Model mo) {
+		@RequestParam(name="boardId")	int questionId, Model mo, QuestionVO questionVO) {
 		String loginId = "not found";
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
-		QuestionVO questionVO = new QuestionVO();
 		questionVO = questionService.selectQuestion(questionId);
 		mo.addAttribute("loginId", loginId);
 		mo.addAttribute("menu", "cs");
@@ -168,5 +169,18 @@ public class QuestionController {
 
 		return "user/cs/questionUpdate";
 	}
+	
+	// 수정등록
+		@PostMapping("/question/update")
+		public String noticeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
+				@RequestParam("imageFiles") MultipartFile[] imageFiles,
+				@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+			
+			List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
+			List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
+			questionVO.setMemberId(principalDetails.getUsername());
+			questionService.updateQuestion(questionVO, imgList, attachList);
+			return "redirect:/member/cs/help/question";
+		}
 
 }

@@ -123,4 +123,14 @@
 		FROM QUESTION
 		WHERE QUESTION_ID = #{questionId}
 	</select>
+	
+	<update id="updateQuestion" parameterType="QuestionVO">
+		UPDATE QUESTION
+		SET 
+		 TITLE = #{title}, 
+		 CONTENT = #{content},  
+		 UPDATE_DATE = sysdate
+		WHERE QUESTION_ID = #{questionId}
+		AND QUESTION_TYPE = #{questionType} 
+	</update>
 </mapper>

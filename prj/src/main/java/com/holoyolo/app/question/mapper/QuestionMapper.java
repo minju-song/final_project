@@ -41,5 +41,8 @@ public interface QuestionMapper {
 	public int myQuestionCnt(String memberId);
 
 	public QuestionVO selectQuestion(int questionId);
+	
+	public int updateQuestion(QuestionVO questionVO);
+
 
 }
