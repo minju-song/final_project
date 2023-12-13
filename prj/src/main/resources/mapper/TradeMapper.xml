@@ -23,7 +23,7 @@
 		        , fn_get_code_name(trade_category) as trade_category_name
 		        , trade_category
 		        , t.price
-		        , t.open_kakao
+		        
 		        , t.trade_place
 		        , fn_get_code_name(trade_type) as trade_type_name
 		        , trade_type

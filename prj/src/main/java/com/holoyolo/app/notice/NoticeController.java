@@ -86,9 +86,7 @@ public class NoticeController {
 		BoardVO vo = boardService.selectBoard(boardId);
 		attachmentVO.setPostId(boardId);
 		attachmentVO.setMenuType("AA6");
-
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
-		System.out.println(returnMap);
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("boardVO", vo);
 		mo.addAttribute("loginId", loginId);
@@ -127,7 +125,6 @@ public class NoticeController {
 	public String noticeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles,
 			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
-		System.out.println(boardVO);
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "notice");
 		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "noticeAttach");
 		boardVO.setMemberId(principalDetails.getUsername());
@@ -188,6 +185,5 @@ public class NoticeController {
 		}
 		return resultMap;
 	}
-	
-	
+
 }

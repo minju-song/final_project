@@ -151,7 +151,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public QuestionVO selectQuestion(int questionId) {
-		
+
 		return questionMapper.selectQuestion(questionId);
 	}
 
@@ -161,7 +161,6 @@ public class QuestionServiceImpl implements QuestionService {
 		// 기존 첨부파일 삭제
 		attachmentService.deleteQNAAttachment(questionVO);
 		// 본문 내용 UPDATE
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + questionVO);
 		int result = questionMapper.updateQuestion(questionVO);
 		// 이미지 및 첨부파일 새로 등록
 		if (imgList != null) {
@@ -176,7 +175,6 @@ public class QuestionServiceImpl implements QuestionService {
 			for (AttachmentVO vo : attachList) {
 				vo.setMenuType("AA8");
 				vo.setPostId(questionVO.getQuestionId());
-				System.out.println(attachList);
 				attachmentService.insertAttachment(vo);
 			}
 		}

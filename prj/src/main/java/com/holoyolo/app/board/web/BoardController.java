@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +38,7 @@ public class BoardController {
 			username = (String) prd.getUsername();
 		}
 		// 게시물 로드
-		List<BoardVO> history = boardService.BoardList("AA2", "","");
+		List<BoardVO> history = boardService.BoardList("AA2", "", "");
 		if (history.size() != 0) {
 			mo.addAttribute("boardList", history);
 		} else {
@@ -74,7 +76,6 @@ public class BoardController {
 	@PostMapping("/boardLoad")
 	@ResponseBody
 	public Map<String, Object> infoBoardLoad(@RequestBody JSONObject req) {
-		System.out.println(req);
 		List<BoardVO> resultList = boardService.searchBoardPaged(req);
 		int totalRecords = boardService.getTotalBoardRecords(req);
 		Map<String, Object> result = new HashMap<>();
@@ -138,7 +139,7 @@ public class BoardController {
 			username = (String) prd.getUsername();
 		}
 		// 게시물 로드
-		List<BoardVO> history = boardService.BoardList("AA1","","");
+		List<BoardVO> history = boardService.BoardList("AA1", "", "");
 		if (history.size() != 0) {
 			mo.addAttribute("boardList", history);
 		} else {
@@ -160,12 +161,11 @@ public class BoardController {
 		result.put("board", vo);
 		return result;
 	}
-	
-	//검색
+
+	// 검색
 	@PostMapping("/searchBoardLoad")
 	@ResponseBody
 	public Map<String, Object> searchBoardLoad(@RequestBody JSONObject req) {
-		System.out.println(req);
 		List<BoardVO> resultList = boardService.searchBoardSurfPaged(req);
 		int totalRecords = boardService.getTotalBoardSurfRecords(req);
 		Map<String, Object> result = new HashMap<>();
@@ -175,6 +175,18 @@ public class BoardController {
 		return result;
 	}
 
-	
-	
+	// 마이페이지
+	@GetMapping("/member/myCommunity")
+	public String myCommList(Model mo, @AuthenticationPrincipal PrincipalDetails prd,
+			@PageableDefault(size = 10) Pageable pageable) {
+		List<BoardVO> infoList = boardService.BoardList("AA2", "", "");
+		List<BoardVO> chatList = boardService.BoardList("AA3", "", "");
+
+		
+		mo.addAttribute("infoList", infoList);
+		mo.addAttribute("chatList", chatList);
+		
+		return "user/mypage/myCommunity";
+	}
+
 }

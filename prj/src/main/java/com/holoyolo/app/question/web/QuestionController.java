@@ -78,7 +78,7 @@ public class QuestionController {
 
 		// 뷰에 결과 전달
 		mo.addAttribute("qnaList", list);
-
+//mo.addAttribute("page",list);
 		mo.addAttribute("menu", "cs");
 		return "user/cs/questionList";
 	}
@@ -121,7 +121,6 @@ public class QuestionController {
 		attachmentVO.setPostId(questionVO.getQuestionId());
 		attachmentVO.setMenuType("AA8");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
-		System.out.println(returnMap);
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("questionVO", vo.get("questionInfo"));
 		mo.addAttribute("loginId", loginId);
@@ -154,7 +153,7 @@ public class QuestionController {
 
 	@GetMapping("/cs/help/question/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
-		@RequestParam(name="boardId")	int questionId, Model mo, QuestionVO questionVO) {
+			@RequestParam(name = "boardId") int questionId, Model mo, QuestionVO questionVO) {
 		String loginId = "not found";
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
@@ -169,18 +168,18 @@ public class QuestionController {
 
 		return "user/cs/questionUpdate";
 	}
-	
+
 	// 수정등록
-		@PostMapping("/question/update")
-		public String noticeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
-				@RequestParam("imageFiles") MultipartFile[] imageFiles,
-				@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
-			
-			List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
-			List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
-			questionVO.setMemberId(principalDetails.getUsername());
-			questionService.updateQuestion(questionVO, imgList, attachList);
-			return "redirect:/member/cs/help/question";
-		}
+	@PostMapping("/question/update")
+	public String noticeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
+			@RequestParam("imageFiles") MultipartFile[] imageFiles,
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+
+		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
+		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
+		questionVO.setMemberId(principalDetails.getUsername());
+		questionService.updateQuestion(questionVO, imgList, attachList);
+		return "redirect:/member/cs/help/question";
+	}
 
 }

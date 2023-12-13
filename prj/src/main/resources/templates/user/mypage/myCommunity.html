@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="/user/css/myinfo.css">
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+	<style>
+		.sorting {
+			float: none;
+		}
+	</style>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<table id="userList" class="table datatable table-hover">
+			<thead>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="odd" th:if="${infoList.size == 0}">
+					<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+				</tr>
+				<tr th:each="info, stat : ${infoList}">
+
+					<td th:text="${info.title}"
+						th:onclick="|location.href='@{/member/board/view(boardId=${info.boardId})}'|"></td>
+					<td th:text="${info.nickname}"></td>
+					<td th:text="${info.likeCount}"></td>
+					<td th:text="${info.views}"></td>
+					<td th:text="${#dates.format(info.writeDate, 'yyyy-MM-dd')}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table id="userList" class="table datatable table-hover">
+			<thead>
+				<tr>
+					<th>순번</th>
+					<th>제목</th>
+					<th>카테고리</th>
+					<th>가격</th>
+					<th>거래상태</th>
+					<th>날짜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="odd" th:if="${chatList.size == 0}">
+					<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+				</tr>
+				<tr th:each="chat, stat : ${chatList}">
+				
+					<td th:text="${chat.nickname}"></td>
+					<td th:text="${chat.likeCount}"></td>
+					<td th:text="${chat.views}"></td>
+					<td th:text="${#dates.format(chat.writeDate, 'yyyy-MM-dd')}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</th:block>
+</body>
+
+</html>
