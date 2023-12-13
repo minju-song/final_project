@@ -19,6 +19,7 @@ public class TradeChatRoomVO {
 	private String title;
 	private int notread;
 	private String lastchat;
+	private String promiseStatus;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date lastChatTime;

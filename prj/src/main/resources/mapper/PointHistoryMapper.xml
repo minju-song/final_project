@@ -22,8 +22,30 @@
    
    <!-- 포인트 내역 조회 -->
    <select id="getPointHistory" resultType="PointHistoryVO">
-   		SELECT * 
-   		FROM point_history 
+   		SELECT 
+   			p.p_history_id
+   			, fn_get_code_name(p.point_type) as point_type
+   			, p.point_date
+   			, p.price
+   			, (
+                select club_name
+                from club
+                where club_id = p.club_id
+                ) as club_name 
+            , NVL(club_id, -1) as club_id
+   			, (
+                select title
+                from trade
+                where trade_id = p.trade_id
+                ) as title
+            , NVL(trade_id, -1) as trade_id
+            , (
+                select trade.seller_id
+                from trade
+                where trade_id = p.trade_id
+                ) as seller_id
+   			, member_id
+   		FROM point_history p 
    		WHERE member_id = #{memberId}
    		ORDER BY p_history_id desc
    </select>

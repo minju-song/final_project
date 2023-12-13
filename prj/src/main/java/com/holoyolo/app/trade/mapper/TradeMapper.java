@@ -2,6 +2,7 @@ package com.holoyolo.app.trade.mapper;
 
 import java.util.List;
 
+import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.member.service.MemberVO;
 import com.holoyolo.app.trade.service.TradeVO;
 
@@ -44,4 +45,6 @@ public interface TradeMapper {
 	
 	//마이페이지 전체조회
 	public List<TradeVO> selectMyTradeList(TradeVO tradeVO);
+	
+
 }

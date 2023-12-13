@@ -17,7 +17,7 @@ $(document).ready(function () {
             let last = document.getElementById(data.tradeId).querySelector('.lastchat');
             console.log(notread);
             notread.innerText = Number(notread.innerText) + 1;
-            last.innerHTML = '&#128140;' + data.msg;
+            last.innerHTML = '마지막 메시지 : ' + data.msg;
 
             notread.style.display = 'inline-block';
         }
@@ -29,3 +29,22 @@ $(document).ready(function () {
 });/**
  * 
  */
+
+
+//채팅방나가기
+function deleteChat(chatId) {
+    console.log(chatId + '채팅 삭제하고싶음');
+    Swal.fire({
+        title: "채팅방을 나가시겠습니까?",
+        text: "즉시 채팅방이 삭제됩니다.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+        }
+    })
+}
