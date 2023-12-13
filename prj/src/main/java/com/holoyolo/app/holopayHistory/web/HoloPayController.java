@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.JsonObject;
 import com.holoyolo.app.auth.PrincipalDetails;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryService;
 import com.holoyolo.app.holopayHistory.service.HoloPayHistoryVO;
@@ -56,11 +55,11 @@ public class HoloPayController {
 		MemberVO memberVO = memberService.selectUser(memberId);
 		// 계좌정보
 		MemberFinanceInfoVO financeVO = new MemberFinanceInfoVO();
-		System.out.println(memberId);
+
 		financeVO.setMemberId(memberId);
 		financeVO = memberFinanceInfoService.selectMemberFinanceInfo(financeVO);
-		System.out.println(financeVO);
-		if ( financeVO == null) {
+
+		if (financeVO == null) {
 			mo.addAttribute("financeVO", null);
 		} else {
 			mo.addAttribute("financeVO", financeVO);
@@ -68,7 +67,7 @@ public class HoloPayController {
 			int holoBalance = holoPayHistoryService.holopayBalance(memberVO);
 			mo.addAttribute("payBalance", holoBalance);
 		}
-		//홀로페이 내역
+		// 홀로페이 내역
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		holoPayHistoryVO.setMemberId(memberId);
 		List<HoloPayHistoryVO> history = holoPayHistoryService.holopayHistoryList(holoPayHistoryVO);
@@ -86,9 +85,8 @@ public class HoloPayController {
 
 	@RequestMapping(value = "/apireq", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object>  apireq(@AuthenticationPrincipal PrincipalDetails principalDetails, 
-			                         @RequestBody JSONObject req,			
-			                         Model mo) {
+	public Map<String, Object> apireq(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody JSONObject req, Model mo) {
 
 		String requestTram = (String) req.get("Tram");
 
@@ -96,16 +94,18 @@ public class HoloPayController {
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		// api 호출
 		JSONObject apiResult = holopayRechargeApi.getPosts(apiRequest);
-System.out.println(apiResult);
+
 		JSONObject header = (JSONObject) apiResult.get("Header");
 		String resultStatus = (String) header.get("Rpcd");
 		String resultMsg = "";
-		
+		System.out.println("==============" + resultStatus + "==============");
 		Map<String, Object> returnData = new HashMap<>();
-		if ("00133".equals(resultStatus)) {
-			resultMsg = "잔액이 부족합니다.";
-		}
-		if ("00000".equals(resultStatus)) {
+
+		if (resultStatus.equals("00133")) {
+			resultMsg = "계좌의 잔액이 부족합니다.";
+			returnData.put("resultMsg", resultMsg);
+			returnData.put("resultCode", 5);
+		} else if (resultStatus.equals("00000")) {
 			try {
 				holoPayHistoryVO.setMemberId(principalDetails.getUsername());
 				holoPayHistoryVO.setPrice(Integer.parseInt((String) req.get("Tram")));
@@ -116,36 +116,34 @@ System.out.println(apiResult);
 				formatset = dateformat.parse(RgsnYmd);
 				holoPayHistoryVO.setHpDate(formatset);
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
+				System.out.println(holoPayHistoryVO);
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
 				if (checkResultType == 1) {
 					resultMsg = (String) req.get("Tram") + "원 충전되었습니다.";
-					returnData.put("resultMsg", resultMsg);
 					returnData.put("resultCode", checkResultType);
-				}
-				if (checkResultType == 4) {
+				} else if (checkResultType == 4) {
 					resultMsg = "홀로페이는 1,000,000원 이상 충전할 수 없습니다.";
-					returnData.put("resultMsg", resultMsg);
 					returnData.put("resultCode", checkResultType);
 				}
 
 			} catch (ParseException e) {
-
+				System.out.println("123");
 				e.printStackTrace();
 				return null;
 			}
 		} else {
 			resultMsg = "오류가 발생했습니다. 다시 시도해주세요.//";
-			returnData.put("resultMsg", resultMsg);
 		}
-		
-	
+
+		returnData.put("resultMsg", resultMsg);
+		System.out.println(returnData);
 		return returnData;
 	}
 
 	@RequestMapping(value = "/withdrawapireq", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody JSONObject req,
-			Model mo) {
+	public Map<String, Object> takeOutApi(@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@RequestBody JSONObject req, Model mo) {
 		// 요청 객체 생성
 		MemberFinanceInfoVO memberFinanceInfoVO = new MemberFinanceInfoVO();
 		memberFinanceInfoVO.setMemberId((String) principalDetails.getUsername());
@@ -162,14 +160,13 @@ System.out.println(apiResult);
 		JSONObject header = (JSONObject) apiResult.get("Header");
 		String resultStatus = (String) header.get("Rpcd");
 
-		
 		// 응답 후 데이터 반환
 		String resultMsg = "";
 
 		HoloPayHistoryVO holoPayHistoryVO = new HoloPayHistoryVO();
 		Map<String, Object> returnData = new HashMap<String, Object>();
-		
-		System.out.println("=============="+apiResult+ "==============");
+
+		System.out.println("==============" + apiResult + "==============");
 		if ("00000".equals(resultStatus)) {
 			try {
 				Date formatset;
@@ -180,12 +177,12 @@ System.out.println(apiResult);
 				SimpleDateFormat dateformat = new SimpleDateFormat("yyMMdd");
 				formatset = dateformat.parse(Tsymd);
 				holoPayHistoryVO.setHpDate(formatset);
-				
+
 				holoPayHistoryService.insertHolopayHistory(holoPayHistoryVO);
 
 				int checkResultType = holoPayHistoryVO.getAddPayresultType();
 				System.out.println(checkResultType);
-				
+
 				if (checkResultType == 2) {
 					resultMsg = (String) req.get("Tram") + "원 인출되었습니다.";
 					returnData.put("resultMsg", resultMsg);

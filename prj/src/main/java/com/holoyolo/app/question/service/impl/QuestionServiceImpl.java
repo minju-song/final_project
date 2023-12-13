@@ -92,13 +92,13 @@ public class QuestionServiceImpl implements QuestionService {
 	// 문의 삭제
 	@Override
 	public boolean deleteQuestionInfo(int questionId) {
-		int result = questionMapper.deleteQuestionInfo(questionId);
-
-		if (result == 1) {
-			return true;
+		boolean result;
+		if (questionMapper.deleteQuestionInfo(questionId) == 1) {
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	// 페이징
@@ -124,7 +124,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional
 	public int insertQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
-		
+
 		int result = questionMapper.insertQuestionInfo(questionVO);
 
 		if (imgList != null) {
@@ -148,4 +148,43 @@ public class QuestionServiceImpl implements QuestionService {
 			return -1;
 		}
 	}
+
+	@Override
+	public QuestionVO selectQuestion(int questionId) {
+
+		return questionMapper.selectQuestion(questionId);
+	}
+
+	@Override
+	@Transactional
+	public int updateQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
+		// 기존 첨부파일 삭제
+		attachmentService.deleteQNAAttachment(questionVO);
+		// 본문 내용 UPDATE
+		int result = questionMapper.updateQuestion(questionVO);
+		// 이미지 및 첨부파일 새로 등록
+		if (imgList != null) {
+			for (AttachmentVO vo : imgList) {
+				vo.setMenuType("AA8");
+				vo.setPostId(questionVO.getQuestionId());
+				attachmentService.insertAttachment(vo);
+			}
+		}
+
+		if (attachList != null) {
+			for (AttachmentVO vo : attachList) {
+				vo.setMenuType("AA8");
+				vo.setPostId(questionVO.getQuestionId());
+				attachmentService.insertAttachment(vo);
+			}
+		}
+
+		if (result == 1) {
+			return questionVO.getQuestionId();
+		} else {
+			return -1;
+		}
+
+	}
+
 }

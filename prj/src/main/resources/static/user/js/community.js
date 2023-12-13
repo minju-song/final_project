@@ -75,7 +75,7 @@ function loadData(page, search) {
     let searchOption = ""
     if (location.pathname == "/board/info" || location.pathname == "/board/chat") {
         searchOption = document.getElementById('searchTitle').value
-    }else if(searchBoardSet == "/cs/help/notice" ){
+    } else if (searchBoardSet == "/cs/help/notice") {
         searchOption = document.getElementById('searchTitle').value
     }
 
@@ -118,13 +118,13 @@ function updateTable(data, page) {
 
         data.historyList.forEach(function (item, index) {
             let row = $("<tr>");
-            if(searchBoardSet == "AA2" || searchBoardSet == "AA3"){
-            	// 클릭이벤트 제목에만 처리(전유진)
+            if (searchBoardSet == "AA2" || searchBoardSet == "AA3") {
+                // 클릭이벤트 제목에만 처리(전유진)
                 //row.attr("onclick", `location.href='/member/board/view?boardId=${item.boardId}'`);
-            }else if(searchBoardSet == "AA6"){
+            } else if (searchBoardSet == "AA6") {
                 row.attr("onclick", `location.href='/cs/help/notice/view?boardId=${item.boardId}'`);
             }
-            
+
             if (data.totalRecords > page * recordsPerPage) {
                 row.append($("<td class='board-no'>").text(data.totalRecords - index - (page - 1) * recordsPerPage));
                 // row.append($("<td>").text(index + 1));
@@ -132,9 +132,9 @@ function updateTable(data, page) {
                 row.append($("<td class='board-no'>").text(data.totalRecords - (index + (page - 1) * recordsPerPage)));
             }
             // 클릭이벤트 제목에만 처리(전유진)
-            row.append($("<td class='board-title' onclick="+ `location.href='/member/board/view?boardId=${item.boardId}'` + ">").text(item.title));
+            row.append($("<td class='board-title' onclick=" + `location.href='/member/board/view?boardId=${item.boardId}'` + ">").text(item.title));
             row.append($("<td class='board-date'>").text(formatDate(item.writeDate)).css('text-align', 'center'));
-            if (searchBoardSet == 'AA3'||searchBoardSet == "AA6") {
+            if (searchBoardSet == 'AA3' || searchBoardSet == "AA6") {
 
             } else if (searchBoardSet == 'AA2') {
                 row.append($("<td class='board-nickname'>").text(item.nickname));
@@ -316,9 +316,9 @@ function updateReplyTable(data) {
                         let row = $("<tr>");
                         if (reply.upperReplyId != 0) {
                             row.append($("<td>").text("↳"));
-                            row.append($("<td>").text(reply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
+                            row.append($("<td>").text(reply.content).css({ "width": "50%", "max-width": "500px", "word-wrap": "break-word" }));
                         } else {
-                            row.append($("<td colspan='2'>").text(reply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
+                            row.append($("<td colspan='2'>").text(reply.content).css({ "width": "50%", "max-width": "500px", "word-wrap": "break-word" }));
                         }
                         row.append($("<td>").text(formatDate(reply.writeDate)).css("text-align", "center"));
 
@@ -427,7 +427,7 @@ function updateReplyTable(data) {
                                         console.log(rowReply)
                                         let row2 = $("<tr>");
                                         row2.append($("<td class='arrow'>").text("↳").css("color", "#232323"));
-                                        row2.append($("<td>").text(rowReply.content).css({"width":"50%", "max-width":"500px", "word-wrap":"break-word"}));
+                                        row2.append($("<td>").text(rowReply.content).css({ "width": "50%", "max-width": "500px", "word-wrap": "break-word" }));
                                         row2.append($("<td>").text(formatDate(rowReply.writeDate)).css("text-align", "center"));
 
                                         if (thisboard.menuType == "AA3") {
@@ -824,7 +824,7 @@ function replyUpdateForm(replyId, content, thisRow) {
     });
 }
 
-// 버튼을 생성하는 함수
+// 버튼 생성하는 함수
 function createButton(id, text, className) {
     let button = document.createElement('button');
     button.type = 'button';
@@ -850,7 +850,6 @@ function updateReply(replyId, content) {
                 let updateBtnId = document.getElementById('replyUpdateBtn' + replyId);
                 $(updateBtnId).prop('disabled', false);
 
-                document.getElementById("rowReplyFormArea_" + replyId).remove();
                 replyLoad(1);
 
             })

@@ -20,8 +20,8 @@ import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.member.service.MemberVO;
+import com.holoyolo.app.question.service.QuestionVO;
 import com.holoyolo.app.board.service.BoardVO;
-
 
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
@@ -76,13 +76,13 @@ public class AttachmentServiceImpl implements AttachmentService {
 	 * @param uploadFiles
 	 * @return
 	 */
-	public List<AttachmentVO> uploadFiles(MultipartFile[] uploadFiles, String type) { 
+	public List<AttachmentVO> uploadFiles(MultipartFile[] uploadFiles, String type) {
 
 		List<AttachmentVO> imageList = new ArrayList<>();
-		if(uploadFiles != null) {
+		if (uploadFiles != null) {
 			for (MultipartFile uploadFile : uploadFiles) {
 				AttachmentVO vo = new AttachmentVO();
-	
+
 				if (type.equals("trade") || type.equals("memo")) {
 					// 이미지파일만 가능하도록 제한.
 					if (uploadFile.getContentType().startsWith("image") == false) {
@@ -90,39 +90,39 @@ public class AttachmentServiceImpl implements AttachmentService {
 						return null;
 					}
 				}
-	
-				if (type.equals("notice")) {
+
+				if (type.equals("notice") || type.equals("questionImg")) {
 					if (uploadFile.isEmpty()) {
 						System.err.println("this file is not image type");
 						return null;
 					}
 				}
-	
-				if (type.equals("noticeAttach")) {
+
+				if (type.equals("noticeAttach") || type.equals("questionAttach")) {
 					if (uploadFile.isEmpty()) {
 						System.err.println("this file is not image type");
 						return null;
 					}
 				}
-	
+
 				// 원래이름과 저장할이름(파일명 중복 때문)
 				String originalName = uploadFile.getOriginalFilename();
 				String fileName = originalName.substring(originalName.lastIndexOf("//") + 1);
-	
+
 				System.out.println("fileName : " + fileName);
-	
+
 				// 날짜 폴더 생성(파일 관리를 편리하게 하기 위해서)
 				String folderPath = makeFolder(type);
 				// UUID(랜덤값)
 				String uuid = UUID.randomUUID().toString();
 				// 저장할 파일 이름 중간에 "_"를 이용하여 구분
-	
+
 				// 업로드할 파일 이름
 				String uploadFileName = folderPath + File.separator + uuid + "_" + fileName;
-	
+
 				// 실재 저장할 경로를 문자로 저장
 				String saveName = uploadPath + File.separator + uploadFileName;
-	
+
 				Path savePath = Paths.get(saveName); // 문자로 저장된 경로를 처리
 				// Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
 				System.out.println("path : " + saveName);
@@ -168,6 +168,10 @@ public class AttachmentServiceImpl implements AttachmentService {
 			folderPath = "memo" + File.separator + "images";
 		} else if (type.equals("noticeAttach")) {
 			folderPath = "cs" + File.separator + "noticeAttach";
+		} else if (type.equals("questionImg")) {
+			folderPath = "cs" + File.separator + "questionImg";
+		} else if (type.equals("questionAttach")) {
+			folderPath = "cs" + File.separator + "questionAttach";
 		}
 
 		// File newFile = new File(dir,"파일명");
@@ -214,7 +218,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 		return 0;
 	}
-  
+
 	@Override
 	public Map<String, List<AttachmentVO>> getCSAttachmentList(AttachmentVO attachmentVO) {
 		List<AttachmentVO> sourceList = attachmentMapper.selectAttachmentList(attachmentVO);
@@ -255,6 +259,13 @@ public class AttachmentServiceImpl implements AttachmentService {
 		return attachmentMapper.deletePostAttachment(attachmentVO);
 	}
 
-	// 파일 업로드
+	// 1:1 문의 삭제
+	@Override
+	public int deleteQNAAttachment(QuestionVO questionVO) {
+		AttachmentVO attachmentVO = new AttachmentVO();
+		attachmentVO.setPostId(questionVO.getQuestionId());
+		attachmentVO.setMenuType(questionVO.getQuestionType());
+		return attachmentMapper.deletePostAttachment(attachmentVO);
+	}
 
 }

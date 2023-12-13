@@ -18,7 +18,6 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 	public String checkLike(BoardLikeVO vo) {
 		String result = "";
 		int check = boardLikeMapper.checkLike(vo);
-		System.out.println("check : " + check);
 		if (check == 0) {
 			addLike(vo);
 			result = "추가";
@@ -27,7 +26,6 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 			result = "삭제";
 		}
 
-		System.out.println("result : " + result);
 		return result;
 	}
 
@@ -57,11 +55,9 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 			result = "true";
 		} else if (search == 0) {
 			result = "false";
-		}else {
+		} else {
 			result = "err";
 		}
-
-		System.out.println(result);
 		return result;
 	}
 
