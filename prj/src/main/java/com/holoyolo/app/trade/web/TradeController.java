@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -169,8 +168,10 @@ public class TradeController {
 						   MemberVO memberVO,
 						   Model model) {
 		memberVO.setMemberId(principalDetails.getUsername());
-		model.addAttribute("price", request.getParameter("price"));
+		model.addAttribute("price", Integer.parseInt(request.getParameter("price")));
+		model.addAttribute("sellerId", request.getParameter("sellerId"));
 		model.addAttribute("tradeId", request.getParameter("tradeId"));
+		System.out.println(request.getParameter("sellerId"));
 		model.addAttribute("holoPayCnt", holoPayService.holopayBalance(memberVO));
 		model.addAttribute("pointCnt", pointService.pointBalance(memberVO));
 		return "user/trade/tradePay";
@@ -185,7 +186,7 @@ public class TradeController {
 		attachmentService.deleteAttachment(attachmentVO);
 	}
 	
-	//포인트, 홀로페이 등록
+	//포인트, 홀로페이 등록(구매자)
 	@PostMapping("member/insertPayPoint")
 	@ResponseBody
 	public void insertPayPoint(@AuthenticationPrincipal PrincipalDetails principalDetails, 
@@ -194,17 +195,20 @@ public class TradeController {
 		memberVO.setMemberId(principalDetails.getUsername());
 		System.out.println(memberVO);
 		tradeService.insertPayPoint(memberVO);
-		tradeVO.setPromiseStatus("TD3");
 		tradeVO.setTradeId(tradeVO.getTradeId());
-		tradeService.updateBuyerId(tradeVO);
 	}
 	
-
-//	@GetMapping("member/tradeChat")
-//	public void tradeChat(@AuthenticationPrincipal PrincipalDetails principalDetails, 
-//						  TradeVO tradeVO) {
-//		System.out.println(tradeVO);
-//	}
+	//포인트, 홀로페이 등록(판매자)
+		@PostMapping("member/insertPayPointSeller")
+		@ResponseBody
+		public void insertPayPointSeller(MemberVO memberVO,
+								   		 TradeVO tradeVO) {
+			System.out.println(memberVO);
+			tradeService.insertPayPointSeller(memberVO);
+			tradeVO.setPromiseStatus("TD3");
+			tradeVO.setTradeId(tradeVO.getTradeId());
+			tradeService.updateBuyerId(tradeVO);
+		}
 	
 	//마이페이지 나의 알뜰모임 페이지
 	@GetMapping("member/myTrade")

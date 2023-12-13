@@ -36,8 +36,11 @@ public interface TradeMapper {
 	//구매자 수정
 	public int updateBuyerId(TradeVO tradeVO);
 	
-	//포인트, 홀로페이 등록
+	//포인트, 홀로페이 등록(구매자)
 	public int insertPayPoint(MemberVO memberVO);
+	
+	//포인트, 홀로페이 등록(판매자)
+	public int insertPayPointSeller(MemberVO memberVO);
 	
 	//마이페이지 전체조회
 	public List<TradeVO> selectMyTradeList(TradeVO tradeVO);

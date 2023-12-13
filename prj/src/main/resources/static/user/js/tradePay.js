@@ -57,7 +57,6 @@ function payCal(num){
     oriHoloPay.value = holoPayCnt - useHoloPay.value;
     oriPoint.innerText = (pointCnt - usePoint.value).toLocaleString('ko-KR') + ' P';
     oriPoint.value = pointCnt - usePoint.value;
-    myPrice.innerText = (oriPoint.value + oriHoloPay.value).toLocaleString('ko-KR') + ' 원';
 }
 
 //결제버튼 클릭 시
@@ -75,23 +74,41 @@ payment.addEventListener('click', function(e){
         confirmButtonText: '확인',
         cancelButtonText: '취소'
     }).then((result) => {
-	    $.ajax({
-	        type:"POST",
-	        url : '/member/insertPayPoint',  //이동할 jsp 파일 주소
-	        data : {point, holoPay, tradeId},
-	        success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
-	            Swal.fire(
-	                '결제 완료',
-	                '결제를 완료했습니다!',
-	                'success'
-	            )
-				document.querySelector('.swal2-confirm').addEventListener('click', function(e){
-				   location.href = "/tradeList";
-				});
-	        },
-	        error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-	            console.log('등록실패');
-	        }
-	    })	
+    	if (result.isConfirmed) {
+		    $.ajax({
+		        type:"POST",
+		        url : '/member/insertPayPoint',  //이동할 jsp 파일 주소
+		        data : {point, holoPay, tradeId},
+		        success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+		            plusHolo();
+		        },
+		        error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+		            console.log('등록실패');
+		        }
+		    })	
+		    
+	    }
     })
 })
+
+function plusHolo(){
+    holoPay = price;
+    $.ajax({
+        type:"POST",
+        url : '/member/insertPayPointSeller',  //이동할 jsp 파일 주소
+        data : {holoPay, tradeId, memberId:sellerId},
+        success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+            Swal.fire(
+                '결제 완료',
+                '결제를 완료했습니다!',
+                'success'
+            )
+            document.querySelector('.swal2-confirm').addEventListener('click', function(e){
+                location.href = "/tradeList";
+            });
+        },
+        error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+            console.log('등록실패');
+        }
+    })
+}
