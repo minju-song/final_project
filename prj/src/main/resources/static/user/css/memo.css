@@ -357,3 +357,9 @@
 .modal_btn_wrap {
 	margin-top: 0;
 }
+
+.delBtn{
+	width: 19px;
+    border-radius: 50%;
+    background-color: white;
+}

@@ -112,8 +112,7 @@
 									th:data-memo="${memo.memoId}">
 									<div class="memo_image">
 										<th:block th:each="image, stat : ${memo.images}">
-											<div class="upload"
-												th:style="|background-image: url('/images/${image.saveFile}')|"></div>
+											<div class="upload" th:style="|background-image: url('/images/${image.saveFile}')|"></div>
 										</th:block>
 									</div>
 									<!-- 메모 내용 -->

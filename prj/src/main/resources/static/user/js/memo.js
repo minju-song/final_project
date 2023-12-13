@@ -283,6 +283,8 @@
 				$('#writedMemo').find('.memo_image').empty();
 				for(let i=0; i<data.images.length; i++) {
 					let tag = $('<div>').addClass('upload').css('background-image', `url('/images/${data.images[i].saveFile}')`);
+					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', data.images[i].saveFile).addClass('delBtn position_absol');
+					$(tag).append(delBtn);
 					$('#writedMemo').find('.memo_image').append(tag);
 				}
 				
@@ -399,6 +401,7 @@
 			$('.importmemoStart').append(clone);
 		}else{
 			clone.find('.bi-pin')[0].src = '/user/images/memo/pin.svg';
+			clone.find('.bi-pin')[0].classList.remove('bi-pin-fill');
 			$('.normalmemoStart').append(clone);
 		}
 		

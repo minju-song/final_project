@@ -265,5 +265,7 @@ button:focus{
 }
 
 
-
+#layer {
+	z-index: 9999 !important;
+}
 
