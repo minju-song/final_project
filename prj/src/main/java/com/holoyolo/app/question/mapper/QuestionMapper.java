@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.PageRequest;
 
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.question.service.QuestionVO;
 
 public interface QuestionMapper {
@@ -43,6 +44,6 @@ public interface QuestionMapper {
 	public QuestionVO selectQuestion(int questionId);
 	
 	public int updateQuestion(QuestionVO questionVO);
-
-
+	
+	
 }

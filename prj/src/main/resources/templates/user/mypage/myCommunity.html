@@ -17,56 +17,101 @@
 
 <body>
 	<th:block layout:fragment="content">
-		<table id="userList" class="table datatable table-hover">
-			<thead>
-				<tr>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="odd" th:if="${infoList.size == 0}">
-					<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
-				</tr>
-				<tr th:each="info, stat : ${infoList}">
-
-					<td th:text="${info.title}"
-						th:onclick="|location.href='@{/member/board/view(boardId=${info.boardId})}'|"></td>
-					<td th:text="${info.nickname}"></td>
-					<td th:text="${info.likeCount}"></td>
-					<td th:text="${info.views}"></td>
-					<td th:text="${#dates.format(info.writeDate, 'yyyy-MM-dd')}"></td>
-				</tr>
-			</tbody>
-		</table>
-
-		<table id="userList" class="table datatable table-hover">
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제목</th>
-					<th>카테고리</th>
-					<th>가격</th>
-					<th>거래상태</th>
-					<th>날짜</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="odd" th:if="${chatList.size == 0}">
-					<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
-				</tr>
-				<tr th:each="chat, stat : ${chatList}">
-				
-					<td th:text="${chat.nickname}"></td>
-					<td th:text="${chat.likeCount}"></td>
-					<td th:text="${chat.views}"></td>
-					<td th:text="${#dates.format(chat.writeDate, 'yyyy-MM-dd')}"></td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="row col-12">
+			<div class="col-6">
+				<table id="userList" class="table datatable table-hover">
+					<thead>
+						<tr>
+							<th colspan="5" style="text-align: center;">정보게시판</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="odd" th:if="${infoList.size == 0}">
+							<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+						</tr>
+						<tr th:each="info, stat : ${infoList}">
+							<td th:text="${info.title}" th:class="col-5"
+								th:onclick="|location.href='@{/member/board/view(boardId=${info.boardId})}'|"></td>
+							<td th:text="${info.nickname}" th:class="col-2"></td>
+							<td th:text="${info.likeCount}"></td>
+							<td th:text="${info.views}"></td>
+							<td th:text="${#dates.format(info.writeDate, 'yyyy-MM-dd')}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-6">
+				<table id="userList" class="table datatable table-hover">
+					<thead>
+						<tr>
+							<th colspan="5" style="text-align: center;">수다방</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="odd" th:if="${chatList.size == 0}">
+							<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+						</tr>
+						<tr th:each="chat, stat : ${chatList}">
+							<td th:text="${chat.title}" th:class="col-5"
+								th:onclick="|location.href='@{/member/board/view(boardId=${chat.boardId})}'|"></td>
+							<td th:class="col-2"></td>
+							<td th:text="${chat.likeCount}"></td>
+							<td th:text="${chat.views}"></td>
+							<td th:text="${#dates.format(chat.writeDate, 'yyyy-MM-dd')}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div>댓글 단 글</div>
+		<div class="row col-12">
+			<div class="col-6">
+				<table id="userList" class="table datatable table-hover">
+					<thead>
+						<tr>
+							<th colspan="5" style="text-align: center;">정보게시판</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="odd" th:if="${infoReplyList.size == 0}">
+							<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+						</tr>
+						<tr th:each="infoReply, stat : ${infoReplyList}">
+							<td th:text="${infoReply.title}" th:class="col-5"
+								th:onclick="|location.href='@{/member/board/view(boardId=${infoReply.boardId})}'|">
+							</td>
+							<td th:text="${infoReply.nickname}" th:class="col-2"></td>
+							<td th:text="${infoReply.likeCount}"></td>
+							<td th:text="${infoReply.views}"></td>
+							<td th:text="${#dates.format(infoReply.writeDate, 'yyyy-MM-dd')}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-6">
+				<table id="userList" class="table datatable table-hover">
+					<thead>
+						<tr>
+							<th colspan="5" style="text-align: center;">수다방</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="odd" th:if="${chatReplyList.size == 0}">
+							<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+						</tr>
+						<tr th:each="chatReply, stat : ${chatReplyList}">
+							<td th:text="${chatReply.title}" th:class="col-5"
+								th:onclick="|location.href='@{/member/board/view(boardId=${chatReply.boardId})}'|">
+							</td>
+							<td th:class="col-2"></td>
+							<td th:text="${chatReply.likeCount}"></td>
+							<td th:text="${chatReply.views}"></td>
+							<td th:text="${#dates.format(chatReply.writeDate, 'yyyy-MM-dd')}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</th:block>
 </body>
 

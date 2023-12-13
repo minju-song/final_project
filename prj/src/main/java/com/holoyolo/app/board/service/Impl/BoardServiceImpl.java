@@ -191,4 +191,27 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
+	@Override
+	public List<BoardVO> myBoardList(String menuType, String memberId) {
+		BoardVO vo = new BoardVO();
+		vo.setMenuType(menuType);
+		vo.setMemberId(memberId);
+		return boardMapper.myBoardList(vo);
+	}
+
+	@Override
+	public List<BoardVO> myReplyList(String menuType, String memberId) {
+		BoardVO vo = new BoardVO();
+		vo.setMenuType(menuType);
+		vo.setMemberId(memberId);
+		return boardMapper.myBoardList(vo);
+	}
+
+	@Override
+	public List<BoardVO> myReplyBoardList(String menuType, String memberId) {
+		BoardVO vo = new BoardVO();
+		vo.setMenuType(menuType);
+		vo.setMemberId(memberId);
+		return boardMapper.myReplyBoardList(vo);
+	}
 }
