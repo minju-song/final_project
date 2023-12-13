@@ -18,10 +18,22 @@ let questionYn = "";
 
 	let search = '';
 
+let today = new Date();
 
+let year = today.getFullYear();
+let month = ('0' + (today.getMonth() + 1)).slice(-2);
+let day = ('0' + today.getDate()).slice(-2);
+
+let dateString = year + '-' + month  + '-' + day;
+$("#html5-date-input").val(dateString)
+
+$("#defaultSelect").on("change", function(){
+	pageUnit = $(this).val()
+	renderQuestionList(questionYn, pageNum, search, pageUnit);
+})
 
 	// 문의 리스트 포멧
-	function renderQuestionList(questionYn, page, search) {
+	function renderQuestionList(questionYn, page, search, pageUnit) {
 		console.log(questionYn)
 		$("tbody").empty();
 		$.ajax({
@@ -78,7 +90,7 @@ let questionYn = "";
 		let targetPageNum = $(this).attr("href");
 		console.log("targetPageNum :: " + targetPageNum);
 		pageNum = targetPageNum;
-		search = "";
+		
 
 
 		// 현재 선택된 상태에 따라 다른 상태값을 전달
@@ -89,7 +101,7 @@ let questionYn = "";
 			questionYn = "답변완료";
 		}
 
-		renderQuestionList(questionYn, targetPageNum, search);
+		renderQuestionList(questionYn, targetPageNum, search, pageUnit);
 	})
 
 	pageNum = 1;
@@ -105,7 +117,7 @@ let questionYn = "";
 		$("#searchInput").val("");
 		$("#pendingQuestionCount, #completedQuestionCount").removeClass('active');
 		$("#totalQuestionCount").addClass('active');
-		renderQuestionList(questionYn, pageNum, search);
+		renderQuestionList(questionYn, pageNum, search, pageUnit);
 	});
 
 	// 답변대기 클릭시 문의 리스트
@@ -116,7 +128,7 @@ let questionYn = "";
 		$("#searchInput").val("");
 		$("#totalQuestionCount, #completedQuestionCount").removeClass('active');
 		$("#pendingQuestionCount").addClass('active');
-		renderQuestionList(questionYn, pageNum, search);
+		renderQuestionList(questionYn, pageNum, search, pageUnit);
 	});
 
 	// 답변완료 클릭시 문의 리스트
@@ -127,7 +139,7 @@ let questionYn = "";
 		$("#searchInput").val("");
 		$("#totalQuestionCount, #pendingQuestionCount").removeClass('active');
 		$("#completedQuestionCount").addClass('active');
-		renderQuestionList(questionYn, pageNum, search);
+		renderQuestionList(questionYn, pageNum, search, pageUnit);
 	});
 	let searchTimer;
 	// 검색
@@ -145,7 +157,7 @@ let questionYn = "";
 			} else {
 				questionYn = "";
 			}
-			renderQuestionList(questionYn, pageNum, search)
+			renderQuestionList(questionYn, pageNum, search, pageUnit)
 		}, 300); // 300 밀리초 (0.3초) 후에 검색 실행
 	})
 
@@ -214,6 +226,7 @@ let questionYn = "";
 		let formData = getUpdateInputForm();
 		let questionId = formData.questionId;
 		let answerId = formData.answerId;
+		console.log(formData)
 
 		const requestUrl = `/admin/question/detail/${questionId}/${answerId}`
 		$.ajax(requestUrl, {
@@ -222,10 +235,11 @@ let questionYn = "";
 			data: JSON.stringify(formData)
 		})
 			.done(result => {
+			console.log(result)
 				let target = event.target
 				$(".updateInput").addClass('d-none');
 				$(".originContent").removeClass('d-none');
-				location.reload();
+				//location.reload();
 			})
 			.fail(err => console.log(err))
 	})
@@ -273,5 +287,5 @@ let questionYn = "";
 	}
 
 $(document).ready(function () {
-	renderQuestionList("", 1, search);
+	renderQuestionList("", 1, search,10);
 })

@@ -13,7 +13,7 @@ let pageUnit = 0;  //한페이지에 출력할 행의 수
 let questionYn = "";
 
 // 진입시 총 문의 개수
-$(document).ready(function () {
+
 	let search = '';
 	// 문의 리스트 포멧
 	function renderClubList(openScope, page, search, clubId,memberId) {
@@ -25,10 +25,10 @@ $(document).ready(function () {
 			method: "GET"
 		})
 			.done(function (data) {
-				console.log(data.list.result)
+				console.log(data.list)
 				let listData = data.list.result;
 				// 개수출력
-				$("#initClubCount").text(`(${listData.length})`)
+				$("#initClubCount").text(`(${data.list.count})`)
 				// 목록출력 
 				$.each(listData, function (index, list) {
 					let template = `
@@ -61,7 +61,7 @@ $(document).ready(function () {
 					$('tbody').append(template);
 
 					//페이징
-					showPage(listData.length);
+					showPage(data.list.count);
 					//게시물수
 
 
@@ -247,8 +247,10 @@ $(document).ready(function () {
 
 		$('.pagination').html(str);
 	}
+	
+$(document).ready(function () {	
+	renderClubList("", 1, search);
 
-	renderClubList("", 1, search,1,"");
 })
 
 /*

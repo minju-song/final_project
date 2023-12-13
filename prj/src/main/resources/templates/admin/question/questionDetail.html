@@ -41,12 +41,11 @@
 								</div>
 
 								<p class="mt-4" th:text="${info.content}">답변 내용</p>
-								<img alt="사진" src="/admin/assets/img/avatars/1.png">
 								<th:block th:each="img, stat : ${imgInfo}">
-									<p th:text="${img.originFile}"></p>
+								<img th:alt="${img.originFile}" th:src="'/images/'+'${img.originFile}'">
 								</th:block>
 								<th:block th:each="attach, stat : ${attachInfo}">
-									<p th:text="${attach.originFile}"></p>
+								<img th:alt="${attach.originFile}" th:src="'/images/'+'${attach.originFile}'">
 								</th:block>
 							</div>
 							<!-- /회원 문의 -->
@@ -99,8 +98,8 @@
 										</div>
 									</div>
 									<form id="updateInputForm" class="p-0 pb-3 d-none updateInput">
-										<input type="hidden" name="answerId" th:value="${info.answerId}" /> <input
-											type="hidden" name="questionId" th:value="${info.questionId}" />
+										<input type="hidden" name="answerId" th:value="${info.answerId}" /> 
+										<input type="hidden" name="questionId" th:value="${info.questionId}" />
 										<textarea class="form-control" id="answerContent" name="answerContent"
 											placeholder="내용을 입력해주세요." rows="2"
 											th:text="${info.answerContent}"></textarea>

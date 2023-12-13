@@ -52,6 +52,7 @@ public class ClubServiceImpl implements ClubService {
 	public Map<String, Object> selectClubAll(ClubVO clubVO) {
 		Map<String, Object> map = new HashMap<>();
 		List<ClubVO> list = clubMapper.selectClubAll(clubVO);
+		int count = clubMapper.cntData(clubVO);
 		
 		for(int i=0; i<list.size(); i++) {
 			ClubVO temp = new ClubVO();
@@ -59,9 +60,11 @@ public class ClubServiceImpl implements ClubService {
 			temp.setJoinCnt(clubMemberMapper.countMember(list.get(i).getClubId()));
 			temp.setSuccessCnt(clubSuccessHistoryMapper.getSuccessCount(list.get(i).getClubId()));
 			list.set(i, temp);
+			
 		}
 		
 		map.put("result", list);
+		map.put("count", count);
 		
 		return map;
 	}

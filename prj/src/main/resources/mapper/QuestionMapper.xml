@@ -6,8 +6,8 @@
 <mapper
 	namespace="com.holoyolo.app.question.mapper.QuestionMapper">
 	<select id="selectQuestionTotalList" resultType="QuestionVO">
-		SELECT * FROM
-			(SELECT A.* , ROWNUM rn FROM (
+		SELECT * FROM(
+			SELECT A.* , ROWNUM rn FROM (
 				SELECT * FROM (
 					SELECT
 						q.question_id,

@@ -169,11 +169,11 @@ $(document).ready(function () {
 			method: "GET"
 		})
 			.done(function (data) {
-
+console.log(data)
 				// 목록출력 
 				let reportData = data.list;
 				// 개수출력
-				$("#initReportCount").text(`(${reportData.length})`)
+				$("#initReportCount").text(`(${data.count})`)
 				console.log(reportData);
 				$.each(reportData, function (index, item) {
 					let template = `<tr>
@@ -217,6 +217,7 @@ $(document).ready(function () {
 		let targetPageNum = $(this).attr("href");
 		console.log("targetPageNum :: " + targetPageNum);
 		pageNum = targetPageNum;
+		
 
 		// 현재 선택된 상태에 따라 다른 상태값을 전달
 		let reportProcessType = ""; // 기본값은 전체
@@ -225,7 +226,7 @@ $(document).ready(function () {
 		} else if ($("button[name='completedReport']").hasClass("active")) {
 			reportProcessType = "신고처리";
 		}
-		renderReportList(reportProcessType, targetPageNum);
+		renderReportList(reportProcessType, targetPageNum, search);
 	})
 
 	pageNum = 1;

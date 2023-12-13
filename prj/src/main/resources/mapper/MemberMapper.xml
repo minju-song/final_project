@@ -228,28 +228,27 @@
 	
 	<!-- 회원 전체조회 -->
 	<select id="selectMemberAll" resultType="MemberVO">
-	    SELECT *
-	    FROM (
-	        SELECT A.*, ROWNUM rn
-	        FROM (
-	        SELECT * FROM ( 
-	            SELECT
-	                m.member_name,
-	                m.member_id,
-	                    NVL(m.phone, '-') AS phone,
-	                    NVL(m.addr, '-') AS addr,
-	                m.join_date,
-	                NVL(TO_CHAR(fn_get_code_name(role)), '관리자') AS role
-	            FROM member m ) member
-	            <where>
-	                <if test="role != null and role != '' ">
-	                    AND role = #{role}
-	                </if>
-	                <if test="search != null and search != ''">
-	                    AND (member_name LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%' OR phone LIKE '%'||#{search}||'%' OR addr LIKE '%'||#{search}||'%')
-	                </if>
-	            </where>
-	            ORDER BY join_date DESC
+	    SELECT * FROM (
+	        SELECT A.*, ROWNUM rn FROM (
+		        SELECT * FROM ( 
+		            SELECT
+		                m.member_name,
+		                m.member_id,
+		                    NVL(m.phone, '-') AS phone,
+		                    NVL(m.addr, '-') AS addr,
+		                m.join_date,
+		                NVL(TO_CHAR(fn_get_code_name(role)), '관리자') AS role
+		            FROM member m 
+		            ) member
+		            <where>
+		                <if test="role != null and role != '' ">
+		                    AND role = #{role}
+		                </if>
+		                <if test="search != null and search != ''">
+		                    AND (member_name LIKE '%'||#{search}||'%' OR member_id LIKE '%'||#{search}||'%' OR phone LIKE '%'||#{search}||'%' OR addr LIKE '%'||#{search}||'%')
+		                </if>
+		            </where>
+		            ORDER BY join_date DESC
 	        ) A
 	    ) b
 	    WHERE rn BETWEEN (#{page}-1)*#{pageUnit} + 1 AND #{page} * #{pageUnit}

@@ -23,7 +23,7 @@
 					<div class=" card-body p-0">
 						<div class="row float-right">
 							<div class="col-md-4 ms-auto bd-highlight pe-4">
-								<input class="form-control" type="date" value="2021-06-18"
+								<input class="form-control" type="date"
 									id="html5-date-input" />
 							</div>
 						</div>
@@ -51,20 +51,19 @@
 					</div>
 					
 					<div class="ms-auto p-2 bd-highlight btn-group float-right pe-4">
-						<button type="button"
-							class="btn btn-outline-primary dropdown-toggle"
-							data-bs-toggle="dropdown" aria-expanded="false">게시물 수</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="javascript:void(0);">10</a></li>
-							<li><a class="dropdown-item" href="javascript:void(0);">50</a></li>
-							<li><a class="dropdown-item" href="javascript:void(0);">100</a></li>
-						</ul>
+                        <select id="defaultSelect" class="form-select">
+                          <option>게시물 수</option>
+                          <option value="10">10</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                        </select>
+
 					</div>
 				</div>
 				
 				<!-- 데이터테이블 -->
 				<div class="table-responsive text-nowrap overflow-auto scrollBar">
-					<table class="table table-hover table table-striped">
+					<table class="table table-hover table">
 						<thead>
 							<tr>
 								<th>번호</th>
