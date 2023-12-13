@@ -17,4 +17,7 @@ public interface AttachmentMapper {
 	public int deleteAttachment(AttachmentVO attachmentVO);
 	
 	public int deletePostAttachment(AttachmentVO attachmentVO);
+	
+	//상품사진가져오기
+	public AttachmentVO getItemImage(int id);
 }

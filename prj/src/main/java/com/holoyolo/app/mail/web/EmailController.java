@@ -103,7 +103,7 @@ public class EmailController {
 	public String mandate(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody ClubVO vo) {
 		System.out.println("들어온 값 : "+vo);
 		EmailVO emailVO = EmailVO.builder()
-				.to("songjaeskkk@naver.com")
+				.to(vo.getClubLeader())
 				.subject(vo.getClubName()+"모임에 대한 모임장 위임요청 메일입니다.")
 				.clubId(vo.getClubId())
 				.clubName(vo.getClubName())

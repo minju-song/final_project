@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.holoyolo.app.chat.mapper.TradeChatRoomMapper">
-  <!-- 채팅방 조회 -->
+  		<!-- 채팅방 조회 -->
 	  <select id="getTradeChatRoom" resultType="TradeChatRoomVO">
 		SELECT c.*, t.title
 		FROM trade_chat_room c join trade t on c.trade_id = t.trade_id
@@ -41,7 +41,7 @@
   	
   	<!-- 내가 참여중인 대화 -->
   	<select id="getMyChattings" resultType="TradeChatRoomVO">
-  		SELECT c.*, t.title, (select count(*)
+  		SELECT c.*, t.title, fn_get_code_name(t.promise_status) as promise_status, (select count(*)
                         from trade_chat
                         where trade_chat_room = c.trade_id
                         and member_id != #{memberId} 
@@ -63,7 +63,7 @@
 		FROM trade_chat_room c JOIN trade t ON c.trade_id = t.trade_id      
 		WHERE c.seller_id = #{memberId} 
 		OR c.buyer_id = #{memberId} 
-		ORDER BY c.trade_id desc
+		ORDER BY lastChatTime desc
   	</select>
   	
   	<!-- 해당 채팅방 지난 채팅내역 -->

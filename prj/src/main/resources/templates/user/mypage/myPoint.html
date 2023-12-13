@@ -7,26 +7,28 @@
     <title>Insert title here</title>
     <style>
         .pointDiv {
-            border: 1px solid lightgray;
+            /* border: 1px solid lightgray; */
             border-radius: 20px;
             height: 100px;
             padding: 10px;
             margin-bottom: 30px;
         }
 
-        .pointImg {
-            width: 30px;
-            height: 30px;
-        }
-
         .sorting {
             float: none;
         }
+
+        .title {
+            color: rgb(20, 20, 165);
+            font-weight: bold;
+        }
+
+        .title :hover {
+            color: #103566;
+        }
     </style>
-    <link href="/user/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-    <link href="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.css" rel="stylesheet">
-
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
 </head>
 
 <body>
@@ -34,45 +36,37 @@
     <div layout:fragment="content">
         <div id="content">
             <div class="pointDiv">
-                <h3><img class="pointImg" th:src="@{/user/images/mypage/reward.png}">포인트 잔액 : [[${result.nowPoint}]] 포인트
+                <h3>포인트 잔액 : [[${result.nowPoint}]] 포인트
                 </h3>
             </div>
 
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-dark">포인트</h6>
-                </div>
-                <div class="card-body">
-                    <!-- <div class="table-responsive"> -->
-                    <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.js"></script>
-                    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-                    <table class="table table-bordered" id="dataTable" width="100%">
-                        <thead>
-                            <tr class="row" style="display: block; width:100%;">
-                                <th class="col-1">순번</th>
-                                <th class="col-1">유형</th>
-                                <th class="col-1">금액</th>
-                                <th class="col-3">내용</th>
-                                <th class="col-1">날짜</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="history, stat : ${result.history}">
-                                <td>[[${stat.index + 1}]]</td>
-                                <td th:if="${history.pointType eq 'PA1'}">적립</td>
-                                <!-- <td class="col-1" th:if="${history.pointType eq 'PA2'}">사용</td> -->
-                                <td th:text="${history.price+'원'}"></td>
-                                <td th:if="${history.pointType eq 'PA1'}">1번 클럽 성공 포인트</td>
-                                <!-- <td class="col-3" th:if="${history.pointType eq 'PA2'}">[[${history.tradeId}]]번 거래 구매
-                                </td> -->
-                                <td th:text="${#dates.format(history.pointDate, 'yyyy년 MM월 dd일')}"></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <!-- </div> -->
-                </div>
-            </div>
+            <table id="pointList" class="table datatable table-hover">
+                <thead>
+                    <tr>
+                        <th>순번</th>
+                        <th>유형</th>
+                        <th>금액</th>
+                        <th>내용</th>
+                        <th>날짜</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd" th:if="${result.history.size == 0}">
+                        <td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+                    </tr>
+                    <tr th:each="point, stat : ${result.history}">
+                        <td th:text="${stat.count}"></td>
+                        <td th:text="${point.pointType}"></td>
+                        <td th:text="${point.price+'원'}"></td>
+                        <td class="title" th:if="${point.clubName != null}" th:text="|${point.clubName} 알뜰모임|"
+                            th:onclick="|location.href = '/member/club/clubPage?clubId=${point.clubId}'|"></td>
+                        <td class="title" th:if="${point.title != null}" th:text="|${point.title} 중고거래|"
+                            th:onclick="|location.href='@{/member/tradeInfo(tradeId=${point.tradeId},sellerId=${point.sellerId})}'|">
+                        </td>
+                        <td th:text="${#dates.format(point.pointDate, 'yyyy-MM-dd')}"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <script th:inline="javascript">
@@ -87,14 +81,9 @@
                 console.log(history[i]);
             }
 
-            $(document).ready(function () {
-                // $('#dataTable').DataTable();
-                $("#dataTable").DataTable({
-                    // "serverSide": true,
-                    "processing": true,
+            let table = $("#pointList").DataTable();
 
-                });
-            });
+
         </script>
 
     </div>
