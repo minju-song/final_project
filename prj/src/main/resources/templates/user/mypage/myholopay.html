@@ -18,7 +18,7 @@
     <div class="container hp_container">
       <h2 class="h2_title">홀로페이</h2>
       <!--/*홀로페이 잔액조회 */-->
-      <div class="row" th:if="${financeVO.bankname != null}">
+      <div class="row" th:if="${financeVO != null}">
       	<div class="col-6 row brder-none">
 	        <div class="col-7">
 	          <h4>등록된 계좌 정보</h4>
@@ -46,16 +46,12 @@
 
 
 
-      <div class="row" th:if="${financeVO.bankname == null}">
-        <div class="col-6">
-          <h3>등록된 계좌가 없습니다</h3>
-        </div>
-        <div class="col-6">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
-            data-whatever="계좌등록">
-            계좌등록
-          </button>
-        </div>
+      <div class="row justi-center" th:if="${financeVO == null}">
+         <h3>등록된 계좌가 없습니다</h3>
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+           data-whatever="계좌등록">
+           계좌등록
+         </button>
       </div>
 
     </div>
@@ -71,26 +67,26 @@
           </select>
           <thead class="thead">
             <tr>
-              <th>순번</th>
-              <th>유형</th>
-              <th>금액</th>
-              <th>내용</th>
-              <th>날짜</th>
+              <th class="text-center">순번</th>
+              <th class="text-center">유형</th>
+              <th class="text-center">내용</th>
+              <th class="text-center">금액</th>
+              <th class="text-center">날짜</th>
             </tr>
           </thead>
           <tbody id="hpHistoryTableBody">
             <th:block th:unless="${holopayList} == '0'">
               <tr th:each="holopayList : ${holopayList}">
-                <td th:text="${holopayList.hpHistoryId}"></td>
-                <td th:switch="${holopayList.hpType}">
+                <td class="text-center" th:text="${holopayList.hpHistoryId}"></td>
+                <td class="text-center" th:switch="${holopayList.hpType}">
                   <span th:case="HP1" class="center-block label label-info">충전</span>
                   <span th:case="HP2" class="center-block label label-primary">인출</span>
                   <span th:case="HP3" class="center-block label label-primary">판매</span>
                   <span th:case="HP4" class="center-block label label-primary">입금</span>
                 </td>
-                <td th:text="${#numbers.formatInteger(holopayList.price, 0, 'COMMA')}"></td>
-                <td th:text="${holopayList.holopayComment}"></td>
-                <td th:text="${#dates.format(holopayList.hpDate, 'yy/MM/dd')}"></td>
+                <td class="text-center" th:text="${holopayList.holopayComment}"></td>
+                <td class="text-right" th:text="${#numbers.formatInteger(holopayList.price, 0, 'COMMA')}"></td>
+                <td class="text-center" th:text="${#dates.format(holopayList.hpDate, 'yy/MM/dd')}"></td>
               </tr>
             </th:block>
             <th:block th:if="${holopayList} == '0'">

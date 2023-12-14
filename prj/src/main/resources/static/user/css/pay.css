@@ -25,7 +25,7 @@ p {
 	padding: 0 30px;
 }
 #searchHpHistory {
-	border: solid 1px #e9ecef;
+	border: solid 1px #ddd;
 	border-radius: 5px;
 	margin-bottom: 15px;
 	padding: 5px 30px 5px 20px;
@@ -45,4 +45,30 @@ p {
 }
 .brder-none {
 	border: none !important;
+}
+.page-link {
+    color: #232323;
+}
+.text-center {
+	text-align: center;
+}
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.pagination {
+	justify-content: center;
+	margin-top: 35px;
+}
+.justi-center {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	align-items: center;	
+}
+h3 {
+	font-size: 20px;
+	margin: 0;
 }
