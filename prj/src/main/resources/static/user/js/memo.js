@@ -591,7 +591,13 @@
 	        	uploadFiles.push(file);
 				const reader = new FileReader();
 				reader.onload = (e) => {
-		            $(memoImage).append('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
+					let tag = $('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
+					console.log(tag);
+					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', e.target.result).addClass('delBtn position_absol');
+					console.log(delBtn);
+					$(tag).append(delBtn);
+					console.log(tag);
+		            $(memoImage).append(tag);
 				};
 	          	reader.readAsDataURL(file);
 	        }
