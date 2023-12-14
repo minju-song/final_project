@@ -140,7 +140,12 @@
 		</th:block>
 	</form>
 	<!--/* 개인정보 폼 end */-->
-	
+	<script>
+		// 프로필사진 툴팁관련
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip();
+		})
+	</script>
 	<script th:src="@{/user/js/upload.js}"></script>
 	<script th:src="@{/user/js/myinfo.js}"></script>
 </body>

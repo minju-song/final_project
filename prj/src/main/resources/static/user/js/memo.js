@@ -283,6 +283,8 @@
 				$('#writedMemo').find('.memo_image').empty();
 				for(let i=0; i<data.images.length; i++) {
 					let tag = $('<div>').addClass('upload').css('background-image', `url('/images/${data.images[i].saveFile}')`);
+					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', data.images[i].saveFile).addClass('delBtn position_absol');
+					$(tag).append(delBtn);
 					$('#writedMemo').find('.memo_image').append(tag);
 				}
 				
@@ -399,6 +401,7 @@
 			$('.importmemoStart').append(clone);
 		}else{
 			clone.find('.bi-pin')[0].src = '/user/images/memo/pin.svg';
+			clone.find('.bi-pin')[0].classList.remove('bi-pin-fill');
 			$('.normalmemoStart').append(clone);
 		}
 		
@@ -588,7 +591,13 @@
 	        	uploadFiles.push(file);
 				const reader = new FileReader();
 				reader.onload = (e) => {
-		            $(memoImage).append('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
+					let tag = $('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
+					console.log(tag);
+					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', e.target.result).addClass('delBtn position_absol');
+					console.log(delBtn);
+					$(tag).append(delBtn);
+					console.log(tag);
+		            $(memoImage).append(tag);
 				};
 	          	reader.readAsDataURL(file);
 	        }

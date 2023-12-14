@@ -206,7 +206,7 @@
 		               , club_intro
 		               , fn_club_success_rate(club_id) AS success_rate
 		               , club_people
-		               , (SELECT COUNT(*) FROM club_member WHERE CLUB_ID = C.CLUB_ID) AS join_cnt
+		               , (SELECT COUNT(*) FROM club_member WHERE CLUB_ID = C.CLUB_ID AND join_date is not null AND stop_date is null) AS join_cnt
 		               , fn_get_code_name(open_scope) AS open_scope
 		               , club_profile_img
 		               , fn_mem_nickname(club_leader) club_leader

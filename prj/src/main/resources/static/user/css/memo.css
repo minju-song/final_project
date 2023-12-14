@@ -339,6 +339,15 @@
     margin-top: 10px;
     margin-left: 10px;
 }
+.modal-body .memo_image {
+	gap: 10px;
+}
+.modal-body .upload {
+	margin: 0;
+	margin-bottom: 20px;
+	min-width: 110px;
+	height: 160px;
+}
 .memo {
 	overflow: auto;
 }
@@ -356,4 +365,10 @@
 }
 .modal_btn_wrap {
 	margin-top: 0;
+}
+
+.delBtn{
+	width: 19px;
+    border-radius: 50%;
+    background-color: white;
 }
