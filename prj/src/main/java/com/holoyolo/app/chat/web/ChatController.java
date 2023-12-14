@@ -96,8 +96,7 @@ public class ChatController {
 		System.out.println(principalDetails.getMemberVO().getMemberName());
 		
 		model.addAttribute("room", room);
-		model.addAttribute("memberId", principalDetails.getUsername());
-		model.addAttribute("memberName", principalDetails.getMemberVO().getMemberName());
+		model.addAttribute("member", principalDetails.getMemberVO());
 		model.addAttribute("result", map);
 		model.addAttribute("menu", "club");
 		model.addAttribute("subMenu", "chat");

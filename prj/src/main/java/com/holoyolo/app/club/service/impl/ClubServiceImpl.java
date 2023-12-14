@@ -122,6 +122,7 @@ public class ClubServiceImpl implements ClubService {
 		
 		//가입한 회원목록
 		List<ClubMemberVO> memberList = clubMemberMapper.getMembers(vo);
+		System.out.println(memberList);
 		map.put("members", memberList);
 		
 		//클럽의 평균 성공률

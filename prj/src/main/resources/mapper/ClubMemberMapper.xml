@@ -58,7 +58,7 @@
   	
   	<!-- 해당 클럽의 회원목록 -->
   	<select id="getMembers" resultType="ClubMemberVO" parameterType="ClubVO">
-SELECT cm.*, m.member_name as member_name, m.profile_img,
+SELECT cm.*, m.nickname as nickname, m.profile_img,
 											(SELECT nvl(sum(price),0) 
                                             FROM acc_book_history
                                             <![CDATA[

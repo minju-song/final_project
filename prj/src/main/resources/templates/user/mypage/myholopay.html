@@ -19,7 +19,7 @@
     <div class="container">
       <!--/*홀로페이 잔액조회 */-->
 
-      <div class="row" th:if="${financeVO != null}">
+      <div class="row" th:if="${financeVO.bankname != null}">
         <div class="col-3">
           <h4>등록된 계좌 정보</h4>
           <p> 은행 : <span th:text="${financeVO.bankname}" id="myAccountName"></span></p>
@@ -43,7 +43,7 @@
 
 
 
-      <div class="row" th:if="${financeVO == null}">
+      <div class="row" th:if="${financeVO.bankname == null}">
         <div class="col-6">
           <h3>등록된 계좌가 없습니다</h3>
         </div>
@@ -218,6 +218,7 @@
         </div>
       </div>
     </div>
+
     <script th:src="@{/user/js/holopay.js}"></script>
 
   </div>

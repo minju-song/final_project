@@ -24,8 +24,8 @@
         </div>
 
         <script th:inline="javascript">
-            let memberId = /*[[${memberId}]]*/ null;
-            let memberName = /*[[${memberName}]]*/ null;
+            let memberId = /*[[${member.memberId}]]*/ null;
+            let memberName = /*[[${member.nickname}]]*/ null;
             let clubId = /*[[${result.club.clubId}]]*/ null;
             let room = /*[[${room}]]*/ null;
         </script>

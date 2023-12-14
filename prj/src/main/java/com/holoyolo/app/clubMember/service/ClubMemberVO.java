@@ -12,7 +12,7 @@ public class ClubMemberVO {
 	private Date stopDate;
 	
 	//멤버이름
-	private String memberName;
+	private String nickname;
 	
 	//현재소비금액
 	private int sumPrice;
