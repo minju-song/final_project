@@ -126,8 +126,8 @@
 					<span class="nickName" th:text="${tradeInfo.nickname}"></span>
 				</div>
 			</div>
-			<div class="tradeCategory bottomdown margins bottomdown30 ddd">
-				<span th:text="${tradeInfo.description}" th:style="@{white-space:pre;}"></span>
+			<div class="tradeCategory bottomdown margins bottomdown30">
+				<span th:text="${tradeInfo.description}" th:style="@{white-space:break-spaces;}"></span>
 			</div><hr class="bottomdown30">
             <div class="bottomdown30" id="map" style="width:100%;height:350px;" th:classappend="${tradeInfo.tradePlace eq null or tradeInfo.tradePlace eq ''} ? 'classHidden'" ></div>
 	        <div class="_card" th:unless="${tradeInfo.tradePlace != null and tradeInfo.tradePlace != ''}">

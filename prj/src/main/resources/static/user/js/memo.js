@@ -579,10 +579,23 @@
 	  		memoImage = $(e.target).closest('.modal').find('.memo_image');
 	  	}
 	  	
+	  	if ([...files].length >= 6) {
+	      swal.fire(
+	        	'이미지 업로드 제한!',
+	       		'이미지는 최대 5개까지 업로드가 가능합니다.',
+	        	'warning'
+	      	)
+	      return;
+	    }
+	  	
 		// 파일타입 검사 및 미리보기 생성
 		[...files].forEach(file => {
 	        if (!file.type.match("image/.*")) {
-				alert('이미지 파일만 업로드가 가능합니다.');
+				swal.fire(
+		        	'부적절한 형식!',
+		       		'이미지 파일만 업로드가 가능합니다.',
+		        	'warning'
+		      	)
 				return
 	        }
 	
