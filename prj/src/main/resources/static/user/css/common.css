@@ -294,3 +294,19 @@ select option {
 	line-height: 10px;
 	font-weight: bold;
 }
+
+/* 타이틀 수정 */
+.h2_title {
+	margin-left: 5px;
+	font-size: 25px;
+	margin-bottom: 50px;
+}
+.h2_title::before {
+	content: '';
+    background: #4161bf;
+    color: #4161bf;
+    display: inline-block;
+    width: 3px;
+    height: 17px;
+    margin-right: 10px;
+}

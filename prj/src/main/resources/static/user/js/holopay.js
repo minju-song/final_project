@@ -176,7 +176,7 @@ function setupPagination(totalPages) {
     previousLi.className = "page-item disabled";
     let previousLink = document.createElement("a");
     previousLink.className = "page-link";
-    previousLink.innerText = "Previous";
+    previousLink.innerText = "이전";
     previousLink.addEventListener("click", function () {
       if (currentPage > 1) {
         loadData(currentPage - 1);
@@ -206,7 +206,7 @@ function setupPagination(totalPages) {
     nextLi.className = "page-item";
     nextLink.className = "page-link";
     nextLink.href = "#";
-    nextLink.innerText = "Next";
+    nextLink.innerText = "다음";
     nextLink.addEventListener("click", function () {
       if (currentPage < totalPages) {
         loadData(currentPage + 1);
