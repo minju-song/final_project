@@ -2,9 +2,10 @@ package com.holoyolo.app.member.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -254,8 +255,32 @@ public class MemberServiceImpl implements MemberService {
 	// 어드민 홀로페이 내역
 	@Override
 	public List<MemberVO> getHolopayHistory(MemberVO memberVO) {
-		return memberMapper.getHolopayHistory(memberVO);
+	    List<MemberVO> payHistory = memberMapper.getHolopayHistory(memberVO);
+	    DecimalFormat decimalFormat = new DecimalFormat("#,###,###,###");
+
+	    for (MemberVO item : payHistory) {
+	        // 숫자가 null이 아니고 숫자 형식인 경우에만 포맷팅 수행
+	        if (item.getHolopayPrice() != null || item.getPointPrice() != null) {
+	            try {
+	                Number payNum = decimalFormat.parse(item.getHolopayPrice());
+	                Number pointNum = decimalFormat.parse(item.getPointPrice());
+	                item.setHolopayPrice(decimalFormat.format(payNum) + " 원");
+	                item.setPointPrice(decimalFormat.format(pointNum) + " P");
+	            } catch (ParseException e) {
+	                item.setHolopayPrice("N/A");
+	                item.setPointPrice("N/A");
+	            }
+	        } else {
+	            // 숫자가 null인 경우에 대한 처리
+	            item.setHolopayPrice("N/A");
+	            item.setPointPrice("N/A");
+	        }
+	    }
+
+	    return payHistory;
 	}
+
+
 	
 	@Override
 	public int deleteFile(MemberVO memberVO) {

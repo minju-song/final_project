@@ -1,7 +1,9 @@
 // import colorMapping from './admin-common.js';
 //console.log(window.location.pathname) 현재 경로
 console.log("admin-report.js 작업중");
-
+let status = "";
+let type = "";
+let search = "";
 $(document).ready(function () {
 	function renderReportProcessForm(status, type) {
 		$("#reportArea").empty();
@@ -13,7 +15,7 @@ $(document).ready(function () {
 			method: "GET",
 			data: { reportId },
 			success: function (data) {
-			console.log(data);
+				console.log(data);
 				let originContent = data.reportInfo.processComment
 				let reporterId = data.reportInfo.reporterId
 				let reportedId = data.reportInfo.reportedId
@@ -91,24 +93,24 @@ $(document).ready(function () {
 					let menuType = formData.menuType;
 					console.log(menuType)
 
-					// 템플릿 활용
 					let template = reportCommentTemplate(type, comment)
-					
-					
-					if(type == "SB1"){
-					// 1. 관련 회원이 해당페이지 접근시
-					// reporterId 신고자 아이디
-					
-					//유저가
-					// 2. 신고당한 회원 메세지
-					// 3. 신고한 회원에게 메세지
-					// 4. 신고당한 회원 신고횟수 +1
-					
+
+					if (type == "SB1") {
+					alert("해당 신고는 신고처리 되었습니다.")
+					location.reload();
+						$("#completedBtn").addClass("d-none");
+						$("#rejectedBtn").removeClass("d-none");
+						$("#reportArea").empty().append(template)
+					} else if (type == "SB2") {
+					alert("해당 신고는 반려처리 되었습니다.")
+					location.reload();
+						$("#rejectedBtn").addClass("d-none");
+						$("#completedBtn").removeClass("d-none");
+						$("#reportArea").empty().append(template)
 					}
 
-					$("#reportArea").empty().append(template)
-					
-					
+
+
 				})
 				.fail(function (error) {
 					console.error("Error fetching question list: ", error);
@@ -117,19 +119,18 @@ $(document).ready(function () {
 			console.log(type)
 		})
 		// 신고처리내용 템플릿
-				function reportCommentTemplate(type, comment) {
+		function reportCommentTemplate(type, comment) {
 			return `
 					<div>
-						<h5 class="fw-bold badge bg-label-${type == '신고처리' ? 'info' : 'danger'}">해당 신고는 아래 사유로
-							${type == '신고처리' ? '신고' : '반려'}처리 됨</h5>
+						<h5 class="fw-bold badge bg-label-${type == 'SB1' ? 'info' : 'danger'}">해당 신고는 아래 사유로
+							${type == 'SB1' ? '신고' : '반려'}처리 됨</h5> 
 						<p>${comment}</p>
 					</div>
 				  `
 		}
 	}
 
-	let status = ""
-	let type = ""
+
 
 	$(document).on("click", "#completedBtn", function (e) {
 		status = "신고"
@@ -170,7 +171,7 @@ $(document).ready(function () {
 		})
 			.done(function (data) {
 
-console.log(data)
+				console.log(data)
 				// 목록출력 
 				let reportData = data.list;
 				// 개수출력
@@ -209,7 +210,6 @@ console.log(data)
 				console.error("Error fetching question list: ", error);
 			});
 	}
-
 	// 페이징
 	$('.pagination').on("click", "li a", function (e) {
 		e.preventDefault();
@@ -218,7 +218,7 @@ console.log(data)
 		let targetPageNum = $(this).attr("href");
 		console.log("targetPageNum :: " + targetPageNum);
 		pageNum = targetPageNum;
-		
+
 
 		// 현재 선택된 상태에 따라 다른 상태값을 전달
 		let reportProcessType = ""; // 기본값은 전체
@@ -246,7 +246,7 @@ console.log(data)
 		reportType = "";
 		search = "";
 		$("#searchInput").val("");
-	
+
 		$("#completedReport, #rejectedReport").removeClass('active');
 		$("#totalReport").addClass('active');
 		renderReportList(reportType, pageNum, search)
@@ -257,7 +257,7 @@ console.log(data)
 		reportType = "반려";
 		search = "";
 		$("#searchInput").val("");
-		
+
 		$("#totalReport, #completedReport").removeClass('active');
 		$("#rejectedReport").addClass('active');
 		renderReportList(reportType, pageNum, search)
@@ -268,12 +268,12 @@ console.log(data)
 		reportType = "신고처리";
 		search = "";
 		$("#searchInput").val("");
-	
+
 		$("#totalReport, #rejectedReport").removeClass('active');
 		$("#completedReport").addClass('active');
 		renderReportList(reportType, pageNum, search)
 	})
-	
+
 	// 검색
 	let searchTimer;
 	$(document).on("keyup", '#searchInput', function () {
@@ -330,7 +330,7 @@ console.log(data)
 
 		$('.pagination').html(str);
 	}
-	
+
 	// init
 	renderReportList();
 });

@@ -32,8 +32,8 @@ function renderHolopayList(page, search) {
                                 <td>${list.rn}<i class="fab fa-angular fa-lg text-danger me-3"></i></td>
                                 <td>${list.memberId}</td>
                                 <td class="cursor-pointer">${list.nickname}</td>
-                                <td><span id="badgeColor" class="badge ${!isNaN(list.pointPrice) ? 'bg-label-info' : ''} me-1">${list.pointPrice}</span></td>
-                                <td><span  class="badge ${!isNaN(list.holopayPrice) ? 'bg-label-info' : ''} me-1"">${list.holopayPrice}</span></td>
+                                <td><span id="badgeColor" class="badge ${("0" || isNaN(list.pointPrice)) ? 'bg-label-info' : ''} me-1">${list.pointPrice}</span></td>
+                                <td><span  class="badge ${("0" || isNaN(list.holopayPrice)) ? 'bg-label-info' : ''} me-1"">${list.holopayPrice}</span></td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

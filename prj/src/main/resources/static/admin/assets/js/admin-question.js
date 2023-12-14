@@ -239,7 +239,7 @@ $("#defaultSelect").on("change", function(){
 				let target = event.target
 				$(".updateInput").addClass('d-none');
 				$(".originContent").removeClass('d-none');
-				//location.reload();
+				location.reload();
 			})
 			.fail(err => console.log(err))
 	})

@@ -24,10 +24,10 @@ const colorMapping = {
 	'신고대기': 'bg-label-primary',
 	
 	// 멤버
-	'일반회원': 'bg-label-info',
-	'거래정지': 'bg-label-danger',
-	'계정정지': 'bg-label-dark',
-	'관리자': 'bg-label-primary',
+	'ROLE_HA1': 'bg-label-info',
+	'ROLE_HA2': 'bg-label-danger',
+	'ROLE_HA3': 'bg-label-dark',
+	'ROLE_ADMIN': 'bg-label-primary',
 	
 	// 알뜰모임
 	'공개' : 'bg-label-info',

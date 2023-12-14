@@ -13,33 +13,39 @@
 	display: inline-block;
 	max-width: 400px;
 }
+
 .table-tr {
 	display: flex;
 	border: 1px solid #e6e6e6;
 }
+
 .table-th {
 	border-right: 1px solid #e6e6e6;
 	font-weight: 600;
 }
+
 .b-bottom-none {
 	border-bottom: none;
 }
+
 .table-caption {
 	display: flex;
-    align-items: center;
+	align-items: center;
 	font-size: 17px;
 	font-weight: 700;
 	margin: 0;
 }
+
 .table-caption:before {
-    content: '';
-    background: #4161bf;
-    color: #4161bf;
-    display: inline-block;
-    width: 3px;
-    height: 17px;
-    margin-right: 10px;
+	content: '';
+	background: #4161bf;
+	color: #4161bf;
+	display: inline-block;
+	width: 3px;
+	height: 17px;
+	margin-right: 10px;
 }
+
 .dp-flex {
 	display: flex;
 	align-items: center;
@@ -72,7 +78,7 @@
 										<img src="/admin/assets/img/avatars/1.png" alt="facebook"
 											class="me-3 rounded" height="36" />
 									</div>
-									
+
 									<div class="flex-grow-1 row">
 										<div class="col-12 col-sm-12 mb-sm-0 mb-2">
 											<!-- 메뉴유형 -->
@@ -94,7 +100,15 @@
 									신고된 아이디 ➡ <span th:text="${item.reportedId}"
 										class="text-danger"></span>
 								</p>
-								<div>
+								<div th:if="${item.reportProcessType == '신고처리'}">
+									<button id="rejectedBtn" type="button"
+										class="btn btn-danger me-4">반려</button>
+								</div>
+								<div th:if="${item.reportProcessType == '반려'}">
+									<button id="completedBtn" type="button"
+										class="btn btn-info me-4">신고처리</button>
+								</div>
+								<div th:if="${item.reportProcessType == '신고대기'}">
 									<button id="completedBtn" type="button"
 										class="btn btn-info me-4">신고처리</button>
 									<button id="rejectedBtn" type="button"
@@ -104,43 +118,58 @@
 								<div class="origin_info mt-5">
 									<div class="dp-flex mb-3">
 										<p class="table-caption">원글정보</p>
-										<th:block th:if="${reportInfo.menuType.toString().equals('중고거래')}">
-											<a th:href="@{/member/tradeInfo(tradeId=${reportInfo.postId}, sellerId=${reportInfo.reportedId})}" target="_blank">
+										<th:block
+											th:if="${reportInfo.menuType.toString().equals('중고거래')}">
+											<a
+												th:href="@{/member/tradeInfo(tradeId=${reportInfo.postId}, sellerId=${reportInfo.reportedId})}"
+												target="_blank">
 												<button class="btn btn-info btn-sm">원글 바로가기</button>
 											</a>
 										</th:block>
-										<th:block th:unless="${reportInfo.menuType.toString().equals('중고거래')}">
-											<a th:href="@{/member/board/view(boardId=${reportInfo.postId})}" target="_blank">
+										<th:block
+											th:unless="${reportInfo.menuType.toString().equals('중고거래')}">
+											<a
+												th:href="@{/member/board/view(boardId=${reportInfo.postId})}"
+												target="_blank">
 												<button class="btn btn-info">원글 열기</button>
 											</a>
 										</th:block>
 									</div>
 									<div class="table-tr b-bottom-none">
-										<span class="table-th">제목</span>
-										<span class="table-td">[[${boardInfo.title}]]</span>
+										<span class="table-th">제목</span> <span class="table-td">[[${boardInfo.title}]]</span>
 									</div>
 									<div class="table-tr mb-2">
-										<span class="table-th">내용</span>
-										<span class="table-td">[[${boardInfo.content}]]</span>
+										<span class="table-th">내용</span> <span class="table-td">[[${boardInfo.content}]]</span>
 									</div>
 								</div>
 								<!--/* 원글정보 end */-->
 							</div>
 							<div id="reportArea" class="col-md p-4 position-relative">
-								<div class="reportContent"
+							<div class="reportContent"
 									th:if="${item.processComment == null}"></div>
-								<div class="reportContent"
-									th:if="${item.reportProcessType == '신고처리'}">
-									<h5 class="fw-bold badge bg-label-info">해당 신고는 아래 사유로 신고처리
-										됨</h5>
-									<p th:text="${item.processComment}"></p>
+							<div class="reportContent"
+									th:if="${item.processComment != null}">
+									<p class="table-caption mb-3">처리내용</p>
+								<div class="origin_info">
+									<div class="table-tr b-bottom-none" th:if="${item.reportProcessType == '신고처리'}">
+										<span class="table-th">상태</span>
+										<h5 class="table-td m-2 fw-bold badge bg-label-info">해당 신고는 아래 사유로 신고처리됨</h5>
+									</div>
+									<div class="table-tr b-bottom-none" th:if="${item.reportProcessType == '반려'}">
+										<span class="table-th">상태</span>
+										<h5 class="table-td m-2 fw-bold badge bg-label-danger">해당 신고는 아래 사유로 반려처리됨</h5>
+									</div>
+									<div class="table-tr b-bottom-none">
+										<span class="table-th">일자</span> <span class="table-td">[[${#dates.format(reportInfo.processDate,
+										'yyyy-MM-dd hh:mm')}]]</span>
+									</div>
+									<div class="table-tr mb-2">
+										<span class="table-th">내용</span> <span class="table-td">[[${item.processComment}]]</span>
+									</div>
 								</div>
-								<div class="reportContent"
-									th:if="${item.reportProcessType == '반려'}">
-									<h5 class="fw-bold badge bg-label-danger">해당 신고는 아래 사유로
-										반려처리 됨</h5>
-									<p th:text="${item.processComment}"></p>
-								</div>
+									</div>
+									
+								
 							</div>
 							<!-- /회원 문의 -->
 						</div>
@@ -150,9 +179,11 @@
 		</div>
 		<script th:src="@{/admin/assets/js/admin-common.js}"
 			th:inline="javascript">
+			
 		</script>
 		<script th:src="@{/admin/assets/js/admin-report.js}"
 			th:inline="javascript">
+			
 		</script>
 
 	</div>

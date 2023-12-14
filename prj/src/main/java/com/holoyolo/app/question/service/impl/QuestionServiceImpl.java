@@ -48,6 +48,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 		// 답변 전체조회
 		List<AnswerVO> findAnswerVO = answerService.selectAnswerAll(questionVO);
+		System.out.println(">>>>>>>>>>>>>>>>>"+findAnswerVO);
 		
 		attachmentVO.setPostId(findQuestionVO.getQuestionId());
 		attachmentVO.setMenuType("AA8");

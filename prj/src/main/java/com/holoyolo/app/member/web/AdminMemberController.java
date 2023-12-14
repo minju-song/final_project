@@ -39,6 +39,7 @@ public class AdminMemberController {
 	public String selectHolopayList(Model model) {
 		return "admin/holopay/holopayPage";
 	}
+	
 	@GetMapping("/admin/holopay/list")
 	@ResponseBody
 	public Map<String, Object> getHolopayMapAjax(MemberVO memberVO) {

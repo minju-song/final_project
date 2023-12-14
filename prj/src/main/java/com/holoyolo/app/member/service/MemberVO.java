@@ -51,8 +51,8 @@ public class MemberVO {
 	private int rn;
 	private int pageUnit=10;
 	// 홀로페이
-	private int pointPrice;
-	private int holopayPrice;
+	private String pointPrice;
+	private String holopayPrice;
 	
 	//포인트, 홀로페이 등록
 	private int point;
