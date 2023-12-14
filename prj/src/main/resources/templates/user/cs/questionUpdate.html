@@ -71,9 +71,7 @@
 					<div class="col-12 writeInput">
 						<div class="input-group mb-3">
 							<span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
-							<input type="file" name="attachmentFiles" class="form-control" id="questionAttach" aria-describedby="basic-addon3" multiple >
-							<img th:src="@{/images/}+ ${questionImg.saveFile}" class="imgSize"
-										th:data-file="${questionImg.saveFile}">
+							<input type="file" name="attachmentFiles" class="form-control" id="questionAttach" aria-describedby="basic-addon3" multiple>
 						</div>
 					</div>
 					<div id="attachedFilesContainer">
@@ -95,7 +93,6 @@
 				let imgListSize = imgList ? imgList.length : 0;
 				let postId = /*[[${questionVO.questionId}]]*/ 0;
 				let attachList = /*[[${questionAttach}]]*/ null;
-				
 			</script>
 			<script src="/user/js/noticeUpdate.js"></script>
 			<script src="/user/js/community.js"></script>
