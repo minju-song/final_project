@@ -219,9 +219,11 @@ $("#defaultSelect").on("change", function(){
 		$(updateInput).removeClass('d-none');
 		$(originContent).addClass('d-none');
 	}
+	
 	// 수정
 	$(document).on("click", "button[name='updateConfirm']", function (e) {
 		e.preventDefault();
+		
 		// 수정된 formData 가져오기
 		let formData = getUpdateInputForm();
 		let questionId = formData.questionId;
@@ -286,6 +288,17 @@ $("#defaultSelect").on("change", function(){
 		}
 	}
 
+function displayText() {
+
+    // 입력된 텍스트 가져오기
+    var inputText = document.getElementById("answer").value;
+
+    // 개행 문자를 <br> 태그로 대체
+    var displayText = inputText.replace(/\n/g, "<br>");
+
+    // 화면에 표시document.getElementById("displayArea")
+    document.getElementById("displayArea").innerHTML = displayText;
+}
 $(document).ready(function () {
 	renderQuestionList("", 1, search,10);
 })
