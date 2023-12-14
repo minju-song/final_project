@@ -18,14 +18,6 @@ function fileDeleteBtn(e) {
   })
 }
 
-
-
-
-
-
-
-
-
 $(function () {
   let uploadFiles = [];
   /*

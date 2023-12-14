@@ -7,7 +7,7 @@ function fileDeleteBtn(e){
 	let saveFile = e.target.dataset.file;
 	$.ajax({
 			url : '/member/attachmentDelete',  //이동할 jsp 파일 주소
-			data : {saveFile, postId},
+			data : {saveFile, postId, menuType: 'AA1'},
 			success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 				console.log("성공");
 				e.target.parentElement.remove();
@@ -54,7 +54,7 @@ document.getElementById('placeSelectButton').addEventListener('click', function(
 
 //장소 선택 활성화&비활성화
 console.log(tradeType)
-if(tradeType = 'TA1'){
+if(tradeType == 'TA1'){
   	$('#placeSelectButton').attr("disabled", false);
   	$('#placeSelectButton').css("background-color", "#09203f");
 }

@@ -284,6 +284,8 @@
 				for(let i=0; i<data.images.length; i++) {
 					let tag = $('<div>').addClass('upload').css('background-image', `url('/images/${data.images[i].saveFile}')`);
 					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', data.images[i].saveFile).addClass('delBtn position_absol');
+					console.log(delBtn[0])
+					delBtn[0].addEventListener('click', delFileDie);
 					$(tag).append(delBtn);
 					$('#writedMemo').find('.memo_image').append(tag);
 				}
@@ -608,6 +610,7 @@
 					console.log(tag);
 					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', e.target.result).addClass('delBtn position_absol');
 					console.log(delBtn);
+					delBtn[0].addEventListener('click', delFile);
 					$(tag).append(delBtn);
 					console.log(tag);
 		            $(memoImage).append(tag);
@@ -642,7 +645,6 @@
 		for (const x of formData) {
 		 console.log(x);
 		};
-		
 		//jQuery.ajax
 		$.ajax({
 	       url: '/member/memoUploadImg',	
@@ -658,4 +660,34 @@
 	           console.log(reject);
 	       }
 	   }); 
+	}
+	
+	//파일 삭제
+	function delFile(e) {
+	    let fileName = e.target.getAttribute('data-file');
+	
+	    let newFilesArr = uploadFiles.filter((file, idx) => {
+	      return file.name != fileName;
+	    })
+	
+	    uploadFiles = newFilesArr;
+	
+	    e.target.parentNode.remove();
+	  }
+	  
+	//db 삭제
+	function delFileDie(e) {
+		let saveFile =  e.target.parentElement.style.backgroundImage.split('"')[1];
+		saveFile = saveFile.substr(8);
+		$.ajax({
+			url : '/member/attachmentDelete',  //이동할 jsp 파일 주소
+			data : {saveFile, postId: memoId, menuType: 'AA7'},
+			success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
+				console.log("성공");
+				e.target.parentElement.remove();
+			},
+			error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+				console.log("실패");
+			}
+		})
 	}

@@ -186,7 +186,6 @@ public class TradeController {
 	@ResponseBody
 	public void attachmentDelete(@AuthenticationPrincipal PrincipalDetails principalDetails,
 								 AttachmentVO attachmentVO){
-		attachmentVO.setMenuType("AA1");
 		attachmentService.deleteAttachment(attachmentVO);
 	}
 	
