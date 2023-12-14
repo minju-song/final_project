@@ -97,6 +97,7 @@ public class NoticeController {
 
 	}
 
+//공지 수정
 	@GetMapping("/cs/help/notice/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
 			int boardId, Model mo) {
@@ -104,12 +105,11 @@ public class NoticeController {
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
-
+		attachmentVO.setPostId(boardId);
+		attachmentVO.setMenuType("AA6");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
-
-		BoardVO board = boardService.selectBoard(boardId);
 		mo.addAttribute("menu", "cs");
-		mo.addAttribute("board", board);
+		mo.addAttribute("board", boardService.selectBoard(boardId));
 		mo.addAttribute("noticeImg", returnMap.get("imgList"));
 		mo.addAttribute("noticeAttach", returnMap.get("attachList"));
 

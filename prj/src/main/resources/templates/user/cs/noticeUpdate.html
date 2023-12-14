@@ -38,11 +38,20 @@
 					</div>
 
 					<div class="col-md-12 writeInput">
-						<label for="tradeImg" class="form-label">이미지<span class="star">*</span></label>
+						<label for="noticeImg" class="form-label">이미지<span class="star">*</span></label>
 						<div class="imgFlex">
-							<img class="tradeImgPlus" id="noticeImg" th:src="@{/user/images/trade/photo.png}">
-							<input class="real_file" name="imageFiles" type="file" accept="image/*"  multiple />
-							<div class="file-list"></div>
+							<img class="tradeImgPlus" id="noticeImg" th:src="@{/user/images/cs/photo.png}">
+							<input class="real_file" name="imageFiles" type="file" accept="image/*" multiple />
+							<div class="file-list">
+								<li calss="position_rela" th:each="noticeImg, stat : ${noticeImg}">
+									<img th:data-file="${noticeImg.saveFile}"
+										th:src="@{/user/images/trade/delete-button.png}" class="delBtn position_absol"
+										th:onclick=fileDeleteBtn(event)>
+									<img th:src="@{/images/}+ ${noticeImg.saveFile}" class="imgSize"
+										th:data-file="${noticeImg.saveFile}">
+								</li>
+							</div>
+
 						</div>
 
 					</div>
@@ -54,7 +63,7 @@
 						</div>
 					</div>
 					<div class="col-md-12 writeInput buttonFrom">
-						<button type="reset" class="btn btn-secondary">취소</button>
+						<button type="reset" class="btn btn-secondary" id="cancelBtn">취소</button>
 						<button type="submit" class="btn btn-primary">등록</button>
 					</div>
 				</form>
@@ -63,7 +72,13 @@
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
-		<script src="/user/js/noticeInsert.js"></script>
+
+		<script th:inline="javascript">
+			let imgList = /*[[${noticeImg}]]*/ null;
+			let imgListSize = /*[[${noticeImg.size}]]*/ 0;
+			let postId = /*[[${board.boardId}]]*/ 0;
+		</script>
+		<script src="/user/js/noticeUpdate.js"></script>
 		<script src="/user/js/community.js"></script>
 	</div>
 </body>
