@@ -1,5 +1,6 @@
 package com.holoyolo.app.holopayHistory.service.Impl;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,8 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 	RestTemplate restTemplate;
 
 	@Override
-	public int holopayBalance(MemberVO vo) {
-
+		public int holopayBalance(MemberVO vo) {
+	
 		return holopayHistoryMapper.holopayBalance(vo);
 	}
 
@@ -56,7 +57,7 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 		List<HoloPayHistoryVO> rtn = new ArrayList<HoloPayHistoryVO>();
 		switch (str) {
 		case "all":
-				rtn =holopayHistoryList(vo);
+			rtn = holopayHistoryList(vo);
 			break;
 		case "1M":
 			vo.setSearchMonth(-1);
@@ -75,18 +76,18 @@ public class HoloPayHistoryServiceImpl implements HoloPayHistoryService {
 		}
 		return rtn;
 	}
-	
-	 @Override
-	  public List<HoloPayHistoryVO> searchPayPaged(String str, HoloPayHistoryVO vo, int start, int end) {
-	    // 기간별 조회 메서드를 사용하여 페이징된 내역을 가져오도록 수정
-	    List<HoloPayHistoryVO> allHistoryList = searchPay(str, vo);
-	    return allHistoryList.subList(start, Math.min(end, allHistoryList.size()));
-	  }
 
-	  @Override
-	  public int getTotalRecords(String str, HoloPayHistoryVO vo) {
-	    // 전체 레코드 수를 반환하는 메서드
-	    List<HoloPayHistoryVO> allHistoryList = searchPay(str, vo);
-	    return allHistoryList.size();
-	  }
+	@Override
+	public List<HoloPayHistoryVO> searchPayPaged(String str, HoloPayHistoryVO vo, int start, int end) {
+		// 기간별 조회 메서드를 사용하여 페이징된 내역을 가져오도록 수정
+		List<HoloPayHistoryVO> allHistoryList = searchPay(str, vo);
+		return allHistoryList.subList(start, Math.min(end, allHistoryList.size()));
+	}
+
+	@Override
+	public int getTotalRecords(String str, HoloPayHistoryVO vo) {
+		// 전체 레코드 수를 반환하는 메서드
+		List<HoloPayHistoryVO> allHistoryList = searchPay(str, vo);
+		return allHistoryList.size();
+	}
 }

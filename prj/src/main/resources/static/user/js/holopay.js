@@ -47,12 +47,17 @@ let rechargeBtn = document.getElementById('callHoloPayRechargeApiBtn');
 rechargeBtn.addEventListener('click', rechargeCheck);
 function rechargeCheck() {
   let rechargePrice = document.getElementById('rechargePrice').value;
-  if (rechargePrice < 10000 && rechargePrice > 0) {
+  if (rechargePrice == "") {
+    Swal.fire({
+      title: "",
+      text: "충전금액은 숫자만 입력 가능합니다.",
+      icon: "info",
+    })
+  } else if (rechargePrice < 10000 && rechargePrice > 0) {
     Swal.fire({
       title: "",
       text: "최소 충전금액은 10,000원 입니다.",
       icon: "info",
-
     })
   } else if (rechargePrice <= 0) {
     Swal.fire({
@@ -83,8 +88,8 @@ function callRechargeApi(rechargePrice) {
     if (data.resultCode == 1) {
       viewIcon = "success"
     } else if (data.resultCode == 3
-             || data.resultCode == 4  
-             || data.resultCode == 5) {
+      || data.resultCode == 4
+      || data.resultCode == 5) {
       viewIcon = "error"
     }
     Swal.fire({
@@ -257,10 +262,14 @@ function updateTable(data) {
   if (data && data.historyList && data.historyList.length > 0) {
     // 데이터가 있을 경우 테이블에 행 추가
     data.historyList.forEach(function (item, index) {
+
+
+
+
       let row = $("<tr>");
       row.append($("<td>").text(index + 1));
       row.append($("<td>").text(getTransactionType(item.hpType)));
-      row.append($("<td>").text(item.price));
+      row.append($("<td>").text(Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(item.price)));
       row.append($("<td>").text(item.holopayComment));
       row.append($("<td>").text(formatDate(item.hpDate)));
 
@@ -273,10 +282,6 @@ function updateTable(data) {
   }
 
 }
-
-$(document).ready(function () {
-  loadData(currentPage);
-});
 
 function formatDate(dateString) {
   let date = new Date(dateString);
@@ -303,6 +308,10 @@ function getTransactionType(type) {
 
 }
 
+
+$(document).ready(function () {
+  loadData(currentPage);
+});
 
 loadData(currentPage);
 

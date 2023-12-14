@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +65,7 @@ public class HoloPayController {
 		} else {
 			mo.addAttribute("financeVO", financeVO);
 			// 홀로페이
+			
 			int holoBalance = holoPayHistoryService.holopayBalance(memberVO);
 			mo.addAttribute("payBalance", holoBalance);
 		}

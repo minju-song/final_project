@@ -31,8 +31,8 @@
         </div>
         <div class="col-3">
           <h4>HOLOPAY</h4>
-          <p>홀로페이 잔액 : <span th:text="${payBalance}"></span></p>
-        </div>
+          <p>홀로페이 잔액 : <span th:text="${#numbers.formatInteger(payBalance, 0, 'COMMA')} + 원"></span></p>
+                  </div>
         <div class="col-3">
           <div class="btn-group">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rechargeSet">충전</button>
@@ -85,7 +85,7 @@
                   <span th:case="HP3" class="center-block label label-primary">판매</span>
                   <span th:case="HP4" class="center-block label label-primary">입금</span>
                 </td>
-                <td th:text="${holopayList.price}"></td>
+                <td th:text="${#numbers.formatInteger(holopayList.price, 0, 'COMMA')}"></td>
                 <td th:text="${holopayList.holopayComment}"></td>
                 <td th:text="${#dates.format(holopayList.hpDate, 'yy/MM/dd')}"></td>
               </tr>
