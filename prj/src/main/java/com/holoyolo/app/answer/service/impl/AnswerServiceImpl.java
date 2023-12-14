@@ -43,7 +43,6 @@ public class AnswerServiceImpl implements AnswerService {
 	public Map<String, Object> updateAnswerInfo(AnswerVO answerVO) {
 		Map<String, Object> map = new HashMap<>();
 		boolean isSuccessed = false;
-		
 		int result = answerMapper.updateAnswerInfo(answerVO);
 		if (result == 1) {
 			isSuccessed = true;

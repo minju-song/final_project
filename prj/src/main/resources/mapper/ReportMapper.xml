@@ -16,6 +16,7 @@ SELECT *
 			        reporter_id,
 			        report_content,
 			        report_date,
+			        process_date,
 			        fn_get_code_name(report_type) AS report_type,
 			        NVL(TO_CHAR(fn_get_code_name(report_process_type)),'신고대기') AS report_process_type
 			    FROM report) report
@@ -100,7 +101,8 @@ SELECT *
   	<update id="updateReportReason" parameterType="ReportVO">
   		UPDATE report SET
                 report_process_type = #{reportProcessType},
-                process_comment = COALESCE(#{processComment}, '')
+                process_comment = COALESCE(#{processComment}, ''),
+                process_date = sysdate
 		WHERE report_id = #{reportId}
   	</update>
   	

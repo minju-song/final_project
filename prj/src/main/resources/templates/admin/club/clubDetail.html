@@ -6,6 +6,51 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.table-th, .table-td {
+	padding: 10px 15px;
+	display: inline-block;
+	max-width: 400px;
+}
+
+.table-tr {
+	display: flex;
+	border: 1px solid #e6e6e6;
+}
+
+.table-th {
+	border-right: 1px solid #e6e6e6;
+	font-weight: 600;
+}
+
+.b-bottom-none {
+	border-bottom: none;
+}
+
+.table-caption {
+	display: flex;
+	align-items: center;
+	font-size: 17px;
+	font-weight: 700;
+	margin: 0;
+}
+
+.table-caption:before {
+	content: '';
+	background: #4161bf;
+	color: #4161bf;
+	display: inline-block;
+	width: 3px;
+	height: 17px;
+	margin-right: 10px;
+}
+
+.dp-flex {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+</style>
 </head>
 
 <body>
@@ -31,44 +76,40 @@
 						<!-- 회원 문의 -->
 						<div class="col-md p-4">
 							<div class="d-flex mb-3">
-								<!-- 		<div class="flex-shrink-0">
-									<img src="/admin/assets/img/avatars/1.png" alt="facebook"
-										class="me-3 rounded" height="36" />
-								</div> -->
-								<div class="flex-grow-1 row">
-									<div class="col-12 col-sm-12 mb-sm-0 mb-2">
-										<h6 class="fw-bold ">
-											리더 <span th:text="${info.clubLeader}"
-												class="badge bg-label-info"></span>
-										</h6>
-										<h6 class="fw-bold">
-											인원 <span th:text="${info.joinCnt}+' / '+${info.clubPeople}"
-												class="badge bg-label-info"></span>
-										</h6>
-										<h6 class="fw-bold">
-											성공 <span th:text="${info.successCnt}"
-												class="badge bg-label-success"></span>
-										</h6>
-										<h6 class="fw-bold">
-											예산 <span th:text="${info.price}"
-												class="badge bg-label-warning"></span>
-										</h6>
-										<h6 class="fw-bold mb-1">소개</h6>
-										<span th:text="${info.clubIntro}"></span>
-										<!-- <h6 th:text="'🏴 '+${info.clubLeader}" class="mb-0">1:1 문의</h6>
-										<span th:text="'😀 '+${info.joinCnt}+' / '+${info.clubPeople}" class="text-info">회원아이디</span>
-										<span th:text="${#dates.format(info.clubDate, 'yyyy-MM-dd hh:mm')}" class="text-secondary ms-3">2023-11-09 22:12</span> -->
+								<!--/* 원글정보 start */-->
+								<div class="origin_info ">
+									<div class="dp-flex mb-3">
+										<p class="table-caption">모임정보</p>
+									</div>
+									<div class="table-tr b-bottom-none">
+										<span class="table-th">리더</span> <span class="table-td">[[${info.clubLeader}]]</span>
+									</div>
+									<div class="table-tr b-bottom-none">
+										<span class="table-th">인원</span> <span class="table-td">[[${info.joinCnt}+'
+											/ '+${info.clubPeople}]]</span>
+									</div>
+									<div class="table-tr b-bottom-none">
+										<span class="table-th">성공</span> <span class="table-td">[[${info.successCnt}]]</span>
+									</div>
+									<div class="table-tr b-bottom-none">
+										<span class="table-th">예산</span> <span class="table-td">[[${info.price}]]</span>
+									</div>
+									<div class="table-tr mb-2">
+										<span class="table-th">소개</span> <span class="table-td">[[${info.clubIntro}]]</span>
 									</div>
 								</div>
+								<!--/* 원글정보 end */-->
+								
 							</div>
 
 						</div>
 						<!-- /회원 문의 -->
 						<!-- 관리자 답변 -->
-						<div id="deleteReason" class=" col-md p-4 position-relative d-none">
- 							<form id="deleteReasonForm" class="">
-								<input type="hidden" name="clubId" th:value="${info.clubId}"/>
-								<input type="hidden" name="clubName" th:value="${info.clubName}"/>
+						<div id="deleteReason"
+							class=" col-md p-4 position-relative d-none">
+							<form id="deleteReasonForm" class="">
+								<input type="hidden" name="clubId" th:value="${info.clubId}" />
+								<input type="hidden" name="clubName" th:value="${info.clubName}" />
 								<span class="fw-bold">사유 작성</span>
 								<div class="mt-2">
 									<textarea class="form-control" name="text"

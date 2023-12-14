@@ -73,7 +73,7 @@
 									<div class="col-8 col-sm-7 mb-sm-0 mb-2 p-0">
 										<h6 class="mb-0 fw-bold">관리자</h6>
 										<small class="text-secondary"
-											th:text="${#dates.format(info.answerDate, 'yyyy-MM-dd HH:mm')}">2023-11-09
+											th:text="${info.updateDate} ? ${#dates.format(info.updateDate, 'yyyy-MM-dd HH:mm')} : ${#dates.format(info.answerDate, 'yyyy-MM-dd HH:mm')}">2023-11-09
 											22:12</small>
 									</div>
 									<div class="originContent  mb-3 p-0">

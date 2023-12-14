@@ -12,6 +12,7 @@
 		    c.club_people,
 		    c.club_intro,
 		    c.club_date,
+		    b.use_yn,
 		    b.club_budget_price AS price,
 		    COALESCE(cs.successCnt, 0) AS successCnt,
 		    COALESCE(cm.join_Cnt, 0) AS join_Cnt
@@ -33,7 +34,7 @@
 		    WHERE stop_date IS NULL OR stop_date > CURRENT_DATE
 		    GROUP BY club_id
 		) cm ON c.club_id = cm.club_id
-		WHERE c.club_id = #{clubId}
+		WHERE c.club_id = #{clubId} AND b.use_yn = 'Y'
   	</select>
 
 	<select id="getClub" resultType="ClubVO">

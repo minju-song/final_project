@@ -166,6 +166,7 @@ let questionYn = "";
 	})
 	
 	$(document).on("click", "#deleteReasonForm button", function(e){
+	confirm("모임을 삭제하시겠습니까?")
 		e.preventDefault();
 		let formData = getUpdateInputForm(e);
 		let clubId = formData.clubId
