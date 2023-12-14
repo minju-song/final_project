@@ -117,7 +117,7 @@ function callList(page, search) {
 
 //들어온 데이터 화면에 그려줌
 function drawClub(clubArr) {
-console.log(clubArr)
+    console.log(clubArr)
 
     let clubList = document.getElementById('clubList');
 
@@ -149,14 +149,13 @@ console.log(clubArr)
         let maxChars = 18;
 
         let shortIntro = clubArr[i].clubIntro.length > maxChars
-        ? clubArr[i].clubIntro.substring(0, maxChars) + "..."
-        : clubArr[i].clubIntro;
+            ? clubArr[i].clubIntro.substring(0, maxChars) + "..."
+            : clubArr[i].clubIntro;
 
-        divInfo.innerHTML = '모임명 : ' + clubArr[i].clubName + '<br>'
-            + '모임소개 : ' + shortIntro + '<br>'
-            + '모임장 : ' + clubArr[i].leaderName + '<br>'
-            + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + ' [가입인원 / 모집인원]<br>'
-            + '절약예산 / 기간단위 <br>';
+        divInfo.innerHTML = '<div class="clubName">모임명 : ' + clubArr[i].clubName + '</div>'
+            + '<div class="clubIntro">모임소개 : ' + shortIntro + '</div>'
+            + '<div class="clubKing">모임장 : ' + clubArr[i].leaderName + '</div>'
+            + '<div class="people">' + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + ' [가입인원 / 모집인원]</div>';
 
         //버튼생성
         let btn = document.createElement('button');

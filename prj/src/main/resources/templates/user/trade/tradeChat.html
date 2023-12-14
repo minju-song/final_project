@@ -52,11 +52,11 @@
 				<span th:text="${result.trade.tradeCategoryName}"></span> &#8226;
 				<span class="type" th:text="|${#numbers.formatInteger(result.trade.price, 0, 'COMMA')}원|"></span>
 			</div>
-			<div th:if="${result.trade.promiseStatus eq '거래중'}" class="promiseStatus btn-danger">
-				<span>[[${result.trade.promiseStatus}]]</span>
+			<div th:if="${result.trade.promiseStatusName eq '거래중'}" class="promiseStatus btn-danger">
+				<span>[[${result.trade.promiseStatusName}]]</span>
 			</div>
-			<div th:if="${result.trade.promiseStatus eq '거래완료'}" class="promiseStatus btn-secondary">
-				<span>[[${result.trade.promiseStatus}]]</span>
+			<div th:if="${result.trade.promiseStatusName eq '거래완료'}" class="promiseStatus btn-secondary">
+				<span>[[${result.trade.promiseStatusName}]]</span>
 			</div>
 			<div>
 				<div class="tradeType" th:if="${result.trade.tradeType eq 'TA1'}">
@@ -108,11 +108,11 @@
 			let you = /*[[${you}]]*/ null;
 			let trade = /*[[${result.trade}]]*/ null;
 			let memberId = /*[[${member.memberId}]]*/ null;
-			let memberName = /*[[${member.memberName}]]*/ null;
+			let memberName = /*[[${member.nickname}]]*/ null;
 			let room = /*[[${room}]]*/ null;
 			let chats = /*[[${result.chats}]]*/ null;
 			let img = /*[[${result.img}]]*/ null;
-			console.log(you);
+			console.log(trade);
 		</script>
 		<script th:src="@{/user/js/tradeChat.js}"></script>
 

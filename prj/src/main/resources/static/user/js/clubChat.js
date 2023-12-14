@@ -91,7 +91,7 @@ function drawChat(data) {
         else {
             div.classList.add('msg', 'other_div');
             div2.setAttribute('class', 'other');
-            p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + dateFormat(data.date) + '</span>';
+            p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date.substr(0, 21) + '</span>';
         }
 
         if (data.type == 'notice') {

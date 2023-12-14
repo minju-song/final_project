@@ -44,6 +44,33 @@
 		AND t.seller_id = #{sellerId}
 	</select>
 
+	<select id="selectTrade2" resultType="TradeVO">
+		SELECT t.trade_id
+		        , t.title
+		        , t.description
+		        , fn_get_code_name(trade_category) as trade_category_name
+		        , trade_category
+		        , t.price
+		        , t.trade_place
+		        , fn_get_code_name(trade_type) as trade_type_name
+		        , trade_type
+		        , fn_get_code_name(payment_type) as payment_type_name
+		        , t.payment_type
+		        , fn_get_code_name(promise_status) as promise_status_name
+		        , promise_status
+		        , t.views
+		        , t.write_date
+		        , t.latitude
+		        , t.longitude
+		        , t.buyer_id
+		        , t.seller_id
+		        , m.profile_img
+		        , m.nickname
+		FROM trade t JOIN member m
+		            ON(t.seller_id = m.member_id)
+		WHERE t.trade_id = #{tradeId}
+	</select>
+
 	<insert id="insertTrade" parameterType="TradeVO">
 		<selectKey keyProperty="tradeId" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(trade_id),0) + 1 as tradeId

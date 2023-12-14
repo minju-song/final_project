@@ -85,6 +85,7 @@ function send() {
 	msg.value = '';
 }
 
+//채팅그려주는 함수
 function drawChat(data) {
 	if (data.type == 'msg') {
 		let div = document.createElement('div');
@@ -109,7 +110,12 @@ function drawChat(data) {
 		else {
 			div.classList.add('msg', 'other_div');
 			div2.setAttribute('class', 'other');
-			p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date + '</span>';
+			if (you.memberId == null) {
+				p.innerHTML = '알 수 없음' + '<span style="padding:0 15px;">' + data.date + '</span>';
+			}
+			else {
+				p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date + '</span>';
+			}
 		}
 
 

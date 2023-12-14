@@ -9,6 +9,9 @@
 		    c.club_id,
 		    c.club_name,
 		    c.club_leader,
+		    (select nickname
+            from member
+            where member_id = c.club_leader) as leader_name,
 		    c.club_people,
 		    c.club_intro,
 		    c.club_date,
