@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
@@ -33,9 +34,9 @@
                         <option value="TB8">기타</option>
                    	</select>
                    	<label class="sellcheck">
-					  <span>약속잡기 가능만<input type="checkbox"></span>
+					  <span>모든 중고거래<input type="checkbox"></span>
 					</label>
-					<div class="insertbutton" th:onclick="|location.href='@{/member/tradeInsert}'|">
+					<div class="insertbutton" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/member/tradeInsert}'|">
 						<p>게시글 등록</p>
 					</div>
 				</div>
@@ -60,10 +61,6 @@
             <ul class="pagination" id="pagination" style="text-align: center;"></ul>
         </nav>
         <script th:src="@{/user/js/trade.js}"></script>
-        <script th:inline="javascript">
-        	let memberId = [[${member}]];
-        	console.log(memberId)
-        </script>
 	</div>
 </body>
 </html>

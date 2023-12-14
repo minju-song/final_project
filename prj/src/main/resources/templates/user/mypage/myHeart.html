@@ -27,15 +27,18 @@
 				<div class="col mb-5" th:each="trade, stat : ${tradeList}">
 					<div class="card tradeSize2" th:onclick="|location.href='@{/member/tradeInfo(tradeId=${trade.tradeId},sellerId=${trade.sellerId})}'|">
 						<div class="badge position-absolute" style="right: 0.5rem;" th:text="${trade.tradeType}"></div>
-							<div class="badge position-absolute" th:text="${trade.promiseStatus}"></div>
-							<img class="card-img-top" th:src="@{/images/}+ ${trade.saveFile}" style="width: 235px; height: 159px;">
-				  			<img class="heart_ bi-heart" id="heart" th:src="@{/user/images/trade/fill-heart.png}" th:onclick="heartCng([[${trade.tradeId}]], event)">
-							<div class="card-body p-4">
-								<div class="text-center">
+						<div class="badge position-absolute" style="top:7.8rem;right:0.5rem;background: rgb(35, 84, 68);" th:text="${trade.promiseStatus}"></div>
+						<div class="badge position-absolute" style="width: 74px;" th:text="${trade.paymentType}"></div>
+						<img class="card-img-top" th:src="@{/images/}+ ${trade.saveFile}" style="width: 235px; height: 159px;">
+			  			<img class="heart_ bi-heart" id="heart" th:src="@{/user/images/trade/fill-heart.png}" th:onclick="heartCng([[${trade.tradeId}]], event)">
+						<div class="card-body p-4">
+							<div class="text-center">
 								<h3 class="fw-bolder" th:text="${trade.title}"></h3>
 								<div><span class="text-muted text-decoration-line-through" th:text="|${#numbers.formatInteger(trade.price, 0, 'COMMA')}원|"></span></div>
 							</div>
-							<div><span class="text-muted" style="position: absolute; left: -0.9rem; bottom: -2.4rem;" th:text="${trade.tradeCategory}"></span></div>
+							<div><span class="text-muted" style="position: absolute; left: -0.9rem; bottom: -1.2rem;" th:text="${trade.tradeCategory}" th:if="${trade.tradePlace != null}"></span></div>
+							<div><span class="text-muted" style="position: absolute; left: -0.9rem; bottom: -2.4rem;" th:text="${trade.tradeCategory}" th:unless="${trade.tradePlace != null}"></span></div>
+							<div><span class="text-muted" style="position: absolute; left: -0.9rem; bottom: -2.4rem;" th:text="${trade.tradePlace}"></span></div>
 							<div><span class="text-muted" style="position: absolute; right: -0.9rem; bottom: -2.4rem;" th:text="${#dates.format(trade.writeDate, 'yyyy-MM-dd')}"></span></div>
 						</div>
 					</div>

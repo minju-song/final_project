@@ -251,6 +251,10 @@ option > selected{
 	object-fit: cover;
 }
 
+.swal2-title{
+	font-size: 27px;
+}
+
 /* 중고거래 등록페이지 시작 */
 .input-group-text {
     display: flex;

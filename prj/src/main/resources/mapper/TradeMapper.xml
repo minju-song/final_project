@@ -38,6 +38,7 @@
 		        , t.seller_id
 		        , m.profile_img
 		        , m.nickname
+		        , m.member_intro
 		FROM trade t JOIN member m
 		            ON(t.seller_id = m.member_id)
 		WHERE t.trade_id = #{tradeId}
@@ -228,7 +229,7 @@
 			<if test="tradeCategory != null and tradeCategory != ''">
 				AND trade_category = #{tradeCategory}
 			</if>
-			<if test="sellCheck != null and sellCheck.equals('true')">
+			<if test="sellCheck == null or sellCheck.equals('false')">
 				AND promise_status = 'TD4'
 			</if>
 	</sql>
@@ -258,7 +259,9 @@
 		        , t.title
 		        , fn_get_code_name(trade_category) as trade_category
 		        , t.price
+		        , trade_place
 		        , fn_get_code_name(trade_type) as trade_type
+		        , fn_get_code_name(payment_type) as payment_type
 		        , fn_get_code_name(promise_status) as promise_status
 		        , t.write_date
 		        , t.seller_id
