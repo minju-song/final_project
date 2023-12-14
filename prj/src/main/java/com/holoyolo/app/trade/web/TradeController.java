@@ -57,8 +57,12 @@ public class TradeController {
 	//중고거래 페이징
 	@GetMapping("tradePaging")
 	@ResponseBody
-	public Map<String, Object> tradePaging(TradeVO tradeVO){
+	public Map<String, Object> tradePaging(@AuthenticationPrincipal PrincipalDetails principalDetails,
+										   TradeVO tradeVO){
 		Map<String, Object> map = tradeService.getTradeList(tradeVO);
+		if (principalDetails != null) {
+            map.put("memberId", principalDetails.getUsername());
+        }
 		return map;
 	}
 	
@@ -227,6 +231,18 @@ public class TradeController {
 			page = "user/mypage/mySell";
 		}
 		List<TradeVO> list = tradeService.selectMyTradeList(tradeVO);
+		
+		
+		for(int i=0; i<list.size(); i++) {
+			String str = list.get(i).getTradePlace();
+			if(str != null) {
+				String[] newPlace = str.split(" ");
+				String result = newPlace[0] + " " + newPlace[1];
+				list.get(i).setTradePlace(result);
+			}
+		}
+		
+		//String[] place = str.split(",");
 		model.addAttribute("menu", "mypage");
 		model.addAttribute("tradeList", list);
 		return page;

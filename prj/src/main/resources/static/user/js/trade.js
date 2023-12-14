@@ -27,7 +27,7 @@ $(document).ready(function () {
 });
 
 let flag = true;
-
+let memberId = '';
 //페이지 별 데이터리스트 가져옴
 function callList(page) {
 
@@ -47,7 +47,7 @@ function callList(page) {
                         '&sellCheck=' + sellCheck)
         .then(resolve => resolve.json())
         .then(result => {
-
+			memberId = result.memberId;
             _totalPages = Math.floor(result.total / pageSize);
             if (result.total % pageSize > 0) {
                 _totalPages++;
@@ -176,7 +176,20 @@ function drawTrade(tradeArr){
         writeDate.style.bottom = '-2.4rem';
 		divWriteDate.appendChild(writeDate);
 		
-		divCard.onclick = function(){ submit(tradeArr[i].tradeId, tradeArr[i].sellerId) };
+		divCard.onclick = function(){ 
+			if(memberId !== undefined){
+				submit(tradeArr[i].tradeId, tradeArr[i].sellerId)
+			}else{
+				Swal.fire({
+                   title: '비회원 접근!',
+                   text: '로그인이 필요한 페이지입니다.',
+                   icon: "error",
+                   confirmButtonText: 'OK'
+                }).then((result) => {
+                   location.href="/loginForm";
+                })
+			}
+		};
 		
 		tradeList.appendChild(divCol);
 	}
@@ -231,3 +244,13 @@ let search_input = document.getElementById('search_input');
 search_input.addEventListener('keyup', function () {
     callList(1);
 })
+
+//페이지 새로고침, 뒤로가기 클릭 시 체크박스 false
+$(window).bind("pageshow", function (event) {
+	if (event.originalEvent.persisted) {
+		document.querySelector('[type=checkbox]').checked = false
+	}
+	else {
+		document.querySelector('[type=checkbox]').checked = false
+	}
+});
