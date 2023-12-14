@@ -72,3 +72,9 @@ h3 {
 	font-size: 20px;
 	margin: 0;
 }
+.moadl {
+	padding-right: 0 !important;
+}
+.modal-dialog {
+	margin: 30vh auto !important;
+}
