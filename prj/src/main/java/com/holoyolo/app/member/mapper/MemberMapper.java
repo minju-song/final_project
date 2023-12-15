@@ -61,4 +61,7 @@ public interface MemberMapper {
 	public MemberVO findById(String memberId);
 	
 	public MemberVO addMonth(MemberVO memberVO);
+	
+	//회원아이디 전체조회
+	public List<MemberVO> getMembersId();
 }
