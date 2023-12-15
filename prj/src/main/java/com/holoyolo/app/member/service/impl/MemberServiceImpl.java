@@ -305,7 +305,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberVO> getMembersId() {
+	public List<String> getMembersId() {
 		// TODO Auto-generated method stub
 		return memberMapper.getMembersId();
 	}

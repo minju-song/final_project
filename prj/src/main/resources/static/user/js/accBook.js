@@ -14,7 +14,7 @@ function buildCalendar() {
         .then(resolve => resolve.json())
         .then(result => {
             let price = result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            document.getElementById("sumByMonth").innerText = '💸 ' + (nowMonth.getMonth() + 1) + '월 총 소비 금액 : ' + price + '원 💸';
+            document.getElementById("sumByMonth").innerText = (nowMonth.getMonth() + 1) + '월 총 소비 금액 : ' + price + '원';
         })
 
 
@@ -125,6 +125,7 @@ function choiceDate(newDIV) {
     getSumPrice(paydate);
 }
 
+//총금액 표시
 function getSumPrice(payDate) {
     fetch('/getSumPrice?payDate=' + payDate)
         .then(resolve => resolve.json())
@@ -135,12 +136,13 @@ function getSumPrice(payDate) {
             else {
                 let price = result.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                 let input = result.input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                document.getElementById('sumPrice').innerHTML = '<span class="red">총 소비금액 : ' + price + '원</span><br>'
-                    + '<span class="blue">총 소득금액 : ' + input + '원</span>';
+                document.getElementById('sumPrice').innerHTML = '<span class="label">총 소비금액</span><span class="out">' + price + '원</span><br>'
+                    + '<span class="label">총 소득금액</span><span class="in">' + input + '원</span>';
             }
         })
 }
 
+//수기입력창생성
 function drawInput() {
     console.log("수기입력");
 
@@ -252,10 +254,18 @@ function drawHistory(hisArr, thisDate) {
     // console.log(dateFormat(newThis) + ' >>> drawHistory 날짜')
     const parent = document.querySelector('#hisTable');
 
-    //기존 거래내역 삭제
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+    // 테이블의 모든 행 가져오기
+    let rows = parent.getElementsByTagName("tr");
+
+    // 첫 번째 행을 제외한 모든 행 삭제
+    for (let i = rows.length - 1; i > 0; i--) {
+        parent.deleteRow(i);
     }
+
+    // //기존 거래내역 삭제
+    // while (parent.firstChild) {
+    //     parent.removeChild(parent.firstChild);
+    // }
 
     //거래내역 반복문돌리면서 그려줌
     hisArr.forEach(function (history) {
@@ -272,27 +282,34 @@ function drawTr(history, ck, drawDate) {
         if (key == 'inputOutput') {
             if (history[key] == 'GB2') {
                 td.innerText = '지출';
+                td.setAttribute('class', 'out');
             }
             else {
                 td.innerText = '소득';
+                td.setAttribute('class', 'in');
             }
             tr.appendChild(td);
         }
         else if (key == 'paymentType') {
             if (history[key] == 'GA1') {
-                td.innerText = '현금';
+                // td.innerText = '현금';
+                // td.setAttribute('class', 'inout');
+                td.innerHTML = '<img class="inout" src="/user/images/icon/money.png">'
             }
             else if (history[key] == 'GA2') {
                 td.innerText = '이체';
             }
             else {
-                td.innerText = '카드';
+                // td.innerText = '카드';
+                // td.setAttribute('class', 'inout');
+                td.innerHTML = '<img class="inout" src="/user/images/icon/credit-card.png">'
             }
             tr.appendChild(td);
         }
         else if (key == 'price') {
             let price = history[key].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             td.innerText = price + '원';
+            td.setAttribute('class', 'price');
             tr.appendChild(td);
         }
         else if (key == 'bankname' || key == 'payStore') {

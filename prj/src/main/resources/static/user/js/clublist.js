@@ -413,11 +413,15 @@ select.addEventListener('change', function () {
 })
 
 
+
+
 //검색어 입력할 때마다 데이터 호출 및 페이징
 let search_input = document.getElementById('search_input');
-search_input.addEventListener('keyup', function () {
-    search = search_input.value;
-    callList(1, search);
+search_input.addEventListener('keyup', function (e) {
+    if (e.keyCode == 13) {
+        search = search_input.value;
+        callList(1, search);
+    }
 })
 
 

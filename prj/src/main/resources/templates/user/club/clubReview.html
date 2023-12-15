@@ -11,55 +11,56 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-
-        <div class="divbox">
-            <h3>리뷰작성공간</h3>
-            <div id="writeReview">
-                <th:block th:if="${result.myreview == false and session.check eq true}">
-                    <div class="star_rating star_on">
-                        <span class="star on" value="1"> </span>
-                        <span class="star on" value="2"> </span>
-                        <span class="star on" value="3"> </span>
-                        <span class="star on" value="4"> </span>
-                        <span class="star on" value="5"> </span>
-                    </div>
-                    <input id="writeContents">
-                    <button onclick="reviewWrite()">작성</button>
-                </th:block>
-            </div>
-            <div id="completeReview">
-                <th:block th:if="${result.myreview == true}">
-                    리뷰를 작성하셨습니다.
-                </th:block>
-            </div>
-            <div id="nomemberReview">
-                <th:block th:if="${session.check != true}">
-                    멤버만 리뷰작성이 가능합니다.
-                </th:block>
-            </div>
-        </div>
-
+    <div layout:fragment="content" style="width: 80%; margin: 0 auto;">
+        <h5>[[${result.club.clubName}]]의 리뷰</h5>
+        <hr>
         <div class="avg">
-            <h4>평균평점
-                <div class="star_rating">
+            <h5>평균평점
+                <div class="star_rating" style="margin-top: 10px;">
                     <span th:if="${result.avgstar != 0}" th:each="i : ${#numbers.sequence(1, result.avgstar)}"
                         class="star on"> </span>
 
                 </div>
-            </h4>
+            </h5>
             <p>등록된 리뷰 ([[${result.reviews.size()}]])</p>
         </div>
 
         <div id="reviewlist" class="divbox">
+            <div class="divbox">
+                <div id="writeReview">
+                    <th:block th:if="${result.myreview == false and session.check eq true}">
+                        <div class="star_rating star_on">
+                            <span class="star on" value="1"> </span>
+                            <span class="star on" value="2"> </span>
+                            <span class="star on" value="3"> </span>
+                            <span class="star on" value="4"> </span>
+                            <span class="star on" value="5"> </span>
+                        </div>
+                        <!-- <input id="writeContents"> -->
+                        <textarea id="writeContents" class="writeArea"></textarea>
+                        <img class="imgIconPlus" onclick="reviewWrite()" th:src="@{/user/images/icon/add.png}">
+                        <!-- <button onclick="reviewWrite()">작성</button> -->
+                    </th:block>
+                </div>
+                <div id="completeReview">
+                    <th:block th:if="${result.myreview == true}">
+                        <span>리뷰를 작성하셨습니다.</span>
+                    </th:block>
+                </div>
+                <div id="nomemberReview">
+                    <th:block th:if="${session.check != true}">
+                        <span>멤버만 리뷰작성이 가능합니다.</span>
+                    </th:block>
+                </div>
+            </div>
+            <hr>
             <th:block th:if="${result.reviews.size == 0}">
-                <h4>등록된 리뷰가 없습니다.</h4>
+                <h5>등록된 리뷰가 없습니다.</h5>
             </th:block>
             <th:block th:if="${result.reviews.size != 0}">
-                <hr>
                 <th:block th:each="review, stat : ${result.reviews}">
                     <div class="rev">
-                        <h4>작성자 : [[${review.nickname}]]</h4>
+                        <h4 style="font-weight: bold;">[[${review.nickname}]]</h4>
                         <div th:id="'stars_' + ${review.reviewId}">
                             <div class="star_rating">
                                 <span th:each="i : ${#numbers.sequence(1, review.star)}" class="star on"> </span>
@@ -69,21 +70,22 @@
                             th:text="${#dates.format(review.writeDate, 'yyyy년 MM월 dd일 HH:mm')}"></span>
 
                         <div>
-                            <h4 th:id="'reviewContent_' + ${review.reviewId}" th:text="${review.contents}"
-                                style="display: inline;"></h4>
+                            <h5 th:id="'reviewContent_' + ${review.reviewId}" class="showContent">[[${review.contents}]]
+                            </h5>
+
                             <div th:id="'updateInput_' + ${review.reviewId}" style="display: none;">
-                                <input type="text" th:value="${review.contents}" /> <button
-                                    th:onclick="'updateReview(\'' + ${review.reviewId} + '\',event)'">수정</button>
+                                <textarea class="writeArea" type="text">[[${review.contents}]]</textarea>
+                                <button th:onclick="'updateReview(\'' + ${review.reviewId} + '\',event)'">수정</button>
                             </div>
                         </div>
 
                         <th:block th:if="${#authentication.Principal.memberVO.memberId eq review.memberId}">
-                            <button class="btn"
-                                th:onclick="'toggleUpdateMode(\'' + ${review.reviewId} + '\')'">✔️</button>
-                            <button class="btn" th:onclick="'deleteReview(\'' + ${review.reviewId} + '\')'">❌</button>
+                            <img class="btn" th:onclick="'toggleUpdateMode(\'' + ${review.reviewId} + '\')'"
+                                th:src="@{/user/images/icon/edit.png}">
+                            <img class="btn" th:onclick="'deleteReview(\'' + ${review.reviewId} + '\')'"
+                                th:src="@{/user/images/icon/trash.png}">
                         </th:block>
                     </div>
-                    <hr>
                     <br>
 
                 </th:block>

@@ -27,7 +27,9 @@
     background: url('https://blog.kakaocdn.net/dn/b2d6gV/btsvbDoal87/XH5b17uLeEJcBP3RV3FyDk/img.png') no-repeat;
     background-size: 100%;
     box-sizing: border-box;
+    margin-bottom: 10px;
 }
+
 
 .star_box {
     width: 400px;
@@ -61,16 +63,36 @@
     padding: 20px;
     margin: 0 auto;
     border-radius: 5px;
-    border: 1px solid gainsboro;
+    /* border: 1px solid gainsboro; */
     border-radius: 20px;
     margin-bottom: 20px;
 }
 
 .btn {
-    border: 0;
-    background-color: white;
+    /* height: 50px; */
+    width: 45px;
 }
 
 .writeDate {
     font-size: smaller;
+}
+
+#reviewlist {
+    border: 1px solid gainsboro;
+}
+
+.writeArea {
+    border: 1px solid gainsboro;
+    border-radius: 20px;
+    width: 500px;
+    padding: 10px;
+}
+
+.imgIconPlus {
+    width: 20px;
+}
+
+.showContent {
+    display: inline; 
+    white-space: pre-line;
 }

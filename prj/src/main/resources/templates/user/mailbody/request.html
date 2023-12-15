@@ -6,52 +6,74 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+	<style>
+		.img_wrap {
+			width: 671px;
+			height: 950px;
+			background: url('https://velog.velcdn.com/images/songjaeskkk/post/7df054f5-9ce2-4b0d-85ef-b37204be59b5/image.png');
+			background-size: cover;
+		}
+
+		.btn_wrap {
+			width: 50vw;
+			max-width: 800px;
+			min-width: 500px;
+			border: 2px solid #e6e6e6;
+			padding-top: 50px;
+			margin-bottom: 20px;
+		}
+	</style>
 </head>
 
 <body style="background: #fff;">
 	<div class="body_container" align="center">
 		<div class="img_wrap">
-			<img alt="welcome"
-				th:src="@{https://postfiles.pstatic.net/MjAyMzExMzBfMTA0/MDAxNzAxMzM1MzA0NjEy.qT2SxMkAVHwYz44TnyyVxO42xX_wmtepyKFY6JHkMo4g.QSkFWgj3NYIcSjhlHKyG_n2tO2tfE9jpvnGvazvNV0Yg.PNG.songjaeskkk/letter.png?type=w966}"
-				style="width: 50vw; max-width: 800px; min-width: 500px;">
+			<!-- <img alt="welcome"
+				th:src="@{https://postfiles.pstatic.net/MjAyMzEyMTVfMjMg/MDAxNzAyNjI2MDkwOTMw.NG8pszx50J76ANHq5sZQBEaYum0QOwc7Iu3G5w5ReOIg.M6Gan79T986P7UmTC7rIw78t8BkffGY1BCu976yNLKYg.PNG.songjaeskkk/joinClub.png?type=w966}"
+				style="width: 50vw; max-width: 800px; min-width: 500px;"> -->
+			<span class="btn_wrap">
+				<th:block th:if="${type eq 'join'}">
+					<div>[[${clubName}]]</div>
+					<div>[[${member}]]</div>
+					<div>N</div>
+					<!-- <p th:text="${clubName + '모임으로 '+member+'님이 가입 요청을 보냈습니다.'}"
+						style="font-weight: 700; font-size: 30px;">
+					</p> -->
+					<div>[[${text}]]</div>
+					<!-- <p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p> -->
+					<a th:href="@{http://www.holoyolo.site/joinClubMail(clubId=${club},memberId=${member})}"
+						style="border-radius: 5px; width: 100px; height: 30px; background-color: darkgray;padding: 10px; font-weight: bold; color: white;">승인</a>
+				</th:block>
+				<th:block th:if="${type eq 'rejoin'}">
+					<p th:text="${clubName + '모임으로 '+member+'님이 재가입 요청을 보냈습니다.'}"
+						style="font-weight: 700; font-size: 30px; "></p>
+					<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
+					<a th:href="@{http://www.holoyolo.site/rejoinMail(clubId=${club},memberId=${member})}">승인</a>
+				</th:block>
+			</span>
 		</div>
 
-		<div class="btn_wrap"
-			style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
-			<th:block th:if="${type eq 'join'}">
-				<p th:text="${clubName + '모임으로 '+member+'님이 가입 요청을 보냈습니다.'}" style="font-weight: 700; font-size: 30px;">
-				</p>
-				<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
-				<a th:href="@{http://www.holoyolo.site/joinClubMail(clubId=${club},memberId=${member})}">승인</a>
-			</th:block>
-			<th:block th:if="${type eq 'rejoin'}">
-				<p th:text="${clubName + '모임으로 '+member+'님이 재가입 요청을 보냈습니다.'}"
-					style="font-weight: 700; font-size: 30px;"></p>
-				<p th:text="${text}" style="font-weight: 700; font-size: 30px;"></p>
-				<a th:href="@{http://www.holoyolo.site/rejoinMail(clubId=${club},memberId=${member})}">승인</a>
-			</th:block>
-		</div>
 	</div>
 
 	<script th:inline="javascript">
-		let clubId = [[${ club }]];
-		let member = [[${ member }]];
+		// let clubId = [[${ club }]];
+		// let member = [[${ member }]];
 
-		let data = { clubId: clubId, memberId: member };
-		let reqBtn = document.getElementById('acceptReq');
+		// let data = { clubId: clubId, memberId: member };
+		// let reqBtn = document.getElementById('acceptReq');
 
-		reqBtn.addEventListener('click', accept);
+		// reqBtn.addEventListener('click', accept);
 
-		function accept(e) {
-			console.log('승인클릭');
-			fetch('http://www.holoyolo.site/joinClubMail', {
-				method: 'POST',
-				headers: {
-					"Content-Type": `application/json`, // application/json 타입 선언
-				},
-				body: JSON.stringify(data)
-			}).then(result => console.log(result));
-		}
+		// function accept(e) {
+		// 	console.log('승인클릭');
+		// 	fetch('http://www.holoyolo.site/joinClubMail', {
+		// 		method: 'POST',
+		// 		headers: {
+		// 			"Content-Type": `application/json`, // application/json 타입 선언
+		// 		},
+		// 		body: JSON.stringify(data)
+		// 	}).then(result => console.log(result));
+		// }
 
 	</script>
 </body>
