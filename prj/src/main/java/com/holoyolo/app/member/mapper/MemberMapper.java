@@ -1,7 +1,6 @@
 package com.holoyolo.app.member.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import com.holoyolo.app.member.service.MemberVO;
 
@@ -63,5 +62,5 @@ public interface MemberMapper {
 	public MemberVO addMonth(MemberVO memberVO);
 	
 	//회원아이디 전체조회
-	public List<MemberVO> getMembersId();
+	public List<String> getMembersId();
 }

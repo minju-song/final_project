@@ -85,7 +85,7 @@
 	margin-right: 5px;
 }
 .link {
-	cursor: pointer;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 .bold_text {
 	font-weight: 700;
@@ -104,5 +104,5 @@
 .sns_btn img {
 	display: inline-block;
 	width: 42px;
-	cursor: pointer;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }

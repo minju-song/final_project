@@ -14,7 +14,7 @@
     <div layout:fragment="content">
         <div class="container">
             <div class="text-center">
-                <h3 th:text="${boardType}"></h3>
+                <h3 th:text="${menuType}"></h3>
             </div>
 
             <form action="#" class="row col-9">
@@ -42,9 +42,10 @@
                                 <th>작성일</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="boardTableBody">
                             <tr th:each="list:${qnaList}">
-                                <td><a th:text="${list.title}" th:href="@{/member/cs/help/qna/view(id=${list.questionId})}"></a></td>
+                                <td><a th:text="${list.title}"
+                                        th:href="@{/member/cs/help/qna/view(id=${list.questionId})}"></a></td>
                                 <td th:if="${list.questionType} == 'MA1'" th:text="가계부"></td>
                                 <td th:if="${list.questionType} == 'MA2'" th:text="중고거래"></td>
                                 <td th:if="${list.questionType} == 'MA3'" th:text="알뜰모임"></td>
@@ -69,12 +70,6 @@
         <script th:src="@{/user/js/notice.js}"></script>
         <script th:src="@{/user/js/community.js}"></script>
         <script>
-            loadData(currentPage);
-
-            $(document).ready(function () {
-                loadData(currentPage);
-            });
-
             //검색어 입력할 때마다 데이터 호출 및 페이징
             let searchInput = document.getElementById('search_input');
             searchInput.addEventListener('keyup', function () {

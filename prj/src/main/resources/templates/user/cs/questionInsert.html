@@ -22,7 +22,9 @@
 
 <body>
     <div layout:fragment="content">
+        
         <div class="card">
+            <h2 class="h2_title" th:text="${menuType}"></h2>
             <div class="card-body">
                 <form class="row g-3" th:action="@{/question/insert}" method="POST"
                     th:object="${questionVO}" enctype="multipart/form-data">
@@ -45,7 +47,7 @@
                     </div>
                     <div class="col-12 writeInput">
                         <textarea class="form-control" id="description" style="height: 300px;" required
-                            th:field="*{content}"></textarea>
+                            th:field="*{content}" maxlength="1000" wrap="hard"></textarea>
                     </div>
 
                     <div class="col-md-12 writeInput">
@@ -59,7 +61,7 @@
                     </div>
                     <div class="col-12 writeInput">
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
+                            <span class="input-group-text" id="openKakao">첨부파일</span>
                             <input type="file" name="attachmentFiles" class="form-control" id="noticeAttach"
                                 aria-describedby="basic-addon3" multiple>
                         </div>

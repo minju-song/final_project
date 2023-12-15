@@ -14,7 +14,7 @@ import com.holoyolo.app.question.service.QuestionVO;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
-	
+
 	@Autowired
 	AnswerMapper answerMapper;
 
@@ -31,7 +31,7 @@ public class AnswerServiceImpl implements AnswerService {
 	@Override
 	public int insertAnswerInfo(AnswerVO answerVO) {
 		int result = answerMapper.insertAnswerInfo(answerVO);
-		
+
 		if (result == 1) {
 			return answerVO.getAnswerId();
 		} else {
@@ -49,18 +49,19 @@ public class AnswerServiceImpl implements AnswerService {
 		}
 		map.put("result", isSuccessed);
 		map.put("target", answerVO);
-		
+
 		return map;
 	}
 
 	@Override
 	public boolean deleteAnswerInfo(int answerId) {
 		int result = answerMapper.deleteAnswerInfo(answerId);
-		
+
 		if (result == 1) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
 }

@@ -22,6 +22,10 @@
 
 <body>
 	<div layout:fragment="content">
+		<div class="text-left dp_flex space_between align-center">
+			<h2 class="h2_title" th:text="${menuType}"></h2>
+
+		</div>
 		<div class="card">
 			<div class="card-body">
 				<form class="row g-3" th:action="@{/notice/insert}" method="POST" th:object="${boardVO}"
@@ -29,25 +33,26 @@
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
 						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required
-							th:field="*{title}">
+							th:field="*{title}" maxlength="30">
 					</div>
 					<div class="col-12 writeInput">
-						<textarea class="form-control" id="description" style="height: 300px;" required
-							th:field="*{content}"></textarea>
+						<textarea class="form-control" id="description"
+							style="min-height: 300px; white-space: break-spaces;" required th:field="*{content}"
+							maxlength="1000"></textarea>
 					</div>
 
 					<div class="col-md-12 writeInput">
-						<label for="tradeImg" class="form-label">이미지<span class="star">*</span></label>
+						<label for="tradeImg" class="form-label">이미지</label>
 						<div class="imgFlex">
 							<img class="tradeImgPlus" id="noticeImg" th:src="@{/user/images/trade/photo.png}">
-							<input class="real_file" name="imageFiles" type="file" accept="image/*"  multiple />
+							<input class="real_file" name="imageFiles" type="file" accept="image/*" multiple />
 							<div class="file-list"></div>
 						</div>
 
 					</div>
 					<div class="col-12 writeInput">
 						<div class="input-group mb-3">
-							<span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
+							<span class="input-group-text" id="openKakao">첨부파일</span>
 							<input type="file" name="attachmentFiles" class="form-control" id="noticeAttach"
 								aria-describedby="basic-addon3" multiple>
 						</div>

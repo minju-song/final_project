@@ -23,47 +23,44 @@
         <div style="display: flex;">
             <div class="info" style="flex: 1;">
                 <div style="flex: 1;" th:if="${cardNo.equals('null')}">
-                    <h4>💳 카드를 등록해주세요
-                        <button type="button" class="mybtn" data-toggle="modal" data-target="#amountSetting"
-                            data-whatever="등록">
-                            ➕
-                        </button>
+                    <h4>
+                        <span class="text-bg-color">카드정보</span>
+                        <span class="darkBlue">카드를 등록해주세요</span>
+                        <img class="imgIconPlus" data-toggle="modal" data-target="#amountSetting" data-whatever="등록"
+                            th:src="@{/user/images/icon/add.png}">
                     </h4>
                 </div>
 
                 <div style="flex: 1;" th:unless="${cardNo.equals('null')}">
-                    <h4>💳 [[${cardCompany}]] : [[${cardNo}]]
-                        <button type="button" class="mybtn" data-toggle="modal" data-target="#updateCard"
-                            data-whatever="수정" th:data-cardno='${cardNo}' th:data-cardcompany='${cardCompany}'>
-                            ✔️
-                        </button>
-                        <button type="button" class="mybtn" th:value="${cardNo}" id="deleteCard">
-                            ❌
-                        </button>
+                    <h4><span class="text-bg-color">카드정보</span>
+                        <span class="darkBlue">[[${cardCompany}]]</span>
+                        <span style="font-size: smaller;" th:text="${cardNo}"></span>
+                        <img class="imgIcon" th:src="@{/user/images/icon/edit.png}" data-toggle="modal"
+                            data-target="#updateCard" data-whatever="수정" th:data-cardno='${cardNo}'
+                            th:data-cardcompany='${cardCompany}'>
+                        <img class="imgIcon" th:value="${cardNo}" id="deleteCard"
+                            th:src="@{/user/images/icon/trash.png}">
                     </h4>
                 </div>
 
                 <div style="flex: 1;" th:if="${accBudgetPrice.equals('null')}">
-                    <h4>💰 예산을 등록해주세요
-                        <button type="button" class="mybtn" data-toggle="modal" data-target="#insertBudget"
-                            data-whatever="등록">
-                            ➕
-                        </button>
+                    <h4>
+                        <span class="text-bg-color">절약예산</span>
+                        <span class="darkBlue">예산을 등록해주세요</span>
+                        <img class="imgIconPlus" data-toggle="modal" data-target="#insertBudget" data-whatever="등록"
+                            th:src="@{/user/images/icon/add.png}">
                     </h4>
                 </div>
 
                 <div style="flex: 1;" th:unless="${accBudgetPrice.equals('null')}">
-                    <h4>💰
-                        <span th:text="|${#numbers.formatInteger(accBudgetPrice, 0, 'COMMA')}원|"></span>
-                        / [[${accBudgetUnit}]]
-                        <button type="button" class="mybtn" data-toggle="modal" data-target="#updateBudget"
-                            data-whatever="수정" th:data-budgetunit="${accBudgetUnit}"
+                    <h4><span class="text-bg-color">절약예산</span>
+                        <span class="darkBlue">[[${accBudgetUnit}]]</span>
+                        <span style="font-size: smaller;"
+                            th:text="|${#numbers.formatInteger(accBudgetPrice, 0, 'COMMA')}원|"></span>
+                        <img class="imgIcon" th:src="@{/user/images/icon/edit.png}" data-toggle="modal"
+                            data-target="#updateBudget" data-whatever="수정" th:data-budgetunit="${accBudgetUnit}"
                             th:data-budgetprice="${accBudgetPrice}">
-                            ✔️
-                        </button>
-                        <button type="button" class="mybtn" id="deleteBudget">
-                            ❌
-                        </button>
+                        <img class="imgIcon" id="deleteBudget" th:src="@{/user/images/icon/trash.png}">
                     </h4>
                 </div>
             </div>
@@ -73,7 +70,9 @@
         </div>
         <div id="divbox" style="display: flex;">
             <div id="cal" style="flex: 2;">
-                <h4 id="sumByMonth" style="text-align: center;"></h4>
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <span class="darkBlue" id="sumByMonth"></span>
+                </div>
                 <table class="Calendar" style=" margin: 0 auto;">
                     <thead>
                         <tr>
@@ -99,14 +98,21 @@
                     </tbody>
                 </table>
             </div>
-            <div id="history" style="flex: 3;">
-                <h4 style="text-align: center;" id="historyTitle">📰 소비내역 📰</h4>
+            <div id="history">
+                <h4 id="historyTitle">소비내역</h4>
                 <table id="hisTable">
-
+                    <tr>
+                        <th>지출/소득</th>
+                        <th>결제수단</th>
+                        <th>은행명</th>
+                        <th class="price">금액</th>
+                        <th>사용처</th>
+                    </tr>
                 </table>
                 <div class="getResult">
                     <span id="getResultText">&#128269;기록 상세보기</span>
                 </div>
+                <hr>
                 <div class="sumDiv">
                     <h4 id="sumPrice"></h4>
                 </div>
@@ -332,9 +338,33 @@
                 </div>
             </div>
         </div>
-
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+        <!-- iamport.payment.js -->
+        <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
         <script th:src="@{/user/js/accBook2.js}" defer></script>
+        <script>
+            var IMP = window.IMP; // 생략 가능
+            IMP.init("imp66303054"); // 예: imp00000000
 
+            // function apiTest() {
+
+            //     IMP.certification({ // param
+            //         merchant_uid: "ORD20180131-0000011", // 주문 번호
+            //         // 모바일환경에서 popup:false(기본값) 인 경우 필수
+            //         // m_redirect_url: "http://localhost:8090/member/accBook",
+            //         popup: true // PC환경에서는 popup 파라미터가 무시되고 항상 true 로 적용됨
+            //     }, function (rsp) { // callback
+            //         if (rsp.success) {
+            //             console.log("success")
+
+            //         } else {
+
+            //         }
+            //     });
+            // }
+
+        </script>
     </div>
 
 </body>

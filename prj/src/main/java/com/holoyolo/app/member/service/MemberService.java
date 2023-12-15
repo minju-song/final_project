@@ -2,7 +2,6 @@ package com.holoyolo.app.member.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,6 +75,6 @@ public interface MemberService {
 	public MemberVO addMonth(MemberVO memberVO);
 	
 	//회원아이디 전체조회
-	public List<MemberVO> getMembersId();
+	public List<String> getMembersId();
 
 }

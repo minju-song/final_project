@@ -2,10 +2,12 @@ function toggleUpdateMode(id) {
     // index를 정수로 변환
     id = parseInt(id);
 
-    var reviewContent = document.getElementById('reviewContent_' + id);
-    var updateInput = document.getElementById('updateInput_' + id);
+    let reviewContent = document.getElementById('reviewContent_' + id);
+    let updateInput = document.getElementById('updateInput_' + id);
 
-    if (updateInput.style.display === 'none') {
+    console.log(reviewContent);
+
+    if (updateInput.style.display == 'none') {
         // 수정 모드로 전환
         reviewContent.style.display = 'none';
         updateInput.style.display = 'inline';
