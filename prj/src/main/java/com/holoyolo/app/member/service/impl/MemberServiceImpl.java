@@ -303,4 +303,10 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO addMonth(MemberVO memberVO) {
 		return memberMapper.addMonth(memberVO);
 	}
+
+	@Override
+	public List<MemberVO> getMembersId() {
+		// TODO Auto-generated method stub
+		return memberMapper.getMembersId();
+	}
 }

@@ -54,7 +54,7 @@
 						<label for="questionImg" class="form-label">이미지<span class="star">*</span></label>
 						<div class="imgFlex">
 							<img class="tradeImgPlus" id="questionImg" th:src="@{/user/images/cs/photo.png}">
-							<input class="real_file" name="imageFiles" type="file" accept="image/*" multiple />
+							<!-- <input class="real_file" name="imageFiles" type="file" accept="image/*" multiple /> -->
 							<div class="file-list">
 								<li calss="position_rela" th:each="questionImg, stat : ${questionImg}">
 									<img th:data-file="${questionImg.saveFile}"

@@ -99,7 +99,7 @@ public class EmailService {
     public String setContext(String code, String type) {
         Context context = new Context();
         context.setVariable("code", code);
-        String path = "/user/mailbody/";
+        String path = "user/mailbody/";
         return templateEngine.process(path + type, context);
     }
     
@@ -116,7 +116,7 @@ public class EmailService {
         context.setVariable("sellerId", tradeVO.getSellerId());
         context.setVariable("buyerId", tradeVO.getBuyerId());
         context.setVariable("tradeId", tradeVO.getTradeId());
-        String path = "/user/mailbody/";
+        String path = "user/mailbody/";
     	return templateEngine.process(path + type, context);
     }
     
@@ -171,7 +171,7 @@ public class EmailService {
         context.setVariable("text", text); // 위임사유
         context.setVariable("type", type);
         context.setVariable("leader", leader);
-        String path = "/user/mailbody/mandate";
+        String path = "user/mailbody/mandate";
         return templateEngine.process(path, context);
     }
     
@@ -182,7 +182,7 @@ public class EmailService {
         context.setVariable("clubName", clubName);
         context.setVariable("text", text);
         context.setVariable("type", type);
-        String path = "/user/mailbody/request";
+        String path = "user/mailbody/request";
         return templateEngine.process(path, context);
     }
     
@@ -211,7 +211,7 @@ public class EmailService {
         context.setVariable("club", clubId); //클럽아이디
         context.setVariable("clubName", clubName); //클럽이름
         context.setVariable("text", text); // 삭제사유
-        String path = "/user/mailbody/deleteReason";
+        String path = "user/mailbody/deleteReason";
         return templateEngine.process(path, context);
     }
 }

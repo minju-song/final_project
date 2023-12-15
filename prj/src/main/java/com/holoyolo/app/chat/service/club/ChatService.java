@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -71,7 +72,7 @@ public class ChatService {
     	System.out.println("들어온 메시지 : "+chat);
     	
     	ObjectMapper objectMapper = new ObjectMapper();
-    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a H:mm:ss");
+    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a H:mm:ss", new Locale("ko", "KR"));
     	
     	//json -> 객체
     	ChatVO chatObj = null;

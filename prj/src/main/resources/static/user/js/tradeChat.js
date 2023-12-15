@@ -17,7 +17,7 @@ $(document).ready(function () {
 		.then(resolve => console.log(resolve));
 
 	ws = new WebSocket("ws://" + location.host + "/tradeChat?tradeId=" + trade.tradeId);
-
+	//ws = new WebSocket("ws://www.holoyolo.site/tradeChat?tradeId=" + trade.tradeId);
 	for (let i = 0; i < chats.length; i++) {
 		chats[i].type = 'msg';
 		chats[i].date = dateFormat(chats[i].realDate);

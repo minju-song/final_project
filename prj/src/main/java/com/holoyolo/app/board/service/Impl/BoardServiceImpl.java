@@ -162,12 +162,20 @@ public class BoardServiceImpl implements BoardService {
 	public int updateNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
 		boardVO.setMenuType("AA6");
 		// 기존 첨부파일 삭제
-		attachmentService.deletePostAttachment(boardVO);
 
 		// 본문 내용 UPDATE
 		int result = boardMapper.updateBoard(boardVO);
+		// 중복 파일 제거
 		if (imgList != null) {
 			for (AttachmentVO vo : imgList) {
+				List<AttachmentVO> saveList = attachmentService.getAttachmentList(vo);
+				for (AttachmentVO vos : saveList) {
+					if (vo.getOriginFile() == vos.getOriginFile()) {
+						imgList.remove(vo);
+						break;
+					}
+				}
+
 				vo.setMenuType("AA6");
 				vo.setPostId(boardVO.getBoardId());
 				attachmentService.insertAttachment(vo);
@@ -176,6 +184,15 @@ public class BoardServiceImpl implements BoardService {
 		// 이미지 및 첨부파일 새로 등록
 		if (attachList != null) {
 			for (AttachmentVO vo : attachList) {
+
+				List<AttachmentVO> saveAttachList = attachmentService.getAttachmentList(vo);
+				for (AttachmentVO vos : saveAttachList) {
+					if (vo.getOriginFile() == vos.getOriginFile()) {
+						attachList.remove(vo);
+						break;
+					}
+				}
+
 				vo.setMenuType("AA6");
 				vo.setPostId(boardVO.getBoardId());
 				System.out.println(attachList);
