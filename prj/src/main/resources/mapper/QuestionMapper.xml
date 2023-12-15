@@ -138,7 +138,7 @@
     FROM QUESTION
     WHERE MEMBER_ID = #{memberId}
     	<if test="searchOption == 'title'">
-        	AND b.title LIKE '%'||#{search}||'%'
+        	AND title LIKE '%'||#{search}||'%'
         </if>
    ORDER BY WRITE_DATE DESC
 </select>

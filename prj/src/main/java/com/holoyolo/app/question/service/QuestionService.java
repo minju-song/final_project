@@ -53,7 +53,6 @@ public interface QuestionService {
 
 	public List<QuestionVO> searchQuestionSurfPaged(JSONObject req);
 
-	public List<QuestionVO> QuestionList(String menuType, String search, String searchType);
 
 	public int getTotalQuestionSurfRecords(JSONObject req);
 }

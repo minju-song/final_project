@@ -208,7 +208,9 @@ public class QuestionController {
 	@PostMapping("/searchQNA")
 	@ResponseBody
 	public Map<String, Object> searchQNA(@AuthenticationPrincipal PrincipalDetails prd, @RequestBody JSONObject req) {
+		
 		req.put("memberId", (String)prd.getUsername());
+		System.out.println(req);
 		List<QuestionVO> resultList = questionService.searchQuestionSurfPaged(req);
 		int totalRecords = questionService.getTotalQuestionSurfRecords(req);
 		Map<String, Object> result = new HashMap<>();
