@@ -232,7 +232,7 @@ $(document).ready(function () {
 
 	pageNum = 1;
 	pageSize = 10.0; //페이지 번호 수
-	pageUnit = 8;  //한페이지에 출력할 행의 수
+	pageUnit = 10;  //한페이지에 출력할 행의 수
 
 	// 상세페이지 이동
 	$(document).on("click", "td[name='goReportDetail']", function (e) {

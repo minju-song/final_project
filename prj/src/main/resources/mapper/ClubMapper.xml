@@ -15,6 +15,7 @@
 		    c.club_people,
 		    c.club_intro,
 		    c.club_date,
+		    c.club_profile_img,
 		    b.use_yn,
 		    b.club_budget_price AS price,
 		    COALESCE(cs.successCnt, 0) AS successCnt,

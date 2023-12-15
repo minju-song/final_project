@@ -250,8 +250,11 @@ public class ClubController {
 	// 상세페이지
 	@GetMapping("/admin/club/detail")
 	public String goClubDetail(ClubVO clubVO, Model model) {
+		Map<String, Object> map = clubService.getClubPage(clubVO);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>"+map.get("members"));
 		Map<String, Object> getclubInfo = clubService.getClubDetail(clubVO);
 		model.addAttribute("info", getclubInfo.get("clubInfo"));
+		model.addAttribute("clubMemberInfo", map.get("members"));
 		return "admin/club/clubDetail";
 	}
 

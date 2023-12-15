@@ -3,7 +3,6 @@
  */
 // import colorMapping from './admin-common.js';
 //import showPage from './admin-utils.js';
-
 console.log("admin-club.js 작업중")
 
 let pageNum = 0;

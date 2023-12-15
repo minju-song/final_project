@@ -32,6 +32,6 @@ public class ReportVO {
 	// 페이징
 	private int page=1;
 	private int rn;
-	private int pageUnit=8;
+	private int pageUnit=10;
 	
 }
