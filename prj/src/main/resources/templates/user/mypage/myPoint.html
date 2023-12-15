@@ -5,38 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <style>
-        .pointDiv {
-            /* border: 1px solid lightgray; */
-            border-radius: 20px;
-            height: 100px;
-            padding: 10px;
-            margin-bottom: 30px;
-        }
-
-        .sorting {
-            float: none;
-        }
-
-        .title {
-            color: rgb(20, 20, 165);
-            font-weight: bold;
-        }
-
-        .title :hover {
-            color: #103566;
-        }
-    </style>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/plugin/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="/user/css/pay.css" />
+    <link rel="stylesheet" type="text/css" href="/user/css/myPoint.css" />
+    <link rel="stylesheet" type="text/css" href="/user/css/mytrade.css"/>
 </head>
 
 <body>
 
     <div layout:fragment="content">
-        <div id="content">
+        <div id="content" class="container">
+        	<h2 class="h2_title">포인트</h2>
             <div class="pointDiv">
-                <h3>포인트 잔액 : [[${result.nowPoint}]] 포인트
+                <h3>현재 잔액 : [[${result.nowPoint}]] 포인트
                 </h3>
             </div>
 

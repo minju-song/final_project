@@ -1,18 +1,8 @@
 package com.holoyolo.app;
 
 import org.mybatis.spring.annotation.MapperScan;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.holoyolo.app.accBookHistory.service.ApiJob;
 
 @SpringBootApplication
 @MapperScan(basePackages = "com.holoyolo.app.**.mapper")

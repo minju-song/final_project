@@ -16,7 +16,8 @@ p {
   	margin: 0;
   	border: 1px solid #e9ecef;
   	border-radius: 5px;
-  	background: #f2f3f7;
+  	background: #fcfdff;
+  	margin-bottom: 30px;
 }
 .hp_container span {
 	color: #232323;
@@ -77,4 +78,29 @@ h3 {
 }
 .modal-dialog {
 	margin: 30vh auto !important;
+}
+#amountName {
+	border: solid 1px #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 5px 30px 5px 20px;
+    margin-left: 10px;
+}
+.accnum_wrap {
+	display: flex;
+}
+.accnum_wrap label {
+	width: 64px;	
+}
+#amountNum {
+	max-width: 389px;
+}
+.table {
+	border-bottom: 1px solid #e9ecef;
+}
+.table thead th {
+    border-bottom: 2px solid #525e81;
+}
+.table thead {
+    background: #f2f3f7;
 }

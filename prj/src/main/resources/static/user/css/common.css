@@ -97,6 +97,22 @@
 	color: #6f42c1 !important;
 	text-transform: none !important;
 }
+a, button, a img,
+button img {
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto !important;
+}
+.work-text h2,
+.main_nav li a, 
+.menu_mypage_wrap a, 
+.menu_mypage_wrap img, 
+.menu_mypage span,
+.burger_container,
+.menu_close,
+.menu_close div,
+.move_accbook,
+#searchHpHistory {
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto !important;
+}
 .menu_mypage span {
 	color: #000 !important;
 }
