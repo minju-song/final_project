@@ -22,7 +22,7 @@ body{
     width: 173px;
     height: 40px;
     line-height: 39px;
-    cursor: pointer;
+    cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
     border: solid 1px #b5b5b5;
     padding-left: 15px;
     padding-right: 17px;
@@ -60,6 +60,10 @@ option > selected{
     height: 335px !important;
    }
    
+button, #description, .writeInput select{
+   cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
+}
+   
 .insertbutton
 {
 	width: 125px;	/* 142 */
@@ -93,6 +97,15 @@ option > selected{
 	color: #FFFFFF;
 	letter-spacing: 0.2em;
 	line-height: 40px; /* 46 */
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
+}
+
+input{
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
+}
+
+.page-link{
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .insertbutton:hover, .placeSelectButton:hover, .redButton:hover
@@ -115,7 +128,7 @@ option > selected{
 }
 
 .card {
-	cursor: pointer;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -210,6 +223,7 @@ option > selected{
     height: 70px;
     margin-right: 20px;
     object-fit: cover;
+    cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .margins{
@@ -239,6 +253,11 @@ option > selected{
     bottom: 90%;
     right: 94%;
     width: 25px;
+    cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
+}
+
+#map{
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto; 
 }
 
 .fw-bolder{
@@ -352,7 +371,7 @@ input[type="number"], .pointSel{
     position: realative;
     top: 2px;
     border-radius: 4px;
-    cursor: pointer;
+    cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .form-label{
@@ -365,6 +384,7 @@ input[type="number"], .pointSel{
     padding: 20px;
     border-radius: 8px;
     filter: opacity(0.2) drop-shadow(0 0 0 black);
+    cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .btn-primary:not([disabled]):not(.disabled):active{
@@ -408,6 +428,7 @@ li{
     border-radius: 50%;
     margin-left: 68px;
     background-color: white;
+    cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
     }
 
 .d-block{
