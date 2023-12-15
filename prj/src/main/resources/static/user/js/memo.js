@@ -283,7 +283,7 @@
 				$('#writedMemo').find('.memo_image').empty();
 				for(let i=0; i<data.images.length; i++) {
 					let tag = $('<div>').addClass('upload').css('background-image', `url('/images/${data.images[i].saveFile}')`);
-					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', data.images[i].saveFile).addClass('delBtn position_absol');
+					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', data.images[i].saveFile).addClass('delBtn position_absol test');
 					console.log(delBtn[0])
 					delBtn[0].addEventListener('click', delFileDie);
 					$(tag).append(delBtn);
@@ -324,13 +324,14 @@
 		
 		// 첨부된 파일 목록 formData에 append
 		if(uploadFiles.length > 0) {
+			console.log('얍!');
 			console.log(uploadFiles);
 			for(let file of uploadFiles) {
 				formData.append("uploadFiles", file); //통신을 위해 변수에 데이터를 담는다
 			}
 		}
 
-   		if(content != '' || plustag != ''){
+   		if(content != '' || plustag != '' || uploadFiles.length > 0){
 	   		if(bookmark.indexOf('pin.svg') == -1){
 	   			bookmark = 'Y';
 	   		}else{
@@ -581,15 +582,6 @@
 	  		memoImage = $(e.target).closest('.modal').find('.memo_image');
 	  	}
 	  	
-	  	if ([...files].length >= 6) {
-	      swal.fire(
-	        	'이미지 업로드 제한!',
-	       		'이미지는 최대 5개까지 업로드가 가능합니다.',
-	        	'warning'
-	      	)
-	      return;
-	    }
-	  	
 		// 파일타입 검사 및 미리보기 생성
 		[...files].forEach(file => {
 	        if (!file.type.match("image/.*")) {
@@ -603,16 +595,16 @@
 	
 	        // 태그 생성
 	        if ([...files].length < 7) {
+	        	console.log('태그생성');
 	        	uploadFiles.push(file);
 				const reader = new FileReader();
 				reader.onload = (e) => {
 					let tag = $('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
-					console.log(tag);
-					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').data('file', e.target.result).addClass('delBtn position_absol');
-					console.log(delBtn);
+					console.log(file);
+					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').addClass('delBtn position_absol test2');
+					delBtn[0].setAttribute('data-file', file.name);
 					delBtn[0].addEventListener('click', delFile);
 					$(tag).append(delBtn);
-					console.log(tag);
 		            $(memoImage).append(tag);
 				};
 	          	reader.readAsDataURL(file);
@@ -671,6 +663,8 @@
 	    })
 	
 	    uploadFiles = newFilesArr;
+	    console.log('야호!');
+	    console.log(uploadFiles);
 	
 	    e.target.parentNode.remove();
 	  }

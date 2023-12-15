@@ -10,7 +10,6 @@
 	border: none;
 	border-radius: 8px;
 	margin: 12px;
-	cursor: move;
 	background-color: #eeeeeec4;
 	display: inline-block;
 	margin: 10px;
@@ -68,11 +67,15 @@
 .menubars{
 	position: absolute !important;
 	display: none !important;
-	cursor: pointer !important;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
+}
+
+input{
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .modalmenu {
-	cursor: pointer;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .memo:hover .menubars {
@@ -81,6 +84,9 @@
 
 .memo:hover {
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.memo:hover .memo_image {
+	margin-top: 25px;
 }
 
 .bi-pin {
@@ -91,14 +97,14 @@
 	/* bottom:	10px;
 	right: 35px; */
 	position: inherit !important;
-	cursor: pointer !important;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .bi-image {
 	/* bottom:	10px;
 	right: 10px; */
 	position: inherit !important;
-	cursor: pointer !important;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .real_file {
@@ -113,7 +119,7 @@
 	margin-right: 5px;
 	display: inline-block;
 	margin-bottom: 10px;
-	cursor: pointer;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .shop__sidebar__color label.ca1 {
@@ -157,7 +163,7 @@
 	bottom: -17px;
     display: none;
     right: 70px;
-	cursor: pointer;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 	padding-top: 15px;
 }
 .hashtag{
@@ -182,7 +188,7 @@
 	position: realative;
 	top: 2px;
 	border-radius: 4px;
-	cursor: pointer;
+	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
 .button p
@@ -334,8 +340,6 @@
 	background-repeat: no-repeat;
 	border-radius: 10px;
 	padding: 5px;
-    margin-top: 10px;
-    margin-left: 10px;
 }
 .modal-body .memo_image {
 	gap: 10px;
@@ -354,7 +358,8 @@
 	width: 100%;
 	height: auto;
 	flex-wrap: wrap;
-	margin-top: 10px;
+	gap: 10px;
+	transition: all 0.3s;
 }
 .memo_btn_wrap {
 	margin-top: 100px;
