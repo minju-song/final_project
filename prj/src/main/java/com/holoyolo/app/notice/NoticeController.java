@@ -44,7 +44,7 @@ public class NoticeController {
 	// 공지사항 리스트 페이지
 	@GetMapping("/cs/help/notice")
 	public String noticeList(Model mo) {
-		mo.addAttribute("boardType", "공지사항");
+		mo.addAttribute("menuType", "공지사항");
 		mo.addAttribute("menu", "cs");
 		return "user/cs/noticeList";
 	}
@@ -52,7 +52,7 @@ public class NoticeController {
 //공지사항 등록 페이지 
 	@GetMapping("/cs/help/notice/Insert")
 	public String insertNoticePage(Model mo, BoardVO boardVO) {
-		mo.addAttribute("boardType", "공지사항");
+		mo.addAttribute("menuType", "공지사항");
 		mo.addAttribute("menu", "cs");
 		return "user/cs/noticeinsert";
 	}
@@ -61,12 +61,15 @@ public class NoticeController {
 	@PostMapping("/notice/insert")
 	public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles,
-			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
-
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles, Model mo) {
+System.out.println(boardVO);
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "notice");
 		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "noticeAttach");
 		boardVO.setMemberId(principalDetails.getUsername());
 		boardService.insertNotice(boardVO, imgList, attachList);
+		
+		
+		mo.addAttribute("menuType","공지사항");
 		return "redirect:/cs/help/notice";
 	}
 

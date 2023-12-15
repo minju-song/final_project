@@ -24,5 +24,5 @@ public interface AnswerService {
 	public boolean deleteAnswerInfo(int answerId);
 	
 	// 추가 인터페이스 작성 ↓↓
-	
+		
 }
