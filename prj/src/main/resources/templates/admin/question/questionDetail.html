@@ -47,18 +47,14 @@
 									<img th:alt="${img.originFile}"
 										th:src="@{/images/}+${img.saveFile}" style="width: 100%;">
 								</th:block>
-								<div class="col-12 writeInput">
+								<div class="col-12 writeInput" th:if="${attachInfo} != null">
 									<div class="input-group mb-3">
-
 										<span class="input-group-text">첨부파일</span>
-
-										<div class="form-control">
-
+										<div th:each="attach, stat : ${attachInfo}"
+											class="form-control">
 											<div id="noticeAtach" aria-describedby="basic-addon3">
-
-												<th:block th:each="attach, stat : ${attachInfo}">
-													<a th:text="${attach.originFile}"></a>
-												</th:block>
+												<a th:href="@{'/download?saveFile=' + ${attach.saveFile}}"
+													th:text="${attach.originFile}"></a>
 											</div>
 										</div>
 									</div>

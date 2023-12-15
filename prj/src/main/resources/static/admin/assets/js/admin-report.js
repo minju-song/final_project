@@ -64,11 +64,18 @@ $(document).ready(function () {
 			})
 				.done(function (data) {
 					console.log(data.reportInfo)
+					
+					
+					
 					let comment = data.reportInfo.processComment
 					let type = data.reportInfo.reportProcessType
+					let date = data.reportInfo.processDate
+
+					console.log(type)
 					$("#reportArea").empty();
-					let template = reportCommentTemplate(type, comment)
+					let template = reportCommentTemplate(type, comment, date)
 					$("#reportArea").append(template);
+					
 				})
 				.fail(function (error) {
 					console.error("Error fetching question list: ", error);
@@ -119,12 +126,23 @@ $(document).ready(function () {
 			console.log(type)
 		})
 		// 신고처리내용 템플릿
-		function reportCommentTemplate(type, comment) {
+		function reportCommentTemplate(type, comment, date) {
 			return `
-					<div>
-						<h5 class="fw-bold badge bg-label-${type == 'SB1' ? 'info' : 'danger'}">해당 신고는 아래 사유로
-							${type == 'SB1' ? '신고' : '반려'}처리 됨</h5> 
-						<p>${comment}</p>
+					<div id="reportContent" class="reportContent">
+						<p class="table-caption mb-3">처리내용</p>
+						<div class="origin_info">
+							<div class="table-tr b-bottom-none">
+								<span class="table-th">상태</span>
+								<h5 class="table-td m-2 fw-bold badge bg-label-${type=="신고처리"?"info":"danger"}">해당
+									신고는 아래 사유로 ${type=="신고처리"?"신고":"반려"}처리됨</h5>
+							</div>
+							<div class="table-tr b-bottom-none">
+								<span class="table-th">${date}</span> <span class="table-td"></span>
+							</div>
+							<div class="table-tr mb-2">
+								<span class="table-th">${comment}</span> <span class="table-td"></span>
+							</div>
+						</div>
 					</div>
 				  `
 		}
@@ -232,7 +250,7 @@ $(document).ready(function () {
 
 	pageNum = 1;
 	pageSize = 10.0; //페이지 번호 수
-	pageUnit = 8;  //한페이지에 출력할 행의 수
+	pageUnit = 10;  //한페이지에 출력할 행의 수
 
 	// 상세페이지 이동
 	$(document).on("click", "td[name='goReportDetail']", function (e) {

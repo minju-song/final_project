@@ -50,6 +50,19 @@
 	align-items: center;
 	justify-content: space-between;
 }
+
+#club-img {
+	width: 100%;
+	padding: 100px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #e6e6e6;
+}
+
+.right-aligned {
+	justify-content: space-between;
+}
 </style>
 </head>
 
@@ -75,15 +88,16 @@
 					<div class="row">
 						<!-- 회원 문의 -->
 						<div class="col-md p-4">
-							<div class="d-flex mb-3">
+							<div class="mb-3">
 								<!--/* 원글정보 start */-->
-								<div class="origin_info ">
+								<div class="origin_info mb-4">
+
 									<div class="dp-flex mb-3">
 										<p class="table-caption">모임정보</p>
 									</div>
-									<div class="table-tr b-bottom-none">
+									<!-- <div class="table-tr b-bottom-none">
 										<span class="table-th">리더</span> <span class="table-td">[[${info.clubLeader}]]</span>
-									</div>
+									</div> -->
 									<div class="table-tr b-bottom-none">
 										<span class="table-th">인원</span> <span class="table-td">[[${info.joinCnt}+'
 											/ '+${info.clubPeople}]]</span>
@@ -99,9 +113,35 @@
 									</div>
 								</div>
 								<!--/* 원글정보 end */-->
-								
-							</div>
+								<!--/* 원글정보 start */-->
+								<div class="origin_info">
 
+									<div class="dp-flex mb-3">
+										<p class="table-caption">참가 회원 리스트</p>
+									</div>
+									<div class="table-tr b-bottom-none right-aligned">
+										<span class="table-th">리더</span> <span class="table-td">[[${info.clubLeader}]]</span>
+										<span class="table-td">[[${#dates.format(info.clubDate,
+											'yyyy-MM-dd')}]]</span>
+									</div>
+									<div th:each="clubMember, stat:${clubMemberInfo}"
+										class="table-tr right-aligned"
+										th:if="${clubMember.memberId} != ${info.clubLeader}"
+										>
+										<span class="table-th">맴버</span> <span class="table-td">[[${clubMember.memberId}]]</span>
+										<span class="table-td" >[[${#dates.format(clubMember.joinDate,
+											'yyyy-MM-dd')}]]</span>
+									</div>
+								</div>
+								<!--/* 원글정보 end */-->
+							</div>
+						</div>
+						<div class="col-md p-4">
+							<div class="dp-flex mb-3">
+								<p class="table-caption">로고</p>
+							</div>
+							<img class="mb-4" id="club-img" th:alt="${info.clubProfileImg}"
+								th:src="@{'/images/' + ${info.clubProfileImg}}">
 						</div>
 						<!-- /회원 문의 -->
 						<!-- 관리자 답변 -->
@@ -127,6 +167,12 @@
 		</div>
 		<script th:src="@{/admin/assets/js/admin-common.js}"></script>
 		<script th:src="@{/admin/assets/js/admin-club.js}"></script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var memberId = /*[[${clubMemberInfo}]]*/'default_value';
+			console.log(memberId);
+			/*]]>*/
+		</script>
 	</div>
 </body>
 

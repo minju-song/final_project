@@ -70,6 +70,8 @@ public class QuestionController {
 		model.addAttribute("answerInfo", questionInfo.get("answerInfo"));
 		return "admin/question/questionDetail";
 	}
+	
+	// 문의 단건조회 - 첨부파일 다운로드
 
 	@GetMapping("/cs/faq")
 	public String fapPage(Model model) {
@@ -203,8 +205,8 @@ public class QuestionController {
 		questionService.updateQuestion(questionVO, imgList, attachList);
 		return "redirect:/member/cs/help/question";
 	}
+  
 //문의 검색
-
 	@PostMapping("/searchQNA")
 	@ResponseBody
 	public Map<String, Object> searchQNA(@AuthenticationPrincipal PrincipalDetails prd, @RequestBody JSONObject req) {
@@ -221,4 +223,5 @@ public class QuestionController {
 
 		return result;
 	}
+
 }
