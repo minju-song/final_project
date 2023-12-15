@@ -75,4 +75,13 @@
 		    )
 		WHERE rownum = 1
 	</select>
+	
+	<!--  첨부파일 아작스 제거-->
+	<delete id="deleteCSAttachment" parameterType="AttachmentVO">
+		DELETE FROM attachment
+		WHERE menu_type =#{menuType}
+		AND post_id = #{postId}
+		AND ORIGIN_FILE = #{originFile}
+		
+	</delete>
 </mapper>

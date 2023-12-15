@@ -87,6 +87,8 @@ public class NoticeController {
 		attachmentVO.setPostId(boardId);
 		attachmentVO.setMenuType("AA6");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
+
+		System.out.println(returnMap);
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("boardVO", vo);
 		mo.addAttribute("loginId", loginId);
@@ -186,4 +188,14 @@ public class NoticeController {
 		return resultMap;
 	}
 
+	// cs 첨부파일 삭제
+
+	// 삭제
+	@GetMapping("/member/attachment/delete")
+	@ResponseBody
+	public void attachmentDelete(@RequestParam(name = "saveFile") String originname,
+			@RequestParam(name = "postId") int boardId, @RequestParam(name = "menuType") String menuType) {
+		
+		attachmentService.deleteCSAttachment(boardId, menuType, originname);
+	}
 }

@@ -171,7 +171,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Transactional
 	public int updateQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
 		// 기존 첨부파일 삭제
-		attachmentService.deleteQNAAttachment(questionVO);
+//		attachmentService.deleteQNAAttachment(questionVO);
 		// 본문 내용 UPDATE
 		int result = questionMapper.updateQuestion(questionVO);
 		// 이미지 및 첨부파일 새로 등록

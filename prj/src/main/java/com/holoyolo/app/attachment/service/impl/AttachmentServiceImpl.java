@@ -2,7 +2,6 @@ package com.holoyolo.app.attachment.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.holoyolo.app.attachment.mapper.AttachmentMapper;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
-import com.holoyolo.app.member.service.MemberVO;
-import com.holoyolo.app.question.service.QuestionVO;
 import com.holoyolo.app.board.service.BoardVO;
 
 @Service
@@ -261,11 +258,20 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	// 1:1 문의 삭제
 	@Override
-	public int deleteQNAAttachment(QuestionVO questionVO) {
+	public int deleteQNAAttachment(String menuType, int boardId) {
 		AttachmentVO attachmentVO = new AttachmentVO();
-		attachmentVO.setPostId(questionVO.getQuestionId());
-		attachmentVO.setMenuType(questionVO.getQuestionType());
+		attachmentVO.setPostId(boardId);
+		attachmentVO.setMenuType(menuType);
 		return attachmentMapper.deletePostAttachment(attachmentVO);
+	}
+
+	@Override
+	public int deleteCSAttachment(int boardId, String menuType, String originname) {
+		AttachmentVO attachmentVO = new AttachmentVO();
+		attachmentVO.setPostId(boardId);
+		attachmentVO.setMenuType(menuType);
+		attachmentVO.setOriginFile(originname);
+		return attachmentMapper.deleteCSAttachment(attachmentVO);
 	}
 
 }

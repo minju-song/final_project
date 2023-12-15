@@ -20,4 +20,6 @@ public interface AttachmentMapper {
 	
 	//상품사진가져오기
 	public AttachmentVO getItemImage(int id);
+	
+	public int deleteCSAttachment(AttachmentVO vo);
 }

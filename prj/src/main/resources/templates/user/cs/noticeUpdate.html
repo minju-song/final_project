@@ -43,7 +43,8 @@
 							<img class="tradeImgPlus" id="noticeImg" th:src="@{/user/images/cs/photo.png}">
 							<input class="real_file" name="imageFiles" type="file" accept="image/*" multiple />
 							<div class="file-list">
-								<li calss="position_rela" th:each="noticeImg, stat : ${noticeImg}">
+								<li th:if="${noticeImg != null}" calss="position_rela"
+									th:each="noticeImg, stat : ${noticeImg}">
 									<img th:data-file="${noticeImg.saveFile}"
 										th:src="@{/user/images/trade/delete-button.png}" class="delBtn position_absol"
 										th:onclick=fileDeleteBtn(event)>
@@ -51,13 +52,12 @@
 										th:data-file="${noticeImg.saveFile}">
 								</li>
 							</div>
-
 						</div>
 
 					</div>
 					<div class="col-12 writeInput">
 						<div class="input-group mb-3">
-							<span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
+							<span class="input-group-text">첨부파일<span class="star">*</span></span>
 							<input type="file" name="attachmentFiles" class="form-control" id="noticeAttach"
 								aria-describedby="basic-addon3" multiple>
 						</div>
@@ -75,8 +75,11 @@
 
 		<script th:inline="javascript">
 			let imgList = /*[[${noticeImg}]]*/ null;
-			let imgListSize = /*[[${noticeImg.size}]]*/ 0;
+			let imgListSize = imgList ? imgList.length : 0;
 			let postId = /*[[${board.boardId}]]*/ 0;
+
+			let AttachList = /*[[${noticeAttach}]]*/ null;
+			let AttachListSize = AttachList ? AttachList.length : 0;
 		</script>
 		<script src="/user/js/noticeUpdate.js"></script>
 		<script src="/user/js/community.js"></script>
