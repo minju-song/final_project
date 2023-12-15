@@ -48,8 +48,7 @@
 							<span class="input input_wrap">
 								<textarea class="hl_textarea form-control" id="memberIntro" rows="3" cols="100" 
 										  spellcheck="false" placeholder="등록된 자기소개가 없습니다" readonly
-										  th:value="${#strings.replace(memberInfo.memberIntro, nlString, '&lt;br /&gt;')}" 
-										  th:utext="${#strings.replace(memberInfo.memberIntro, nlString, '&lt;br /&gt;')}"></textarea>
+										  th:text="${memberInfo.memberIntro}"></textarea>
 							</span>
 						</div>
 					</div>

@@ -173,8 +173,8 @@ public class MemberController {
 		model.addAttribute("cardData", cardData);
 		
 		// 개행처리
-		String nlString = System.getProperty("line.separator").toString();
-		model.addAttribute("nlString", nlString);
+		//String nlString = System.getProperty("line.separator").toString();
+		//model.addAttribute("nlString", nlString);
 		
 		// 사이드메뉴 정보 넘기기
 		model.addAttribute("menu", "mypage");

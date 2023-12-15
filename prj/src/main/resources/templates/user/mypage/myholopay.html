@@ -11,83 +11,82 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
 </head>
 
 <body>
   <div layout:fragment="content">
-    <div class="container">
+    <div class="container hp_container">
+      <h2 class="h2_title">홀로페이</h2>
       <!--/*홀로페이 잔액조회 */-->
-
-      <div class="row" th:if="${financeVO.bankname != null}">
-        <div class="col-3">
-          <h4>등록된 계좌 정보</h4>
-          <p> 은행 : <span th:text="${financeVO.bankname}" id="myAccountName"></span></p>
-          <p>계좌번호 : <span th:text="${financeVO.account}" id="myAccountNum"></span></p>
+      <div class="row" th:if="${financeVO != null}">
+      	<div class="col-6 row brder-none">
+	        <div class="col-7">
+	          <h4>등록된 계좌 정보</h4>
+	          <p class="mt-4"><span class="span_title">은행</span><span th:text="${financeVO.bankname}" id="myAccountName"></span></p>
+	          <p><span class="span_title">계좌번호</span><span th:text="${financeVO.account}" id="myAccountNum"></span></p>
+	        </div>
+	        <div class="col-5">
+	          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+	            data-whatever="계좌변경">계좌변경</button>
+	        </div>
         </div>
-        <div class="col-3">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
-            data-whatever="계좌변경">거래계좌변경</button>
-        </div>
-        <div class="col-3">
-          <h4>HOLOPAY</h4>
-          <p>홀로페이 잔액 : <span th:text="${#numbers.formatInteger(payBalance, 0, 'COMMA')} + 원"></span></p>
-                  </div>
-        <div class="col-3">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rechargeSet">충전</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdrawBtn">인출</button>
-          </div>
-        </div>
+        <div class="col-6 row brder-none">
+	        <div class="col-7">
+	          <h4>HOLOPAY</h4>
+	          <p><span class="span_title">홀로페이 잔액</span><span th:text="${#numbers.formatInteger(payBalance, 0, 'COMMA')} + 원"></span></p>
+	                  </div>
+	        <div class="col-5">
+	          <div class="btn-group">
+	            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rechargeSet">충전</button>
+	            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdrawBtn">인출</button>
+	          </div>
+	        </div>
+	    </div>
       </div>
 
 
 
-      <div class="row" th:if="${financeVO.bankname == null}">
-        <div class="col-6">
-          <h3>등록된 계좌가 없습니다</h3>
-        </div>
-        <div class="col-6">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
-            data-whatever="계좌등록">
-            계좌등록
-          </button>
-        </div>
+      <div class="row justi-center" th:if="${financeVO == null}">
+         <h3>등록된 계좌가 없습니다</h3>
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amountSetting"
+           data-whatever="계좌등록">
+           계좌등록
+         </button>
       </div>
 
     </div>
     <br>
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 hp_list">
         <table class="table" id="hpHistoryTable">
           <select id="searchHpHistory">
-            <option value="all">전체</option>
+            <option value="all">전체기간</option>
             <option value="1M">1개월</option>
             <option value="3M">3개월</option>
             <option value="6M">6개월</option>
           </select>
           <thead class="thead">
             <tr>
-              <th>순번</th>
-              <th>유형</th>
-              <th>금액</th>
-              <th>내용</th>
-              <th>날짜</th>
+              <th class="text-center">순번</th>
+              <th class="text-center">유형</th>
+              <th class="text-center">내용</th>
+              <th class="text-center">금액</th>
+              <th class="text-center">날짜</th>
             </tr>
           </thead>
           <tbody id="hpHistoryTableBody">
             <th:block th:unless="${holopayList} == '0'">
               <tr th:each="holopayList : ${holopayList}">
-                <td th:text="${holopayList.hpHistoryId}"></td>
-                <td th:switch="${holopayList.hpType}">
+                <td class="text-center" th:text="${holopayList.hpHistoryId}"></td>
+                <td class="text-center" th:switch="${holopayList.hpType}">
                   <span th:case="HP1" class="center-block label label-info">충전</span>
                   <span th:case="HP2" class="center-block label label-primary">인출</span>
                   <span th:case="HP3" class="center-block label label-primary">판매</span>
                   <span th:case="HP4" class="center-block label label-primary">입금</span>
                 </td>
-                <td th:text="${#numbers.formatInteger(holopayList.price, 0, 'COMMA')}"></td>
-                <td th:text="${holopayList.holopayComment}"></td>
-                <td th:text="${#dates.format(holopayList.hpDate, 'yy/MM/dd')}"></td>
+                <td class="text-center" th:text="${holopayList.holopayComment}"></td>
+                <td class="text-right" th:text="${#numbers.formatInteger(holopayList.price, 0, 'COMMA')}"></td>
+                <td class="text-center" th:text="${#dates.format(holopayList.hpDate, 'yy/MM/dd')}"></td>
               </tr>
             </th:block>
             <th:block th:if="${holopayList} == '0'">
@@ -106,8 +105,8 @@
         <div id="pagination-container">
           <nav aria-label="...">
             <ul class="pagination">
-              <li class="page-item disabled"><a class="page-link">Previous</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              <li class="page-item disabled"><a class="page-link">이전</a></li>
+              <li class="page-item"><a class="page-link" href="#">다음</a></li>
             </ul>
           </nav>
         </div>

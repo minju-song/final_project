@@ -176,7 +176,7 @@ function setupPagination(totalPages) {
     previousLi.className = "page-item disabled";
     let previousLink = document.createElement("a");
     previousLink.className = "page-link";
-    previousLink.innerText = "Previous";
+    previousLink.innerText = "이전";
     previousLink.addEventListener("click", function () {
       if (currentPage > 1) {
         loadData(currentPage - 1);
@@ -206,7 +206,7 @@ function setupPagination(totalPages) {
     nextLi.className = "page-item";
     nextLink.className = "page-link";
     nextLink.href = "#";
-    nextLink.innerText = "Next";
+    nextLink.innerText = "다음";
     nextLink.addEventListener("click", function () {
       if (currentPage < totalPages) {
         loadData(currentPage + 1);
@@ -267,11 +267,12 @@ function updateTable(data) {
 
 
       let row = $("<tr>");
-      row.append($("<td>").text(index + 1));
-      row.append($("<td>").text(getTransactionType(item.hpType)));
-      row.append($("<td>").text(Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(item.price)));
-      row.append($("<td>").text(item.holopayComment));
-      row.append($("<td>").text(formatDate(item.hpDate)));
+      row.append($("<td class='text-center'>").text(index + 1));
+      row.append($("<td class='text-center'>").text(getTransactionType(item.hpType)));
+      row.append($("<td class='text-center'>").text(item.holopayComment));
+      let price = item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      row.append($("<td class='text-right'>").text(price + "원"));
+      row.append($("<td class='text-center'>").text(formatDate(item.hpDate)));
 
       tbody.append(row);
     });
