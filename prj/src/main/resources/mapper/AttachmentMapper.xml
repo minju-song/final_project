@@ -56,13 +56,12 @@
 	</delete>
 	<delete id="deletePostAttachment" parameterType="AttachmentVO">
 		DELETE FROM attachment
-		WHERE menu_type =#{menuType}
+		WHERE menu_type = #{menuType}
 		AND post_id = #{postId}
-		
 	</delete>
 	
 	<!-- 중고거래 이미지하나가져오기 -->
-		<!-- 상품사진 한개만 가져오기 -->
+	<!-- 상품사진 한개만 가져오기 -->
 	<select id="getItemImage" resultType="AttachmentVO">
 		SELECT *
 		FROM 
@@ -82,6 +81,5 @@
 		WHERE menu_type =#{menuType}
 		AND post_id = #{postId}
 		AND ORIGIN_FILE = #{originFile}
-		
 	</delete>
 </mapper>

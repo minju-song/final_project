@@ -77,9 +77,13 @@ public class MemoController {
 	@GetMapping("member/memoDelete")
 	@ResponseBody
 	public void deleteMemo(@AuthenticationPrincipal PrincipalDetails principalDetails,
-						   MemoVO memoVO){
+						   MemoVO memoVO,
+						   AttachmentVO attachmentVO){
 		memoVO.setMemberId(principalDetails.getUsername());
 		memoService.deleteMemo(memoVO);
+		attachmentVO.setPostId(memoVO.getMemoId());
+		attachmentVO.setMenuType("AA7");
+		attachmentService.deleteAttachment(attachmentVO);
 	}
 	
 	//index 수정

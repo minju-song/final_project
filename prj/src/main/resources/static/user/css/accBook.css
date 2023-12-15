@@ -16,11 +16,7 @@
             padding: 20px;
             margin: 0 auto;
             border: 1px solid gainsboro;
-            /* border-radius: 5px; */
-            /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
             width: 100%;
-            padding-top: 30px;
-            padding-bottom: 30px;
             border-radius: 20px;
         }
 
@@ -56,9 +52,7 @@
             text-align: center;
         }
 
-        .futureDay {
-            /* color: black; */
-        }
+
 
         .today {
             background-color: #F5D042;
@@ -99,9 +93,25 @@
             cursor: pointer;
         }
 
-        #history, #cal {
+        select {
+            border-right: 0;
+        }
+
+        #cal {
             /* border: 1px solid palevioletred; */
             padding: 10px;
+        }
+
+        #history {
+            padding: 15px;
+            flex: 3;
+            background-color: rgb(235 83 113 / 5%);
+            border-radius: 20px;
+        }
+
+        #history > h4 {
+            text-align: center;
+            font-weight: bold; 
         }
 
         #hisTable {
@@ -137,6 +147,25 @@
             margin-top: 20px;
         }
 
+        .out {
+            color: #cf1515;
+            font-weight: bold;
+        }
+
+        .in {
+            color: #192f8f;
+            font-weight: bold;
+        }
+
+        .inout {
+            width: 20px;
+            /* height: 30; */
+        }
+
+        th {
+            text-align: center;
+        }
+
         .success {
             color: green;
             font-weight: bolder;
@@ -165,7 +194,11 @@
             cursor: pointer;
         }
 
-
+        .label {
+            color: gray;
+            padding: 5px;
+            font-size: small;
+        }
 
         .btn {
             padding: 0;
@@ -188,13 +221,6 @@
             transition: .3s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
         
-        .input:focus, input:hover {
-            outline: none;
-            padding: .2rem 1rem;
-            border-radius: 1rem;
-            border-color: #7a9cc6;
-        }
-        
         .input::placeholder {
             color: #777;
         }
@@ -215,21 +241,15 @@
         #historyTitle, #sumByMonth {
             margin-bottom: 30px;
         }
-        
-        .sumDiv {
-            position: absolute;
-            top: 90%;
-            left: 65%;
-            width: 300px;
+
+        #sumByMonth {
+            margin: 0 auto;
         }
+        
 
         #hisTable {
             border-collapse: separate;
         border-spacing: 10px 10px;
-        }
-
-        #cal {
-            /* background-color: white; */
         }
 
         .red {
@@ -255,7 +275,40 @@
             text-align: end;
            
         }
+
+        .price {
+            text-align: right;
+        }
+
         
+        .text-bg-color {
+            display: inline-block;
+            background: #e6e6e6;
+            font-size: 12px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            margin-right: 6px;
+            width: 73px;
+            text-align: center;
+        }
+
+        .darkBlue {
+            display: inline-block;
+            background: #09203f;
+            font-size: 11px;
+            padding: 5px 7px;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .imgIcon  {
+            width: 15px;
+            /* height: 30px; */
+        }
+
+        .imgIconPlus {
+            width: 20px;
+        }
         
    
    

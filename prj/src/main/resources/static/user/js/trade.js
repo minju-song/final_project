@@ -241,8 +241,10 @@ document.getElementById('search_input').addEventListener('change', function () {
 
 //검색어 입력할 때마다 데이터 호출 및 페이징
 let search_input = document.getElementById('search_input');
-search_input.addEventListener('keyup', function () {
-    callList(1);
+search_input.addEventListener('keyup', function (event) {
+	if (event.which === 13) {
+    	callList(1);
+    }
 })
 
 //페이지 새로고침, 뒤로가기 클릭 시 체크박스 false

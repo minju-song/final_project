@@ -24,6 +24,7 @@
 	<div layout:fragment="content">
 		<div class="card">
 			<div class="card-body">
+				<h2 class="h2_title" th:text="${menuType}"></h2>
 				<form class="row g-3" th:action="@{/question/update}" method="POST" th:object="${questionVO}"
 					enctype="multipart/form-data">
 					<input type="hidden" th:field="${questionVO.questionId}" />
@@ -54,7 +55,7 @@
 						<label for="questionImg" class="form-label">이미지<span class="star">*</span></label>
 						<div class="imgFlex">
 							<img class="tradeImgPlus" id="questionImg" th:src="@{/user/images/cs/photo.png}">
-							<!-- <input class="real_file" name="imageFiles" type="file" accept="image/*" multiple /> -->
+							<input class="real_file" name="imageFiles" type="file" accept="image/*" multiple />
 							<div class="file-list">
 								<li calss="position_rela" th:each="questionImg, stat : ${questionImg}">
 									<img th:data-file="${questionImg.saveFile}"
@@ -64,20 +65,19 @@
 										th:data-file="${questionImg.saveFile}">
 								</li>
 							</div>
-
 						</div>
-
 					</div>
 					<div class="col-12 writeInput">
 						<div class="input-group mb-3">
 							<span class="input-group-text" id="openKakao">첨부파일<span class="star">*</span></span>
-							<input type="file" name="attachmentFiles" class="form-control" id="questionAttach" aria-describedby="basic-addon3" multiple>
+							<input type="file" name="attachmentFiles" class="form-control" id="questionAttach"
+								aria-describedby="basic-addon3" multiple>
 						</div>
 					</div>
 					<div id="attachedFilesContainer">
 						<!-- 첨부된 파일 목록이 표시될 공간 -->
 					</div>
-					
+
 					<div class="col-md-12 writeInput buttonFrom">
 						<button type="reset" class="btn btn-secondary" id="cancelBtn">취소</button>
 						<button type="submit" class="btn btn-primary">등록</button>
@@ -88,15 +88,15 @@
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
-			<script th:inline="javascript">
-				let imgList = /*[[${questionImg}]]*/ null;
-				let imgListSize = imgList ? imgList.length : 0;
-				let postId = /*[[${questionVO.questionId}]]*/ 0;
-				let attachList = /*[[${questionAttach}]]*/ null;
-			</script>
-			<script src="/user/js/noticeUpdate.js"></script>
-			<script src="/user/js/community.js"></script>
-	
+		<script th:inline="javascript">
+			let imgList = /*[[${questionImg}]]*/ null;
+			let imgListSize = imgList ? imgList.length : 0;
+			let postId = /*[[${questionVO.questionId}]]*/ 0;
+			let attachList = /*[[${questionAttach}]]*/ null;
+		</script>
+		<script src="/user/js/noticeUpdate.js"></script>
+		<script src="/user/js/community.js"></script>
+
 	</div>
 </body>
 

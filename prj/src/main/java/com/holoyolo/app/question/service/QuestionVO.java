@@ -26,6 +26,7 @@ public class QuestionVO {
 	
 	// 검색
 	private String search;
+	private String searchOption;
 	
 	// 페이징
 	private int page;

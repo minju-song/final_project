@@ -89,7 +89,7 @@
 						<button type="button" class="placeSelectButton" id="placeSelectButton" disabled="disabled">
 							<p>장소 선택 ></p>
 						</button>
-						<input type="text" class="form-control tradePlaceSelect" id="tradePlace" name="tradePlace" th:field="*{tradePlace}" th:style="${tradeInfo.tradePlace != null ? 'display: block;' : 'display: none;'}">
+						<input type="text" class="form-control tradePlaceSelect" id="tradePlace" name="tradePlace" th:field="*{tradePlace}" th:style="${tradeInfo.tradePlace != null ? 'display: block;' : 'display: none;'}" readonly>
 						<input type="text" id="latitude" name="latitude" style="display:none" th:field="*{latitude}">
 						<input type="text" id="longitude" name="longitude" style="display:none" th:field="*{longitude}">
 					</div>

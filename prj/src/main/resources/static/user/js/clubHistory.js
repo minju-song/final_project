@@ -37,16 +37,18 @@ $(document).ready(function () {
                 borderWidth: 1
             }]
         },
+
+        maxBarThickness: 6,
         options: {
             responsive: false,
             scales: {
-				yAxes: [{
-					ticks: {
-						min: 0,
-						max: 100,
-						fontSize : 14,
-					}
-				}]
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        fontSize: 14,
+                    }
+                }]
             },
         }
     });

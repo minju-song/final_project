@@ -45,5 +45,10 @@ public interface QuestionMapper {
 	
 	public int updateQuestion(QuestionVO questionVO);
 	
+	public List<QuestionVO> searchQuestionList(QuestionVO vo);
+
+	public int getTotalQuestionSurfRecords(QuestionVO vo);
+	
+	
 	
 }

@@ -66,28 +66,37 @@ function setupPagination(totalPages) {
 }
 //게시판 목록 로드
 function loadData(page, search) {
+
     currentPage = page;
     let start = (currentPage - 1) * recordsPerPage;
     let end = start + recordsPerPage;
     let searchBoardSet = location.pathname
-    let boardType = "";
-    let setUrl = ""
+
+
     let searchOption = ""
-    if (location.pathname == "/board/info" || location.pathname == "/board/chat") {
-        searchOption = document.getElementById('searchTitle').value
-    } else if (searchBoardSet == "/cs/help/notice") {
+    if (searchBoardSet == "/board/info" ||
+        searchBoardSet == "/board/chat" ||
+        searchBoardSet == "/cs/help/notice" ||
+        searchBoardSet == "/member/cs/help/question") {
         searchOption = document.getElementById('searchTitle').value
     }
 
+    let boardType = "";
     if (searchBoardSet == "/board/chat") {
         boardType = "AA3"
     } else if (searchBoardSet == "/board/info") {
         boardType = "AA2"
     } else if (searchBoardSet == "/cs/help/notice") {
         boardType = "AA6"
+    } else if (searchBoardSet == "/member/cs/help/question") {
+        boardType = "AA8"
     }
+
+    let setUrl = ""
     //검색 설정
-    if (search != null && search != '') {
+    if (search != null && search != '' && boardType == "AA8") {
+        setUrl = "/searchQNA"
+    } else if (search != null && search != '') {
         setUrl = "/searchBoardLoad"
     } else {
         setUrl = "/boardLoad"
@@ -139,8 +148,10 @@ function updateTable(data, page) {
             } else if (searchBoardSet == 'AA2') {
                 row.append($("<td class='board-nickname'>").text(item.nickname));
             }
-
-            row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`));
+            if(searchBoardSet !='AA8'){
+                row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`));
+            }
+            
 
             tbody.append(row);
         });

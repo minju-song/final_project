@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class TradeChatService {
 	    //채팅저장
 	    public int insertChat(String str) {
 	    	ObjectMapper objectMapper = new ObjectMapper();
-	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a KK:mm:ss");
+	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a H:mm:ss", new Locale("ko", "KR"));
 	    	TradeChatVO chatObj = null;
 			try {
 				chatObj = objectMapper.readValue(str, TradeChatVO.class);

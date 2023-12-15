@@ -23,7 +23,7 @@ if(latitude != ''){
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map);
 	
-	let iwContent = '<div style="padding:5px;">'+tradePlace+' <br><a href="https://map.kakao.com/link/map/'+tradePlace+', '+longitude+', '+longitude+'" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+tradePlace+', '+latitude+', '+longitude+'" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	let iwContent = '<div style="padding:5px;">'+tradePlace+' <br><a href="https://map.kakao.com/link/map/'+tradePlace+', '+longitude+', '+longitude+'" style="color:blue" target="_blank" id="map">큰지도보기</a> <a href="https://map.kakao.com/link/to/'+tradePlace+', '+latitude+', '+longitude+'" style="color:blue" target="_blank" id="map">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 	    iwPosition = new kakao.maps.LatLng(latitude, longitude); //인포윈도우 표시 위치입니다
 	
 	// 인포윈도우를 생성합니다
@@ -41,35 +41,38 @@ if(latitude != ''){
 
 //중고거래 삭제
 function deleteTrade(){
-	$.ajax({
-		url : '/member/tradeDelete',  //이동할 jsp 파일 주소
-		data : {tradeId},
-		success: function(data){
-			Swal.fire({
-                title: '정말로 그렇게 하시겠습니까?',
-                text: "다시 되돌릴 수 없습니다. 신중하세요.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '확인',
-                cancelButtonText: '취소'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        '중고거래 삭제',
-                        '선택하신 중고거래를 삭제했습니다!',
-                        'success'
-                    )
-					document.querySelector('.swal2-confirm').addEventListener('click', function(e){
-					   location.href = "/tradeList";
-					});
-                }
-            })
-		},
-		error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
-			console.log("중고거래 삭제 실패");
-		}
+	Swal.fire({
+			title: '정말로 그렇게 하시겠습니까?',
+			text: "다시 되돌릴 수 없습니다. 신중하세요.",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '확인',
+			cancelButtonText: '취소'
+	}).then((result) => {
+			if (result.isConfirmed) {
+				$.ajax({
+					url : '/member/tradeDelete',  //이동할 jsp 파일 주소
+					data : {tradeId},
+					success: function(data){
+						Swal.fire(
+							'중고거래 삭제',
+							'선택하신 중고거래를 삭제했습니다!',
+							'success'
+						)
+						document.querySelector('.swal2-confirm').addEventListener('click', function(e){
+							location.href = "/tradeList";
+						});
+						window.addEventListener('click', (e) => {
+							location.href = "/tradeList";
+						})
+					},
+					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
+						console.log("중고거래 삭제 실패");
+					}
+				})
+			}
 	})
 }
 
@@ -160,6 +163,26 @@ let cd = {'약속잡기': 'TD1', '약속확정' : 'TD2', '거래확정' : 'TD3',
 			success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 				if(pay.parentElement.nextElementSibling){
 					pay.parentElement.parentElement.remove();
+					
+					let okButton = document.createElement('button');
+					okButton.setAttribute('type', 'button');
+					okButton.classList.add('btn', 'btn-secondary');
+					okButton.innerText = '수정';
+					okButton.addEventListener('click', function(e){
+						location.href= '/member/tradeUpdate?tradeId='+ tradeId;
+					})
+					document.querySelector('.buttonFrom').appendChild(okButton);
+					
+					let delButton = document.createElement('button');
+					delButton.setAttribute('type', 'button');
+					delButton.classList.add('btn', 'btn-primary', 'tradeDelete');
+					delButton.innerText = '삭제';
+					delButton.style.marginLeft = '3px';
+					delButton.addEventListener('click', function(e){
+						deleteTrade();
+					})
+					document.querySelector('.buttonFrom').appendChild(delButton);
+					
 				}else{
 					pay.innerText = '약속잡기';							
 				}
@@ -244,7 +267,7 @@ document.querySelector('.rounded-circle').addEventListener('click', function(e){
 	if(profileImg == null){
 		img = `<img src="/user/images/trade/user.png" alt="Profile" class="rounded-circle" style="width:100px;height:100px;margin:0 auto;">`;
 	}else{
-		img = `<img src="src="/images/` + profileImg + `alt="Profile" class="rounded-circle" style="width:100px;height:100px;margin:0 auto;">`;
+		img = `<img src="/images/` + profileImg + `" alt="Profile" class="rounded-circle" style="width:100px;height:100px;margin:0 auto;">`;
 	}
 	let intro = '';
 	if(memberIntro == null){
