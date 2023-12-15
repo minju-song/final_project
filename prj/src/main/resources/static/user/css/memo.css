@@ -55,15 +55,15 @@
 
 .memotext {
 	padding: 5px;
-	margin: 10px;
+	margin: 20px 10px;
 	font-size: 17px;
     overflow: hidden;
-  	white-space: normal;
+  	white-space: break-spaces;
   	text-overflow: ellipsis;
   	display: -webkit-box;
-  	-webkit-line-clamp: 4;
+  	-webkit-line-clamp: 5;
  	-webkit-box-orient: vertical;
- 	height: 110px;
+ 	/* height: 160px; */
 }
 .menubars{
 	position: absolute !important;
@@ -103,10 +103,6 @@
 
 .real_file {
 	display: none;
-}
-
-.shop__sidebar__color {
-	padding-top: 15px;
 }
 
 .shop__sidebar__color label {
@@ -158,9 +154,11 @@
 
 .shop__sidebar__color{
 	position: absolute;
-	bottom: -40px;
-	display: none;
+	bottom: -17px;
+    display: none;
+    right: 70px;
 	cursor: pointer;
+	padding-top: 15px;
 }
 .hashtag{
     position: absolute !important;

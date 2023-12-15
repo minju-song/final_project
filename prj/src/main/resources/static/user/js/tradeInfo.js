@@ -52,7 +52,7 @@ function deleteTrade(){
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: '승인',
+                confirmButtonText: '확인',
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {

@@ -30,7 +30,6 @@ function fileDeleteBtn(e) {
 }
 
 
-
 $(function () {
   let uploadFiles = [];
   // 첨부된 이미지 파일 리스트
