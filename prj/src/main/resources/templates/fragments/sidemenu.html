@@ -40,8 +40,8 @@
 						<li class="side_sub_menu"><a th:href="@{/member/myTrade(listType='BLIST')}" id="BLIST">구매내역</a></li>
 						<li class="side_sub_menu last_sub_menu"><a th:href="@{/member/myTrade(listType='HLIST')}" id="HLIST">관심목록</a></li>
 						<!--/* 나의중고거래 서브메뉴 end */-->
-						<li class="side_main_menu"><a th:href="@{/member/myClub}">나의 알뜰모임</a></li>
-						<li class="side_main_menu"><a th:href="@{/member/myCommunity}">나의 커뮤니티</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myClub}" id="myClub">나의 알뜰모임</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myCommunity}" id="myCommunity">나의 커뮤니티</a></li>
 					</ul>
 				</div>
 			</th:block>
@@ -150,7 +150,11 @@
 					$('#BLIST').addClass('submenu_active');
 				} else if (tradeListType == "HLIST") {
 					$('#HLIST').addClass('submenu_active');
-				}
+				} else if (currentUri.indexOf('myClub') != -1) {
+					$('#myClub').addClass('submenu_active');
+				} else if (currentUri.indexOf('myCommunity') != -1) {
+					$('#myCommunity').addClass('submenu_active');
+				} 
 				
 			})
 		</script>

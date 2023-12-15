@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -19,14 +18,21 @@ import javax.websocket.server.ServerEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.holoyolo.app.config.ServerEndpointConfigurator;
+import com.holoyolo.app.member.service.MemberService;
+import com.holoyolo.app.member.service.MemberVO;
+
 
 @Service 
-@ServerEndpoint(value="/chat")
+@ServerEndpoint(value="/chat", configurator = ServerEndpointConfigurator.class)
 public class WebSocketChat {
 	private static Map<Object, Set<Session>> clientsMap = Collections.synchronizedMap(new HashMap<Object, Set<Session>>());
 
 	@Autowired
 	ChatService chatService;
+	
+	@Autowired
+	MemberService memberService;
 	 
 	//메시지왔을 때
 	@OnMessage
@@ -59,6 +65,7 @@ public class WebSocketChat {
 	public void onOpen(Session s, EndpointConfig config) throws Exception {
 		System.out.println("소켓");
 		System.out.println(s.getUserPrincipal().getName());
+		MemberVO info = memberService.selectUser(s.getUserPrincipal().getName());
 
 		URI uri = s.getRequestURI();
 		System.out.println("uri" +uri);
@@ -80,7 +87,7 @@ public class WebSocketChat {
 			String sizestr = "{ \"size\":"+" \""+size+"\", \"type\":\"size\"}";
 		    if (sessions != null) {
 	            for (Session se : sessions) {
-	            	String msg = "{ \"msg\" : "+"\""+s.getUserPrincipal().getName()+"님이 입장하였습니다.\", \"type\" : \"enter\"}";
+	            	String msg = "{ \"msg\" : "+"\""+info.getNickname()+"님이 입장하였습니다.\", \"type\" : \"enter\"}";
 	                System.out.println("send data : " + msg);
 	                se.getBasicRemote().sendText(sizestr);
 	                se.getBasicRemote().sendText(msg);
@@ -96,6 +103,7 @@ public class WebSocketChat {
 	public void onClose(Session s) throws Exception {
 			URI uri = s.getRequestURI();
 		    int clubId = extractClubIdFromURI(uri);
+		    MemberVO info = memberService.selectUser(s.getUserPrincipal().getName());
 		    
 		    Set<Session> sessions = clientsMap.get(clubId);
 			
@@ -106,7 +114,7 @@ public class WebSocketChat {
 				String sizestr = "{ \"size\":"+" \""+size+"\", \"type\":\"size\"}";
 			    if (sessions != null) {
 		            for (Session se : sessions) {
-		            	String msg = "{ \"msg\" : "+"\""+s.getUserPrincipal().getName()+"님이 퇴장하였습니다.\", \"type\" : \"enter\"}";
+		            	String msg = "{ \"msg\" : "+"\""+info.getNickname()+"님이 퇴장하였습니다.\", \"type\" : \"enter\"}";
 		                System.out.println("send data : " + msg);
 		                se.getBasicRemote().sendText(sizestr);
 		                se.getBasicRemote().sendText(msg);

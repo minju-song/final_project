@@ -6,8 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/user/css/myinfo.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/plugin/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
+<link rel="stylesheet" type="text/css" href="/user/css/mytrade.css"/>
 <style>
 	.sorting{
 		float: none;
@@ -16,31 +17,34 @@
 </head>
 <body>
 	<th:block layout:fragment="content">
-		<table id="userList" class="table datatable table-hover">
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제목</th>
-					<th>카테고리</th>
-					<th>가격</th>
-					<th>거래상태</th>
-					<th>날짜</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="odd" th:if="${tradeList.size == 0}">
-					<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
-				</tr>
-				<tr th:each="trade, stat : ${tradeList}">
-					<td th:text="${stat.count}"></td>
-					<td th:text="${trade.title}" th:onclick="|location.href='@{/member/tradeInfo(tradeId=${trade.tradeId},sellerId=${trade.sellerId})}'|"></td>
-					<td th:text="${trade.tradeCategory}"></td>
-					<td th:text="${trade.price}"></td>
-					<td th:text="${trade.promiseStatus}"></td>
-					<td th:text="${#dates.format(trade.writeDate, 'yyyy-MM-dd')}"></td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="container">
+			<h2 class="h2_title">중고거래 판매내역</h2>
+			<table id="userList" class="table datatable table-hover">
+				<thead>
+					<tr>
+						<th>순번</th>
+						<th>제목</th>
+						<th>카테고리</th>
+						<th>가격</th>
+						<th>거래상태</th>
+						<th>날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="odd" th:if="${tradeList.size == 0}">
+						<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+					</tr>
+					<tr th:each="trade, stat : ${tradeList}">
+						<td th:text="${stat.count}"></td>
+						<td th:text="${trade.title}" th:onclick="|location.href='@{/member/tradeInfo(tradeId=${trade.tradeId},sellerId=${trade.sellerId})}'|"></td>
+						<td th:text="${trade.tradeCategory}"></td>
+						<td th:text="${trade.price}"></td>
+						<td th:text="${trade.promiseStatus}"></td>
+						<td th:text="${#dates.format(trade.writeDate, 'yyyy-MM-dd')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<script>
 		let table = $("#userList").DataTable();
 		</script>
