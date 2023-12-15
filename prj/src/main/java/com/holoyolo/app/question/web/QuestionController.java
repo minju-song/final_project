@@ -125,7 +125,6 @@ public class QuestionController {
 			loginId = principalDetails.getUsername();
 		}
 
-
 		Map<String, Object> vo = questionService.selectQuestionInfo(questionVO);
 		attachmentVO.setPostId(questionVO.getQuestionId());
 		attachmentVO.setMenuType("AA8");
@@ -147,8 +146,8 @@ public class QuestionController {
 		// 본문삭제
 		boolean questionResult = questionService.deleteQuestionInfo(reqquestionVO.getQuestionId());
 		// 첨부및 이미지 삭제
-		reqquestionVO.setQuestionType("AA8");
-		int attResult = attachmentService.deleteQNAAttachment(reqquestionVO);
+
+		int attResult = attachmentService.deleteQNAAttachment("AA8", reqquestionVO.getQuestionId());
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		if (questionResult || attResult == 1) {
 			resultMap.put("resultMsg", "공지가 삭제되었습니다");
@@ -167,6 +166,8 @@ public class QuestionController {
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
+		attachmentVO.setPostId(questionId);
+		attachmentVO.setMenuType("AA8");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
 		questionVO = questionService.selectQuestion(questionId);
 		mo.addAttribute("loginId", loginId);
@@ -174,7 +175,7 @@ public class QuestionController {
 		mo.addAttribute("questionVO", questionVO);
 		mo.addAttribute("questionImg", returnMap.get("imgList"));
 		mo.addAttribute("questionAttach", returnMap.get("attachList"));
-
+		System.out.println("==================" + returnMap);
 		return "user/cs/questionUpdate";
 	}
 

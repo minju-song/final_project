@@ -251,4 +251,10 @@
     <select id="addMonth" resultType="MemberVO">
     	SELECT ADD_MONTHS(sysdate, 1) FROM dual
     </select>
+    
+    <!-- 회원 아이디 전체 조회 -->
+    <select id="getMembersId" resultType="MemberVO">
+    	SELECT member_id 
+    	FROM member
+    </select>
  </mapper>

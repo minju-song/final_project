@@ -33,12 +33,12 @@
 						<li class="side_main_menu"><a th:href="@{/member/myHome}" id="_myHome">홈</a></li>
 						<li class="side_main_menu"><a th:href="@{/member/myInfo}" id="_myInfo">내정보</a></li>
 						<li class="side_main_menu"><a th:href="@{/member/myHolopay}" id="_myHolopay">홀로페이</a></li>
-						<li class="side_main_menu"><a th:href="@{/member/myPoint}">포인트</a></li>
+						<li class="side_main_menu"><a th:href="@{/member/myPoint}" id="myPoint">포인트</a></li>
 						<li class="side_main_menu"><a href="#">나의 중고거래</a></li>
 						<!--/* 나의중고거래 서브메뉴 start */-->
-						<li class="side_sub_menu"><a th:href="@{/member/myTrade(listType='SLIST')}">판매내역</a></li>
-						<li class="side_sub_menu"><a th:href="@{/member/myTrade(listType='BLIST')}">구매내역</a></li>
-						<li class="side_sub_menu last_sub_menu"><a th:href="@{/member/myTrade(listType='HLIST')}">관심목록</a></li>
+						<li class="side_sub_menu"><a th:href="@{/member/myTrade(listType='SLIST')}" id="SLIST">판매내역</a></li>
+						<li class="side_sub_menu"><a th:href="@{/member/myTrade(listType='BLIST')}" id="BLIST">구매내역</a></li>
+						<li class="side_sub_menu last_sub_menu"><a th:href="@{/member/myTrade(listType='HLIST')}" id="HLIST">관심목록</a></li>
 						<!--/* 나의중고거래 서브메뉴 end */-->
 						<li class="side_main_menu"><a th:href="@{/member/myClub}">나의 알뜰모임</a></li>
 						<li class="side_main_menu"><a th:href="@{/member/myCommunity}">나의 커뮤니티</a></li>
@@ -107,7 +107,7 @@
 				</div>
 			</th:block>
 			<!--/* 사이드(알뜰모임 상세) end */-->
-
+	
 		</div>
 
 		<script>
@@ -122,7 +122,9 @@
 			// 현재메뉴 표시
 			$(function () {
 				let currentUri = "[[${ #request.requestURI }]]";
-				let color = 'red';
+				let tradeListType = "[[${#httpServletRequest.getParameter('listType')}]]";
+				console.log(tradeListType);
+				
 
 				if (currentUri.indexOf('myHome') != -1) {
 					$('#_myHome').addClass('submenu_active');
@@ -140,7 +142,16 @@
 					$('#_infoBoard').addClass('submenu_active');
 				} else if (currentUri.indexOf('chat') != -1) {
 					$('#_chatBoard').addClass('submenu_active');
+				} else if (currentUri.indexOf('myPoint') != -1) {
+					$('#myPoint').addClass('submenu_active');
+				} else if (tradeListType == "SLIST") {
+					$('#SLIST').addClass('submenu_active');
+				} else if (tradeListType == "BLIST") {
+					$('#BLIST').addClass('submenu_active');
+				} else if (tradeListType == "HLIST") {
+					$('#HLIST').addClass('submenu_active');
 				}
+				
 			})
 		</script>
 	</div>
