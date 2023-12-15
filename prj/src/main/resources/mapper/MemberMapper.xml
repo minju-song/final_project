@@ -253,7 +253,7 @@
     </select>
     
     <!-- 회원 아이디 전체 조회 -->
-    <select id="getMembersId" resultType="MemberVO">
+    <select id="getMembersId" resultType="String">
     	SELECT member_id 
     	FROM member
     </select>

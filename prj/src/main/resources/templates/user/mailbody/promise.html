@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org/">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
 
-<div style="width: 1049px; height: 744px; position: relative; margin: 0 auto;
+	<div
+		style="width: 1049px; height: 744px; position: relative; margin: 0 auto;
 	 background: url('https://velog.velcdn.com/images/qkrtnals0818/post/5fcaa7b0-3656-49c3-b3ab-0b3208fc726c/image.png') no-repeat center center;">
-	
-	<table style="margin-left: 210px; padding-top: 257px;">
-		<tbody>
-			<tr>
-				<td th:text="${nickname}" style="font-size: 25px; color: #5a789e;"></td>
-			</tr>
-			<tr>
-				<td th:text="|${title}|" style="font-size: 28px; color: #567669; padding-left: 12px; padding-top: 115px; width: 600px; text-align: center;"></td>
-			</tr>
-			<tr style="display: flex; justify-content: center; margin-top: 145px;">
-				<!-- <td style="font-size: 28px; margin: 20px;"><a style="text-decoration: none; color: white; border: 1px solid #5a789e; border-radius: 10px; padding: 8px; background-color: #5a789e;" th:href="@{http://www.holoyolo.site/member/BuyerIdUpdate(promiseStatus='TD2',tradeId=${tradeId})}">수락</a></td> -->
-				<td style="font-size: 28px; margin: 20px;"><a style="text-decoration: none; color: white; border: 1px solid #b53a34; border-radius: 10px; padding: 8px; background-color: #b53a34;" th:href="@{http://www.holoyolo.site/member/myHome(memberId=${buyerId})}">마이페이지</a></td>
-			</tr>
-		</tbody>
-	</table>
 
-</div>
-	<div class="btn_wrap" style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
+		<table style="margin-left: 210px; padding-top: 257px;">
+			<tbody>
+				<tr>
+					<td th:text="${nickname}" style="font-size: 25px; color: #5a789e;"></td>
+				</tr>
+				<tr>
+					<td th:text="|${title}|"
+						style="font-size: 28px; color: #567669; padding-left: 12px; padding-top: 115px; width: 600px; text-align: center;">
+					</td>
+				</tr>
+				<tr style="display: flex; justify-content: center; margin-top: 145px;">
+					<!-- <td style="font-size: 28px; margin: 20px;"><a style="text-decoration: none; color: white; border: 1px solid #5a789e; border-radius: 10px; padding: 8px; background-color: #5a789e;" th:href="@{http://www.holoyolo.site/member/BuyerIdUpdate(promiseStatus='TD2',tradeId=${tradeId})}">수락</a></td> -->
+					<td style="font-size: 28px; margin: 20px;"><a
+							style="text-decoration: none; color: white; border: 1px solid #b53a34; border-radius: 10px; padding: 8px; background-color: #b53a34;"
+							th:href="@{http://www.holoyolo.site/member/myHome(memberId=${buyerId})}">마이페이지</a></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+	<div class="btn_wrap"
+		style="width: 50vw; max-width: 800px; min-width: 500px; border: 2px solid #e6e6e6; margin-bottom: 150px;">
 	</div>
 </body>
+
 </html>

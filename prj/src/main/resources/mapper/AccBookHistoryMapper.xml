@@ -75,7 +75,7 @@
         SELECT NVL(SUM(price),0)
         FROM acc_book_history
         WHERE pay_date
-        BETWEEN (TO_CHAR(TRUNC(#{payDate},'MM'),'YYYYMMDD') ) AND (LAST_DAY(#{payDate}))
+        BETWEEN (TO_CHAR(TRUNC(#{payDate},'MM'),'YYYY-MM-DD')) AND (TO_CHAR(LAST_DAY(#{payDate}),'YYYY-MM-DD'))
         AND member_id = #{memberId}
 	  </select>
 	  

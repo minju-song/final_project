@@ -11,8 +11,8 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h3>&#128155;[[${result.club.clubName}]]&#128155;<span id="size"></span> </h3>
+    <div layout:fragment="content" style="margin: 0 auto; width: 80%;">
+        <h5>&#128155;[[${result.club.clubName}]]&#128155;<span id="size"></span> </h5>
         <div id="noticeBox" onclick="noticeList()"><img class="noticeImg"
                 th:src="@{/user/images/club/chat/notice.png}"><span id="noticeText"></span></div>
         <div id="chattingDiv">

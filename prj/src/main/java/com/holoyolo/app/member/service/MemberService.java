@@ -76,6 +76,6 @@ public interface MemberService {
 	public MemberVO addMonth(MemberVO memberVO);
 	
 	//회원아이디 전체조회
-	public List<MemberVO> getMembersId();
+	public List<String> getMembersId();
 
 }

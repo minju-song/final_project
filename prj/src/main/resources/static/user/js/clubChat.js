@@ -164,6 +164,7 @@ function insertNotice(data) {
                             let notice = {};
                             notice.memberId = memberId;
                             notice.msg = memberName + '님이 [' + data.msg + '] 을(를) 새로운 공지사항으로 등록하였습니다.';
+                            notice.msg = notice.msg.replace(/\n/g, '');
                             notice.date = new Date().toLocaleString();
                             notice.clubId = clubId;
                             notice.memberName = memberName;
