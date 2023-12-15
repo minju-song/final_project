@@ -3,10 +3,12 @@ package com.holoyolo.app.question.service;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.holoyolo.app.attachment.service.AttachmentVO;
+import com.holoyolo.app.board.service.BoardVO;
 
 
 public interface QuestionService {
@@ -48,4 +50,10 @@ public interface QuestionService {
 	public QuestionVO selectQuestion(int questionId);
 	
 	public int updateQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
+
+	public List<QuestionVO> searchQuestionSurfPaged(JSONObject req);
+
+	public List<QuestionVO> QuestionList(String menuType, String search, String searchType);
+
+	public int getTotalQuestionSurfRecords(JSONObject req);
 }

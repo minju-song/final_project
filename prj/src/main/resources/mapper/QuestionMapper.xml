@@ -133,4 +133,19 @@
 		WHERE QUESTION_ID = #{questionId}
 		AND QUESTION_TYPE = #{questionType} 
 	</update>
+	<select id="searchQuestionList" resultType="QuestionVO">
+    SELECT QUESTION_ID, TITLE, WRITE_DATE
+    FROM QUESTION
+    WHERE MEMBER_ID = #{memberId}
+    	<if test="searchOption == 'title'">
+        	AND b.title LIKE '%'||#{search}||'%'
+        </if>
+   ORDER BY WRITE_DATE DESC
+</select>
+
+	<select id="getTotalQuestionSurfRecords" resultType="int" >
+		SELECT COUNT(*)
+	    FROM QUESTION
+	    WHERE MEMBER_ID = #{memberId}
+    </select>
 </mapper>

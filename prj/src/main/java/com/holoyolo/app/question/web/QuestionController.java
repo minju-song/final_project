@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.answer.service.AnswerService;
-import com.holoyolo.app.answer.service.AnswerVO;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -34,7 +34,7 @@ public class QuestionController {
 
 	@Autowired
 	AttachmentService attachmentService;
-	
+
 	@Autowired
 	AnswerService answerService;
 
@@ -131,23 +131,19 @@ public class QuestionController {
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
-		//첨부파일 로드
+		// 첨부파일 로드
 		Map<String, Object> vo = questionService.selectQuestionInfo(questionVO);
-				attachmentVO.setPostId(questionVO.getQuestionId());
-		attachmentVO.setMenuType("AA8");	
+		attachmentVO.setPostId(questionVO.getQuestionId());
+		attachmentVO.setMenuType("AA8");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
-		
-		
-		mo.addAttribute("ans",answerService.selectAnswerAll(questionVO));
+
+		mo.addAttribute("ans", answerService.selectAnswerAll(questionVO));
 		mo.addAttribute("menuType", "1:1 문의");
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("questionVO", vo.get("questionInfo"));
 		mo.addAttribute("loginId", loginId);
 		mo.addAttribute("questionImg", returnMap.get("imgList"));
 		mo.addAttribute("questionAttach", returnMap.get("attachList"));
-		
-		
-		
 
 		return "user/cs/questionView";
 
@@ -207,5 +203,20 @@ public class QuestionController {
 		questionService.updateQuestion(questionVO, imgList, attachList);
 		return "redirect:/member/cs/help/question";
 	}
+//문의 검색
 
+	@PostMapping("/searchQNA")
+	@ResponseBody
+	public Map<String, Object> searchQNA(@AuthenticationPrincipal PrincipalDetails prd, @RequestBody JSONObject req) {
+		req.put("memberId", (String)prd.getUsername());
+		List<QuestionVO> resultList = questionService.searchQuestionSurfPaged(req);
+		int totalRecords = questionService.getTotalQuestionSurfRecords(req);
+		Map<String, Object> result = new HashMap<>();
+		result.put("historyList", resultList);
+		result.put("totalRecords", totalRecords);
+		result.put("boardType", req.get("type"));
+			
+
+		return result;
+	}
 }

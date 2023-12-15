@@ -1,9 +1,11 @@
 package com.holoyolo.app.question.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +17,7 @@ import com.holoyolo.app.answer.service.AnswerService;
 import com.holoyolo.app.answer.service.AnswerVO;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
+import com.holoyolo.app.board.service.BoardVO;
 import com.holoyolo.app.question.mapper.QuestionMapper;
 import com.holoyolo.app.question.service.QuestionService;
 import com.holoyolo.app.question.service.QuestionVO;
@@ -48,16 +51,15 @@ public class QuestionServiceImpl implements QuestionService {
 
 		// 답변 전체조회
 		List<AnswerVO> findAnswerVO = answerService.selectAnswerAll(questionVO);
-		System.out.println(">>>>>>>>>>>>>>>>>"+findAnswerVO);
-		
+		System.out.println(">>>>>>>>>>>>>>>>>" + findAnswerVO);
+
 		attachmentVO.setPostId(findQuestionVO.getQuestionId());
 		attachmentVO.setMenuType("AA8");
-		
+
 		// 첨부파일 가져오기
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
-		
-	
-		System.out.println("모델 값>>>>>>> ::"+returnMap.get("imgList"));
+
+		System.out.println("모델 값>>>>>>> ::" + returnMap.get("imgList"));
 		result.put("imgInfo", returnMap.get("imgList"));
 		result.put("attachInfo", returnMap.get("attachList"));
 		result.put("questionInfo", findQuestionVO);
@@ -196,6 +198,37 @@ public class QuestionServiceImpl implements QuestionService {
 		} else {
 			return -1;
 		}
+
+	}
+
+	@Override
+	public List<QuestionVO> searchQuestionSurfPaged(JSONObject req) {
+		String search = (String) req.get("search");
+		String searchType = (String) req.get("searchType");
+		String menuType = (String) req.get("type");
+		return QuestionList(menuType, search, searchType);
+	}
+
+	@Override
+	public List<QuestionVO> QuestionList(String menuType, String search, String searchType) {
+		QuestionVO vo = new QuestionVO();
+		List<QuestionVO> resultList = new ArrayList<QuestionVO>();
+		if (search == "") {
+			resultList = questionMapper.searchQuestionList(vo);
+		} else {
+			vo.setSearch(search);
+			resultList = questionMapper.searchQuestionList(vo);
+		}
+
+		return resultList;
+	}
+
+	@Override
+	public int getTotalQuestionSurfRecords(JSONObject req) {
+		QuestionVO vo = new QuestionVO();	
+		vo.setSearch((String) req.get("search"));
+
+		return questionMapper.getTotalQuestionSurfRecords(vo);
 
 	}
 
