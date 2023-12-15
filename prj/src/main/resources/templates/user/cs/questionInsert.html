@@ -22,8 +22,9 @@
 
 <body>
     <div layout:fragment="content">
-        <h2 class="h2_title" th:text="${boardType}"></h2>
+        
         <div class="card">
+            <h2 class="h2_title" th:text="${menuType}"></h2>
             <div class="card-body">
                 <form class="row g-3" th:action="@{/question/insert}" method="POST"
                     th:object="${questionVO}" enctype="multipart/form-data">

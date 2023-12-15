@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.holoyolo.app.answer.service.AnswerService;
+import com.holoyolo.app.answer.service.AnswerVO;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -32,6 +34,9 @@ public class QuestionController {
 
 	@Autowired
 	AttachmentService attachmentService;
+	
+	@Autowired
+	AnswerService answerService;
 
 	// 문의 전체조회
 	@GetMapping("/admin/question")
@@ -86,6 +91,7 @@ public class QuestionController {
 		mo.addAttribute("qnaList", list);
 //mo.addAttribute("page",list);
 		mo.addAttribute("menu", "cs");
+		mo.addAttribute("menuType", "1:1문의");
 		return "user/cs/questionList";
 	}
 
@@ -93,7 +99,7 @@ public class QuestionController {
 	@GetMapping("/member/cs/help/question/insert")
 	public String insertQuestionPage(Model mo, QuestionVO questionVO) {
 		mo.addAttribute("questionVO", questionVO);
-		mo.addAttribute("boardType", "1:1문의");
+		mo.addAttribute("menuType", "1:1문의");
 		mo.addAttribute("menu", "cs");
 		return "user/cs/questionInsert";
 	}
@@ -102,14 +108,14 @@ public class QuestionController {
 	@PostMapping("/question/insert")
 	public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles,
-			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles,Model mo) {
-		
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles, Model mo) {
+
 		System.out.println(questionVO);
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
 		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
 		questionVO.setMemberId(principalDetails.getUsername());
 		questionService.insertQuestion(questionVO, imgList, attachList);
-		mo.addAttribute("boardType","1:1 문의");
+		mo.addAttribute("menuType", "1:1 문의");
 		return "redirect:/member/cs/help/question";
 //		return "/question/insert";
 	}
@@ -125,16 +131,23 @@ public class QuestionController {
 		if (principalDetails != null) {
 			loginId = principalDetails.getUsername();
 		}
-
+		//첨부파일 로드
 		Map<String, Object> vo = questionService.selectQuestionInfo(questionVO);
-		attachmentVO.setPostId(questionVO.getQuestionId());
-		attachmentVO.setMenuType("AA8");
+				attachmentVO.setPostId(questionVO.getQuestionId());
+		attachmentVO.setMenuType("AA8");	
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
+		
+		
+		mo.addAttribute("ans",answerService.selectAnswerAll(questionVO));
+		mo.addAttribute("menuType", "1:1 문의");
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("questionVO", vo.get("questionInfo"));
 		mo.addAttribute("loginId", loginId);
 		mo.addAttribute("questionImg", returnMap.get("imgList"));
 		mo.addAttribute("questionAttach", returnMap.get("attachList"));
+		
+		
+		
 
 		return "user/cs/questionView";
 
@@ -160,6 +173,7 @@ public class QuestionController {
 		return resultMap;
 	}
 
+//수정페이지
 	@GetMapping("/cs/help/question/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
 			@RequestParam(name = "boardId") int questionId, Model mo, QuestionVO questionVO) {
@@ -171,6 +185,7 @@ public class QuestionController {
 		attachmentVO.setMenuType("AA8");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
 		questionVO = questionService.selectQuestion(questionId);
+		mo.addAttribute("menuType", "1:1 문의");
 		mo.addAttribute("loginId", loginId);
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("questionVO", questionVO);

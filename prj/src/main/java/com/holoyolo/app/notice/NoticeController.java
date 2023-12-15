@@ -44,7 +44,7 @@ public class NoticeController {
 	// 공지사항 리스트 페이지
 	@GetMapping("/cs/help/notice")
 	public String noticeList(Model mo) {
-		mo.addAttribute("boardType", "공지사항");
+		mo.addAttribute("menuType", "공지사항");
 		mo.addAttribute("menu", "cs");
 		return "user/cs/noticeList";
 	}
@@ -52,7 +52,7 @@ public class NoticeController {
 //공지사항 등록 페이지 
 	@GetMapping("/cs/help/notice/Insert")
 	public String insertNoticePage(Model mo, BoardVO boardVO) {
-		mo.addAttribute("boardType", "공지사항");
+		mo.addAttribute("menuType", "공지사항");
 		mo.addAttribute("menu", "cs");
 		return "user/cs/noticeinsert";
 	}
@@ -69,7 +69,7 @@ System.out.println(boardVO);
 		boardService.insertNotice(boardVO, imgList, attachList);
 		
 		
-		mo.addAttribute("boardType","공지사항");
+		mo.addAttribute("menuType","공지사항");
 		return "redirect:/cs/help/notice";
 	}
 

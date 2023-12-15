@@ -26,4 +26,6 @@ public interface AnswerMapper {
 	
 	// 추가 인터페이스 작성 ↓↓
 	
+	
+	
 }

@@ -23,118 +23,125 @@
 <body>
 	<div layout:fragment="content">
 		<div class="container">
-
+			<h3 th:text="${menuType}"></h3>
 			<div class="row g-3">
 				<div class=" col-md-12 writeInput">
-				<label for="title" class="form-label">제목<span class="star">*</span></label>
-				<div class="form-control" id="title" th:text="${questionVO.title}"></div>
-			</div>
-			<div class="row">
-				<span th:if="${questionVO.questionType} == 'MA1'" th:text="가계부"></span>
-				<span th:if="${questionVO.questionType} == 'MA2'" th:text="중고거래"></span>
-				<span th:if="${questionVO.questionType} == 'MA3'" th:text="알뜰모임"></span>
-				<span th:if="${questionVO.questionType} == 'MA4'" th:text="커뮤니티"></span>
-				<span th:if="${questionVO.questionType} == 'MA5'" th:text="메모"></span>
-				<span th:if="${questionVO.questionType} == 'MA6'" th:text="홀로페이"></span>
-				<span th:if="${questionVO.questionType} == 'MA7'" th:text="포인트"></span>
-				<span th:if="${questionVO.questionType} == 'MA8'" th:text="기타"></span>
-			</div>
-			<div class="col-12 writeInput">
-				<div class="form-control" id="description" style="height: 300px; white-space: pre-line;" th:text="${questionVO.content}">
+					<label for="title" class="form-label">제목<span class="star">*</span></label>
+					<div class="form-control" id="title" th:text="${questionVO.title}"></div>
 				</div>
-
-			</div>
-		</div>
-
-
-		<div class="col-12 writeInput" th:if="${questionAttach} != null">
-			<div class="input-group mb-3">
-				<span class="input-group-text">첨부파일</span>
-				<div th:each="question, stat : ${questionAttach}" class="form-control">
-					<div id="noticeAtach" aria-describedby="basic-addon3">
-						<a th:href="@{'/download?saveFile=' + ${question.saveFile}}"
-							th:text="${question.originFile}"></a>
-
+				<div class="col-12">
+					<div class="input-group col-4">
+						<div class="col-6">
+							<p class="boardData">문의 유형 : </p>
+						</div>
+						<div class="col-6">
+							<p th:text="${questionVO.questionType}" style="border : 0;"></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 writeInput">
+					<div class="form-control" id="description" style="height: 300px; white-space: pre-line;"
+						th:text="${questionVO.content}">
+					</div>
+				</div>
+				<div class="row col-md-12 writeInput">
+					<div class="imgFlex col-md-6" th:each="question, stat : ${questionImg}">
+						<img th:src="@{'/images/' + ${question.saveFile}}"
+							style="width:100%; max-width:100%; height:auto; display: inline;">
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="row col-md-12 writeInput">
-			<div class="imgFlex col-md-6" th:each="question, stat : ${questionImg}">
-				<img th:src="@{'/images/' + ${question.saveFile}}"
-					style="width:100%; max-width:100%; height:auto; display: inline;">
+
+			<div class="col-12 writeInput" th:if="${questionAttach} != null">
+				<div class="input-group mb-3">
+					<span class="input-group-text">첨부파일</span>
+					<div th:each="question, stat : ${questionAttach}" class="form-control">
+						<div id="noticeAtach" aria-describedby="basic-addon3">
+							<a th:href="@{'/download?saveFile=' + ${question.saveFile}}"
+								th:text="${question.originFile}"></a>
+
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-
-		<div class="col-md-12 writeInput buttonFrom">
-			<button type="reset" class="btn btn-secondary"
-				th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
-			<button type="submit" class="btn btn-primary" id="deleteBtn">삭제</button>
-		</div>
-
-
-		<div class="col-md-12 writeInput buttonFrom">
-			<button type="reset" class="btn btn-secondary"
-				onclick="location.href = '/member/cs/help/question'">목록으로</button>
-		</div>
-
-		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<script
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
-		<script src="/user/js/notice.js"></script>
-		<script src="/user/js/community.js"></script>
+			<div class="col-md-12 writeInput buttonFrom" th:if="${ans} == null">
+				<button type="reset" class="btn btn-secondary"
+					th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
+				<button type="submit" class="btn btn-primary" id="deleteBtn" >삭제</button>
+			</div>
+			<!--/* 답변*/-->
+			<div class="row" th:unless="${ans} == null">
+<h4>관리자 답변</h4>
+				<div class="col-12 writeInput" th:each="ans, stat : ${ans}">
+					<div class="form-control" style="min-height: 100px; white-space: pre-line;" th:text="${ans.answerContent}">
+					</div>
+				</div>
+			</div>
 
 
-		<script type="text/javascript" th:inline="javascript">
-			document.getElementById('deleteBtn').addEventListener('click', function (e) {
-				deleteAlert([[${ questionVO.questionId }]]);
-			});
 
-			function deleteAlert(questionId) {
 
-				Swal.fire({
-					title: "공지를 삭제하시겠습니까",
-					text: "삭제된 글은 복구할 수 없습니다",
-					icon: "warning",
-					showCancelButton: true,
-					confirmButtonColor: "#3085d6",
-					cancelButtonColor: "#d33",
-					confirmButtonText: "삭제"
-				}).then((result) => {
+			<div class="col-md-12 writeInput buttonFrom">
+				<button type="reset" class="btn btn-secondary"
+					onclick="location.href = '/member/cs/help/question'">목록으로</button>
+			</div>
 
-					if (result.isConfirmed) {
-						$.ajax({
-							type: 'POST',
-							url: '/deleteQNA',
-							data: JSON.stringify({ "questionId": questionId }),
-							contentType: 'application/json;charset=UTF-8',
-							success: function (data) {
-
-								if (data.resultCode == "1")
-
-									Swal.fire({
-										title: "",
-										text: data.resultMsg,
-										icon: "success",
-										closeOnClickOutside: false
-									}).then(function () {
-										location.href = "/cs/help/notice";
-									})
-								else if (data.resultCode == "0") {
-									console.log('삭제실패')
-									location.reload();
-								}
-							}
-						})
-
-					} else {
-						console.log("삭제가 취소되었습니다");
+			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+			<script
+				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
+			<script src="/user/js/notice.js"></script>
+			<script src="/user/js/community.js"></script>
+			<script type="text/javascript" th:inline="javascript">
+				document.addEventListener('DOMContentLoaded', function () {
+					if (document.getElementById('deleteBtn')) {
+						document.getElementById('deleteBtn').addEventListener('click', function (e) {
+							deleteAlert([[${ questionVO.questionId }]]);
+						});
 					}
-				});
-			}
-		</script>
-	</div>
+				})
+				function deleteAlert(questionId) {
+					Swal.fire({
+						title: "게시물을 삭제하시겠습니까",
+						text: "삭제된 글은 복구할 수 없습니다",
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						confirmButtonText: "삭제"
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$.ajax({
+								type: 'POST',
+								url: '/deleteQNA',
+								data: JSON.stringify({ "questionId": questionId }),
+								contentType: 'application/json;charset=UTF-8',
+								success: function (data) {
+									if (data.resultCode == "1")
+										Swal.fire({
+											title: "",
+											text: data.resultMsg,
+											icon: "success",
+											closeOnClickOutside: false
+										}).then(function () {
+											location.href = "/cs/help/notice";
+										})
+									else if (data.resultCode == "0") {
+										console.log('삭제실패')
+										location.reload();
+									}
+								}
+							})
+						} else {
+							console.log("삭제가 취소되었습니다");
+						}
+					});
+				}
+
+
+
+			</script>
+		</div>
 	</div>
 
 </body>
