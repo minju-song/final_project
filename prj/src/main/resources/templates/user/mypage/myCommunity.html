@@ -18,7 +18,7 @@
 
 <body>
 	<th:block layout:fragment="content">
-		
+
 		<div class="row col-12" style="min-height: 200px;">
 			<h3 class="col-12">내가 쓴 글</h3>
 			<div class="col-6">
@@ -41,18 +41,16 @@
 							</td>
 						</tr>
 						<tr th:each="info, stat : ${infoList}">
-							<td th:text="${info.title}" th:class="col-4"
+							<td th:text="${info.title}" th:class="col-5"
 								th:style="'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'"
 								th:onclick="|location.href='@{/member/board/view(boardId=${info.boardId})}'|"></td>
-							<td th:text="${info.nickname}" th:class="col-2"></td>
-							<td>
+							<td th:text="${info.nickname}" th:class="col-3"></td>
+							<td class="col-1">
 								<ul>
 									<li th:text="${info.likeCount}" th:class="like-icon"></li>
 									<li th:text="${info.views}" th:class="view-icon"></li>
 								</ul>
 							</td>
-
-
 							<td th:text="${#dates.format(info.writeDate, 'yyyy-MM-dd')}" th:class="col-3"></td>
 						</tr>
 					</tbody>
@@ -66,13 +64,15 @@
 						</tr>
 						<tr>
 							<th>제목</th>
+
 							<th>작성일</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr class="odd" th:if="${chatList.size == 0}">
-							<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+							<td valign="top" colspan="6" class="dataTables_empty" style="text-align: center;">조회 내역 없음
+							</td>
 						</tr>
 						<tr th:each="chat, stat : ${chatList}">
 							<td th:text="${chat.title}" th:class="col-5"
@@ -95,26 +95,24 @@
 				<table id="userList" class="table datatable table-hover">
 					<thead>
 						<tr>
-							<th colspan="5" style="text-align: center;">정보게시판</th>
-						</tr>
-						<tr>
-							<th>제목</th>
-							<th>작성자</th>
-							<th></th>
-							<th>작성일</th>
+							<th class="col-5">제목</th>
+							<th class="col-2">작성자</th>
+							<th class="col-1"></th>
+							<th class="col-3">작성일</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr class="odd" th:if="${infoReplyList.size == 0}">
-							<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
+							<td valign="top" colspan="6" class="dataTables_empty" style="text-align: center;">
+								조회 내역 없음
+							</td>
 						</tr>
 						<tr th:each="infoReply, stat : ${infoReplyList}">
-							<td th:text="${infoReply.title}" th:class="col-4"
+							<td th:text="${infoReply.title}" th:class="col-5"
 								th:style="'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'"
-								th:onclick="|location.href='@{/member/board/view(boardId=${infoReply.boardId})}'|">
-							</td>
-							<td th:text="${infoReply.nickname}" th:class="col-1"></td>
-							<td class="col-2">
+								th:onclick="|location.href='@{/member/board/view(boardId=${infoReply.boardId})}'|"></td>
+							<td th:text="${infoReply.nickname}" th:class="col-3"></td>
+							<td class="col-1">
 								<span th:text="${infoReply.likeCount}" th:class="like-icon"></span>
 								<span th:text="${infoReply.views}" th:class="view-icon"></span>
 							</td>
@@ -127,13 +125,10 @@
 				<table id="userList" class="table datatable table-hover">
 					<thead>
 						<tr>
-							<th colspan="5" style="text-align: center;">수다방</th>
-						</tr>
-						<tr>
 							<th>제목</th>
-							<th></th>
-							<th></th>
+
 							<th>작성일</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -144,12 +139,12 @@
 							<td th:text="${chatReply.title}" th:class="col-5"
 								th:onclick="|location.href='@{/member/board/view(boardId=${chatReply.boardId})}'|">
 							</td>
-							<td th:class="col-2"></td>
-							<td class="col-2">
+							<td th:text="${#dates.format(chatReply.writeDate, 'yyyy-MM-dd')}" class="col-3"></td>
+							<td class="col-3">
 								<span th:text="${chatReply.likeCount}" th:class="like-icon"></span>
 								<span th:text="${chatReply.views}" th:class="view-icon"></span>
 							</td>
-							<td th:text="${#dates.format(chatReply.writeDate, 'yyyy-MM-dd')}"></td>
+
 						</tr>
 					</tbody>
 				</table>
