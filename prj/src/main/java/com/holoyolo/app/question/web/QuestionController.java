@@ -102,11 +102,14 @@ public class QuestionController {
 	@PostMapping("/question/insert")
 	public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, QuestionVO questionVO,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles,
-			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles,Model mo) {
+		
+		System.out.println(questionVO);
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "questionImg");
 		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "questionAttach");
 		questionVO.setMemberId(principalDetails.getUsername());
 		questionService.insertQuestion(questionVO, imgList, attachList);
+		mo.addAttribute("boardType","1:1 문의");
 		return "redirect:/member/cs/help/question";
 //		return "/question/insert";
 	}

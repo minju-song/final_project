@@ -61,12 +61,15 @@ public class NoticeController {
 	@PostMapping("/notice/insert")
 	public String noticeInsertProc(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles,
-			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
-
+			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles, Model mo) {
+System.out.println(boardVO);
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "notice");
 		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "noticeAttach");
 		boardVO.setMemberId(principalDetails.getUsername());
 		boardService.insertNotice(boardVO, imgList, attachList);
+		
+		
+		mo.addAttribute("boardType","공지사항");
 		return "redirect:/cs/help/notice";
 	}
 
