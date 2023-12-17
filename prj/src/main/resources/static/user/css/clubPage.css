@@ -41,6 +41,12 @@
     border-radius: 10px;
     border: 3px solid #ffffff;
 }
+.memberList::-webkit-scrollbar {
+  background: transparent !important;
+}
+.memberList::-webkit-scrollbar-track {
+    background: #ffffff00;
+}
 
 .kingImg {
     width: 30px;
@@ -48,7 +54,7 @@
 }
 
 .nickname {
-    background-color: pink;
+    /* background-color: pink; */
     font-weight: bold;
 }
 
@@ -234,6 +240,7 @@ h4 {
 }
 .memberList {
 	height: 100%;
+	max-height: 460px;
 }
 .info {
 	padding: 30px;
@@ -250,4 +257,22 @@ hr {
 }
 .rank_member_info {
 	margin-bottom: 10px;
+	justify-content: flex-start;
+	gap: 5px;
+}
+.rank_member_info:last-child {
+	margin-bottom: 0;
+}
+
+.date {
+	display: inline-block;
+	margin-bottom: 20px;
+}
+.memberList h3 {
+	font-size: 20px;
+}
+.rank-logo {
+	height: 22px;
+	margin-bottom: 5px;
+	margin-right: 5px;
 }

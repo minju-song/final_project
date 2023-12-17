@@ -4,7 +4,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>holoyolo::알뜰모임 생성</title>
+    <link rel="stylesheet" href="/user/css/clubinsert.css">
     <style>
         #login_form_inner label {
             width: 180px;
@@ -23,8 +24,6 @@
                     <div class="row" style="justify-content: center;">
                         <div class="col-lg-8">
                             <div class="login_form_inner" id="login_form_inner">
-                                <a th:href="@{/}"><img th:src="@{/user/images/logo/logo3.png}" class="logo"
-                                        title="홈으로"></a>
                                 <form class="row login_form join_form" th:action="@{/member/clubInsert}" method="POST"
                                     th:object="${ClubVO}" encType="multipart/form-data">
                                     <!--/* 이름 */-->

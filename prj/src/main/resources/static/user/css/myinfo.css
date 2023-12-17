@@ -199,6 +199,9 @@ button:focus{
 .col_width_1, .input_wrap {
 	width: calc(100% - 145px);
 }
+#password {
+	min-width: 240px;
+}
 .col_width_2 {
 	width: calc(100% - 80px);
 }

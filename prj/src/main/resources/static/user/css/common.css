@@ -333,8 +333,8 @@ select option {
 
 /* 페이징 관련 */
 .page-item.active .page-link {
-	background-color: #b9c3cd;
-    border-color: #b9c3cd;
+	background-color: #5b88b6;
+    border-color: #5b88b6;
 }
 .page-link {
 	color: #6c6c6c;
