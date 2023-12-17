@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>holoyolo::중고거래</title>
 <link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
 <!-- 소스 다운 -->
 <script src="https://unpkg.com/@yaireo/tagify"></script>
@@ -22,6 +22,9 @@
 		<div class="searchwrap">
 			<form action="#">
 				<div>
+                   	<label class="sellcheck">
+					  <span>모든 중고거래<input type="checkbox"></span>
+					</label>
 					<select id="searchCategory">
 						<option selected value="">카테고리</option>
 						<option value="TB1">생활용품</option>
@@ -33,25 +36,22 @@
                         <option value="TB7">가구</option>
                         <option value="TB8">기타</option>
                    	</select>
-                   	<label class="sellcheck">
-					  <span>모든 중고거래<input type="checkbox"></span>
-					</label>
-					<div class="insertbutton" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/member/tradeInsert}'|">
-						<p>게시글 등록</p>
+					<select id="searchTitle">
+	                    <option value="title">제목</option>
+	                    <option value="tradePlace">지역명</option>
+	                </select>
+					<div class="search header_search">
+						<input type="search" id="search_input" class="search_input" required="required"
+							placeholder="검색어를 입력하세요">
+						<button type="submit" id="search_button" class="search_button">
+							<img th:src="@{/common/images/magnifying-glass.svg}">
+						</button>
 					</div>
 				</div>
-				<select id="searchTitle">
-                    <option value="title">제목</option>
-                    <option value="tradePlace">지역명</option>
-                </select>
-				<div class="search header_search">
-					<input type="search" id="search_input" class="search_input" required="required"
-						placeholder="검색">
-					<button type="submit" id="search_button" class="search_button">
-						<img th:src="@{/common/images/magnifying-glass.svg}">
-					</button>
-				</div>
 			</form>
+			<div class="insertbutton" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/member/tradeInsert}'|">
+				게시글 등록
+			</div>
 		</div>
 		<div class="container">
 			<div class="row" id="tradeList">

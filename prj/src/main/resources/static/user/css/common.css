@@ -47,8 +47,10 @@
     text-align: left;
 }
 .footer {
+	position: relative;
 	background: #040e1c;
 	padding: 50px 50px 80px 50px;
+	z-index: 99;
 }
 .footer_logo a, .footer_nav ul li a {
 	color: #fff;
@@ -326,4 +328,14 @@ select option {
     width: 3px;
     height: 17px;
     margin-right: 10px;
+}
+
+
+/* 페이징 관련 */
+.page-item.active .page-link {
+	background-color: #b9c3cd;
+    border-color: #b9c3cd;
+}
+.page-link {
+	color: #6c6c6c;
 }

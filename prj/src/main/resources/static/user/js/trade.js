@@ -3,7 +3,7 @@
  */
  
 //넘어오는 데이터 사이즈
-let pageSize = 6;
+let pageSize = 12;
 
 $(document).ready(function () {
 
@@ -74,7 +74,7 @@ function drawTrade(tradeArr){
     }
 	for (let i = 0; i < tradeArr.length; i++) {
 		let divCol = document.createElement('div');
-		divCol.classList.add('col', 'mb-5');
+		divCol.classList.add('col', 'mb-3');
 		let divCard = document.createElement('div');
 		divCard.classList.add('card', 'tradeSize');
 		if(tradeArr[i].promiseStatus == '거래완료'){
@@ -83,38 +83,40 @@ function drawTrade(tradeArr){
 		divCol.appendChild(divCard);
 		
 		let divTradeType = document.createElement('div');
-		divTradeType.classList.add('badge', 'position-absolute');
+		divTradeType.classList.add('badge', 'position-absolute', 'trade-type');
 		divTradeType.style.right = '0.5rem';
 		divTradeType.innerText = tradeArr[i].tradeType;
 		divCard.appendChild(divTradeType);
 		
 		let promiseStatus = document.createElement('div');
-		promiseStatus.classList.add('badge', 'position-absolute');
-		promiseStatus.style.right = '14rem';
-		promiseStatus.style.background = '#235444';
+		promiseStatus.classList.add('badge', 'position-absolute', 'promise-status');
+		promiseStatus.style.left = '0.5rem';
 		promiseStatus.innerText = tradeArr[i].promiseStatus;
 		divCard.appendChild(promiseStatus);
 		
 		let paymentType = document.createElement('div');
-		paymentType.classList.add('badge', 'position-absolute');
+		paymentType.classList.add('badge', 'position-absolute', 'payment-type');
 		paymentType.innerText = tradeArr[i].paymentType;
 		paymentType.style.width = '75px';
 		divCard.appendChild(paymentType);
 		
-		let img = document.createElement('img');
+		let img = document.createElement('div');
 		img.classList.add('card-img-top');
-		img.setAttribute("src", "images/" + tradeArr[i].saveFile);
+		img.style.background =  "url('images/" + tradeArr[i].saveFile + "') no-repeat center center";
+		img.style.backgroundSize = "cover";
+		img.style.backgroundColor = "rgb(0 0 0 / 11%)";
+		img.style.backgroundBlendMode = "overlay";
 		console.log(tradeArr[i].saveFile);
-		img.style.width = '294px';
+		img.style.width = '265px';
         img.style.height = '197px';
 		divCard.appendChild(img);
 		
 		let divBody = document.createElement('div');
-		divBody.classList.add('card-body', 'p-4');
+		divBody.classList.add('card-body', 'p-3');
 		divCard.appendChild(divBody);
 		
 		let divText = document.createElement('div');
-		divText.classList.add('text-center');
+		/*divText.classList.add('text-center');*/
 		divBody.appendChild(divText);
 		
 		let title = document.createElement('h3');
@@ -126,7 +128,7 @@ function drawTrade(tradeArr){
 		divText.appendChild(divPrice);
 		
 		let price = document.createElement('span');
-		price.classList.add('text-muted', 'text-decoration-line-through');
+		price.classList.add('text-muted', 'text-decoration-line-through', 'price');
 		if(tradeArr[i].price == 0){
 			price.innerText = '무료나눔';
 		}else{
@@ -141,11 +143,10 @@ function drawTrade(tradeArr){
 		category.classList.add('text-muted');
 		category.innerText = tradeArr[i].tradeCategory;
 		category.style.position = 'absolute';
-		category.style.left = '-0.9rem';
 		if(tradeArr[i].tradePlace != null){
-        	category.style.bottom = '-1.1rem';
+        	category.style.bottom = '-2.8rem';
         }else{
-        	category.style.bottom = '-2.4rem';
+        	category.style.bottom = '-4rem';
         }
 		divCategory.appendChild(category);
 		
@@ -154,14 +155,14 @@ function drawTrade(tradeArr){
 		
 		if(tradeArr[i].tradePlace != null){
 			let place = document.createElement('span');
-			place.classList.add('text-muted');
+			place.classList.add('text-muted', 'place');
 			let tradePlace = tradeArr[i].tradePlace.split(" ", 2);
 			tradePlace = tradePlace[0] + ' ' + tradePlace[1];
 			console.log(tradePlace)
 			place.innerText = tradePlace;
 			place.style.position = 'absolute';
-			place.style.left = '-0.9rem';
-	        place.style.bottom = '-2.4rem';
+			place.style.left = '0';
+	        place.style.bottom = '-4rem';
 			divPlace.appendChild(place);
 		}
 		
@@ -172,8 +173,8 @@ function drawTrade(tradeArr){
 		writeDate.classList.add('text-muted');
 		writeDate.innerText = getToday(tradeArr[i].writeDate);
 		writeDate.style.position = 'absolute';
-        writeDate.style.right = '-0.9rem';
-        writeDate.style.bottom = '-2.4rem';
+        writeDate.style.right = '0';
+        writeDate.style.bottom = '-4rem';
 		divWriteDate.appendChild(writeDate);
 		
 		divCard.onclick = function(){ 

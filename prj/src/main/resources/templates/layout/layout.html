@@ -3,8 +3,9 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" content="width=device-width,initial-scale=1">
     <title>타임리프 레이아웃</title>
+    <link rel="icon" th:href="@{/user/images/common/favicon2.png}">
     <link rel="stylesheet" type="text/css" th:href="@{/common/styles/bootstrap4/bootstrap.min.css}">
     <!-- <link href="@{plugins/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" type="text/css" th:href="@{/common/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
@@ -75,6 +76,8 @@
 	<!--/* 메인제외 컨텐츠 영역 start */-->
     <div class="sidemenu" style="margin-top: 120px;" th:if="${ #request.requestURI != '/'}">
         <div class="products">
+        	<div class="blur"></div>
+	    	<div class="particles" id="particles"></div>
             <div class="container">
                 <div class="row body_wrap">
                     <!--/* 사이드메뉴 */-->
