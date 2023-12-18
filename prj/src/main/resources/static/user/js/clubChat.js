@@ -242,8 +242,8 @@ function noticeList() {
         })
 }
 
-function dateFormat(date) {
-    // date = new Date(date);
+function dateFormat(str) {
+    let date = new Date(str);
     console.log(date);
     // console.log(str, ' ', date);
 
