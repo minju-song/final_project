@@ -223,7 +223,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 		Map<String, List<AttachmentVO>> resultMap = new HashMap<>();
 		List<AttachmentVO> attachList = new ArrayList<>();
 		List<AttachmentVO> imgList = new ArrayList<>();
-		String[] imgExtension = { "png", "jpg", "jpeg", "gif" };
+		String[] imgExtension = { "png", "jpg", "jpeg", "gif", "webp", "SVG" , " EPS",  "AI"};
 		for (AttachmentVO attach : sourceList) {
 			String originalFile = attach.getOriginFile();
 			int lastDotIndex = originalFile.lastIndexOf(".");

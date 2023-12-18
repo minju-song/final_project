@@ -40,8 +40,8 @@
 					</div>
 				</div>
 				<div class="col-12 writeInput">
-					<div class="form-control" id="description" style="min-height: 300px; height: auto; white-space: pre-line;"
-						th:text="${questionVO.content}">
+					<div class="form-control" id="description"
+						style="min-height: 300px; height: auto; white-space: pre-line;" th:text="${questionVO.content}">
 					</div>
 				</div>
 				<div class="row col-md-12 writeInput">
@@ -65,9 +65,9 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="col-md-12 writeInput buttonFrom" th:if="${#lists.size(ans) == 0}">
-				
+
 				<button type="reset" class="btn btn-secondary"
 					th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
 				<button type="submit" class="btn btn-primary" id="deleteBtn">삭제</button>

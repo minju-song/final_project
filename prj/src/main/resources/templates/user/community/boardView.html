@@ -27,9 +27,9 @@
 	        <h2 class="h2_title" th:if="${board.menuType}== AA3">수다방</h2>
 	        <!--/* 버튼영역 start */-->
 		    <div id="updateDelBtnDiv col-1" class="align-right">
+                <button th:if="${board.menuType}== AA2" type="button" class="btns save btn btn-primary" data-toggle="modal" onclick="location.href='/board/info'">목록으로</button>
+	            <button th:if="${board.menuType}== AA3" type="button" class="btns save btn btn-primary" data-toggle="modal" onclick="location.href='/board/chat'">목록으로</button>
 	            <th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
-	                <button th:if="${board.menuType}== AA2" type="button" class="btns save btn btn-primary" data-toggle="modal" onclick="location.href='/board/info'">목록으로</button>
-	                <button th:if="${board.menuType}== AA3" type="button" class="btns save btn btn-primary" data-toggle="modal" onclick="location.href='/board/chat'">목록으로</button>
 	                <button type="button" class="btns save btn btn-primary" th:onclick="'location.href=\'/member/board/update?boardId='+ @{${board.boardId}} + '\''">수정</button>
 	                <button type="button" class="btns save btn btn-danger" data-toggle="modal" data-target="#deletePostModal">삭제</button>
 	                <input type="hidden" id="memberId" name="memberId" th:value="${#authentication.principal.memberVO.memberId}">
