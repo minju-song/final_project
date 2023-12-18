@@ -44,7 +44,7 @@ public interface BoardService {
 
 	public int updateNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList);
 
-	public List<BoardVO> myBoardList(String menuType, String memberId);
+	public List<BoardVO> myBoardList(String memberId);
 
 	List<BoardVO> myReplyList(String menuType, String memberId);
 
