@@ -66,18 +66,19 @@
 								<p th:text="${questionVO.questionType}" style="border : 0;" class="font-15"></p>
 							</div>
 						</div>
-						<div class="col-12 writeInput">
-							<div class="form-control font-15" id="description" style="min-height: 300px; height: auto; white-space: pre-line;"
+						<div class="col-12 writeInput description-wrap">
+							<div class="form-control font-15" id="description" style="height: auto; white-space: pre-line;"
 								th:text="${questionVO.content}">
+							</div>
+							<div class="d-flex writeInput q-img-wrap" th:if="${questionImg}">
+								<div class="imgFlex" th:each="question, stat : ${questionImg}">
+									<img th:src="@{'/images/' + ${question.saveFile}}"
+										style="width:100%; max-width:100%; height:auto; display: inline;">
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="row col-md-12 writeInput" th:if="${questionImg}">
-						<div class="imgFlex col-md-6" th:each="question, stat : ${questionImg}">
-							<img th:src="@{'/images/' + ${question.saveFile}}"
-								style="width:100%; max-width:100%; height:auto; display: inline;">
-						</div>
 				</div>
 	
 	
@@ -88,7 +89,6 @@
 							<div id="noticeAtach" aria-describedby="basic-addon3">
 								<a th:href="@{'/download?saveFile=' + ${question.saveFile}}"
 									th:text="${question.originFile}"></a>
-	
 							</div>
 						</div>
 					</div>

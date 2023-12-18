@@ -180,12 +180,10 @@ public class BoardController {
 	public String myCommList(Model mo, @AuthenticationPrincipal PrincipalDetails prd,
 			@PageableDefault(size = 10) Pageable pageable) {
 		List<BoardVO> boardList = boardService.myBoardList(prd.getUsername());
-		List<BoardVO> infoReplyList = boardService.myReplyBoardList("AA2", (String) prd.getUsername());
-		List<BoardVO> chatReplyList = boardService.myReplyBoardList("AA3", (String) prd.getUsername());
+		List<BoardVO> replyList = boardService.myReplyBoardList(prd.getUsername());
 
 		mo.addAttribute("boardList", boardList);
-		mo.addAttribute("infoReplyList", infoReplyList);
-		mo.addAttribute("chatReplyList", chatReplyList);
+		mo.addAttribute("replyList", replyList);
 
 		mo.addAttribute("menu", "mypage");
 		return "user/mypage/myCommunity";
