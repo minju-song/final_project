@@ -32,4 +32,9 @@ public class QuestionVO {
 	private int page;
 	private int rn;
 	private int pageUnit;
+	
+	// 답변유무
+	private int answerId = -1;
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mi")
+	private Date answerDate;
 }

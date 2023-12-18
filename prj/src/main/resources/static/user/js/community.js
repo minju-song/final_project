@@ -148,8 +148,10 @@ function updateTable(data, page) {
             } else if (searchBoardSet == 'AA2') {
                 row.append($("<td class='board-nickname'>").text(item.nickname));
             }
-            if(searchBoardSet !='AA8'){
+            if(searchBoardSet != 'AA8' && searchBoardSet != 'AA6'){
                 row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`));
+            } else if (searchBoardSet == 'AA6') {
+            	row.append($("<td class='board-likeAndView'>").append(`<span class="view-icon">${item.views}</span>`));
             }
             
 

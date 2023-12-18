@@ -87,8 +87,9 @@
         SELECT * FROM (
         SELECT Q.*, ROWNUM AS rnum
         FROM (
-            SELECT *
-            FROM QUESTION
+            SELECT A.*, B.answer_id, B.answer_date
+            FROM QUESTION A LEFT OUTER JOIN ANSWER B
+            ON A.question_id = B.question_id
             WHERE MEMBER_ID = #{memberId}
             ORDER BY WRITE_DATE DESC
         ) Q

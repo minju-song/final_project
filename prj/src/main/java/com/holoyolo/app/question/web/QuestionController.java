@@ -88,6 +88,7 @@ public class QuestionController {
 
 		// 서비스를 통해 질문 목록 가져오기
 		Page<QuestionVO> list = questionService.MyQuestionList(memberId, pageable);
+		System.out.println("list::"+ list);
 
 		// 뷰에 결과 전달
 		mo.addAttribute("qnaList", list);
