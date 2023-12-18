@@ -64,4 +64,5 @@ public interface AttachmentService {
 
 	public int deleteCSAttachment(int boardId, String menuType, String originname);
 
+	public Map<String, List<AttachmentVO>> checkExtention(List<AttachmentVO> sourceList);
 }

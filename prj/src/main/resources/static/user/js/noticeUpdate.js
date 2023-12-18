@@ -96,7 +96,7 @@ $(function () {
 
     return li;
   }
-
+  
   let cancelBtn = document.getElementById('cancelBtn');
   let urlParams = new URL(location.href).searchParams;
   let checkMenu = location.pathname;
