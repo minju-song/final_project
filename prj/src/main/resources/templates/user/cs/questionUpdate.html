@@ -4,28 +4,37 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+	<title>holoyolo::문의</title>
 	<!-- 소스 다운 -->
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<!-- 폴리필 (구버젼 브라우저 지원) -->
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+	<link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/board.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/question.css}" rel="stylesheet" type="text/css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<style>
-		.card {
-			border: none;
-			box-shadow: none;
+		input::placeholder {
+		  	color: #bbb;
+		  	font-size: 14px;
+		}
+		textarea::placeholder {
+		  	color: #bbb;
+		  	font-size: 14px;
+		}
+		#description {
+			padding: 18px;;
 		}
 	</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
-		<div class="card">
+		<div>
 			<div class="card-body">
 				<h2 class="h2_title" th:text="${menuType}"></h2>
-				<form class="row g-3" th:action="@{/question/update}" method="POST" th:object="${questionVO}"
+				<form class="row g-3 insert_wrap" th:action="@{/question/update}" method="POST" th:object="${questionVO}"
 					enctype="multipart/form-data">
 					<input type="hidden" th:field="${questionVO.questionId}" />
 					<div class="col-md-12 writeInput">
@@ -33,9 +42,9 @@
 						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required
 							th:field="*{title}" maxlength="30">
 					</div>
-					<div class="input-group col-6">
-						<span> 문의 유형 :</span>
-						<select id="questionType" class="col-3 input-group-text" th:field="*{questionType}">
+					<div class="d-flex align-items-center col-6 type-wrap">
+						<span class="form-label">문의 유형</span>
+						<select id="questionType" class="col-3" th:field="*{questionType}">
 							<option value="MA1">가계부</option>
 							<option value="MA2">중고거래</option>
 							<option value="MA3">알뜰모임</option>
@@ -54,7 +63,7 @@
 					<div class="col-md-12 writeInput">
 						<label for="questionImg" class="form-label">이미지<span class="star">*</span></label>
 						<div class="imgFlex">
-							<img class="tradeImgPlus" id="questionImg" th:src="@{/user/images/cs/photo.png}">
+							<img class="tradeImgPlus" id="questionImg" th:src="@{/user/images/trade/photo.png}">
 							<input class="real_file" name="imageFiles" type="file" accept="image/*" multiple />
 							<div class="file-list">
 								<li calss="position_rela" th:each="questionImg, stat : ${questionImg}">

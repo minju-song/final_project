@@ -316,6 +316,9 @@ input{
 }
 .deleteAll {
 	margin: 0;
+	
+	display: flex;
+    align-items: center;
 }
 .del-area {
 	gap: 15px;
@@ -330,6 +333,7 @@ input{
 	color: #fff;
 	line-height: 30px;
 	font-size: 12px;
+	margin-bottom: 5px;
 }
 .upload {
 	flex-grow: 1;

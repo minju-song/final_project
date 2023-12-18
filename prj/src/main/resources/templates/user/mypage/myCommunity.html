@@ -22,6 +22,22 @@
 		.gap-20 {
 			gap: 20px;
 		}
+		.menu-type {
+			display: inline-block;
+			width: 60px;
+			border-radius: 5px;
+			font-size: 12px;
+			padding: 2px 0;
+			font-weight: 500;
+		}
+		.menu-type-info {
+			background-color: #f0eef8;
+    		color: #5f4c9e;
+		}
+		.menu-type-chat {
+			background-color: #dbe8ff;
+    		color: #375791;
+		}
 	</style>
 </head>
 
@@ -49,8 +65,8 @@
 						<td th:text="${board.title}" class="col-5 p-left"
 							th:style="'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'"
 							th:onclick="|location.href='@{/member/board/view(boardId=${board.boardId})}'|"></td>
-						<td class="col-1 text-center" th:if="${board.menuType == 'AA2'}"><span>정보공유</span></td>
-						<td class="col-1 text-center" th:if="${board.menuType == 'AA3'}"><span>수다방</span></td>
+						<td class="col-1 text-center" th:if="${board.menuType == 'AA2'}"><span class="menu-type menu-type-info">정보공유</span></td>
+						<td class="col-1 text-center" th:if="${board.menuType == 'AA3'}"><span class="menu-type menu-type-chat">수다방</span></td>
 						<td th:text="${board.nickname}" class="col-2 text-center"></td>
 						<td th:text="${#dates.format(board.writeDate, 'yyyy-MM-dd')}" class="col-2 text-center"></td>
 						<td class="col-2 text-center">
@@ -64,66 +80,39 @@
 			</table>
 		</div>
 
-		<div class="row col-12" style="min-height: 200px;">
-			<h3 class="col-12">댓글 단 글</h3>
-			<div class="col-6">
-				<table id="userList" class="table datatable table-hover">
-					<thead>
-						<tr>
-							<th class="col-5">제목</th>
-							<th class="col-2">작성자</th>
-							<th class="col-1"></th>
-							<th class="col-3">작성일</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="odd" th:if="${infoReplyList.size == 0}">
-							<td valign="top" colspan="6" class="dataTables_empty" style="text-align: center;">
-								조회 내역 없음
-							</td>
-						</tr>
-						<tr th:each="infoReply, stat : ${infoReplyList}">
-							<td th:text="${infoReply.title}" th:class="col-5"
-								th:style="'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'"
-								th:onclick="|location.href='@{/member/board/view(boardId=${infoReply.boardId})}'|"></td>
-							<td th:text="${infoReply.nickname}" th:class="col-3"></td>
-							<td class="col-1">
-								<span th:text="${infoReply.likeCount}" th:class="like-icon"></span>
-								<span th:text="${infoReply.views}" th:class="view-icon"></span>
-							</td>
-							<td th:text="${#dates.format(infoReply.writeDate, 'yyyy-MM-dd')}" th:class="col-3"></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-6">
-				<table id="userList" class="table datatable table-hover">
-					<thead>
-						<tr>
-							<th>제목</th>
-
-							<th>작성일</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="odd" th:if="${chatReplyList.size == 0}">
-							<td valign="top" colspan="6" class="dataTables_empty">조회 내역 없음</td>
-						</tr>
-						<tr th:each="chatReply, stat : ${chatReplyList}">
-							<td th:text="${chatReply.title}" th:class="col-5"
-								th:onclick="|location.href='@{/member/board/view(boardId=${chatReply.boardId})}'|">
-							</td>
-							<td th:text="${#dates.format(chatReply.writeDate, 'yyyy-MM-dd')}" class="col-3"></td>
-							<td class="col-3">
-								<span th:text="${chatReply.likeCount}" th:class="like-icon"></span>
-								<span th:text="${chatReply.views}" th:class="view-icon"></span>
-							</td>
-
-						</tr>
-					</tbody>
-				</table>
-			</div>
+		<div class="row col-12 gap-20" style="min-height: 200px;">
+			<h2 class="h2_title">내가 쓴 댓글</h2>
+			<table id="userList" class="table datatable table-hover">
+				<thead>
+					<tr>
+						<th class="text-center">제목</th>
+						<th class="text-center">게시판</th>
+						<th class="text-center">작성자</th>
+						<th class="text-center">작성일</th>
+						<th class="text-center"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="odd" th:if="${replyList.size == 0}">
+						<td valign="top" colspan="6" class="dataTables_empty" style="text-align: center;">
+							조회 내역 없음
+						</td>
+					</tr>
+					<tr th:each="reply, stat : ${replyList}">
+						<td th:text="${reply.title}" class="col-5 p-left"
+							th:style="'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'"
+							th:onclick="|location.href='@{/member/board/view(boardId=${reply.boardId})}'|"></td>
+						<td class="col-1 text-center" th:if="${reply.menuType == 'AA2'}"><span class="menu-type menu-type-info">정보공유</span></td>
+						<td class="col-1 text-center" th:if="${reply.menuType == 'AA3'}"><span class="menu-type menu-type-chat">수다방</span></td>
+						<td th:text="${reply.nickname}" class="col-2 text-center"></td>
+						<td th:text="${#dates.format(reply.writeDate, 'yyyy-MM-dd')}" class="col-2 text-center"></td>
+						<td class="col-2 text-center">
+							<span th:text="${reply.likeCount}" class="like-icon"></span>
+							<span th:text="${reply.views}" class="view-icon"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</th:block>
 </body>

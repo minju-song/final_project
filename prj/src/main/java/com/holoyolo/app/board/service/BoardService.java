@@ -49,5 +49,5 @@ public interface BoardService {
 	List<BoardVO> myReplyList(String menuType, String memberId);
 
 	
-	public List<BoardVO> myReplyBoardList(String menuType, String memberId);
+	public List<BoardVO> myReplyBoardList(String memberId);
 }

@@ -156,23 +156,22 @@
 	    ]]>
 	</select>
 	
-<select id="myReplyBoardList" resultType="BoardVO">
-    SELECT b.TITLE, b.BOARD_ID, m.NICKNAME, b.VIEWS, b.MENU_TYPE, b.CONTENT, b.WRITE_DATE, b.UPDATE_DATE, b.MEMBER_ID, COUNT(blk.board_id) AS like_count
-    FROM BOARD b
-         JOIN REPLY r ON b.BOARD_ID = r.BOARD_ID
-         JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
-         LEFT JOIN board_like blk ON b.BOARD_ID = blk.BOARD_ID
-    WHERE b.BOARD_ID IN (
-										        SELECT b.BOARD_ID
-										        FROM BOARD b
-										             JOIN REPLY r ON b.BOARD_ID = r.BOARD_ID
-										             JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
-										             LEFT JOIN board_like blk ON b.BOARD_ID = blk.BOARD_ID
-										        WHERE r.MEMBER_ID = #{memberId}
-										          AND b.MENU_TYPE = #{menuType}
-										    )
-    GROUP BY b.TITLE, b.BOARD_ID, m.NICKNAME, b.VIEWS, b.MENU_TYPE, b.CONTENT, b.WRITE_DATE, b.UPDATE_DATE, b.MEMBER_ID
-</select>
+	<select id="myReplyBoardList" resultType="BoardVO">
+	    SELECT b.TITLE, b.BOARD_ID, m.NICKNAME, b.VIEWS, b.MENU_TYPE, b.CONTENT, b.WRITE_DATE, b.UPDATE_DATE, b.MEMBER_ID, COUNT(blk.board_id) AS like_count
+	    FROM BOARD b
+	         JOIN REPLY r ON b.BOARD_ID = r.BOARD_ID
+	         JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
+	         LEFT JOIN board_like blk ON b.BOARD_ID = blk.BOARD_ID
+	    WHERE b.BOARD_ID IN (
+											        SELECT b.BOARD_ID
+											        FROM BOARD b
+											             JOIN REPLY r ON b.BOARD_ID = r.BOARD_ID
+											             JOIN MEMBER m ON b.MEMBER_ID = m.MEMBER_ID
+											             LEFT JOIN board_like blk ON b.BOARD_ID = blk.BOARD_ID
+											        WHERE r.MEMBER_ID = #{memberId}
+											    )
+	    GROUP BY b.TITLE, b.BOARD_ID, m.NICKNAME, b.VIEWS, b.MENU_TYPE, b.CONTENT, b.WRITE_DATE, b.UPDATE_DATE, b.MEMBER_ID
+	</select>
   
 </mapper>
 

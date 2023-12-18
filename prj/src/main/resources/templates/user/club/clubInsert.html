@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>holoyolo::알뜰모임 생성</title>
+    <title>holoyolo::알뜰모임</title>
     <link rel="stylesheet" href="/user/css/clubinsert.css">
     <style>
         #login_form_inner label {
@@ -28,7 +28,7 @@
                                     th:object="${ClubVO}" encType="multipart/form-data">
                                     <!--/* 이름 */-->
                                     <div class="col-md-12 form-group">
-                                        <label id="clubName">모임이름</label>
+                                        <label id="clubName" class="form-label">모임이름<span class="star">*</span></label>
                                         <div class="input-wrap">
                                             <input type="text" class="form-control" id="clubName" th:field="*{clubName}"
                                                 required="required" placeholder="모임이름을 입력해 주세요"
@@ -37,7 +37,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-group">
-                                        <label id="clubProfileImg">프로필사진</label>
+                                        <label id="clubProfileImg" class="form-label">프로필사진<span class="star">*</span></label>
                                         <div class="input-wrap">
                                             <input type="file" class="form-control" id="clubProfileImg"
                                                 th:field="*{img}">
@@ -45,7 +45,7 @@
                                     </div>
                                     <!--/* 아아디 */-->
                                     <div class="col-md-12 form-group">
-                                        <label id="clubIntro">한줄소개</label>
+                                        <label id="clubIntro" class="form-label">한줄소개<span class="star">*</span></label>
                                         <div class="input-wrap">
                                             <input type="text" id="clubIntro" th:field="*{clubIntro}"
                                                 class="form-control" required="required"
@@ -56,7 +56,7 @@
                                     </div>
                                     <!--/* 닉네임 */-->
                                     <div class="col-md-12 form-group">
-                                        <label id="clubPeople">모집인원 (최대 20명)</label>
+                                        <label id="clubPeople" class="form-label">모집인원 (최대 20명)<span class="star">*</span></label>
                                         <div class="input-wrap">
                                             <input type="number" id="clubPeople" th:field="*{clubPeople}" min="2"
                                                 max="20" class="form-control" required="required"
@@ -66,7 +66,7 @@
                                     </div>
                                     <!--/* 비밀번호 */-->
                                     <div class="col-md-12 form-group">
-                                        <label id="joinCondition">가입자격</label>
+                                        <label id="joinCondition" class="form-label">가입자격<span class="star">*</span></label>
                                         <div class="input-wrap">
                                             <input type="text" class="form-control" id="joinCondition"
                                                 th:field="*{joinCondition}" required="required"
@@ -77,7 +77,7 @@
                                     </div>
 
                                     <div class="col-md-12 form-group">
-                                        <label id="openScope">가입승인여부</label>
+                                        <label id="openScope" class="form-label">가입승인여부<span class="star">*</span></label>
                                         <br>
                                         <select th:field="*{openScope}">
                                             <option value="OA1">즉시가입</option>
@@ -86,7 +86,7 @@
                                     </div>
 
                                     <div class="col-md-12 form-group">
-                                        <label id="joinCondition">예산금액</label>
+                                        <label id="joinCondition" class="form-label">예산금액<span class="star">*</span></label>
                                         <div class="input-wrap">
                                             <input type="number" class="form-control" id="joinCondition"
                                                 th:field="*{price}" required="required" placeholder="예산금액을 입력해 주세요"
@@ -96,7 +96,7 @@
                                     </div>
 
                                     <div class="col-md-12 form-group">
-                                        <label id="unit">예산기간</label>
+                                        <label id="unit" class="form-label">예산기간<span class="star">*</span></label>
                                         <br>
                                         <select th:field="*{unit}">
                                             <option value="YA1">일</option>
