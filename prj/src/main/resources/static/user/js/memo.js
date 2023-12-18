@@ -265,6 +265,7 @@
     //메모 상세보기
     let memoId = 0;
     let beforememopin = '';
+    let imgs = '';
     $('#writedMemo').on('show.bs.modal', function(event) { 
         memoId = $(event.relatedTarget).data('memo');
         beforememopin = event.relatedTarget.previousElementSibling.src;
@@ -299,6 +300,14 @@
 			},
 			error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
 				console.log('실패');
+			}
+		})
+		$('#writedMemo').find('.memo_image').on('DOMSubtreeModified propertychange', function(e){
+			imgs = new Array();
+			let ddd = e.target.querySelectorAll('.upload');
+			for(let i=0; i<ddd.length; i++){
+			let img = ddd[i].style.backgroundImage.split('"')[1];
+			imgs.push(img);
 			}
 		})
 	});
@@ -470,6 +479,7 @@
 	
     //메모 수정
 	$('#writedMemo').on('hidden.bs.modal', function (event) {
+	console.log($('#writeMemo').find('.memo_image'))
 		let content = document.querySelector('#writedMemo').querySelector('[name=content]').value;
    		let plustag = document.querySelector('#writedMemo').querySelector('[name=plustag]').value;
    		let tag = document.querySelectorAll('#writedMemo .tagify__tag-text');
@@ -495,7 +505,7 @@
          dataType:'text',
          success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
               //function(data)를 쓰게 되면 전달받은 데이터가 data안에 담아서 들어오게 된다.
-              /*hashTag = hashTag.replace(" ", "").split(",");
+              hashTag = hashTag.replace(" ", "").split(",");
               
               let inputMemoId = $('[data-memo="' + memoId + '"]');
               let tags = $(inputMemoId).find('tags');
@@ -507,7 +517,7 @@
                  tagval += hashTag[i];
                  tagval += ', ';
               }
-              
+              console.log(imgs)
               let result = tagval.replace(/,\s*$/, ""); // 마지막 콤마제거한 최종 태그 결과
               $(hashtag).val(result); // input.hashtag의 value 수정
               
@@ -518,7 +528,11 @@
               
               $(memo).css('background-color', color);
               
-              $()
+              $('.inputMemoId').find('.memo_image').empty();
+				for(let i=0; i<imgs.length; i++) {
+					let tag = $('<div>').addClass('upload').css('background-image', `url('${imgs[i]}')`);
+					$('.inputMemoId').find('.memo_image').append(tag);
+				}
               
               let biPin = $(inputMemoId).siblings('.bi-pin');
               if(bookmark == 'Y' && beforememopin != $('#writedMemo').find('.modal-bi-pin')[0].src){
@@ -529,8 +543,7 @@
                 console.log("상세페이지 닫을 때 내려갑니다.")
               	$(biPin).prop('src', '/user/images/memo/pin.svg')	
                 $('.normalmemoStart').prepend(memo);
-              }*/
-              location.reload();
+              }
          },
          error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
             console.log('수정실패');
@@ -646,7 +659,6 @@
 	       data: formData,               
 	       success: function(result){
 	           console.log(result);
-	           
 	       },
 	       error: function(reject){	
 	           console.log(reject);
