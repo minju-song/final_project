@@ -261,6 +261,14 @@
 	    	})
 	    } 
     }
+    
+    $('#insertMemo').on('shown.bs.modal', function(event) {
+    	$('#text-contents').focus();
+    })
+    
+    $('#writedMemo').on('shown.bs.modal', function(event) {
+    	$('#writedMemo').find('#text-contents').focus();
+    })
 	    
     //메모 상세보기
     let memoId = 0;

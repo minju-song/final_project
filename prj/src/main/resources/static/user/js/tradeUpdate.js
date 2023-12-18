@@ -206,6 +206,7 @@ $(function () {
   }
 })  
 
+//cusor focus
 let len = $('#title').val().length;
 $('#title').focus();
 $('#title')[0].setSelectionRange(len, len);
