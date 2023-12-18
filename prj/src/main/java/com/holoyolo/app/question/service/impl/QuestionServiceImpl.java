@@ -175,40 +175,48 @@ public class QuestionServiceImpl implements QuestionService {
 		// 본문 내용 UPDATE
 		int result = questionMapper.updateQuestion(questionVO);
 		
-		// 중복 파일 제거
+		// 저장된 파일 목록 들고오기
+		AttachmentVO vo = new AttachmentVO();
+		vo.setMenuType("AA8");
+		vo.setPostId(questionVO.getQuestionId());
+		List<AttachmentVO> saveList = attachmentService.getAttachmentList(vo);
+
+		// 이미지 중복체크 및 등록
 		if (imgList != null) {
-			for (AttachmentVO vo : imgList) {
-				vo.setPostId(questionVO.getQuestionId());
-				vo.setMenuType("AA8");
-				List<AttachmentVO> saveList = attachmentService.getAttachmentList(vo);
-				for (AttachmentVO vos : saveList) {
-					if (vo.getOriginFile() == vos.getOriginFile()) {
-						imgList.remove(vo);
+			// 중복체크
+			for (int i=0; i<saveList.size(); i++) {
+				for (int j=0; j<imgList.size(); j++) {
+					if (saveList.get(i).getOriginFile().equals(imgList.get(j).getOriginFile())) {
+						imgList.remove(imgList.get(j));
 						break;
 					}
 				}
 			}
+			// 이미지 등록
+			for (AttachmentVO avo : imgList) {
+				avo.setPostId(questionVO.getQuestionId());
+				avo.setMenuType("AA8");
+				attachmentService.insertAttachment(avo);
+			}
 		}
-		// 이미지 및 첨부파일 새로 등록
+
+		
+		// 첨부파일 중복체크 및 등록
 		if (attachList != null) {
-			AttachmentVO attach = new AttachmentVO();
-			attach.setMenuType("AA8");
-			attach.setPostId(questionVO.getQuestionId());
-			Map<String, List<AttachmentVO>> sourceList = attachmentService.getCSAttachmentList(attach);
-			List<AttachmentVO> attList = sourceList.get("attachList");
-			if (attList != null) {
-				for (AttachmentVO deleteAtt : attList) {
-					deleteAtt.setMenuType("AA8");
-					deleteAtt.setPostId(questionVO.getQuestionId());
-					attachmentService.deleteAttachment(deleteAtt);
+			// 중복체크
+			for (int i=0; i<saveList.size(); i++) {
+				for (int j=0; j<attachList.size(); j++) {
+					if (saveList.get(i).getOriginFile().equals(attachList.get(j).getOriginFile())) {
+						attachList.remove(attachList.get(j));
+						break;
+					}
 				}
 			}
-
-			for (AttachmentVO vo : attachList) {
-				vo.setMenuType("AA8");
-				vo.setPostId(questionVO.getQuestionId());
-				System.out.println(attachList);
-				attachmentService.insertAttachment(vo);
+			// 첨부파일 등록
+			for (AttachmentVO avo : attachList) {
+				avo.setMenuType("AA8");
+				avo.setPostId(questionVO.getQuestionId());
+				attachmentService.insertAttachment(avo);
 			}
 		}
 
