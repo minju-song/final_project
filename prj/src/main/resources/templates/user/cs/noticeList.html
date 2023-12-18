@@ -5,31 +5,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>holoyolo::공지사항</title>
 
   <link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/user/css/board.css}" rel="stylesheet" type="text/css">
+  <style>
+  	#searchTitle {
+  		max-width: 100px;
+  	}
+  	#search_input {
+  		max-width: 340px;
+  	}
+  	.insert_btn {
+  		padding: 10px;
+  		display: flex;
+	    width: 75px;
+	    align-items: center;
+	    justify-content: center;
+	    height: 100%;
+	    background: #09203f;
+	    color: #fff;
+	    box-sizing: border-box;
+	    font-size: 13px;
+	    padding: 5px 8px;
+	    border-radius: 5px;
+  	}
+  	.top-area {
+  		margin: 0;
+  		margin-top: 50px;
+  	}
+  	.btn_warp {
+  		padding: 0 !important;
+  	}
+  </style>
 </head>
 
 <body>
   <div layout:fragment="content">
     <div class="container">
-      <div class="text-center">
-        <h3 th:text="${menuType}"></h3>
-      </div>
-
-      <form action="#" class="row col-9">
-        <select id="searchTitle" class="col-3">
-          <option value="title">글 제목</option>
-        </select>
-        <input type="search" id="search_input" class="search_input col-9" required="required" placeholder="검색">
-      </form>
-      <div class="row justify-content-end mt-3">
-        <div class="col-2">
-          <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-            <span><a th:href="@{/cs/help/notice/Insert}">공지 등록</a></span>
-          </th:block>
-
-        </div>
+      <h2 class="h2_title">공지사항</h2>
+      <div class="row justify-content-between top-area">
+		<form action="#" class="row col-6 search-wrap">
+		  <select id="searchTitle" class="col-3">
+		    <option value="title">글 제목</option>
+		  </select>
+		  <input type="search" id="search_input" class="search_input col-9" required="required" placeholder="검색어를 입력하세요">
+		</form>
+		<div class="col-2 d-flex justify-content-end btn_warp">
+		  <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+		    <a th:href="@{/cs/help/notice/Insert}" class="insert_btn">공지 등록</a>
+		  </th:block>
+		</div>
       </div>
       <br>
       <div class="row">
@@ -37,10 +63,10 @@
           <table class="table">
             <thead>
               <tr style="text-align: center;">
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성일</th>
-                <th> 조회수</th>
+                <th class="board-no">번호</th>
+                <th class="board-title">제목</th>
+                <th class="board-date">작성일</th>
+                <th class="board-likeAndView"> 조회수</th>
               </tr>
             </thead>
             <tbody id="boardTableBody">
