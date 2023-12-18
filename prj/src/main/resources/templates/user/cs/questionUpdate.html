@@ -31,7 +31,7 @@
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
 						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required
-							th:field="*{title}">
+							th:field="*{title}" maxlength="30">
 					</div>
 					<div class="input-group col-6">
 						<span> 문의 유형 :</span>
@@ -48,7 +48,7 @@
 					</div>
 					<div class="col-12 writeInput">
 						<textarea class="form-control" id="description" style="height: 300px;" required
-							th:field="*{content}"></textarea>
+							th:field="*{content}" maxlength="1000"></textarea>
 					</div>
 
 					<div class="col-md-12 writeInput">

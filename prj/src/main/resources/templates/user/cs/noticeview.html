@@ -26,12 +26,12 @@
 			<h3 th:text="${menuType}"></h3>
 			<div class="row g-3" th:object="${boardVO}">
 				<div class="col-md-12 writeInput">
-					<label for="title" class="form-label">제목<span class="star">*</span></label>
+					<label for="title" class="form-label">제목</label>
 					<div type="text" class="form-control" id="title" th:text="*{title}"></div>
 				</div>
 
 				<div class="col-12 writeInput">
-					<div class="form-control" id="description" style="height: 300px; white-space: pre-line;" required
+					<div class="form-control" id="description" style="min-height: 300px; height: auto; white-space: pre-line;" required
 						th:text="*{content}">
 
 
@@ -40,7 +40,7 @@
 					<div><span>조회수 : </span><span th:text="*{views}"></span></div>
 				</div>
 				<div class="col-12 writeInput" th:if="${noticeAttach} != null">
-					<div class="input-group mb-3">
+					<div class="mb-3">
 						<span class="input-group-text">첨부파일</span>
 						<div th:each="notice, stat : ${noticeAttach}" class="form-control">
 							<div id="noticeAtach" aria-describedby="basic-addon3">
