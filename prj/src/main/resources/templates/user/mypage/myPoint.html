@@ -42,6 +42,7 @@
                         <td th:text="${point.price+'원'}"></td>
                         <td class="title" th:if="${point.clubName != null}" th:text="|${point.clubName} 알뜰모임|"
                             th:onclick="|location.href = '/member/club/clubPage?clubId=${point.clubId}'|"></td>
+                        <td class="title" th:if="${point.clubName == null}" th:text="|삭제된 알뜰모임|"></td>
                         <td class="title" th:if="${point.title != null}" th:text="|${point.title} 중고거래|"
                             th:onclick="|location.href='@{/member/tradeInfo(tradeId=${point.tradeId},sellerId=${point.sellerId})}'|">
                         </td>

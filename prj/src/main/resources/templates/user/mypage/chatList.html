@@ -18,7 +18,10 @@
             </div>
         </div>
         <th:block th:if="${result.list.size == 0}">
-            <h3 style="text-align: center; margin: 20px;">중고거래 채팅 내역이 없습니다.</h3>
+	        <div style="display:flex; item-align : center; margin : 20px;">
+	        	<img src="/user/images/icon/speak.png" style="margin : 0 auto; width : 200px;">
+	        </div>
+	            <h3 style="text-align: center; margin: 20px;">중고거래 채팅 내역이 없습니다.</h3>
         </th:block>
         <th:block th:if="${result.list.size > 0}">
             <div class="chatBox" th:each="chatting : ${result.list}" style="display: flex;">
