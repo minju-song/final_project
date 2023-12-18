@@ -180,20 +180,22 @@ public class BoardServiceImpl implements BoardService {
 				}
 			}
 		}
-		
-		// 기존 첨부파일 삭제 후 새로 등록
 
-		AttachmentVO attach = new AttachmentVO();
-		attach.setMenuType("AA6");
-		attach.setPostId(boardVO.getBoardId());
-		Map<String, List<AttachmentVO>> sourceList = attachmentService.getCSAttachmentList(attach);
-		List<AttachmentVO> attList = sourceList.get("attachList");
-		for (AttachmentVO deleteAtt : attList) {
-			deleteAtt.setMenuType("AA6");
-			deleteAtt.setPostId(boardVO.getBoardId());
-			attachmentService.deleteAttachment(deleteAtt);
-		}
+		// 기존 첨부파일 삭제 후 새로 등록
 		if (attachList != null) {
+			AttachmentVO attach = new AttachmentVO();
+			attach.setMenuType("AA6");
+			attach.setPostId(boardVO.getBoardId());
+			Map<String, List<AttachmentVO>> sourceList = attachmentService.getCSAttachmentList(attach);
+			List<AttachmentVO> attList = sourceList.get("attachList");
+			if (attList != null) {
+				for (AttachmentVO deleteAtt : attList) {
+					deleteAtt.setMenuType("AA6");
+					deleteAtt.setPostId(boardVO.getBoardId());
+					attachmentService.deleteAttachment(deleteAtt);
+				}
+			}
+
 			for (AttachmentVO vo : attachList) {
 				vo.setMenuType("AA6");
 				vo.setPostId(boardVO.getBoardId());

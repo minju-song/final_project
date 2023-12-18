@@ -171,23 +171,43 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional
 	public int updateQuestion(QuestionVO questionVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
-		// 기존 첨부파일 삭제
-//		attachmentService.deleteQNAAttachment(questionVO);
+		
 		// 본문 내용 UPDATE
 		int result = questionMapper.updateQuestion(questionVO);
-		// 이미지 및 첨부파일 새로 등록
+		
+		// 중복 파일 제거
 		if (imgList != null) {
 			for (AttachmentVO vo : imgList) {
-				vo.setMenuType("AA8");
 				vo.setPostId(questionVO.getQuestionId());
-				attachmentService.insertAttachment(vo);
+				vo.setMenuType("AA8");
+				List<AttachmentVO> saveList = attachmentService.getAttachmentList(vo);
+				for (AttachmentVO vos : saveList) {
+					if (vo.getOriginFile() == vos.getOriginFile()) {
+						imgList.remove(vo);
+						break;
+					}
+				}
 			}
 		}
-
+		// 이미지 및 첨부파일 새로 등록
 		if (attachList != null) {
+			AttachmentVO attach = new AttachmentVO();
+			attach.setMenuType("AA8");
+			attach.setPostId(questionVO.getQuestionId());
+			Map<String, List<AttachmentVO>> sourceList = attachmentService.getCSAttachmentList(attach);
+			List<AttachmentVO> attList = sourceList.get("attachList");
+			if (attList != null) {
+				for (AttachmentVO deleteAtt : attList) {
+					deleteAtt.setMenuType("AA8");
+					deleteAtt.setPostId(questionVO.getQuestionId());
+					attachmentService.deleteAttachment(deleteAtt);
+				}
+			}
+
 			for (AttachmentVO vo : attachList) {
 				vo.setMenuType("AA8");
 				vo.setPostId(questionVO.getQuestionId());
+				System.out.println(attachList);
 				attachmentService.insertAttachment(vo);
 			}
 		}
