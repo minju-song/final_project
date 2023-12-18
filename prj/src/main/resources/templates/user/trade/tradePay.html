@@ -32,13 +32,13 @@
 					<div class="form-label oriHoloPay" th:text="|${#numbers.formatInteger((holoPayCnt - price), 0, 'COMMA')} 원|"></div>
 				</div>
 				<div class="row">
-					<div class="input-group mb-3 row w-100 watchwrap fontStyle2" style="margin-bottom: -5px !important;">
+					<div class="input-group mb-3 row w-100 watchwrap fontStyle2">
 						<div style="width:250px;">포인트 사용</div>
 		               <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" th:maxlength="${pointCnt.toString().length}" class="form-control col-7 borderRadi pointSel">
 		               <span class="input-group-text payInsert col-2" id="basic-addon2" style="padding-left: 40px;" th:onclick="payAllSel()">전액사용</span>
 		               <span class="pointUnit">P</span>
 		            </div>
-		            <p style="text-align: center; margin: 35px 33px 5px;">2019.07.01.부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은
+		            <p style="text-align: center; margin: 35px auto; white-space: break-spaces;">2019.07.01.부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은
 		             포인트 최대 50만원 보유/1회 사용 한도가 적용됩니다.<br> 계좌 연결 시 각 보유/1회 사용 한도는 200만원까지 확대됩니다.</p>
 				</div>
 			</div>

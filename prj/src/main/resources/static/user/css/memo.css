@@ -256,7 +256,7 @@ input{
 }
 
 .modal-dialog {
-    margin-top: 155px;
+    margin: 155px auto;
 }
 
 .modalColor {

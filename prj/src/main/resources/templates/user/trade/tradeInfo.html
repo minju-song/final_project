@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>holoyolo::중고거래</title>
 	
 	<!-- 소스 다운 -->
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
@@ -13,14 +13,23 @@
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/user/css/background.css}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 	<div layout:fragment="content">
-		<div class="container">
+		<div class="container tradeInfoContainer">
+			<div class="row watchwrap bottomdown10">
+				<div class="row">
+					<div class="heartCount silverColor" th:text="|관심 ${heartCount.heartCount}|"></div>
+					<div class="reviewCount silverColor" th:text="| │ 조회수 ${tradeInfo.views} │ ${#dates.format(tradeInfo.writeDate, 'yyyy-MM-dd')}|"></div>
+				</div>
+				<div class="row" th:if="${memberId != tradeInfo.sellerId}">
+					<div class="report silverColor" th:onclick="reportBtn([[${tradeInfo.tradeId}]],[[${tradeInfo.sellerId}]], event)">신고하기</div>
+				</div>
+			</div>
 			<div class="row centerwrap">
 				<!-- 사진 슬라이더 -->
-
 				<div id="carouselExampleControlsNoTouching" class="carousel slide" data-touch="false" data-interval="false">
 				  <div class="carousel-inner">
 				    <div class="carousel-item" th:classappend="${stat.count == 1} ? 'active' : ''" th:each="trade, stat : ${tradeImg}">
@@ -41,31 +50,20 @@
 				<!-- 상품정보 -->
 				<div class="col-lg-6">
 					<div class="product_content">
-						<div class="row watchwrap bottomdown10">
-							<div class="row">
-								<div class="heartCount silverColor" th:text="|관심 ${heartCount.heartCount}|"></div>
-								<div class="reviewCount silverColor" th:text="| │ 조회수 ${tradeInfo.views} │ ${#dates.format(tradeInfo.writeDate, 'yyyy-MM-dd')}|"></div>
+						<div>
+							<div class="row" style="margin-bottom:20px; align-items: center; gap: 10px;">
+								<div class="tradeType bottomdown10" th:if="${tradeInfo.promiseStatusName != null}"><p th:text="${tradeInfo.promiseStatusName}"></p></div>
+								<div class="tradeType bottomdown10" th:if="${tradeInfo.promiseStatusName == null}"><p>판매중</p></div>
+								<div class="tradeTitle bottomdown" th:text="${tradeInfo.title}"></div>
 							</div>
-							<div class="row" th:if="${memberId != tradeInfo.sellerId}">
-								<div class="report silverColor" th:onclick="reportBtn([[${tradeInfo.tradeId}]],[[${tradeInfo.sellerId}]], event)">신고하기</div>
+							<div class="tradeCategory trade-info bottomdown10">
+								<span th:text="${tradeInfo.tradeCategoryName}"></span>
+								<span th:text="${tradeInfo.tradeTypeName}"></span>
+								<span th:text="${tradeInfo.paymentTypeName}"></span>
 							</div>
-						</div>
-						<div class="row" style="margin-bottom:20px;">
-							<div class="tradeType bottomdown10" th:if="${tradeInfo.promiseStatusName != null}"><p th:text="${tradeInfo.promiseStatusName}"></p></div>
-							<div class="tradeType bottomdown10" th:if="${tradeInfo.promiseStatusName == null}"><p>신청가능!</p></div>
-							<div class="tradeTitle bottomdown" th:text="${tradeInfo.title}"></div>
-						</div>
-						<div class="tradeCategory bottomdown10">
-							<span th:text="|카테고리 : ${tradeInfo.tradeCategoryName}|"></span>
-						</div>
-						<div class="tradeCategory bottomdown10">
-							<span th:text="|거래방식 : ${tradeInfo.tradeTypeName}|"></span>
-						</div>
-						<div class="tradeCategory bottomdown10">
-							<span th:text="|결제방식 : ${tradeInfo.paymentTypeName}|"></span>
-						</div>
-						<div class="tradeCategory bottomdown10" th:if="${tradeInfo.tradePlace != null}">
-							<span th:text="|주소 : ${tradeInfo.tradePlace}|"></span>
+							<div class="tradeCategory trade-place bottomdown10" th:if="${tradeInfo.tradePlace != null}">
+								<span th:text="|[거래장소] ${tradeInfo.tradePlace}|"></span>
+							</div>
 						</div>
 						<div class="row bottomwrap watchwrap">
 							<div class="tradePrice">
@@ -88,7 +86,7 @@
 								</div>
 							</div>
 							<!-- 구매자 버튼 -->
-							<div th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatusName == null}">
+							<div class="promise" th:if="${memberId != tradeInfo.sellerId} and ${tradeInfo.promiseStatusName == null}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)">
 									<p>약속잡기</p>
 								</div>
@@ -98,7 +96,7 @@
 									<p>약속취소</p>
 								</div>
 							</div>
-							<div th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatusName == '거래중'} and ${memberId != tradeInfo.sellerId}">
+							<div class="promise" th:if="${memberId == tradeInfo.buyerId} and ${tradeInfo.promiseStatusName == '거래중'} and ${memberId != tradeInfo.sellerId}">
 								<div class="pay insertbutton" th:onclick="promiseEvent(`[[${tradeInfo.tradeId}]]`, event)" th:if="${tradeInfo.paymentType == 'TC1'}">
 									<p>거래확정</p>
 								</div>
@@ -109,7 +107,7 @@
 									<p>대화하기</p>
 								</div>
 							</div>
-							<div th:if="(${memberId == tradeInfo.buyerId}) and ${tradeInfo.promiseStatusName == '거래완료'}">
+							<div class="promise" th:if="(${memberId == tradeInfo.buyerId}) and ${tradeInfo.promiseStatusName == '거래완료'}">
 								<div class="pay insertbutton" th:onclick="|location.href='@{/member/tradeChat(sellerId=${tradeInfo.sellerId},tradeId=${tradeInfo.tradeId})}'|">
 									<p>대화하기</p>
 								</div>
@@ -127,8 +125,9 @@
 				</div>
 			</div>
 			<div class="tradeCategory bottomdown margins bottomdown30">
-				<span th:text="${tradeInfo.description}" th:style="@{white-space:break-spaces;}"></span>
-			</div><hr class="bottomdown30">
+				<span class="description" th:text="${tradeInfo.description}" th:style="@{white-space:break-spaces;}"></span>
+			</div>
+			<hr class="bottomdown30">
             <div class="bottomdown30" id="map" style="width:100%;height:350px;" th:classappend="${tradeInfo.tradePlace eq null or tradeInfo.tradePlace eq ''} ? 'classHidden'" ></div>
 	        <div class="_card" th:unless="${tradeInfo.tradePlace != null and tradeInfo.tradePlace != ''}">
 			  <div class="card-inner">
@@ -146,6 +145,7 @@
               <button type="button" class="btn btn-primary tradeDelete" th:onclick="deleteTrade()" th:if="${tradeInfo.sellerId == memberId} and (${tradeInfo.promiseStatusName == null} or ${tradeInfo.promiseStatusName == '거래완료'})">삭제</button>
             </div>
         </div>
+	    
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7"></script>
         <script th:inline="javascript">
           let tradePlace = [[${tradeInfo.tradePlace}]];
@@ -163,6 +163,7 @@
 		  let profileImg = [[${tradeInfo.profileImg}]];
         </script>
 		<script src="/user/js/tradeInfo.js"></script>
+		<script src="/user/js/background.js"></script>
 	</div>
 </body>
 

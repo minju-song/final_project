@@ -3,34 +3,74 @@
 /* 중고거래 리스트 페이지 시작 */
 
 body{
-	overflow-x: hidden;
+	/* overflow-x: hidden; */
+}
+.products {
+	background: #f8f9fa;
+}
+#contents {
+	margin: 0 15px;
+}
+.row {
+	margin: 0;
+}
+.col {
+	padding: 0;
+	margin: 0;
 }
 
 .search {
-	width: 800px;
+	width: 480px;
 	position: realative;
 }
 
 .searchwrap {
 	display: flex;
-	justify-content: space-evenly;
-	margin-bottom: 15px;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 15px;
+	margin-bottom: 80px;
+	padding: 20px;
+	border-radius: 8px;
+	background: #ebeef1;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+.searchwrap form div {
+	display: flex;
+	align-items: center;
+	gap: 5px;
 }
 
+#search_input {
+	height: 40px;
+	border: 1px solid #e6e6e6;
+	border-radius: 4px;
+	margin-top: -4px;
+	padding-left: 10px;
+	background: #fff;
+}
+.search_button {
+	top: 36%;
+}
 #searchTitle, #searchCategory{
 	position: relative;
-    width: 173px;
+    width: 125px;
     height: 40px;
-    line-height: 39px;
     cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
-    border: solid 1px #b5b5b5;
+    border: solid 1px #e6e6e6;
     padding-left: 15px;
     padding-right: 17px;
     font-size: 14px;
     font-weight: 400;
     color: #232323;
-    margin-bottom: 10px;
+    margin: 0 !important;
     border-radius: 4px;
+    background-color: #fff;
+    
+    -o-appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
 
 option {
@@ -42,11 +82,17 @@ option > selected{
 }   
 
 .sellcheck{
+	display: flex;
+	align-items: center;
 	position: relative;
-	border: solid 1px #b5b5b5;
-	padding: 9.1px 20px;
-	margin-left: 15px;
+	border: solid 1px #e6e6e6;
+	padding: 5px 20px;
 	border-radius: 4px;
+	height: 40px;
+	background: #fff;
+}
+label {
+	margin: 0;
 }
 
 .sellcheck input {
@@ -56,8 +102,8 @@ option > selected{
 }
 
 .tradeSize {
-    width: 295px;
-    height: 335px !important;
+    width: 267px;
+    height: 355px !important;
    }
    
 button, #description, .writeInput select{
@@ -66,19 +112,27 @@ button, #description, .writeInput select{
    
 .insertbutton
 {
-	width: 125px;	/* 142 */
+	/* width: 105px; */	/* 142 */
 	height: 40px;	/* 46 */
 	background-color: #09203f;
 	text-align: center;
 	/* left: 88%; */
 	position: realative;
 	top: 2px;
-	border-radius: 4px;
+	border-radius: 5px;
 	float: right;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.insertbutton p {
+	margin: 0;
+	height: 100%;
+	line-height: 40px;
+	color: #fff;
 }
 
 .redButton{
-	width: 125px;	/* 142 */
+	/* width: 125px; */	/* 142 */
 	height: 40px;	/* 46 */
 	background-color: red;
 	text-align: center;
@@ -86,17 +140,21 @@ button, #description, .writeInput select{
 	top: 2px;
 	border-radius: 4px;
 	float: right;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
-
-.insertbutton p, .placeSelectButton p, .redButton p
+.insertbutton {
+	margin-top: -4px;
+}
+.insertbutton, .placeSelectButton p, .redButton p
 {
 	display: block;
+	margin: 0;
 	font-size: 14px;
 	text-transform: uppercase;
 	color: #FFFFFF;
-	letter-spacing: 0.2em;
-	line-height: 40px; /* 46 */
+	line-height: 35px; /* 46 */
 	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
@@ -108,38 +166,79 @@ input{
 	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
 
+/* 버튼 */
+.insertbutton, .placeSelectButton {
+	background: #09203f;
+}
+.insertbutton:hover, .placeSelectButton:hover {
+	background: #1367a3;
+}
+.redButton {
+	background: #ee0017;
+}
+.redButton:hover {
+	background: #ee0017;
+}
+
+.insertbutton, .placeSelectButton, .redButton {
+	transition: all .25s ease-in;
+}
 .insertbutton:hover, .placeSelectButton:hover, .redButton:hover
 {
-	background-color: #e0e3e4;
+	transition: all .25s ease-in;
 }
 
 .badge{
 	top: 0.5rem;
     right: 4.5rem;
-    color: white;
-    background: #09203f;
     font-size: 13px;
     padding: 6px;	
     width: 60px;
+    z-index: 99;
+}
+.trade-type {
+    background-color: #f0eef8;
+    color: #5f4c9e;
+}
+.promise-status {
+	background-color: #ffe1e1;
+    color: #961f1f;
+}
+.payment-type {
+	background-color: #dbe8ff;
+    color: #375791;
 }
 
 #pagination {
     justify-content: center;
+    margin-top: 40px;
 }
 
 .card {
 	cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	box-shadow: 0 4px 16px 0 rgba(0,0,0,.04);
+    transition: box-shadow .25s ease-in,transform .25s ease-in;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px 0 rgba(0,0,0,.08);
 }
 
 .text-muted{
 	font-size: larger;
+	max-width: 87px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
 }
 
 .col{
 	adding-right: none;
-    padding-left: 50px;
-    margin: 10px;
+}
+#tradeList {
+	gap: 30px;
+	justify-content: flex-start;
 }
 #tradeList .col {
     flex-grow: 0;
@@ -152,20 +251,30 @@ input{
 }
 
 .carousel{
-	width: 550px;
+	width: 430px;
 }
 
 .centerwrap{
-	justify-content: center;
+	justify-content: space-between;
+	padding: 0 5px;
+	margin: 20px 0 40px 0;
+}
+.centerwrap .col-lg-6 {
+	padding-right: 0;
 }
 
 .watchwrap{
     justify-content: space-between;
     margin-left: 5px;
+    align-items: center;
+}
+.bottomwrap.watchwrap {
+	margin-bottom: 10px;
 }
 
 .tradeTitle{
-	font-size: 35px;
+	font-size: 28px;
+	margin-bottom: 3px;
     font-weight: bolder;
 }
 
@@ -178,44 +287,60 @@ input{
 }
 
 .tradeType{
-	margin: 7px 13px;
-	width: 80px;
+	/* margin: 7px 13px; */
     height: 35px;
-    background-color: #09203f;
     text-align: center;
     top: 5px;
-    border-radius: 4px;
+    border-radius: 5px;
+    background-color: #ffe1e1;
+    padding: 0 10px;
 }
 
 .tradeType p{
-    font-size: 13px;
-    color: #FFFFFF;
-    letter-spacing: 0.2em;
+    font-size: 14px;
+    color: #961f1f !important;
     line-height: 35px;
+    font-weight: 700;
+    margin: 0;
 }
 
 .tradePrice p{
-    font-size: 30px;
+    font-size: 25px;
     color: black;
     font-weight: bolder;
+    margin: 0;
 }
 
 .bottomwrap{
-	margin-top: 45px;
+	/* margin-top: 45px; */
 }
 
 .pay{
     top: 5px;
-    margin: 7px;
+    /* margin: 7px; */
 }
 
 .bottomdown10{
 	margin-bottom: 10px;
 }
 
-.tradeCategory{
-	color: black;
-    font-size: 20px;
+.tradeCategory.trade-info {
+	color: #232323;
+    font-size: 13px;
+}
+.tradeCategory.trade-info span {
+	padding: 5px 10px;
+	border-radius: 15px;
+	background: #e8ecf2;
+	color: #103d61;
+}
+.tradeCategory.trade-place {
+	margin-top: 20px;
+}
+.tradeCategory.trade-place span {
+	font-size: 16px;
+	font-weight: 700;
+	color: #6d6d6d;
 }
 
 .rounded-circle{
@@ -228,10 +353,13 @@ input{
 
 .margins{
 	margin: 30px;
+	margin-top: 0;
+	align-items: center;
 }
 
 .bottomdown30{
-	margin-bottom: 4rem;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 }
 
 .openKakao{
@@ -241,6 +369,7 @@ input{
 .nickName{
 	line-height: 3.5;
     font-weight: bolder;
+    font-size: 18px;
 }
 
 .holoPay{
@@ -250,8 +379,8 @@ input{
 
 ._heart{
 	position: absolute;
-    bottom: 90%;
-    right: 94%;
+    top: 5%;
+    left: 3%;
     width: 25px;
     cursor: url(https://cur.cursors-4u.net/holidays/hol-4/hol362.ani), url(https://cur.cursors-4u.net/holidays/hol-4/hol362.png), auto;
 }
@@ -264,6 +393,15 @@ input{
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-size: 18px;
+	padding-top: 5px;
+}
+.price {
+	font-size: 16px;
+	font-weight: 700;
+}
+.place {
+	max-width: 145px;
 }
 
 .card-img-top{
@@ -325,14 +463,14 @@ input{
 
 .priceUnit{
 	position: absolute;
-    top: 37px;
-    right: 27px;
+    top: 39px;
+    right: 32px;
 }
 
 .pointUnit{
 	position: absolute;
     top: 6px;
-    right: 152px;
+    right: 138px;
     z-index: 1000;
     font-size: 18px;
 }
@@ -360,7 +498,11 @@ input[type="number"], .pointSel{
 }
 
 .buttonFrom{
-    left: 88%;
+    /* left: 88%; */
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 0;
+    gap: 10px;
 }
 
 .placeSelectButton{
@@ -376,6 +518,7 @@ input[type="number"], .pointSel{
 
 .form-label{
 	font-weight: bolder;
+	margin-bottom: 10px;
 }
 
 .tradeImgPlus{
@@ -399,10 +542,10 @@ input[type="number"], .pointSel{
 }
 
 .tradePlaceSelect{
-    position: absolute;
+    /* position: absolute;
     left: 50%;
-    top: 47%;
-    width: 340px;
+    top: 47%; */
+    width: 400px;
 }
 
 
@@ -434,6 +577,8 @@ li{
 .d-block{
     height: 326px;
     object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #f6f6f6;
 }
 
 /* 첨부파일 관련 */
@@ -507,6 +652,7 @@ li{
     border: 1px solid #bbbbbb;
     width: 70%;
     padding: 30px;
+    background: #fff;
 }
 
 .payImg{
@@ -529,8 +675,7 @@ li{
 
 .fontStyle2{
 	font-size: 22px;
-    margin: 15px 15px 25px;
-}
+    margin: 0px 15px 25px;
 }
 
 #basic-addon2{
@@ -557,4 +702,31 @@ li{
     font-size: 20px;
     font-weight: 700;
     margin: 40px 10px;
+}
+
+.product_content {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.promise {
+	display: flex;
+	gap: 10px;
+}
+.description {
+	font-size: 16px;
+	min-height: 200px;
+	display: inline-block;
+}
+.tradeInfoContainer {
+	max-width: 1000px;
+	z-index: 2;
+	padding: 50px; 
+	border-radius: 10px; 
+	background: #fff;
+	box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+.placeSelect .d-flex {
+	gap: 10px;
 }

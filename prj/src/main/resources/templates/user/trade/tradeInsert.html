@@ -12,16 +12,10 @@
 <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<style>
-.card {
-	border: none;
-	box-shadow: none;
-}
-</style>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="card">
+		<div>
 			<div class="card-body">
 				<form class="row g-3" th:action="@{/member/tradeInsert}"
 					method="POST" th:object="${tradeVO}" enctype="multipart/form-data">
