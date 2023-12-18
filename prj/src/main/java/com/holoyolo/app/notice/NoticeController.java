@@ -131,6 +131,7 @@ System.out.println(boardVO);
 	public String noticeUpdateProcess(@AuthenticationPrincipal PrincipalDetails principalDetails, BoardVO boardVO,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles,
 			@RequestParam("attachmentFiles") MultipartFile[] attachmentFiles) {
+		
 		List<AttachmentVO> imgList = attachmentService.uploadFiles(imageFiles, "notice");
 		List<AttachmentVO> attachList = attachmentService.uploadFiles(attachmentFiles, "noticeAttach");
 		boardVO.setMemberId(principalDetails.getUsername());

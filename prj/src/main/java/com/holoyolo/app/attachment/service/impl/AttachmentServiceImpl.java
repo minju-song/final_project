@@ -218,34 +218,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	@Override
 	public Map<String, List<AttachmentVO>> getCSAttachmentList(AttachmentVO attachmentVO) {
-		List<AttachmentVO> sourceList = attachmentMapper.selectAttachmentList(attachmentVO);
-
-		Map<String, List<AttachmentVO>> resultMap = new HashMap<>();
-		List<AttachmentVO> attachList = new ArrayList<>();
-		List<AttachmentVO> imgList = new ArrayList<>();
-		String[] imgExtension = { "png", "jpg", "jpeg", "gif" };
-		for (AttachmentVO attach : sourceList) {
-			String originalFile = attach.getOriginFile();
-			int lastDotIndex = originalFile.lastIndexOf(".");
-			if (lastDotIndex > 0) {
-				boolean imgCheck = false;
-				String thisExtension = originalFile.substring(lastDotIndex + 1);
-				for (String ext : imgExtension) {
-					if (thisExtension.equals(ext)) {
-						imgList.add(attach);
-						System.out.println(attach);
-						resultMap.put("imgList", imgList);
-						imgCheck = true;
-					}
-				}
-				if (!imgCheck) {
-					attachList.add(attach);
-					resultMap.put("attachList", attachList);
-				}
-			}
-		}
-
-		return resultMap;
+		List<AttachmentVO> sourceList = attachmentMapper.selectAttachmentList(attachmentVO);	
+		return checkExtention(sourceList);
 	}
 
 	@Override
@@ -272,6 +246,37 @@ public class AttachmentServiceImpl implements AttachmentService {
 		attachmentVO.setMenuType(menuType);
 		attachmentVO.setSaveFile(fileName);
 		return attachmentMapper.deleteCSAttachment(attachmentVO);
+	}
+
+	@Override
+	public Map<String, List<AttachmentVO>> checkExtention(List<AttachmentVO> sourceList) {
+		Map<String, List<AttachmentVO>> resultMap = new HashMap<String, List<AttachmentVO>>();
+
+		List<AttachmentVO> attachList = new ArrayList<>();
+		List<AttachmentVO> imgList = new ArrayList<>();
+		String[] imgExtension = { "png", "jpg", "jpeg", "gif", "webp", "SVG", " EPS", "AI" };
+		for (AttachmentVO attach : sourceList) {
+			String originalFile = attach.getOriginFile();
+			int lastDotIndex = originalFile.lastIndexOf(".");
+			if (lastDotIndex > 0) {
+				boolean imgCheck = false;
+				String thisExtension = originalFile.substring(lastDotIndex + 1);
+				for (String ext : imgExtension) {
+					if (thisExtension.equals(ext)) {
+						imgList.add(attach);
+						System.out.println(attach);
+						resultMap.put("imgList", imgList);
+						imgCheck = true;
+					}
+				}
+				if (!imgCheck) {
+					attachList.add(attach);
+					resultMap.put("attachList", attachList);
+				}
+			}
+		}
+
+		return resultMap;
 	}
 
 }

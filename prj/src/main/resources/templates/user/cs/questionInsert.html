@@ -4,37 +4,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+    <title>holoyolo::문의작성</title>
     <!-- 소스 다운 -->
     <script src="https://unpkg.com/@yaireo/tagify"></script>
     <!-- 폴리필 (구버젼 브라우저 지원) -->
     <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/board.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/question.css}" rel="stylesheet" type="text/css">
     <style>
-        .card {
-            border: none;
-            box-shadow: none;
-        }
+    	input::placeholder {
+		  	color: #bbb;
+		  	font-size: 14px;
+		}
+		textarea::placeholder {
+		  	color: #bbb;
+		  	font-size: 14px;
+		}
+		#description {
+			padding: 18px;;
+		}
     </style>
 </head>
 
 <body>
     <div layout:fragment="content">
         
-        <div class="card">
+        <div class="container">
             <h2 class="h2_title" th:text="${menuType}"></h2>
-            <div class="card-body">
-                <form class="row g-3" th:action="@{/question/insert}" method="POST"
+            <div>
+                <form class="row g-3 insert_wrap" th:action="@{/question/insert}" method="POST"
                     th:object="${questionVO}" enctype="multipart/form-data">
                     <div class="col-md-12 writeInput">
                         <label for="title" class="form-label">제목<span class="star">*</span></label>
-                        <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" th:field="*{title}" required />
+                        <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" th:field="*{title}" required spellcheck="false"/>
                     </div>
-                    <div class="input-group col-6">
-                        <span> 문의 유형 :</span>
-                        <select id="questionType" class="col-3 input-group-text" th:field="*{questionType}">
+                    <div class="d-flex align-items-center col-6 type-wrap">
+                        <span class="form-label">문의 유형<span class="star">*</span></span>
+                        <select id="questionType" class="col-3" th:field="*{questionType}">
                             <option value="MA1">가계부</option>
                             <option value="MA2">중고거래</option>
                             <option value="MA3">알뜰모임</option>
@@ -47,7 +56,8 @@
                     </div>
                     <div class="col-12 writeInput">
                         <textarea class="form-control" id="description" style="height: 300px;" required
-                            th:field="*{content}" maxlength="1000" wrap="hard"></textarea>
+                            th:field="*{content}" maxlength="1000" wrap="hard" spellcheck="false"
+                            placeholder="문의 내용을 작성해주세요(필수)"></textarea>
                     </div>
 
                     <div class="col-md-12 writeInput">

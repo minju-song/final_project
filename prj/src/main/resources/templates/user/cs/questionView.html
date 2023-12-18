@@ -4,90 +4,115 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
+	<title>holoyolo::문의</title>
 	<!-- 소스 다운 -->
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<!-- 폴리필 (구버젼 브라우저 지원) -->
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/board.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/question.css}" rel="stylesheet" type="text/css">
 	<style>
 		.card {
 			border: none;
 			box-shadow: none;
+		}
+		.col-12, .col-md-12 {
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.title {
+			min-width: 60px;
+			margin: 0;
+			text-align: center;
+			border-right: 1px solid #ced4da;
+			height: 40px;
+			line-height: 40px;
+			display: inline-block;
+			font-weight: 500;
+		}
+		#title {
+			border: none;
+		}
+		.input_wrap {
+			border: 1px solid #ced4da;
+			border-radius: 5px;
+		}
+		.font-15 {
+			font-size: 15px;
+			color: #2f2f2f;
 		}
 	</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
-		<div class="container">
-			<h3 th:text="${menuType}"></h3>
-			<div class="row g-3">
-				<div class=" col-md-12 writeInput">
-					<label for="title" class="form-label">제목</label>
-					<div class="form-control" id="title" th:text="${questionVO.title}"></div>
-				</div>
-				<div class="col-12">
-					<div class="input-group col-4">
-						<div class="col-6">
-							<p class="boardData">문의 유형 : </p>
+		<div class="container view-container">
+			<h2 class="h2_title" th:text="${menuType}"></h2>
+			<div class="qna-view-wrap d-flex">
+				<div class="g-3 d-flex flex-column gap-20">
+					<div class=" col-md-12 writeInput input_wrap d-flex align-items-center">
+						<label for="title" class="form-label title font-15 label-bg-color">제목</label>
+						<div class="form-control font-15" id="title" th:text="${questionVO.title}"></div>
+					</div>
+					<div class="col-12">
+						<div class="input-group col-12 type-wrapper">
+							<div class="col-1 q-type label-bg-color">
+								<p class="boardData font-15">문의 유형</p>
+							</div>
+							<div class="col-2">
+								<p th:text="${questionVO.questionType}" style="border : 0;" class="font-15"></p>
+							</div>
 						</div>
-						<div class="col-6">
-							<p th:text="${questionVO.questionType}" style="border : 0;"></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 writeInput">
-					<div class="form-control" id="description" style="min-height: 300px; height: auto; white-space: pre-line;"
-						th:text="${questionVO.content}">
-					</div>
-				</div>
-				<div class="row col-md-12 writeInput">
-					<div class="imgFlex col-md-6" th:each="question, stat : ${questionImg}">
-						<img th:src="@{'/images/' + ${question.saveFile}}"
-							style="width:100%; max-width:100%; height:auto; display: inline;">
-					</div>
-				</div>
-			</div>
-
-
-			<div class="col-12 writeInput" th:if="${questionAttach} != null">
-				<div class="mb-3">
-					<span class="input-group-text">첨부파일</span>
-					<div th:each="question, stat : ${questionAttach}" class="form-control">
-						<div id="noticeAtach" aria-describedby="basic-addon3">
-							<a th:href="@{'/download?saveFile=' + ${question.saveFile}}"
-								th:text="${question.originFile}"></a>
-
+						<div class="col-12 writeInput">
+							<div class="form-control font-15" id="description" style="min-height: 300px; height: auto; white-space: pre-line;"
+								th:text="${questionVO.content}">
+							</div>
 						</div>
 					</div>
+
+					<div class="row col-md-12 writeInput" th:if="${questionImg}">
+						<div class="imgFlex col-md-6" th:each="question, stat : ${questionImg}">
+							<img th:src="@{'/images/' + ${question.saveFile}}"
+								style="width:100%; max-width:100%; height:auto; display: inline;">
+						</div>
 				</div>
-			</div>
-			
-			<div class="col-md-12 writeInput buttonFrom" th:if="${#lists.size(ans) == 0}">
-				
-				<button type="reset" class="btn btn-secondary"
-					th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
-				<button type="submit" class="btn btn-primary" id="deleteBtn">삭제</button>
-			</div>
-			<!--/* 답변*/-->
-			<div class="row" th:unless="${#lists.size(ans) == 0}">
-				<h4>관리자 답변</h4>
-				<div class="col-12 writeInput" th:each="ans, stat : ${ans}">
-					<div class="form-control" style="min-height: 100px; white-space: pre-line;"
-						th:text="${ans.answerContent}">
+	
+	
+				<div class="col-12 writeInput" th:if="${questionAttach} != null">
+					<div class="mb-3 attach-wrap">
+						<span class="">첨부파일</span>
+						<div th:each="question, stat : ${questionAttach}" class="form-control">
+							<div id="noticeAtach" aria-describedby="basic-addon3">
+								<a th:href="@{'/download?saveFile=' + ${question.saveFile}}"
+									th:text="${question.originFile}"></a>
+	
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-
-
-
-
-			<div class="col-md-12 writeInput buttonFrom">
-				<button type="reset" class="btn btn-secondary"
-					onclick="location.href = '/member/cs/help/question'">목록으로</button>
+	
+				<div class="col-md-12 writeInput buttonFrom" th:if="${#lists.size(ans) == 0}">
+					<button type="reset" class="btn btn-secondary"
+						th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
+					<button type="submit" class="btn btn-primary" id="deleteBtn">삭제</button>
+					<button type="reset" class="btn btn-secondary"
+						onclick="location.href = '/member/cs/help/question'">목록으로</button>
+				</div>
+				<!--/* 답변*/-->
+				<div th:unless="${#lists.size(ans) == 0}">
+					<h4 class="font-15">
+						<img alt="reply-icon" src="/user/images/common/arrow-return-right.svg">
+						<span class="admin-label">관리자</span>답변완료
+					</h4>
+					<div class="col-12 writeInput" th:each="ans, stat : ${ans}">
+						<div class="form-control" style="min-height: 100px; white-space: pre-line; font-size: 15px;"
+							th:text="${ans.answerContent}"></div>
+					</div>
+				</div>
+	
 			</div>
 
 			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
