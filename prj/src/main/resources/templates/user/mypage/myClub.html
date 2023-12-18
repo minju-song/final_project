@@ -57,6 +57,7 @@
                         </div>
                     </div>
                 </th:block>
+                <a href="#" id="load">MORE</a>
             </div>
         </div>
 
@@ -74,6 +75,20 @@
                 console.log(clubId);
                 location.href = '/member/club/clubPage?clubId=' + clubId;
             }
+            
+          //더보기 버튼
+			$('.card').hide();
+		    $('.card').slice(0, 6).css("display", "block"); 
+		    if($('.card').length <= 6){
+		    	$('#load').fadeOut(100);
+		    }
+		    $("#load").click(function(e){
+		        e.preventDefault();
+		        $(".card:hidden").slice(0, 6).fadeIn(200).css('display', 'block'); // 클릭시 more 갯수 지저정
+		        if($(".card:hidden").length == 0){ // 컨텐츠 남아있는지 확인
+		            $('#load').fadeOut(100); // 컨텐츠 없을 시 버튼 사라짐
+		        }
+		    });
         </script>
     </div>
 </body>
