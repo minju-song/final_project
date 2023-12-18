@@ -479,7 +479,6 @@
 	
     //메모 수정
 	$('#writedMemo').on('hidden.bs.modal', function (event) {
-	console.log($('#writeMemo').find('.memo_image'))
 		let content = document.querySelector('#writedMemo').querySelector('[name=content]').value;
    		let plustag = document.querySelector('#writedMemo').querySelector('[name=plustag]').value;
    		let tag = document.querySelectorAll('#writedMemo .tagify__tag-text');
@@ -510,14 +509,12 @@
               let inputMemoId = $('[data-memo="' + memoId + '"]');
               let tags = $(inputMemoId).find('tags');
               let hashtag = $(inputMemoId).find('input.hashtag');
-              
               let tagval = '';
               $(tags).remove('tag');
               for(let i=0; i<hashTag.length; i++){
                  tagval += hashTag[i];
                  tagval += ', ';
               }
-              console.log(imgs)
               let result = tagval.replace(/,\s*$/, ""); // 마지막 콤마제거한 최종 태그 결과
               $(hashtag).val(result); // input.hashtag의 value 수정
               
@@ -528,10 +525,10 @@
               
               $(memo).css('background-color', color);
               
-              $('.inputMemoId').find('.memo_image').empty();
+              $(inputMemoId).find('.memo_image').empty();
 				for(let i=0; i<imgs.length; i++) {
 					let tag = $('<div>').addClass('upload').css('background-image', `url('${imgs[i]}')`);
-					$('.inputMemoId').find('.memo_image').append(tag);
+					$(inputMemoId).find('.memo_image').append(tag);
 				}
               
               let biPin = $(inputMemoId).siblings('.bi-pin');
