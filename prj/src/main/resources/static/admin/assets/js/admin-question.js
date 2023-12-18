@@ -55,7 +55,7 @@ $("#defaultSelect").on("change", function(){
                                 <td><span id="badgeColor" class="badge ${colorMapping[list.questionType]} me-1">${list.questionType}</span></td>
                                 <td>${list.writeDate}</td>
                                 <td><span class="badge ${colorMapping[list.questionYn]} me-1">${list.questionYn}</span></td>
-                                <td>
+                                <!--<td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="bx bx-dots-vertical-rounded"></i>
@@ -65,7 +65,7 @@ $("#defaultSelect").on("change", function(){
                                             <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> 삭제</a>
                                         </div>
                                     </div>
-                                </td>
+                                </td>-->
                             </tr>`;
 					$('tbody').append(template);
 

@@ -92,7 +92,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="#" id="load">MORE</a>
+				<a href="#" id="load" style="margin:0 auto;"><img style="width: 40px;" th:src="@{/user/images/trade/more.png}"></a>
 			</div>
 		</div>
 		<script>
@@ -103,6 +103,10 @@
 					data : {tradeId},
 					success: function(data){   //데이터 주고받기 성공했을 경우 실행할 결과
 						e.target.closest('.tradeSize2').remove();
+						$(".card:hidden").slice(0, 1).fadeIn(200).css('display', 'block');
+						if($('.card').length <= 8){
+					    	$('#load').fadeOut(100);
+					    }
 					},
 					error:function(){   //데이터 주고받기가 실패했을 경우 실행할 결과
 						console.log("실패");

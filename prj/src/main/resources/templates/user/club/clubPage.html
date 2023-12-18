@@ -123,7 +123,10 @@
                     <!-- <div th:text="${#dates.format(result.start, 'yyyy년 MM월 dd일')}"></div>
                     <div th:text="${#dates.format(result.end, 'yyyy년 MM월 dd일')}"></div> -->
                     <th:block th:if="${session.check eq true}">
-                        <span class="date">[[${result.start}]] - [[${result.end}]]</span>
+                    	<span class="date" th:if="${result.start == result.end}" th:text="${result.start}">
+                    	</span>
+                    	<span class="date" th:if="${result.start != result.end}" th:text="|${result.start} ~ ${result.end}|">
+                    	</span>
                         <div th:each="member : ${result.members}" class="dp-flex-center rank_member_info">
                             <th:block th:if="${member.memberId == result.club.clubLeader}">
                                 <div class="member_profile"

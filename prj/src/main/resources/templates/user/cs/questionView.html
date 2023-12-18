@@ -72,12 +72,12 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="row col-md-12 writeInput" th:if="${questionImg}">
 						<div class="imgFlex col-md-6" th:each="question, stat : ${questionImg}">
 							<img th:src="@{'/images/' + ${question.saveFile}}"
 								style="width:100%; max-width:100%; height:auto; display: inline;">
 						</div>
-					</div>
 				</div>
 	
 	
@@ -93,7 +93,7 @@
 						</div>
 					</div>
 				</div>
-				
+	
 				<div class="col-md-12 writeInput buttonFrom" th:if="${#lists.size(ans) == 0}">
 					<button type="reset" class="btn btn-secondary"
 						th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
@@ -109,8 +109,7 @@
 					</h4>
 					<div class="col-12 writeInput" th:each="ans, stat : ${ans}">
 						<div class="form-control" style="min-height: 100px; white-space: pre-line; font-size: 15px;"
-							th:text="${ans.answerContent}">
-						</div>
+							th:text="${ans.answerContent}"></div>
 					</div>
 				</div>
 	

@@ -73,7 +73,7 @@
         }
 
 
-/* 검색 */
+/* 寃��깋 */
 .products {
 	background: #fcfcfc;
 }
@@ -95,4 +95,40 @@
 .search-wrap {
 	background: #fff;
 	max-width: 450px;
+}
+
+.clubName {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f325f;
+}
+
+.clubIntro {
+    font-size: 15px;
+    color: gray;
+}
+.leader {
+	width: 22px;
+	margin-top: 3px;
+    margin-right: 5px;
+}
+
+.clubKing {
+    margin-top: 20px;
+}
+
+.text-bg-color {
+	display: inline-block;
+	background: #e6e6e6;
+	font-size: 12px;
+	padding: 5px 8px;
+	border-radius: 5px;
+	margin-right: 5px;
+    margin-top: 5px;
+	width: 73px;
+	text-align: center;
+} 
+
+.people {
+	margin-top : 10px;
 }
