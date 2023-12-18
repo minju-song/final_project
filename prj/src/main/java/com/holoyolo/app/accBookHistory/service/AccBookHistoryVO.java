@@ -18,6 +18,7 @@ public class AccBookHistoryVO {
 	private String memberId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate payDate;
+	private String payDateStr;
 	
 	//차트용 데이터
 	private int inputSum;

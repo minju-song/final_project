@@ -35,7 +35,7 @@ $(document).ready(function () {
 			.then(result => result.json())
 			.then(resolve => console.log(resolve));
 
-		data.date = data.date.substr(0, 21);
+		//data.date = data.date.substr(0, 21);
 		drawChat(data);
 	}
 });
@@ -102,19 +102,24 @@ function drawChat(data) {
 		let p = document.createElement('p');
 		p.setAttribute('class', 'sender');
 
+		let dates = data.date.split(":");
+
+		let date = dates[0] + " : " + dates[1];
+
 		if (data.memberId == memberId) {
 			div.classList.add('msg', 'me_div');
 			div2.setAttribute('class', 'me');
-			p.innerHTML = '<span style="padding:0 15px;">' + data.date + '</span>' + ' 나';
+			p.innerHTML = '<span style="padding:0 15px;">' + date + '</span>' + ' 나';
 		}
 		else {
 			div.classList.add('msg', 'other_div');
 			div2.setAttribute('class', 'other');
+
 			if (you.memberId == null) {
-				p.innerHTML = '알 수 없음' + '<span style="padding:0 15px;">' + data.date + '</span>';
+				p.innerHTML = '알 수 없음' + '<span style="padding:0 15px;">' + date + '</span>';
 			}
 			else {
-				p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date + '</span>';
+				p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + date + '</span>';
 			}
 		}
 
