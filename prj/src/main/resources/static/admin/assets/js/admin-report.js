@@ -203,7 +203,7 @@ $(document).ready(function () {
                                 <td><span id="badgeColor" class="badge ${colorMapping[item.reportType]} me-1">${item.reportType}</span></td>
                                 <td>${item.reportDate}</td>
                                 <td><span class="badge ${colorMapping[item.reportProcessType]} me-1">${item.reportProcessType}</span></td>
-                                <td>
+                                <!--<td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="bx bx-dots-vertical-rounded"></i>
@@ -213,7 +213,7 @@ $(document).ready(function () {
                                             <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> 삭제</a>
                                         </div>
                                     </div>
-                                </td>
+                                </td>-->
                             </tr>`;
 					$('tbody').append(template);
 

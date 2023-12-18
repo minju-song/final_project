@@ -40,7 +40,7 @@ let questionYn = "";
 									<td class="text-center"><span>${list.joinCnt} / </span><span >${list.clubPeople}</span></td>
 									<td>${list.clubDate}</td>
 									<td><span class="badge ${colorMapping[list.openScope]} me-1">${list.openScope}</span></td>
-									<td>
+									<!--<td>
 										<div class="dropdown">
 											<button type="button"
 												class="btn p-0 dropdown-toggle hide-arrow"
@@ -54,7 +54,7 @@ let questionYn = "";
 													class="bx bx-trash me-1"></i> 삭제</a>
 											</div>
 										</div>
-									</td>
+									</td>-->
 								</tr>
                             `;
 					$('tbody').append(template);
