@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.holoyolo.app.answer.service.AnswerService;
+import com.holoyolo.app.answer.service.AnswerVO;
 import com.holoyolo.app.attachment.service.AttachmentService;
 import com.holoyolo.app.attachment.service.AttachmentVO;
 import com.holoyolo.app.auth.PrincipalDetails;
@@ -138,8 +139,9 @@ public class QuestionController {
 		attachmentVO.setPostId(questionVO.getQuestionId());
 		attachmentVO.setMenuType("AA8");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
-
-		mo.addAttribute("ans", answerService.selectAnswerAll(questionVO));
+		List<AnswerVO> qnA =  answerService.selectAnswerAll(questionVO);
+		System.out.println(qnA);
+		mo.addAttribute("ans", qnA);
 		mo.addAttribute("menuType", "1:1 문의");
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("questionVO", vo.get("questionInfo"));

@@ -266,11 +266,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 	}
 
 	@Override
-	public int deleteCSAttachment(int boardId, String menuType, String originname) {
+	public int deleteCSAttachment(int boardId, String menuType, String fileName) {
 		AttachmentVO attachmentVO = new AttachmentVO();
 		attachmentVO.setPostId(boardId);
 		attachmentVO.setMenuType(menuType);
-		attachmentVO.setOriginFile(originname);
+		attachmentVO.setSaveFile(fileName);
 		return attachmentMapper.deleteCSAttachment(attachmentVO);
 	}
 

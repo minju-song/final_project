@@ -91,7 +91,8 @@ System.out.println(boardVO);
 		attachmentVO.setMenuType("AA6");
 		Map<String, List<AttachmentVO>> returnMap = attachmentService.getCSAttachmentList(attachmentVO);
 
-		System.out.println(returnMap);
+		System.out.println("imgList : " +returnMap.get("imgList"));
+		System.out.println("attachList : " + returnMap.get("attachList"));
 		mo.addAttribute("menu", "cs");
 		mo.addAttribute("boardVO", vo);
 		mo.addAttribute("loginId", loginId);

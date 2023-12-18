@@ -11,16 +11,18 @@ function fileDeleteBtn(e) {
 
 
   if (location.pathname == "/cs/help/question/update") {
-    menuType == "AA8"
+    menuType = "AA8"
   } else if (location.pathname == "/cs/help/notice/update") {
-    menuType == "AA6"
+    menuType = "AA6"
   }
 
   $.ajax({
-    url: '/member/attachment/delete',  //이동할 jsp 파일 주소
+    url: '/member/attachment/delete',  
     data: { saveFile, postId, menuType },
     success: function (data) {   //데이터 주고받기 성공했을 경우 실행할 결과
       console.log("성공");
+
+      console.log(saveFile +"==" + postId +"==" + menuType)
       e.target.parentElement.remove();
     },
     error: function () {   //데이터 주고받기가 실패했을 경우 실행할 결과
