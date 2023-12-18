@@ -2,6 +2,7 @@ package com.holoyolo.app.board.service.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,13 +162,15 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	public int updateNotice(BoardVO boardVO, List<AttachmentVO> imgList, List<AttachmentVO> attachList) {
 		boardVO.setMenuType("AA6");
-		// 기존 첨부파일 삭제
 
 		// 본문 내용 UPDATE
 		int result = boardMapper.updateBoard(boardVO);
+
 		// 중복 파일 제거
 		if (imgList != null) {
 			for (AttachmentVO vo : imgList) {
+				vo.setPostId(boardVO.getBoardId());
+				vo.setMenuType(boardVO.getMenuType());
 				List<AttachmentVO> saveList = attachmentService.getAttachmentList(vo);
 				for (AttachmentVO vos : saveList) {
 					if (vo.getOriginFile() == vos.getOriginFile()) {
@@ -175,24 +178,23 @@ public class BoardServiceImpl implements BoardService {
 						break;
 					}
 				}
-
-				vo.setMenuType("AA6");
-				vo.setPostId(boardVO.getBoardId());
-				attachmentService.insertAttachment(vo);
 			}
 		}
-		// 이미지 및 첨부파일 새로 등록
+		
+		// 기존 첨부파일 삭제 후 새로 등록
+
+		AttachmentVO attach = new AttachmentVO();
+		attach.setMenuType("AA6");
+		attach.setPostId(boardVO.getBoardId());
+		Map<String, List<AttachmentVO>> sourceList = attachmentService.getCSAttachmentList(attach);
+		List<AttachmentVO> attList = sourceList.get("attachList");
+		for (AttachmentVO deleteAtt : attList) {
+			deleteAtt.setMenuType("AA6");
+			deleteAtt.setPostId(boardVO.getBoardId());
+			attachmentService.deleteAttachment(deleteAtt);
+		}
 		if (attachList != null) {
 			for (AttachmentVO vo : attachList) {
-
-				List<AttachmentVO> saveAttachList = attachmentService.getAttachmentList(vo);
-				for (AttachmentVO vos : saveAttachList) {
-					if (vo.getOriginFile() == vos.getOriginFile()) {
-						attachList.remove(vo);
-						break;
-					}
-				}
-
 				vo.setMenuType("AA6");
 				vo.setPostId(boardVO.getBoardId());
 				System.out.println(attachList);
