@@ -12,7 +12,7 @@
 
 <body>
     <div layout:fragment="content" style="width: 80%; margin: 0 auto;">
-        <h5>[[${result.club.clubName}]]의 리뷰</h5>
+        <h4><strong>[[${result.club.clubName}]]</strong>의 리뷰</h4>
         <hr>
         <div class="avg">
             <h5>평균평점
@@ -73,7 +73,8 @@
 
                             <div th:id="'updateInput_' + ${review.reviewId}" style="display: none;">
                                 <textarea class="writeArea" type="text">[[${review.contents}]]</textarea>
-                                <button class="navyBtn" th:onclick="'updateReview(\'' + ${review.reviewId} + '\',event)'">수정</button>
+                                <button class="navyBtn"
+                                    th:onclick="'updateReview(\'' + ${review.reviewId} + '\',event)'">수정</button>
                             </div>
                         </div>
 

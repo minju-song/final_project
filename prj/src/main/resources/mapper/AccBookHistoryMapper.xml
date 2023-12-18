@@ -73,10 +73,10 @@
 	  <!-- 해당 월 총 소비금액 -->
 	  <select id="getMonthPrice" parameterType="AccBookHistoryVO" resultType="int">
         SELECT NVL(SUM(price),0)
-        FROM acc_book_history
-        WHERE pay_date
-        BETWEEN (TO_CHAR(TRUNC(#{payDate},'MM'),'YYYY-MM-DD')) AND (TO_CHAR(LAST_DAY(#{payDate}),'YYYY-MM-DD'))
-        AND member_id = #{memberId}
+		FROM acc_book_history
+		WHERE pay_date
+		BETWEEN TO_DATE(SUBSTR(#{payDateStr}, 1, 7) || '-01','YYYY-MM-DD') AND LAST_DAY(TO_DATE(#{payDateStr},'YYYY-MM-DD'))
+		AND member_id = #{memberId}
 	  </select>
 	  
 	  <!-- 삭제 -->

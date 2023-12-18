@@ -4,6 +4,8 @@ package com.holoyolo.app.accBookHistory.service.impl;
 
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -71,7 +73,11 @@ public class AccBookHistoryServiceImpl implements AccBookHistoryService {
 	//현재 월 총 소비금액
 	@Override
 	public int getMonthPrice(AccBookHistoryVO vo) {
-
+		System.out.println(">>>>>>>>>>>>>출력>>>>>>>>>>"+vo.getPayDate());
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = vo.getPayDate().format(formatter);
+		vo.setPayDateStr(formattedDate);
 		int price = accBookHistoryMapper.getMonthPrice(vo);
 		
 		

@@ -83,15 +83,18 @@ function drawChat(data) {
         let p = document.createElement('p');
         p.setAttribute('class', 'sender');
 
+        let dates = data.date.split(":");
+
+        let date = dates[0] + " : " + dates[1];
         if (data.memberId == memberId) {
             div.classList.add('msg', 'me_div');
             div2.setAttribute('class', 'me');
-            p.innerHTML = '<span style="padding:0 15px;">' + data.date.substr(0, 21) + '</span>' + ' 나';
+            p.innerHTML = '<span style="padding:0 15px;">' + date + '</span>' + ' 나';
         }
         else {
             div.classList.add('msg', 'other_div');
             div2.setAttribute('class', 'other');
-            p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + data.date.substr(0, 21) + '</span>';
+            p.innerHTML = data.memberName + '<span style="padding:0 15px;">' + date + '</span>';
         }
 
         if (data.type == 'notice') {
@@ -127,7 +130,7 @@ function drawChat(data) {
 //공지설정
 function insertNotice(data) {
     console.log(data);
-    
+
 
     let temp = JSON.stringify(data);
 
@@ -239,9 +242,11 @@ function noticeList() {
         })
 }
 
-function dateFormat(str) {
-    let date = new Date(str);
-    console.log(str, ' ', date);
+function dateFormat(date) {
+    // date = new Date(date);
+    console.log(date);
+    // console.log(str, ' ', date);
+
     let newDate = date.getFullYear() + '년 ' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
         '월' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()))
         + '일  ' + ((date.getHours() + 1) <= 9 ? "0" + (date.getHours()) : (date.getHours())) + '시 ' + ((date.getMinutes()) <= 9 ? "0" + (date.getMinutes()) : (date.getMinutes())) + '분';
