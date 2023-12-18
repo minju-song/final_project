@@ -1,9 +1,8 @@
 @charset "UTF-8";
 
 /* 중고거래 리스트 페이지 시작 */
-
-body{
-	/* overflow-x: hidden; */
+:focus {
+	border: 1px solid black;
 }
 .products {
 	background: #f8f9fa;
@@ -443,7 +442,7 @@ input{
     line-height: 1.5;
     color: #212529;
     background-color: #fff;
-    background-image: var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none);
+   /*  background-image: var(--bs-form-select-bg-img),var(--bs-form-select-bg-icon,none); */
     background-repeat: no-repeat;
     background-position: right .75rem center;
     background-size: 16px 12px;

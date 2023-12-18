@@ -64,7 +64,7 @@ public class EmailController {
 	@PostMapping("/sendmail/requestclub")
 	public void sendRequestMail(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody ClubVO vo) {
 		EmailVO emailVO = EmailVO.builder()
-				.to("songjaeskkk@naver.com")
+				.to(vo.getClubLeader())
 				.subject(vo.getClubName()+"모임에 대한 가입요청 메일입니다.")
 				.clubId(vo.getClubId())
 				.clubName(vo.getClubName())

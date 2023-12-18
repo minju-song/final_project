@@ -21,7 +21,7 @@
 					method="POST" th:object="${tradeVO}" enctype="multipart/form-data">
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
-						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required th:field="*{title}">
+						<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required th:field="*{title}" autofocus>
 					</div>
 					<div class="col-md-3 writeInput">
 						<label for="tradeCategory" class="form-label">상품카테고리<span class="star">*</span></label> 

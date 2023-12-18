@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html  xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/layout}">
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
-<meta charset="UTF-8">
-<title>holoyolo::알뜰모임</title>
+
+	<meta charset="utf-8">
+	<title>holoyolo::알뜰모임</title>
+	<link rel="icon" th:href="@{/user/images/common/favicon2.png}">
+	<style>
+		body {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			min-height: 100vh;
+			background-color: #FAC9CC;
+		}
+
+		.img_wrap {
+			position: relative;
+			width: 100%;
+			margin: auto;
+			background: url("/user/images/noticepage/mandate.png") no-repeat center center;
+			height: 800px;
+			background-size: contain;
+			overflow: hidden;
+		}
+
+		button {
+			position: absolute;
+			bottom: 37px;
+			left: 527px;
+			width: 107px;
+			height: 55px;
+			border-radius: 25px;
+			background: transparent;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+
 </head>
+
 <body>
-	<div layout:fragment="content">	
-		<h1>[[${clubname}]]의 모임장이 되었습니다!</h1>
+	<div class="img_wrap">
+		<button type="button" th:onclick="|location.href='@{/}'|"></button>
 	</div>
 </body>
+
 </html>
