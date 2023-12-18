@@ -67,15 +67,17 @@ public class ClubMemberController {
 		if(clubMemberService.acceptClub(vo).equals("success")) {
 			joinMap.put("joinRes", "success");
 			joinMap.put("member", vo.getMemberId());
+			model.addAttribute("joinResult", joinMap);
+			return "user/club/joinClub";
 		}
 		else {
 			joinMap.put("joinRes", "fail");
 			joinMap.put("member", vo.getMemberId());
+			model.addAttribute("joinResult", joinMap);
+			return "user/club/failJoinClub";
 		}
-		
-		model.addAttribute("joinResult", joinMap);
+	
 
-		return "user/club/joinClub";
 	}
 	
 	//클럽탈퇴
