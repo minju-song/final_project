@@ -90,14 +90,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 				if (type.equals("notice") || type.equals("questionImg")) {
 					if (uploadFile.isEmpty()) {
-						System.err.println("this file is not image type 1");
+						System.err.println("this file is not image type 111");
 						return null;
 					}
 				}
 
 				if (type.equals("noticeAttach") || type.equals("questionAttach")) {
 					if (uploadFile.isEmpty()) {
-						System.err.println("this file is not image type 2");
+						System.err.println("this file is not image type 222");
 						return null;
 					}
 				}
