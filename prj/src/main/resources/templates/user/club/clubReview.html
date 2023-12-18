@@ -36,10 +36,8 @@
                             <span class="star on" value="4"> </span>
                             <span class="star on" value="5"> </span>
                         </div>
-                        <!-- <input id="writeContents"> -->
                         <textarea id="writeContents" class="writeArea"></textarea>
-                        <img class="imgIconPlus" onclick="reviewWrite()" th:src="@{/user/images/icon/add.png}">
-                        <!-- <button onclick="reviewWrite()">작성</button> -->
+                        <button class="navyBtn" onclick="reviewWrite()">등록</button>
                     </th:block>
                 </div>
                 <div id="completeReview">
@@ -75,7 +73,7 @@
 
                             <div th:id="'updateInput_' + ${review.reviewId}" style="display: none;">
                                 <textarea class="writeArea" type="text">[[${review.contents}]]</textarea>
-                                <button th:onclick="'updateReview(\'' + ${review.reviewId} + '\',event)'">수정</button>
+                                <button class="navyBtn" th:onclick="'updateReview(\'' + ${review.reviewId} + '\',event)'">수정</button>
                             </div>
                         </div>
 

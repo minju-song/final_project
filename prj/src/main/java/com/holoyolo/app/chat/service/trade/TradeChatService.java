@@ -83,7 +83,7 @@ public class TradeChatService {
 	    //채팅저장
 	    public int insertChat(String str) {
 	    	ObjectMapper objectMapper = new ObjectMapper();
-	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a H:mm:ss", new Locale("ko", "KR"));
+	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a KK:mm:ss", new Locale("ko", "KR"));
 	    	TradeChatVO chatObj = null;
 			try {
 				chatObj = objectMapper.readValue(str, TradeChatVO.class);

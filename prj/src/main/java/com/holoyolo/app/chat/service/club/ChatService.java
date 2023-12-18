@@ -72,7 +72,7 @@ public class ChatService {
     	System.out.println("들어온 메시지 : "+chat);
     	
     	ObjectMapper objectMapper = new ObjectMapper();
-    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a H:mm:ss", new Locale("ko", "KR"));
+    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy. MM. dd. a KK:mm:ss", new Locale("ko", "KR"));
     	
     	//json -> 객체
     	ChatVO chatObj = null;

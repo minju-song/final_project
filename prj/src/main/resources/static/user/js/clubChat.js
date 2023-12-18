@@ -127,7 +127,7 @@ function drawChat(data) {
 //공지설정
 function insertNotice(data) {
     console.log(data);
-
+    
 
     let temp = JSON.stringify(data);
 
@@ -244,6 +244,6 @@ function dateFormat(str) {
     console.log(str, ' ', date);
     let newDate = date.getFullYear() + '년 ' + ((date.getMonth() + 1) <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
         '월' + ((date.getDate()) <= 9 ? "0" + (date.getDate()) : (date.getDate()))
-        + '일  ' + ((date.getHours() + 1) <= 9 ? "0" + (date.getHours() + 1) : (date.getHours() + 1)) + '시 ' + ((date.getMinutes() + 1) <= 9 ? "0" + (date.getMinutes() + 1) : (date.getMinutes() + 1)) + '분';
+        + '일  ' + ((date.getHours() + 1) <= 9 ? "0" + (date.getHours()) : (date.getHours())) + '시 ' + ((date.getMinutes()) <= 9 ? "0" + (date.getMinutes()) : (date.getMinutes())) + '분';
     return newDate;
 }
