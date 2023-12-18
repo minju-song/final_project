@@ -65,14 +65,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12 writeInput buttonFrom" >
-				<!-- th:if="${ans} == null" -->
+			
+			<div class="col-md-12 writeInput buttonFrom" th:if="${#lists.size(ans) == 0}">
+				
 				<button type="reset" class="btn btn-secondary"
 					th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
 				<button type="submit" class="btn btn-primary" id="deleteBtn">삭제</button>
 			</div>
 			<!--/* 답변*/-->
-			<div class="row" th:unless="${ans} == null">
+			<div class="row" th:unless="${#lists.size(ans) == 0}">
 				<h4>관리자 답변</h4>
 				<div class="col-12 writeInput" th:each="ans, stat : ${ans}">
 					<div class="form-control" style="min-height: 100px; white-space: pre-line;"

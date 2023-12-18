@@ -34,27 +34,29 @@
 					<div class="form-control" id="description" style="height: 300px; white-space: pre-line;" required
 						th:text="*{content}">
 
-						<div class="col-12 writeInput" th:if="${noticeAttach} != null">
-							<div class="input-group mb-3">
-								<span class="input-group-text">첨부파일</span>
-								<div th:each="notice, stat : ${noticeAttach}" class="form-control">
-									<div id="noticeAtach" aria-describedby="basic-addon3">
-										<a th:href="@{'/download?saveFile=' + ${notice.saveFile}}"
-											th:text="${notice.originFile}"></a>
 
-									</div>
-								</div>
-							</div>
-						</div>
+					</div>
 
-						<div class="row col-md-12 writeInput">
-							<div class="imgFlex col-md-6" th:each="notice, stat : ${noticeImg}">
-								<img th:src="@{'/images/' + ${notice.saveFile}}"
-									style="width:100%; max-width:100%; height:auto; display: inline;">
+					<div><span>조회수 : </span><span th:text="*{views}"></span></div>
+				</div>
+				<div class="col-12 writeInput" th:if="${noticeAttach} != null">
+					<div class="input-group mb-3">
+						<span class="input-group-text">첨부파일</span>
+						<div th:each="notice, stat : ${noticeAttach}" class="form-control">
+							<div id="noticeAtach" aria-describedby="basic-addon3">
+								<a th:href="@{'/download?saveFile=' + ${notice.saveFile}}"
+									th:text="${notice.originFile}"></a>
+
 							</div>
 						</div>
 					</div>
-					<div><span>조회수 : </span><span th:text="*{views}"></span></div>
+				</div>
+
+				<div class="row col-md-12 writeInput">
+					<div class="imgFlex col-md-6" th:each="notice, stat : ${noticeImg}">
+						<img th:src="@{'/images/' + ${notice.saveFile}}"
+							style="width:100%; max-width:100%; height:auto; display: inline;">
+					</div>
 				</div>
 			</div>
 

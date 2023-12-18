@@ -80,6 +80,6 @@
 		DELETE FROM attachment
 		WHERE menu_type =#{menuType}
 		AND post_id = #{postId}
-		AND ORIGIN_FILE = #{originFile}
+		AND SAVE_FILE = #{saveFile}
 	</delete>
 </mapper>
