@@ -694,3 +694,23 @@
 			}
 		})
 	}
+	
+	document.getElementById('search_input').addEventListener('change', function (e) {
+		let tag = $('.tagify').find('.tagify__tag-text');
+		let memo =document.querySelectorAll('.memo');
+		if($('#search_input')[0].value != ''){
+			for(let i=1; i<memo.length; i++){
+				memo[i].style.display = 'none';
+			}
+			for(let e=0; e<tag.length; e++){
+				if($('#search_input')[0].value == tag[e].innerText){
+				console.log($(tag)[e].closest('.memo').style)
+					$(tag)[e].closest('.memo').style.display = 'block';
+				}
+			}
+		}else{
+			for(let i=2; i<memo.length; i++){
+				memo[i].style.display = 'block';
+			}
+		}
+	})
