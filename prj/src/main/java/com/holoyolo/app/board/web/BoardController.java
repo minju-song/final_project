@@ -179,13 +179,11 @@ public class BoardController {
 	@GetMapping("/member/myCommunity")
 	public String myCommList(Model mo, @AuthenticationPrincipal PrincipalDetails prd,
 			@PageableDefault(size = 10) Pageable pageable) {
-		List<BoardVO> infoList = boardService.myBoardList("AA2", (String) prd.getUsername());
-		List<BoardVO> chatList = boardService.myBoardList("AA3", (String) prd.getUsername());
+		List<BoardVO> boardList = boardService.myBoardList(prd.getUsername());
 		List<BoardVO> infoReplyList = boardService.myReplyBoardList("AA2", (String) prd.getUsername());
 		List<BoardVO> chatReplyList = boardService.myReplyBoardList("AA3", (String) prd.getUsername());
 
-		mo.addAttribute("infoList", infoList);
-		mo.addAttribute("chatList", chatList);
+		mo.addAttribute("boardList", boardList);
 		mo.addAttribute("infoReplyList", infoReplyList);
 		mo.addAttribute("chatReplyList", chatReplyList);
 

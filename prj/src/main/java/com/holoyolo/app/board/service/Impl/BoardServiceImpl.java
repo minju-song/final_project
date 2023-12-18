@@ -209,9 +209,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> myBoardList(String menuType, String memberId) {
+	public List<BoardVO> myBoardList(String memberId) {
 		BoardVO vo = new BoardVO();
-		vo.setMenuType(menuType);
 		vo.setMemberId(memberId);
 		return boardMapper.myBoardList(vo);
 	}
