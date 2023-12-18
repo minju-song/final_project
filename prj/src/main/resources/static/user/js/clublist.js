@@ -152,10 +152,10 @@ function drawClub(clubArr) {
             ? clubArr[i].clubIntro.substring(0, maxChars) + "..."
             : clubArr[i].clubIntro;
 
-        divInfo.innerHTML = '<div class="clubName">모임명 : ' + clubArr[i].clubName + '</div>'
-            + '<div class="clubIntro">모임소개 : ' + shortIntro + '</div>'
-            + '<div class="clubKing">모임장 : ' + clubArr[i].leaderName + '</div>'
-            + '<div class="people">' + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + ' [가입인원 / 모집인원]</div>';
+        divInfo.innerHTML = '<div class="clubName">' + clubArr[i].clubName + '</div>'
+            + '<div class="clubIntro">' + shortIntro + '</div>'
+            + '<div class="clubKing"><img class="leader" alt="모임장로고" src="/user/home/images/leader.svg"> ' + clubArr[i].leaderName + '</div>'
+            + '<div class="people"><span class="text-bg-color">가입인원</span>' + clubArr[i].joinCnt + ' / ' + clubArr[i].clubPeople + '</div>';
 
         //버튼생성
         let btn = document.createElement('button');
