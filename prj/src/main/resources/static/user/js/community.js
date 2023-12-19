@@ -146,7 +146,8 @@ function updateTable(data, page) {
             row.append($("<td class='board-date'>").text(formatDate(item.writeDate)).css('text-align', 'center'));
             if (searchBoardSet == 'AA2') {
                 row.append($("<td class='board-nickname'>").text(item.nickname));
-            } else if (searchBoardSet == "AA6") {
+            }
+            if (searchBoardSet == "AA6") {
                 row.append($("<td class='board-likeAndView'>").append(`<span class="view-icon">${item.views}</span>`));
             } else if (searchBoardSet != 'AA8') {
                 row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`))
