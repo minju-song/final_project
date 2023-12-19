@@ -339,3 +339,81 @@ select option {
 .page-link {
 	color: #6c6c6c;
 }
+
+
+
+@media only screen and (max-width: 575px) {
+	.slider-item {
+		padding-top: 70px !important;
+	}
+	.logo img {
+		width: 107px;
+	}
+	.products {
+		padding-top: 0;
+	}
+	.listDiv .card {
+		max-width: 420px;
+		min-width: inherit !important;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	#my_profile {
+		padding-top: 0 !important;
+	}
+	
+}
+
+
+@media only screen and (max-width: 991px) {
+	.slider-item {
+		background-position: 23% 50% !important;
+	}
+	
+	#my_profile {
+		flex-direction: column ;
+    	justify-content: center;
+	}
+	#holopayWrap {
+		width: 100% !important;
+	}
+	.balance_warp {
+		width: 90% !important;
+	}
+	.title_wrap {
+		align-items: flex-start;
+	}
+	.title_wrap .display_flex {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	#imageWrap {
+		width: 100% !important;
+	}
+	#memberProfile {
+		margin-right: 0 !important;
+	}
+	
+	/* 홀로페이 */
+	.hp_container > .row {
+		flex-direction: column;
+	}
+	.hp_container .col-6 {
+		width: 100%;
+		max-width: 100%;
+	}
+	.hp_container .col-7, .hp_container .col-5 {
+	
+	}
+	
+	/* 관심목록 */
+	#tradeList {
+		justify-content: center !important;
+	}
+	
+	/* 알뜰모임 */
+	.listDiv {
+		justify-content: space-between !important;
+	}
+}
