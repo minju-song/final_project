@@ -148,10 +148,10 @@ function updateTable(data, page) {
             } else if (searchBoardSet == 'AA2') {
                 row.append($("<td class='board-nickname'>").text(item.nickname));
             }
-            if(searchBoardSet !='AA8'){
+            if (searchBoardSet != 'AA8') {
                 row.append($("<td class='board-likeAndView'>").append(`<span class="like-icon">${item.likeCount}</span><span class="view-icon">${item.views}</span>`));
             }
-            
+
 
             tbody.append(row);
         });
@@ -575,55 +575,58 @@ function setupReplyPagination(totalPages) {
 
     const paginationContainer = document.getElementById("pagination-container");
     if (paginationContainer) {
-        paginationContainer.innerHTML = "";
-        let navElement = document.createElement("nav");
-        let ulElement = document.createElement("ul");
-        ulElement.className = "pagination";
-        navElement.setAttribute("aria-label", "...");
-        // Previous Button
-        let previousLi = document.createElement("li");
-        previousLi.className = "page-item";
-        let previousLink = document.createElement("a");
-        previousLink.className = "page-link";
-        previousLink.href = "#";
-        previousLink.innerText = "이전";
-        previousLink.addEventListener("click", function () {
-            if (currentPage > 1) {
-                replyLoad(currentPage - 1);
-            }
-        });
-        previousLi.appendChild(previousLink);
-        ulElement.appendChild(previousLi);
-
-        // Page Buttons
-        for (let i = 1; i <= totalPages; i++) {
-            let li = document.createElement("li");
-            li.className = "page-item";
-            let link = document.createElement("a");
-            link.className = "page-link";
-            link.href = "#";
-            link.innerText = i;
-            link.addEventListener("click", function () {
-                replyLoad(i);
+        if (totalPages > 1) {
+            paginationContainer.innerHTML = "";
+            let navElement = document.createElement("nav");
+            let ulElement = document.createElement("ul");
+            ulElement.className = "pagination";
+            navElement.setAttribute("aria-label", "...");
+            // Previous Button
+            let previousLi = document.createElement("li");
+            previousLi.className = "page-item";
+            let previousLink = document.createElement("a");
+            previousLink.className = "page-link";
+            previousLink.href = "#";
+            previousLink.innerText = "이전";
+            previousLink.addEventListener("click", function () {
+                if (currentPage > 1) {
+                    replyLoad(currentPage - 1);
+                }
             });
-            li.appendChild(link);
-            ulElement.appendChild(li);
-        }
-        // Next Button
-        let nextLi = document.createElement("li");
-        let nextLink = document.createElement("a");
-        nextLi.className = "page-item";
-        nextLink.className = "page-link";
-        nextLink.href = "#";
-        nextLink.innerText = "다음";
-        nextLink.addEventListener("click", function () {
-            replyLoad(currentPage + 1);
-        });
-        nextLi.appendChild(nextLink);
-        ulElement.appendChild(nextLi);
+            previousLi.appendChild(previousLink);
+            ulElement.appendChild(previousLi);
 
-        navElement.appendChild(ulElement);
-        paginationContainer.appendChild(navElement);
+            // Page Buttons
+            for (let i = 1; i <= totalPages; i++) {
+                let li = document.createElement("li");
+                li.className = "page-item";
+                let link = document.createElement("a");
+                link.className = "page-link";
+                link.href = "#";
+                link.innerText = i;
+                link.addEventListener("click", function () {
+                    replyLoad(i);
+                });
+                li.appendChild(link);
+                ulElement.appendChild(li);
+            }
+            // Next Button
+            let nextLi = document.createElement("li");
+            let nextLink = document.createElement("a");
+            nextLi.className = "page-item";
+            nextLink.className = "page-link";
+            nextLink.href = "#";
+            nextLink.innerText = "다음";
+            nextLink.addEventListener("click", function () {
+                replyLoad(currentPage + 1);
+            });
+            nextLi.appendChild(nextLink);
+            ulElement.appendChild(nextLi);
+
+            navElement.appendChild(ulElement);
+            paginationContainer.appendChild(navElement);
+        }
+
     }
 
 }

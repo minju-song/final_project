@@ -175,7 +175,7 @@ public class QuestionController {
 	}
 
 //수정페이지
-	@GetMapping("/cs/help/question/update")
+	@GetMapping("/member/cs/help/question/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
 			@RequestParam(name = "boardId") int questionId, Model mo, QuestionVO questionVO) {
 		String loginId = "not found";

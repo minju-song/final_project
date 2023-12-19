@@ -15,26 +15,31 @@
     <link th:href="@{/user/css/board.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/user/css/question.css}" rel="stylesheet" type="text/css">
     <style>
-    	input::placeholder {
-		  	color: #bbb;
-		  	font-size: 14px;
-		}
-		textarea::placeholder {
-		  	color: #bbb;
-		  	font-size: 14px;
-		}
-		#description {
-			padding: 18px;;
-		}
-		#noticeAttach, #openKakao {
-			font-size: 14px;
-		}
+        input::placeholder {
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        textarea::placeholder {
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        #description {
+            padding: 18px;
+            ;
+        }
+
+        #noticeAttach,
+        #openKakao {
+            font-size: 14px;
+        }
     </style>
 </head>
 
 <body>
     <div layout:fragment="content">
-        
+
         <div class="container">
             <h2 class="h2_title" th:text="${menuType}"></h2>
             <div>
@@ -42,7 +47,8 @@
                     th:object="${questionVO}" enctype="multipart/form-data">
                     <div class="col-md-12 writeInput">
                         <label for="title" class="form-label">제목<span class="star">*</span></label>
-                        <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" th:field="*{title}" required spellcheck="false"/>
+                        <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" th:field="*{title}"
+                            required spellcheck="false" />
                     </div>
                     <div class="d-flex align-items-center col-6 type-wrap">
                         <span class="form-label">문의 유형<span class="star">*</span></span>
@@ -80,7 +86,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 writeInput buttonFrom">
-                        <button type="reset" class="btn btn-secondary">취소</button>
+                        <a class="btn btn-secondary" th:href="@{/member/cs/help/question}">취소</a>
                         <button type="submit" class="btn btn-primary">등록</button>
                     </div>
                 </form>
@@ -91,7 +97,7 @@
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41f4363083eed1ec3ebd60c038e1c2b7&libraries=services"></script>
         <script src="/user/js/noticeInsert.js"></script>
         <script src="/user/js/community.js"></script>
-        
+
     </div>
 </body>
 
