@@ -44,7 +44,7 @@
 								<p class="mt-4" th:text="${info.content}">답변 내용</p>
 								<!-- 첨부파일 -->
 								<th:block th:each="img, stat : ${imgInfo}">
-									<img th:alt="${img.originFile}"
+									<img class="mb-3" th:alt="${img.originFile}"
 										th:src="@{/images/}+${img.saveFile}" style="width: 100%;">
 								</th:block>
 								<div class="col-12 writeInput" th:if="${attachInfo} != null">
