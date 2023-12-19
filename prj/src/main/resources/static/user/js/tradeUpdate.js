@@ -54,9 +54,13 @@ document.getElementById('placeSelectButton').addEventListener('click', function(
 
 //장소 선택 활성화&비활성화
 console.log(tradeType)
-if(tradeType = 'TA1'){
+if(tradeType == 'TA1'){
+	console.log("1번이요")
   	$('#placeSelectButton').attr("disabled", false);
   	$('#placeSelectButton').css("background-color", "#09203f");
+}else{
+console.log("2번이요")
+	$('#placeSelectButton').attr("disabled", true);
 }
 
 $(document).on("change", "select[id=tradeType]", function(){

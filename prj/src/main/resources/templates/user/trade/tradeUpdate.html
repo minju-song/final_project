@@ -87,7 +87,7 @@
 							<label for="tradePlace" class="form-label">거래희망장소</label>
 						</div>
 						<div class="d-flex">
-							<button type="button" class="placeSelectButton" id="placeSelectButton" disabled="disabled">
+							<button type="button" class="placeSelectButton" id="placeSelectButton">
 								<p>장소 선택 ></p>
 							</button>
 							<input type="text" class="form-control tradePlaceSelect" id="tradePlace" name="tradePlace" th:field="*{tradePlace}" th:style="${tradeInfo.tradePlace != null ? 'display: block;' : 'display: none;'}" readonly>
@@ -109,7 +109,7 @@
 			let tradePlace = `[[${tradeInfo.tradePlace}]]`;
 			let latitude = `[[${tradeInfo.latitude}]]`;
 			let longitude = `[[${tradeInfo.longitude}]]`;
-			let tradeType = `[[${tradeInfo.tradeType}]]`;
+			let tradeType = [[${tradeInfo.tradeType}]];
 			let imgSize = `[[${tradeImg.size}]]`;
 			let postId = `[[${tradeInfo.tradeId}]]`
 		</script>
