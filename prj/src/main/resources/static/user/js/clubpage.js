@@ -436,7 +436,7 @@ function memberInfo(mid, mname) {
             Swal.fire({
                 title: "<strong>" + mname + "</strong><span style='font-size:smaller;'> 님의 지난 성적 (최근 5회)</span>",
                 html: history,
-                showCloseButton: true,
+                showCloseButton: false,
                 showCancelButton: false,
                 focusConfirm: false,
                 confirmButtonText: `

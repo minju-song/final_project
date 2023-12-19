@@ -80,7 +80,7 @@ function delModal(e) {
                     if (result.result == "success") {
                         Swal.fire({
                             title: "삭제완료",
-                            text: "카드정보가 삭제되었습니다.",
+                            text: "등록된 카드정보가 삭제되었습니다.",
                             icon: "success"
                         }).then((result) => {
                             if (result.isConfirmed) {
@@ -127,9 +127,13 @@ function delBudget(e) {
                     if (result.result == "success") {
                         Swal.fire({
                             title: "삭제완료",
-                            text: "Your file has been deleted.",
+                            text: "등록된 예산이 삭제되었습니다.",
                             icon: "success"
-                        });
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        })
                     }
                     else {
                         Swal.fire({
@@ -139,7 +143,7 @@ function delBudget(e) {
                         });
                     }
 
-                    location.reload();
+                    // location.reload();
                 })
         }
     });
@@ -188,7 +192,7 @@ function getResult(date) {
                 title: date,
 
                 html: recordContent,
-                showCloseButton: true,
+                showCloseButton: false,
                 showCancelButton: false,
                 focusConfirm: false,
                 confirmButtonText: `확인`,
