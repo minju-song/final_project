@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/" 
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" 
-      layout:decorate="~{layout/layout}">
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
 
 <head>
 	<meta charset="UTF-8">
@@ -13,31 +11,33 @@
 	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css">
 	<link th:href="@{/user/css/community.css}" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="/user/css/board.css">
-    <link rel="stylesheet" type="text/css" href="/user/css/boardInsert.css">
+	<link rel="stylesheet" type="text/css" href="/user/css/boardInsert.css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body layout:fragment="content">
 	<div class="container post_update_view">
 		<div class="text-left dp_flex space_between align-center">
-            <h2 class="h2_title" th:if="${board.menuType}== AA2">정보공유</h2>
-	        <h2 class="h2_title" th:if="${board.menuType}== AA3">수다방</h2>
-        	<!--/* 저장 버튼 영역 */-->
+			<h2 class="h2_title" th:if="${board.menuType}== AA2">정보공유</h2>
+			<h2 class="h2_title" th:if="${board.menuType}== AA3">수다방</h2>
+			<!--/* 저장 버튼 영역 */-->
 			<div class="row">
 				<div id="saveBtnDiv" sec:authorize="isAuthenticated()">
 					<th:block sec:authorize="isAuthenticated()" th:if="${loginId == board.memberId}">
-						<button type="button" class="btns save btn-primary" th:onclick="savePost([[${board.boardId}]]);">저장하기</button>
-						<input type="hidden" id="memberId" name="memberId" th:value="${#authentication.principal.memberVO.memberId}">
+						<button type="button" class="btns save btn-primary"
+							th:onclick="savePost([[${board.boardId}]]);">저장하기</button>
+						<input type="hidden" id="memberId" name="memberId"
+							th:value="${#authentication.principal.memberVO.memberId}">
 					</th:block>
 					<a th:onclick="'location.href=\'/member/board/view?boardId='+ @{${board.boardId}} + '\''"
 						class="btns back">뒤로 가기</a>
 				</div>
 			</div>
-        </div>
-		
+		</div>
+
 		<div class="row">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="제목" id="title">
+				<input type="text" class="form-control" placeholder="제목" id="title" maxlength="50">
 			</div>
 			<!--/* 에디터 콘텐츠 렌더링 영역 */-->
 			<div id="viewer"></div>
@@ -50,19 +50,19 @@
 		window.onload = async () => {
 			findPost();
 		}
-		
+
 		// sweet alert
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'center',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
+		const Toast = Swal.mixin({
+			toast: true,
+			position: 'center',
+			showConfirmButton: false,
+			timer: 2000,
+			timerProgressBar: true,
+			didOpen: (toast) => {
+				toast.addEventListener('mouseenter', Swal.stopTimer)
+				toast.addEventListener('mouseleave', Swal.resumeTimer)
+			}
+		})
 
 
 		let editor;
@@ -79,7 +79,7 @@
 			const post = await response.json();
 			console.log(post)
 			let title = document.getElementById('title')
-			title.value= post.title
+			title.value = post.title
 			// 3. 에디터 콘텐츠 렌더링
 			editor = new toastui.Editor({
 				el: document.querySelector('#viewer'),      // 에디터를 적용할 요소 (컨테이너)
@@ -129,6 +129,12 @@
 			if (editor.getMarkdown().length < 1) {
 				alert('에디터 내용을 입력해 주세요.');
 				throw new Error('editor content is required!');
+			} else if (editor.getMarkdown().length > 2000) {
+				Toast.fire({
+					icon: 'warning',
+					title: '최대 문자 길이는 2000자 입니다'
+				})
+				throw new Error('editor content is required!');
 			}
 
 			// 2. url, parameter 세팅
@@ -154,10 +160,10 @@
 
 				const postId = await response.json();
 				await Toast.fire({
-                    icon: 'success',
-                    title: '게시글이 수정되었습니다!'
-                })
-				
+					icon: 'success',
+					title: '게시글이 수정되었습니다!'
+				})
+
 				location.href = '/member/board/view?boardId=' + boardId;
 
 			} catch (error) {

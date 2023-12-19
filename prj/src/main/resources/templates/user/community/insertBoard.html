@@ -43,7 +43,7 @@
                 </div>
                 <div class="row">
                     <div class="input-group">
-                        <input type="text" placeholder="제목" id="title">
+                        <input type="text" placeholder="제목" id="title" maxlength="50">
                     </div>
                     <!--/* 에디터 컨텐츠 */-->
                     <div id="content"></div>
@@ -131,6 +131,12 @@
                         Toast.fire({
                             icon: 'warning',
                             title: '내용을 입력해주세요!'
+                        })
+                        throw new Error('editor content is required!');
+                    }else if (editor.getMarkdown().length > 2000) {
+                        Toast.fire({
+                            icon: 'warning',
+                            title: '최대 문자 길이는 2000자 입니다'
                         })
                         throw new Error('editor content is required!');
                     }

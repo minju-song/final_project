@@ -60,12 +60,12 @@ public class HoloPayController {
 		financeVO.setMemberId(memberId);
 		financeVO = memberFinanceInfoService.selectMemberFinanceInfo(financeVO);
 
-		if (financeVO.getBankname() == null) {
+		if (financeVO != null && financeVO.getBankname() == null) {
 			mo.addAttribute("financeVO", null);
 		} else {
 			mo.addAttribute("financeVO", financeVO);
 			// 홀로페이
-			
+
 			int holoBalance = holoPayHistoryService.holopayBalance(memberVO);
 			mo.addAttribute("payBalance", holoBalance);
 		}
