@@ -109,3 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+
+let cancelBtn = document.getElementById('cancelBtn');
+cancelBtn.addEventListener('click', (e) => { location.href = "/cs/help/notice"});
