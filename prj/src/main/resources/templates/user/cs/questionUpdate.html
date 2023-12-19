@@ -88,7 +88,7 @@
 					</div>
 
 					<div class="col-md-12 writeInput buttonFrom">
-						<button type="reset" class="btn btn-secondary" id="cancelBtn">취소</button>
+						<a type="button" class="btn btn-secondary" id="cancelBtn"  th:href="@{/member/cs/help/qna/view(id=${questionVO.questionId})}">취소</a>
 						<button type="submit" class="btn btn-primary">등록</button>
 					</div>
 				</form>

@@ -96,7 +96,7 @@
 	
 				<div class="col-md-12 writeInput buttonFrom" th:if="${#lists.size(ans) == 0}">
 					<button type="reset" class="btn btn-secondary"
-						th:onclick="'location.href=\'/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
+						th:onclick="'location.href=\'/member/cs/help/question/update?boardId=' + ${questionVO.questionId} + '\''">수정</button>
 					<button type="submit" class="btn btn-primary" id="deleteBtn">삭제</button>
 					<button type="reset" class="btn btn-secondary"
 						onclick="location.href = '/member/cs/help/question'">목록으로</button>
