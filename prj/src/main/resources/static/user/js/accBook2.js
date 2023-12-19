@@ -225,7 +225,7 @@ function aboutNotice() {
         title: `<h3 style="color:#7a9cc6; font-weight:bold;">가계부 이용방법</h3>`,
 
         html: about,
-        showCloseButton: true,
+        showCloseButton: false,
         showCancelButton: false,
         focusConfirm: false,
         confirmButtonText: `확인`,
