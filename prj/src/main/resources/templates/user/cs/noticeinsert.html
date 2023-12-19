@@ -5,30 +5,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title>holoyolo::공지사항</title>
-	<link th:href="@{/user/css/trade.css}" rel="stylesheet" type="text/css">
 	<!-- 소스 다운 -->
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<!-- 폴리필 (구버젼 브라우저 지원) -->
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-	<style>
-		.card {
-			border: none;
-			box-shadow: none;
+	<link th:href="@{/user/css/pay.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/board.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/user/css/question.css}" rel="stylesheet" type="text/css">
+    <style>
+    	input::placeholder {
+		  	color: #bbb;
+		  	font-size: 14px;
 		}
-	</style>
+		textarea::placeholder {
+		  	color: #bbb;
+		  	font-size: 14px;
+		}
+		#description {
+			padding: 18px;;
+		}
+		#noticeAttach, #openKakao {
+			font-size: 14px;
+		}
+    </style>
 </head>
 
 <body>
 	<div layout:fragment="content">
-		<div class="text-left dp_flex space_between align-center">
+		<div class="container">
 			<h2 class="h2_title" th:text="${menuType}"></h2>
-
-		</div>
-		<div class="card">
-			<div class="card-body">
-				<form class="row g-3" th:action="@{/notice/insert}" method="POST" th:object="${boardVO}"
+			<div>
+				<form class="row g-3 insert_wrap" th:action="@{/notice/insert}" method="POST" th:object="${boardVO}"
 					enctype="multipart/form-data">
 					<div class="col-md-12 writeInput">
 						<label for="title" class="form-label">제목<span class="star">*</span></label>
@@ -38,7 +47,8 @@
 					<div class="col-12 writeInput">
 						<textarea class="form-control" id="description"
 							style="min-height: 300px; white-space: break-spaces;" required th:field="*{content}"
-							maxlength="1000"></textarea>
+							maxlength="1000" placeholder="내용을 입력해주세요(필수)">
+						</textarea>
 					</div>
 
 					<div class="col-md-12 writeInput">

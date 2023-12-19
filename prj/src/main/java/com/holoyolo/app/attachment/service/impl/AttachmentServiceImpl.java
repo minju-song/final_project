@@ -90,14 +90,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 				if (type.equals("notice") || type.equals("questionImg")) {
 					if (uploadFile.isEmpty()) {
-						System.err.println("this file is not image type");
+						System.err.println("this file is not image type 111");
 						return null;
 					}
 				}
 
 				if (type.equals("noticeAttach") || type.equals("questionAttach")) {
 					if (uploadFile.isEmpty()) {
-						System.err.println("this file is not image type");
+						System.err.println("this file is not image type 222");
 						return null;
 					}
 				}
@@ -254,7 +254,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 		List<AttachmentVO> attachList = new ArrayList<>();
 		List<AttachmentVO> imgList = new ArrayList<>();
-		String[] imgExtension = { "png", "jpg", "jpeg", "gif", "webp", "SVG", " EPS", "AI" };
+		String[] imgExtension = { "png", "jpg", "jpeg", "gif", "webp", "SVG", " EPS", "AI", "JPG", "PNG", "JPEG", "GIF", "WEBP", "svg", "eps", "ai"};
 		for (AttachmentVO attach : sourceList) {
 			String originalFile = attach.getOriginFile();
 			int lastDotIndex = originalFile.lastIndexOf(".");

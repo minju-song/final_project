@@ -351,10 +351,34 @@ select option {
 .post_update_view .row {
 	margin: 0;
 }
-post_update_view .btn-primary {
+.post_update_view .btn-primary {
 	border: none !important;
 	font-size: 13px;
 	outline: none;
 	color: #fff !important;
 	background: #09203f !important;
+}
+
+
+#ReplyTableBody button {
+	padding: 5px 8px !important;
+	margin-left: 10px;
+}
+#ReplyTableBody .btn-primary, #ReplyTableBody .btn-danger {
+	border: none !important;
+	font-size: 13px;
+	outline: none;
+	color: #fff !important;
+}
+#ReplyTableBody .btn-primary:focus, #ReplyTableBody .btn-danger:focus {
+	box-shadow: none;
+} 
+#ReplyTableBody .btn-primary {
+	background: #09203f !important;
+}
+#ReplyTableBody .btn-danger {
+	background: #868e96 !important;
+}
+.reply_wrapper textarea {
+    font-size: 14px;
 }
