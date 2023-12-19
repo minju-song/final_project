@@ -97,7 +97,7 @@
 
 
 			<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-				<div class="col-md-12 writeInput buttonFrom">
+				<div class="col-md-12 writeInput buttonFrom" style="margin-top: 20px;">
 					<button type="reset" class="btn btn-secondary"
 						th:onclick="'location.href=\'/cs/help/notice/update?boardId=' + ${boardVO.boardId} + '\''">수정</button>
 					<button type="submit" class="btn btn-primary" id="deleteBtn">삭제</button>

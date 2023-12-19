@@ -173,7 +173,7 @@ input[type=file] {
 	flex-wrap: wrap;
 }
 .q-img-wrap img {
-	max-height: 200px;
+	max-height: 300px;
 	object-fit: cover;
 	border-radius: 5px;
 }
