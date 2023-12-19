@@ -8,6 +8,6 @@ public class AdminHomeController {
 	
 	@GetMapping("/admin")
 	public String adminHome() {
-		return "adminIndex";
+		return "admin/question/questionPage";
 	}
 }
