@@ -287,7 +287,6 @@ function replyLoad(page) {
         success: function (data) {
             updateReplyTable(data, page);
             let totalPages = Math.ceil(data.totalRecords / recordsPerPage);
-            console.log(totalPages)
             setupReplyPagination(totalPages);
         },
         error: function (error) {
@@ -305,7 +304,6 @@ function updateReplyTable(data) {
         let = replyList = upperReplyList.historyList;
 
         //상위댓글 생성
-        console.log(upperReplyList.historyList[0].boardId)
 
         try {
             let tbody = $("#ReplyTableBody");
