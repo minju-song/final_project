@@ -72,7 +72,8 @@ public class ApiCall {
 			
 			//REC라는 key의 값이 카드거래내역 값이기 때문에 JSONArray로 가져옴
 			JSONArray recArray = (JSONArray) jsonObject.get("REC");
-			
+			System.out.println("@@@@@@@@@@@@@API@@@@@@@@@@@@@@@");
+			System.out.println(recArray);
 			//회원의 가장 최근 거래내역 날짜 가져와서, 그 날부터 현재까지의 날짜의 수 계산
 			String latest = accBookHistoryService.getLatestPayDate(id);
 			long dayDuration = duration(latest);
