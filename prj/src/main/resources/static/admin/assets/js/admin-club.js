@@ -160,6 +160,7 @@ let questionYn = "";
 	// 삭제하기
 	$(document).on("click", "#clubDelete", function(e) {
 		$("#deleteReason").toggleClass('d-none')
+		$("#club-img").parent().toggleClass("d-none") 
 		$("#deleteReason").hasClass("d-none") == false ?
 		$("#clubDelete").text('작성취소') : $("#clubDelete").text('삭제하기')
 	})
