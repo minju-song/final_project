@@ -66,7 +66,7 @@
 						<label for="tradeImg" class="form-label">상품사진<span class="star">*</span></label>
 						<div class="imgFlex">
 							<img class="tradeImgPlus" id="tradeImg" th:src="@{/user/images/trade/photo.png}"> 
-							<input class="real_file" name="uploadFiles" type="file" onchange="addFile(this);" required multiple />
+							<input class="real_file" name="uploadFiles" type="file" required multiple />
 							<div class="file-list"></div>
 						</div>
 
@@ -78,7 +78,7 @@
 						<button type="button" class="placeSelectButton" id="placeSelectButton" disabled="disabled">
 							<p>장소 선택 ></p>
 						</button>
-						<input type="text" class="form-control tradePlaceSelect" id="tradePlace" name="tradePlace" style="display:none" readonly>
+						<input type="text" class="form-control tradePlaceSelect" id="tradePlace" name="tradePlace" style="display:none; margin-top:15px;" readonly>
 						<input type="text" id="latitude" name="latitude" style="display:none">
 						<input type="text" id="longitude" name="longitude" style="display:none">
 					</div>
