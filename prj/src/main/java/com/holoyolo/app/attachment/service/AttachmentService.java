@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.holoyolo.app.member.service.MemberVO;
-import com.holoyolo.app.question.service.QuestionVO;
 import com.holoyolo.app.board.service.BoardVO;
 
 public interface AttachmentService {
