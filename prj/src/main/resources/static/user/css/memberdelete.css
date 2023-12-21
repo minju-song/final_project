@@ -71,6 +71,7 @@
 	flex-direction: column;
 	gap: 10px;
 	background: #fbfbfb;
+	margin-top: 30px;
 }
 .agree_text {
 	display: flex;
