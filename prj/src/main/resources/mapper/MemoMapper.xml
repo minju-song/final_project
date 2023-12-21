@@ -27,6 +27,7 @@
 		select * from attachment
 		where menu_type = 'AA7'
 		and post_id = #{memoId}
+		ORDER BY attachment_seq
 	</select>
 	
 	<resultMap type="MemoVO" id="selectMemoMap">

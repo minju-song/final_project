@@ -235,15 +235,17 @@ category.addEventListener('change', function () {
 })
 
 //셀렉트박스 값 바뀔 때마다 value바꿔줌
-document.getElementById('search_input').addEventListener('change', function () {
+/*document.getElementById('search_input').addEventListener('change', function () {
+	alert('여긴 셀렉트 박스야');
     callList(1);
-})
+})*/
 
 
-//검색어 입력할 때마다 데이터 호출 및 페이징
+//엔터 누를때마다 데이터 호출 및 페이징
 let search_input = document.getElementById('search_input');
-search_input.addEventListener('keyup', function (event) {
-	if (event.which === 13) {
+search_input.addEventListener('keydown', function (event) {
+	if (event.which == 13) {
+		event.preventDefault();
     	callList(1);
     }
 })
