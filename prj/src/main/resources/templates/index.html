@@ -51,9 +51,9 @@
 						<a th:href="@{/member/tradeInfo(tradeId=${trade.tradeId},sellerId=${trade.sellerId})}" class="work-thumb">
 							<div class="work-text">
 								<h2>[[${trade.tradeCategory}]]</h2>
-								<p>[[${trade.description}]]</p>
+								<p>[[${trade.title}]]</p>
 							</div>
-							<img th:src="@{/images/} + ${trade.saveFile}" alt="Image" class="img-fluid">
+							<img th:src="@{/images/} + ${trade.saveFile}" alt="Image" class="img-fluid" th:style="|background-image: url('/images/${trade.saveFile}')|">
 						</a>
 					</div>
 				</th:block>
