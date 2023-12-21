@@ -80,9 +80,14 @@ function delModal(e) {
                     if (result.result == "success") {
                         Swal.fire({
                             title: "삭제완료",
-                            text: "Your file has been deleted.",
+                            text: "등록된 카드정보가 삭제되었습니다.",
                             icon: "success"
-                        });
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        })
+
                     }
                     else {
                         Swal.fire({
@@ -92,7 +97,7 @@ function delModal(e) {
                         });
                     }
 
-                    location.reload();
+
                 })
         }
     });
@@ -122,9 +127,13 @@ function delBudget(e) {
                     if (result.result == "success") {
                         Swal.fire({
                             title: "삭제완료",
-                            text: "Your file has been deleted.",
+                            text: "등록된 예산이 삭제되었습니다.",
                             icon: "success"
-                        });
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        })
                     }
                     else {
                         Swal.fire({
@@ -134,7 +143,7 @@ function delBudget(e) {
                         });
                     }
 
-                    location.reload();
+                    // location.reload();
                 })
         }
     });
@@ -183,7 +192,7 @@ function getResult(date) {
                 title: date,
 
                 html: recordContent,
-                showCloseButton: true,
+                showCloseButton: false,
                 showCancelButton: false,
                 focusConfirm: false,
                 confirmButtonText: `확인`,
@@ -225,7 +234,7 @@ function aboutNotice() {
         title: `<h3 style="color:#7a9cc6; font-weight:bold;">가계부 이용방법</h3>`,
 
         html: about,
-        showCloseButton: true,
+        showCloseButton: false,
         showCancelButton: false,
         focusConfirm: false,
         confirmButtonText: `확인`,

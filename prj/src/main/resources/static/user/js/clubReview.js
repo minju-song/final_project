@@ -213,7 +213,7 @@ function deleteReview(id) {
                     if (result.result == 'success') {
                         Swal.fire({
                             title: "삭제완료",
-                            text: "삭제가 완료되었습니다.",
+                            text: "등록된 후기가 삭제되었습니다.",
                             icon: "success"
                         }).then((resolve) => {
                             location.href = '/member/club/clubReview?clubId=' + clubId;

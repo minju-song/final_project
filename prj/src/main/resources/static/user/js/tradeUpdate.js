@@ -138,14 +138,7 @@ $(function () {
     //const docFrag = new DocumentFragment();
     //console.log(typeof files, files);
 
-    if ((Number(imgSize) + [...files].length) >= 6) {
-    	swal.fire(
-        	'이미지 업로드 제한!',
-       		'이미지는 최대 5개까지 업로드가 가능합니다.',
-        	'warning'
-      	)
-      return;
-    }
+    
 
     // 파일타입 검사
     [...files].forEach(file => {
@@ -171,6 +164,14 @@ $(function () {
     });
 
     console.log(uploadFiles);
+    if ([...files].length > 5) {
+    	swal.fire(
+        	'이미지 업로드 제한!',
+       		'이미지는 최대 5개까지 업로드가 가능합니다.',
+        	'warning'
+      	)
+      return;
+    }
   }
 
   function createElement(e, file) {
@@ -207,6 +208,7 @@ $(function () {
     uploadFiles = newFilesArr;
 
     e.target.parentNode.remove();
+    console.log(uploadFiles);
   }
 })  
 

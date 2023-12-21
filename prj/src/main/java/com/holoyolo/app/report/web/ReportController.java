@@ -80,19 +80,21 @@ public class ReportController {
 		reportVO.setReportId(reportId);
 		// 신고처리유형 : SB1(신고처리), SB2(반려)
 		String reportType = reportVO.getReportProcessType();
+		//System.out.println(">>>>>>>>>>>>>>>>>"+reportType);// SB1
+		//System.out.println("2>>>>>>>" + reportType.getClass());;
 		
 		//신고당한 아이디
 		String reportedId = reportVO.getReportedId();
 		memberVO.setMemberId(reportedId);
 		int reportedCnt = memberService.findById(reportedId).getReportCnt();
-		System.out.println("111111111111111111===" + reportedCnt);
 		MemberVO reportedRole = new MemberVO();
-		
-		if (reportType == "SB1") {
+		//boolean aa = (reportType.equals("SB1"));
+		//System.out.println(aa);
+		if (reportType.equals("SB1")) {
 			if (reportedCnt == -1 || reportedCnt == 0) {
 				// 신고카운트가 -1 또는 0이면 신고초기화
-				reportService.updateMemberReportCntReset(reportedId);
-				reportService.updateMemberReportCnt(reportedId);
+				reportService.updateMemberReportCntReset(reportedId); // 신고 -1인거 0으로 초기화
+				reportService.updateMemberReportCnt(reportedId); // 신고 1회 추가
 			} else {
 				reportedRole.setMemberId(reportedId);
 		        // 신고횟수 10회 이상

@@ -44,47 +44,51 @@ public class ApiCall {
     }
 
     public void getPosts(String id) {
+    	//http요청 헤더 생성
         HttpHeaders headers = new HttpHeaders();
+        
+        //http 헤더의 Content-Type을 application/json으로 설정
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        //요청 Body 인스턴스 생성
         CardRequestBodyVO request = new CardRequestBodyVO();
         
+        //인스턴스를 Gson을 이용해 json형태로 변환
         Gson gson = new Gson();
         String jsonReq = gson.toJson(request);
 
+        //요청 HttpEntity 생성, 헤더와 본문(jsonReq)을 포함
         HttpEntity<String> requestEntity = new HttpEntity<>(jsonReq, headers);
 
+        //POST요청보내고, 응답을 ResponseEntity 타입으로 받음
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(REQUEST_URL, requestEntity, String.class);
 
-        // Handle the response if needed
+        //응답의 Body만 가져옴
         String responseBody = responseEntity.getBody();
         JSONParser parser = new JSONParser();
         try {
+        	//응답받은 Body를 JSONObject로 파싱
 			JSONObject jsonObject = (JSONObject) parser.parse(responseBody);
-			JSONArray recArray = (JSONArray) jsonObject.get("REC");
 			
+			//REC라는 key의 값이 카드거래내역 값이기 때문에 JSONArray로 가져옴
+			JSONArray recArray = (JSONArray) jsonObject.get("REC");
+			System.out.println("@@@@@@@@@@@@@API@@@@@@@@@@@@@@@");
+			System.out.println(recArray);
+			//회원의 가장 최근 거래내역 날짜 가져와서, 그 날부터 현재까지의 날짜의 수 계산
 			String latest = accBookHistoryService.getLatestPayDate(id);
 			long dayDuration = duration(latest);
-
-			System.out.println("날짜 차이 : "+dayDuration);
 			
-			
-			if(dayDuration == 0) {
-				System.out.println("ss");
-			}
-			else {				
+			if(dayDuration != 0) {			
+				//거래내역이 없는 날부터 현재까지의 거래내역을 처리
 				for(int z = 0; z < dayDuration; z++) {
 					pushData(recArray , z, id);
 				}
-				
 			}
 			
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			// JSON 파싱 중 오류 발생하면 오류 메시지 출력
 			e.printStackTrace();
 		} 
-        
-        
     }
     
     

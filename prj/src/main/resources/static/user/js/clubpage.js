@@ -137,7 +137,7 @@ function sendMail() {
             Swal.fire({
                 input: "textarea",
                 inputLabel: "가입 사유를 적어주세요.",
-                inputPlaceholder: "Type your message here...",
+                inputPlaceholder: "모임장에게 신청서가 전송됩니다.",
                 inputAttributes: {
                     "aria-label": "Type your message here"
                 },
@@ -183,7 +183,7 @@ function rejoin() {
             Swal.fire({
                 input: "textarea",
                 inputLabel: "재가입 사유를 적어주세요.",
-                inputPlaceholder: "Type your message here...",
+                inputPlaceholder: "모임장에게 신청서가 전송됩니다.",
                 inputAttributes: {
                     "aria-label": "Type your message here"
                 },
@@ -280,7 +280,7 @@ function mandate(memberId) {
             Swal.fire({
                 input: "textarea",
                 inputLabel: "위임 사유를 적어주세요.",
-                inputPlaceholder: "Type your message here...",
+                inputPlaceholder: "해당 회원에게 위임 신청서가 전송됩니다.",
                 inputAttributes: {
                     "aria-label": "Type your message here"
                 },
@@ -436,7 +436,7 @@ function memberInfo(mid, mname) {
             Swal.fire({
                 title: "<strong>" + mname + "</strong><span style='font-size:smaller;'> 님의 지난 성적 (최근 5회)</span>",
                 html: history,
-                showCloseButton: true,
+                showCloseButton: false,
                 showCancelButton: false,
                 focusConfirm: false,
                 confirmButtonText: `

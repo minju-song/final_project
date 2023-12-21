@@ -114,6 +114,8 @@ $(function () {
     const imagePreview = document.querySelector('.file-list');
     //const docFrag = new DocumentFragment();
     //console.log(typeof files, files);
+    console.log(files);
+    console.log(files.length);
 
     if ([...files].length >= 6) {
       swal.fire(

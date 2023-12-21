@@ -165,7 +165,7 @@ public class QuestionController {
 		int attResult = attachmentService.deleteQNAAttachment("AA8", reqquestionVO.getQuestionId());
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		if (questionResult || attResult == 1) {
-			resultMap.put("resultMsg", "공지가 삭제되었습니다");
+			resultMap.put("resultMsg", "문의글이 삭제되었습니다");
 			resultMap.put("resultCode", "1");
 		} else {
 			resultMap.put("resultMsg", "err");
@@ -175,7 +175,7 @@ public class QuestionController {
 	}
 
 //수정페이지
-	@GetMapping("/cs/help/question/update")
+	@GetMapping("/member/cs/help/question/update")
 	public String updateView(@AuthenticationPrincipal PrincipalDetails principalDetails, AttachmentVO attachmentVO,
 			@RequestParam(name = "boardId") int questionId, Model mo, QuestionVO questionVO) {
 		String loginId = "not found";

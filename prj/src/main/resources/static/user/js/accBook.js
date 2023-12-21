@@ -368,7 +368,7 @@ function delHistory(id) {
                     if (result.result == "success") {
                         Swal.fire({
                             title: "삭제완료",
-                            text: "Your file has been deleted.",
+                            text: "등록된 거래내역이 삭제되었습니다.",
                             icon: "success"
                         });
                         document.getElementById('history-' + id).remove();

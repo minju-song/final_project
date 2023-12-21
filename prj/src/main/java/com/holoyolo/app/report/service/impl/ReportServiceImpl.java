@@ -39,6 +39,10 @@ public class ReportServiceImpl implements ReportService {
 		
 		// 신고된 게시글의 정보 가져오기
 		BoardVO boardInfo = reportMapper.selectReportBoardInfo(findReportVO);
+		if (boardInfo == null) {
+			boardInfo = new BoardVO();
+			boardInfo.setTitle("삭제된 게시글 입니다.");
+		}
 		result.put("boardInfo", boardInfo);
 
 		return result;

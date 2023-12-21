@@ -592,6 +592,7 @@
 	  	let files = e.currentTarget.files;
 	  	let memo = $(e.target).closest('.memo');
 	  	let memoImage = $(e.target).closest('.memo').find('.memo_image');
+	  	let _target = $(e.target);
 	  	console.log(files);
 	  	
 	  	if($(e.target).hasClass("modal_file") === true) {
@@ -619,10 +620,14 @@
 				reader.onload = (e) => {
 					let tag = $('<div class="upload" style="background-image: url(\'' + e.target.result +'">');
 					console.log(file);
-					let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').addClass('delBtn position_absol test2');
-					delBtn[0].setAttribute('data-file', file.name);
-					delBtn[0].addEventListener('click', delFile);
-					$(tag).append(delBtn);
+					
+					if($(_target).hasClass("modal_file") === true) {
+						let delBtn = $('<img>').attr('src', '/user/images/trade/delete-button.png').addClass('delBtn position_absol test2');
+						delBtn[0].setAttribute('data-file', file.name);
+						delBtn[0].addEventListener('click', delFile);
+						$(tag).append(delBtn);
+					}
+					
 		            $(memoImage).append(tag);
 				};
 	          	reader.readAsDataURL(file);
@@ -703,22 +708,26 @@
 		})
 	}
 	
-	document.getElementById('search_input').addEventListener('change', function (e) {
+	document.getElementById('search_input').addEventListener('keydown', function (e) {
 		let tag = $('.tagify').find('.tagify__tag-text');
 		let memo =document.querySelectorAll('.memo');
-		if($('#search_input')[0].value != ''){
-			for(let i=1; i<memo.length; i++){
-				memo[i].style.display = 'none';
-			}
-			for(let e=0; e<tag.length; e++){
-				if($('#search_input')[0].value == tag[e].innerText){
-				console.log($(tag)[e].closest('.memo').style)
-					$(tag)[e].closest('.memo').style.display = 'block';
+		
+		if (event.which == 13) {
+			event.preventDefault();
+			if($('#search_input')[0].value != ''){
+				for(let i=1; i<memo.length; i++){
+					memo[i].style.display = 'none';
 				}
-			}
-		}else{
-			for(let i=2; i<memo.length; i++){
-				memo[i].style.display = 'block';
+				for(let e=0; e<tag.length; e++){
+					if($('#search_input')[0].value == tag[e].innerText){
+					console.log($(tag)[e].closest('.memo').style)
+						$(tag)[e].closest('.memo').style.display = 'block';
+					}
+				}
+			}else{
+				for(let i=2; i<memo.length; i++){
+					memo[i].style.display = 'block';
+				}
 			}
 		}
 	})
