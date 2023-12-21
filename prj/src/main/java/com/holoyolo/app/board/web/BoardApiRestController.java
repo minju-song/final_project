@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.holoyolo.app.board.service.BoardService;
 import com.holoyolo.app.board.service.BoardVO;
-import com.holoyolo.app.editor.PostVO;
 
 import lombok.RequiredArgsConstructor;
 
