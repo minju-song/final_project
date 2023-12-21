@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.holoyolo.app.attachment.service.AttachmentVO;
-import com.holoyolo.app.board.service.BoardVO;
 
 
 public interface QuestionService {
