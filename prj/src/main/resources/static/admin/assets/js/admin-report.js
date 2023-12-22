@@ -86,6 +86,7 @@ $(document).ready(function () {
 		$(document).on("click", "#reportFormSubmitBtn", function () {
 			let id = window.location.search.split('=')[1];
 			let formData = getUpdateInputForm();
+			console.log(formData)
 			$.ajax({
 				url: `/admin/report/detail/${id}`,
 				contentType: "application/json",
@@ -93,6 +94,7 @@ $(document).ready(function () {
 				method: "PUT"
 			})
 				.done((data) => {
+					console.log(data)
 					let type = formData.reportProcessType
 					let comment = formData.processComment
 					let reporterId = formData.reporterId;

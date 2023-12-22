@@ -79,16 +79,16 @@ public class ReportController {
 		reportVO.setReportId(reportId);
 		// 신고처리유형 : SB1(신고처리), SB2(반려)
 		String reportType = reportVO.getReportProcessType();
-		//System.out.println(">>>>>>>>>>>>>>>>>"+reportType);// SB1
-		//System.out.println("2>>>>>>>" + reportType.getClass());;
+		System.out.println(">>>>>>>>>>>>>>>>>"+reportType);// SB1
+		System.out.println("2>>>>>>>" + reportType.getClass());;
 		
 		//신고당한 아이디
 		String reportedId = reportVO.getReportedId();
 		memberVO.setMemberId(reportedId);
 		int reportedCnt = memberService.findById(reportedId).getReportCnt();
 		MemberVO reportedRole = new MemberVO();
-		//boolean aa = (reportType.equals("SB1"));
-		//System.out.println(aa);
+		boolean aa = (reportType.equals("SB1"));
+		System.out.println(aa);
 		if (reportType.equals("SB1")) {
 			if (reportedCnt == -1 || reportedCnt == 0) {
 				// 신고카운트가 -1 또는 0이면 신고초기화
@@ -100,19 +100,22 @@ public class ReportController {
 		        if (reportedCnt >= 10) {
 		            Date now = new Date();
 		            reportedRole.setStopDate(now);
+		            memberService.updateMemberInfo(reportedRole);
 		        }
 		        // 신고횟수 5회 이상
 		        else if (reportedCnt >= 5) {
 		        	reportedRole.setRole("ROLE_HA3");
 		            memberService.addMonth(memberVO);
+		            memberService.updateMemberInfo(reportedRole);
 		        }
 		        // 신고횟수 3회 이상
 		        else if (reportedCnt >= 3) {
 		            reportedRole.setRole("ROLE_HA2");
+		            memberService.updateMemberInfo(reportedRole);
 		        }
-		        System.out.println(reportedRole);
+		        System.out.println("111111111111"+reportedRole);
 		        // 날짜, 롤 업데이트
-		        memberService.updateMemberInfo(reportedRole);
+		        
 		        // 신고 횟수 증가
 				reportService.updateMemberReportCnt(reportedId);
 				reportService.updateReportReason(reportVO);
