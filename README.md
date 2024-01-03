@@ -3,7 +3,7 @@
 # 💘최종프로젝트💘
 
 <details>
-    ## <summary> 🧑‍🤝‍🧑팀원구성🧑‍🤝‍🧑</summary>
+    <summary> <h1>🧑‍🤝‍🧑팀원구성🧑‍🤝‍🧑</h1></summary>
 
 🥇 팀장 : <a href="https://github.com/jino030">전유진</a><br>
 🥈 부팀장 : <a href="https://github.com/minju-song">송민주</a><br>
