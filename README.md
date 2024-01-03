@@ -1,7 +1,23 @@
 ![header](https://capsule-render.vercel.app/api?type=shark&color=auto&height=300&section=header&text=HOLOYOLO&fontSize=90)
 
 <details>
-    <summary><h1>💘최종프로젝트💘</h1></summary>
+    <summary><h1>💗프로젝트 소개💗</h1></summary>
+    <div markdown="1">
+        <h2>Holoyolo란❓</h2>
+        <h4>1인가구 소비관리 플랫폼이며 프로젝트명 'Holoyolo'는 혼자서도(Holo) 행복하게 잘 살 수 있다(Yolo)라는 의미</h4>
+        <h3>📅개발 기간</h3>
+        <h4>2023.11.06 ~ 2023.12.22</h4>
+        <details>
+            <summary><h3>📊DB 설계</h3></summary>
+            <div markdown="1">
+                <img src="https://github.com/minju-song/final_project/assets/97097194/6cbd8adf-adc1-44be-a4d4-a824838109f0"/>
+            </div>
+        </details>        
+    </div>
+</details>
+
+<details>
+    <summary><h1>🎁구현화면🎁</h1></summary>
     <div markdown="1">
         <details>
             <summary><h3>🏠메인홈</h3></summary>
