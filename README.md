@@ -2,8 +2,8 @@
 
 <details>
     <summary><h1>💘최종프로젝트💘</h1></summary>
-    ---
     <div markdown="1">
+        ---
         <details>
             <summary><h4>🏠메인홈</h4></summary>
             <div markdown="1">
