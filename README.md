@@ -58,8 +58,8 @@
             </div>
         </details>
     </div>
+    <hr>
 </details>
----
 
 <details>
     <summary><h1>🧑‍🤝‍🧑팀원구성🧑‍🤝‍🧑</h1></summary>
