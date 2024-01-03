@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=shark&color=auto&height=300&section=header&text=HOLOYOLO&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=HOLOYOLO&fontSize=90)
 
 <details>
     <summary><h1>💗프로젝트 소개💗</h1></summary>
@@ -112,3 +112,5 @@
         <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"/> 
     </div>
 </details>
+
+![footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=HOLOYOLO&fontSize=90)
