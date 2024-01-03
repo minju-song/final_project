@@ -59,7 +59,6 @@
         </details>
     </div>
 </details>
-<hr>
 
 <details>
     <summary><h1>🧑‍🤝‍🧑팀원구성🧑‍🤝‍🧑</h1></summary>
@@ -71,14 +70,11 @@
 <h3>🥉 팀원 : <a href="https://github.com/CHUNcarry">양진우</a><br></h3>
     </div>
 </details>
-<hr>
 
 <details>
     <summary><h1>💻기술스택💻</h1></summary>
     <div markdown="1">
         <h2>Front</h2>
-        <img src="https://img.shields.io/badge/이름-색상코드?style=flat-square&logo=로고명&logoColor=로고색"/>
+        <img src="https://img.shields.io/badge/HTML5-#E34F26?style=flat-square&logo=html5&logoColor=white"/>
     </div>
 </details>
-<hr>
-
