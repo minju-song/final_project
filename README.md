@@ -75,6 +75,7 @@
     <summary><h1>💻기술스택💻</h1></summary>
     <div markdown="1">
         <h2>Front</h2>
-        <img src="https://img.shields.io/badge/HTML5-#E34F26?style=flat-square&logo=html5&logoColor=white"/>
+        <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/>
+        <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
     </div>
 </details>
