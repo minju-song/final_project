@@ -43,6 +43,17 @@
 </details>
 
 <details>
+    <summary><h1>🧑‍🤝‍🧑팀원구성🧑‍🤝‍🧑</h1></summary>
+    <div markdown="1">
+<h3>🥇 팀장 : <a href="https://github.com/jino030">전유진</a><br></h3>
+<h3>🥈 부팀장 : <a href="https://github.com/minju-song">송민주</a><br></h3>
+<h3>🥉 팀원 : <a href="https://github.com/kongom2">공성훈</a><br></h3>
+<h3>🥉 팀원 : <a href="https://github.com/SuMmmn">박수민</a><br></h3>
+<h3>🥉 팀원 : <a href="https://github.com/CHUNcarry">양진우</a><br></h3>
+    </div>
+</details>
+
+<details>
     <summary><h1>🎁구현화면🎁</h1></summary>
     <div markdown="1">
         <details>
@@ -99,17 +110,6 @@
                 <img src="https://github.com/minju-song/final_project/assets/97097194/d8aebb8c-7f0c-4531-b101-090890a47178"/>
             </div>
         </details>
-    </div>
-</details>
-
-<details>
-    <summary><h1>🧑‍🤝‍🧑팀원구성🧑‍🤝‍🧑</h1></summary>
-    <div markdown="1">
-<h3>🥇 팀장 : <a href="https://github.com/jino030">전유진</a><br></h3>
-<h3>🥈 부팀장 : <a href="https://github.com/minju-song">송민주</a><br></h3>
-<h3>🥉 팀원 : <a href="https://github.com/kongom2">공성훈</a><br></h3>
-<h3>🥉 팀원 : <a href="https://github.com/SuMmmn">박수민</a><br></h3>
-<h3>🥉 팀원 : <a href="https://github.com/CHUNcarry">양진우</a><br></h3>
     </div>
 </details>
 
