@@ -34,13 +34,13 @@
         <details>
             <summary><h3>📒가계부</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/dc89fece-415c-4a15-ac81-2b662aabbcf9"/>
+                <img src="https://github.com/minju-song/final_project/assets/97097194/024f32be-6386-430a-9b16-b345b1eaee97"/>
             </div>
         </details>
         <details>
             <summary><h3>💳중고거래</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/dc89fece-415c-4a15-ac81-2b662aabbcf9"/>
+                <img src="https://github.com/minju-song/final_project/assets/97097194/83c44354-883e-4663-91d0-cf31e2eb4488"/>
             </div>
         </details>
         <details>
