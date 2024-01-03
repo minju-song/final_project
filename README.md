@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=300&section=header&text=HOLOYOLO&fontSize=90&animation=fadeIn&fontColor=white&fontAlign=70)
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=HOLOYOLO&fontSize=90&animation=blinking&fontColor=ffffff&fontAlign=70)
 
 <details>
     <summary><h1>💗프로젝트 소개💗</h1></summary>
